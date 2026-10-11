@@ -98,6 +98,12 @@ export function parseExchange(text: string, content: Content, makeId: () => stri
   if (text.length > EXCHANGE_MAX_BYTES) throw new ImportError('Файл слишком большой — это не файл персонажей.');
   // Невидимая метка порядка байтов (BOM) и пробелы по краям появляются, если файл пересохранили другим приложением.
   const body = text.replace(/^\uFEFF/, '').trim();
+  if (body.startsWith('%PDF')) {
+    throw new ImportError(
+      'Это PDF-лист для печати — его нельзя загрузить обратно.\n\nДля переноса и резервной копии нужен файл .dnd.json: ' +
+        'кнопка «Копия всех» на экране «Мои персонажи» или «Сохранить персонажа в файл» в редактировании персонажа (карандаш).',
+    );
+  }
   let data: unknown;
   try {
     data = JSON.parse(body);
