@@ -18,6 +18,8 @@ export const byId = {
   proficiencies: indexById(content.proficiencies),
   classes: indexById(content.classes),
   features: indexById(content.features),
+  weaponMasteries: indexById(content.weaponMasteries),
+  damageTypes: indexById(content.damageTypes),
   subclasses: indexById(content.subclasses),
   species: indexById(content.species),
   subspecies: indexById(content.subspecies),

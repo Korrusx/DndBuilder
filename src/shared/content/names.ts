@@ -1,5 +1,6 @@
 // Названия записей справочника для подписей на экранах (русский, иначе английский).
 
+import { COIN_ABBR, COIN_ORDER } from './constants';
 import { byId, content, tr } from './content';
 import type { AbilityId, Choice, ChoiceOption, Coin } from './types';
 
@@ -35,12 +36,9 @@ export function abilityName(id: AbilityId): string {
   return tr(byId.abilities.get(id)?.name).text;
 }
 
-const COIN: Record<Coin, string> = { cp: 'мм', sp: 'см', ep: 'эм', gp: 'зм', pp: 'пм' };
-
 export function coinsText(coins: Partial<Record<Coin, number>>): string {
-  return (Object.keys(COIN) as Coin[])
-    .filter((c) => coins[c])
-    .map((c) => `${coins[c]} ${COIN[c]}`)
+  return COIN_ORDER.filter((c) => coins[c])
+    .map((c) => `${coins[c]} ${COIN_ABBR[c]}`)
     .join(', ');
 }
 
@@ -51,7 +49,7 @@ export function equipmentOptionText(option: ChoiceOption): string {
       case 'item':
         return o.count > 1 ? `${nameOf('equipment', o.id)} ×${o.count}` : nameOf('equipment', o.id);
       case 'money':
-        return `${o.amount} ${COIN[o.unit]}`;
+        return `${o.amount} ${COIN_ABBR[o.unit]}`;
       case 'all':
         return o.items.map(one).join(', ');
       case 'choice':

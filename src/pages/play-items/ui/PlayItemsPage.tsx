@@ -1,3 +1,4 @@
+import { COIN_ABBR, COIN_NAMES, COIN_ORDER } from '@/shared/content/constants';
 import { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
@@ -7,19 +8,10 @@ import { AddItemSheet } from '@/features/add-item/ui/AddItemSheet/AddItemSheet';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { byId, content } from '@/shared/content/content';
 import { itemName, nameOf } from '@/shared/content/names';
-import type { Coin } from '@/shared/content/types';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { Card } from '@/shared/ui/Card/Card';
 import { Screen } from '@/shared/ui/Screen/Screen';
 import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
-
-const COINS: { id: Coin; label: string }[] = [
-  { id: 'pp', label: 'Платиновые (пм)' },
-  { id: 'gp', label: 'Золотые (зм)' },
-  { id: 'ep', label: 'Электрум (эм)' },
-  { id: 'sp', label: 'Серебряные (см)' },
-  { id: 'cp', label: 'Медные (мм)' },
-];
 
 export function PlayItemsPage() {
   const { character: c, sheet, update } = usePlay();
@@ -71,7 +63,7 @@ export function PlayItemsPage() {
 
       <Card>
         <AppText variant="heading">Монеты</AppText>
-        {COINS.map((coin) => (
+        {[...COIN_ORDER].reverse().map((id) => ({ id, label: `${COIN_NAMES[id]} (${COIN_ABBR[id]})` })).map((coin) => (
           <View key={coin.id} style={styles.coinRow}>
             <AppText style={{ flex: 1 }}>{coin.label}</AppText>
             <TextInput

@@ -1,3 +1,4 @@
+import type { InfoContent } from '@/shared/ui/InfoSheet/InfoSheet.types';
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
@@ -38,12 +39,10 @@ import { Section } from '@/shared/ui/Section/Section';
 import { Segmented } from '@/shared/ui/Segmented/Segmented';
 import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 
-type Info = { title: string; text: string; subtitle?: string };
-
 export function LevelUpPage() {
   const { character: prev, update } = usePlay();
   const [next, setNext] = useState<Character>(() => startLevelUp(prev));
-  const [info, setInfo] = useState<Info | null>(null);
+  const [info, setInfo] = useState<InfoContent | null>(null);
   const [spells, setSpells] = useState(false);
 
   // Каждый раз при открытии экрана начинаем с текущего персонажа.

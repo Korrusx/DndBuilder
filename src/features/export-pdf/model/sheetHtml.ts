@@ -8,6 +8,7 @@ import { magicInitiateSlots } from '@/entities/character/model/build';
 import { characterResources } from '@/entities/character/model/resources';
 import { computeSheet } from '@/entities/character/model/sheet';
 import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
+import { COIN_ABBR, COIN_ORDER, SIZE_NAMES } from '@/shared/content/constants';
 import { byId, tr } from '@/shared/content/content';
 import {
     abilityAbbr,
@@ -19,7 +20,7 @@ import {
 } from '@/shared/content/names';
 import type { AbilityId, Content } from '@/shared/content/types';
 import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
-import { COINS, SLOT_FORM } from '../config/constants';
+import { SLOT_FORM } from '../config/constants';
 import { SHEET_CSS } from '../config/sheetCss';
 import type { SheetSpell } from './types';
 
@@ -104,7 +105,6 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const species = [nameOf('species', c.speciesId), c.subspeciesId ? nameOf('subspecies', c.subspeciesId) : ''].filter(Boolean).join(': ');
   const alignment = c.alignment ? tr(content.alignments.find((a) => a.id === c.alignment)?.name).text : '';
   const size = c.size ?? byId.species.get(c.speciesId)?.sizes[0] ?? '';
-  const sizeRu: Record<string, string> = { Small: 'Маленький', Medium: 'Средний' };
 
   const header = `
     <header class="hdr">
@@ -150,7 +150,7 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const stats = `
     <div class="stats">
       ${stat(String(sheet.armorClass), 'Класс защиты')}${stat(formatModifier(sheet.initiative), 'Инициатива')}
-      ${stat(`${sheet.speed} фт`, 'Скорость')}${stat(sizeRu[size] ?? size, 'Размер')}${stat(formatModifier(sheet.profBonus), 'Бонус мастерства')}
+      ${stat(`${sheet.speed} фт`, 'Скорость')}${stat(SIZE_NAMES[size] ?? size, 'Размер')}${stat(formatModifier(sheet.profBonus), 'Бонус мастерства')}
     </div>`;
 
   const hitDice = sheet.hitDice.map((h) => `${h.total}к${h.die}`).join(' + ');
@@ -292,7 +292,7 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
   const attune = box('Настройка', Array.from({ length: 3 }, () => `<div class="item">${circle()}<span class="ln inline"></span></div>`).join(''));
   const coins = box(
     'Монеты',
-    `<div class="coins">${COINS.map((x) => `<div class="coin"><div class="sv d">${c.coins[x.id] ?? ''}&nbsp;</div><div class="lbl">${x.label}</div></div>`).join('')}</div>`,
+    `<div class="coins">${COIN_ORDER.map((id) => `<div class="coin"><div class="sv d">${c.coins[id] ?? ''}&nbsp;</div><div class="lbl">${COIN_ABBR[id].toUpperCase()}</div></div>`).join('')}</div>`,
   );
 
   const notes = c.notes?.trim();

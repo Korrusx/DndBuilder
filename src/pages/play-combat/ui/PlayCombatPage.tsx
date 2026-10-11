@@ -22,9 +22,6 @@ import { Screen } from '@/shared/ui/Screen/Screen';
 import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 import { StatBox } from '@/shared/ui/StatBox/StatBox';
 
-const masteries = new Map(content.weaponMasteries.map((m) => [m.id, m]));
-const damageTypes = new Map(content.damageTypes.map((d) => [d.id, d]));
-
 export function PlayCombatPage() {
   const { character: c, sheet, update } = usePlay();
   const [editMastery, setEditMastery] = useState(false);
@@ -38,7 +35,7 @@ export function PlayCombatPage() {
   const brawler = sheet.features.some((f) => f.source === 'feat' && f.id === 'tavern-brawler');
   const sneak = sheet.classSpecific.rogue?.sneak_attack as { dice_count: number; dice_value: number } | undefined;
 
-  const damageType = (id?: string) => (id ? tr(damageTypes.get(id)?.name).text || id : undefined);
+  const damageType = (id?: string) => (id ? tr(byId.damageTypes.get(id)?.name).text || id : undefined);
 
   return (
     <Screen>
@@ -57,7 +54,7 @@ export function PlayCombatPage() {
       {sheet.attacks.map((a) => {
         const item = byId.equipment.get(a.itemId);
         const mastery = c.weaponMasteries.includes(a.itemId) ? item?.weapon?.mastery : undefined;
-        const masteryEntry = mastery ? masteries.get(mastery) : undefined;
+        const masteryEntry = mastery ? byId.weaponMasteries.get(mastery) : undefined;
         return (
           <Card key={a.itemId} style={{ gap: spacing.sm }}>
             <View style={styles.row}>

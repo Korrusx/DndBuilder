@@ -1,3 +1,4 @@
+import type { InfoContent } from '@/shared/ui/InfoSheet/InfoSheet.types';
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, View } from 'react-native';
 
@@ -26,8 +27,6 @@ import { Screen } from '@/shared/ui/Screen/Screen';
 import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 import { StatBox } from '@/shared/ui/StatBox/StatBox';
 
-type Info = { title: string; text: string; subtitle?: string };
-
 function spellMeta(s: Spell): string {
   return [s.level === 0 ? 'Заговор' : `${s.level} круг`, tr(s.castingTime).text, tr(s.range).text, tr(s.duration).text]
     .filter(Boolean)
@@ -37,7 +36,7 @@ function spellMeta(s: Spell): string {
 export function PlayMagicPage() {
   const { character: c, sheet, update, updateState } = usePlay();
   const [editing, setEditing] = useState(false);
-  const [info, setInfo] = useState<Info | null>(null);
+  const [info, setInfo] = useState<InfoContent | null>(null);
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const sc = sheet.spellcasting;

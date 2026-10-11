@@ -1,3 +1,5 @@
+import { HP_COLORS } from '@/entities/character/config/hpColors';
+import type { InfoContent } from '@/shared/ui/InfoSheet/InfoSheet.types';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
@@ -37,11 +39,7 @@ import { Screen } from '@/shared/ui/Screen/Screen';
 import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 import { StatBox } from '@/shared/ui/StatBox/StatBox';
 
-const HP_COLORS = { good: colors.heal, warn: colors.accent, danger: colors.damage } as const;
-
-type Info = { title: string; text: string; subtitle?: string };
-
-function featureInfo(f: SourcedId): Info {
+function featureInfo(f: SourcedId): InfoContent {
   if (f.source === 'species') {
     const t = byId.traits.get(f.id);
     return { title: nameOf('traits', f.id), text: plain(t?.description), subtitle: 'Вид' };
@@ -57,7 +55,7 @@ function featureInfo(f: SourcedId): Info {
 export function PlaySheetPage() {
   const { character: c, sheet, update, updateState } = usePlay();
   const [roll, setRoll] = useState<D20Request | null>(null);
-  const [info, setInfo] = useState<(Info & { conditionId?: string }) | null>(null);
+  const [info, setInfo] = useState<(InfoContent & { conditionId?: string }) | null>(null);
   const [pickCondition, setPickCondition] = useState(false);
   const [shortRest, setShortRest] = useState(false);
   const resources = characterResources(c, content, sheet);
