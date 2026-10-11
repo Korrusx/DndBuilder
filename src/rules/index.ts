@@ -5,6 +5,7 @@ export * from './checks';
 export * from './combat';
 export * from './dice';
 export * from './effects';
+export * from './resources';
 export * from './rest';
 export * from './sheet';
 export * from './spells';

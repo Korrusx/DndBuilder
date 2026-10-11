@@ -5,6 +5,7 @@ import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { AppText } from '@/components/AppText';
 import { BottomSheet } from '@/components/play/BottomSheet';
 import { usePlay } from '@/components/play/CharacterContext';
+import { ResourcesCard } from '@/components/play/ResourcesCard';
 import { D20Sheet, d20Parts, type D20Request } from '@/components/play/RollSheet';
 import { Card, Dots, InfoSheet, plain, SmallButton, StatBox } from '@/components/play/ui';
 import { Screen } from '@/components/Screen';
@@ -23,6 +24,7 @@ import {
   toggleCondition,
 } from '@/rules/play';
 import { MAX_LEVEL } from '@/rules/levelup';
+import { characterResources, shortRestResources } from '@/rules/resources';
 import { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from '@/rules/rest';
 import type { CharacterSheet, SourcedId } from '@/rules/sheet';
 import { hpLevel } from '@/rules/summary';
@@ -51,6 +53,7 @@ export default function SheetTab() {
   const [info, setInfo] = useState<(Info & { conditionId?: string }) | null>(null);
   const [pickCondition, setPickCondition] = useState(false);
   const [shortRest, setShortRest] = useState(false);
+  const resources = characterResources(c, content, sheet);
 
   const ex = c.state.exhaustion;
   const subtitle = [
@@ -81,7 +84,7 @@ export default function SheetTab() {
   };
 
   const confirmLongRest = () =>
-    Alert.alert('Долгий отдых', 'Восстановить все хиты, кости хитов и ячейки; снять 1 уровень истощения?', [
+    Alert.alert('Долгий отдых', 'Восстановить все хиты, кости хитов, ячейки и ресурсы умений; снять 1 уровень истощения?', [
       { text: 'Отмена', style: 'cancel' },
       { text: 'Отдохнуть', onPress: () => updateState((s) => longRest(s, sheet.maxHp)) },
     ]);
@@ -132,6 +135,8 @@ export default function SheetTab() {
           );
         })}
       </View>
+
+      <ResourcesCard resources={resources} />
 
       <Card>
         <AppText variant="heading">Состояния</AppText>
@@ -311,6 +316,13 @@ function ShortRestSheet({ visible, onClose }: { visible: boolean; onClose: () =>
   const { character: c, sheet, updateState } = usePlay();
   const [last, setLast] = useState<string | null>(null);
   const conMod = sheet.abilities.con.mod;
+  const resources = characterResources(c, content, sheet);
+  const restored = [
+    ...(sheet.spellcasting?.classId === 'warlock' && c.state.slotsSpent.some(Boolean) ? ['ячейки Магии договора'] : []),
+    ...resources
+      .filter((r) => r.spent > 0 && r.recovery !== 'long')
+      .map((r) => `${tr(r.name).text}${r.recovery === 'short-one' && r.spent > 1 ? ' (1)' : ''}`),
+  ];
 
   return (
     <BottomSheet
@@ -346,11 +358,12 @@ function ShortRestSheet({ visible, onClose }: { visible: boolean; onClose: () =>
       <AppText variant="secondary">
         Хиты: {c.state.currentHp} / {sheet.maxHp}
       </AppText>
+      {restored.length ? <AppText variant="secondary">После отдыха восстановится: {restored.join(', ')}.</AppText> : null}
       <SmallButton
         title="Завершить отдых"
         tone="accent"
         onPress={() => {
-          updateState((s) => finishShortRest(s, sheet.spellcasting?.classId === 'warlock'));
+          updateState((s) => shortRestResources(finishShortRest(s, sheet.spellcasting?.classId === 'warlock'), resources));
           setLast(null);
           onClose();
         }}

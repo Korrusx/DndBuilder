@@ -40,6 +40,8 @@ export type GameState = {
   hitDiceSpent: Record<string, number>;
   /** Потраченные ячейки по кругам 1–9 (индекс 0 — 1-й круг). */
   slotsSpent: number[];
+  /** Потраченные использования ресурсов умений: { rage: 1, 'lay-on-hands': 10 }. */
+  resourcesSpent: Record<string, number>;
   deathSaves: { successes: number; failures: number };
   conditions: string[];
   exhaustion: number;
@@ -108,6 +110,7 @@ export function emptyGameState(): GameState {
     tempHp: 0,
     hitDiceSpent: {},
     slotsSpent: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    resourcesSpent: {},
     deathSaves: { successes: 0, failures: 0 },
     conditions: [],
     exhaustion: 0,

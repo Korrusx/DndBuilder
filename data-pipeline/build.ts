@@ -19,6 +19,7 @@ import type {
   Choice,
   ChoiceOption,
   Coin,
+  ClassResource,
   Content,
   Feature,
   LocalizedText,
@@ -57,6 +58,7 @@ const FILE_BY_PREFIX: Record<string, string> = {
   species: 'origins',
   subspecies: 'origins',
   trait: 'origins',
+  resource: 'classes',
   background: 'origins',
   feat: 'origins',
   equipment: 'equipment',
@@ -341,7 +343,16 @@ async function readExtra(
     }
   }
 
-  return { backgrounds, feats, subclasses, features };
+  // Ресурсы умений (ярость, дикий облик, кости превосходства…): extra/resources.json.
+  const resources: ClassResource[] = (JSON.parse(await readFile(join(EXTRA_DIR, 'resources.json'), 'utf8')).resources as Raw[]).map(
+    (r) => ({
+      ...r,
+      name: seeded(`resource.${r.id}.name`, r.name.en, r.name.ru),
+      features: Array.isArray(r.features) ? r.features : [r.features],
+    }),
+  );
+
+  return { backgrounds, feats, subclasses, features, resources };
 }
 
 /** Текст из extra: английский — для ключа, русский — сразу в перевод. */
@@ -757,6 +768,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
     equipmentCategories,
     spells,
     magicItems,
+    resources: extra.resources,
   } as Omit<Content, 'version'>;
 }
 
@@ -810,6 +822,11 @@ function checkReferences(c: Omit<Content, 'version'>) {
   for (const t of c.traits) {
     t.spells?.forEach((id) => check(`особенность ${t.id}`, 'заклинание', id, spells));
     t.proficiencyChoices?.forEach((ch) => walkChoice(`особенность ${t.id}`, ch, profs));
+  }
+  const known = new Set([...features, ...traits, ...set(c.feats)]);
+  for (const r of c.resources) {
+    r.features.forEach((id) => check(`ресурс ${r.id}`, 'умение', id, known));
+    if (r.classId) check(`ресурс ${r.id}`, 'класс', r.classId, set(c.classes));
   }
   for (const e of c.equipment) e.contents?.forEach((x) => check(`набор ${e.id}`, 'предмет', x.id, items));
   const anyItems = new Set([...items, ...set(c.magicItems)]);

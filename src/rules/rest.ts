@@ -52,7 +52,7 @@ export function spendHitDie(
   return { ...healed, hitDiceSpent: { ...state.hitDiceSpent, [classId]: spent + 1 } };
 }
 
-/** Долгий отдых (SRD 5.2): все хиты, все кости хитов, все ячейки, −1 уровень истощения. */
+/** Долгий отдых (SRD 5.2): все хиты, все кости хитов, все ячейки и ресурсы умений, −1 уровень истощения. */
 export function longRest(state: GameState, maxHp: number): GameState {
   return {
     ...state,
@@ -60,6 +60,7 @@ export function longRest(state: GameState, maxHp: number): GameState {
     tempHp: 0,
     hitDiceSpent: {},
     slotsSpent: state.slotsSpent.map(() => 0),
+    resourcesSpent: {},
     deathSaves: { successes: 0, failures: 0 },
     exhaustion: Math.max(0, state.exhaustion - 1),
   };

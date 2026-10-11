@@ -273,6 +273,37 @@ export type MagicItem = {
   isVariant: boolean;
 };
 
+/** Как считается число (максимум ресурса или размер его кости). Уровень — уровень класса `classId` ресурса, иначе общий. */
+export type ResourceFormula =
+  | { fixed: number }
+  /** Столбец таблицы класса на текущем уровне (rage_count, focus_points…). */
+  | { classSpecific: string }
+  /** {уровень: значение} — берётся значение для наибольшего уровня, не превышающего текущий. */
+  | { byLevel: Record<string, number> }
+  /** Модификатор характеристики, не меньше `min`. */
+  | { ability: AbilityId; min?: number }
+  | { profBonus: true }
+  /** уровень × perLevel + plus. */
+  | { perLevel: number; plus?: number };
+
+/** Ресурс умения с ограниченным числом использований (ярость, кости превосходства…). */
+export type ClassResource = {
+  id: string;
+  name: LocalizedText;
+  /** Ресурс есть, если у персонажа есть любое из этих умений, особенностей вида или черт. */
+  features: string[];
+  /** Класс, по уровню которого считаются формулы и `minLevel`. */
+  classId?: string;
+  minLevel?: number;
+  max: ResourceFormula;
+  /** Кость ресурса (8 → к8), если есть. */
+  die?: ResourceFormula;
+  /** Короткий отдых: 'all' — восстанавливает всё, 'one' — одно использование. Долгий отдых — всегда всё. */
+  short?: 'all' | 'one';
+  /** Короткий отдых восстанавливает всё, если есть это умение (бард: «Источник вдохновения»). */
+  shortWith?: string;
+};
+
 export type Content = {
   /** Версия формата файла. Меняется, когда меняется структура. */
   schemaVersion: number;
@@ -301,4 +332,5 @@ export type Content = {
   equipmentCategories: EquipmentCategory[];
   spells: Spell[];
   magicItems: MagicItem[];
+  resources: ClassResource[];
 };
