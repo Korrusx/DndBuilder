@@ -11,3 +11,4 @@ export * from './spells';
 export * from './summary';
 export * from './choices';
 export * from './creation';
+export * from './play';

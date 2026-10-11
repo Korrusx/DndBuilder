@@ -19,21 +19,21 @@ weaponProperty.two-handed.name,Two-Handed,,todo
 weaponProperty.two-handed.description,A Two-Handed weapon requires two hands when you attack with it.,,todo
 weaponProperty.versatile.name,Versatile,,todo
 weaponProperty.versatile.description,A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.,,todo
-weaponMastery.cleave.name,Cleave,,todo
+weaponMastery.cleave.name,Cleave,Рассечение,draft
 weaponMastery.cleave.description,"If you hit a creature with a melee attack roll using this weapon, you can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within your reach. On a hit, the second creature takes the weapon's damage, but don't add your ability modifier to that damage unless that modifier is negative. You can make this extra attack only once per turn.",,todo
-weaponMastery.graze.name,Graze,,todo
+weaponMastery.graze.name,Graze,Задевание,draft
 weaponMastery.graze.description,"If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",,todo
-weaponMastery.nick.name,Nick,,todo
+weaponMastery.nick.name,Nick,Подрез,draft
 weaponMastery.nick.description,"When you make the extra attack of the Light property, you can make it as part of the Attack action instead of as a Bonus Action. You can make this extra attack only once per turn.",,todo
-weaponMastery.push.name,Push,,todo
+weaponMastery.push.name,Push,Толчок,draft
 weaponMastery.push.description,"If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.",,todo
-weaponMastery.sap.name,Sap,,todo
+weaponMastery.sap.name,Sap,Ослабление,draft
 weaponMastery.sap.description,"If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.",,todo
-weaponMastery.slow.name,Slow,,todo
+weaponMastery.slow.name,Slow,Замедление,draft
 weaponMastery.slow.description,"If you hit a creature with this weapon and deal damage to it, you can reduce its Speed by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",,todo
-weaponMastery.topple.name,Topple,,todo
+weaponMastery.topple.name,Topple,Опрокидывание,draft
 weaponMastery.topple.description,"If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and your Proficiency Bonus). On a failed save, the creature has the Prone condition.",,todo
-weaponMastery.vex.name,Vex,,todo
+weaponMastery.vex.name,Vex,Досаждение,draft
 weaponMastery.vex.description,"If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.",,todo
 equipment.acid.name,Acid,,todo
 equipment.acid.description,"When you take the Attack action, you can replace one of your attacks with throwing a vial of Acid. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d6 Acid damage.",,todo

@@ -2,14 +2,24 @@
 
 import type { GameState } from './character';
 
-/** Урон снимается сначала с временных хитов, потом с текущих (не ниже 0). */
-export function applyDamage(state: GameState, amount: number): GameState {
+/**
+ * Урон снимается сначала с временных хитов, потом с текущих (не ниже 0).
+ * Если передан `maxHp`, учитываются правила смерти SRD 5.2:
+ * - урон на 0 хитов — провал спасброска от смерти (критическое попадание — два);
+ * - если после падения до 0 остаток урона не меньше максимума хитов — мгновенная смерть (3 провала).
+ */
+export function applyDamage(state: GameState, amount: number, maxHp?: number, critical = false): GameState {
+  if (amount <= 0) return state;
   const fromTemp = Math.min(state.tempHp, amount);
-  return {
-    ...state,
-    tempHp: state.tempHp - fromTemp,
-    currentHp: Math.max(0, state.currentHp - (amount - fromTemp)),
-  };
+  const rest = amount - fromTemp;
+  const next = { ...state, tempHp: state.tempHp - fromTemp, currentHp: Math.max(0, state.currentHp - rest) };
+  if (maxHp === undefined || rest === 0) return next;
+  const failures = state.deathSaves.failures;
+  if (state.currentHp === 0) {
+    return { ...next, deathSaves: { ...state.deathSaves, failures: Math.min(3, failures + (critical ? 2 : 1)) } };
+  }
+  if (rest - state.currentHp >= maxHp) return { ...next, deathSaves: { ...state.deathSaves, failures: 3 } };
+  return next;
 }
 
 /** Лечение не поднимает выше максимума. Если персонаж был на 0, спасброски от смерти сбрасываются. */
