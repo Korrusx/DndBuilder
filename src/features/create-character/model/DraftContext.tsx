@@ -10,19 +10,8 @@ import { newDraftCharacter } from '@/entities/character/model/character';
 import type { Character } from '@/entities/character/model/types';
 import { content } from '@/shared/content/content';
 import { CREATE_STEPS } from '../config/steps';
+import type { DraftApi } from "./types";
 import { finishCharacter } from './validation';
-
-type DraftApi = {
-  character: Character;
-  /** Изменить черновик (в памяти). */
-  update: (fn: (c: Character) => Character) => void;
-  /** Сохранить и перейти к следующему шагу. `prepare` — последнее изменение перед сохранением. */
-  next: (step: number, prepare?: (c: Character) => Character) => Promise<void>;
-  /** Перейти к шагу (из экрана проверки «Исправить»). */
-  goTo: (step: number) => void;
-  /** Сохранить готового персонажа и открыть режим игры. */
-  finish: () => Promise<void>;
-};
 
 const DraftContext = createContext<DraftApi | null>(null);
 

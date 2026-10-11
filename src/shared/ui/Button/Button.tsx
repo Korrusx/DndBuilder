@@ -1,15 +1,10 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
-import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
+import { colors } from '@/shared/config/theme';
+import { styles } from './Button.styles';
+import type { ButtonProps } from './Button.types';
 
-type Props = {
-  title: string;
-  onPress?: () => void;
-  variant?: 'primary' | 'secondary' | 'danger';
-  disabled?: boolean;
-};
-
-export function Button({ title, onPress, variant = 'primary', disabled }: Props) {
+export function Button({ title, onPress, variant = 'primary', disabled }: ButtonProps) {
   const primary = variant === 'primary';
   return (
     <Pressable
@@ -26,26 +21,3 @@ export function Button({ title, onPress, variant = 'primary', disabled }: Props)
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  base: {
-    borderRadius: radius.button,
-    paddingHorizontal: spacing.xl,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  primary: { backgroundColor: colors.accent, minHeight: sizes.buttonPrimary },
-  secondary: {
-    backgroundColor: colors.surface2,
-    borderWidth: 1,
-    borderColor: colors.border,
-    minHeight: sizes.touchMin + 4,
-  },
-  danger: {
-    backgroundColor: colors.damageBg,
-    borderWidth: 1,
-    borderColor: colors.damage,
-    minHeight: sizes.touchMin + 4,
-  },
-  label: { fontFamily: fonts.textBold, fontSize: 16 },
-});

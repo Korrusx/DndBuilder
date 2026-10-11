@@ -244,3 +244,10 @@ export type CharacterSummary = {
   hp?: { current: number; max: number };
   armorClass?: number;
 };
+
+export type PlayApi = {
+  character: Character;
+  sheet: CharacterSheet;
+  update: (fn: (c: Character) => Character) => void;
+  updateState: (fn: (s: GameState) => GameState) => void;
+};

@@ -1,7 +1,7 @@
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { colors, radius, spacing } from '@/shared/config/theme';
 import { AppText } from '../AppText/AppText';
+import { styles } from './Placeholder.styles';
 
 /** Временная заглушка для экранов, которые ещё не сделаны. */
 export function Placeholder({ title, note }: { title: string; note: string }) {
@@ -12,14 +12,3 @@ export function Placeholder({ title, note }: { title: string; note: string }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
-    borderRadius: radius.card,
-    padding: spacing.lg,
-    gap: spacing.sm,
-  },
-});

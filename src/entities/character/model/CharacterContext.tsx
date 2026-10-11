@@ -10,14 +10,7 @@ import { AppText } from '@/shared/ui/AppText/AppText';
 import { Screen } from '@/shared/ui/Screen/Screen';
 import { getCharacter, saveCharacter } from '../api/characters';
 import { computeSheet } from './sheet';
-import type { Character, CharacterSheet, GameState } from './types';
-
-type PlayApi = {
-  character: Character;
-  sheet: CharacterSheet;
-  update: (fn: (c: Character) => Character) => void;
-  updateState: (fn: (s: GameState) => GameState) => void;
-};
+import type { Character, GameState, PlayApi } from './types';
 
 const PlayContext = createContext<PlayApi | null>(null);
 
