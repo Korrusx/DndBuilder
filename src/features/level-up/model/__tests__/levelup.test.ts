@@ -4,13 +4,13 @@ import { computeSheet } from '@/entities/character/model/sheet';
 import type { Character } from '@/entities/character/model/types';
 import { content } from '@/shared/content/content';
 import {
-  featAbilityRule,
-  finishLevelUp,
-  levelFeatOptions,
-  levelUpHpGain,
-  levelUpIssues,
-  levelUpPlan,
-  startLevelUp,
+    featAbilityRule,
+    finishLevelUp,
+    levelFeatOptions,
+    levelUpHpGain,
+    levelUpIssues,
+    levelUpPlan,
+    startLevelUp,
 } from '../levelup';
 
 const blocking = (next: Character, prev: Character) =>

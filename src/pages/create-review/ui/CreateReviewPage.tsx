@@ -1,10 +1,10 @@
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { ABILITY_IDS } from '@/entities/character/config/constants';
-import { draftIssues } from '@/entities/character/model/build';
 import { computeSheet } from '@/entities/character/model/sheet';
 import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
 import { useDraft } from '@/features/create-character/model/DraftContext';
+import { draftIssues } from '@/features/create-character/model/validation';
 import { usePdfExport } from '@/features/export-pdf/model/usePdfExport';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { content, tr } from '@/shared/content/content';

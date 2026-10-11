@@ -1,6 +1,7 @@
 import { CHOICE_KEYS } from '@/entities/character/config/constants';
-import { draftIssues, originFeats, setBackground, setSpecies } from '@/entities/character/model/build';
+import { originFeats, setBackground, setSpecies } from '@/entities/character/model/build';
 import { useDraft } from '@/features/create-character/model/DraftContext';
+import { draftIssues } from '@/features/create-character/model/validation';
 import { content } from '@/shared/content/content';
 import { abilityAbbr, nameOf, proficiencyName } from '@/shared/content/names';
 import { Chip, ChipRow, OptionCard, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';

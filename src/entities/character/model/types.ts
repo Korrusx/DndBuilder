@@ -32,14 +32,6 @@ export type SpellLimits = {
 };
 
 // ---------- Проверка ----------
-
-export type Issue = {
-  step: number;
-  message: string;
-  /** false — предупреждение, персонажа всё равно можно сохранить. */
-  blocking: boolean;
-};
-
 export type AbilityScores = Record<AbilityId, number>;
 
 /** Уровни по классам. Для MVP один элемент, но модель допускает мультикласс. Первый элемент — стартовый класс. */

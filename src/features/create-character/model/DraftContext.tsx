@@ -6,11 +6,11 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 import { getCharacter, newId, saveCharacter } from '@/entities/character/api/characters';
-import { finishCharacter } from '@/entities/character/model/build';
 import { newDraftCharacter } from '@/entities/character/model/character';
 import type { Character } from '@/entities/character/model/types';
 import { content } from '@/shared/content/content';
 import { CREATE_STEPS } from '../config/steps';
+import { finishCharacter } from './validation';
 
 type DraftApi = {
   character: Character;

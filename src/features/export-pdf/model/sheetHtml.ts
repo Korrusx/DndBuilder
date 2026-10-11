@@ -10,12 +10,12 @@ import { computeSheet } from '@/entities/character/model/sheet';
 import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
 import { byId, tr } from '@/shared/content/content';
 import {
-  abilityAbbr,
-  abilityName,
-  groupSkillsByAbility,
-  itemName,
-  nameOf,
-  proficiencyName,
+    abilityAbbr,
+    abilityName,
+    groupSkillsByAbility,
+    itemName,
+    nameOf,
+    proficiencyName,
 } from '@/shared/content/names';
 import type { AbilityId, Content } from '@/shared/content/types';
 import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';

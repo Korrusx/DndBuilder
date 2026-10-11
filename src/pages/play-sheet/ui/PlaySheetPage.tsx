@@ -5,12 +5,12 @@ import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { ABILITY_IDS, EXHAUSTION_MAX } from '@/entities/character/config/constants';
 import { usePlay } from '@/entities/character/model/CharacterContext';
 import {
-  deathSave,
-  deathStatus,
-  finishShortRest,
-  setExhaustion,
-  speedWithExhaustion,
-  toggleCondition,
+    deathSave,
+    deathStatus,
+    finishShortRest,
+    setExhaustion,
+    speedWithExhaustion,
+    toggleCondition,
 } from '@/entities/character/model/play';
 import { characterResources, shortRestResources } from '@/entities/character/model/resources';
 import { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from '@/entities/character/model/rest';

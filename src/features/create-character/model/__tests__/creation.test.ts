@@ -1,25 +1,23 @@
 import { CHOICE_KEYS } from '@/entities/character/config/constants';
 import {
-  draftIssues,
-  equipmentChoice,
-  equipmentPicks,
-  expertiseCount,
-  finishCharacter,
-  firstIncompleteStep,
-  magicInitiateSlots,
-  proficiencySlots,
-  setBackground,
-  setClass,
-  setSpecies,
-  spellLimits,
-  startingKit,
-  weaponMasteryCount,
-  weaponMasteryOptions,
+    equipmentChoice,
+    equipmentPicks,
+    expertiseCount,
+    magicInitiateSlots,
+    proficiencySlots,
+    setBackground,
+    setClass,
+    setSpecies,
+    spellLimits,
+    startingKit,
+    weaponMasteryCount,
+    weaponMasteryOptions,
 } from '@/entities/character/model/build';
 import { newDraftCharacter } from '@/entities/character/model/character';
 import { computeSheet } from '@/entities/character/model/sheet';
 import type { Character } from '@/entities/character/model/types';
 import { content } from '@/shared/content/content';
+import { draftIssues, finishCharacter, firstIncompleteStep } from '../validation';
 
 const blank = () => newDraftCharacter('t', '2026-01-01T00:00:00.000Z');
 const steps = (c: Character) => draftIssues(c, content).filter((i) => i.blocking).map((i) => i.step);

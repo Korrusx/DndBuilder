@@ -3,15 +3,16 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { ABILITY_IDS, POINT_BUY_BUDGET, POINT_BUY_MAX, POINT_BUY_MIN, STANDARD_ARRAY } from '@/entities/character/config/constants';
 import {
-  abilityModifier,
-  pointBuyCost,
-  pointBuySpent,
-  roll4d6DropLowest
+    abilityModifier,
+    pointBuyCost,
+    pointBuySpent,
+    roll4d6DropLowest
 } from '@/entities/character/model/abilities';
-import { backgroundBonusPattern, draftIssues } from '@/entities/character/model/build';
+import { backgroundBonusPattern } from '@/entities/character/model/build';
 import { finalAbilityScores } from '@/entities/character/model/sheet';
 import type { AbilityMethod, AbilityRoll, AbilityScores, Character } from '@/entities/character/model/types';
 import { useDraft } from '@/features/create-character/model/DraftContext';
+import { draftIssues } from '@/features/create-character/model/validation';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { content } from '@/shared/content/content';
 import { abilityAbbr, abilityName, nameOf } from '@/shared/content/names';

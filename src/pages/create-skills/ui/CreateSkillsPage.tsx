@@ -1,18 +1,18 @@
 import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_OPTIONS, STANDARD_LANGUAGE_COUNT } from '@/entities/character/config/constants';
 import {
-  draftIssues,
-  expertiseCount,
-  featFeatureIds,
-  featureOptionIds,
-  fixedProficiencies,
-  languageOptions,
-  proficiencySlots,
-  proficientSkills,
-  weaponMasteryCount,
-  weaponMasteryOptions,
+    expertiseCount,
+    featFeatureIds,
+    featureOptionIds,
+    fixedProficiencies,
+    languageOptions,
+    proficiencySlots,
+    proficientSkills,
+    weaponMasteryCount,
+    weaponMasteryOptions,
 } from '@/entities/character/model/build';
 import { choice1 } from '@/entities/character/model/choices';
 import { useDraft } from '@/features/create-character/model/DraftContext';
+import { draftIssues } from '@/features/create-character/model/validation';
 import { content, tr } from '@/shared/content/content';
 import { nameOf, proficiencyName } from '@/shared/content/names';
 import { Chip, ChipRow, MultiPick, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';

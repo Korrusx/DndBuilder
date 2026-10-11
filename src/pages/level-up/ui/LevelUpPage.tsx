@@ -9,16 +9,16 @@ import { finalAbilityScores } from '@/entities/character/model/sheet';
 import type { Character } from '@/entities/character/model/types';
 import { SpellsEditSheet } from '@/features/edit-spells/ui/SpellsEditSheet';
 import {
-  clearLevelFeatChoices,
-  featAbilityRule,
-  finishLevelUp,
-  levelFeat,
-  levelFeatOptions,
-  levelFeatProfKey,
-  levelUpHpGain,
-  levelUpIssues,
-  levelUpPlan,
-  startLevelUp,
+    clearLevelFeatChoices,
+    featAbilityRule,
+    finishLevelUp,
+    levelFeat,
+    levelFeatOptions,
+    levelFeatProfKey,
+    levelUpHpGain,
+    levelUpIssues,
+    levelUpPlan,
+    startLevelUp,
 } from '@/features/level-up/model/levelup';
 import { colors, spacing } from '@/shared/config/theme';
 import { byId, content, tr } from '@/shared/content/content';

@@ -1,12 +1,12 @@
 import {
-  abilityModifier,
-  applyIncreases,
-  isStandardArray,
-  pointBuyCost,
-  pointBuySpent,
-  proficiencyBonus,
-  roll4d6DropLowest,
-  validateBackgroundBonuses,
+    abilityModifier,
+    applyIncreases,
+    isStandardArray,
+    pointBuyCost,
+    pointBuySpent,
+    proficiencyBonus,
+    roll4d6DropLowest,
+    validateBackgroundBonuses,
 } from '../abilities';
 
 const scores = (str: number, dex: number, con: number, int: number, wis: number, cha: number) => ({

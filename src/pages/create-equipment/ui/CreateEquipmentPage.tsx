@@ -1,16 +1,16 @@
 import { CHOICE_KEYS, MAGIC_INITIATE_ABILITIES, MAGIC_INITIATE_LISTS } from '@/entities/character/config/constants';
 import {
-  draftIssues,
-  equipmentChoice,
-  equipmentPicks,
-  magicInitiateSlots,
-  spellLimits,
-  spellOptions,
-  startingKit
+    equipmentChoice,
+    equipmentPicks,
+    magicInitiateSlots,
+    spellLimits,
+    spellOptions,
+    startingKit
 } from '@/entities/character/model/build';
 import { choice1 } from '@/entities/character/model/choices';
 import type { Character, EquipmentSource, OriginFeatSlot } from '@/entities/character/model/types';
 import { useDraft } from '@/features/create-character/model/DraftContext';
+import { draftIssues } from '@/features/create-character/model/validation';
 import { content } from '@/shared/content/content';
 import { abilityAbbr, equipmentOptionText, nameOf, spellName } from '@/shared/content/names';
 import { Chip, ChipRow, MultiPick, OptionCard, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
