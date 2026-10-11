@@ -27,7 +27,7 @@ export default function AboutScreen() {
         {content.skills.slice(0, 4).map((s) => (
           <LText key={s.id} text={s.name} variant="secondary" />
         ))}
-        <AppText variant="secondary">Классы (пока без перевода):</AppText>
+        <AppText variant="secondary">Классы:</AppText>
         {content.classes.slice(0, 3).map((c) => (
           <LText key={c.id} text={c.name} variant="secondary" />
         ))}

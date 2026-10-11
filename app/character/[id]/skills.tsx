@@ -5,7 +5,7 @@ import { AppText } from '@/components/AppText';
 import { usePlay } from '@/components/play/CharacterContext';
 import { D20Sheet, d20Parts, type D20Request } from '@/components/play/RollSheet';
 import { Screen } from '@/components/Screen';
-import { abilityAbbr, nameOf } from '@/components/wizard/names';
+import { abilityAbbr, abilityName, groupSkillsByAbility, nameOf } from '@/components/wizard/names';
 import { formatModifier } from '@/rules/dice';
 import { exhaustionPenalty } from '@/rules/play';
 import { colors, fonts, radius, sizes, spacing } from '@/theme';
@@ -28,25 +28,53 @@ export default function SkillsTab() {
         Пассивное восприятие {sheet.passivePerception} · ● владение, ◆ компетентность
         {ex ? ` · истощение ${formatModifier(exhaustionPenalty(ex))} к броскам` : ''}
       </AppText>
-      <View style={styles.list}>
-        {sheet.skills.map((s, i) => (
-          <Pressable
-            key={s.id}
-            accessibilityRole="button"
-            onPress={() => open(s)}
-            style={({ pressed }) => [styles.row, i > 0 && styles.divider, pressed && { backgroundColor: colors.surface2 }]}
-          >
-            <AppText style={styles.mark}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
-            <View style={{ flex: 1 }}>
-              <AppText style={{ color: s.proficient ? colors.text : colors.textSecondary }}>{nameOf('skills', s.id)}</AppText>
+      {groupSkillsByAbility(sheet.skills).map(({ ability, skills }) => {
+        const a = sheet.abilities[ability];
+        return (
+          <View key={ability} style={styles.list}>
+            <View style={styles.head}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() =>
+                  setRoll({ title: `Проверка: ${abilityName(ability)}`, parts: d20Parts([{ label: abilityAbbr(ability), value: a.mod }], ex) })
+                }
+                style={{ flex: 1 }}
+              >
+                <AppText variant="heading">{abilityName(ability)}</AppText>
+                <AppText variant="secondary">
+                  Модификатор {formatModifier(a.mod)} · значение {a.score}
+                </AppText>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  const parts = [{ label: abilityAbbr(ability), value: a.mod }];
+                  if (a.saveProficient) parts.push({ label: 'БМ', value: sheet.profBonus });
+                  setRoll({ title: `Спасбросок: ${abilityName(ability)}`, parts: d20Parts(parts, ex) });
+                }}
+                style={[styles.save, a.saveProficient && { backgroundColor: colors.accentBg }]}
+              >
+                <AppText style={[styles.saveText, a.saveProficient && { color: colors.accent }]}>
+                  Спас {formatModifier(a.save)}
+                  {a.saveProficient ? ' ●' : ''}
+                </AppText>
+              </Pressable>
             </View>
-            <AppText variant="secondary" style={{ width: 44 }}>
-              {abilityAbbr(s.ability)}
-            </AppText>
-            <AppText style={styles.bonus}>{formatModifier(s.bonus + exhaustionPenalty(ex))}</AppText>
-          </Pressable>
-        ))}
-      </View>
+            {skills.map((s) => (
+              <Pressable
+                key={s.id}
+                accessibilityRole="button"
+                onPress={() => open(s)}
+                style={({ pressed }) => [styles.row, styles.divider, pressed && { backgroundColor: colors.surface2 }]}
+              >
+                <AppText style={styles.mark}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
+                <AppText style={{ flex: 1, color: s.proficient ? colors.text : colors.textSecondary }}>{nameOf('skills', s.id)}</AppText>
+                <AppText style={styles.bonus}>{formatModifier(s.bonus + exhaustionPenalty(ex))}</AppText>
+              </Pressable>
+            ))}
+          </View>
+        );
+      })}
       <D20Sheet request={roll} onClose={() => setRoll(null)} />
     </Screen>
   );
@@ -62,6 +90,9 @@ const styles = StyleSheet.create({
   },
   row: { flexDirection: 'row', alignItems: 'center', minHeight: sizes.touchMin + 4, paddingHorizontal: spacing.md, gap: spacing.sm },
   divider: { borderTopWidth: 1, borderTopColor: colors.border },
+  head: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, padding: spacing.md },
+  save: { minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: spacing.md, borderRadius: 12, backgroundColor: colors.surface2 },
+  saveText: { fontFamily: fonts.textMedium, fontSize: 14, color: colors.text },
   mark: { width: 16, color: colors.accent },
   bonus: { fontFamily: fonts.displayBold, fontSize: 17, color: colors.text, width: 44, textAlign: 'right' },
 });

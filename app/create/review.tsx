@@ -3,7 +3,7 @@ import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { useDraft } from '@/components/wizard/DraftContext';
-import { abilityAbbr, coinsText, nameOf, proficiencyName, spellName } from '@/components/wizard/names';
+import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/components/wizard/names';
 import { Chip, ChipRow, Section, WizardScreen } from '@/components/wizard/ui';
 import { content, tr } from '@/content';
 import { ABILITY_IDS, type Character } from '@/rules/character';
@@ -140,13 +140,16 @@ function SheetPreview({ c, sheet }: { c: Character; sheet: CharacterSheet }) {
 
       <Section title="Навыки" hint="● владение, ◆ компетентность">
         <View style={styles.card}>
-          {sheet.skills.map((s) => (
-            <View key={s.id} style={styles.line}>
-              <AppText style={{ width: 18, color: colors.accent }}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
-              <AppText style={{ flex: 1, color: s.proficient ? colors.text : colors.textSecondary }}>
-                {nameOf('skills', s.id)} <AppText variant="secondary">({abilityAbbr(s.ability)})</AppText>
-              </AppText>
-              <AppText style={styles.num}>{formatModifier(s.bonus)}</AppText>
+          {groupSkillsByAbility(sheet.skills).map(({ ability, skills }) => (
+            <View key={ability} style={{ paddingVertical: spacing.xs }}>
+              <AppText style={{ fontFamily: fonts.display, fontSize: 13, color: colors.textSecondary }}>{abilityName(ability)}</AppText>
+              {skills.map((s) => (
+                <View key={s.id} style={styles.line}>
+                  <AppText style={{ width: 18, color: colors.accent }}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
+                  <AppText style={{ flex: 1, color: s.proficient ? colors.text : colors.textSecondary }}>{nameOf('skills', s.id)}</AppText>
+                  <AppText style={styles.num}>{formatModifier(s.bonus)}</AppText>
+                </View>
+              ))}
             </View>
           ))}
         </View>

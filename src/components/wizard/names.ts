@@ -70,3 +70,14 @@ function choiceText(choice: Choice): string {
   }
   return 'предмет на выбор';
 }
+
+/** Навыки по характеристикам (СИЛ, ЛОВ, ТЕЛ, ИНТ, МДР, ХАР), внутри — по алфавиту, как на бумажном листе. */
+export function groupSkillsByAbility<T extends { id: string; ability: AbilityId }>(skills: T[]): { ability: AbilityId; skills: T[] }[] {
+  const order: AbilityId[] = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+  return order.map((ability) => ({
+    ability,
+    skills: skills
+      .filter((s) => s.ability === ability)
+      .sort((a, b) => nameOf('skills', a.id).localeCompare(nameOf('skills', b.id), 'ru')),
+  }));
+}
