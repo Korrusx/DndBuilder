@@ -1,0 +1,400 @@
+﻿key,en,ru,status
+weaponProperty.ammunition.name,Ammunition,,todo
+weaponProperty.ammunition.description,"You can use a weapon that has the Ammunition property to make a ranged attack only if you have ammunition to fire from it. The type of ammunition required is specified with the weapon's range. Each attack expends one piece of ammunition. Drawing the ammunition is part of the attack (you need a free hand to load a one-handed weapon). After a fight, you can spend 1 minute to recover half the ammunition (round down) you used in the fight; the rest is lost.",,todo
+weaponProperty.finesse.name,Finesse,,todo
+weaponProperty.finesse.description,"When making an attack with a Finesse weapon, use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.",,todo
+weaponProperty.heavy.name,Heavy,,todo
+weaponProperty.heavy.description,You have Disadvantage on attack rolls with a Heavy weapon if it's a Melee weapon and your Strength score isn't at least 13 or if it's a Ranged weapon and your Dexterity score isn't at least 13.,,todo
+weaponProperty.light.name,Light,,todo
+weaponProperty.light.description,"When you take the Attack action on your turn and attack with a Light weapon, you can make one extra attack as a Bonus Action later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. For example, you can attack with a Shortsword in one hand and a Dagger in the other using the Attack action and a Bonus Action, but you don't add your Strength or Dexterity modifier to the damage roll of the Bonus Action unless that modifier is negative.",,todo
+weaponProperty.loading.name,Loading,,todo
+weaponProperty.loading.description,"You can fire only one piece of ammunition from a Loading weapon when you use an action, a Bonus Action, or a Reaction to fire it, regardless of the number of attacks you can normally make.",,todo
+weaponProperty.range.name,Range,,todo
+weaponProperty.range.description,"A Range weapon has a range in parentheses after the Ammunition or Thrown property. The range lists two numbers. The first is the weapon's normal range in feet, and the second is the weapon's long range. When attacking a target beyond normal range, you have Disadvantage on the attack roll. You can't attack a target beyond the long range.",,todo
+weaponProperty.reach.name,Reach,,todo
+weaponProperty.reach.description,"A Reach weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for Opportunity Attacks with it.",,todo
+weaponProperty.thrown.name,Thrown,,todo
+weaponProperty.thrown.description,"If a weapon has the Thrown property, you can throw the weapon to make a ranged attack, and you can draw that weapon as part of the attack. If the weapon is a Melee weapon, use the same ability modifier for the attack and damage rolls that you use for a melee attack with that weapon.",,todo
+weaponProperty.two-handed.name,Two-Handed,,todo
+weaponProperty.two-handed.description,A Two-Handed weapon requires two hands when you attack with it.,,todo
+weaponProperty.versatile.name,Versatile,,todo
+weaponProperty.versatile.description,A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.,,todo
+weaponMastery.cleave.name,Cleave,,todo
+weaponMastery.cleave.description,"If you hit a creature with a melee attack roll using this weapon, you can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within your reach. On a hit, the second creature takes the weapon's damage, but don't add your ability modifier to that damage unless that modifier is negative. You can make this extra attack only once per turn.",,todo
+weaponMastery.graze.name,Graze,,todo
+weaponMastery.graze.description,"If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",,todo
+weaponMastery.nick.name,Nick,,todo
+weaponMastery.nick.description,"When you make the extra attack of the Light property, you can make it as part of the Attack action instead of as a Bonus Action. You can make this extra attack only once per turn.",,todo
+weaponMastery.push.name,Push,,todo
+weaponMastery.push.description,"If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.",,todo
+weaponMastery.sap.name,Sap,,todo
+weaponMastery.sap.description,"If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.",,todo
+weaponMastery.slow.name,Slow,,todo
+weaponMastery.slow.description,"If you hit a creature with this weapon and deal damage to it, you can reduce its Speed by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",,todo
+weaponMastery.topple.name,Topple,,todo
+weaponMastery.topple.description,"If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and your Proficiency Bonus). On a failed save, the creature has the Prone condition.",,todo
+weaponMastery.vex.name,Vex,,todo
+weaponMastery.vex.description,"If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.",,todo
+equipment.acid.name,Acid,,todo
+equipment.acid.description,"When you take the Attack action, you can replace one of your attacks with throwing a vial of Acid. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d6 Acid damage.",,todo
+equipment.alchemists-fire.name,Alchemist's Fire,,todo
+equipment.alchemists-fire.description,"When you take the Attack action, you can replace one of your attacks with throwing a flask of Alchemist's Fire. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 1d4 Fire damage and start burning (see “Rules Glossary”).",,todo
+equipment.alchemists-supplies.name,Alchemist's Supplies,,todo
+equipment.alchemists-supplies.utilize.0,Identify a substance,,todo
+equipment.alchemists-supplies.utilize.1,Start a fire,,todo
+equipment.amulet.name,Amulet,,todo
+equipment.amulet.description,"A Holy Symbol takes one of the forms in the Holy Symbol table and is bejeweled or painted to channel divine magic. A Cleric or Paladin can use a Holy Symbol as a Spellcasting Focus.
+The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.",,todo
+equipment.antitoxin.name,Antitoxin,,todo
+equipment.antitoxin.description,"As a Bonus Action, you can drink a vial of Antitoxin to gain Advantage on saving throws to avoid or end the Poisoned condition for 1 hour.",,todo
+equipment.arrows.name,Arrows,,todo
+equipment.backpack.name,Backpack,,todo
+equipment.backpack.description,A Backpack holds up to 30 pounds within 1 cubic foot. It can also serve as a saddlebag.,,todo
+equipment.bagpipes.name,Bagpipes,,todo
+equipment.bagpipes.utilize.0,Play a known tune,,todo
+equipment.bagpipes.utilize.1,Improvise a song,,todo
+equipment.ball-bearings.name,Ball bearings,,todo
+equipment.ball-bearings.description,"As a Utilize action, you can spill Ball Bearings from their pouch. They spread to cover a level, 10-footsquare area within 10 feet of yourself. A creature that enters this area for the first time on a turn must succeed on a DC 10 Dexterity saving throw or have the Prone condition. It takes 10 minutes to recover the Ball Bearings.",,todo
+equipment.barrel.name,Barrel,,todo
+equipment.barrel.description,A Barrel holds up to 40 gallons of liquid or up to 4 cubic feet of dry goods.,,todo
+equipment.basket.name,Basket,,todo
+equipment.basket.description,A Basket holds up to 40 pounds within 2 cubic feet.,,todo
+equipment.battleaxe.name,Battleaxe,,todo
+equipment.bedroll.name,Bedroll,,todo
+equipment.bedroll.description,"A Bedroll sleeps one Small or Medium creature. While in a Bedroll, you automatically succeed on saving throws against extreme cold (see “Gameplay Toolbox”).",,todo
+equipment.bell.name,Bell,,todo
+equipment.bell.description,"When rung as a Utilize action, a Bell produces a sound that can be heard up to 60 feet away.",,todo
+equipment.blanket.name,Blanket,,todo
+equipment.blanket.description,"While wrapped in a blanket, you have Advantage on saving throws against extreme cold (see “Gameplay Toolbox”).",,todo
+equipment.block-and-tackle.name,Block and tackle,,todo
+equipment.block-and-tackle.description,A Block and Tackle allows you to hoist up to four times the weight you can normally lift.,,todo
+equipment.blowgun.name,Blowgun,,todo
+equipment.bolts.name,Bolts,,todo
+equipment.book.name,Book,,todo
+equipment.book.description,"A Book contains fiction or nonfiction. If you consult an accurate nonfiction Book about its topic, you gain a +5 bonus to Intelligence (Arcana, History, Nature, or Religion) checks you make about that topic.",,todo
+equipment.bottle-glass.name,"Bottle, Glass",,todo
+equipment.bottle-glass.description,A Glass Bottle holds up to 11/2 pints.,,todo
+equipment.breastplate.name,Breastplate,,todo
+equipment.brewers-supplies.name,Brewer's Supplies,,todo
+equipment.brewers-supplies.utilize.0,Detect poisoned drink,,todo
+equipment.brewers-supplies.utilize.1,Identify alcohol,,todo
+equipment.bucket.name,Bucket,,todo
+equipment.bucket.description,A Bucket holds up to half a cubic foot of contents.,,todo
+equipment.bullets-firearm.name,"Bullets, Firearm",,todo
+equipment.bullets-sling.name,"Bullets, Sling",,todo
+equipment.burglars-pack.name,Burglar's Pack,,todo
+equipment.burglars-pack.description,"A Burglar's Pack contains the following items: Backpack, Ball Bearings, Bell, 10 Candles, Crowbar, Hooded Lantern, 7 flasks of Oil, 5 days of Rations, Rope, Tinderbox, and Waterskin.",,todo
+equipment.calligraphers-supplies.name,Calligrapher's Supplies,,todo
+equipment.calligraphers-supplies.utilize.0,Write text with impressive flourishes that guard against forgery,,todo
+equipment.caltrops.name,Caltrops,,todo
+equipment.caltrops.description,"As a Utilize action, you can spread Caltrops from their bag to cover a 5-foot-square area within 5 feet of yourself. A creature that enters this area for the first time on a turn must succeed on a DC 15 Dexterity saving throw or take 1 Piercing damage and have its Speed reduced to 0 until the start of its next turn. It takes 10 minutes to recover the Caltrops.",,todo
+equipment.candle.name,Candle,,todo
+equipment.candle.description,"For 1 hour, a lit Candle sheds Bright Light in a 5-foot radius and Dim Light for an additional 5 feet.",,todo
+equipment.carpenters-tools.name,Carpenter's Tools,,todo
+equipment.carpenters-tools.utilize.0,: Seal or pry open a door or container,,todo
+equipment.cartographer-tools.name,Cartographer's Tools,,todo
+equipment.cartographer-tools.utilize.0,Draft a map of a small area,,todo
+equipment.case-crossbow-bolt.name,"Case, Crossbow Bolt",,todo
+equipment.case-crossbow-bolt.description,A Crossbow Bolt Case holds up to 20 Bolts.,,todo
+equipment.case-map-or-scroll.name,"Case, Map or Scroll",,todo
+equipment.case-map-or-scroll.description,A Map or Scroll Case holds up to 10 sheets of paper or 5 sheets of parchment.,,todo
+equipment.chain.name,Chain,,todo
+equipment.chain.description,"As a Utilize action, you can wrap a Chain around an unwilling creature within 5 feet of yourself that has the Grappled, Incapacitated, or Restrained condition if you succeed on a DC 13 Strength (Athletics) check. If the creature's legs are bound, the creature has the Restrained condition until it escapes. Escaping the Chain requires the creature to make a successful DC 18 Dexterity (Acrobatics) check as an action. Bursting the Chain requires a successful DC 20 Strength (Athletics) check as an action.",,todo
+equipment.chain-mail.name,Chain Mail,,todo
+equipment.chain-shirt.name,Chain Shirt,,todo
+equipment.chest.name,Chest,,todo
+equipment.chest.description,A Chest holds up to 12 cubic feet of contents.,,todo
+equipment.climbers-kit.name,Climber's Kit,,todo
+equipment.climbers-kit.description,"A Climber's Kit includes boot tips, gloves, pitons, and a harness. As a Utilize action, you can use the Climber's Kit to anchor yourself; when you do, you can't fall more than 25 feet from the anchor point, and you can't move more than 25 feet from there without undoing the anchor as a Bonus Action.",,todo
+equipment.clothes-fine.name,"Clothes, Fine",,todo
+equipment.clothes-fine.description,Fine Clothes are made of expensive fabrics and adorned with expertly crafted details. Some events and locations admit only people wearing these clothes.,,todo
+equipment.clothes-travelers.name,"Clothes, Traveler's",,todo
+equipment.clothes-travelers.description,Traveler's Clothes are resilient garments designed for travel in various environments.,,todo
+equipment.club.name,Club,,todo
+equipment.cobblers-tools.name,Cobbler's Tools,,todo
+equipment.cobblers-tools.utilize.0,Modify footwear to give Advantage on the wearer's next Dexterity (Acrobatics) check,,todo
+equipment.component-pouch.name,Component Pouch,,todo
+equipment.component-pouch.description,A Component Pouch is watertight and filled with compartments that hold all the free Material components of your spells.,,todo
+equipment.cooks-utensils.name,Cook's Utensils,,todo
+equipment.cooks-utensils.utilize.0,Improve food's flavor,,todo
+equipment.cooks-utensils.utilize.1,Detect spoiled or poisoned food,,todo
+equipment.costume.name,Costume,,todo
+equipment.costume.description,"While wearing a Costume, you have Advantage on any ability check you make to impersonate the person or type of person it represents.",,todo
+equipment.crowbar.name,Crowbar,,todo
+equipment.crowbar.description,Using a Crowbar gives you Advantage on Strength checks where the Crowbar's leverage can be applied.,,todo
+equipment.crystal.name,Crystal,,todo
+equipment.dagger.name,Dagger,,todo
+equipment.dart.name,Dart,,todo
+equipment.dice.name,Dice,,todo
+equipment.dice.utilize.0,Discern whether someone is cheating,,todo
+equipment.dice.utilize.1,Win the game,,todo
+equipment.diplomat-pack.name,Diplomat's Pack,,todo
+equipment.diplomat-pack.description,"A Diplomat's Pack contains the following items: Chest, Fine Clothes, Ink, 5 Ink Pens, Lamp, 2 Map or Scroll Cases, 4 flasks of Oil, 5 sheets of Paper, 5 sheets of Parchment, Perfume, and Tinderbox.",,todo
+equipment.disguise-kit.name,Disguise Kit,,todo
+equipment.disguise-kit.utilize.0,Apply makeup,,todo
+equipment.dragonchess.name,Dragonchess,,todo
+equipment.dragonchess.utilize.0,Discern whether someone is cheating,,todo
+equipment.dragonchess.utilize.1,Win the game,,todo
+equipment.drum.name,Drum,,todo
+equipment.drum.utilize.0,Play a known tune,,todo
+equipment.drum.utilize.1,Improvise a song,,todo
+equipment.dulcimer.name,Dulcimer,,todo
+equipment.dulcimer.utilize.0,Play a known tune,,todo
+equipment.dulcimer.utilize.1,Improvise a song,,todo
+equipment.dungeoneer-pack.name,Dungeoneer's Pack,,todo
+equipment.dungeoneer-pack.description,"A Dungeoneer's Pack contains the following items: Backpack, Caltrops, Crowbar, 2 flasks of Oil, 10 days of Rations, Rope, Tinderbox, 10 Torches, and Waterskin.",,todo
+equipment.emblem.name,Emblem,,todo
+equipment.emblem.description,"A Holy Symbol takes one of the forms in the Holy Symbol table and is bejeweled or painted to channel divine magic. A Cleric or Paladin can use a Holy Symbol as a Spellcasting Focus.
+The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.",,todo
+equipment.entertainers-pack.name,Entertainer's Pack,,todo
+equipment.explorers-pack.name,Explorer's Pack,,todo
+equipment.explorers-pack.description,"An Explorer’s Pack contains the following items: Backpack, Bedroll, 2 flasks of Oil, 10 days of Rations, Rope, Tinderbox, 10 Torches, and Waterskin.",,todo
+equipment.flail.name,Flail,,todo
+equipment.flask.name,Flask,,todo
+equipment.flask.description,A Flask holds up to 1 pint.,,todo
+equipment.flute.name,Flute,,todo
+equipment.flute.utilize.0,Play a known tune,,todo
+equipment.flute.utilize.1,Improvise a song,,todo
+equipment.forgery-kit.name,Forgery Kit,,todo
+equipment.forgery-kit.utilize.0,Mimic 10 or fewer words of someone else's handwriting,,todo
+equipment.forgery-kit.utilize.1,Duplicate a wax seal,,todo
+equipment.glaive.name,Glaive,,todo
+equipment.glassblowers-tools.name,Glassblower's Tools,,todo
+equipment.grappling-hook.name,Grappling Hook,,todo
+equipment.grappling-hook.description,"As a Utilize action, you can throw the Grappling Hook at a railing, a ledge, or another catch within 50 feet of yourself, and the hook catches on if you succeed on a DC 13 Dexterity (Acrobatics) check. If you tied a Rope to the hook, you can then climb it.",,todo
+equipment.greataxe.name,Greataxe,,todo
+equipment.greatclub.name,Greatclub,,todo
+equipment.greatsword.name,Greatsword,,todo
+equipment.halberd.name,Halberd,,todo
+equipment.half-plate-armor.name,Half-Plate Armor,,todo
+equipment.hand-crossbow.name,Hand Crossbow,,todo
+equipment.handaxe.name,Handaxe,,todo
+equipment.healers-kit.name,Healer's Kit,,todo
+equipment.healers-kit.description,"A Healer's Kit has ten uses. As a Utilize action, you can expend one of its uses to stabilize an Unconscious creature that has 0 Hit Points without needing to make a Wisdom (Medicine) check.",,todo
+equipment.heavy-crossbow.name,Heavy Crossbow,,todo
+equipment.herbalism-kit.name,Herbalism Kit,,todo
+equipment.herbalism-kit.utilize.0,Identify a plant,,todo
+equipment.hide-armor.name,Hide Armor,,todo
+equipment.holy-water.name,Holy Water,,todo
+equipment.holy-water.description,"When you take the Attack action, you can replace one of your attacks with throwing a flask of Holy Water. Target one creature you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d8 Radiant damage if it is a Fiend or an Undead.",,todo
+equipment.horn.name,Horn,,todo
+equipment.horn.utilize.0,Play a known tune,,todo
+equipment.horn.utilize.1,Improvise a song,,todo
+equipment.hunting-trap.name,Hunting Trap,,todo
+equipment.hunting-trap.description,"As a Utilize action, you can set a Hunting Trap, which is a sawtooth steel ring that snaps shut when a creature steps on a pressure plate in the center. The trap is affixed by a heavy chain to an immobile object, such as a tree or a spike driven into the ground. A creature that steps on the plate must succeed on a DC 13 Dexterity saving throw or take 1d4 Piercing damage and have its Speed reduced to 0 until the start of its next turn. Thereafter, until the creature breaks free of the trap, its movement is limited by the length of the chain (typically 3 feet). A creature can use its action to make a DC 13 Strength (Athletics) check, freeing itself or another creature within its reach on a success. Each failed check deals 1 Piercing damage to the trapped creature.",,todo
+equipment.ink.name,Ink,,todo
+equipment.ink.description,"Ink comes in a 1-ounce bottle, which provides enough ink to write about 500 pages.",,todo
+equipment.ink-pen.name,Ink Pen,,todo
+equipment.ink-pen.description,"Using Ink, an Ink Pen is used to write or draw.",,todo
+equipment.javelin.name,Javelin,,todo
+equipment.jewelers-tools.name,Jeweler's Tools,,todo
+equipment.jewelers-tools.utilize.0,Discern a gem's value,,todo
+equipment.jug.name,Jug,,todo
+equipment.jug.description,A Jug holds up to 1 gallon.,,todo
+equipment.ladder.name,Ladder,,todo
+equipment.ladder.description,A Ladder is 10 feet tall. You must climb to move up or down it. Lamp (5 SP),,todo
+equipment.lamp.name,Lamp,,todo
+equipment.lamp.description,A Lamp burns Oil as fuel to cast Bright Light in a 15- foot radius and Dim Light for an additional 30 feet,,todo
+equipment.lance.name,Lance,,todo
+equipment.lance.description,Two-handed unless mounted,,todo
+equipment.lantern-bullseye.name,"Lantern, Bullseye",,todo
+equipment.lantern-bullseye.description,A Bullseye Lantern burns Oil as fuel to cast Bright Light in a 60-foot Cone and Dim Light for an additional 60 feet.,,todo
+equipment.lantern-hooded.name,"Lantern, Hooded",,todo
+equipment.lantern-hooded.description,"A Hooded Lantern burns Oil as fuel to cast Bright Light in a 30-foot radius and Dim Light for an additional 30 feet. As a Bonus Action, you can lower the hood, reducing the light to Dim Light in a 5-foot radius, or raise it again.",,todo
+equipment.leather-armor.name,Leather Armor,,todo
+equipment.leatherworkers-tools.name,Leatherworker's Tools,,todo
+equipment.leatherworkers-tools.utilize.0,Add a design to a leather item,,todo
+equipment.light-crossbow.name,Light Crossbow,,todo
+equipment.light-hammer.name,Light Hammer,,todo
+equipment.lock.name,Lock,,todo
+equipment.lock.description,"A Lock comes with a key. Without the key, a creature can use Thieves' Tools to pick this Lock with a successful DC 15 Dexterity (Sleight of Hand) check.",,todo
+equipment.longbow.name,Longbow,,todo
+equipment.longsword.name,Longsword,,todo
+equipment.lute.name,Lute,,todo
+equipment.lute.utilize.0,Play a known tune,,todo
+equipment.lute.utilize.1,Improvise a song,,todo
+equipment.lyre.name,Lyre,,todo
+equipment.lyre.utilize.0,Play a known tune,,todo
+equipment.lyre.utilize.1,Improvise a song,,todo
+equipment.mace.name,Mace,,todo
+equipment.magnifying-glass.name,Magnifying Glass,,todo
+equipment.magnifying-glass.description,"A Magnifying Glass grants Advantage on any ability check made to appraise or inspect a highly detailed item. Lighting a fire with a Magnifying Glass requires light as bright as sunlight to focus, tinder to ignite, and about 5 minutes for the fire to ignite.",,todo
+equipment.manacles.name,Manacles,,todo
+equipment.manacles.description,"As a Utilize action, you can use Manacles to bind an unwilling Small or Medium creature within 5 feet of yourself that has the Grappled, Incapacitated, or Restrained condition if you succeed on a DC 13 Dexterity (Sleight of Hand) check. While bound, a creature has Disadvantage on attack rolls, and the creature is Restrained if the Manacles are attached to a chain or hook that is fixed in place. Escaping the Manacles requires a successful DC 20 Dexterity (Sleight of Hand) check as an action. Bursting them requires a successful DC 25 Strength (Athletics) check as an action.
+Each set of Manacles comes with a key. Without the key, a creature can use Thieves' Tools to pick the Manacles' lock with a successful DC 15 Dexterity (Sleight of Hand) check.",,todo
+equipment.map.name,Map,,todo
+equipment.map.description,"If you consult an accurate Map, you gain a +5 bonus to Wisdom (Survival) checks you make to find your way in the place represented on it.",,todo
+equipment.masons-tools.name,Mason's Tools,,todo
+equipment.masons-tools.utilize.0,: Chisel a symbol or hole in stone,,todo
+equipment.maul.name,Maul,,todo
+equipment.mirror.name,Mirror,,todo
+equipment.mirror.description,A handheld steel Mirror is useful for personal cosmetics but also for peeking around corners and reflecting light as a signal.,,todo
+equipment.morningstar.name,Morningstar,,todo
+equipment.musket.name,Musket,,todo
+equipment.navigators-tools.name,Navigator's Tools,,todo
+equipment.navigators-tools.utilize.0,Plot a course,,todo
+equipment.navigators-tools.utilize.1,Determine position by stargazing,,todo
+equipment.needles.name,Needles,,todo
+equipment.net.name,Net,,todo
+equipment.net.description,"When you take the Attack action, you can replace one of your attacks with throwing a Net. Target a creature you can see within 15 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or have the Restrained condition until it escapes. The target succeeds automatically if it is Huge or larger.
+To escape, the target or a creature within 5 feet of it must take an action to make a DC 10 Strength (Athletics) check, freeing the Restrained creature on a success. Destroying the Net (AC 10; 5 HP; Immunity to Bludgeoning, Poison, and Psychic damage) also frees the target, ending the effect.",,todo
+equipment.oil.name,Oil,,todo
+equipment.oil.description,"You can douse a creature, object, or space with Oil or use it as fuel, as detailed below.
+**Dousing a Creature or an Object.** When you take the Attack action, you can replace one of your attacks with throwing an Oil flask. Target one creature or object within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or be covered in oil. If the target takes Fire damage before the oil dries (after 1 minute), the target takes an extra 5 Fire damage from burning oil.
+**Dousing a Space.** You can take the Utilize action to pour an Oil flask on level ground to cover a 5-foot-square area within 5 feet of yourself. If lit, the oil burns until the end of the turn 2 rounds from when the oil was lit (or 12 seconds) and deals 5 Fire damage to any creature that enters the area or ends its turn there. A creature can take this damage only once per turn.
+**Fuel.**  Oil serves as fuel for Lamps and Lanterns. Once lit, a flask of Oil burns for 6 hours in a Lamp or Lantern. That duration doesn't need to be consecutive; you can extinguish the burning Oil (as a Utilize action) and rekindle it again until it has burned for a total of 6 hours",,todo
+equipment.orb.name,Orb,,todo
+equipment.padded-armor.name,Padded Armor,,todo
+equipment.painters-supplies.name,Painter's Supplies,,todo
+equipment.painters-supplies.utilize.0,Paint a recognizable image of something you've seen,,todo
+equipment.pan-flute.name,Pan flute,,todo
+equipment.pan-flute.utilize.0,Play a known tune,,todo
+equipment.pan-flute.utilize.1,Improvise a song,,todo
+equipment.paper.name,Paper,,todo
+equipment.paper.description,One sheet of Paper can hold about 250 handwritten words.,,todo
+equipment.parchment.name,Parchment,,todo
+equipment.parchment.description,One sheet of Parchment can hold about 250 handwritten words.,,todo
+equipment.perfume.name,Perfume,,todo
+equipment.perfume.description,"Perfume comes in a 4-ounce vial. For 1 hour after applying Perfume to yourself, you have Advantage on Charisma (Persuasion) checks made to influence an Indifferent Humanoid within 5 feet of yourself.",,todo
+equipment.pike.name,Pike,,todo
+equipment.pistol.name,Pistol,,todo
+equipment.plate-armor.name,Plate Armor,,todo
+equipment.playing-cards.name,Playing Cards,,todo
+equipment.playing-cards.utilize.0,Discern whether someone is cheating,,todo
+equipment.playing-cards.utilize.1,Win the game,,todo
+equipment.poison-basic.name,"Poison, Basic",,todo
+equipment.poison-basic.description,"As a Bonus Action, you can use a vial of Basic Poison to coat one weapon or up to three pieces of ammunition. A creature that takes Piercing or Slashing damage from the poisoned weapon or ammunition takes an extra 1d4 Poison damage. Once applied, the poison retains potency for 1 minute or until its damage is dealt, whichever comes first.",,todo
+equipment.poisoners-kit.name,Poisoner's Kit,,todo
+equipment.poisoners-kit.utilize.0,Detect a poisoned object,,todo
+equipment.pole.name,Pole,,todo
+equipment.pole.description,"A Pole is 10 feet long. You can use it to touch something up to 10 feet away. If you must make a Strength (Athletics) check as part of a High or Long Jump, you can use the Pole to vault, giving yourself Advantage on the check.",,todo
+equipment.pot-iron.name,"Pot, Iron",,todo
+equipment.pot-iron.description,An Iron Pot holds up to 1 gallon.,,todo
+equipment.potion-of-healing.name,Potion of Healing,,todo
+equipment.potion-of-healing.description,"This potion is a magic item. As a Bonus Action, you can drink it or administer it to another creature within 5 feet of yourself. The creature that drinks the magical red fluid in this vial regains 2d4 + 2 Hit Points.",,todo
+equipment.potters-tools.name,Potter's Tools,,todo
+equipment.potters-tools.utilize.0,Discern what a ceramic object held in the past 24 hours,,todo
+equipment.pouch.name,Pouch,,todo
+equipment.pouch.description,A Pouch holds up to 6 pounds within one-fifth of a cubic foot.,,todo
+equipment.priests-pack.name,Priest's Pack,,todo
+equipment.priests-pack.description,"A Priest's Pack contains the following items: Backpack, Blanket, Holy Water, Lamp, 7 days of Rations, Robe, and Tinderbox.",,todo
+equipment.quarterstaff.name,Quarterstaff,,todo
+equipment.quiver.name,Quiver,,todo
+equipment.quiver.description,A Quiver holds up to 20 Arrows.,,todo
+equipment.ram-portable.name,"Ram, Portable",,todo
+equipment.ram-portable.description,"You can use a Portable Ram to break down doors. When doing so, you gain a +4 bonus to the Strength check. One other character can help you use the ram, giving you Advantage on this check.",,todo
+equipment.rapier.name,Rapier,,todo
+equipment.rations.name,Rations,,todo
+equipment.rations.description,"Rations consist of travel-ready food, including jerky, dried fruit, hardtack, and nuts. See ""Malnutrition"" in ""Rules Glossary"" for the risks of not eating.",,todo
+equipment.reliquary.name,Reliquary,,todo
+equipment.reliquary.description,"A Holy Symbol takes one of the forms in the Holy Symbol table and is bejeweled or painted to channel divine magic. A Cleric or Paladin can use a Holy Symbol as a Spellcasting Focus.
+The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.",,todo
+equipment.ring-mail.name,Ring Mail,,todo
+equipment.robe.name,Robe,,todo
+equipment.robe.description,A Robe has vocational or ceremonial significance. Some events and locations admit only people wearing a Robe bearing certain colors or symbols.,,todo
+equipment.rod.name,Rod,,todo
+equipment.rope.name,Rope,,todo
+equipment.rope.description,"As a Utilize action, you can tie a knot with Rope if you succeed on a DC 10 Dexterity (Sleight of Hand) check. The Rope can be burst with a successful DC 20 Strength (Athletics) check.
+ You can bind an unwilling creature with the Rope only if the creature has the Grappled, Incapacitated, or Restrained condition. If the creature's legs are bound, the creature has the Restrained condition until it escapes. Escaping the Rope requires the creature to make a successful DC 15 Dexterity (Acrobatics) check as an action.",,todo
+equipment.sack.name,Sack,,todo
+equipment.sack.description,A Sack holds up to 30 pounds within 1 cubic foot.,,todo
+equipment.scale-mail.name,Scale Mail,,todo
+equipment.scholars-pack.name,Scholar's Pack,,todo
+equipment.scholars-pack.description,"A Scholar's Pack contains the following items: Backpack, Blanket, Book, Ink, Ink Pen, Lamp, 10 flasks of Oil, 10 sheets of Parchment, and Tinderbox.",,todo
+equipment.scimitar.name,Scimitar,,todo
+equipment.shawm.name,Shawm,,todo
+equipment.shawm.utilize.0,Play a known tune,,todo
+equipment.shawm.utilize.1,Improvise a song,,todo
+equipment.shield.name,Shield,,todo
+equipment.shortbow.name,Shortbow,,todo
+equipment.shortsword.name,Shortsword,,todo
+equipment.shovel.name,Shovel,,todo
+equipment.shovel.description,"Working for 1 hour, you can use a Shovel to dig a hole that is 5 feet on each side in soil or similar material.",,todo
+equipment.sickle.name,Sickle,,todo
+equipment.signal-whistle.name,Signal Whistle,,todo
+equipment.signal-whistle.description,"When blown as a Utilize action, a Signal Whistle produces a sound that can be heard up to 600 feet away.",,todo
+equipment.sling.name,Sling,,todo
+equipment.smiths-tools.name,Smith's Tools,,todo
+equipment.smiths-tools.utilize.0,Pry open a door or container,,todo
+equipment.spear.name,Spear,,todo
+equipment.spell-scroll-cantrip.name,"Spell Scroll, Cantrip",,todo
+equipment.spell-scroll-cantrip.description,"A *Spell Scroll* (Cantrip) or *Spell Scroll* (Level 1) is a magic item that bears the words of a cantrip or level 1 spell, respectively, determined by the scroll's creator. If the spell is on your class's spell list, you can read the scroll and cast the spell using its normal casting time and without providing any Material components.
+If the spell requires a saving throw or an attack roll, the spell save DC is 13, and the attack bonus is +5. The scroll disintegrates when the casting is completed.",,todo
+equipment.spell-scroll-level-1.name,"Spell Scroll, Level 1",,todo
+equipment.spell-scroll-level-1.description,"A *Spell Scroll* (Cantrip) or *Spell Scroll* (Level 1) is a magic item that bears the words of a cantrip or level 1 spell, respectively, determined by the scroll's creator. If the spell is on your class's spell list, you can read the scroll and cast the spell using its normal casting time and without providing any Material components.
+If the spell requires a saving throw or an attack roll, the spell save DC is 13, and the attack bonus is +5. The scroll disintegrates when the casting is completed.",,todo
+equipment.spellbook.name,Spellbook,,todo
+equipment.spellbook.description,"Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells.
+Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells.",,todo
+equipment.spikes-iron.name,"Spikes, Iron",,todo
+equipment.spikes-iron.description,"Iron Spikes come in bundles of ten. As a Utilize action, you can use a blunt object, such as a Light Hammer, to hammer a spike into wood, earth, or a similar material. You can do so to jam a door shut or to then tie a Rope or Chain to the Spike.",,todo
+equipment.splint-armor.name,Splint Armor,,todo
+equipment.sprig-of-mistletoe.name,Sprig of Mistletoe,,todo
+equipment.spyglass.name,Spyglass,,todo
+equipment.spyglass.description,Objects viewed through a Spyglass are magnified to twice their size.,,todo
+equipment.staff.name,Staff,,todo
+equipment.string.name,String,,todo
+equipment.string.description,String is 10 feet long. You can tie a knot in it as a Utilize action.,,todo
+equipment.studded-leather-armor.name,Studded Leather Armor,,todo
+equipment.tent.name,Tent,,todo
+equipment.tent.description,A Tent sleeps up to two Small or Medium creatures.,,todo
+equipment.thieves-tools.name,Thieves' Tools,,todo
+equipment.thieves-tools.utilize.0,Pick a lock,,todo
+equipment.thieves-tools.utilize.1,Disarm a trap,,todo
+equipment.three-dragon-ante.name,Three-Dragon Ante,,todo
+equipment.three-dragon-ante.utilize.0,Discern whether someone is cheating,,todo
+equipment.three-dragon-ante.utilize.1,Win the game,,todo
+equipment.tinderbox.name,Tinderbox,,todo
+equipment.tinderbox.description,"A Tinderbox is a small container holding flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a Candle, Lamp, Lantern, or Torch—or anything else with exposed fuel—takes a Bonus Action. Lighting any other fire takes 1 minute.",,todo
+equipment.tinkers-tools.name,Tinker's Tools,,todo
+equipment.tinkers-tools.utilize.0,"Assemble a Tiny item composed of scrap, which falls apart in 1 minute",,todo
+equipment.torch.name,Torch,,todo
+equipment.torch.description,"A Torch burns for 1 hour, casting Bright Light in a 20-foot radius and Dim Light for an additional 20 feet. When you take the Attack action, you can attack with the Torch, using it as a Simple Melee weapon. On a hit, the target takes 1 Fire damage.",,todo
+equipment.trident.name,Trident,,todo
+equipment.vial.name,Vial,,todo
+equipment.vial.description,A Vial holds up to 4 ounces.,,todo
+equipment.viol.name,Viol,,todo
+equipment.viol.utilize.0,Play a known tune,,todo
+equipment.viol.utilize.1,Improvise a song,,todo
+equipment.wand.name,Wand,,todo
+equipment.war-pick.name,War Pick,,todo
+equipment.warhammer.name,Warhammer,,todo
+equipment.waterskin.name,Waterskin,,todo
+equipment.waterskin.description,"A Waterskin holds up to 4 pints. If you don't drink sufficient water, you risk dehydration (see “Rules Glossary”).",,todo
+equipment.weavers-tools.name,Weaver's Tools,,todo
+equipment.weavers-tools.utilize.0,Mend a tear in clothing,,todo
+equipment.weavers-tools.utilize.1,sew a Tiny design,,todo
+equipment.whip.name,Whip,,todo
+equipment.woodcarvers-tools.name,Woodcarver's Tools,,todo
+equipment.woodcarvers-tools.utilize.0,Carve a pattern in wood,,todo
+equipment.yew-wand.name,Yew Wand,,todo
+equipmentCategory.adventuring-gear.name,Adventuring Gear,,todo
+equipmentCategory.ammunition.name,Ammunition,,todo
+equipmentCategory.arcane-foci.name,Arcane Foci,,todo
+equipmentCategory.armor.name,Armor,,todo
+equipmentCategory.artisans-tools.name,Artisan's Tools,,todo
+equipmentCategory.druidic-foci.name,Druidic Foci,,todo
+equipmentCategory.equipment-packs.name,Equipment Packs,,todo
+equipmentCategory.gaming-sets.name,Gaming Sets,,todo
+equipmentCategory.heavy-armor.name,Heavy Armor,,todo
+equipmentCategory.holy-symbols.name,Holy Symbols,,todo
+equipmentCategory.light-armor.name,Light Armor,,todo
+equipmentCategory.martial-melee-weapons.name,Martial Melee Weapons,,todo
+equipmentCategory.martial-ranged-weapons.name,Martial Ranged Weapons,,todo
+equipmentCategory.martial-weapons.name,Martial Weapons,,todo
+equipmentCategory.medium-armor.name,Medium Armor,,todo
+equipmentCategory.melee-weapons.name,Melee Weapons,,todo
+equipmentCategory.musical-instruments.name,Musical Instruments,,todo
+equipmentCategory.other-tools.name,Other Tools,,todo
+equipmentCategory.potions.name,Potions,,todo
+equipmentCategory.ranged-weapons.name,Ranged Weapons,,todo
+equipmentCategory.rings.name,Rings,,todo
+equipmentCategory.shields.name,Shields,,todo
+equipmentCategory.simple-melee-weapons.name,Simple Melee Weapons,,todo
+equipmentCategory.simple-ranged-weapons.name,Simple Ranged Weapons,,todo
+equipmentCategory.simple-weapons.name,Simple Weapons,,todo
+equipmentCategory.staffs.name,Staffs,,todo
+equipmentCategory.tools.name,Tools,,todo
+equipmentCategory.wands.name,Wands,,todo
+equipmentCategory.weapons.name,Weapons,,todo
+equipmentCategory.wondrous-items.name,Wondrous Items,,todo

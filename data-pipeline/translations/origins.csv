@@ -1,0 +1,302 @@
+﻿key,en,ru,status
+species.dragonborn.name,Dragonborn,,todo
+species.dwarf.name,Dwarf,,todo
+species.elf.name,Elf,,todo
+species.gnome.name,Gnome,,todo
+species.goliath.name,Goliath,,todo
+species.halfling.name,Halfling,,todo
+species.human.name,Human,,todo
+species.orc.name,Orc,,todo
+species.tiefling.name,Tiefling,,todo
+subspecies.draconic-ancestor-black.name,Draconic Ancestor: Black,,todo
+subspecies.draconic-ancestor-blue.name,Draconic Ancestor: Blue,,todo
+subspecies.draconic-ancestor-brass.name,Draconic Ancestor: Brass,,todo
+subspecies.draconic-ancestor-bronze.name,Draconic Ancestor: Bronze,,todo
+subspecies.draconic-ancestor-copper.name,Draconic Ancestor: Copper,,todo
+subspecies.draconic-ancestor-gold.name,Draconic Ancestor: Gold,,todo
+subspecies.draconic-ancestor-green.name,Draconic Ancestor: Green,,todo
+subspecies.draconic-ancestor-red.name,Draconic Ancestor: Red,,todo
+subspecies.draconic-ancestor-silver.name,Draconic Ancestor: Silver,,todo
+subspecies.draconic-ancestor-white.name,Draconic Ancestor: White,,todo
+subspecies.elven-lineage-drow.name,Elven Lineage: Drow,,todo
+subspecies.elven-lineage-high-elf.name,Elven Lineage: High Elf,,todo
+subspecies.elven-lineage-wood-elf.name,Elven Lineage: Wood Elf,,todo
+subspecies.fiendish-legacy-abyssal.name,Fiendish Legacy: Abyssal,,todo
+subspecies.fiendish-legacy-chthonic.name,Fiendish Legacy: Chthonic,,todo
+subspecies.fiendish-legacy-infernal.name,Fiendish Legacy: Infernal,,todo
+subspecies.giant-ancestry-clouds-jaunt.name,Giant Ancestry: Cloud's Jaunt,,todo
+subspecies.giant-ancestry-fires-burn.name,Giant Ancestry: Fire's Burn,,todo
+subspecies.giant-ancestry-frosts-chill.name,Giant Ancestry: Frost's Chill,,todo
+subspecies.giant-ancestry-hills-tumble.name,Giant Ancestry: Hill's Tumble,,todo
+subspecies.giant-ancestry-stones-endurance.name,Giant Ancestry: Stone's Endurance,,todo
+subspecies.giant-ancestry-storms-thunder.name,Giant Ancestry: Storm's Thunder,,todo
+subspecies.gnomish-lineage-forest-gnome.name,Gnomish Lineage: Forest Gnome,,todo
+subspecies.gnomish-lineage-rock-gnome.name,Gnomish Lineage: Rock Gnome,,todo
+trait.adrenaline-rush.name,Adrenaline Rush,,todo
+trait.adrenaline-rush.description,"You can take the Dash action as a Bonus Action. When you do so, you gain a number of Temporary Hit Points equal to your Proficiency Bonus.
+You can use this trait a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Short or Long Rest.",,todo
+trait.brave.name,Brave,,todo
+trait.brave.description,You have Advantage on saving throws you make to avoid or end the Frightened condition.,,todo
+trait.darkvision-120.name,Darkvision (120 ft.),,todo
+trait.darkvision-120.description,You have Darkvision with a range of 120 feet.,,todo
+trait.darkvision-60.name,Darkvision (60 ft.),,todo
+trait.darkvision-60.description,You have Darkvision with a range of 60 feet.,,todo
+trait.draconic-ancestry.name,Draconic Ancestry,,todo
+trait.draconic-ancestry.description,"Your lineage stems from a dragon progenitor. Choose the kind of dragon from the Draconic Ancestors table. Your choice affects your Breath Weapon and Damage Resistance traits as well as your appearance.
+Draconic Ancestors
+Dragon / Damage Type
+Black / Acid
+Blue / Lightning
+Brass / Fire
+Bronze / Lightning
+Copper / Acid
+Green / Poison
+Gold / Fire
+Red / Fire
+Silver / Cold
+White / Cold",,todo
+trait.draconic-breath-weapon-acid.name,Breath Weapon: Acid,,todo
+trait.draconic-breath-weapon-acid.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 acid damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
+trait.draconic-breath-weapon-cold.name,Breath Weapon: Cold,,todo
+trait.draconic-breath-weapon-cold.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 cold damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
+trait.draconic-breath-weapon-fire.name,Breath Weapon: Fire,,todo
+trait.draconic-breath-weapon-fire.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 fire damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
+trait.draconic-breath-weapon-lightning.name,Breath Weapon: Lightning,,todo
+trait.draconic-breath-weapon-lightning.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 lightning damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
+trait.draconic-breath-weapon-poison.name,Breath Weapon: Poison,,todo
+trait.draconic-breath-weapon-poison.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 poison damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
+trait.draconic-damage-resistance-acid.name,Damage Resistance: Acid,,todo
+trait.draconic-damage-resistance-acid.description,"You have Resistance to acid damage, as determined by your Draconic Ancestry trait.",,todo
+trait.draconic-damage-resistance-cold.name,Damage Resistance: Cold,,todo
+trait.draconic-damage-resistance-cold.description,"You have Resistance to cold damage, as determined by your Draconic Ancestry trait.",,todo
+trait.draconic-damage-resistance-fire.name,Damage Resistance: Fire,,todo
+trait.draconic-damage-resistance-fire.description,"You have Resistance to fire damage, as determined by your Draconic Ancestry trait.",,todo
+trait.draconic-damage-resistance-lightning.name,Damage Resistance: Lightning,,todo
+trait.draconic-damage-resistance-lightning.description,"You have Resistance to lightning damage, as determined by your Draconic Ancestry trait.",,todo
+trait.draconic-damage-resistance-poison.name,Damage Resistance: Poison,,todo
+trait.draconic-damage-resistance-poison.description,"You have Resistance to poison damage, as determined by your Draconic Ancestry trait.",,todo
+trait.draconic-flight.name,Draconic Flight,,todo
+trait.draconic-flight.description,"When you reach character level 5, you can channel draconic magic to give yourself temporary flight. As a Bonus Action, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the Incapacitated condition. During that time, you have a Fly Speed equal to your Speed. Your wings appear to be made of the same energy as your Breath Weapon. Once you use this trait, you can't use it again until you finish a Long Rest.",,todo
+trait.dwarven-resilience.name,Dwarven Resilience,,todo
+trait.dwarven-resilience.description,You have Resistance to Poison damage. You also have Advantage on saving throws you make to avoid or end the Poisoned condition.,,todo
+trait.dwarven-toughness.name,Dwarven Toughness,,todo
+trait.dwarven-toughness.description,"Your Hit Point maximum increases by 1, and it increases by 1 again whenever you gain a level.",,todo
+trait.elven-lineage.name,Elven Lineage,,todo
+trait.elven-lineage.description,"You are part of a lineage that grants you supernatural abilities. Choose a lineage from the Elven Lineages table. You gain the level 1 benefit of that lineage.
+When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table.
+You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level.
+Elven Lineages
+Drow
+Level 1. The range of your Darkvision increases to 120 feet. You also know the Dancing Lights cantrip.
+Level 3. Faerie Fire
+Level 5. Darkness
+High Elf
+Level 1. You know the Prestidigitation cantrip. Whenever you finish a Long Rest, you can replace that cantrip with a different cantrip from the Wizard spell list.
+Level 3. Detect Magic
+Level 5. Misty Step
+Wood Elf
+Level 1. Your Speed increases to 35 feet. You also know the Druidcraft cantrip.
+Level 3. Longstrider
+Level 5. Pass without Trace
+Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).",,todo
+trait.fey-ancestry.name,Fey Ancestry,,todo
+trait.fey-ancestry.description,You have Advantage on saving throws you make to avoid or end the Charmed condition.,,todo
+trait.fiendish-legacy.name,Fiendish Legacy,,todo
+trait.fiendish-legacy.description,"You are the recipient of a legacy that grants you supernatural abilities. Choose a legacy from the Fiendish Legacies table. You gain the level 1 benefit of the chosen legacy.
+When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table.
+You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level.
+Intelligence, Wisdom, or Charisma is your spell-casting ability for the spells you cast with this trait (choose the ability when you select the legacy).
+Fiendish Legacies
+Abyssal.
+Level 1. You have Resistance to Poison damage. You also know the Poison Spray cantrip.
+Level 3. Ray of Sickness
+Level 5. Hold Person
+Chthonic.
+Level 1. You have Resistance to Necrotic damage. You also know the Chill Touch cantrip.
+Level 3. False Life
+Level 5. Ray of Enfeeblement
+Infernal.
+Level 1. You have Resistance to Fire damage. You also know the Fire Bolt cantrip.
+Level 3. Hellish Rebuke
+Level 5. Darkness",,todo
+trait.giant-ancestry.name,Giant Ancestry,,todo
+trait.giant-ancestry.description,"You are descended from Giants. Choose one of the following benefits-a supernatural boon from your ancestry; you can use the chosen benefit a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest:
+Cloud's Jaunt (Cloud Giant). As a Bonus Action, you magically teleport up to 30 feet to an unoccupied space you can see.
+Fire's Burn (Fire Giant). When you hit a target with an attack roll and deal damage to it, you can also deal 1d10 Fire damage to that target.
+Frost's Chill (Frost Giant). When you hit a target with an attack roll and deal damage to it, you can also deal 1d6 Cold damage to that target and reduce its Speed by 10 feet until the start of your next turn.
+Hill's Tumble (Hill Giant). When you hit a Large or smaller creature with an attack roll and deal damage to it, you can give that target the Prone condition.
+Stone's Endurance (Stone Giant). When you take damage, you can take a Reaction to roll 1d12. Add your Constitution modifier to the number rolled and reduce the damage by that total.
+- Storm's Thunder (Storm Giant). When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature.",,todo
+trait.giant-ancestry-clouds-jaunt.name,Giant Ancestry: Cloud's Jaunt,,todo
+trait.giant-ancestry-clouds-jaunt.description,"As a Bonus Action, you magically teleport up to 30 feet to an unoccupied space you can see.",,todo
+trait.giant-ancestry-fires-burn.name,Giant Ancestry: Fire's Burn,,todo
+trait.giant-ancestry-fires-burn.description,"When you hit a target with an attack roll and deal damage to it, you can also deal 1d10 Fire damage to that target.",,todo
+trait.giant-ancestry-frosts-chill.name,Giant Ancestry: Frost's Chill,,todo
+trait.giant-ancestry-frosts-chill.description,"When you hit a target with an attack roll and deal damage to it, you can also deal 1d6 Cold damage to that target and reduce its Speed by 10 feet until the start of your next turn.",,todo
+trait.giant-ancestry-hills-tumble.name,Giant Ancestry: Hill's Tumble,,todo
+trait.giant-ancestry-hills-tumble.description,"When you hit a Large or smaller creature with an attack roll and deal damage to it, you can give that target the Prone condition.",,todo
+trait.giant-ancestry-stones-endurance.name,Giant Ancestry: Stone's Endurance,,todo
+trait.giant-ancestry-stones-endurance.description,"When you take damage, you can take a Reaction to roll 1d12. Add your Constitution modifier to the number rolled and reduce the damage by that total.",,todo
+trait.giant-ancestry-storms-thunder.name,Giant Ancestry: Storm's Thunder,,todo
+trait.giant-ancestry-storms-thunder.description,"When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature.",,todo
+trait.gnomish-cunning.name,Gnomish Cunning,,todo
+trait.gnomish-cunning.description,"You have Advantage on Intelligence, Wisdom, and Charisma saving throws.",,todo
+trait.gnomish-lineage.name,Gnomish Lineage,,todo
+trait.gnomish-lineage.description,"You are part of a lineage that grants you supernatural abilities. Choose one of the following options; whichever one you choose, Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage):
+Forest Gnome. You know the Minor Illusion cantrip. You also always have the Speak with Animals spell prepared. You can cast it without a spell slot a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest. You can also use any spell slots you have to cast the spell.
+Rock Gnome. You know the Mending and Prestidigitation cantrips. In addition, you can spend 10 minutes casting Prestidigitation to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from Prestidigitation; the device produces that effect whenever you or another creature takes a Bonus Action to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it.
+For example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a Utilize action.",,todo
+trait.gnomish-lineage-forest-gnome.name,Gnomish Lineage: Forest Gnome,,todo
+trait.gnomish-lineage-forest-gnome.description,"You always have the Speak with Animals spell prepared. You can cast it without a spell slot a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest. You can also use any spell slots you have to cast the spell.",,todo
+trait.gnomish-lineage-rock-gnome.name,Gnomish Lineage: Rock Gnome,,todo
+trait.gnomish-lineage-rock-gnome.description,"You know the Prestidigitation cantrip. In addition, you can spend 10 minutes casting Prestidigitation to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from Prestidigitation; the device produces that effect whenever you or another creature takes a Bonus Action to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it. For example, if you choose the spell’s ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn’t do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a Utilize action.",,todo
+trait.halfling-nimbleness.name,Halfling Nimbleness,,todo
+trait.halfling-nimbleness.description,"You can move through the space of any creature that is a size larger than you, but you can't stop in the same space.",,todo
+trait.high-elf-cantrip-versatility.name,High Elf: Cantrip Versatility,,todo
+trait.high-elf-cantrip-versatility.description,"You know the Prestidigitation cantrip. Whenever you finish a Long Rest, you can replace that cantrip with a different cantrip from the Wizard spell list.",,todo
+trait.keen-senses.name,Keen Senses,,todo
+trait.keen-senses.description,"You have proficiency in the Insight, Perception, or Survival skill.",,todo
+trait.keen-senses.proficiencyChoice.0.desc,"Choose one of the following skills: Insight, Perception, or Survival.",,todo
+trait.large-form.name,Large Form,,todo
+trait.large-form.description,"Starting at character level 5, you can change your size to Large as a Bonus Action if you're in a big enough space. This transformation lasts for 10 minutes or until you end it (no action required). For that duration, you have Advantage on Strength checks, and your Speed increases by 10 feet. Once you use this trait, you can't use it again until you finish a Long Rest.",,todo
+trait.lineage-resistance-fire.name,Damage Resistance: Fire,,todo
+trait.lineage-resistance-fire.description,You have Resistance to Fire damage.,,todo
+trait.lineage-resistance-necrotic.name,Damage Resistance: Necrotic,,todo
+trait.lineage-resistance-necrotic.description,You have Resistance to Necrotic damage.,,todo
+trait.lineage-resistance-poison.name,Damage Resistance: Poison,,todo
+trait.lineage-resistance-poison.description,You have Resistance to Poison damage.,,todo
+trait.lineage-spell-chill-touch.name,Chill Touch,,todo
+trait.lineage-spell-chill-touch.description,You know the spell Chill Touch.,,todo
+trait.lineage-spell-dancing-lights.name,Dancing Lights,,todo
+trait.lineage-spell-dancing-lights.description,You know the spell Dancing Lights.,,todo
+trait.lineage-spell-darkness.name,Darkness,,todo
+trait.lineage-spell-darkness.description,You know the spell Darkness.,,todo
+trait.lineage-spell-detect-magic.name,Detect Magic,,todo
+trait.lineage-spell-detect-magic.description,You know the spell Detect Magic.,,todo
+trait.lineage-spell-faerie-fire.name,Faerie Fire,,todo
+trait.lineage-spell-faerie-fire.description,You know the spell Faerie Fire.,,todo
+trait.lineage-spell-false-life.name,False Life,,todo
+trait.lineage-spell-false-life.description,You know the spell False Life.,,todo
+trait.lineage-spell-fire-bolt.name,Fire Bolt,,todo
+trait.lineage-spell-fire-bolt.description,You know the spell Fire Bolt.,,todo
+trait.lineage-spell-hellish-rebuke.name,Hellish Rebuke,,todo
+trait.lineage-spell-hellish-rebuke.description,You know the spell Hellish Rebuke.,,todo
+trait.lineage-spell-hold-person.name,Hold Person,,todo
+trait.lineage-spell-hold-person.description,You know the spell Hold Person.,,todo
+trait.lineage-spell-longstrider.name,Longstrider,,todo
+trait.lineage-spell-longstrider.description,You learn the spell Longstrider.,,todo
+trait.lineage-spell-mending.name,Mending,,todo
+trait.lineage-spell-mending.description,You know the cantrip Mending.,,todo
+trait.lineage-spell-minor-illusion.name,Minor Illusion,,todo
+trait.lineage-spell-minor-illusion.description,You know the spell Minor Illusion.,,todo
+trait.lineage-spell-misty-step.name,Misty Step,,todo
+trait.lineage-spell-misty-step.description,You know the spell Misty Step.,,todo
+trait.lineage-spell-pass-without-trace.name,Pass without Trace,,todo
+trait.lineage-spell-pass-without-trace.description,You learn the spell Pass without Trace.,,todo
+trait.lineage-spell-poison-spray.name,Poison Spray,,todo
+trait.lineage-spell-poison-spray.description,You know the spell Poison Spray.,,todo
+trait.lineage-spell-ray-of-enfeeblement.name,Ray of Enfeeblement,,todo
+trait.lineage-spell-ray-of-enfeeblement.description,You know the spell Ray of Enfeeblement.,,todo
+trait.lineage-spell-ray-of-sickness.name,Ray of Sickness,,todo
+trait.lineage-spell-ray-of-sickness.description,You know the spell Ray of Sickness.,,todo
+trait.luck.name,Luck,,todo
+trait.luck.description,"When you roll a 1 on the d20 of a D20 Test, you can reroll the die, and you must use the new roll.",,todo
+trait.naturally-stealthy.name,Naturally Stealthy,,todo
+trait.naturally-stealthy.description,You can take the Hide action even when you are obscured only by a creature that is at least one size larger than you.,,todo
+trait.otherworldly-presence.name,Otherworldly Presence,,todo
+trait.otherworldly-presence.description,"You know the Thaumaturgy cantrip. When you cast it with this trait, the spell uses the same spellcasting ability you use for your Fiendish Legacy trait.",,todo
+trait.powerful-build.name,Powerful Build,,todo
+trait.powerful-build.description,You have Advantage on any ability check you make to end the Grappled condition. You also count as one size larger when determining your carrying capacity.,,todo
+trait.relentless-endurance.name,Relentless Endurance,,todo
+trait.relentless-endurance.description,"When you are reduced to 0 Hit Points but not killed outright, you can drop to 1 Hit Point instead. Once you use this trait, you can't do so again until you finish a Long Rest.",,todo
+trait.resourceful.name,Resourceful,,todo
+trait.resourceful.description,You gain Heroic Inspiration whenever you finish a Long Rest.,,todo
+trait.skillful.name,Skillful,,todo
+trait.skillful.description,You gain proficiency in one skill of your choice.,,todo
+trait.skillful.proficiencyChoice.0.desc,Choose any skill.,,todo
+trait.stonecunning.name,Stonecunning,,todo
+trait.stonecunning.description,"As a Bonus Action, you gain Tremorsense with a range of 60 feet for 10 minutes. You must be on a stone surface or touching a stone surface to use this Tremorsense. The stone can be natural or worked.
+You can use this Bonus Action a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
+trait.trance.name,Trance,,todo
+trait.trance.description,"You don't need to sleep, and magic can't put you to sleep. You can finish a Long Rest in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness.",,todo
+trait.versatile.name,Versatile,,todo
+trait.versatile.description,"You gain an Origin feat of your choice (see ""Feats""). Skilled is recommended.",,todo
+trait.wood-elf-speed-increase.name,Wood Elf: Movement Speed Increase,,todo
+trait.wood-elf-speed-increase.description,Your Movement Speed increases to 35 feet.,,todo
+background.acolyte.name,Acolyte,,todo
+background.acolyte.equipment.0.desc,"Choose A or B: (A) Calligrapher's Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP; or (B) 50 GP",,todo
+background.criminal.name,Criminal,,todo
+background.criminal.equipment.0.desc,"Choose A or B: (A) 2 Daggers, Thieves' Tools, Crowbar, 2 Pouches, Traveler's Clothes, 16 GP; or (B) 50 GP",,todo
+background.sage.name,Sage,,todo
+background.sage.equipment.0.desc,"Choose A or B: (A) Quarterstaff, Calligrapher's Supplies, Book (history), Parchment (8 sheets), Robe, 8 GP; or (B) 50 GP",,todo
+background.soldier.name,Soldier,,todo
+background.soldier.proficiencyChoice.0.desc,"Choose one kind of Gaming Set (see ""Equipment"")",,todo
+background.soldier.equipment.0.desc,"Choose A or B: (A) Spear, Shortbow, 20 Arrows, Gaming Set (same as above), Healer's Kit, Quiver, Traveler's Clothes, 14 GP; or (B) 50 GP",,todo
+feat.ability-score-improvement.name,Ability Score Improvement,,todo
+feat.ability-score-improvement.description,"Increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. This feat can't increase an ability score above 20.",,todo
+feat.ability-score-improvement.repeatable,You can take this feat more than once.,,todo
+feat.alert.name,Alert,,todo
+feat.alert.description,"You gain the following benefits.
+**Initiative Proficiency.** When you roll Initiative, you can add your Proficiency Bonus to the roll.
+**Initiative Swap.** Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can't make this swap if you or the ally has the Incapacitated condition.",,todo
+feat.archery.name,Archery,,todo
+feat.archery.description,You gain a +2 bonus to attack rolls you make with Ranged weapons.,,todo
+feat.boon-of-combat-prowess.name,Boon of Combat Prowess,,todo
+feat.boon-of-combat-prowess.description,"You gain the following benefits.
+**Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
+**Peerless Aim.** When you miss with an attack roll, you can hit instead. Once you use this benefit, you can't use it again until the start of your next turn.",,todo
+feat.boon-of-dimensional-travel.name,Boon of Dimensional Travel,,todo
+feat.boon-of-dimensional-travel.description,"You gain the following benefits.
+**Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
+**Blink Steps.** Immediately after you take the Attack action or the Magic action, you can teleport up to 30 feet to an unoccupied space you can see.",,todo
+feat.boon-of-fate.name,Boon of Fate,,todo
+feat.boon-of-fate.description,"You gain the following benefits.
+**Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
+**Improve Fate.** When you or another creature within 60 feet of you succeeds on or fails a D20 Test, you can roll 2d4 and apply the total rolled as a bonus or penalty to the d20 roll. Once you use this benefit, you can't use it again until you roll Initiative or finish a Short or Long Rest.",,todo
+feat.boon-of-irresistible-offense.name,Boon of Irresistible Offense,,todo
+feat.boon-of-irresistible-offense.description,"You gain the following benefits.
+**Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
+**Overcome Defenses.** The Bludgeoning, Piercing, and Slashing damage you deal always ignores Resistance.
+**Overwhelming Strike.** When you roll a 20 on the d20 for an attack roll, you can deal extra damage to the target equal to the ability score increased by this feat. The extra damage's type is the same as the attack's type.",,todo
+feat.boon-of-spell-recall.name,Boon of Spell Recall,,todo
+feat.boon-of-spell-recall.description,"You gain the following benefits.
+**Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
+**Free Casting.** Whenever you cast a spell with a level 1–4 spell slot, roll 1d4. If the number you roll is the same as the slot's level, the slot isn't expended.",,todo
+feat.boon-of-the-night-spirit.name,Boon of the Night Spirit,,todo
+feat.boon-of-the-night-spirit.description,"You gain the following benefits.
+**Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
+**Merge with Shadows.** While within Dim Light or Darkness, you can give yourself the Invisible condition as a Bonus Action. The condition ends on you immediately after you take an action, a Bonus Action, or a Reaction.
+**Shadowy form.** While within Dim Light or Darkness, you have Resistance to all damage except Psychic and Radiant.",,todo
+feat.boon-of-truesight.name,Boon of Truesight,,todo
+feat.boon-of-truesight.description,"You gain the following benefits.
+**Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
+**Truesight.** You have Truesight with a range of 60 feet.",,todo
+feat.defense.name,Defense,,todo
+feat.defense.description,"While you're wearing Light, Medium, or Heavy armor, you gain a +1 bonus to Armor Class.",,todo
+feat.grappler.prerequisite.desc,Strength or Dexterity 13+,,todo
+feat.grappler.name,Grappler,,todo
+feat.grappler.description,"You gain the following benefits.
+**Ability Score Increase.** Increase your Strength or Dexterity score by 1, to a maximum of 20.
+**Punch and Grab.** When you hit a creature with an Unarmed Strike as part of the Attack action on your turn, you can use both the Damage and the Grapple option. You can use this benefit only once per turn.
+**Attack Advantage.** You have Advantage on attack rolls against a creature Grappled by you.
+**Fast Wrestler.** You don't have to spend extra movement to move a creature Grappled by you if the creature is your size or smaller.",,todo
+feat.great-weapon-fighting.name,Great Weapon Fighting,,todo
+feat.great-weapon-fighting.description,"When you roll damage for an attack you make with a Melee weapon that you are holding with two hands, you can treat any 1 or 2 on a damage die as a 3. The weapon must have the Two-Handed or Versatile property to gain this benefit.",,todo
+feat.magic-initiate.name,Magic Initiate,,todo
+feat.magic-initiate.description,"You gain the following benefits.
+**Two Cantrips.** You learn two cantrips of your choice from the Cleric, Druid, or Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).
+**Level 1 Spell.** Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.
+**Spell Change.** Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.",,todo
+feat.magic-initiate.repeatable,"You can take this feat more than once, but you must choose a different spell list each time.",,todo
+feat.savage-attacker.name,Savage Attacker,,todo
+feat.savage-attacker.description,"You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.",,todo
+feat.skilled.name,Skilled,,todo
+feat.skilled.description,You gain proficiency in any combination of three skills or tools of your choice.,,todo
+feat.skilled.repeatable,You can take this feat more than once.,,todo
+feat.two-weapon-fighting.name,Two Weapon Fighting,,todo
+feat.two-weapon-fighting.description,"When you make an extra attack as a result of using a weapon that has the Light property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.",,todo
