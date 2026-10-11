@@ -4,6 +4,7 @@ import type { AbilityId, CharacterClass, Content, Equipment } from '@/content/ty
 import { abilityModifier, applyIncreases, modifiers, proficiencyBonus } from './abilities';
 import { ABILITY_IDS, totalLevel, type AbilityScores, type Character } from './character';
 import { passiveScore, savingThrow, skillBonus } from './checks';
+import { CHOICE_KEYS, chosenProficiencyIds, featureOptionProficiencies } from './choices';
 import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack, type WeaponAttack } from './combat';
 import { effectsOf } from './effects';
 import { characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
@@ -69,6 +70,40 @@ export function finalAbilityScores(c: Character): AbilityScores {
   return applyIncreases(c.baseAbilities, c.backgroundBonuses, ...c.feats.map((f) => f.abilityIncreases ?? {}));
 }
 
+/** id всех владений персонажа: класс, предыстория, выборы мастера, варианты умений. */
+export function proficiencyIds(c: Character, content: Content): Set<string> {
+  const idx = indexOf(content);
+  const background = idx.backgrounds.get(c.backgroundId);
+  return new Set<string>([
+    // Стартовый класс даёт все свои владения, остальные — владения для мультикласса.
+    ...c.classes.flatMap((e, i) => {
+      const cls = idx.classes.get(e.classId);
+      return (i === 0 ? cls?.proficiencies : cls?.multiclass.proficiencies) ?? [];
+    }),
+    ...(background?.proficiencies ?? []),
+    ...c.toolProficiencies,
+    ...chosenProficiencyIds(c),
+    ...featureOptionProficiencies(c),
+  ]);
+}
+
+/** Проверка владения предметом (оружием, доспехом) по набору владений. */
+export function makeProficiencyCheck(profIds: Set<string>, content: Content): (item: Equipment) => boolean {
+  const idx = indexOf(content);
+  const refs = new Set<string>();
+  for (const id of profIds) {
+    const ref = idx.proficiencies.get(id)?.refId;
+    if (ref) refs.add(ref);
+  }
+  return (item) => refs.has(item.id) || item.categories.some((cat) => refs.has(cat));
+}
+
+/** Черты происхождения: черта предыстории и черта от «Универсальности» человека. */
+export function originFeatIds(c: Character, content: Content): string[] {
+  const background = indexOf(content).backgrounds.get(c.backgroundId);
+  return [background?.featId, ...(c.choices[CHOICE_KEYS.versatileFeat] ?? [])].filter((x): x is string => !!x);
+}
+
 export function computeSheet(c: Character, content: Content): CharacterSheet {
   const idx = indexOf(content);
   const level = totalLevel(c.classes);
@@ -95,7 +130,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   }
   for (const id of species.traits) features.push({ id, source: 'species' });
   for (const t of subspecies?.traits ?? []) if (t.level <= level) features.push({ id: t.id, source: 'species' });
-  for (const id of [background.featId, ...c.feats.map((f) => f.featId)]) features.push({ id, source: 'feat' });
+  for (const id of [...originFeatIds(c, content), ...c.feats.map((f) => f.featId)]) features.push({ id, source: 'feat' });
   const effects = effectsOf(features.map((f) => f.id));
 
   // --- Характеристики и спасброски ---
@@ -109,18 +144,8 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   }
 
   // --- Владения ---
-  // Стартовый класс даёт все свои владения, остальные — владения для мультикласса.
-  const profIds = new Set<string>([
-    ...classes.flatMap(({ cls }, i) => (i === 0 ? cls.proficiencies : cls.multiclass.proficiencies)),
-    ...background.proficiencies,
-    ...c.toolProficiencies,
-  ]);
-  const profRefs = new Set<string>();
-  for (const id of profIds) {
-    const ref = idx.proficiencies.get(id)?.refId;
-    if (ref) profRefs.add(ref);
-  }
-  const isProficient = (item: Equipment) => profRefs.has(item.id) || item.categories.some((cat) => profRefs.has(cat));
+  const profIds = proficiencyIds(c, content);
+  const isProficient = makeProficiencyCheck(profIds, content);
 
   // --- Навыки ---
   const skillProfs = new Set<string>(c.skillProficiencies);

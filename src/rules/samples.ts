@@ -11,10 +11,13 @@ export function irmaLevel1(): Character {
     abilityMethod: 'standard',
     baseAbilities: { str: 8, dex: 15, con: 14, int: 13, wis: 12, cha: 10 },
     backgroundBonuses: { dex: 2, int: 1 },
-    // Навыки плута на выбор (4). Ловкость рук и Скрытность даёт предыстория.
-    skillProficiencies: ['acrobatics', 'investigation', 'perception', 'deception'],
+    choices: {
+      // Навыки плута на выбор (4). Ловкость рук и Скрытность даёт предыстория.
+      'class.rogue.prof.0': ['skill-acrobatics', 'skill-investigation', 'skill-perception', 'skill-deception'],
+    },
+    skillProficiencies: [],
     expertise: ['stealth', 'sleight-of-hand'],
-    languages: ['common'],
+    languages: ['common', 'halfling', 'elvish'],
     toolProficiencies: [],
     feats: [],
     weaponMasteries: ['shortsword', 'dagger'],

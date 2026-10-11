@@ -1,37 +1,37 @@
 ﻿key,en,ru,status
-species.dragonborn.name,Dragonborn,,todo
-species.dwarf.name,Dwarf,,todo
-species.elf.name,Elf,,todo
-species.gnome.name,Gnome,,todo
-species.goliath.name,Goliath,,todo
-species.halfling.name,Halfling,,todo
-species.human.name,Human,,todo
-species.orc.name,Orc,,todo
-species.tiefling.name,Tiefling,,todo
-subspecies.draconic-ancestor-black.name,Draconic Ancestor: Black,,todo
-subspecies.draconic-ancestor-blue.name,Draconic Ancestor: Blue,,todo
-subspecies.draconic-ancestor-brass.name,Draconic Ancestor: Brass,,todo
-subspecies.draconic-ancestor-bronze.name,Draconic Ancestor: Bronze,,todo
-subspecies.draconic-ancestor-copper.name,Draconic Ancestor: Copper,,todo
-subspecies.draconic-ancestor-gold.name,Draconic Ancestor: Gold,,todo
-subspecies.draconic-ancestor-green.name,Draconic Ancestor: Green,,todo
-subspecies.draconic-ancestor-red.name,Draconic Ancestor: Red,,todo
-subspecies.draconic-ancestor-silver.name,Draconic Ancestor: Silver,,todo
-subspecies.draconic-ancestor-white.name,Draconic Ancestor: White,,todo
-subspecies.elven-lineage-drow.name,Elven Lineage: Drow,,todo
-subspecies.elven-lineage-high-elf.name,Elven Lineage: High Elf,,todo
-subspecies.elven-lineage-wood-elf.name,Elven Lineage: Wood Elf,,todo
-subspecies.fiendish-legacy-abyssal.name,Fiendish Legacy: Abyssal,,todo
-subspecies.fiendish-legacy-chthonic.name,Fiendish Legacy: Chthonic,,todo
-subspecies.fiendish-legacy-infernal.name,Fiendish Legacy: Infernal,,todo
-subspecies.giant-ancestry-clouds-jaunt.name,Giant Ancestry: Cloud's Jaunt,,todo
-subspecies.giant-ancestry-fires-burn.name,Giant Ancestry: Fire's Burn,,todo
-subspecies.giant-ancestry-frosts-chill.name,Giant Ancestry: Frost's Chill,,todo
-subspecies.giant-ancestry-hills-tumble.name,Giant Ancestry: Hill's Tumble,,todo
-subspecies.giant-ancestry-stones-endurance.name,Giant Ancestry: Stone's Endurance,,todo
-subspecies.giant-ancestry-storms-thunder.name,Giant Ancestry: Storm's Thunder,,todo
-subspecies.gnomish-lineage-forest-gnome.name,Gnomish Lineage: Forest Gnome,,todo
-subspecies.gnomish-lineage-rock-gnome.name,Gnomish Lineage: Rock Gnome,,todo
+species.dragonborn.name,Dragonborn,Драконорождённый,draft
+species.dwarf.name,Dwarf,Дварф,draft
+species.elf.name,Elf,Эльф,draft
+species.gnome.name,Gnome,Гном,draft
+species.goliath.name,Goliath,Голиаф,draft
+species.halfling.name,Halfling,Полурослик,draft
+species.human.name,Human,Человек,draft
+species.orc.name,Orc,Орк,draft
+species.tiefling.name,Tiefling,Тифлинг,draft
+subspecies.draconic-ancestor-black.name,Draconic Ancestor: Black,Предок: чёрный дракон,draft
+subspecies.draconic-ancestor-blue.name,Draconic Ancestor: Blue,Предок: синий дракон,draft
+subspecies.draconic-ancestor-brass.name,Draconic Ancestor: Brass,Предок: латунный дракон,draft
+subspecies.draconic-ancestor-bronze.name,Draconic Ancestor: Bronze,Предок: бронзовый дракон,draft
+subspecies.draconic-ancestor-copper.name,Draconic Ancestor: Copper,Предок: медный дракон,draft
+subspecies.draconic-ancestor-gold.name,Draconic Ancestor: Gold,Предок: золотой дракон,draft
+subspecies.draconic-ancestor-green.name,Draconic Ancestor: Green,Предок: зелёный дракон,draft
+subspecies.draconic-ancestor-red.name,Draconic Ancestor: Red,Предок: красный дракон,draft
+subspecies.draconic-ancestor-silver.name,Draconic Ancestor: Silver,Предок: серебряный дракон,draft
+subspecies.draconic-ancestor-white.name,Draconic Ancestor: White,Предок: белый дракон,draft
+subspecies.elven-lineage-drow.name,Elven Lineage: Drow,Родословная: дроу,draft
+subspecies.elven-lineage-high-elf.name,Elven Lineage: High Elf,Родословная: высший эльф,draft
+subspecies.elven-lineage-wood-elf.name,Elven Lineage: Wood Elf,Родословная: лесной эльф,draft
+subspecies.fiendish-legacy-abyssal.name,Fiendish Legacy: Abyssal,Наследие: Бездна,draft
+subspecies.fiendish-legacy-chthonic.name,Fiendish Legacy: Chthonic,Наследие: хтоническое,draft
+subspecies.fiendish-legacy-infernal.name,Fiendish Legacy: Infernal,Наследие: Преисподняя,draft
+subspecies.giant-ancestry-clouds-jaunt.name,Giant Ancestry: Cloud's Jaunt,Великан: облачный шаг,draft
+subspecies.giant-ancestry-fires-burn.name,Giant Ancestry: Fire's Burn,Великан: огненный ожог,draft
+subspecies.giant-ancestry-frosts-chill.name,Giant Ancestry: Frost's Chill,Великан: морозный холод,draft
+subspecies.giant-ancestry-hills-tumble.name,Giant Ancestry: Hill's Tumble,Великан: холмовой удар,draft
+subspecies.giant-ancestry-stones-endurance.name,Giant Ancestry: Stone's Endurance,Великан: каменная стойкость,draft
+subspecies.giant-ancestry-storms-thunder.name,Giant Ancestry: Storm's Thunder,Великан: штормовой гром,draft
+subspecies.gnomish-lineage-forest-gnome.name,Gnomish Lineage: Forest Gnome,Родословная: лесной гном,draft
+subspecies.gnomish-lineage-rock-gnome.name,Gnomish Lineage: Rock Gnome,Родословная: скальный гном,draft
 trait.adrenaline-rush.name,Adrenaline Rush,,todo
 trait.adrenaline-rush.description,"You can take the Dash action as a Bonus Action. When you do so, you gain a number of Temporary Hit Points equal to your Proficiency Bonus.
 You can use this trait a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Short or Long Rest.",,todo
@@ -228,23 +228,23 @@ trait.versatile.name,Versatile,,todo
 trait.versatile.description,"You gain an Origin feat of your choice (see ""Feats""). Skilled is recommended.",,todo
 trait.wood-elf-speed-increase.name,Wood Elf: Movement Speed Increase,,todo
 trait.wood-elf-speed-increase.description,Your Movement Speed increases to 35 feet.,,todo
-background.acolyte.name,Acolyte,,todo
+background.acolyte.name,Acolyte,Прислужник,draft
 background.acolyte.equipment.0.desc,"Choose A or B: (A) Calligrapher's Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP; or (B) 50 GP",,todo
-background.criminal.name,Criminal,,todo
+background.criminal.name,Criminal,Преступник,draft
 background.criminal.equipment.0.desc,"Choose A or B: (A) 2 Daggers, Thieves' Tools, Crowbar, 2 Pouches, Traveler's Clothes, 16 GP; or (B) 50 GP",,todo
-background.sage.name,Sage,,todo
+background.sage.name,Sage,Мудрец,draft
 background.sage.equipment.0.desc,"Choose A or B: (A) Quarterstaff, Calligrapher's Supplies, Book (history), Parchment (8 sheets), Robe, 8 GP; or (B) 50 GP",,todo
-background.soldier.name,Soldier,,todo
+background.soldier.name,Soldier,Солдат,draft
 background.soldier.proficiencyChoice.0.desc,"Choose one kind of Gaming Set (see ""Equipment"")",,todo
 background.soldier.equipment.0.desc,"Choose A or B: (A) Spear, Shortbow, 20 Arrows, Gaming Set (same as above), Healer's Kit, Quiver, Traveler's Clothes, 14 GP; or (B) 50 GP",,todo
-feat.ability-score-improvement.name,Ability Score Improvement,,todo
+feat.ability-score-improvement.name,Ability Score Improvement,Увеличение характеристик,draft
 feat.ability-score-improvement.description,"Increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. This feat can't increase an ability score above 20.",,todo
 feat.ability-score-improvement.repeatable,You can take this feat more than once.,,todo
-feat.alert.name,Alert,,todo
+feat.alert.name,Alert,Бдительность,draft
 feat.alert.description,"You gain the following benefits.
 **Initiative Proficiency.** When you roll Initiative, you can add your Proficiency Bonus to the roll.
 **Initiative Swap.** Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can't make this swap if you or the ally has the Incapacitated condition.",,todo
-feat.archery.name,Archery,,todo
+feat.archery.name,Archery,Стрельба,draft
 feat.archery.description,You gain a +2 bonus to attack rolls you make with Ranged weapons.,,todo
 feat.boon-of-combat-prowess.name,Boon of Combat Prowess,,todo
 feat.boon-of-combat-prowess.description,"You gain the following benefits.
@@ -276,27 +276,27 @@ feat.boon-of-truesight.name,Boon of Truesight,,todo
 feat.boon-of-truesight.description,"You gain the following benefits.
 **Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
 **Truesight.** You have Truesight with a range of 60 feet.",,todo
-feat.defense.name,Defense,,todo
+feat.defense.name,Defense,Оборона,draft
 feat.defense.description,"While you're wearing Light, Medium, or Heavy armor, you gain a +1 bonus to Armor Class.",,todo
 feat.grappler.prerequisite.desc,Strength or Dexterity 13+,,todo
-feat.grappler.name,Grappler,,todo
+feat.grappler.name,Grappler,Борец,draft
 feat.grappler.description,"You gain the following benefits.
 **Ability Score Increase.** Increase your Strength or Dexterity score by 1, to a maximum of 20.
 **Punch and Grab.** When you hit a creature with an Unarmed Strike as part of the Attack action on your turn, you can use both the Damage and the Grapple option. You can use this benefit only once per turn.
 **Attack Advantage.** You have Advantage on attack rolls against a creature Grappled by you.
 **Fast Wrestler.** You don't have to spend extra movement to move a creature Grappled by you if the creature is your size or smaller.",,todo
-feat.great-weapon-fighting.name,Great Weapon Fighting,,todo
+feat.great-weapon-fighting.name,Great Weapon Fighting,Сражение большим оружием,draft
 feat.great-weapon-fighting.description,"When you roll damage for an attack you make with a Melee weapon that you are holding with two hands, you can treat any 1 or 2 on a damage die as a 3. The weapon must have the Two-Handed or Versatile property to gain this benefit.",,todo
-feat.magic-initiate.name,Magic Initiate,,todo
+feat.magic-initiate.name,Magic Initiate,Посвящённый в магию,draft
 feat.magic-initiate.description,"You gain the following benefits.
 **Two Cantrips.** You learn two cantrips of your choice from the Cleric, Druid, or Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).
 **Level 1 Spell.** Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.
 **Spell Change.** Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.",,todo
 feat.magic-initiate.repeatable,"You can take this feat more than once, but you must choose a different spell list each time.",,todo
-feat.savage-attacker.name,Savage Attacker,,todo
+feat.savage-attacker.name,Savage Attacker,Свирепый атакующий,draft
 feat.savage-attacker.description,"You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.",,todo
-feat.skilled.name,Skilled,,todo
+feat.skilled.name,Skilled,Одарённый,draft
 feat.skilled.description,You gain proficiency in any combination of three skills or tools of your choice.,,todo
 feat.skilled.repeatable,You can take this feat more than once.,,todo
-feat.two-weapon-fighting.name,Two Weapon Fighting,,todo
+feat.two-weapon-fighting.name,Two Weapon Fighting,Сражение двумя оружиями,draft
 feat.two-weapon-fighting.description,"When you make an extra attack as a result of using a weapon that has the Light property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.",,todo

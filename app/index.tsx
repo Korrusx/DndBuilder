@@ -4,7 +4,7 @@ import { ActivityIndicator, Alert } from 'react-native';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { CharacterCard } from '@/components/CharacterCard';
-import { CREATE_STEPS } from '@/components/CreateStep';
+import { CREATE_STEPS } from '@/components/wizard/steps';
 import { Placeholder } from '@/components/Placeholder';
 import { Screen } from '@/components/Screen';
 import { content } from '@/content';

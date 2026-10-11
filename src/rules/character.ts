@@ -59,13 +59,24 @@ export type Character = {
   baseAbilities: AbilityScores;
   /** Распределение бонусов предыстории: +2/+1 или +1/+1/+1. */
   backgroundBonuses: Partial<AbilityScores>;
+  /** Результаты бросков 4к6 (метод «Броски»), чтобы при возврате к шагу не перебрасывать. */
+  abilityRolls?: number[];
+  /** Размер, если вид позволяет выбрать (тифлинг: Маленький или Средний). */
+  size?: string;
 
-  /** Навыки, выбранные игроком (id навыков: 'stealth'). Навыки предыстории сюда не входят. */
+  /**
+   * Выборы мастера создания «ключ → выбранные id»: навыки и инструменты на выбор, варианты умений,
+   * черта от особенности «Универсальность», заклинания черты «Посвящённый в магию», стартовое снаряжение.
+   * Ключи описаны в src/rules/choices.ts.
+   */
+  choices: Record<string, string[]>;
+
+  /** Дополнительные навыки (id навыков: 'stealth'). Навыки на выбор из мастера лежат в `choices`. */
   skillProficiencies: string[];
   /** Навыки с компетентностью. */
   expertise: string[];
   languages: string[];
-  /** Выбранные владения инструментами (id владений: 'tool-dice'). */
+  /** Дополнительные владения инструментами (id владений: 'tool-dice'). Выбор из мастера — в `choices`. */
   toolProficiencies: string[];
   feats: FeatChoice[];
   /** Оружие, для которого выбраны приёмы (id предметов). */
@@ -109,8 +120,10 @@ export function newDraftCharacter(id: string, now: string): Character {
     speciesId: '',
     backgroundId: '',
     abilityMethod: 'standard',
-    baseAbilities: { str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 },
+    // 0 — значение ещё не назначено.
+    baseAbilities: { str: 0, dex: 0, con: 0, int: 0, wis: 0, cha: 0 },
     backgroundBonuses: {},
+    choices: {},
     skillProficiencies: [],
     expertise: [],
     languages: [],

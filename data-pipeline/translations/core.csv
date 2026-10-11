@@ -54,55 +54,55 @@ skill.stealth.description,Escape notice by moving quietly and hiding behind thin
 skill.survival.name,Survival,Выживание,done
 skill.survival.description,"Follow tracks, forage, find a trail, or avoid natural hazards.",,todo
 alignment.chaotic-evil.abbr,CE,,todo
-alignment.chaotic-evil.name,Chaotic Evil,,todo
+alignment.chaotic-evil.name,Chaotic Evil,Хаотично-злое,draft
 alignment.chaotic-evil.description,"Chaotic Evil creatures act with arbitrary violence, spurred by their hatred or bloodlust. A villain pursuing schemes of vengeance and havoc is probably Chaotic Evil.",,todo
 alignment.chaotic-good.abbr,CG,,todo
-alignment.chaotic-good.name,Chaotic Good,,todo
+alignment.chaotic-good.name,Chaotic Good,Хаотично-доброе,draft
 alignment.chaotic-good.description,Chaotic Good creatures act as their conscience directs with little regard for what others expect. A rebel who waylays a cruel baron's tax collectors and uses the stolen money to help the poor is probably Chaotic Good.,,todo
 alignment.chaotic-neutral.abbr,CN,,todo
-alignment.chaotic-neutral.name,Chaotic Neutral,,todo
+alignment.chaotic-neutral.name,Chaotic Neutral,Хаотично-нейтральное,draft
 alignment.chaotic-neutral.description,"Chaotic Neutral creatures follow their whims, valuing their personal freedom above all else. A scoundrel who wanders the land living by their wits is probably Chaotic Neutral.",,todo
 alignment.lawful-evil.abbr,LE,,todo
-alignment.lawful-evil.name,Lawful Evil,,todo
+alignment.lawful-evil.name,Lawful Evil,Законно-злое,draft
 alignment.lawful-evil.description,"Lawful Evil creatures methodically take what they want within the limits of a code of tradition, loyalty, or order. An aristocrat exploiting citizens while scheming for power is probably Lawful Evil.",,todo
 alignment.lawful-good.abbr,LG,,todo
-alignment.lawful-good.name,Lawful Good,,todo
+alignment.lawful-good.name,Lawful Good,Законно-доброе,draft
 alignment.lawful-good.description,Lawful Good creatures endeavor to do the right thing as expected by society. Someone who fights injustice and protects the innocent without hesitation is probably Lawful Good.,,todo
 alignment.lawful-neutral.abbr,LN,,todo
-alignment.lawful-neutral.name,Lawful Neutral,,todo
+alignment.lawful-neutral.name,Lawful Neutral,Законно-нейтральное,draft
 alignment.lawful-neutral.description,"Lawful Neutral individuals act in accordance with law, tradition, or personal codes. Someone who follows a disciplined rule of life—and isn't swayed either by the demands of those in need or by the temptations of evil—is probably Lawful Neutral.",,todo
 alignment.neutral.abbr,N,,todo
-alignment.neutral.name,Neutral,,todo
+alignment.neutral.name,Neutral,Нейтральное,draft
 alignment.neutral.description,"Neutral is the alignment of those who prefer to avoid moral questions and don't take sides, doing what seems best at the time. Someone who's bored by moral debate is probably Neutral.",,todo
 alignment.neutral-evil.abbr,NE,,todo
-alignment.neutral-evil.name,Neutral Evil,,todo
+alignment.neutral-evil.name,Neutral Evil,Нейтрально-злое,draft
 alignment.neutral-evil.description,Neutral Evil is the alignment of those who are untroubled by the harm they cause as they pursue their desires. A criminal who robs and murders as they please is probably Neutral Evil.,,todo
 alignment.neutral-good.abbr,NG,,todo
-alignment.neutral-good.name,Neutral Good,,todo
+alignment.neutral-good.name,Neutral Good,Нейтрально-доброе,draft
 alignment.neutral-good.description,"Neutral Good creatures do the best they can, working within rules but not feeling bound by them. A kindly person who helps others according to their needs is probably Neutral Good.",,todo
 alignment.unaligned.abbr,U,,todo
-alignment.unaligned.name,Unaligned,,todo
+alignment.unaligned.name,Unaligned,Без мировоззрения,draft
 alignment.unaligned.description,"Most creatures that lack the capacity for rational thought don't have alignments; they are unaligned. Sharks are savage predators, for example, but they aren't evil; they are unaligned.",,todo
-language.abyssal.name,Abyssal,,todo
-language.celestial.name,Celestial,,todo
-language.common.name,Common,,todo
-language.common-sign-language.name,Common Sign Language,,todo
-language.deep-speech.name,Deep Speech,,todo
-language.draconic.name,Draconic,,todo
-language.druidic.name,Druidic,,todo
-language.dwarvish.name,Dwarvish,,todo
-language.elvish.name,Elvish,,todo
-language.giant.name,Giant,,todo
-language.gnomish.name,Gnomish,,todo
-language.goblin.name,Goblin,,todo
-language.halfling.name,Halfling,,todo
-language.infernal.name,Infernal,,todo
-language.orc.name,Orc,,todo
-language.primordial.name,Primordial,,todo
+language.abyssal.name,Abyssal,Язык Бездны,draft
+language.celestial.name,Celestial,Небесный,draft
+language.common.name,Common,Общий,draft
+language.common-sign-language.name,Common Sign Language,Общий жестовый,draft
+language.deep-speech.name,Deep Speech,Глубинная речь,draft
+language.draconic.name,Draconic,Драконий,draft
+language.druidic.name,Druidic,Друидический,draft
+language.dwarvish.name,Dwarvish,Дварфийский,draft
+language.elvish.name,Elvish,Эльфийский,draft
+language.giant.name,Giant,Великаний,draft
+language.gnomish.name,Gnomish,Гномий,draft
+language.goblin.name,Goblin,Гоблинский,draft
+language.halfling.name,Halfling,Язык полуросликов,draft
+language.infernal.name,Infernal,Инфернальный,draft
+language.orc.name,Orc,Орочий,draft
+language.primordial.name,Primordial,Первичный,draft
 language.primordial.note,"Primordial includes the Aquan, Auran, Ignan, and Terran dialects. Creatures that know one of these dialects can communicate with those that know a different one.",,todo
-language.sylvan.name,Sylvan,,todo
-language.thieves-cant.name,Thieves' Cant,,todo
-language.undercommon.name,Undercommon,,todo
+language.sylvan.name,Sylvan,Сильван,draft
+language.thieves-cant.name,Thieves' Cant,Воровской жаргон,draft
+language.undercommon.name,Undercommon,Подземный общий,draft
 condition.blinded.name,Blinded,,todo
 condition.blinded.description,"While you have the Blinded condition, you experience the following effects.
 **Can't See.** You can't see and automatically fail any ability check that requires sight.

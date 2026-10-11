@@ -6,7 +6,7 @@ import { characterSummary, hpLevel } from '@/rules/summary';
 import { colors, fonts, radius, spacing } from '@/theme';
 import { AppText } from './AppText';
 import { Button } from './Button';
-import { CREATE_STEPS } from './CreateStep';
+import { CREATE_STEPS } from './wizard/steps';
 
 type Props = {
   character: Character;

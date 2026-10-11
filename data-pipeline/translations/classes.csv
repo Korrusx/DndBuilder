@@ -1,23 +1,23 @@
 ﻿key,en,ru,status
-class.barbarian.name,Barbarian,,todo
+class.barbarian.name,Barbarian,Варвар,draft
 class.barbarian.proficiencyChoice.0.desc,"Choose 2: Animal Handling, Athletics, Intimidation, Nature, Perception, or Survival",,todo
 class.barbarian.equipment.0.desc,"(a) Greataxe, 4 Handaxes, Explorer's Pack, and 15 GP or (b) 75 GP",,todo
-class.bard.name,Bard,,todo
+class.bard.name,Bard,Бард,draft
 class.bard.proficiencyChoice.0.desc,Choose any 3 skills,,todo
 class.bard.proficiencyChoice.1.desc,Three musical instruments of your choice,,todo
 class.bard.equipment.0.desc,"(a) Leather Armor, 2 Daggers, Musical Instrument of your choice, Entertainer’s Pack, and 19 GP; or (b) 90 GP",,todo
 class.bard.multiclass.proficiencyChoice.0.desc,skill,,todo
 class.bard.multiclass.proficiencyChoice.1.desc,musical instrument,,todo
-class.cleric.name,Cleric,,todo
+class.cleric.name,Cleric,Жрец,draft
 class.cleric.proficiencyChoice.0.desc,"Choose 2: History, Insight, Medicine, Persuasion, or Religion",,todo
 class.cleric.equipment.0.desc,"(a) Chain Shirt, Shield, Mace, Holy Symbol, Priest's Pack, and 7 GP; or (b) 110 GP",,todo
-class.druid.name,Druid,,todo
+class.druid.name,Druid,Друид,draft
 class.druid.proficiencyChoice.0.desc,"Choose 2: Arcana, Animal Handling, Insight, Medicine, Nature, Perception, Religion, or Survival",,todo
 class.druid.equipment.0.desc,"(a) Leather Armor, Shield, Sickle, Druidic Focus (Quarterstaff), Explorer's Pack, Herbalism Kit, and 9 GP; or (a) 50 GP",,todo
-class.fighter.name,Fighter,,todo
+class.fighter.name,Fighter,Воин,draft
 class.fighter.proficiencyChoice.0.desc,"Choose 2: Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, or Survival",,todo
 class.fighter.equipment.0.desc,"(a) Chain Mail, Greatsword, Flail, 8 Javelins, Dungeoneer’s Pack, and 4 GP; (b) Studded Leather Armor, Scimitar, Shortsword, Longbow, 20 Arrows, Quiver, Dungeoneer’s Pack, and 11 GP; or (c) 155 GP",,todo
-class.monk.name,Monk,,todo
+class.monk.name,Monk,Монах,draft
 class.monk.proficiencyChoice.0.desc,"Choose 2: Acrobatics, Athletics, History, Insight, Religion, or Stealth",,todo
 class.monk.proficiencyChoice.1.desc,Choose one type of artisanâ€™s tools or one musical instrument,,todo
 class.monk.proficiencyChoice.1.0.desc,artisan's tools,,todo
@@ -26,22 +26,22 @@ class.monk.equipment.0.desc,"(a) Spear, 5 Daggers, Artisan’s Tools or Musical 
 class.monk.equipment.0.0.2.desc,Artisan’s Tools or Musical Instrument,,todo
 class.monk.equipment.0.0.2.0.desc,An Artisan's Tool,,todo
 class.monk.equipment.0.0.2.1.desc,A Musical Instrument,,todo
-class.paladin.name,Paladin,,todo
+class.paladin.name,Paladin,Паладин,draft
 class.paladin.proficiencyChoice.0.desc,"Choose 2: Athletics, Insight, Intimidation, Medicine, Persuasion, or Religion",,todo
 class.paladin.equipment.0.desc,"(a) Chain Mail, Shield, Longsword, 6 Javelins, Holy Symbol, Priest’s Pack, and 9 GP; or (b) 150 GP",,todo
-class.ranger.name,Ranger,,todo
+class.ranger.name,Ranger,Следопыт,draft
 class.ranger.proficiencyChoice.0.desc,"Choose 3: Animal Handling, Athletics, Insight, Investigation, Nature, Perception, Stealth, or Survival",,todo
 class.ranger.equipment.0.desc,"(a) Studded Leather Armor, Scimitar, Shortsword, Longbow, 20 Arrows, Quiver, Druidic Focus (sprig of mistletoe), Explorer's Pack, and 7 GP; or (b) 150 GP",,todo
-class.rogue.name,Rogue,,todo
+class.rogue.name,Rogue,Плут,draft
 class.rogue.proficiencyChoice.0.desc,"Choose 4: Acrobatics, Athletics, Deception, Insight, Intimidation, Investigation, Perception, Performance, Persuasion, Sleight of Hand, or Stealth",,todo
 class.rogue.equipment.0.desc,"(a) Leather Armor, 2 Daggers, Shortsword, Shortbow, 20 Arrows, Quiver, Thieves’ Tools, Burglar’s Pack, and 8 GP; (b) 100 GP",,todo
-class.sorcerer.name,Sorcerer,,todo
+class.sorcerer.name,Sorcerer,Чародей,draft
 class.sorcerer.proficiencyChoice.0.desc,"Choose 2: Arcana, Deception, Insight, Intimidation, Persuasion, or Religion",,todo
 class.sorcerer.equipment.0.desc,"(a) Spear, 2 Daggers, Arcane Focus (crystal), Dungeoneer’s Pack, and 28 GP; or (b) 50 GP",,todo
-class.warlock.name,Warlock,,todo
+class.warlock.name,Warlock,Колдун,draft
 class.warlock.proficiencyChoice.0.desc,"Choose 2: from Arcana, Deception, History, Intimidation, Investigation, Nature, or Religion",,todo
 class.warlock.equipment.0.desc,"(a) Leather Armor, Sickle, 2 Daggers, Arcane Focus (orb), Book, Scholar’s Pack, and 15 GP; or (b) 100 GP",,todo
-class.wizard.name,Wizard,,todo
+class.wizard.name,Wizard,Волшебник,draft
 class.wizard.proficiencyChoice.0.desc,"Choose 2: Arcana, History, Insight, Investigation, Medicine, or Religion",,todo
 class.wizard.equipment.0.desc,"(a) 2 Daggers, Arcane Focus (Quarterstaff), Robe, Spellbook, Scholar’s Pack, and 5 GP; or (b) 55 GP",,todo
 feature.barbarian-rage.name,Rage,,todo
