@@ -46,8 +46,9 @@ export default function AboutScreen() {
       </AppText>
       <AppText variant="secondary">
         Кроме SRD, в справочник добавлена игровая механика {content.backgrounds.filter((b) => b.extra).length} предысторий и{' '}
-        {content.feats.filter((f) => f.extra).length} черт происхождения из Player&apos;s Handbook 2024 (характеристики, навыки,
-        инструменты, снаряжение). Тексты книги не используются, описания черт написаны заново.
+        {content.feats.filter((f) => f.extra).length} черт происхождения, а также {content.subclasses.filter((s) => s.extra).length}{' '}
+        подклассов из Player&apos;s Handbook 2024. Тексты книги не используются: описания умений написаны заново,
+        кратко, своими словами.
       </AppText>
     </Screen>
   );

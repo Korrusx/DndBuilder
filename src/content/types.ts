@@ -111,6 +111,8 @@ export type Feature = {
   level: number;
   name: LocalizedText;
   description: LocalizedText;
+  /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
+  extra?: boolean;
 };
 
 export type Subclass = {
@@ -121,6 +123,8 @@ export type Subclass = {
   description: LocalizedText;
   /** id умений подкласса (сами умения лежат в `features`). */
   features: string[];
+  /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
+  extra?: boolean;
 };
 
 export type Species = {

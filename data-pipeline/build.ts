@@ -10,7 +10,7 @@
 
 import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -71,6 +71,8 @@ const FILE_BY_PREFIX: Record<string, string> = {
 
 type TextEntry = { en: string; file: string; targets: LocalizedText[] };
 const texts = new Map<string, TextEntry>();
+/** Готовый русский текст из data-pipeline/extra: попадает в CSV как черновик, если перевода там ещё нет. */
+const ruSeeds = new Map<string, string>();
 
 /** Регистрирует текст под ключом перевода и возвращает объект, куда позже подставится `ru`. */
 function tx(key: string, en: string): LocalizedText {
@@ -140,6 +142,11 @@ async function applyTranslations() {
         if (row.ru && row.status === 'done') row.status = 'draft';
         warn(`Изменился английский текст: ${key} — проверьте перевод`);
         row.en = entry.en;
+      }
+      const seed = ruSeeds.get(key);
+      if (!row.ru && seed) {
+        row.ru = seed;
+        row.status = 'draft';
       }
       if (!row.ru) row.status = 'todo';
       counts[row.status as keyof typeof counts] = (counts[row.status as keyof typeof counts] ?? 0) + 1;
@@ -302,7 +309,45 @@ async function readExtra(
     extra: true,
   }));
 
-  return { backgrounds, feats };
+  // Подклассы: extra/subclasses-*.json. Названия на двух языках, описания сразу по-русски.
+  const subclasses: Raw[] = [];
+  const features: Raw[] = [];
+  const files = (await readdir(EXTRA_DIR)).filter((f) => /^subclasses.*\.json$/.test(f)).sort();
+  for (const file of files) {
+    for (const sc of JSON.parse(await readFile(join(EXTRA_DIR, file), 'utf8')).subclasses as Raw[]) {
+      const featureIds: string[] = [];
+      for (const f of sc.features as Raw[]) {
+        const id = `${sc.id}-${slug(f.name.en)}`;
+        featureIds.push(id);
+        features.push({
+          id,
+          classId: sc.classId,
+          subclassId: sc.id,
+          level: f.level,
+          name: seeded(`feature.${id}.name`, f.name.en, f.name.ru),
+          description: seeded(`feature.${id}.description`, f.text, f.text),
+          extra: true,
+        });
+      }
+      subclasses.push({
+        id: sc.id,
+        classId: sc.classId,
+        name: seeded(`subclass.${sc.id}.name`, sc.name.en, sc.name.ru),
+        summary: seeded(`subclass.${sc.id}.summary`, sc.summary, sc.summary),
+        description: seeded(`subclass.${sc.id}.description`, sc.summary, sc.summary),
+        features: featureIds,
+        extra: true,
+      });
+    }
+  }
+
+  return { backgrounds, feats, subclasses, features };
+}
+
+/** Текст из extra: английский — для ключа, русский — сразу в перевод. */
+function seeded(key: string, en: string, ru: string): LocalizedText {
+  ruSeeds.set(key, ru);
+  return tx(key, en);
 }
 
 // ---------------------------------------------------------------------------
@@ -560,6 +605,9 @@ async function build(): Promise<Omit<Content, 'version'>> {
   const extra = await readExtra(proficiencies, equipmentCategoriesForExtra(await raw('equipment-categories')));
   backgrounds.push(...extra.backgrounds);
   feats.push(...extra.feats);
+  features.push(...extra.features);
+  subclasses.push(...extra.subclasses);
+  for (const sc of extra.subclasses) classes.find((c) => c.id === sc.classId)?.subclasses.push(sc.id);
 
   // --- Снаряжение ---
   const equipment = (await raw('equipment')).map((e) => {

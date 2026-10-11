@@ -149,7 +149,7 @@ export default function LevelUpScreen() {
               <OptionCard
                 key={s.id}
                 title={tr(s.name).text}
-                lines={[tr(s.summary).text]}
+                lines={[tr(s.summary).text, ...(s.extra ? ["Из Player's Handbook 2024 (не SRD)"] : [])]}
                 selected={next.classes[0].subclassId === s.id}
                 onPress={() => set((c) => ({ ...c, classes: [{ ...c.classes[0], subclassId: s.id }, ...c.classes.slice(1)] }))}
               />

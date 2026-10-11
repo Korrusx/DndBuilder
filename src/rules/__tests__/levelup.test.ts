@@ -116,6 +116,23 @@ describe('выборы других классов', () => {
     expect(computeSheet(withBoon, content).abilities.str.score).toBe(21);
   });
 
+  test('подклассы Player\'s Handbook: по 4 на класс, умения подкласса появляются на своих уровнях', () => {
+    for (const cls of content.classes) expect(cls.subclasses).toHaveLength(4);
+    const prev = at('rogue', 2);
+    const next = startLevelUp(prev);
+    expect(levelUpPlan(next, content).needsSubclass).toBe(true);
+    const done = { ...next, classes: [{ ...next.classes[0], subclassId: 'arcane-trickster' }] };
+    expect(levelUpPlan(done, content).features).toEqual(
+      expect.arrayContaining([
+        { id: 'arcane-trickster-spellcasting', source: 'subclass' },
+        { id: 'arcane-trickster-mage-hand-legerdemain', source: 'subclass' },
+      ]),
+    );
+    const sheet = computeSheet(finishLevelUp(done, prev, content), content);
+    const fromSubclass = sheet.features.filter((f) => f.source === 'subclass').map((f) => f.id);
+    expect(fromSubclass).toEqual(['arcane-trickster-spellcasting', 'arcane-trickster-mage-hand-legerdemain']);
+  });
+
   test('«Крепкий» на уровне добавляет хиты за все уровни', () => {
     const prev = at('fighter', 3);
     const next = {
