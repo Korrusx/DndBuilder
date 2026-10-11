@@ -3,6 +3,7 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
+import { Platform } from 'react-native';
 
 import { content } from '@/content';
 import type { Character } from '@/rules/character';
@@ -23,14 +24,10 @@ export async function shareCharacters(characters: Character[]): Promise<void> {
 /** Открывает выбор файла и читает персонажей. null — пользователь ничего не выбрал. */
 export async function pickCharactersFile(): Promise<ImportResult | null> {
   // Тип '*/*': на Android файлы .json из мессенджеров часто приходят без нужного типа.
-  const res = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: true, multiple: false });
+  // На Android не копируем файл в кэш: в Expo Go копия попадает в папку, которую нельзя читать
+  // (Missing READ permission), а ссылку content:// от системного выбора файла читать можно.
+  const res = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: Platform.OS !== 'android', multiple: false });
   if (res.canceled || !res.assets?.length) return null;
-  const file = new File(res.assets[0].uri);
-  const text = await file.text();
-  try {
-    file.delete();
-  } catch {
-    // Копия в кэше — не страшно, если осталась.
-  }
+  const text = await new File(res.assets[0].uri).text();
   return parseExchange(text, content, newId, new Date().toISOString());
 }
