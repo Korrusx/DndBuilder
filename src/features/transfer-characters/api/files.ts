@@ -5,10 +5,11 @@ import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Platform } from 'react-native';
 
-import { content } from '@/shared/content/content';
-import type { Character } from '@/entities/character/model/character';
 import { newId } from '@/entities/character/api/characters';
-import { buildExchange, exchangeFileName, parseExchange, type ImportResult } from '../model/exchange';
+import type { Character } from '@/entities/character/model/types';
+import { content } from '@/shared/content/content';
+import { buildExchange, exchangeFileName, parseExchange } from '../model/exchange';
+import type { ImportResult } from '../model/types';
 
 /** Записывает персонажей в файл в кэше приложения и открывает «Поделиться» (сохранить в Файлы, отправить). */
 export async function shareCharacters(characters: Character[]): Promise<void> {

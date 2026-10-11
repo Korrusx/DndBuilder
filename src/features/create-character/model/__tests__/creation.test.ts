@@ -1,10 +1,8 @@
-import { content } from '@/shared/content/content';
-import { newDraftCharacter, type Character } from '@/entities/character/model/character';
-import { CHOICE_KEYS } from '@/entities/character/model/choices';
+import { CHOICE_KEYS } from '@/entities/character/config/constants';
 import {
   draftIssues,
-  equipmentPicks,
   equipmentChoice,
+  equipmentPicks,
   expertiseCount,
   finishCharacter,
   firstIncompleteStep,
@@ -18,7 +16,10 @@ import {
   weaponMasteryCount,
   weaponMasteryOptions,
 } from '@/entities/character/model/build';
+import { newDraftCharacter } from '@/entities/character/model/character';
 import { computeSheet } from '@/entities/character/model/sheet';
+import type { Character } from '@/entities/character/model/types';
+import { content } from '@/shared/content/content';
 
 const blank = () => newDraftCharacter('t', '2026-01-01T00:00:00.000Z');
 const steps = (c: Character) => draftIssues(c, content).filter((i) => i.blocking).map((i) => i.step);

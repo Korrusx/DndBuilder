@@ -1,5 +1,5 @@
 import type { CharacterClass } from '@/shared/content/types';
-import type { ClassEntry } from './character';
+import type { ClassEntry } from './types';
 
 /** СЛ спасброска от заклинаний = 8 + мод + БМ. */
 export function spellSaveDC(mod: number, profBonus: number): number {

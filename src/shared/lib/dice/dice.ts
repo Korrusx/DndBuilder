@@ -1,6 +1,6 @@
-// Кости: разбор записи «2d6», показ по-русски «2к6», броски.
+import type { D20Mode, D20Roll, DiceExpr } from './types';
 
-export type DiceExpr = { count: number; sides: number };
+// Кости: разбор записи «2d6», показ по-русски «2к6», броски.
 
 export function parseDice(expr: string): DiceExpr {
   const m = /^(\d+)\s*[dк](\d+)$/i.exec(expr.trim());
@@ -27,17 +27,6 @@ export function formatDamage(dice: string, bonus: number): string {
 export function rollDie(sides: number, rng: () => number = Math.random): number {
   return 1 + Math.floor(rng() * sides);
 }
-
-export type D20Mode = 'normal' | 'advantage' | 'disadvantage';
-
-export type D20Roll = {
-  /** Обе кости при преимуществе/помехе, одна — при обычном броске. */
-  dice: number[];
-  /** Индекс кости, которая пошла в зачёт. */
-  keptIndex: number;
-  natural: number;
-  total: number;
-};
 
 /** Бросок к20 с модификатором. Преимущество — берём большую из двух, помеха — меньшую. */
 export function rollD20(modifier: number, mode: D20Mode = 'normal', rng: () => number = Math.random): D20Roll {

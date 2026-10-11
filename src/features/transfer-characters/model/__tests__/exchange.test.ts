@@ -1,6 +1,6 @@
-import { content } from '@/shared/content/content';
 import { irmaLevel1 } from '@/entities/character/lib/samples';
 import { computeSheet } from '@/entities/character/model/sheet';
+import { content } from '@/shared/content/content';
 import { buildExchange, exchangeFileName, ImportError, parseExchange } from '../exchange';
 
 const NOW = '2026-10-11T12:00:00.000Z';

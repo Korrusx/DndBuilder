@@ -2,12 +2,13 @@
 
 import { StyleSheet, View } from 'react-native';
 
-import { tr } from '@/shared/content/content';
-import { adjustResource, type ResourceRecovery, type ResourceView } from '@/entities/character/model/resources';
-import { colors, fonts, spacing } from '@/shared/config/theme';
-import { AppText } from '@/shared/ui/AppText/AppText';
 import { usePlay } from '@/entities/character/model/CharacterContext';
+import { adjustResource } from '@/entities/character/model/resources';
+import type { ResourceRecovery, ResourceView } from '@/entities/character/model/types';
+import { colors, fonts, spacing } from '@/shared/config/theme';
+import { tr } from '@/shared/content/content';
 import { Card, Dots, SmallButton } from '@/shared/ui/_split/play-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
 
 /** Больше стольких использований — показываем счётчик вместо кружков. */
 const MAX_DOTS = 10;

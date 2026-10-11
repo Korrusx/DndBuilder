@@ -2,33 +2,32 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
+import { ABILITY_IDS, EXHAUSTION_MAX } from '@/entities/character/config/constants';
 import { usePlay } from '@/entities/character/model/CharacterContext';
-import { ResourcesCard } from '@/features/track-resources/ui/ResourcesCard';
-import { D20Sheet, d20Parts, type D20Request } from '@/features/roll-dice/ui/RollSheet';
-import { Card, Dots, InfoSheet, plain, SmallButton, StatBox } from '@/shared/ui/_split/play-ui';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { abilityAbbr, nameOf } from '@/shared/content/names';
-import { Chip, ChipRow } from '@/shared/ui/_split/wizard-ui';
-import { byId, content, tr } from '@/shared/content/content';
-import { ABILITY_IDS, type Character } from '@/entities/character/model/character';
-import { formatModifier, rollD20, rollDie } from '@/shared/lib/dice/dice';
 import {
   deathSave,
   deathStatus,
-  EXHAUSTION_MAX,
   finishShortRest,
   setExhaustion,
   speedWithExhaustion,
   toggleCondition,
 } from '@/entities/character/model/play';
-import { MAX_LEVEL } from '@/features/level-up/model/levelup';
 import { characterResources, shortRestResources } from '@/entities/character/model/resources';
 import { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from '@/entities/character/model/rest';
-import type { CharacterSheet, SourcedId } from '@/entities/character/model/sheet';
 import { hpLevel } from '@/entities/character/model/summary';
+import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
+import { MAX_LEVEL } from '@/features/level-up/config/constants';
+import { d20Parts, D20Sheet, type D20Request } from '@/features/roll-dice/ui/RollSheet';
+import { ResourcesCard } from '@/features/track-resources/ui/ResourcesCard';
 import { colors, fonts, radius, spacing } from '@/shared/config/theme';
+import { byId, content, tr } from '@/shared/content/content';
+import { abilityAbbr, nameOf } from '@/shared/content/names';
+import { formatModifier, rollD20, rollDie } from '@/shared/lib/dice/dice';
+import { Card, Dots, InfoSheet, plain, SmallButton, StatBox } from '@/shared/ui/_split/play-ui';
+import { Chip, ChipRow } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
+import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
+import { Screen } from '@/shared/ui/Screen/Screen';
 
 const HP_COLORS = { good: colors.heal, warn: colors.accent, danger: colors.damage } as const;
 

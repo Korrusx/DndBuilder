@@ -1,17 +1,18 @@
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Button } from '@/shared/ui/Button/Button';
+import { ABILITY_IDS } from '@/entities/character/config/constants';
+import { draftIssues } from '@/entities/character/model/build';
+import { computeSheet } from '@/entities/character/model/sheet';
+import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
 import { useDraft } from '@/features/create-character/model/DraftContext';
 import { usePdfExport } from '@/features/export-pdf/model/usePdfExport';
-import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/shared/content/names';
-import { Chip, ChipRow, Section, WizardScreen } from '@/shared/ui/_split/wizard-ui';
-import { content, tr } from '@/shared/content/content';
-import { ABILITY_IDS, type Character } from '@/entities/character/model/character';
-import { draftIssues } from '@/entities/character/model/build';
-import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
-import { computeSheet, type CharacterSheet, type SourcedId } from '@/entities/character/model/sheet';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
+import { content, tr } from '@/shared/content/content';
+import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/shared/content/names';
+import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
+import { Chip, ChipRow, Section, WizardScreen } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
+import { Button } from '@/shared/ui/Button/Button';
 
 const SOURCE_LABEL: Record<SourcedId['source'], string> = { class: 'Класс', subclass: 'Подкласс', species: 'Вид', feat: 'Черта' };
 

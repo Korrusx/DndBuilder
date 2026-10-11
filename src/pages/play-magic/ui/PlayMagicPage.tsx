@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { usePlay } from '@/entities/character/model/CharacterContext';
-import { D20Sheet, d20Parts, type D20Request } from '@/features/roll-dice/ui/RollSheet';
-import { SpellsEditSheet } from '@/features/edit-spells/ui/SpellsEditSheet';
-import { Card, Dots, InfoSheet, plain, SmallButton, StatBox } from '@/shared/ui/_split/play-ui';
-import { Placeholder } from '@/shared/ui/Placeholder/Placeholder';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { abilityAbbr, nameOf } from '@/shared/content/names';
-import { byId, content, tr } from '@/shared/content/content';
-import type { AbilityId, Spell } from '@/shared/content/types';
-import { CHOICE_KEYS, choice1 } from '@/entities/character/model/choices';
+import { CHOICE_KEYS } from '@/entities/character/config/constants';
 import { magicInitiateSlots } from '@/entities/character/model/build';
-import { formatModifier } from '@/shared/lib/dice/dice';
+import { usePlay } from '@/entities/character/model/CharacterContext';
+import { choice1 } from '@/entities/character/model/choices';
 import { adjustSlot, castSpell } from '@/entities/character/model/play';
 import { spellAttackBonus, spellSaveDC } from '@/entities/character/model/spells';
+import { SpellsEditSheet } from '@/features/edit-spells/ui/SpellsEditSheet';
+import { d20Parts, D20Sheet, type D20Request } from '@/features/roll-dice/ui/RollSheet';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
+import { byId, content, tr } from '@/shared/content/content';
+import { abilityAbbr, nameOf } from '@/shared/content/names';
+import type { AbilityId, Spell } from '@/shared/content/types';
+import { formatModifier } from '@/shared/lib/dice/dice';
+import { Card, Dots, InfoSheet, plain, SmallButton, StatBox } from '@/shared/ui/_split/play-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
+import { Placeholder } from '@/shared/ui/Placeholder/Placeholder';
+import { Screen } from '@/shared/ui/Screen/Screen';
 
 type Info = { title: string; text: string; subtitle?: string };
 

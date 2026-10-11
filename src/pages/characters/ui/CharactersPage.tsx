@@ -2,22 +2,22 @@ import { router, useFocusEffect, useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, BackHandler, StyleSheet, View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Button } from '@/shared/ui/Button/Button';
-import { CharacterCard } from '@/entities/character/ui/CharacterCard/CharacterCard';
-import { CREATE_STEPS } from '@/features/create-character/config/steps';
-import { Placeholder } from '@/shared/ui/Placeholder/Placeholder';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { content } from '@/shared/content/content';
 import { deleteCharacters, newId, saveCharacter, saveCharacters } from '@/entities/character/api/characters';
-import { ImportError } from '@/features/transfer-characters/model/exchange';
-import { pickCharactersFile, shareCharacters } from '@/features/transfer-characters/api/files';
-import { setMeta } from '@/shared/db/meta';
 import { useCharacterList } from '@/entities/character/api/useCharacterList';
-import type { Character } from '@/entities/character/model/character';
 import { irmaLevel1 } from '@/entities/character/lib/samples';
 import { computeSheet } from '@/entities/character/model/sheet';
+import type { Character } from '@/entities/character/model/types';
+import { CharacterCard } from '@/entities/character/ui/CharacterCard/CharacterCard';
+import { CREATE_STEPS } from '@/features/create-character/config/steps';
+import { pickCharactersFile, shareCharacters } from '@/features/transfer-characters/api/files';
+import { ImportError } from '@/features/transfer-characters/model/exchange';
 import { colors, spacing } from '@/shared/config/theme';
+import { content } from '@/shared/content/content';
+import { setMeta } from '@/shared/db/meta';
+import { AppText } from '@/shared/ui/AppText/AppText';
+import { Button } from '@/shared/ui/Button/Button';
+import { Placeholder } from '@/shared/ui/Placeholder/Placeholder';
+import { Screen } from '@/shared/ui/Screen/Screen';
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });

@@ -2,18 +2,12 @@ import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Button } from '@/shared/ui/Button/Button';
-import { usePlay } from '@/entities/character/model/CharacterContext';
-import { SpellsEditSheet } from '@/features/edit-spells/ui/SpellsEditSheet';
-import { Card, InfoSheet, plain, SmallButton } from '@/shared/ui/_split/play-ui';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { abilityAbbr, nameOf, proficiencyName } from '@/shared/content/names';
-import { Chip, ChipRow, MultiPick, OptionCard, Section, Segmented } from '@/shared/ui/_split/wizard-ui';
-import { byId, content, tr } from '@/shared/content/content';
-import type { AbilityId } from '@/shared/content/types';
-import { ABILITY_IDS, type Character } from '@/entities/character/model/character';
+import { ABILITY_IDS } from '@/entities/character/config/constants';
 import { choiceOptionIds, proficientSkills, weaponMasteryCount, weaponMasteryOptions } from '@/entities/character/model/build';
+import { usePlay } from '@/entities/character/model/CharacterContext';
+import { finalAbilityScores } from '@/entities/character/model/sheet';
+import type { Character } from '@/entities/character/model/types';
+import { SpellsEditSheet } from '@/features/edit-spells/ui/SpellsEditSheet';
 import {
   clearLevelFeatChoices,
   featAbilityRule,
@@ -26,8 +20,15 @@ import {
   levelUpPlan,
   startLevelUp,
 } from '@/features/level-up/model/levelup';
-import { finalAbilityScores } from '@/entities/character/model/sheet';
 import { colors, spacing } from '@/shared/config/theme';
+import { byId, content, tr } from '@/shared/content/content';
+import { abilityAbbr, nameOf, proficiencyName } from '@/shared/content/names';
+import type { AbilityId } from '@/shared/content/types';
+import { Card, InfoSheet, plain, SmallButton } from '@/shared/ui/_split/play-ui';
+import { Chip, ChipRow, MultiPick, OptionCard, Section, Segmented } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
+import { Button } from '@/shared/ui/Button/Button';
+import { Screen } from '@/shared/ui/Screen/Screen';
 
 type Info = { title: string; text: string; subtitle?: string };
 

@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
 import { usePlay } from '@/entities/character/model/CharacterContext';
-import { AddItemSheet } from '@/features/add-item/ui/AddItemSheet';
-import { Card, SmallButton } from '@/shared/ui/_split/play-ui';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { itemName, nameOf } from '@/shared/content/names';
-import { byId, content } from '@/shared/content/content';
-import type { Coin } from '@/shared/content/types';
 import { addToInventory, toggleEquipped } from '@/entities/character/model/play';
+import { AddItemSheet } from '@/features/add-item/ui/AddItemSheet';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
+import { byId, content } from '@/shared/content/content';
+import { itemName, nameOf } from '@/shared/content/names';
+import type { Coin } from '@/shared/content/types';
+import { Card, SmallButton } from '@/shared/ui/_split/play-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
+import { Screen } from '@/shared/ui/Screen/Screen';
 
 const COINS: { id: Coin; label: string }[] = [
   { id: 'pp', label: 'Платиновые (пм)' },

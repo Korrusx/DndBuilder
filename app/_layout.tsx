@@ -7,8 +7,9 @@ import { SQLiteProvider } from 'expo-sqlite';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
-import { initUserDb, USER_DB_NAME } from '@/shared/db/db';
 import { colors, fonts } from '@/shared/config/theme';
+import { USER_DB_NAME } from '@/shared/db/config';
+import { initUserDb } from '@/shared/db/db';
 
 SplashScreen.preventAutoHideAsync();
 

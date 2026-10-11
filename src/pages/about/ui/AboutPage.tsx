@@ -1,10 +1,10 @@
 import { StyleSheet, View } from 'react-native';
 
+import { colors, radius, spacing } from '@/shared/config/theme';
+import { content, translationProgress } from '@/shared/content/content';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { LText } from '@/shared/ui/LText/LText';
 import { Screen } from '@/shared/ui/Screen/Screen';
-import { content, translationProgress } from '@/shared/content/content';
-import { colors, radius, spacing } from '@/shared/config/theme';
 
 export function AboutPage() {
   const { done, total } = translationProgress();

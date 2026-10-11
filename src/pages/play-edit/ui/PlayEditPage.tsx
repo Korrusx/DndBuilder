@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Alert, StyleSheet, TextInput } from 'react-native';
 
 import { usePlay } from '@/entities/character/model/CharacterContext';
-import { SmallButton } from '@/shared/ui/_split/play-ui';
+import type { Character } from '@/entities/character/model/types';
 import { shareCharacters } from '@/features/transfer-characters/api/files';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { nameOf } from '@/shared/content/names';
-import { Chip, ChipRow, Section } from '@/shared/ui/_split/wizard-ui';
-import { content, tr } from '@/shared/content/content';
-import type { Character } from '@/entities/character/model/character';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
+import { content, tr } from '@/shared/content/content';
+import { nameOf } from '@/shared/content/names';
+import { SmallButton } from '@/shared/ui/_split/play-ui';
+import { Chip, ChipRow, Section } from '@/shared/ui/_split/wizard-ui';
+import { Screen } from '@/shared/ui/Screen/Screen';
 
 type TextField = 'name' | 'player' | 'campaign' | 'notes';
 

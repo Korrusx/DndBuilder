@@ -1,6 +1,6 @@
-import type { LocalizedText } from '@/shared/content/types';
-import { tr } from '@/shared/content/content';
 import { colors } from '@/shared/config/theme';
+import { tr } from '@/shared/content/content';
+import type { LocalizedText } from '@/shared/content/types';
 import { AppText } from '../AppText/AppText';
 
 type Props = Omit<React.ComponentProps<typeof AppText>, 'children'> & { text: LocalizedText | undefined };

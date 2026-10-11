@@ -1,42 +1,15 @@
 // Сборка всех производных чисел персонажа из его выборов и справочника.
 
-import type { AbilityId, CharacterClass, Content, Equipment } from '@/shared/content/types';
+import type { Content, Equipment } from '@/shared/content/types';
+import { ABILITY_IDS, CHOICE_KEYS } from '../config/constants';
 import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';
-import { ABILITY_IDS, totalLevel, type AbilityScores, type Character } from './character';
+import { totalLevel } from './character';
 import { passiveScore, savingThrow, skillBonus } from './checks';
-import { CHOICE_KEYS, chosenProficiencyIds, featureOptionProficiencies } from './choices';
-import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack, type WeaponAttack } from './combat';
+import { chosenProficiencyIds, featureOptionProficiencies } from './choices';
+import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack } from './combat';
 import { effectsOf } from './effects';
 import { characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
-
-export type SourcedId = { id: string; source: 'class' | 'subclass' | 'species' | 'feat' };
-
-export type CharacterSheet = {
-  level: number;
-  profBonus: number;
-  abilities: Record<AbilityId, { score: number; mod: number; save: number; saveProficient: boolean }>;
-  skills: { id: string; ability: AbilityId; bonus: number; proficient: boolean; expertise: boolean }[];
-  passivePerception: number;
-  initiative: number;
-  maxHp: number;
-  armorClass: number;
-  speed: number;
-  hitDice: { classId: string; die: number; total: number }[];
-  attacks: WeaponAttack[];
-  spellcasting?: { classId: string; ability: AbilityId; saveDC: number; attackBonus: number; slots: number[] };
-  /** Особые столбцы таблицы класса на текущем уровне (скрытая атака, ярость…). */
-  classSpecific: Record<string, Record<string, unknown>>;
-  /** Умения класса/подкласса, особенности вида и черты — для «Что умеет». */
-  features: SourcedId[];
-  /** id владений (proficiencies). */
-  proficiencies: string[];
-};
-
-type Index = {
-  classes: Map<string, CharacterClass>;
-  equipment: Map<string, Equipment>;
-  [key: string]: Map<string, any>;
-};
+import type { AbilityScores, Character, CharacterSheet, Index, SourcedId, WeaponAttack } from './types';
 
 const indexCache = new WeakMap<Content, Index>();
 

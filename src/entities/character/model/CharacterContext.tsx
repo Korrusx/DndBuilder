@@ -6,11 +6,11 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { content } from '@/shared/content/content';
-import { getCharacter, saveCharacter } from '../api/characters';
-import type { Character, GameState } from './character';
-import { computeSheet, type CharacterSheet } from './sheet';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { Screen } from '@/shared/ui/Screen/Screen';
+import { getCharacter, saveCharacter } from '../api/characters';
+import { computeSheet } from './sheet';
+import type { Character, CharacterSheet, GameState } from './types';
 
 type PlayApi = {
   character: Character;

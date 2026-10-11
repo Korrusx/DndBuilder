@@ -1,9 +1,9 @@
 // Работа с персонажами в пользовательской базе.
 
 import type { SQLiteDatabase } from 'expo-sqlite';
-
-import type { Character } from '../model/character';
-import { characterToRow, rowToCharacter, type CharacterRow } from './serialize';
+import type { Character } from '../model/types';
+import { characterToRow, rowToCharacter } from './serialize';
+import type { CharacterRow } from './types';
 
 export function newId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);

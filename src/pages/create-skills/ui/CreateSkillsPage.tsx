@@ -1,9 +1,4 @@
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { nameOf, proficiencyName } from '@/shared/content/names';
-import { Chip, ChipRow, MultiPick, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
-import { content, tr } from '@/shared/content/content';
-import { CHOICE_KEYS, choice1, FEAT_FEATURES, FEATURE_OPTIONS, STANDARD_LANGUAGE_COUNT } from '@/entities/character/model/choices';
+import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_OPTIONS, STANDARD_LANGUAGE_COUNT } from '@/entities/character/config/constants';
 import {
   draftIssues,
   expertiseCount,
@@ -16,6 +11,12 @@ import {
   weaponMasteryCount,
   weaponMasteryOptions,
 } from '@/entities/character/model/build';
+import { choice1 } from '@/entities/character/model/choices';
+import { useDraft } from '@/features/create-character/model/DraftContext';
+import { content, tr } from '@/shared/content/content';
+import { nameOf, proficiencyName } from '@/shared/content/names';
+import { Chip, ChipRow, MultiPick, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
 
 const SOURCE_TITLE = { class: 'Класс', background: 'Предыстория', species: 'Вид', feat: 'Черта' } as const;
 

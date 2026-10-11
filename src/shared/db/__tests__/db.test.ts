@@ -1,7 +1,8 @@
-import { newDraftCharacter } from '@/entities/character/model/character';
-import { irmaLevel1 } from '@/entities/character/lib/samples';
-import { migrate, type Migration, type MigrationDb } from '../migrations';
 import { characterToRow, rowToCharacter } from '@/entities/character/api/serialize';
+import { irmaLevel1 } from '@/entities/character/lib/samples';
+import { newDraftCharacter } from '@/entities/character/model/character';
+import { migrate } from '../migrations';
+import type { Migration, MigrationDb } from '../types';
 
 /** Поддельная база: запоминает выполненный SQL и версию схемы. */
 function fakeDb(version = 0) {

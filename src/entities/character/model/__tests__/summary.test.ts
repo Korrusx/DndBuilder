@@ -1,6 +1,6 @@
 import { content } from '@/shared/content/content';
-import { newDraftCharacter } from '../character';
 import { irmaLevel1 } from '../../lib/samples';
+import { newDraftCharacter } from '../character';
 import { characterSummary, hpLevel } from '../summary';
 
 describe('сводка для карточки', () => {

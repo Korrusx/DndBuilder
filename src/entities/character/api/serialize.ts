@@ -1,16 +1,8 @@
 // Превращение персонажа в строку таблицы и обратно.
 
-import { emptyGameState, newDraftCharacter, type Character } from '../model/character';
-
-export type CharacterRow = {
-  id: string;
-  name: string;
-  status: 'draft' | 'ready';
-  draft_step: number | null;
-  data: string;
-  created_at: string;
-  updated_at: string;
-};
+import { emptyGameState, newDraftCharacter } from '../model/character';
+import type { Character } from '../model/types';
+import type { CharacterRow } from './types';
 
 export function characterToRow(c: Character): CharacterRow {
   return {

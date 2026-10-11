@@ -1,29 +1,25 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Button } from '@/shared/ui/Button/Button';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { abilityAbbr, abilityName, nameOf } from '@/shared/content/names';
-import { Chip, ChipRow, Hint, Section, Segmented, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
-import { content } from '@/shared/content/content';
-import type { AbilityId } from '@/shared/content/types';
+import { ABILITY_IDS, POINT_BUY_BUDGET, POINT_BUY_MAX, POINT_BUY_MIN, STANDARD_ARRAY } from '@/entities/character/config/constants';
 import {
   abilityModifier,
-  POINT_BUY_BUDGET,
-  POINT_BUY_MAX,
-  POINT_BUY_MIN,
   pointBuyCost,
   pointBuySpent,
-  roll4d6DropLowest,
-  STANDARD_ARRAY,
-  type AbilityRoll,
+  roll4d6DropLowest
 } from '@/entities/character/model/abilities';
-import { ABILITY_IDS, type AbilityMethod, type AbilityScores, type Character } from '@/entities/character/model/character';
 import { backgroundBonusPattern, draftIssues } from '@/entities/character/model/build';
-import { formatModifier } from '@/shared/lib/dice/dice';
 import { finalAbilityScores } from '@/entities/character/model/sheet';
+import type { AbilityMethod, AbilityRoll, AbilityScores, Character } from '@/entities/character/model/types';
+import { useDraft } from '@/features/create-character/model/DraftContext';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
+import { content } from '@/shared/content/content';
+import { abilityAbbr, abilityName, nameOf } from '@/shared/content/names';
+import type { AbilityId } from '@/shared/content/types';
+import { formatModifier } from '@/shared/lib/dice/dice';
+import { Chip, ChipRow, Hint, Section, Segmented, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
+import { Button } from '@/shared/ui/Button/Button';
 
 const EMPTY: AbilityScores = { str: 0, dex: 0, con: 0, int: 0, wis: 0, cha: 0 };
 const ALL_EIGHT: AbilityScores = { str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 };

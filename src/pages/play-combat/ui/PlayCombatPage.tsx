@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
 import { usePlay } from '@/entities/character/model/CharacterContext';
-import { D20Sheet, d20Parts, DamageSheet, type D20Request, type DamageRequest } from '@/features/roll-dice/ui/RollSheet';
+import { weaponMasteryCount, weaponMasteryOptions } from '@/entities/character/model/build';
+import { speedWithExhaustion, unarmedStrike } from '@/entities/character/model/play';
+import { d20Parts, D20Sheet, DamageSheet, type D20Request, type DamageRequest } from '@/features/roll-dice/ui/RollSheet';
+import { colors, fonts, spacing } from '@/shared/config/theme';
+import { byId, content, tr } from '@/shared/content/content';
+import { abilityAbbr, nameOf } from '@/shared/content/names';
+import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
+import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
+import { Screen } from '@/shared/ui/Screen/Screen';
 import { Card, InfoSheet, plain, SmallButton, StatBox } from '@/shared/ui/_split/play-ui';
 import { MultiPick } from '@/shared/ui/_split/wizard-ui';
-import { weaponMasteryCount, weaponMasteryOptions } from '@/entities/character/model/build';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { abilityAbbr, nameOf } from '@/shared/content/names';
-import { byId, content, tr } from '@/shared/content/content';
-import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
-import { speedWithExhaustion, unarmedStrike } from '@/entities/character/model/play';
-import { colors, fonts, spacing } from '@/shared/config/theme';
 
 const masteries = new Map(content.weaponMasteries.map((m) => [m.id, m]));
 const damageTypes = new Map(content.damageTypes.map((d) => [d.id, d]));

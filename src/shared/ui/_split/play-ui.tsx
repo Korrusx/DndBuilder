@@ -3,9 +3,9 @@
 import { ReactNode } from 'react';
 import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 
-import type { LocalizedText } from '@/shared/content/types';
-import { tr } from '@/shared/content/content';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
+import { tr } from '@/shared/content/content';
+import type { LocalizedText } from '@/shared/content/types';
 import { AppText } from '../AppText/AppText';
 import { BottomSheet } from '../BottomSheet/BottomSheet';
 

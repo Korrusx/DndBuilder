@@ -1,12 +1,12 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { content, tr } from '@/shared/content/content';
-import type { Character } from '../../model/character';
-import { characterSummary, hpLevel } from '../../model/summary';
+import { CREATE_STEPS } from '@/features/create-character/config/steps';
 import { colors, fonts, radius, spacing } from '@/shared/config/theme';
+import { content, tr } from '@/shared/content/content';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { Button } from '@/shared/ui/Button/Button';
-import { CREATE_STEPS } from '@/features/create-character/config/steps';
+import { characterSummary, hpLevel } from '../../model/summary';
+import type { Character } from '../../model/types';
 
 type Props = {
   character: Character;

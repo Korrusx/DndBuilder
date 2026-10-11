@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
 import { usePlay } from '@/entities/character/model/CharacterContext';
+import { exhaustionPenalty } from '@/entities/character/model/play';
 import { D20Sheet, d20Parts, type D20Request } from '@/features/roll-dice/ui/RollSheet';
-import { Screen } from '@/shared/ui/Screen/Screen';
+import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { abilityAbbr, abilityName, groupSkillsByAbility, nameOf } from '@/shared/content/names';
 import { formatModifier } from '@/shared/lib/dice/dice';
-import { exhaustionPenalty } from '@/entities/character/model/play';
-import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
+import { AppText } from '@/shared/ui/AppText/AppText';
+import { Screen } from '@/shared/ui/Screen/Screen';
 
 export function PlaySkillsPage() {
   const { character: c, sheet } = usePlay();

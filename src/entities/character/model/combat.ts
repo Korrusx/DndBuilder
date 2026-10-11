@@ -1,10 +1,7 @@
-import type { AbilityId, ArmorInfo, Equipment } from '@/shared/content/types';
-import type { AbilityScores } from './character';
-import type { Effect } from './effects';
+import type { AbilityId, Equipment } from '@/shared/content/types';
+import type { AbilityScores, AcInput, Effect, HpLevel, WeaponAttack } from './types';
 
 // --- Хиты ---
-
-export type HpLevel = { hitDie: number; level: number };
 
 /**
  * Максимум хитов. Первый элемент — стартовый класс: на 1-м уровне максимум кости хитов,
@@ -37,13 +34,6 @@ export function bonusHpFromEffects(effects: Effect[], totalLevel: number, classL
 
 // --- Класс защиты ---
 
-export type AcInput = {
-  armor?: ArmorInfo;
-  shield?: ArmorInfo;
-  mods: AbilityScores;
-  effects: Effect[];
-};
-
 /**
  * КЗ: без доспеха 10 + ЛОВ (или лучшая из формул «Защиты без доспехов»);
  * лёгкий — база + ЛОВ, средний — база + ЛОВ (не больше +2), тяжёлый — база; щит +2.
@@ -73,16 +63,6 @@ export function initiative(dexMod: number, profBonus: number, effects: Effect[])
 }
 
 // --- Атаки оружием ---
-
-export type WeaponAttack = {
-  itemId: string;
-  ability: AbilityId;
-  toHit: number;
-  damageDice: string;
-  damageBonus: number;
-  damageType?: string;
-  proficient: boolean;
-};
 
 /**
  * Атака оружием: мод СИЛ для рукопашного, ЛОВ для дальнобойного,

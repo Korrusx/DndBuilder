@@ -1,13 +1,11 @@
 // Режим игры: спасброски от смерти, истощение, ячейки, сотворение заклинаний, броски урона, вещи.
 
 import type { Content } from '@/shared/content/types';
-import { CUSTOM_ITEM_PREFIX, type GameState, type InventoryItem } from './character';
 import { parseDice, rollDie } from '@/shared/lib/dice/dice';
+import { CUSTOM_ITEM_PREFIX, EXHAUSTION_MAX } from '../config/constants';
+import type { DamageRoll, DeathStatus, GameState, InventoryItem } from './types';
 
 // ---------- Истощение (SRD 5.2) ----------
-
-/** На 6-м уровне истощения персонаж умирает. */
-export const EXHAUSTION_MAX = 6;
 
 /** Каждый уровень истощения: −2 к броскам к20 (проверки, атаки, спасброски). */
 export function exhaustionPenalty(exhaustion: number): number {
@@ -31,8 +29,6 @@ export function toggleCondition(state: GameState, conditionId: string): GameStat
 }
 
 // ---------- Спасброски от смерти ----------
-
-export type DeathStatus = 'alive' | 'dying' | 'stable' | 'dead';
 
 export function deathStatus(state: GameState): DeathStatus {
   if (state.deathSaves.failures >= 3) return 'dead';
@@ -97,8 +93,6 @@ export function finishShortRest(state: GameState, pactMagic: boolean): GameState
 }
 
 // ---------- Броски урона ----------
-
-export type DamageRoll = { dice: number[]; sides: number; bonus: number; total: number };
 
 /** Бросок урона «1к6+3». При критическом попадании кости бросаются дважды. */
 export function rollDamage(dice: string, bonus: number, critical = false, rng: () => number = Math.random): DamageRoll {

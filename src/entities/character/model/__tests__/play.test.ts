@@ -1,6 +1,7 @@
 import { content } from '@/shared/content/content';
-import { emptyGameState, type GameState } from '../character';
+import { emptyGameState } from '../character';
 import {
+  addToInventory,
   adjustSlot,
   castSpell,
   deathSave,
@@ -13,10 +14,10 @@ import {
   speedWithExhaustion,
   toggleCondition,
   toggleEquipped,
-  addToInventory,
   unarmedStrike,
 } from '../play';
 import { applyDamage } from '../rest';
+import type { GameState } from '../types';
 
 const at = (hp: number, extra: Partial<GameState> = {}): GameState => ({ ...emptyGameState(), currentHp: hp, ...extra });
 

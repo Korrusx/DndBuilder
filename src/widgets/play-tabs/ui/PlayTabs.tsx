@@ -3,10 +3,10 @@ import { router, Tabs } from 'expo-router';
 import type { ComponentProps } from 'react';
 import { ActivityIndicator, Pressable, View, type ColorValue } from 'react-native';
 
-import { AppText } from '@/shared/ui/AppText/AppText';
 import { CharacterProvider, usePlay } from '@/entities/character/model/CharacterContext';
 import { usePdfExport } from '@/features/export-pdf/model/usePdfExport';
 import { colors, fonts, sizes } from '@/shared/config/theme';
+import { AppText } from '@/shared/ui/AppText/AppText';
 
 type IconName = ComponentProps<typeof MaterialCommunityIcons>['name'];
 

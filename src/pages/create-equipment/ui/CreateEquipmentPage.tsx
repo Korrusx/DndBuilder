@@ -1,10 +1,4 @@
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { abilityAbbr, equipmentOptionText, nameOf, spellName } from '@/shared/content/names';
-import { Chip, ChipRow, MultiPick, OptionCard, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
-import { content } from '@/shared/content/content';
-import type { Character } from '@/entities/character/model/character';
-import { CHOICE_KEYS, choice1, MAGIC_INITIATE_ABILITIES, MAGIC_INITIATE_LISTS, type OriginFeatSlot } from '@/entities/character/model/choices';
+import { CHOICE_KEYS, MAGIC_INITIATE_ABILITIES, MAGIC_INITIATE_LISTS } from '@/entities/character/config/constants';
 import {
   draftIssues,
   equipmentChoice,
@@ -12,9 +6,15 @@ import {
   magicInitiateSlots,
   spellLimits,
   spellOptions,
-  startingKit,
-  type EquipmentSource,
+  startingKit
 } from '@/entities/character/model/build';
+import { choice1 } from '@/entities/character/model/choices';
+import type { Character, EquipmentSource, OriginFeatSlot } from '@/entities/character/model/types';
+import { useDraft } from '@/features/create-character/model/DraftContext';
+import { content } from '@/shared/content/content';
+import { abilityAbbr, equipmentOptionText, nameOf, spellName } from '@/shared/content/names';
+import { Chip, ChipRow, MultiPick, OptionCard, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 

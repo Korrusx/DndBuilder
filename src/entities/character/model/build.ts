@@ -1,25 +1,18 @@
 // Мастер создания персонажа 1-го уровня: какие выборы нужно сделать, что из них следует,
 // и чего не хватает, чтобы персонаж был готов. Чистые функции, без React и базы.
 
-import type { AbilityId, Choice, ChoiceOption, Coin, Content, LocalizedText } from '@/shared/content/types';
+import type { AbilityId, Choice, ChoiceOption, Coin, Content } from '@/shared/content/types';
+import { ABILITY_IDS, CHOICE_KEYS, FEAT_FEATURES, FEATURE_OPTIONS, POINT_BUY_BUDGET, POINT_BUY_MAX, POINT_BUY_MIN, STANDARD_LANGUAGE_COUNT } from '../config/constants';
 import {
   isStandardArray,
-  POINT_BUY_BUDGET,
-  POINT_BUY_MAX,
-  POINT_BUY_MIN,
   pointBuySpent,
   validateBackgroundBonuses,
 } from './abilities';
-import { ABILITY_IDS, type Character, type InventoryItem } from './character';
 import {
-  CHOICE_KEYS,
-  choice1,
-  FEAT_FEATURES,
-  FEATURE_OPTIONS,
-  STANDARD_LANGUAGE_COUNT,
-  type OriginFeatSlot,
+  choice1
 } from './choices';
 import { computeSheet, makeProficiencyCheck, proficiencyIds } from './sheet';
+import type { Character, EquipmentSource, InventoryItem, Issue, OriginFeat, OriginFeatSlot, ProficiencySlot, SpellLimits } from './types';
 
 // ---------- Справочник ----------
 
@@ -90,8 +83,6 @@ export function setSpecies(c: Character, speciesId: string, content: Content): C
 
 // ---------- Шаг 2: черты происхождения ----------
 
-export type OriginFeat = { slot: OriginFeatSlot; featId?: string; source: 'background' | 'species' };
-
 export function originFeats(c: Character, content: Content): OriginFeat[] {
   const out: OriginFeat[] = [];
   const background = find(content.backgrounds, c.backgroundId);
@@ -104,15 +95,6 @@ export function originFeats(c: Character, content: Content): OriginFeat[] {
 }
 
 // ---------- Шаг 4: владения ----------
-
-export type ProficiencySlot = {
-  key: string;
-  source: 'class' | 'background' | 'species' | 'feat';
-  desc?: LocalizedText;
-  choose: number;
-  /** id владений. */
-  options: string[];
-};
 
 /** Все выборы «выберите N владений» для текущего персонажа. */
 export function proficiencySlots(c: Character, content: Content): ProficiencySlot[] {
@@ -214,8 +196,6 @@ export function languageOptions(content: Content): string[] {
 
 // ---------- Шаг 5: снаряжение ----------
 
-export type EquipmentSource = 'class' | 'background';
-
 export function equipmentChoice(c: Character, content: Content, source: EquipmentSource): Choice | undefined {
   if (source === 'class') return startingClass(c, content)?.startingEquipment[0];
   return find(content.backgrounds, c.backgroundId)?.equipment[0];
@@ -266,14 +246,6 @@ export function startingKit(c: Character, content: Content): { items: InventoryI
 
 // ---------- Шаг 5: заклинания ----------
 
-export type SpellLimits = {
-  classId: string;
-  cantrips: number;
-  prepared: number;
-  /** Самый высокий круг, для которого есть ячейки (подготовленные заклинания — с 1-го по этот). */
-  maxSpellLevel: number;
-};
-
 /** Сколько заговоров и подготовленных заклинаний у заклинателя на текущем уровне стартового класса. */
 export function spellLimits(c: Character, content: Content): SpellLimits | null {
   const cls = startingClass(c, content);
@@ -305,14 +277,6 @@ export function magicInitiateSlots(c: Character, content: Content): { slot: Orig
 }
 
 // ---------- Проверка ----------
-
-export type Issue = {
-  step: number;
-  message: string;
-  /** false — предупреждение, персонажа всё равно можно сохранить. */
-  blocking: boolean;
-};
-
 const count = (xs: string[] | undefined) => xs?.length ?? 0;
 
 /** Чего не хватает в персонаже, по шагам мастера. Пустой список — можно начинать игру. */

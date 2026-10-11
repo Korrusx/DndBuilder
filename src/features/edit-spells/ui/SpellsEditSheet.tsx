@@ -2,13 +2,13 @@
 
 import { View } from 'react-native';
 
-import { content } from '@/shared/content/content';
-import type { Character } from '@/entities/character/model/character';
 import { spellLimits, spellOptions } from '@/entities/character/model/build';
+import type { Character } from '@/entities/character/model/types';
 import { spacing } from '@/shared/config/theme';
-import { AppText } from '@/shared/ui/AppText/AppText';
+import { content } from '@/shared/content/content';
 import { spellName } from '@/shared/content/names';
 import { MultiPick, Section } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
 
 export function SpellsEditSheet({

@@ -1,25 +1,10 @@
 // Ресурсы умений с ограниченным числом использований: ярость, дикий облик, кости превосходства, наложение рук…
 // Максимум считается из справочника (content.resources), в состоянии игры хранится только потраченное.
 
-import type { ClassResource, Content, LocalizedText, ResourceFormula } from '@/shared/content/types';
-import type { Character, GameState } from './character';
+import type { ClassResource, Content, ResourceFormula } from '@/shared/content/types';
 import { totalLevel } from './character';
-import { computeSheet, type CharacterSheet } from './sheet';
-
-/** Как ресурс восстанавливается: только долгим отдыхом, полностью коротким или по одному за короткий. */
-export type ResourceRecovery = 'long' | 'short' | 'short-one';
-
-export type ResourceView = {
-  id: string;
-  name: LocalizedText;
-  max: number;
-  spent: number;
-  /** Кость ресурса (8 → к8). */
-  die?: number;
-  recovery: ResourceRecovery;
-};
-
-type Ctx = { level: number; sheet: CharacterSheet; classId?: string };
+import { computeSheet } from './sheet';
+import type { Character, CharacterSheet, Ctx, GameState, ResourceView } from './types';
 
 function evalFormula(f: ResourceFormula, { level, sheet, classId }: Ctx): number {
   if ('fixed' in f) return f.fixed;

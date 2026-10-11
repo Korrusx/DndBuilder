@@ -1,25 +1,13 @@
 // Файл обмена персонажами: экспорт (резервная копия, передача другу) и проверка файла при импорте.
 // В файле — те же данные, что в базе: выборы игрока и состояние игры; все числа пересчитываются из справочника.
 
-import type { Content } from '@/shared/content/types';
-import { ABILITY_IDS, type Character } from '@/entities/character/model/character';
-import { computeSheet } from '@/entities/character/model/sheet';
 import { withDefaults } from '@/entities/character/api/serialize';
-
-export const EXCHANGE_FORMAT = 'dnd-builder/characters';
-/** Версия формата файла. Повышается, если файл перестанет читаться старым способом. */
-export const EXCHANGE_VERSION = 1;
-/** Больше такого размера файл не читаем: наш файл с сотней персонажей весит меньше мегабайта. */
-export const EXCHANGE_MAX_BYTES = 5 * 1024 * 1024;
-
-export type ExchangeFile = {
-  format: typeof EXCHANGE_FORMAT;
-  version: number;
-  exportedAt: string;
-  /** Версия справочника, с которой сделан файл (для диагностики). */
-  contentVersion: string;
-  characters: Character[];
-};
+import { ABILITY_IDS } from '@/entities/character/config/constants';
+import { computeSheet } from '@/entities/character/model/sheet';
+import type { Character } from '@/entities/character/model/types';
+import type { Content } from '@/shared/content/types';
+import { EXCHANGE_FORMAT, EXCHANGE_MAX_BYTES, EXCHANGE_VERSION } from '../config/constants';
+import type { ExchangeFile, ImportResult } from './types';
 
 export function buildExchange(characters: Character[], now: string, contentVersion: string): ExchangeFile {
   return { format: EXCHANGE_FORMAT, version: EXCHANGE_VERSION, exportedAt: now, contentVersion, characters };
@@ -32,12 +20,6 @@ export function exchangeFileName(characters: Character[], now: string): string {
 }
 
 export class ImportError extends Error {}
-
-export type ImportResult = {
-  characters: Character[];
-  /** Что пропущено или может отображаться не полностью. */
-  warnings: string[];
-};
 
 const isObject = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null && !Array.isArray(x);
 const isStringArray = (x: unknown) => x === undefined || (Array.isArray(x) && x.every((v) => typeof v === 'string'));

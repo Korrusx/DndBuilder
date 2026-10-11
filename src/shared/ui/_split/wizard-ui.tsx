@@ -1,15 +1,14 @@
 // Общие элементы экранов мастера создания.
 
+import type { Character } from '@/entities/character/model/types';
+import { CREATE_STEPS } from '@/features/create-character/config/steps';
+import { useDraft } from '@/features/create-character/model/DraftContext';
+import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { ReactNode } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-
-import type { Character } from '@/entities/character/model/character';
-import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { AppText } from '../AppText/AppText';
 import { Button } from '../Button/Button';
 import { Screen } from '../Screen/Screen';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { CREATE_STEPS } from '@/features/create-character/config/steps';
 
 type WizardScreenProps = {
   step: number;

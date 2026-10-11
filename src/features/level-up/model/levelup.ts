@@ -1,65 +1,15 @@
 // Повышение уровня (один класс): что появляется на новом уровне, какие выборы нужно сделать,
 // чего не хватает и сколько хитов прибавится. Чистые функции, без React и базы.
 
-import type { AbilityId, Content } from '@/shared/content/types';
-import { ABILITY_IDS, type Character, type FeatChoice } from '@/entities/character/model/character';
-import { FEAT_FEATURES } from '@/entities/character/model/choices';
+import { FEAT_FEATURES } from '@/entities/character/config/constants';
 import { choiceOptionIds, proficientSkills, spellLimits, weaponMasteryCount } from '@/entities/character/model/build';
 import { computeSheet, finalAbilityScores, originFeatIds } from '@/entities/character/model/sheet';
-
-export const MAX_LEVEL = 20;
-
-/** Умения, дающие компетентность, и сколько навыков (по тексту SRD 5.2). */
-const EXPERTISE_GRANTS: Record<string, number> = {
-  'rogue-expertise': 2,
-  'bard-expertise': 2,
-  'ranger-expertise': 2,
-  'ranger-deft-explorer': 1,
-  'wizard-scholar': 1,
-};
-
-/** Умения, дающие новые языки. */
-const LANGUAGE_GRANTS: Record<string, number> = { 'ranger-deft-explorer': 2 };
-
-/** Умения, дающие владение навыками на выбор: из списка класса 1-го уровня или любыми. */
-const SKILL_GRANTS: Record<string, { choose: number; from: 'class' | 'any' }> = {
-  'barbarian-primal-knowledge': { choose: 1, from: 'class' },
-  'lore-bonus-proficiencies': { choose: 3, from: 'any' },
-};
-
-/**
- * Прибавки к характеристикам от черт, которые берут на уровне.
- * «Увеличение характеристик»: +2 к одной или +1 к двум. Остальные: +1 к одной из списка.
- * TODO: черта «Посвящённый в магию» на уровне пока не предлагается (нужен выбор заклинаний).
- */
-const FEAT_ABILITY: Record<string, { abilities: AbilityId[]; cap: number } | 'asi'> = {
-  'ability-score-improvement': 'asi',
-  grappler: { abilities: ['str', 'dex'], cap: 20 },
-  'boon-of-combat-prowess': { abilities: ABILITY_IDS, cap: 30 },
-  'boon-of-dimensional-travel': { abilities: ABILITY_IDS, cap: 30 },
-  'boon-of-fate': { abilities: ABILITY_IDS, cap: 30 },
-  'boon-of-irresistible-offense': { abilities: ABILITY_IDS, cap: 30 },
-  'boon-of-spell-recall': { abilities: ABILITY_IDS, cap: 30 },
-  'boon-of-the-night-spirit': { abilities: ABILITY_IDS, cap: 30 },
-  'boon-of-truesight': { abilities: ABILITY_IDS, cap: 30 },
-};
+import type { Character, FeatChoice } from '@/entities/character/model/types';
+import type { AbilityId, Content } from '@/shared/content/types';
+import { EXPERTISE_GRANTS, FEAT_ABILITY, LANGUAGE_GRANTS, SKILL_GRANTS } from '../config/constants';
+import type { FeatSlotKind, LevelUpIssue, LevelUpPlan } from './types';
 
 export const levelKey = (level: number) => `lvl${level}`;
-
-export type FeatSlotKind = 'asi' | 'epic-boon';
-
-export type LevelUpPlan = {
-  classId: string;
-  toLevel: number;
-  /** Умения класса и подкласса, получаемые на новом уровне. */
-  features: { id: string; source: 'class' | 'subclass' }[];
-  needsSubclass: boolean;
-  featSlot: FeatSlotKind | null;
-  expertise: number;
-  fightingStyles: number;
-  skillChoices: { key: string; featureId: string; choose: number; options: string[] }[];
-  languages: number;
-};
 
 /** Персонаж на следующем уровне (без новых выборов). */
 export function startLevelUp(c: Character): Character {
@@ -144,8 +94,6 @@ export function featAbilityRule(featId: string): { mode: 'asi' } | { mode: 'one'
   if (!rule) return null;
   return rule === 'asi' ? { mode: 'asi' } : { mode: 'one', ...rule };
 }
-
-export type LevelUpIssue = { message: string; blocking: boolean };
 
 /** Чего не хватает, чтобы закончить повышение уровня (`prev` — до повышения, `next` — после). */
 export function levelUpIssues(next: Character, prev: Character, content: Content): LevelUpIssue[] {

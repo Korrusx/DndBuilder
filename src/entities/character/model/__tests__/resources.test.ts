@@ -1,9 +1,9 @@
 import { content } from '@/shared/content/content';
-import { type Character } from '../character';
+import { irmaLevel1 } from '../../lib/samples';
 import { setClass } from '../build';
 import { adjustResource, characterResources, shortRestResources } from '../resources';
 import { longRest } from '../rest';
-import { irmaLevel1 } from '../../lib/samples';
+import type { Character } from '../types';
 
 /** Ирма с другим классом и уровнем (характеристики Ирмы: ХАР 10, МДР 12). */
 const at = (classId: string, level: number, subclassId?: string): Character => ({

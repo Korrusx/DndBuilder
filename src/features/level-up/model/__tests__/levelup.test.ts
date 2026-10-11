@@ -1,6 +1,8 @@
-import { content } from '@/shared/content/content';
-import { type Character } from '@/entities/character/model/character';
+import { irmaLevel1 } from '@/entities/character/lib/samples';
 import { setClass } from '@/entities/character/model/build';
+import { computeSheet } from '@/entities/character/model/sheet';
+import type { Character } from '@/entities/character/model/types';
+import { content } from '@/shared/content/content';
 import {
   featAbilityRule,
   finishLevelUp,
@@ -10,8 +12,6 @@ import {
   levelUpPlan,
   startLevelUp,
 } from '../levelup';
-import { irmaLevel1 } from '@/entities/character/lib/samples';
-import { computeSheet } from '@/entities/character/model/sheet';
 
 const blocking = (next: Character, prev: Character) =>
   levelUpIssues(next, prev, content)

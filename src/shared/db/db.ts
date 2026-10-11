@@ -1,12 +1,11 @@
 // Пользовательская база (персонажи). Справочник хранится отдельно — см. src/content.
 export * from '@/entities/character/api/characters';
+export * from '@/entities/character/api/serialize';
 export * from './meta';
 export * from './migrations';
-export * from '@/entities/character/api/serialize';
 
-import { migrate, type MigrationDb } from './migrations';
-
-export const USER_DB_NAME = 'user.db';
+import { migrate } from './migrations';
+import type { MigrationDb } from './types';
 
 /** Подготовка базы при запуске приложения (передаётся в SQLiteProvider). */
 export async function initUserDb(db: MigrationDb): Promise<void> {

@@ -3,11 +3,12 @@
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
-import { content, tr } from '@/shared/content/content';
-import { CUSTOM_ITEM_PREFIX, type InventoryItem } from '@/entities/character/model/character';
+import { CUSTOM_ITEM_PREFIX } from '@/entities/character/config/constants';
+import type { InventoryItem } from '@/entities/character/model/types';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
-import { AppText } from '@/shared/ui/AppText/AppText';
+import { content, tr } from '@/shared/content/content';
 import { Segmented } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
 
 type Source = 'equipment' | 'magic';

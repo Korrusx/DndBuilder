@@ -3,13 +3,15 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { rollD20, formatDice, formatModifier, type D20Mode, type D20Roll } from '@/shared/lib/dice/dice';
-import { exhaustionPenalty, rollDamage, type DamageRoll } from '@/entities/character/model/play';
+import { exhaustionPenalty, rollDamage } from '@/entities/character/model/play';
+import type { DamageRoll } from '@/entities/character/model/types';
 import { colors, fonts, spacing } from '@/shared/config/theme';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Button } from '@/shared/ui/Button/Button';
+import { formatDice, formatModifier, rollD20 } from '@/shared/lib/dice/dice';
+import type { D20Mode, D20Roll } from '@/shared/lib/dice/types';
 import { Segmented } from '@/shared/ui/_split/wizard-ui';
+import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
+import { Button } from '@/shared/ui/Button/Button';
 
 export type RollPart = { label: string; value: number };
 

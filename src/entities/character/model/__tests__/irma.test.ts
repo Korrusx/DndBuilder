@@ -1,7 +1,7 @@
 import { content } from '@/shared/content/content';
-import { computeSheet } from '../sheet';
 import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
 import { irmaLevel1, irmaLevel5 } from '../../lib/samples';
+import { computeSheet } from '../sheet';
 
 const skill = (sheet: ReturnType<typeof computeSheet>, id: string) => sheet.skills.find((s) => s.id === id)!;
 const attack = (sheet: ReturnType<typeof computeSheet>, id: string) => {

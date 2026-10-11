@@ -1,20 +1,9 @@
 // Краткая сводка персонажа для карточки в списке «Мои персонажи».
 
-import type { Content, LocalizedText } from '@/shared/content/types';
-import { totalLevel, type Character } from './character';
+import type { Content } from '@/shared/content/types';
+import { totalLevel } from './character';
 import { computeSheet } from './sheet';
-
-export type CharacterSummary = {
-  /** Буква для аватара. */
-  letter: string;
-  level: number;
-  classNames: LocalizedText[];
-  species?: LocalizedText;
-  background?: LocalizedText;
-  /** Хиты и КЗ — только для готового персонажа, у черновика их ещё нельзя посчитать. */
-  hp?: { current: number; max: number };
-  armorClass?: number;
-};
+import type { Character, CharacterSummary } from './types';
 
 export function characterSummary(c: Character, content: Content): CharacterSummary {
   const summary: CharacterSummary = {

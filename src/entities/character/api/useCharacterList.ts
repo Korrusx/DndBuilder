@@ -1,12 +1,11 @@
 // React-хуки для экранов. Данные перечитываются каждый раз, когда экран снова становится видимым.
 
+import { getMeta } from '@/shared/db/meta';
 import { useFocusEffect } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
-
-import type { Character } from '../model/character';
+import type { Character } from '../model/types';
 import { listCharacters } from './characters';
-import { getMeta } from '@/shared/db/meta';
 
 export function useCharacterList() {
   const db = useSQLiteContext();

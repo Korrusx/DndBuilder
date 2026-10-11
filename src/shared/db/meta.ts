@@ -1,8 +1,7 @@
 // Служебные значения пользовательской базы (ключ — значение).
 
 import type { SQLiteDatabase } from 'expo-sqlite';
-
-export type MetaKey = 'lastBackupAt';
+import type { MetaKey } from './types';
 
 export async function getMeta(db: SQLiteDatabase, key: MetaKey): Promise<string | null> {
   const row = await db.getFirstAsync<{ value: string }>('SELECT value FROM meta WHERE key = ?', key);

@@ -1,5 +1,6 @@
 // Контрольный персонаж из CLAUDE.md: Ирма Вейл, плут, полурослик, предыстория «Преступник».
-import { emptyGameState, type Character } from '../model/character';
+import { emptyGameState } from '../model/character';
+import type { Character } from '../model/types';
 
 export function irmaLevel1(): Character {
   return {
