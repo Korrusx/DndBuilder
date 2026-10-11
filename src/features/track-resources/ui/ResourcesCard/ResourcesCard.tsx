@@ -1,25 +1,14 @@
-// Блок «Ресурсы» на листе: ярость, дикий облик, кости превосходства, наложение рук…
-
-import { StyleSheet, View } from 'react-native';
-
 import { usePlay } from '@/entities/character/model/CharacterContext';
 import { adjustResource } from '@/entities/character/model/resources';
-import type { ResourceRecovery, ResourceView } from '@/entities/character/model/types';
-import { colors, fonts, spacing } from '@/shared/config/theme';
+import type { ResourceView } from '@/entities/character/model/types';
 import { tr } from '@/shared/content/content';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { Card } from '@/shared/ui/Card/Card';
 import { Dots } from '@/shared/ui/Dots/Dots';
 import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
-
-/** Больше стольких использований — показываем счётчик вместо кружков. */
-const MAX_DOTS = 10;
-
-const RECOVERY: Record<ResourceRecovery, string> = {
-  long: 'долгий отдых',
-  short: 'короткий отдых',
-  'short-one': '1 за короткий отдых, все за долгий',
-};
+import { View } from 'react-native';
+import { MAX_DOTS, RECOVERY } from '../../config/constants';
+import { styles } from './ResourcesCard.styles';
 
 export function ResourcesCard({ resources }: { resources: ResourceView[] }) {
   const { updateState } = usePlay();
@@ -59,10 +48,3 @@ export function ResourcesCard({ resources }: { resources: ResourceView[] }) {
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  item: { gap: spacing.xs },
-  note: { fontSize: 13 },
-  counter: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  left: { flex: 1, fontFamily: fonts.displayBold, fontSize: 22, color: colors.accent },
-});

@@ -1,31 +1,15 @@
-// Добавление предмета в инвентарь: поиск по снаряжению и магическим предметам или свой предмет.
-
-import { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
-
 import { CUSTOM_ITEM_PREFIX } from '@/entities/character/config/constants';
 import type { InventoryItem } from '@/entities/character/model/types';
-import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
-import { content, tr } from '@/shared/content/content';
+import { colors, spacing } from '@/shared/config/theme';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
 import { Segmented } from '@/shared/ui/Segmented/Segmented';
-
-type Source = 'equipment' | 'magic';
-
-type Entry = { id: string; name: string; note: string };
-
-const COIN: Record<string, string> = { cp: 'мм', sp: 'см', ep: 'эм', gp: 'зм', pp: 'пм' };
-
-const EQUIPMENT: Entry[] = content.equipment
-  .map((e) => ({ id: e.id, name: tr(e.name).text, note: `${e.cost.amount} ${COIN[e.cost.unit] ?? e.cost.unit}` }))
-  .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
-
-const MAGIC: Entry[] = content.magicItems
-  .map((m) => ({ id: m.id, name: tr(m.name).text, note: tr(m.rarity).text }))
-  .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
-
-const MAX_RESULTS = 40;
+import { useMemo, useState } from 'react';
+import { Pressable, TextInput, View } from 'react-native';
+import { MAX_RESULTS } from '../../config/constants';
+import { EQUIPMENT, MAGIC } from '../../model/catalog';
+import type { Source } from '../../model/types';
+import { styles } from './AddItemSheet.styles';
 
 export function AddItemSheet({
   visible,
@@ -111,21 +95,3 @@ export function AddItemSheet({
     </BottomSheet>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    minHeight: sizes.touchMin,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface2,
-    paddingHorizontal: spacing.md,
-    color: colors.text,
-    fontFamily: fonts.text,
-    fontSize: 16,
-  },
-  list: { borderRadius: radius.card - 4, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
-  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, minHeight: sizes.touchMin, paddingHorizontal: spacing.md },
-  customRow: { borderRadius: 14, backgroundColor: colors.accentBg },
-  divider: { borderTopWidth: 1, borderTopColor: colors.border },
-});

@@ -7,7 +7,7 @@ import { choiceOptionIds, proficientSkills, weaponMasteryCount, weaponMasteryOpt
 import { usePlay } from '@/entities/character/model/CharacterContext';
 import { finalAbilityScores } from '@/entities/character/model/sheet';
 import type { Character } from '@/entities/character/model/types';
-import { SpellsEditSheet } from '@/features/edit-spells/ui/SpellsEditSheet';
+import { SpellsEditSheet } from '@/features/edit-spells/ui/SpellsEditSheet/SpellsEditSheet';
 import {
     clearLevelFeatChoices,
     featAbilityRule,

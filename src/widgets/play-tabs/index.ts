@@ -1,1 +1,1 @@
-export { PlayTabsLayout } from './ui/PlayTabs';
+export { PlayTabsLayout } from './ui/PlayTabsLayout/PlayTabsLayout';

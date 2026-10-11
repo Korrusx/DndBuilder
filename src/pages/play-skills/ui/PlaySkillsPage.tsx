@@ -3,7 +3,9 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { usePlay } from '@/entities/character/model/CharacterContext';
 import { exhaustionPenalty } from '@/entities/character/model/play';
-import { D20Sheet, d20Parts, type D20Request } from '@/features/roll-dice/ui/RollSheet';
+import { d20Parts } from '@/features/roll-dice/model/d20Parts';
+import type { D20Request } from '@/features/roll-dice/model/types';
+import { D20Sheet } from '@/features/roll-dice/ui/D20Sheet/D20Sheet';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { abilityAbbr, abilityName, groupSkillsByAbility, nameOf } from '@/shared/content/names';
 import { formatModifier } from '@/shared/lib/dice/dice';

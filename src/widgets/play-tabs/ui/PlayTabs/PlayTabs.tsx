@@ -1,23 +1,14 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { router, Tabs } from 'expo-router';
-import type { ComponentProps } from 'react';
-import { ActivityIndicator, Pressable, View, type ColorValue } from 'react-native';
-
-import { CharacterProvider, usePlay } from '@/entities/character/model/CharacterContext';
+import { usePlay } from '@/entities/character/model/CharacterContext';
 import { usePdfExport } from '@/features/export-pdf/model/usePdfExport';
 import { colors, fonts, sizes } from '@/shared/config/theme';
 import { AppText } from '@/shared/ui/AppText/AppText';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { router, Tabs } from 'expo-router';
+import { ActivityIndicator, Pressable, View } from 'react-native';
+import { tabIcon } from '../../lib/tabIcon';
+import { headerButton } from './PlayTabs.styles';
 
-type IconName = ComponentProps<typeof MaterialCommunityIcons>['name'];
-
-/** Иконка вкладки нижнего бара. */
-const tabIcon =
-  (name: IconName) =>
-  ({ color, size }: { color: ColorValue; size: number }) => <MaterialCommunityIcons name={name} color={color as string} size={size} />;
-
-const headerButton = { minWidth: sizes.touchMin, minHeight: sizes.touchMin, justifyContent: 'center', alignItems: 'center' } as const;
-
-function PlayTabs() {
+export function PlayTabs() {
   const { character } = usePlay();
   const pdf = usePdfExport();
   return (
@@ -114,13 +105,5 @@ function PlayTabs() {
         }}
       />
     </Tabs>
-  );
-}
-
-export function PlayTabsLayout() {
-  return (
-    <CharacterProvider>
-      <PlayTabs />
-    </CharacterProvider>
   );
 }

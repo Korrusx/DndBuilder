@@ -1,0 +1,52 @@
+import { colors, fonts, radius, spacing } from '@/shared/config/theme';
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  card: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: radius.card,
+    padding: spacing.lg,
+    gap: spacing.md,
+  },
+  cardSelected: { borderColor: colors.accent, backgroundColor: colors.accentBg },
+  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  check: {
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkOn: { borderColor: colors.accent, backgroundColor: colors.accent },
+  checkMark: { fontFamily: fonts.displayBold, fontSize: 24, color: colors.onAccent },
+  avatar: {
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: colors.accentBg,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarDraft: { backgroundColor: colors.surface2 },
+  avatarLetter: { fontFamily: fonts.displayBold, fontSize: 22, color: colors.accent },
+  info: { flex: 1, gap: 2 },
+  level: { alignItems: 'center', minWidth: 40 },
+  levelNumber: { fontFamily: fonts.displayBold, fontSize: 22, color: colors.text },
+  levelLabel: { fontFamily: fonts.text, fontSize: 12, color: colors.textSecondary },
+  hpBlock: { flex: 1, gap: spacing.xs },
+  hpTrack: { height: 8, borderRadius: 4, backgroundColor: colors.surface2, overflow: 'hidden' },
+  hpFill: { height: '100%', borderRadius: 4 },
+  ac: {
+    alignItems: 'center',
+    minWidth: 52,
+    paddingVertical: spacing.xs,
+    borderRadius: 12,
+    backgroundColor: colors.surface2,
+  },
+  acNumber: { fontFamily: fonts.displayBold, fontSize: 18, color: colors.text },
+  draftRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+});

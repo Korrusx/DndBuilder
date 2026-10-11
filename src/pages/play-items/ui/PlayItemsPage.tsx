@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, View } from 'react-native';
 
 import { usePlay } from '@/entities/character/model/CharacterContext';
 import { addToInventory, toggleEquipped } from '@/entities/character/model/play';
-import { AddItemSheet } from '@/features/add-item/ui/AddItemSheet';
+import { AddItemSheet } from '@/features/add-item/ui/AddItemSheet/AddItemSheet';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { byId, content } from '@/shared/content/content';
 import { itemName, nameOf } from '@/shared/content/names';

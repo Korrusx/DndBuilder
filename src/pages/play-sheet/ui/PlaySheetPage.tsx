@@ -17,8 +17,10 @@ import { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from '@/e
 import { hpLevel } from '@/entities/character/model/summary';
 import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
 import { MAX_LEVEL } from '@/features/level-up/config/constants';
-import { d20Parts, D20Sheet, type D20Request } from '@/features/roll-dice/ui/RollSheet';
-import { ResourcesCard } from '@/features/track-resources/ui/ResourcesCard';
+import { d20Parts } from '@/features/roll-dice/model/d20Parts';
+import type { D20Request } from '@/features/roll-dice/model/types';
+import { D20Sheet } from '@/features/roll-dice/ui/D20Sheet/D20Sheet';
+import { ResourcesCard } from '@/features/track-resources/ui/ResourcesCard/ResourcesCard';
 import { colors, fonts, radius, spacing } from '@/shared/config/theme';
 import { byId, content, tr } from '@/shared/content/content';
 import { abilityAbbr, nameOf } from '@/shared/content/names';

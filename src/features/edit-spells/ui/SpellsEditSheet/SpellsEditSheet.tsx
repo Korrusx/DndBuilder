@@ -1,7 +1,3 @@
-// Смена заговоров и подготовленных заклинаний в пределах лимитов текущего уровня.
-
-import { View } from 'react-native';
-
 import { spellLimits, spellOptions } from '@/entities/character/model/build';
 import type { Character } from '@/entities/character/model/types';
 import { spacing } from '@/shared/config/theme';
@@ -11,6 +7,7 @@ import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
 import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
 import { Section } from '@/shared/ui/Section/Section';
+import { View } from 'react-native';
 
 export function SpellsEditSheet({
   visible,
