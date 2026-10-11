@@ -1,8 +1,8 @@
 import { colors } from '@/shared/config';
-import { ReactNode } from 'react';
 import { View } from 'react-native';
 import { AppText } from '../AppText/AppText';
 import { styles } from './Section.styles';
+import type { SectionProps } from './Section.types';
 
 /** Раздел шага: заголовок, счётчик «выбрано / нужно», подсказка. */
 export function Section({
@@ -11,13 +11,7 @@ export function Section({
   picked,
   need,
   children,
-}: {
-  title: string;
-  hint?: string;
-  picked?: number;
-  need?: number;
-  children: ReactNode;
-}) {
+}: SectionProps) {
   const done = need !== undefined && picked === need;
   return (
     <View style={styles.section}>

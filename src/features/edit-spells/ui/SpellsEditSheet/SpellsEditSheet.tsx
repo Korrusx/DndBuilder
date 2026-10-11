@@ -1,21 +1,16 @@
-import type { Character } from '@/entities/character';
 import { spellLimits, spellOptions } from '@/entities/character';
 import { spacing } from '@/shared/config';
 import { content, spellName } from '@/shared/content';
 import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
 import { View } from 'react-native';
+import type { SpellsEditSheetProps } from './SpellsEditSheet.types';
 
 export function SpellsEditSheet({
   visible,
   character: c,
   onChange,
   onClose,
-}: {
-  visible: boolean;
-  character: Character;
-  onChange: (patch: Pick<Character, 'cantrips' | 'preparedSpells'>) => void;
-  onClose: () => void;
-}) {
+}: SpellsEditSheetProps) {
   const limits = spellLimits(c, content);
   if (!limits) return null;
   const circles = Array.from({ length: limits.maxSpellLevel }, (_, i) => i + 1);

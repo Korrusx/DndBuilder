@@ -1,4 +1,3 @@
-import type { Character, CharacterSheet } from '@/entities/character';
 import { ABILITY_IDS, FEATURE_SOURCE_LABEL, featureName } from '@/entities/character';
 import { colors, fonts, spacing } from '@/shared/config';
 import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/shared/content';
@@ -8,8 +7,9 @@ import { View } from 'react-native';
 import { Grid } from '../Grid/Grid';
 import { Stat } from '../Stat/Stat';
 import { styles } from './SheetPreview.styles';
+import type { SheetPreviewProps } from './SheetPreview.types';
 
-export function SheetPreview({ c, sheet }: { c: Character; sheet: CharacterSheet }) {
+export function SheetPreview({ c, sheet }: SheetPreviewProps) {
   const main = [
     { label: 'Хиты', value: String(sheet.maxHp) },
     { label: 'КЗ', value: String(sheet.armorClass) },

@@ -4,11 +4,11 @@ import { formatDice, formatModifier } from '@/shared/lib/dice';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import type { DamageRequest } from '../../model/types';
 import { Die } from '../Die/Die';
 import { styles } from './DamageSheet.styles';
+import type { DamageSheetProps } from './DamageSheet.types';
 
-export function DamageSheet({ request, onClose }: { request: DamageRequest | null; onClose: () => void }) {
+export function DamageSheet({ request, onClose }: DamageSheetProps) {
   const [critical, setCritical] = useState(false);
   const [roll, setRoll] = useState<DamageRoll | null>(null);
 

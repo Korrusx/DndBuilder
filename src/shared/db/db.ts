@@ -1,7 +1,4 @@
-// Пользовательская база (персонажи). Справочник хранится отдельно — см. src/content.
-export * from '@/entities/character';
-export * from './meta';
-export * from './migrations';
+// Пользовательская база (персонажи). Справочник хранится отдельно — см. src/shared/content.
 
 import { migrate } from './migrations';
 import type { MigrationDb } from './types';

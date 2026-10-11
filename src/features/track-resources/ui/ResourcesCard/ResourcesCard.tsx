@@ -6,8 +6,9 @@ import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
 import { View } from 'react-native';
 import { MAX_DOTS, RECOVERY } from '../../config/constants';
 import { styles } from './ResourcesCard.styles';
+import type { ResourcesCardProps } from './ResourcesCard.types';
 
-export function ResourcesCard({ resources }: { resources: ResourceView[] }) {
+export function ResourcesCard({ resources }: ResourcesCardProps) {
   const { updateState } = usePlay();
   if (!resources.length) return null;
   const adjust = (r: ResourceView, delta: number) => updateState((s) => adjustResource(s, r.id, delta, r.max));

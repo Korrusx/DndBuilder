@@ -8,16 +8,13 @@ import { MAX_RESULTS } from '../../config/constants';
 import { EQUIPMENT, MAGIC } from '../../model/catalog';
 import type { Source } from '../../model/types';
 import { styles } from './AddItemSheet.styles';
+import type { AddItemSheetProps } from './AddItemSheet.types';
 
 export function AddItemSheet({
   visible,
   onClose,
   onAdd,
-}: {
-  visible: boolean;
-  onClose: () => void;
-  onAdd: (item: InventoryItem) => void;
-}) {
+}: AddItemSheetProps) {
   const [source, setSource] = useState<Source>('equipment');
   const [query, setQuery] = useState('');
   const [added, setAdded] = useState<string | null>(null);

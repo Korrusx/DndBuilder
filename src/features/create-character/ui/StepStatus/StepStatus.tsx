@@ -1,8 +1,8 @@
 import { AppText } from '@/shared/ui';
-import { ReactNode } from 'react';
+import type { StepStatusProps } from './StepStatus.types';
 
 /** Строка над «Далее»: чего не хватает на шаге. */
-export function StepStatus({ issues, done }: { issues: { message: string }[]; done?: ReactNode }) {
+export function StepStatus({ issues, done }: StepStatusProps) {
   if (issues.length === 0) return done ? <>{done}</> : null;
   return (
     <AppText variant="secondary" numberOfLines={2}>

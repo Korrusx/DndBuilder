@@ -1,6 +1,5 @@
 import { Pressable, View } from 'react-native';
 
-import { CREATE_STEPS } from '@/features/create-character';
 import { colors } from '@/shared/config';
 import { content, tr } from '@/shared/content';
 import { AppText, Button } from '@/shared/ui';
@@ -9,7 +8,7 @@ import { characterSummary, hpLevel } from '../../model/summary';
 import { styles } from './CharacterCard.styles';
 import type { CharacterCardProps } from './CharacterCard.types';
 
-export function CharacterCard({ character: c, onPress, onLongPress, selected }: CharacterCardProps) {
+export function CharacterCard({ character: c, onPress, onLongPress, selected, draftSteps }: CharacterCardProps) {
   const selecting = selected !== undefined;
   const s = characterSummary(c, content);
   const draft = c.status.kind === 'draft' ? c.status : null;
@@ -92,7 +91,7 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected }: 
       {draft ? (
         <View style={styles.draftRow}>
           <AppText variant="secondary" style={{ flex: 1 }}>
-            Черновик · шаг {draft.step} из {CREATE_STEPS.length}
+            Черновик · шаг {draft.step} из {draftSteps}
           </AppText>
           {selecting ? null : <Button title="Продолжить" variant="secondary" onPress={onPress} />}
         </View>

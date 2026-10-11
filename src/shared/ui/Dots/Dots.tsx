@@ -1,6 +1,7 @@
 import { colors } from '@/shared/config';
 import { Pressable, View } from 'react-native';
 import { styles } from './Dots.styles';
+import type { DotsProps } from './Dots.types';
 
 /** Кружки: потраченные ячейки, спасброски от смерти. */
 export function Dots({
@@ -8,12 +9,7 @@ export function Dots({
   filled,
   color = colors.accent,
   onPress,
-}: {
-  total: number;
-  filled: number;
-  color?: string;
-  onPress?: (index: number) => void;
-}) {
+}: DotsProps) {
   return (
     <View style={styles.dots}>
       {Array.from({ length: total }, (_, i) => (

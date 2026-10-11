@@ -1,11 +1,11 @@
-import type { EquipmentSource } from '@/entities/character';
 import { choice1, CHOICE_KEYS, equipmentChoice, equipmentPicks } from '@/entities/character';
 import { useDraft } from '@/features/create-character';
 import { content, equipmentOptionText, nameOf } from '@/shared/content';
 import { MultiPick, OptionCard, Section } from '@/shared/ui';
 import { LETTERS } from '../../config/constants';
+import type { EquipmentSectionProps } from './EquipmentSection.types';
 
-export function EquipmentSection({ source, title }: { source: EquipmentSource; title: string }) {
+export function EquipmentSection({ source, title }: EquipmentSectionProps) {
   const { character: c, update } = useDraft();
   const choice = equipmentChoice(c, content, source);
   if (!choice?.options) return null;

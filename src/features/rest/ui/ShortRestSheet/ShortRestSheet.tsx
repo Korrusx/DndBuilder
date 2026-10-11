@@ -7,8 +7,9 @@ import { AppText, BottomSheet, SmallButton } from '@/shared/ui';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { styles } from './ShortRestSheet.styles';
+import type { ShortRestSheetProps } from './ShortRestSheet.types';
 
-export function ShortRestSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+export function ShortRestSheet({ visible, onClose }: ShortRestSheetProps) {
   const { character: c, sheet, updateState } = usePlay();
   const [last, setLast] = useState<string | null>(null);
   const conMod = sheet.abilities.con.mod;

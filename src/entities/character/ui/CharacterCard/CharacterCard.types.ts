@@ -6,4 +6,6 @@ export type CharacterCardProps = {
   onLongPress: () => void;
   /** Режим выбора для массового удаления: undefined — выключен. */
   selected?: boolean;
+  /** Сколько всего шагов в мастере создания — для подписи черновика «шаг N из M». */
+  draftSteps: number;
 };

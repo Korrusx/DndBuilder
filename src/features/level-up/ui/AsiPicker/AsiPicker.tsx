@@ -5,17 +5,14 @@ import { abilityAbbr } from '@/shared/content';
 import { Chip, ChipRow, Segmented } from '@/shared/ui';
 import { useState } from 'react';
 import { View } from 'react-native';
+import type { AsiPickerProps } from './AsiPicker.types';
 
 /** «Увеличение характеристик»: +2 к одной или +1 к двум, не выше 20. */
 export function AsiPicker({
   increases,
   scores,
   onChange,
-}: {
-  increases: Partial<Record<AbilityId, number>>;
-  scores: Record<AbilityId, number>;
-  onChange: (inc: Partial<Record<AbilityId, number>>) => void;
-}) {
+}: AsiPickerProps) {
   const mode: 'two' | 'split' = Object.values(increases).some((v) => v === 2) || Object.keys(increases).length === 0 ? 'two' : 'split';
   const [current, setCurrent] = useState<'two' | 'split'>(mode);
   const picked = ABILITY_IDS.filter((id) => (increases[id] ?? 0) > 0);

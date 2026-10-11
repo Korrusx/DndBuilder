@@ -1,8 +1,9 @@
 import { AppText } from '@/shared/ui';
 import { Pressable } from 'react-native';
 import { styles } from './StepButton.styles';
+import type { StepButtonProps } from './StepButton.types';
 
-export function StepButton({ label, disabled, onPress }: { label: string; disabled: boolean; onPress: () => void }) {
+export function StepButton({ label, disabled, onPress }: StepButtonProps) {
   return (
     <Pressable
       accessibilityRole="button"

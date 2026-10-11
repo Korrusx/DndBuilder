@@ -146,6 +146,7 @@ export function CharactersPage() {
       selected={selected ? selected.has(c.id) : undefined}
       onPress={() => (selected ? toggle(c.id) : open(c))}
       onLongPress={() => toggle(c.id)}
+      draftSteps={CREATE_STEPS.length}
     />
   );
 

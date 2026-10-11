@@ -2,6 +2,7 @@ import { colors } from '@/shared/config';
 import { Pressable } from 'react-native';
 import { AppText } from '../AppText/AppText';
 import { styles } from './SmallButton.styles';
+import type { SmallButtonProps } from './SmallButton.types';
 
 /** Небольшая кнопка (44 px) с цветом урона/лечения/акцента. */
 export function SmallButton({
@@ -10,13 +11,7 @@ export function SmallButton({
   tone = 'neutral',
   disabled,
   flex,
-}: {
-  title: string;
-  onPress: () => void;
-  tone?: 'neutral' | 'damage' | 'heal' | 'accent';
-  disabled?: boolean;
-  flex?: number;
-}) {
+}: SmallButtonProps) {
   const palette = {
     neutral: { bg: colors.surface2, fg: colors.text },
     damage: { bg: colors.damageBg, fg: colors.damage },

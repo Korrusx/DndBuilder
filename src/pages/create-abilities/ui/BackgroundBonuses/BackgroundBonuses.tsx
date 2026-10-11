@@ -1,12 +1,13 @@
-import type { AbilityScores, Character } from '@/entities/character';
+import type { AbilityScores } from '@/entities/character';
 import { backgroundBonusPattern } from '@/entities/character';
 import { useDraft } from '@/features/create-character';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, nameOf } from '@/shared/content';
 import { AppText, Chip, ChipRow, Hint, Section, Segmented } from '@/shared/ui';
 import { styles } from './BackgroundBonuses.styles';
+import type { BackgroundBonusesProps } from './BackgroundBonuses.types';
 
-export function BackgroundBonuses({ c, allowed }: { c: Character; allowed: AbilityId[] }) {
+export function BackgroundBonuses({ c, allowed }: BackgroundBonusesProps) {
   const { update } = useDraft();
   const pattern = backgroundBonusPattern(c.backgroundBonuses);
   const plus2 = allowed.find((id) => c.backgroundBonuses[id] === 2);

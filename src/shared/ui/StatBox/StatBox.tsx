@@ -2,9 +2,10 @@ import { colors } from '@/shared/config';
 import { Pressable } from 'react-native';
 import { AppText } from '../AppText/AppText';
 import { styles } from './StatBox.styles';
+import type { StatBoxProps } from './StatBox.types';
 
 /** Плитка с числом: КЗ, инициатива, скорость… Нажатие — бросок или подробности. */
-export function StatBox({ label, value, onPress, accent }: { label: string; value: string; onPress?: () => void; accent?: boolean }) {
+export function StatBox({ label, value, onPress, accent }: StatBoxProps) {
   return (
     <Pressable
       accessibilityRole={onPress ? 'button' : undefined}

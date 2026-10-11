@@ -1,5 +1,6 @@
 import { Chip } from '../Chip/Chip';
 import { ChipRow } from '../ChipRow/ChipRow';
+import type { MultiPickProps } from './MultiPick.types';
 
 /**
  * Выбор нескольких вариантов из списка с ограничением.
@@ -12,14 +13,7 @@ export function MultiPick({
   label,
   blocked,
   onChange,
-}: {
-  options: string[];
-  selected: string[];
-  max: number;
-  label: (id: string) => string;
-  blocked?: Map<string, string>;
-  onChange: (next: string[]) => void;
-}) {
+}: MultiPickProps) {
   const full = selected.length >= max;
   return (
     <ChipRow>

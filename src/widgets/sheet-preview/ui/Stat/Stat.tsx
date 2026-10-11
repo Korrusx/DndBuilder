@@ -1,8 +1,9 @@
 import { AppText } from '@/shared/ui';
 import { View } from 'react-native';
 import { styles } from './Stat.styles';
+import type { StatProps } from './Stat.types';
 
-export function Stat({ label, value, note }: { label: string; value: string; note?: string }) {
+export function Stat({ label, value, note }: StatProps) {
   return (
     <View style={styles.stat}>
       <AppText style={styles.statValue}>{value}</AppText>

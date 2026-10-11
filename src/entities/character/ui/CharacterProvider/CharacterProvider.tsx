@@ -3,17 +3,18 @@
 
 import { useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { content } from '@/shared/content';
 import { AppText, Screen } from '@/shared/ui';
 import { getCharacter, saveCharacter } from '../../api/characters';
 import { computeSheet } from '../../model/sheet';
 import type { Character, GameState, PlayApi } from '../../model/types';
+import type { CharacterProviderProps } from './CharacterProvider.types';
 
 const PlayContext = createContext<PlayApi | null>(null);
 
-export function CharacterProvider({ children }: { children: ReactNode }) {
+export function CharacterProvider({ children }: CharacterProviderProps) {
   const db = useSQLiteContext();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [character, setCharacter] = useState<Character | null | undefined>(undefined);

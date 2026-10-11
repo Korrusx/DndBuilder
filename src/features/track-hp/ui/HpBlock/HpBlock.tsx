@@ -1,4 +1,3 @@
-import type { Character, CharacterSheet } from '@/entities/character';
 import { applyDamage, applyHealing, deathStatus, HP_COLORS, hpLevel, setTempHp } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { colors, fonts } from '@/shared/config';
@@ -6,8 +5,9 @@ import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
 import { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { styles } from './HpBlock.styles';
+import type { HpBlockProps } from './HpBlock.types';
 
-export function HpBlock({ c, sheet, onDeathSave }: { c: Character; sheet: CharacterSheet; onDeathSave: () => void }) {
+export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
   const { updateState } = usePlay();
   const [amountText, setAmountText] = useState('1');
   const amount = Math.max(0, parseInt(amountText, 10) || 0);

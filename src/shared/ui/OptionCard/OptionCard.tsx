@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 import { AppText } from '../AppText/AppText';
 import { styles } from './OptionCard.styles';
+import type { OptionCardProps } from './OptionCard.types';
 
 /** Карточка варианта (класс, предыстория, вид, набор снаряжения). */
 export function OptionCard({
@@ -10,14 +10,7 @@ export function OptionCard({
   selected,
   onPress,
   compact,
-}: {
-  title: ReactNode;
-  lines?: ReactNode[];
-  selected?: boolean;
-  /** Без обработчика — просто карточка с информацией. */
-  onPress?: () => void;
-  compact?: boolean;
-}) {
+}: OptionCardProps) {
   const body = (
     <>
       {typeof title === 'string' ? <AppText variant="heading">{title}</AppText> : title}

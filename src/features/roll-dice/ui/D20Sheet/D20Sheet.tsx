@@ -4,11 +4,11 @@ import { formatModifier, rollD20 } from '@/shared/lib/dice';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import type { D20Request } from '../../model/types';
 import { Die } from '../Die/Die';
 import { styles } from './D20Sheet.styles';
+import type { D20SheetProps } from './D20Sheet.types';
 
-export function D20Sheet({ request, onClose }: { request: D20Request | null; onClose: () => void }) {
+export function D20Sheet({ request, onClose }: D20SheetProps) {
   const [mode, setMode] = useState<D20Mode>('normal');
   const [roll, setRoll] = useState<D20Roll | null>(null);
   const modifier = request?.parts.reduce((s, p) => s + p.value, 0) ?? 0;

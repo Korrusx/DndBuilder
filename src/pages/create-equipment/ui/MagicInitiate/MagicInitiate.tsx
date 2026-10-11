@@ -1,18 +1,14 @@
-import type { OriginFeatSlot } from '@/entities/character';
 import { choice1, CHOICE_KEYS, MAGIC_INITIATE_ABILITIES, MAGIC_INITIATE_LISTS, spellOptions } from '@/entities/character';
 import { useDraft } from '@/features/create-character';
 import { abilityAbbr, content, nameOf, spellName } from '@/shared/content';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
+import type { MagicInitiateProps } from './MagicInitiate.types';
 
 export function MagicInitiate({
   slot,
   fixedList,
   setChoice,
-}: {
-  slot: OriginFeatSlot;
-  fixedList?: string;
-  setChoice: (key: string, ids: string[]) => void;
-}) {
+}: MagicInitiateProps) {
   const { character: c, update } = useDraft();
   const listKey = CHOICE_KEYS.featSpellList(slot);
   const list = fixedList ?? choice1(c, listKey);

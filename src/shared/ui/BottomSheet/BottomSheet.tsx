@@ -1,10 +1,10 @@
-import { ReactNode } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { spacing } from '@/shared/config';
 import { AppText } from '../AppText/AppText';
 import { styles } from './BottomSheet.styles';
+import type { BottomSheetProps } from './BottomSheet.types';
 
 /** Нижняя панель поверх экрана. Нажатие на затемнение закрывает её. */
 export function BottomSheet({
@@ -12,12 +12,7 @@ export function BottomSheet({
   title,
   onClose,
   children,
-}: {
-  visible: boolean;
-  title?: string;
-  onClose: () => void;
-  children: ReactNode;
-}) {
+}: BottomSheetProps) {
   const insets = useSafeAreaInsets();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>

@@ -2,17 +2,14 @@ import { colors } from '@/shared/config';
 import { Pressable, View } from 'react-native';
 import { AppText } from '../AppText/AppText';
 import { styles } from './Segmented.styles';
+import type { SegmentedProps } from './Segmented.types';
 
 /** Переключатель из нескольких вариантов («Стандартный / Покупка очков / Броски»). */
 export function Segmented<T extends string>({
   options,
   value,
   onChange,
-}: {
-  options: { value: T; label: string }[];
-  value: T;
-  onChange: (v: T) => void;
-}) {
+}: SegmentedProps<T>) {
   return (
     <View style={styles.segmented}>
       {options.map((o) => {
