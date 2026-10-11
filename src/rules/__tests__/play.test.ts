@@ -13,6 +13,7 @@ import {
   speedWithExhaustion,
   toggleCondition,
   toggleEquipped,
+  addToInventory,
   unarmedStrike,
 } from '../play';
 import { applyDamage } from '../rest';
@@ -120,4 +121,12 @@ describe('вещи', () => {
     expect(withShield.map((i) => !!i.equipped)).toEqual([false, true, true, true]);
     expect(toggleEquipped(withShield, 3, content)[3].equipped).toBe(false);
   });
+});
+
+test('добавление предмета: одинаковые складываются, свои — отдельно', () => {
+  const items = [{ itemId: 'dagger', quantity: 2 }];
+  expect(addToInventory(items, { itemId: 'dagger', quantity: 1 })).toEqual([{ itemId: 'dagger', quantity: 3 }]);
+  expect(addToInventory(items, { itemId: 'bag-of-holding', quantity: 1 })).toHaveLength(2);
+  const custom = { itemId: 'custom:a', quantity: 1, name: 'Письмо барона' };
+  expect(addToInventory([custom], { ...custom })).toHaveLength(2);
 });

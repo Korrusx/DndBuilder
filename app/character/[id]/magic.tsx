@@ -4,6 +4,7 @@ import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/AppText';
 import { usePlay } from '@/components/play/CharacterContext';
 import { D20Sheet, d20Parts, type D20Request } from '@/components/play/RollSheet';
+import { SpellsEditSheet } from '@/components/play/SpellsEditSheet';
 import { Card, Dots, InfoSheet, plain, SmallButton, StatBox } from '@/components/play/ui';
 import { Placeholder } from '@/components/Placeholder';
 import { Screen } from '@/components/Screen';
@@ -26,7 +27,8 @@ function spellMeta(s: Spell): string {
 }
 
 export default function MagicTab() {
-  const { character: c, sheet, updateState } = usePlay();
+  const { character: c, sheet, update, updateState } = usePlay();
+  const [editing, setEditing] = useState(false);
   const [info, setInfo] = useState<Info | null>(null);
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -125,6 +127,7 @@ export default function MagicTab() {
             )}
           </Card>
 
+          <SmallButton title="Изменить заклинания" onPress={() => setEditing(true)} />
           {message ? <AppText style={{ color: colors.accent }}>{message}</AppText> : null}
 
           {c.cantrips.length ? (
@@ -156,6 +159,12 @@ export default function MagicTab() {
       <AppText variant="secondary">К — концентрация, Р — ритуал.</AppText>
 
       <InfoSheet info={info} onClose={() => setInfo(null)} />
+      <SpellsEditSheet
+        visible={editing}
+        character={c}
+        onChange={(patch) => update((d) => ({ ...d, ...patch }))}
+        onClose={() => setEditing(false)}
+      />
       <D20Sheet request={roll} onClose={() => setRoll(null)} />
     </Screen>
   );

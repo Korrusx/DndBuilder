@@ -81,3 +81,14 @@ export function groupSkillsByAbility<T extends { id: string; ability: AbilityId 
       .sort((a, b) => nameOf('skills', a.id).localeCompare(nameOf('skills', b.id), 'ru')),
   }));
 }
+
+const magicItemById = new Map(content.magicItems.map((m) => [m.id, m]));
+
+/** Название предмета инвентаря: снаряжение, магический предмет или свой предмет. */
+export function itemName(item: { itemId: string; name?: string }): string {
+  if (item.name) return item.name;
+  const eq = byId.equipment.get(item.itemId);
+  if (eq) return tr(eq.name).text;
+  const magic = magicItemById.get(item.itemId);
+  return magic ? tr(magic.name).text : item.itemId;
+}

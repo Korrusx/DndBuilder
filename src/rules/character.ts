@@ -23,7 +23,13 @@ export type FeatChoice = {
   abilityIncreases?: Partial<AbilityScores>;
 };
 
-export type InventoryItem = { itemId: string; quantity: number; equipped?: boolean };
+/**
+ * Предмет в инвентаре. `itemId` — id снаряжения или магического предмета из справочника,
+ * либо `custom:…` для своего предмета; тогда название хранится в `name`.
+ */
+export type InventoryItem = { itemId: string; quantity: number; equipped?: boolean; name?: string };
+
+export const CUSTOM_ITEM_PREFIX = 'custom:';
 
 export type GameState = {
   currentHp: number;

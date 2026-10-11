@@ -1,13 +1,15 @@
+import { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { usePlay } from '@/components/play/CharacterContext';
+import { AddItemSheet } from '@/components/play/AddItemSheet';
 import { Card, SmallButton } from '@/components/play/ui';
 import { Screen } from '@/components/Screen';
-import { nameOf } from '@/components/wizard/names';
+import { itemName, nameOf } from '@/components/wizard/names';
 import { byId, content } from '@/content';
 import type { Coin } from '@/content/types';
-import { toggleEquipped } from '@/rules/play';
+import { addToInventory, toggleEquipped } from '@/rules/play';
 import { colors, fonts, radius, sizes, spacing } from '@/theme';
 
 const COINS: { id: Coin; label: string }[] = [
@@ -20,6 +22,7 @@ const COINS: { id: Coin; label: string }[] = [
 
 export default function ItemsTab() {
   const { character: c, sheet, update } = usePlay();
+  const [adding, setAdding] = useState(false);
 
   const setQuantity = (index: number, quantity: number) =>
     update((d) => ({
@@ -31,6 +34,7 @@ export default function ItemsTab() {
     <Screen>
       <AppText variant="secondary">КЗ сейчас: {sheet.armorClass}. Надетые доспех и щит учитываются в КЗ.</AppText>
 
+      <SmallButton title="+ Добавить предмет" tone="accent" onPress={() => setAdding(true)} />
       {c.equipment.length === 0 ? <AppText variant="secondary">Снаряжения нет.</AppText> : null}
       <View style={styles.list}>
         {c.equipment.map((it, index) => {
@@ -40,7 +44,7 @@ export default function ItemsTab() {
           return (
             <View key={`${it.itemId}-${index}`} style={[styles.row, index > 0 && styles.divider]}>
               <View style={{ flex: 1, gap: 2 }}>
-                <AppText>{nameOf('equipment', it.itemId)}</AppText>
+                <AppText>{itemName(it)}</AppText>
                 {contents?.length ? (
                   <AppText variant="secondary" style={{ fontSize: 12 }}>
                     {contents.join(', ')}
@@ -82,6 +86,11 @@ export default function ItemsTab() {
           </View>
         ))}
       </Card>
+      <AddItemSheet
+        visible={adding}
+        onClose={() => setAdding(false)}
+        onAdd={(item) => update((d) => ({ ...d, equipment: addToInventory(d.equipment, item) }))}
+      />
     </Screen>
   );
 }

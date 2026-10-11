@@ -4,7 +4,10 @@ import { StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/AppText';
 import { usePlay } from '@/components/play/CharacterContext';
 import { D20Sheet, d20Parts, DamageSheet, type D20Request, type DamageRequest } from '@/components/play/RollSheet';
+import { BottomSheet } from '@/components/play/BottomSheet';
 import { Card, InfoSheet, plain, SmallButton, StatBox } from '@/components/play/ui';
+import { MultiPick } from '@/components/wizard/ui';
+import { weaponMasteryCount, weaponMasteryOptions } from '@/rules/creation';
 import { Screen } from '@/components/Screen';
 import { abilityAbbr, nameOf } from '@/components/wizard/names';
 import { byId, content, tr } from '@/content';
@@ -16,7 +19,9 @@ const masteries = new Map(content.weaponMasteries.map((m) => [m.id, m]));
 const damageTypes = new Map(content.damageTypes.map((d) => [d.id, d]));
 
 export default function CombatTab() {
-  const { character: c, sheet } = usePlay();
+  const { character: c, sheet, update } = usePlay();
+  const [editMastery, setEditMastery] = useState(false);
+  const masteryCount = weaponMasteryCount(c, content);
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [damage, setDamage] = useState<DamageRequest | null>(null);
   const [info, setInfo] = useState<{ title: string; text: string } | null>(null);
@@ -129,6 +134,28 @@ export default function CombatTab() {
       <AppText variant="secondary" style={{ color: colors.textSecondary }}>
         Атака — бросок к20; при естественной 20 нажмите «Критический» в панели урона.
       </AppText>
+
+      {masteryCount ? (
+        <Card style={{ gap: spacing.sm }}>
+          <AppText variant="heading">Приёмы оружия</AppText>
+          <AppText variant="secondary">
+            {c.weaponMasteries.length ? c.weaponMasteries.map((id) => nameOf('equipment', id)).join(', ') : 'Не выбраны'} ·{' '}
+            {c.weaponMasteries.length} из {masteryCount}
+          </AppText>
+          <SmallButton title="Изменить приёмы" onPress={() => setEditMastery(true)} />
+        </Card>
+      ) : null}
+
+      <BottomSheet visible={editMastery} title="Приёмы оружия" onClose={() => setEditMastery(false)}>
+        <AppText variant="secondary">Виды оружия, свойства-приёмы которых вы используете. Менять можно после долгого отдыха.</AppText>
+        <MultiPick
+          options={weaponMasteryOptions(c, content)}
+          selected={c.weaponMasteries}
+          max={masteryCount}
+          label={(id) => nameOf('equipment', id)}
+          onChange={(weaponMasteries) => update((d) => ({ ...d, weaponMasteries }))}
+        />
+      </BottomSheet>
 
       <D20Sheet request={roll} onClose={() => setRoll(null)} />
       <DamageSheet request={damage} onClose={() => setDamage(null)} />

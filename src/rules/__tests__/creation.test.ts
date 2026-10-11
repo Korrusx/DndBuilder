@@ -116,7 +116,7 @@ describe('мастер создания', () => {
     let c = setClass(blank(), 'cleric');
     c = setBackground(c, 'acolyte');
     c = setSpecies(c, 'human', content);
-    expect(spellLimits(c, content)).toEqual({ classId: 'cleric', cantrips: 3, prepared: 4 });
+    expect(spellLimits(c, content)).toEqual({ classId: 'cleric', cantrips: 3, prepared: 4, maxSpellLevel: 1 });
 
     const thaum = { ...c, choices: { ...c.choices, 'feature.cleric-divine-order': ['thaumaturge'] } };
     expect(spellLimits(thaum, content)?.cantrips).toBe(4);
@@ -179,5 +179,19 @@ describe('мастер создания', () => {
     const guard = { ...setBackground(blank(), 'guard'), choices: { 'equip.background': ['0'] } };
     const picks = equipmentPicks(equipmentChoice(guard, content, 'background')?.options?.[0], content);
     expect(picks[0].options).toContain('dice');
+  });
+
+  test('лимиты на текущем уровне: заклинания и приёмы оружия', () => {
+    const wizard = (level: number) => ({ ...setClass(blank(), 'wizard'), classes: [{ classId: 'wizard', level }] });
+    expect(spellLimits(wizard(1), content)).toMatchObject({ cantrips: 3, prepared: 4, maxSpellLevel: 1 });
+    expect(spellLimits(wizard(3), content)).toMatchObject({ cantrips: 3, prepared: 6, maxSpellLevel: 2 });
+    expect(spellLimits(wizard(5), content)).toMatchObject({ cantrips: 4, prepared: 9, maxSpellLevel: 3 });
+    // У колдуна все ячейки одного круга: на 3-м уровне — 2-го.
+    const warlock = { ...setClass(blank(), 'warlock'), classes: [{ classId: 'warlock', level: 3 }] };
+    expect(spellLimits(warlock, content)?.maxSpellLevel).toBe(2);
+    const fighter = (level: number) => ({ ...setClass(blank(), 'fighter'), classes: [{ classId: 'fighter', level }] });
+    expect(weaponMasteryCount(fighter(1), content)).toBe(3);
+    expect(weaponMasteryCount(fighter(4), content)).toBe(4);
+    expect(weaponMasteryCount({ ...irmaViaWizard(), classes: [{ classId: 'rogue', level: 5 }] }, content)).toBe(2);
   });
 });

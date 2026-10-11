@@ -1,7 +1,7 @@
 // Режим игры: спасброски от смерти, истощение, ячейки, сотворение заклинаний, броски урона, вещи.
 
 import type { Content } from '@/content/types';
-import type { GameState, InventoryItem } from './character';
+import { CUSTOM_ITEM_PREFIX, type GameState, type InventoryItem } from './character';
 import { parseDice, rollDie } from './dice';
 
 // ---------- Истощение (SRD 5.2) ----------
@@ -132,4 +132,11 @@ export function toggleEquipped(items: InventoryItem[], index: number, content: C
     if (on && targetKind !== 'other' && item.equipped && kind(item) === targetKind) return { ...item, equipped: false };
     return item;
   });
+}
+
+/** Добавляет предмет: если такой уже есть (и это не свой предмет), увеличивает количество. */
+export function addToInventory(items: InventoryItem[], item: InventoryItem): InventoryItem[] {
+  const i = items.findIndex((x) => x.itemId === item.itemId && !x.itemId.startsWith(CUSTOM_ITEM_PREFIX));
+  if (i < 0) return [...items, item];
+  return items.map((x, j) => (j === i ? { ...x, quantity: x.quantity + item.quantity } : x));
 }

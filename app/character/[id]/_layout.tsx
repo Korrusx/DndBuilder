@@ -24,6 +24,16 @@ function PlayTabs() {
         headerTintColor: colors.text,
         headerTitleStyle: { fontFamily: fonts.display },
         headerShadowVisible: false,
+        headerRight: () => (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Изменить персонажа"
+            onPress={() => router.navigate({ pathname: '/character/[id]/edit', params: { id: character.id } })}
+            style={{ minWidth: sizes.touchMin, minHeight: sizes.touchMin, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}
+          >
+            <MaterialCommunityIcons name="pencil-outline" size={24} color={colors.text} />
+          </Pressable>
+        ),
         headerLeft: () => (
           <Pressable
             accessibilityRole="button"
@@ -46,6 +56,25 @@ function PlayTabs() {
       <Tabs.Screen name="combat" options={{ tabBarLabel: 'Бой', tabBarIcon: tabIcon('sword-cross') }} />
       <Tabs.Screen name="magic" options={{ tabBarLabel: 'Магия', tabBarIcon: tabIcon('auto-fix') }} />
       <Tabs.Screen name="items" options={{ tabBarLabel: 'Вещи', tabBarIcon: tabIcon('bag-personal-outline') }} />
+      <Tabs.Screen
+        name="edit"
+        options={{
+          href: null,
+          title: 'Изменить',
+          tabBarStyle: { display: 'none' },
+          headerRight: () => null,
+          headerLeft: () => (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Готово"
+              onPress={() => router.navigate({ pathname: '/character/[id]', params: { id: character.id } })}
+              style={{ minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: 16 }}
+            >
+              <AppText style={{ color: colors.accent, fontFamily: fonts.textBold }}>Готово</AppText>
+            </Pressable>
+          ),
+        }}
+      />
     </Tabs>
   );
 }

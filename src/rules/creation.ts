@@ -177,8 +177,11 @@ export function expertiseCount(c: Character, content: Content): number {
 /** Сколько видов оружия с приёмами (из таблицы класса; если столбца нет — 2). */
 export function weaponMasteryCount(c: Character, content: Content): number {
   const cls = startingClass(c, content);
-  if (!cls?.levels[0]?.features.some((id) => id.endsWith('-weapon-mastery'))) return 0;
-  const fromTable = cls.levels[0].classSpecific?.weapon_mastery;
+  const level = c.classes[0]?.level ?? 1;
+  const rows = cls?.levels.slice(0, level) ?? [];
+  if (!rows.some((r) => r.features.some((id) => id.endsWith('-weapon-mastery')))) return 0;
+  // Столбец таблицы класса на текущем уровне; если его нет (плут, паладин, следопыт) — 2.
+  const fromTable = rows[rows.length - 1]?.classSpecific?.weapon_mastery;
   return typeof fromTable === 'number' ? fromTable : 2;
 }
 
@@ -263,17 +266,27 @@ export function startingKit(c: Character, content: Content): { items: InventoryI
 
 // ---------- Шаг 5: заклинания ----------
 
-/** Сколько заговоров и подготовленных заклинаний выбирает заклинатель 1-го уровня. */
-export function spellLimits(c: Character, content: Content): { classId: string; cantrips: number; prepared: number } | null {
+export type SpellLimits = {
+  classId: string;
+  cantrips: number;
+  prepared: number;
+  /** Самый высокий круг, для которого есть ячейки (подготовленные заклинания — с 1-го по этот). */
+  maxSpellLevel: number;
+};
+
+/** Сколько заговоров и подготовленных заклинаний у заклинателя на текущем уровне стартового класса. */
+export function spellLimits(c: Character, content: Content): SpellLimits | null {
   const cls = startingClass(c, content);
-  const sc = cls?.levels[0]?.spellcasting;
-  if (!cls || !sc || (cls.spellcasting?.fromLevel ?? 99) > 1) return null;
+  const level = c.classes[0]?.level ?? 1;
+  const sc = cls?.levels[level - 1]?.spellcasting;
+  if (!cls || !sc || (cls.spellcasting?.fromLevel ?? 99) > level) return null;
   let cantrips = sc.cantrips;
   for (const featureId of featureOptionIds(c, content)) {
     const chosen = choice1(c, CHOICE_KEYS.featureOption(featureId));
     cantrips += FEATURE_OPTIONS[featureId].find((o) => o.id === chosen)?.extraCantrips ?? 0;
   }
-  return { classId: cls.id, cantrips, prepared: sc.prepared };
+  const maxSpellLevel = sc.slots.reduce((max, n, i) => (n > 0 ? i + 1 : max), 0);
+  return { classId: cls.id, cantrips, prepared: sc.prepared, maxSpellLevel };
 }
 
 /** Заклинания списка класса указанного круга (0 — заговоры). */
