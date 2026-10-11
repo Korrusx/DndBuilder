@@ -8,9 +8,10 @@ import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { byId, content } from '@/shared/content/content';
 import { itemName, nameOf } from '@/shared/content/names';
 import type { Coin } from '@/shared/content/types';
-import { Card, SmallButton } from '@/shared/ui/_split/play-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
+import { Card } from '@/shared/ui/Card/Card';
 import { Screen } from '@/shared/ui/Screen/Screen';
+import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 
 const COINS: { id: Coin; label: string }[] = [
   { id: 'pp', label: 'Платиновые (пм)' },

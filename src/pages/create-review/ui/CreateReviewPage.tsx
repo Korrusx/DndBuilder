@@ -5,14 +5,17 @@ import { computeSheet } from '@/entities/character/model/sheet';
 import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
 import { useDraft } from '@/features/create-character/model/DraftContext';
 import { draftIssues } from '@/features/create-character/model/validation';
+import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
 import { usePdfExport } from '@/features/export-pdf/model/usePdfExport';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { content, tr } from '@/shared/content/content';
 import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/shared/content/names';
 import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
-import { Chip, ChipRow, Section, WizardScreen } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { Button } from '@/shared/ui/Button/Button';
+import { Chip } from '@/shared/ui/Chip/Chip';
+import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
+import { Section } from '@/shared/ui/Section/Section';
 
 const SOURCE_LABEL: Record<SourcedId['source'], string> = { class: 'Класс', subclass: 'Подкласс', species: 'Вид', feat: 'Черта' };
 

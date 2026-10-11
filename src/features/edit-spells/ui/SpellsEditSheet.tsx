@@ -7,9 +7,10 @@ import type { Character } from '@/entities/character/model/types';
 import { spacing } from '@/shared/config/theme';
 import { content } from '@/shared/content/content';
 import { spellName } from '@/shared/content/names';
-import { MultiPick, Section } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
+import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
+import { Section } from '@/shared/ui/Section/Section';
 
 export function SpellsEditSheet({
   visible,

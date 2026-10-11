@@ -22,12 +22,18 @@ import { ResourcesCard } from '@/features/track-resources/ui/ResourcesCard';
 import { colors, fonts, radius, spacing } from '@/shared/config/theme';
 import { byId, content, tr } from '@/shared/content/content';
 import { abilityAbbr, nameOf } from '@/shared/content/names';
+import { plain } from '@/shared/content/plain';
 import { formatModifier, rollD20, rollDie } from '@/shared/lib/dice/dice';
-import { Card, Dots, InfoSheet, plain, SmallButton, StatBox } from '@/shared/ui/_split/play-ui';
-import { Chip, ChipRow } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
+import { Card } from '@/shared/ui/Card/Card';
+import { Chip } from '@/shared/ui/Chip/Chip';
+import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
+import { Dots } from '@/shared/ui/Dots/Dots';
+import { InfoSheet } from '@/shared/ui/InfoSheet/InfoSheet';
 import { Screen } from '@/shared/ui/Screen/Screen';
+import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
+import { StatBox } from '@/shared/ui/StatBox/StatBox';
 
 const HP_COLORS = { good: colors.heal, warn: colors.accent, danger: colors.damage } as const;
 

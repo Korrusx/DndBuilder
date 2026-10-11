@@ -7,9 +7,11 @@ import { shareCharacters } from '@/features/transfer-characters/api/files';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { content, tr } from '@/shared/content/content';
 import { nameOf } from '@/shared/content/names';
-import { SmallButton } from '@/shared/ui/_split/play-ui';
-import { Chip, ChipRow, Section } from '@/shared/ui/_split/wizard-ui';
+import { Chip } from '@/shared/ui/Chip/Chip';
+import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
 import { Screen } from '@/shared/ui/Screen/Screen';
+import { Section } from '@/shared/ui/Section/Section';
+import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 
 type TextField = 'name' | 'player' | 'campaign' | 'notes';
 

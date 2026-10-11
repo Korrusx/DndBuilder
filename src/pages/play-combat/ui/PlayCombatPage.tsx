@@ -8,12 +8,16 @@ import { d20Parts, D20Sheet, DamageSheet, type D20Request, type DamageRequest } 
 import { colors, fonts, spacing } from '@/shared/config/theme';
 import { byId, content, tr } from '@/shared/content/content';
 import { abilityAbbr, nameOf } from '@/shared/content/names';
+import { plain } from '@/shared/content/plain';
 import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
+import { Card } from '@/shared/ui/Card/Card';
+import { InfoSheet } from '@/shared/ui/InfoSheet/InfoSheet';
+import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
 import { Screen } from '@/shared/ui/Screen/Screen';
-import { Card, InfoSheet, plain, SmallButton, StatBox } from '@/shared/ui/_split/play-ui';
-import { MultiPick } from '@/shared/ui/_split/wizard-ui';
+import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
+import { StatBox } from '@/shared/ui/StatBox/StatBox';
 
 const masteries = new Map(content.weaponMasteries.map((m) => [m.id, m]));
 const damageTypes = new Map(content.damageTypes.map((d) => [d.id, d]));

@@ -8,10 +8,10 @@ import type { DamageRoll } from '@/entities/character/model/types';
 import { colors, fonts, spacing } from '@/shared/config/theme';
 import { formatDice, formatModifier, rollD20 } from '@/shared/lib/dice/dice';
 import type { D20Mode, D20Roll } from '@/shared/lib/dice/types';
-import { Segmented } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
 import { Button } from '@/shared/ui/Button/Button';
+import { Segmented } from '@/shared/ui/Segmented/Segmented';
 
 export type RollPart = { label: string; value: number };
 

@@ -7,9 +7,9 @@ import { CUSTOM_ITEM_PREFIX } from '@/entities/character/config/constants';
 import type { InventoryItem } from '@/entities/character/model/types';
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { content, tr } from '@/shared/content/content';
-import { Segmented } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
+import { Segmented } from '@/shared/ui/Segmented/Segmented';
 
 type Source = 'equipment' | 'magic';
 

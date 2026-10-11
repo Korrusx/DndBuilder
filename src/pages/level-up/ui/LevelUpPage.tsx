@@ -23,12 +23,20 @@ import {
 import { colors, spacing } from '@/shared/config/theme';
 import { byId, content, tr } from '@/shared/content/content';
 import { abilityAbbr, nameOf, proficiencyName } from '@/shared/content/names';
+import { plain } from '@/shared/content/plain';
 import type { AbilityId } from '@/shared/content/types';
-import { Card, InfoSheet, plain, SmallButton } from '@/shared/ui/_split/play-ui';
-import { Chip, ChipRow, MultiPick, OptionCard, Section, Segmented } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
 import { Button } from '@/shared/ui/Button/Button';
+import { Card } from '@/shared/ui/Card/Card';
+import { Chip } from '@/shared/ui/Chip/Chip';
+import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
+import { InfoSheet } from '@/shared/ui/InfoSheet/InfoSheet';
+import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
+import { OptionCard } from '@/shared/ui/OptionCard/OptionCard';
 import { Screen } from '@/shared/ui/Screen/Screen';
+import { Section } from '@/shared/ui/Section/Section';
+import { Segmented } from '@/shared/ui/Segmented/Segmented';
+import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 
 type Info = { title: string; text: string; subtitle?: string };
 

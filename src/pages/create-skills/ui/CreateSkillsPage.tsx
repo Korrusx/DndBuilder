@@ -13,10 +13,15 @@ import {
 import { choice1 } from '@/entities/character/model/choices';
 import { useDraft } from '@/features/create-character/model/DraftContext';
 import { draftIssues } from '@/features/create-character/model/validation';
+import { StepStatus } from '@/features/create-character/ui/StepStatus/StepStatus';
+import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
 import { content, tr } from '@/shared/content/content';
 import { nameOf, proficiencyName } from '@/shared/content/names';
-import { Chip, ChipRow, MultiPick, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
+import { Chip } from '@/shared/ui/Chip/Chip';
+import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
+import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
+import { Section } from '@/shared/ui/Section/Section';
 
 const SOURCE_TITLE = { class: 'Класс', background: 'Предыстория', species: 'Вид', feat: 'Черта' } as const;
 

@@ -2,9 +2,14 @@ import { CHOICE_KEYS } from '@/entities/character/config/constants';
 import { originFeats, setBackground, setSpecies } from '@/entities/character/model/build';
 import { useDraft } from '@/features/create-character/model/DraftContext';
 import { draftIssues } from '@/features/create-character/model/validation';
+import { StepStatus } from '@/features/create-character/ui/StepStatus/StepStatus';
+import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
 import { content } from '@/shared/content/content';
 import { abilityAbbr, nameOf, proficiencyName } from '@/shared/content/names';
-import { Chip, ChipRow, OptionCard, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
+import { Chip } from '@/shared/ui/Chip/Chip';
+import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
+import { OptionCard } from '@/shared/ui/OptionCard/OptionCard';
+import { Section } from '@/shared/ui/Section/Section';
 
 const SIZE_NAMES: Record<string, string> = { Small: 'Маленький', Medium: 'Средний', Large: 'Большой' };
 

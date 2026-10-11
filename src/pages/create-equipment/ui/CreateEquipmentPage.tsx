@@ -11,10 +11,16 @@ import { choice1 } from '@/entities/character/model/choices';
 import type { Character, EquipmentSource, OriginFeatSlot } from '@/entities/character/model/types';
 import { useDraft } from '@/features/create-character/model/DraftContext';
 import { draftIssues } from '@/features/create-character/model/validation';
+import { StepStatus } from '@/features/create-character/ui/StepStatus/StepStatus';
+import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
 import { content } from '@/shared/content/content';
 import { abilityAbbr, equipmentOptionText, nameOf, spellName } from '@/shared/content/names';
-import { Chip, ChipRow, MultiPick, OptionCard, Section, StepStatus, WizardScreen } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
+import { Chip } from '@/shared/ui/Chip/Chip';
+import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
+import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
+import { OptionCard } from '@/shared/ui/OptionCard/OptionCard';
+import { Section } from '@/shared/ui/Section/Section';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 

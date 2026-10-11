@@ -12,12 +12,17 @@ import { d20Parts, D20Sheet, type D20Request } from '@/features/roll-dice/ui/Rol
 import { colors, fonts, radius, sizes, spacing } from '@/shared/config/theme';
 import { byId, content, tr } from '@/shared/content/content';
 import { abilityAbbr, nameOf } from '@/shared/content/names';
+import { plain } from '@/shared/content/plain';
 import type { AbilityId, Spell } from '@/shared/content/types';
 import { formatModifier } from '@/shared/lib/dice/dice';
-import { Card, Dots, InfoSheet, plain, SmallButton, StatBox } from '@/shared/ui/_split/play-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
+import { Card } from '@/shared/ui/Card/Card';
+import { Dots } from '@/shared/ui/Dots/Dots';
+import { InfoSheet } from '@/shared/ui/InfoSheet/InfoSheet';
 import { Placeholder } from '@/shared/ui/Placeholder/Placeholder';
 import { Screen } from '@/shared/ui/Screen/Screen';
+import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
+import { StatBox } from '@/shared/ui/StatBox/StatBox';
 
 type Info = { title: string; text: string; subtitle?: string };
 

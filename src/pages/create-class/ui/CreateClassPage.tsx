@@ -2,11 +2,12 @@ import { StyleSheet, View } from 'react-native';
 
 import { setClass } from '@/entities/character/model/build';
 import { useDraft } from '@/features/create-character/model/DraftContext';
+import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
 import { colors, fonts, spacing } from '@/shared/config/theme';
 import { content } from '@/shared/content/content';
 import { abilityAbbr, nameOf } from '@/shared/content/names';
-import { OptionCard, WizardScreen } from '@/shared/ui/_split/wizard-ui';
 import { AppText } from '@/shared/ui/AppText/AppText';
+import { OptionCard } from '@/shared/ui/OptionCard/OptionCard';
 
 export function CreateClassPage() {
   const { character, update } = useDraft();
