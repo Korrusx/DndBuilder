@@ -35,6 +35,13 @@ export async function saveCharacter(db: SQLiteDatabase, c: Character): Promise<C
   return saved;
 }
 
+/** Сохраняет сразу несколько персонажей одной транзакцией (импорт из файла). */
+export async function saveCharacters(db: SQLiteDatabase, list: Character[]): Promise<void> {
+  await db.withTransactionAsync(async () => {
+    for (const c of list) await saveCharacter(db, c);
+  });
+}
+
 export async function deleteCharacter(db: SQLiteDatabase, id: string): Promise<void> {
   await db.runAsync('DELETE FROM characters WHERE id = ?', id);
 }

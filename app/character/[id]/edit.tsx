@@ -1,6 +1,9 @@
-import { StyleSheet, TextInput } from 'react-native';
+import { useState } from 'react';
+import { Alert, StyleSheet, TextInput } from 'react-native';
 
 import { usePlay } from '@/components/play/CharacterContext';
+import { SmallButton } from '@/components/play/ui';
+import { shareCharacters } from '@/db/exchangeFiles';
 import { Screen } from '@/components/Screen';
 import { nameOf } from '@/components/wizard/names';
 import { Chip, ChipRow, Section } from '@/components/wizard/ui';
@@ -14,6 +17,17 @@ type TextField = 'name' | 'player' | 'campaign' | 'notes';
 export default function EditCharacterScreen() {
   const { character: c, update } = usePlay();
   const set = (patch: Partial<Character>) => update((d) => ({ ...d, ...patch }));
+  const [sharing, setSharing] = useState(false);
+  const exportToFile = async () => {
+    setSharing(true);
+    try {
+      await shareCharacters([c]);
+    } catch (err) {
+      Alert.alert('Не удалось сохранить файл', err instanceof Error ? err.message : String(err));
+    } finally {
+      setSharing(false);
+    }
+  };
 
   const field = (key: TextField, placeholder: string, multiline = false) => (
     <TextInput
@@ -57,6 +71,10 @@ export default function EditCharacterScreen() {
       </Section>
 
       <Section title="Заметки">{field('notes', 'Внешность, характер, союзники, задания…', true)}</Section>
+
+      <Section title="Файл" hint="Файл .dnd.json можно отправить другу или сохранить как копию; открывается кнопкой «Импорт» на экране «Мои персонажи».">
+        <SmallButton title={sharing ? 'Сохраняем…' : 'Сохранить персонажа в файл'} disabled={sharing} onPress={exportToFile} />
+      </Section>
     </Screen>
   );
 }

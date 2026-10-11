@@ -30,14 +30,23 @@ export function characterToRow(c: Character): CharacterRow {
  */
 export function rowToCharacter(row: CharacterRow): Character {
   const saved = JSON.parse(row.data) as Partial<Character>;
-  const defaults = newDraftCharacter(row.id, row.created_at);
+  const fallbackStatus: Character['status'] = row.status === 'ready' ? { kind: 'ready' } : { kind: 'draft', step: row.draft_step ?? 1 };
+  return withDefaults(saved, { id: row.id, createdAt: row.created_at, updatedAt: row.updated_at, status: fallbackStatus });
+}
+
+/** Дополняет сохранённого (или импортированного) персонажа значениями по умолчанию для отсутствующих полей. */
+export function withDefaults(
+  saved: Partial<Character>,
+  meta: { id: string; createdAt: string; updatedAt: string; status?: Character['status'] },
+): Character {
+  const defaults = newDraftCharacter(meta.id, meta.createdAt);
   return {
     ...defaults,
     ...saved,
-    id: row.id,
+    id: meta.id,
     state: { ...emptyGameState(), ...saved.state },
-    status: saved.status ?? (row.status === 'ready' ? { kind: 'ready' } : { kind: 'draft', step: row.draft_step ?? 1 }),
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
+    status: saved.status ?? meta.status ?? defaults.status,
+    createdAt: meta.createdAt,
+    updatedAt: meta.updatedAt,
   };
 }

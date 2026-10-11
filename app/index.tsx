@@ -9,7 +9,10 @@ import { CREATE_STEPS } from '@/components/wizard/steps';
 import { Placeholder } from '@/components/Placeholder';
 import { Screen } from '@/components/Screen';
 import { content } from '@/content';
-import { deleteCharacters, newId, saveCharacter } from '@/db/characters';
+import { deleteCharacters, newId, saveCharacter, saveCharacters } from '@/db/characters';
+import { ImportError } from '@/db/exchange';
+import { pickCharactersFile, shareCharacters } from '@/db/exchangeFiles';
+import { setMeta } from '@/db/meta';
 import { useCharacterList } from '@/db/hooks';
 import type { Character } from '@/rules/character';
 import { irmaLevel1 } from '@/rules/samples';
@@ -82,6 +85,49 @@ export default function CharactersScreen() {
     );
   };
 
+  const [busy, setBusy] = useState(false);
+  const withBusy = async (task: () => Promise<void>, errorTitle: string) => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      await task();
+    } catch (err) {
+      Alert.alert(errorTitle, err instanceof Error ? err.message : String(err));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  /** Сохранить персонажей в файл и поделиться. Копия всех персонажей отмечается как резервная копия. */
+  const exportCharacters = (list: Character[], isBackup: boolean) =>
+    withBusy(async () => {
+      await shareCharacters(list);
+      if (isBackup) {
+        await setMeta(db, 'lastBackupAt', new Date().toISOString());
+        reload();
+      }
+    }, 'Не удалось сохранить файл');
+
+  const importCharacters = () =>
+    withBusy(async () => {
+      let result;
+      try {
+        result = await pickCharactersFile();
+      } catch (err) {
+        if (err instanceof ImportError) {
+          Alert.alert('Не удалось загрузить', err.message);
+          return;
+        }
+        throw err;
+      }
+      if (!result) return;
+      await saveCharacters(db, result.characters);
+      reload();
+      const names = result.characters.map((c) => `«${c.name || 'Без имени'}»`).join(', ');
+      const title = result.characters.length === 1 ? 'Персонаж загружен' : `Загружено персонажей: ${result.characters.length}`;
+      Alert.alert(title, [names, ...result.warnings].join('\n\n'));
+    }, 'Не удалось загрузить');
+
   // Только для проверки в режиме разработки, пока нет мастера создания (этап 5).
   const addSamples = async () => {
     const now = new Date().toISOString();
@@ -117,7 +163,19 @@ export default function CharactersScreen() {
       footer={
         selected ? (
           <>
-            <Button title={`Удалить (${selected.size})`} variant="danger" onPress={confirmDelete} />
+            <View style={styles.row}>
+              <View style={{ flex: 1 }}>
+                <Button
+                  title={`В файл (${selected.size})`}
+                  variant="secondary"
+                  disabled={busy}
+                  onPress={() => exportCharacters((characters ?? []).filter((c) => selected.has(c.id)), allSelected)}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Button title={`Удалить (${selected.size})`} variant="danger" onPress={confirmDelete} />
+              </View>
+            </View>
             <View style={styles.row}>
               <View style={{ flex: 1 }}>
                 <Button
@@ -134,11 +192,19 @@ export default function CharactersScreen() {
         ) : (
           <>
             <Button title="Новый персонаж" onPress={() => router.push('/create/class')} />
-            <Button
-              title="Импорт"
-              variant="secondary"
-              onPress={() => Alert.alert('Импорт', 'Импорт персонажа из файла появится на этапе 7.')}
-            />
+            <View style={styles.row}>
+              <View style={{ flex: 1 }}>
+                <Button title="Импорт" variant="secondary" disabled={busy} onPress={importCharacters} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Button
+                  title="Копия всех"
+                  variant="secondary"
+                  disabled={busy || !characters?.length}
+                  onPress={() => exportCharacters(characters ?? [], true)}
+                />
+              </View>
+            </View>
           </>
         )
       }
@@ -156,7 +222,7 @@ export default function CharactersScreen() {
 
       {characters && characters.length > 0 ? (
         <AppText variant="secondary" style={{ textAlign: 'center' }}>
-          {selected ? 'Нажимайте на карточки, чтобы отметить их' : 'Удерживайте карточку, чтобы выбрать персонажей для удаления'}
+          {selected ? 'Нажимайте на карточки, чтобы отметить их' : 'Удерживайте карточку, чтобы выбрать персонажей: удалить или сохранить в файл'}
         </AppText>
       ) : null}
 
