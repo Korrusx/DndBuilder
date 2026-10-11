@@ -1,4 +1,4 @@
-import { Href, router } from 'expo-router';
+import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { colors, spacing } from '@/theme';
@@ -7,14 +7,14 @@ import { Button } from './Button';
 import { Placeholder } from './Placeholder';
 import { Screen } from './Screen';
 
-export const CREATE_STEPS: { route: Href; title: string }[] = [
+export const CREATE_STEPS = [
   { route: '/create/class', title: 'Класс' },
   { route: '/create/origin', title: 'Предыстория и вид' },
   { route: '/create/abilities', title: 'Характеристики' },
   { route: '/create/skills', title: 'Навыки и владения' },
   { route: '/create/equipment', title: 'Снаряжение' },
   { route: '/create/review', title: 'Проверка' },
-];
+] as const;
 
 /** Каркас шага мастера создания: прогресс из 6 сегментов и кнопка «Далее». */
 export function CreateStep({ step }: { step: number }) {

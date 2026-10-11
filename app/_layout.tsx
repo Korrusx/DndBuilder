@@ -3,9 +3,11 @@ import { Unbounded_600SemiBold, Unbounded_700Bold } from '@expo-google-fonts/unb
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { SQLiteProvider } from 'expo-sqlite';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
+import { initUserDb, USER_DB_NAME } from '@/db';
 import { colors, fonts } from '@/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -26,7 +28,7 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-    <>
+    <SQLiteProvider databaseName={USER_DB_NAME} onInit={initUserDb}>
       <StatusBar style="light" />
       <Stack
         screenOptions={{
@@ -42,6 +44,6 @@ export default function RootLayout() {
         <Stack.Screen name="character/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="about" options={{ title: 'О приложении' }} />
       </Stack>
-    </>
+    </SQLiteProvider>
   );
 }

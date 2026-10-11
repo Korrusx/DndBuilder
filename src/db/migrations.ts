@@ -1,0 +1,55 @@
+// Миграции пользовательской базы. Версия схемы хранится в PRAGMA user_version.
+// Новую миграцию добавляй в конец списка; уже выпущенные миграции не меняй.
+
+/** Минимум от базы, который нужен миграциям (так их можно проверить в тестах без SQLite). */
+export type MigrationDb = {
+  execAsync(source: string): Promise<void>;
+  getFirstAsync<T>(source: string): Promise<T | null>;
+  withTransactionAsync(task: () => Promise<void>): Promise<void>;
+};
+
+export type Migration = { version: number; up: (db: MigrationDb) => Promise<void> };
+
+export const MIGRATIONS: Migration[] = [
+  {
+    version: 1,
+    up: async (db) => {
+      // Персонаж целиком (только выборы игрока и состояние игры) лежит в `data` как JSON.
+      // Отдельные колонки — только то, что нужно для списка и сортировки.
+      await db.execAsync(`
+        CREATE TABLE characters (
+          id TEXT PRIMARY KEY NOT NULL,
+          name TEXT NOT NULL,
+          status TEXT NOT NULL,
+          draft_step INTEGER,
+          data TEXT NOT NULL,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL
+        );
+        CREATE INDEX characters_updated_at ON characters (updated_at);
+        CREATE TABLE meta (
+          key TEXT PRIMARY KEY NOT NULL,
+          value TEXT NOT NULL
+        );
+      `);
+    },
+  },
+];
+
+export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;
+
+/** Применяет все миграции новее текущей версии базы, каждую в своей транзакции. */
+export async function migrate(db: MigrationDb, migrations: Migration[] = MIGRATIONS): Promise<number> {
+  await db.execAsync('PRAGMA journal_mode = WAL;');
+  const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version;');
+  let current = row?.user_version ?? 0;
+  for (const m of migrations) {
+    if (m.version <= current) continue;
+    await db.withTransactionAsync(async () => {
+      await m.up(db);
+      await db.execAsync(`PRAGMA user_version = ${m.version};`);
+    });
+    current = m.version;
+  }
+  return current;
+}

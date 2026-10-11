@@ -46,6 +46,8 @@ export type Character = {
   player?: string;
   portrait?: string;
   alignment?: string;
+  /** Название кампании (показывается на карточке). */
+  campaign?: string;
   notes?: string;
 
   classes: ClassEntry[];
@@ -96,4 +98,32 @@ export function emptyGameState(): GameState {
 
 export function totalLevel(classes: ClassEntry[]): number {
   return classes.reduce((sum, c) => sum + c.level, 0);
+}
+
+/** Пустой черновик: игрок ещё ничего не выбрал. Мастер создания заполняет его шаг за шагом. */
+export function newDraftCharacter(id: string, now: string): Character {
+  return {
+    id,
+    name: '',
+    classes: [],
+    speciesId: '',
+    backgroundId: '',
+    abilityMethod: 'standard',
+    baseAbilities: { str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 },
+    backgroundBonuses: {},
+    skillProficiencies: [],
+    expertise: [],
+    languages: [],
+    toolProficiencies: [],
+    feats: [],
+    weaponMasteries: [],
+    equipment: [],
+    coins: {},
+    cantrips: [],
+    preparedSpells: [],
+    state: emptyGameState(),
+    status: { kind: 'draft', step: 1 },
+    createdAt: now,
+    updatedAt: now,
+  };
 }
