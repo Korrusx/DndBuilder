@@ -31,7 +31,8 @@
           "backgroundColor": "#0F1114"
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-sharing"
     ],
     "scheme": "dndbuilder",
     "backgroundColor": "#0F1114",

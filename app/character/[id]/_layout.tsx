@@ -1,10 +1,11 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
 import type { ComponentProps } from 'react';
-import { Pressable, type ColorValue } from 'react-native';
+import { ActivityIndicator, Pressable, View, type ColorValue } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { CharacterProvider, usePlay } from '@/components/play/CharacterContext';
+import { usePdfExport } from '@/pdf/usePdfExport';
 import { colors, fonts, sizes } from '@/theme';
 
 type IconName = ComponentProps<typeof MaterialCommunityIcons>['name'];
@@ -14,8 +15,11 @@ const tabIcon =
   (name: IconName) =>
   ({ color, size }: { color: ColorValue; size: number }) => <MaterialCommunityIcons name={name} color={color as string} size={size} />;
 
+const headerButton = { minWidth: sizes.touchMin, minHeight: sizes.touchMin, justifyContent: 'center', alignItems: 'center' } as const;
+
 function PlayTabs() {
   const { character } = usePlay();
+  const pdf = usePdfExport();
   return (
     <Tabs
       screenOptions={{
@@ -25,14 +29,29 @@ function PlayTabs() {
         headerTitleStyle: { fontFamily: fonts.display },
         headerShadowVisible: false,
         headerRight: () => (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Изменить персонажа"
-            onPress={() => router.navigate({ pathname: '/character/[id]/edit', params: { id: character.id } })}
-            style={{ minWidth: sizes.touchMin, minHeight: sizes.touchMin, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}
-          >
-            <MaterialCommunityIcons name="pencil-outline" size={24} color={colors.text} />
-          </Pressable>
+          <View style={{ flexDirection: 'row', marginRight: 8 }}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Лист в PDF"
+              disabled={pdf.busy}
+              onPress={() => pdf.run(character)}
+              style={headerButton}
+            >
+              {pdf.busy ? (
+                <ActivityIndicator color={colors.accent} />
+              ) : (
+                <MaterialCommunityIcons name="file-pdf-box" size={26} color={colors.text} />
+              )}
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Изменить персонажа"
+              onPress={() => router.navigate({ pathname: '/character/[id]/edit', params: { id: character.id } })}
+              style={headerButton}
+            >
+              <MaterialCommunityIcons name="pencil-outline" size={24} color={colors.text} />
+            </Pressable>
+          </View>
         ),
         headerLeft: () => (
           <Pressable

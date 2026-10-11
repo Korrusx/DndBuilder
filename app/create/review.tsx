@@ -1,8 +1,9 @@
-import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { useDraft } from '@/components/wizard/DraftContext';
+import { usePdfExport } from '@/pdf/usePdfExport';
 import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/components/wizard/names';
 import { Chip, ChipRow, Section, WizardScreen } from '@/components/wizard/ui';
 import { content, tr } from '@/content';
@@ -30,6 +31,7 @@ function featureName(f: SourcedId): string {
 
 export default function CreateReviewScreen() {
   const { character: c, update, goTo, finish } = useDraft();
+  const pdf = usePdfExport();
   const issues = draftIssues(c, content);
   const blocking = issues.filter((i) => i.blocking);
   const sheet = issues.some((i) => i.blocking && i.step <= 2) ? null : safeSheet(c);
@@ -48,7 +50,12 @@ export default function CreateReviewScreen() {
       footer={
         <View style={styles.footer}>
           <View style={{ flex: 1 }}>
-            <Button title="PDF" variant="secondary" onPress={() => Alert.alert('PDF', 'Экспорт в PDF появится на этапе 7.')} />
+            <Button
+              title={pdf.busy ? 'PDF…' : 'PDF'}
+              variant="secondary"
+              disabled={pdf.busy || blocking.length > 0}
+              onPress={() => pdf.run(c)}
+            />
           </View>
           <View style={{ flex: 2 }}>
             <Button title="Начать игру" disabled={blocking.length > 0} onPress={finish} />
