@@ -1,400 +1,411 @@
 ﻿key,en,ru,status
-weaponProperty.ammunition.name,Ammunition,,todo
-weaponProperty.ammunition.description,"You can use a weapon that has the Ammunition property to make a ranged attack only if you have ammunition to fire from it. The type of ammunition required is specified with the weapon's range. Each attack expends one piece of ammunition. Drawing the ammunition is part of the attack (you need a free hand to load a one-handed weapon). After a fight, you can spend 1 minute to recover half the ammunition (round down) you used in the fight; the rest is lost.",,todo
-weaponProperty.finesse.name,Finesse,,todo
-weaponProperty.finesse.description,"When making an attack with a Finesse weapon, use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.",,todo
-weaponProperty.heavy.name,Heavy,,todo
-weaponProperty.heavy.description,You have Disadvantage on attack rolls with a Heavy weapon if it's a Melee weapon and your Strength score isn't at least 13 or if it's a Ranged weapon and your Dexterity score isn't at least 13.,,todo
-weaponProperty.light.name,Light,,todo
-weaponProperty.light.description,"When you take the Attack action on your turn and attack with a Light weapon, you can make one extra attack as a Bonus Action later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. For example, you can attack with a Shortsword in one hand and a Dagger in the other using the Attack action and a Bonus Action, but you don't add your Strength or Dexterity modifier to the damage roll of the Bonus Action unless that modifier is negative.",,todo
-weaponProperty.loading.name,Loading,,todo
-weaponProperty.loading.description,"You can fire only one piece of ammunition from a Loading weapon when you use an action, a Bonus Action, or a Reaction to fire it, regardless of the number of attacks you can normally make.",,todo
-weaponProperty.range.name,Range,,todo
-weaponProperty.range.description,"A Range weapon has a range in parentheses after the Ammunition or Thrown property. The range lists two numbers. The first is the weapon's normal range in feet, and the second is the weapon's long range. When attacking a target beyond normal range, you have Disadvantage on the attack roll. You can't attack a target beyond the long range.",,todo
-weaponProperty.reach.name,Reach,,todo
-weaponProperty.reach.description,"A Reach weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for Opportunity Attacks with it.",,todo
-weaponProperty.thrown.name,Thrown,,todo
-weaponProperty.thrown.description,"If a weapon has the Thrown property, you can throw the weapon to make a ranged attack, and you can draw that weapon as part of the attack. If the weapon is a Melee weapon, use the same ability modifier for the attack and damage rolls that you use for a melee attack with that weapon.",,todo
-weaponProperty.two-handed.name,Two-Handed,,todo
-weaponProperty.two-handed.description,A Two-Handed weapon requires two hands when you attack with it.,,todo
-weaponProperty.versatile.name,Versatile,,todo
-weaponProperty.versatile.description,A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.,,todo
+weaponProperty.ammunition.name,Ammunition,Боеприпасы,draft
+weaponProperty.ammunition.description,"You can use a weapon that has the Ammunition property to make a ranged attack only if you have ammunition to fire from it. The type of ammunition required is specified with the weapon's range. Each attack expends one piece of ammunition. Drawing the ammunition is part of the attack (you need a free hand to load a one-handed weapon). After a fight, you can spend 1 minute to recover half the ammunition (round down) you used in the fight; the rest is lost.","Оружием со свойством «боеприпасы» можно совершить дальнобойную атаку, только если у вас есть боеприпасы для него. Нужный тип боеприпасов указан вместе с дистанцией оружия. Каждая атака расходует один боеприпас. Достать боеприпас — часть атаки (для зарядки одноручного оружия нужна свободная рука). После боя можно потратить 1 минуту, чтобы собрать половину израсходованных боеприпасов (с округлением вниз); остальные потеряны.",draft
+weaponProperty.finesse.name,Finesse,Фехтовальное,draft
+weaponProperty.finesse.description,"When making an attack with a Finesse weapon, use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.","Атакуя фехтовальным оружием, используйте на выбор модификатор Силы или Ловкости для бросков атаки и урона. Для обоих бросков нужно использовать один и тот же модификатор.",draft
+weaponProperty.heavy.name,Heavy,Тяжёлое,draft
+weaponProperty.heavy.description,You have Disadvantage on attack rolls with a Heavy weapon if it's a Melee weapon and your Strength score isn't at least 13 or if it's a Ranged weapon and your Dexterity score isn't at least 13.,"Вы совершаете броски атаки тяжёлым оружием с помехой, если это рукопашное оружие, а ваша Сила меньше 13, или если это дальнобойное оружие, а ваша Ловкость меньше 13.",draft
+weaponProperty.light.name,Light,Лёгкое,draft
+weaponProperty.light.description,"When you take the Attack action on your turn and attack with a Light weapon, you can make one extra attack as a Bonus Action later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. For example, you can attack with a Shortsword in one hand and a Dagger in the other using the Attack action and a Bonus Action, but you don't add your Strength or Dexterity modifier to the damage roll of the Bonus Action unless that modifier is negative.","Если в свой ход вы совершаете действие «Атака» и атакуете лёгким оружием, позже в тот же ход вы можете бонусным действием совершить одну дополнительную атаку. Её нужно совершить другим лёгким оружием, и к её урону не добавляется модификатор характеристики, если он не отрицательный. Например, можно атаковать коротким мечом в одной руке и кинжалом в другой действием «Атака» и бонусным действием, но к урону бонусной атаки модификатор Силы или Ловкости не добавляется, если он не отрицательный.",draft
+weaponProperty.loading.name,Loading,Перезарядка,draft
+weaponProperty.loading.description,"You can fire only one piece of ammunition from a Loading weapon when you use an action, a Bonus Action, or a Reaction to fire it, regardless of the number of attacks you can normally make.","Из оружия с перезарядкой можно выпустить только один боеприпас за действие, бонусное действие или реакцию, сколько бы атак вы обычно ни совершали.",draft
+weaponProperty.range.name,Range,Дальнобойное,draft
+weaponProperty.range.description,"A Range weapon has a range in parentheses after the Ammunition or Thrown property. The range lists two numbers. The first is the weapon's normal range in feet, and the second is the weapon's long range. When attacking a target beyond normal range, you have Disadvantage on the attack roll. You can't attack a target beyond the long range.","У дальнобойного оружия в скобках после свойства «боеприпасы» или «метательное» указана дистанция — два числа. Первое — обычная дистанция в футах, второе — максимальная. По цели дальше обычной дистанции бросок атаки совершается с помехой. Атаковать цель дальше максимальной дистанции нельзя.",draft
+weaponProperty.reach.name,Reach,Досягаемость,draft
+weaponProperty.reach.description,"A Reach weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for Opportunity Attacks with it.","Оружие с досягаемостью увеличивает вашу досягаемость на 5 фт при атаке им, в том числе для провоцированных атак.",draft
+weaponProperty.thrown.name,Thrown,Метательное,draft
+weaponProperty.thrown.description,"If a weapon has the Thrown property, you can throw the weapon to make a ranged attack, and you can draw that weapon as part of the attack. If the weapon is a Melee weapon, use the same ability modifier for the attack and damage rolls that you use for a melee attack with that weapon.","Метательное оружие можно бросить, совершив дальнобойную атаку, и достать его в рамках этой атаки. Если это рукопашное оружие, для бросков атаки и урона используйте тот же модификатор, что и при рукопашной атаке им.",draft
+weaponProperty.two-handed.name,Two-Handed,Двуручное,draft
+weaponProperty.two-handed.description,A Two-Handed weapon requires two hands when you attack with it.,Для атаки двуручным оружием нужны обе руки.,draft
+weaponProperty.versatile.name,Versatile,Универсальное,draft
+weaponProperty.versatile.description,A Versatile weapon can be used with one or two hands. A damage value in parentheses appears with the property. The weapon deals that damage when used with two hands to make a melee attack.,"Универсальное оружие можно держать одной или двумя руками. В скобках указан урон, который оно наносит, если атаковать им в рукопашную двумя руками.",draft
 weaponMastery.cleave.name,Cleave,Рассечение,draft
-weaponMastery.cleave.description,"If you hit a creature with a melee attack roll using this weapon, you can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within your reach. On a hit, the second creature takes the weapon's damage, but don't add your ability modifier to that damage unless that modifier is negative. You can make this extra attack only once per turn.",,todo
+weaponMastery.cleave.description,"If you hit a creature with a melee attack roll using this weapon, you can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within your reach. On a hit, the second creature takes the weapon's damage, but don't add your ability modifier to that damage unless that modifier is negative. You can make this extra attack only once per turn.","Если вы попали по существу рукопашной атакой этим оружием, можете совершить рукопашную атаку этим же оружием по второму существу в пределах 5 фт от первого и в пределах вашей досягаемости. При попадании второе существо получает урон оружия, но без модификатора характеристики, если он не отрицательный. Эту дополнительную атаку можно совершить только раз в ход.",draft
 weaponMastery.graze.name,Graze,Задевание,draft
-weaponMastery.graze.description,"If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",,todo
+weaponMastery.graze.description,"If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.","Если ваш бросок атаки этим оружием промахнулся по существу, можете нанести ему урон, равный модификатору характеристики, использованному для броска атаки. Урон того же вида, что у оружия, и увеличивается только за счёт увеличения модификатора.",draft
 weaponMastery.nick.name,Nick,Подрез,draft
-weaponMastery.nick.description,"When you make the extra attack of the Light property, you can make it as part of the Attack action instead of as a Bonus Action. You can make this extra attack only once per turn.",,todo
+weaponMastery.nick.description,"When you make the extra attack of the Light property, you can make it as part of the Attack action instead of as a Bonus Action. You can make this extra attack only once per turn.","Дополнительную атаку от свойства «лёгкое» можно совершить в рамках действия «Атака», а не бонусным действием. Эту дополнительную атаку можно совершить только раз в ход.",draft
 weaponMastery.push.name,Push,Толчок,draft
-weaponMastery.push.description,"If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.",,todo
+weaponMastery.push.description,"If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.","Если вы попали этим оружием по существу размером не больше Большого, можете оттолкнуть его по прямой от себя на расстояние до 10 фт.",draft
 weaponMastery.sap.name,Sap,Ослабление,draft
-weaponMastery.sap.description,"If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.",,todo
+weaponMastery.sap.description,"If you hit a creature with this weapon, that creature has Disadvantage on its next attack roll before the start of your next turn.","Если вы попали этим оружием по существу, оно совершает с помехой следующий бросок атаки до начала вашего следующего хода.",draft
 weaponMastery.slow.name,Slow,Замедление,draft
-weaponMastery.slow.description,"If you hit a creature with this weapon and deal damage to it, you can reduce its Speed by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.",,todo
+weaponMastery.slow.description,"If you hit a creature with this weapon and deal damage to it, you can reduce its Speed by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the Speed reduction doesn't exceed 10 feet.","Если вы попали этим оружием по существу и нанесли ему урон, можете уменьшить его скорость на 10 фт до начала вашего следующего хода. Если по существу попадают несколько раз оружием с этим свойством, скорость уменьшается не больше чем на 10 фт.",draft
 weaponMastery.topple.name,Topple,Опрокидывание,draft
-weaponMastery.topple.description,"If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and your Proficiency Bonus). On a failed save, the creature has the Prone condition.",,todo
+weaponMastery.topple.description,"If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw (DC 8 plus the ability modifier used to make the attack roll and your Proficiency Bonus). On a failed save, the creature has the Prone condition.","Если вы попали этим оружием по существу, можете заставить его совершить спасбросок Телосложения (СЛ 8 + модификатор характеристики, использованный для броска атаки, + ваш бонус мастерства). При провале существо сбито с ног (лежит ничком).",draft
 weaponMastery.vex.name,Vex,Досаждение,draft
-weaponMastery.vex.description,"If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.",,todo
-equipment.acid.name,Acid,,todo
-equipment.acid.description,"When you take the Attack action, you can replace one of your attacks with throwing a vial of Acid. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d6 Acid damage.",,todo
-equipment.alchemists-fire.name,Alchemist's Fire,,todo
-equipment.alchemists-fire.description,"When you take the Attack action, you can replace one of your attacks with throwing a flask of Alchemist's Fire. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 1d4 Fire damage and start burning (see “Rules Glossary”).",,todo
-equipment.alchemists-supplies.name,Alchemist's Supplies,,todo
-equipment.alchemists-supplies.utilize.0,Identify a substance,,todo
-equipment.alchemists-supplies.utilize.1,Start a fire,,todo
-equipment.amulet.name,Amulet,,todo
+weaponMastery.vex.description,"If you hit a creature with this weapon and deal damage to the creature, you have Advantage on your next attack roll against that creature before the end of your next turn.","Если вы попали этим оружием по существу и нанесли ему урон, вы совершаете с преимуществом следующий бросок атаки по этому существу до конца вашего следующего хода.",draft
+equipment.acid.name,Acid,Кислота,draft
+equipment.acid.description,"When you take the Attack action, you can replace one of your attacks with throwing a vial of Acid. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d6 Acid damage.","Совершая действие «Атака», вы можете заменить одну из атак броском флакона кислоты. Выберите существо или предмет, который видите в пределах 20 фт. Цель должна преуспеть в спасброске Ловкости (СЛ 8 + ваш модификатор Ловкости + бонус мастерства), иначе получает 2к6 урона кислотой.",draft
+equipment.alchemists-fire.name,Alchemist's Fire,Алхимический огонь,draft
+equipment.alchemists-fire.description,"When you take the Attack action, you can replace one of your attacks with throwing a flask of Alchemist's Fire. Target one creature or object you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 1d4 Fire damage and start burning (see “Rules Glossary”).","Совершая действие «Атака», вы можете заменить одну из атак броском фляги алхимического огня. Выберите существо или предмет, который видите в пределах 20 фт. Цель должна преуспеть в спасброске Ловкости (СЛ 8 + ваш модификатор Ловкости + бонус мастерства), иначе получает 1к4 урона огнём и загорается (см. «Глоссарий правил»).",draft
+equipment.alchemists-supplies.name,Alchemist's Supplies,Инструменты алхимика,draft
+equipment.alchemists-supplies.utilize.0,Identify a substance,Определить вещество,draft
+equipment.alchemists-supplies.utilize.1,Start a fire,Развести огонь,draft
+equipment.amulet.name,Amulet,Амулет,draft
 equipment.amulet.description,"A Holy Symbol takes one of the forms in the Holy Symbol table and is bejeweled or painted to channel divine magic. A Cleric or Paladin can use a Holy Symbol as a Spellcasting Focus.
-The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.",,todo
-equipment.antitoxin.name,Antitoxin,,todo
-equipment.antitoxin.description,"As a Bonus Action, you can drink a vial of Antitoxin to gain Advantage on saving throws to avoid or end the Poisoned condition for 1 hour.",,todo
-equipment.arrows.name,Arrows,,todo
-equipment.backpack.name,Backpack,,todo
-equipment.backpack.description,A Backpack holds up to 30 pounds within 1 cubic foot. It can also serve as a saddlebag.,,todo
-equipment.bagpipes.name,Bagpipes,,todo
-equipment.bagpipes.utilize.0,Play a known tune,,todo
-equipment.bagpipes.utilize.1,Improvise a song,,todo
-equipment.ball-bearings.name,Ball bearings,,todo
-equipment.ball-bearings.description,"As a Utilize action, you can spill Ball Bearings from their pouch. They spread to cover a level, 10-footsquare area within 10 feet of yourself. A creature that enters this area for the first time on a turn must succeed on a DC 10 Dexterity saving throw or have the Prone condition. It takes 10 minutes to recover the Ball Bearings.",,todo
-equipment.barrel.name,Barrel,,todo
-equipment.barrel.description,A Barrel holds up to 40 gallons of liquid or up to 4 cubic feet of dry goods.,,todo
-equipment.basket.name,Basket,,todo
-equipment.basket.description,A Basket holds up to 40 pounds within 2 cubic feet.,,todo
-equipment.battleaxe.name,Battleaxe,,todo
-equipment.bedroll.name,Bedroll,,todo
-equipment.bedroll.description,"A Bedroll sleeps one Small or Medium creature. While in a Bedroll, you automatically succeed on saving throws against extreme cold (see “Gameplay Toolbox”).",,todo
-equipment.bell.name,Bell,,todo
-equipment.bell.description,"When rung as a Utilize action, a Bell produces a sound that can be heard up to 60 feet away.",,todo
-equipment.blanket.name,Blanket,,todo
-equipment.blanket.description,"While wrapped in a blanket, you have Advantage on saving throws against extreme cold (see “Gameplay Toolbox”).",,todo
-equipment.block-and-tackle.name,Block and tackle,,todo
-equipment.block-and-tackle.description,A Block and Tackle allows you to hoist up to four times the weight you can normally lift.,,todo
-equipment.blowgun.name,Blowgun,,todo
-equipment.bolts.name,Bolts,,todo
-equipment.book.name,Book,,todo
-equipment.book.description,"A Book contains fiction or nonfiction. If you consult an accurate nonfiction Book about its topic, you gain a +5 bonus to Intelligence (Arcana, History, Nature, or Religion) checks you make about that topic.",,todo
-equipment.bottle-glass.name,"Bottle, Glass",,todo
-equipment.bottle-glass.description,A Glass Bottle holds up to 11/2 pints.,,todo
-equipment.breastplate.name,Breastplate,,todo
-equipment.brewers-supplies.name,Brewer's Supplies,,todo
-equipment.brewers-supplies.utilize.0,Detect poisoned drink,,todo
-equipment.brewers-supplies.utilize.1,Identify alcohol,,todo
-equipment.bucket.name,Bucket,,todo
-equipment.bucket.description,A Bucket holds up to half a cubic foot of contents.,,todo
-equipment.bullets-firearm.name,"Bullets, Firearm",,todo
-equipment.bullets-sling.name,"Bullets, Sling",,todo
-equipment.burglars-pack.name,Burglar's Pack,,todo
-equipment.burglars-pack.description,"A Burglar's Pack contains the following items: Backpack, Ball Bearings, Bell, 10 Candles, Crowbar, Hooded Lantern, 7 flasks of Oil, 5 days of Rations, Rope, Tinderbox, and Waterskin.",,todo
-equipment.calligraphers-supplies.name,Calligrapher's Supplies,,todo
-equipment.calligraphers-supplies.utilize.0,Write text with impressive flourishes that guard against forgery,,todo
-equipment.caltrops.name,Caltrops,,todo
-equipment.caltrops.description,"As a Utilize action, you can spread Caltrops from their bag to cover a 5-foot-square area within 5 feet of yourself. A creature that enters this area for the first time on a turn must succeed on a DC 15 Dexterity saving throw or take 1 Piercing damage and have its Speed reduced to 0 until the start of its next turn. It takes 10 minutes to recover the Caltrops.",,todo
-equipment.candle.name,Candle,,todo
-equipment.candle.description,"For 1 hour, a lit Candle sheds Bright Light in a 5-foot radius and Dim Light for an additional 5 feet.",,todo
-equipment.carpenters-tools.name,Carpenter's Tools,,todo
-equipment.carpenters-tools.utilize.0,: Seal or pry open a door or container,,todo
-equipment.cartographer-tools.name,Cartographer's Tools,,todo
-equipment.cartographer-tools.utilize.0,Draft a map of a small area,,todo
-equipment.case-crossbow-bolt.name,"Case, Crossbow Bolt",,todo
-equipment.case-crossbow-bolt.description,A Crossbow Bolt Case holds up to 20 Bolts.,,todo
-equipment.case-map-or-scroll.name,"Case, Map or Scroll",,todo
-equipment.case-map-or-scroll.description,A Map or Scroll Case holds up to 10 sheets of paper or 5 sheets of parchment.,,todo
-equipment.chain.name,Chain,,todo
-equipment.chain.description,"As a Utilize action, you can wrap a Chain around an unwilling creature within 5 feet of yourself that has the Grappled, Incapacitated, or Restrained condition if you succeed on a DC 13 Strength (Athletics) check. If the creature's legs are bound, the creature has the Restrained condition until it escapes. Escaping the Chain requires the creature to make a successful DC 18 Dexterity (Acrobatics) check as an action. Bursting the Chain requires a successful DC 20 Strength (Athletics) check as an action.",,todo
-equipment.chain-mail.name,Chain Mail,,todo
-equipment.chain-shirt.name,Chain Shirt,,todo
-equipment.chest.name,Chest,,todo
-equipment.chest.description,A Chest holds up to 12 cubic feet of contents.,,todo
-equipment.climbers-kit.name,Climber's Kit,,todo
-equipment.climbers-kit.description,"A Climber's Kit includes boot tips, gloves, pitons, and a harness. As a Utilize action, you can use the Climber's Kit to anchor yourself; when you do, you can't fall more than 25 feet from the anchor point, and you can't move more than 25 feet from there without undoing the anchor as a Bonus Action.",,todo
-equipment.clothes-fine.name,"Clothes, Fine",,todo
-equipment.clothes-fine.description,Fine Clothes are made of expensive fabrics and adorned with expertly crafted details. Some events and locations admit only people wearing these clothes.,,todo
-equipment.clothes-travelers.name,"Clothes, Traveler's",,todo
-equipment.clothes-travelers.description,Traveler's Clothes are resilient garments designed for travel in various environments.,,todo
-equipment.club.name,Club,,todo
-equipment.cobblers-tools.name,Cobbler's Tools,,todo
-equipment.cobblers-tools.utilize.0,Modify footwear to give Advantage on the wearer's next Dexterity (Acrobatics) check,,todo
-equipment.component-pouch.name,Component Pouch,,todo
-equipment.component-pouch.description,A Component Pouch is watertight and filled with compartments that hold all the free Material components of your spells.,,todo
-equipment.cooks-utensils.name,Cook's Utensils,,todo
-equipment.cooks-utensils.utilize.0,Improve food's flavor,,todo
-equipment.cooks-utensils.utilize.1,Detect spoiled or poisoned food,,todo
-equipment.costume.name,Costume,,todo
-equipment.costume.description,"While wearing a Costume, you have Advantage on any ability check you make to impersonate the person or type of person it represents.",,todo
-equipment.crowbar.name,Crowbar,,todo
-equipment.crowbar.description,Using a Crowbar gives you Advantage on Strength checks where the Crowbar's leverage can be applied.,,todo
-equipment.crystal.name,Crystal,,todo
-equipment.dagger.name,Dagger,,todo
-equipment.dart.name,Dart,,todo
-equipment.dice.name,Dice,,todo
-equipment.dice.utilize.0,Discern whether someone is cheating,,todo
-equipment.dice.utilize.1,Win the game,,todo
-equipment.diplomat-pack.name,Diplomat's Pack,,todo
-equipment.diplomat-pack.description,"A Diplomat's Pack contains the following items: Chest, Fine Clothes, Ink, 5 Ink Pens, Lamp, 2 Map or Scroll Cases, 4 flasks of Oil, 5 sheets of Paper, 5 sheets of Parchment, Perfume, and Tinderbox.",,todo
-equipment.disguise-kit.name,Disguise Kit,,todo
-equipment.disguise-kit.utilize.0,Apply makeup,,todo
-equipment.dragonchess.name,Dragonchess,,todo
-equipment.dragonchess.utilize.0,Discern whether someone is cheating,,todo
-equipment.dragonchess.utilize.1,Win the game,,todo
-equipment.drum.name,Drum,,todo
-equipment.drum.utilize.0,Play a known tune,,todo
-equipment.drum.utilize.1,Improvise a song,,todo
-equipment.dulcimer.name,Dulcimer,,todo
-equipment.dulcimer.utilize.0,Play a known tune,,todo
-equipment.dulcimer.utilize.1,Improvise a song,,todo
-equipment.dungeoneer-pack.name,Dungeoneer's Pack,,todo
-equipment.dungeoneer-pack.description,"A Dungeoneer's Pack contains the following items: Backpack, Caltrops, Crowbar, 2 flasks of Oil, 10 days of Rations, Rope, Tinderbox, 10 Torches, and Waterskin.",,todo
-equipment.emblem.name,Emblem,,todo
+The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.","Священный символ имеет одну из форм из таблицы священных символов и украшен самоцветами или росписью, чтобы направлять божественную магию. Жрец или паладин может использовать священный символ как заклинательную фокусировку.
+В таблице указано, нужно ли символ держать в руке, носить на себе или нанести на ткань (табард, знамя) или щит.",draft
+equipment.antitoxin.name,Antitoxin,Противоядие,draft
+equipment.antitoxin.description,"As a Bonus Action, you can drink a vial of Antitoxin to gain Advantage on saving throws to avoid or end the Poisoned condition for 1 hour.","Бонусным действием вы можете выпить флакон противоядия и на 1 час получить преимущество на спасброски, чтобы избежать состояния «отравленный» или закончить его.",draft
+equipment.arrows.name,Arrows,Стрелы,draft
+equipment.backpack.name,Backpack,Рюкзак,draft
+equipment.backpack.description,A Backpack holds up to 30 pounds within 1 cubic foot. It can also serve as a saddlebag.,В рюкзак помещается до 30 фунтов в объёме 1 кубического фута. Его можно использовать и как седельную сумку.,draft
+equipment.bagpipes.name,Bagpipes,Волынка,draft
+equipment.bagpipes.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.bagpipes.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.ball-bearings.name,Ball bearings,Металлические шарики,draft
+equipment.ball-bearings.description,"As a Utilize action, you can spill Ball Bearings from their pouch. They spread to cover a level, 10-footsquare area within 10 feet of yourself. A creature that enters this area for the first time on a turn must succeed on a DC 10 Dexterity saving throw or have the Prone condition. It takes 10 minutes to recover the Ball Bearings.","Действием «Использование» вы можете высыпать металлические шарики из мешочка. Они покрывают ровную квадратную область 10 на 10 фт в пределах 10 фт от вас. Существо, впервые за ход входящее в эту область, должно преуспеть в спасброске Ловкости СЛ 10, иначе падает ничком. Собрать шарики можно за 10 минут.",draft
+equipment.barrel.name,Barrel,Бочка,draft
+equipment.barrel.description,A Barrel holds up to 40 gallons of liquid or up to 4 cubic feet of dry goods.,В бочку помещается до 40 галлонов жидкости или до 4 кубических футов сыпучих грузов.,draft
+equipment.basket.name,Basket,Корзина,draft
+equipment.basket.description,A Basket holds up to 40 pounds within 2 cubic feet.,В корзину помещается до 40 фунтов в объёме 2 кубических футов.,draft
+equipment.battleaxe.name,Battleaxe,Боевой топор,draft
+equipment.bedroll.name,Bedroll,Спальник,draft
+equipment.bedroll.description,"A Bedroll sleeps one Small or Medium creature. While in a Bedroll, you automatically succeed on saving throws against extreme cold (see “Gameplay Toolbox”).","В спальнике может спать одно Маленькое или Среднее существо. Находясь в спальнике, вы автоматически преуспеваете в спасбросках от сильного холода (см. «Игровой инструментарий»).",draft
+equipment.bell.name,Bell,Колокольчик,draft
+equipment.bell.description,"When rung as a Utilize action, a Bell produces a sound that can be heard up to 60 feet away.","Если позвонить в колокольчик действием «Использование», звук слышен на расстоянии до 60 фт.",draft
+equipment.blanket.name,Blanket,Одеяло,draft
+equipment.blanket.description,"While wrapped in a blanket, you have Advantage on saving throws against extreme cold (see “Gameplay Toolbox”).","Завернувшись в одеяло, вы получаете преимущество на спасброски от сильного холода (см. «Игровой инструментарий»).",draft
+equipment.block-and-tackle.name,Block and tackle,Блок и тали,draft
+equipment.block-and-tackle.description,A Block and Tackle allows you to hoist up to four times the weight you can normally lift.,"Блок и тали позволяют поднимать вес вчетверо больше, чем вы обычно можете поднять.",draft
+equipment.blowgun.name,Blowgun,Духовая трубка,draft
+equipment.bolts.name,Bolts,Арбалетные болты,draft
+equipment.book.name,Book,Книга,draft
+equipment.book.description,"A Book contains fiction or nonfiction. If you consult an accurate nonfiction Book about its topic, you gain a +5 bonus to Intelligence (Arcana, History, Nature, or Religion) checks you make about that topic.","В книге может быть художественный текст или научный. Сверяясь с достоверной научной книгой по её теме, вы получаете бонус +5 к проверкам Интеллекта (Магия, История, Природа или Религия) по этой теме.",draft
+equipment.bottle-glass.name,"Bottle, Glass",Стеклянная бутылка,draft
+equipment.bottle-glass.description,A Glass Bottle holds up to 11/2 pints.,"В стеклянную бутылку помещается до 1,5 пинты.",draft
+equipment.breastplate.name,Breastplate,Кираса,draft
+equipment.brewers-supplies.name,Brewer's Supplies,Инструменты пивовара,draft
+equipment.brewers-supplies.utilize.0,Detect poisoned drink,Обнаружить яд в напитке,draft
+equipment.brewers-supplies.utilize.1,Identify alcohol,Определить алкоголь,draft
+equipment.bucket.name,Bucket,Ведро,draft
+equipment.bucket.description,A Bucket holds up to half a cubic foot of contents.,В ведро помещается до половины кубического фута.,draft
+equipment.bullets-firearm.name,"Bullets, Firearm",Пули для огнестрельного оружия,draft
+equipment.bullets-sling.name,"Bullets, Sling",Снаряды для пращи,draft
+equipment.burglars-pack.name,Burglar's Pack,Набор взломщика,draft
+equipment.burglars-pack.description,"A Burglar's Pack contains the following items: Backpack, Ball Bearings, Bell, 10 Candles, Crowbar, Hooded Lantern, 7 flasks of Oil, 5 days of Rations, Rope, Tinderbox, and Waterskin.","Набор взломщика содержит: рюкзак, металлические шарики, колокольчик, 10 свечей, ломик, фонарь с колпаком, 7 фляг масла, рационы на 5 дней, верёвку, трутницу и бурдюк.",draft
+equipment.calligraphers-supplies.name,Calligrapher's Supplies,Инструменты каллиграфа,draft
+equipment.calligraphers-supplies.utilize.0,Write text with impressive flourishes that guard against forgery,"Написать текст с затейливыми росчерками, защищающими от подделки",draft
+equipment.caltrops.name,Caltrops,Шипы,draft
+equipment.caltrops.description,"As a Utilize action, you can spread Caltrops from their bag to cover a 5-foot-square area within 5 feet of yourself. A creature that enters this area for the first time on a turn must succeed on a DC 15 Dexterity saving throw or take 1 Piercing damage and have its Speed reduced to 0 until the start of its next turn. It takes 10 minutes to recover the Caltrops.","Действием «Использование» вы можете рассыпать шипы из мешочка по квадратной области 5 на 5 фт в пределах 5 фт от вас. Существо, впервые за ход входящее в эту область, должно преуспеть в спасброске Ловкости СЛ 15, иначе получает 1 колющий урон, а его скорость становится 0 до начала его следующего хода. Собрать шипы можно за 10 минут.",draft
+equipment.candle.name,Candle,Свеча,draft
+equipment.candle.description,"For 1 hour, a lit Candle sheds Bright Light in a 5-foot radius and Dim Light for an additional 5 feet.",Горящая свеча в течение 1 часа даёт яркий свет в радиусе 5 фт и тусклый свет ещё на 5 фт.,draft
+equipment.carpenters-tools.name,Carpenter's Tools,Инструменты плотника,draft
+equipment.carpenters-tools.utilize.0,: Seal or pry open a door or container,Заколотить или вскрыть дверь или контейнер,draft
+equipment.cartographer-tools.name,Cartographer's Tools,Инструменты картографа,draft
+equipment.cartographer-tools.utilize.0,Draft a map of a small area,Начертить карту небольшой местности,draft
+equipment.case-crossbow-bolt.name,"Case, Crossbow Bolt",Футляр для болтов,draft
+equipment.case-crossbow-bolt.description,A Crossbow Bolt Case holds up to 20 Bolts.,В футляр помещается до 20 арбалетных болтов.,draft
+equipment.case-map-or-scroll.name,"Case, Map or Scroll",Футляр для карт и свитков,draft
+equipment.case-map-or-scroll.description,A Map or Scroll Case holds up to 10 sheets of paper or 5 sheets of parchment.,В футляр помещается до 10 листов бумаги или 5 листов пергамента.,draft
+equipment.chain.name,Chain,Цепь,draft
+equipment.chain.description,"As a Utilize action, you can wrap a Chain around an unwilling creature within 5 feet of yourself that has the Grappled, Incapacitated, or Restrained condition if you succeed on a DC 13 Strength (Athletics) check. If the creature's legs are bound, the creature has the Restrained condition until it escapes. Escaping the Chain requires the creature to make a successful DC 18 Dexterity (Acrobatics) check as an action. Bursting the Chain requires a successful DC 20 Strength (Athletics) check as an action.","Действием «Использование» вы можете обмотать цепью несогласное существо в пределах 5 фт от вас, если оно схвачено, недееспособно или опутано, преуспев в проверке Силы (Атлетика) СЛ 13. Если ноги существа связаны, оно опутано, пока не освободится. Чтобы освободиться, существо должно действием преуспеть в проверке Ловкости (Акробатика) СЛ 18. Чтобы разорвать цепь, нужно действием преуспеть в проверке Силы (Атлетика) СЛ 20.",draft
+equipment.chain-mail.name,Chain Mail,Кольчуга,draft
+equipment.chain-shirt.name,Chain Shirt,Кольчужная рубаха,draft
+equipment.chest.name,Chest,Сундук,draft
+equipment.chest.description,A Chest holds up to 12 cubic feet of contents.,В сундук помещается до 12 кубических футов.,draft
+equipment.climbers-kit.name,Climber's Kit,Набор альпиниста,draft
+equipment.climbers-kit.description,"A Climber's Kit includes boot tips, gloves, pitons, and a harness. As a Utilize action, you can use the Climber's Kit to anchor yourself; when you do, you can't fall more than 25 feet from the anchor point, and you can't move more than 25 feet from there without undoing the anchor as a Bonus Action.","Набор альпиниста включает накладки на сапоги, перчатки, крючья и страховочную обвязку. Действием «Использование» вы можете закрепиться с его помощью: тогда вы не упадёте дальше чем на 25 фт от точки крепления и не сможете отойти от неё дальше 25 фт, не открепившись бонусным действием.",draft
+equipment.clothes-fine.name,"Clothes, Fine",Изысканная одежда,draft
+equipment.clothes-fine.description,Fine Clothes are made of expensive fabrics and adorned with expertly crafted details. Some events and locations admit only people wearing these clothes.,Изысканная одежда сшита из дорогих тканей и украшена искусной отделкой. На некоторые мероприятия и в некоторые места пускают только в такой одежде.,draft
+equipment.clothes-travelers.name,"Clothes, Traveler's",Дорожная одежда,draft
+equipment.clothes-travelers.description,Traveler's Clothes are resilient garments designed for travel in various environments.,Дорожная одежда — прочное платье для путешествий в разных условиях.,draft
+equipment.club.name,Club,Дубинка,draft
+equipment.cobblers-tools.name,Cobbler's Tools,Инструменты сапожника,draft
+equipment.cobblers-tools.utilize.0,Modify footwear to give Advantage on the wearer's next Dexterity (Acrobatics) check,"Доработать обувь, чтобы владелец получил преимущество на следующую проверку Ловкости (Акробатика)",draft
+equipment.component-pouch.name,Component Pouch,Мешочек с компонентами,draft
+equipment.component-pouch.description,A Component Pouch is watertight and filled with compartments that hold all the free Material components of your spells.,"Мешочек с компонентами непромокаем и разделён на отделения, в которых хранятся все бесплатные материальные компоненты ваших заклинаний.",draft
+equipment.cooks-utensils.name,Cook's Utensils,Инструменты повара,draft
+equipment.cooks-utensils.utilize.0,Improve food's flavor,Улучшить вкус еды,draft
+equipment.cooks-utensils.utilize.1,Detect spoiled or poisoned food,Обнаружить испорченную или отравленную еду,draft
+equipment.costume.name,Costume,Костюм,draft
+equipment.costume.description,"While wearing a Costume, you have Advantage on any ability check you make to impersonate the person or type of person it represents.","В костюме вы совершаете с преимуществом проверки характеристик, чтобы выдать себя за изображаемого человека или тип людей.",draft
+equipment.crowbar.name,Crowbar,Ломик,draft
+equipment.crowbar.description,Using a Crowbar gives you Advantage on Strength checks where the Crowbar's leverage can be applied.,"Ломик даёт преимущество на проверки Силы, в которых можно воспользоваться рычагом.",draft
+equipment.crystal.name,Crystal,Кристалл,draft
+equipment.dagger.name,Dagger,Кинжал,draft
+equipment.dart.name,Dart,Дротик,draft
+equipment.dice.name,Dice,Кости,draft
+equipment.dice.utilize.0,Discern whether someone is cheating,"Понять, жульничает ли кто-то",draft
+equipment.dice.utilize.1,Win the game,Выиграть партию,draft
+equipment.diplomat-pack.name,Diplomat's Pack,Набор дипломата,draft
+equipment.diplomat-pack.description,"A Diplomat's Pack contains the following items: Chest, Fine Clothes, Ink, 5 Ink Pens, Lamp, 2 Map or Scroll Cases, 4 flasks of Oil, 5 sheets of Paper, 5 sheets of Parchment, Perfume, and Tinderbox.","Набор дипломата содержит: сундук, изысканную одежду, чернила, 5 перьев, лампу, 2 футляра для карт и свитков, 4 фляги масла, 5 листов бумаги, 5 листов пергамента, духи и трутницу.",draft
+equipment.disguise-kit.name,Disguise Kit,Набор для грима,draft
+equipment.disguise-kit.utilize.0,Apply makeup,Нанести грим,draft
+equipment.dragonchess.name,Dragonchess,Драконьи шахматы,draft
+equipment.dragonchess.utilize.0,Discern whether someone is cheating,"Понять, жульничает ли кто-то",draft
+equipment.dragonchess.utilize.1,Win the game,Выиграть партию,draft
+equipment.drum.name,Drum,Барабан,draft
+equipment.drum.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.drum.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.dulcimer.name,Dulcimer,Цимбалы,draft
+equipment.dulcimer.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.dulcimer.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.dungeoneer-pack.name,Dungeoneer's Pack,Набор исследователя подземелий,draft
+equipment.dungeoneer-pack.description,"A Dungeoneer's Pack contains the following items: Backpack, Caltrops, Crowbar, 2 flasks of Oil, 10 days of Rations, Rope, Tinderbox, 10 Torches, and Waterskin.","Набор исследователя подземелий содержит: рюкзак, шипы, ломик, 2 фляги масла, рационы на 10 дней, верёвку, трутницу, 10 факелов и бурдюк.",draft
+equipment.emblem.name,Emblem,Эмблема,draft
 equipment.emblem.description,"A Holy Symbol takes one of the forms in the Holy Symbol table and is bejeweled or painted to channel divine magic. A Cleric or Paladin can use a Holy Symbol as a Spellcasting Focus.
-The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.",,todo
-equipment.entertainers-pack.name,Entertainer's Pack,,todo
-equipment.explorers-pack.name,Explorer's Pack,,todo
-equipment.explorers-pack.description,"An Explorer’s Pack contains the following items: Backpack, Bedroll, 2 flasks of Oil, 10 days of Rations, Rope, Tinderbox, 10 Torches, and Waterskin.",,todo
-equipment.flail.name,Flail,,todo
-equipment.flask.name,Flask,,todo
-equipment.flask.description,A Flask holds up to 1 pint.,,todo
-equipment.flute.name,Flute,,todo
-equipment.flute.utilize.0,Play a known tune,,todo
-equipment.flute.utilize.1,Improvise a song,,todo
-equipment.forgery-kit.name,Forgery Kit,,todo
-equipment.forgery-kit.utilize.0,Mimic 10 or fewer words of someone else's handwriting,,todo
-equipment.forgery-kit.utilize.1,Duplicate a wax seal,,todo
-equipment.glaive.name,Glaive,,todo
-equipment.glassblowers-tools.name,Glassblower's Tools,,todo
-equipment.grappling-hook.name,Grappling Hook,,todo
-equipment.grappling-hook.description,"As a Utilize action, you can throw the Grappling Hook at a railing, a ledge, or another catch within 50 feet of yourself, and the hook catches on if you succeed on a DC 13 Dexterity (Acrobatics) check. If you tied a Rope to the hook, you can then climb it.",,todo
-equipment.greataxe.name,Greataxe,,todo
-equipment.greatclub.name,Greatclub,,todo
-equipment.greatsword.name,Greatsword,,todo
-equipment.halberd.name,Halberd,,todo
-equipment.half-plate-armor.name,Half-Plate Armor,,todo
-equipment.hand-crossbow.name,Hand Crossbow,,todo
-equipment.handaxe.name,Handaxe,,todo
-equipment.healers-kit.name,Healer's Kit,,todo
-equipment.healers-kit.description,"A Healer's Kit has ten uses. As a Utilize action, you can expend one of its uses to stabilize an Unconscious creature that has 0 Hit Points without needing to make a Wisdom (Medicine) check.",,todo
-equipment.heavy-crossbow.name,Heavy Crossbow,,todo
-equipment.herbalism-kit.name,Herbalism Kit,,todo
-equipment.herbalism-kit.utilize.0,Identify a plant,,todo
-equipment.hide-armor.name,Hide Armor,,todo
-equipment.holy-water.name,Holy Water,,todo
-equipment.holy-water.description,"When you take the Attack action, you can replace one of your attacks with throwing a flask of Holy Water. Target one creature you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d8 Radiant damage if it is a Fiend or an Undead.",,todo
-equipment.horn.name,Horn,,todo
-equipment.horn.utilize.0,Play a known tune,,todo
-equipment.horn.utilize.1,Improvise a song,,todo
-equipment.hunting-trap.name,Hunting Trap,,todo
-equipment.hunting-trap.description,"As a Utilize action, you can set a Hunting Trap, which is a sawtooth steel ring that snaps shut when a creature steps on a pressure plate in the center. The trap is affixed by a heavy chain to an immobile object, such as a tree or a spike driven into the ground. A creature that steps on the plate must succeed on a DC 13 Dexterity saving throw or take 1d4 Piercing damage and have its Speed reduced to 0 until the start of its next turn. Thereafter, until the creature breaks free of the trap, its movement is limited by the length of the chain (typically 3 feet). A creature can use its action to make a DC 13 Strength (Athletics) check, freeing itself or another creature within its reach on a success. Each failed check deals 1 Piercing damage to the trapped creature.",,todo
-equipment.ink.name,Ink,,todo
-equipment.ink.description,"Ink comes in a 1-ounce bottle, which provides enough ink to write about 500 pages.",,todo
-equipment.ink-pen.name,Ink Pen,,todo
-equipment.ink-pen.description,"Using Ink, an Ink Pen is used to write or draw.",,todo
-equipment.javelin.name,Javelin,,todo
-equipment.jewelers-tools.name,Jeweler's Tools,,todo
-equipment.jewelers-tools.utilize.0,Discern a gem's value,,todo
-equipment.jug.name,Jug,,todo
-equipment.jug.description,A Jug holds up to 1 gallon.,,todo
-equipment.ladder.name,Ladder,,todo
-equipment.ladder.description,A Ladder is 10 feet tall. You must climb to move up or down it. Lamp (5 SP),,todo
-equipment.lamp.name,Lamp,,todo
-equipment.lamp.description,A Lamp burns Oil as fuel to cast Bright Light in a 15- foot radius and Dim Light for an additional 30 feet,,todo
-equipment.lance.name,Lance,,todo
-equipment.lance.description,Two-handed unless mounted,,todo
-equipment.lantern-bullseye.name,"Lantern, Bullseye",,todo
-equipment.lantern-bullseye.description,A Bullseye Lantern burns Oil as fuel to cast Bright Light in a 60-foot Cone and Dim Light for an additional 60 feet.,,todo
-equipment.lantern-hooded.name,"Lantern, Hooded",,todo
-equipment.lantern-hooded.description,"A Hooded Lantern burns Oil as fuel to cast Bright Light in a 30-foot radius and Dim Light for an additional 30 feet. As a Bonus Action, you can lower the hood, reducing the light to Dim Light in a 5-foot radius, or raise it again.",,todo
-equipment.leather-armor.name,Leather Armor,,todo
-equipment.leatherworkers-tools.name,Leatherworker's Tools,,todo
-equipment.leatherworkers-tools.utilize.0,Add a design to a leather item,,todo
-equipment.light-crossbow.name,Light Crossbow,,todo
-equipment.light-hammer.name,Light Hammer,,todo
-equipment.lock.name,Lock,,todo
-equipment.lock.description,"A Lock comes with a key. Without the key, a creature can use Thieves' Tools to pick this Lock with a successful DC 15 Dexterity (Sleight of Hand) check.",,todo
-equipment.longbow.name,Longbow,,todo
-equipment.longsword.name,Longsword,,todo
-equipment.lute.name,Lute,,todo
-equipment.lute.utilize.0,Play a known tune,,todo
-equipment.lute.utilize.1,Improvise a song,,todo
-equipment.lyre.name,Lyre,,todo
-equipment.lyre.utilize.0,Play a known tune,,todo
-equipment.lyre.utilize.1,Improvise a song,,todo
-equipment.mace.name,Mace,,todo
-equipment.magnifying-glass.name,Magnifying Glass,,todo
-equipment.magnifying-glass.description,"A Magnifying Glass grants Advantage on any ability check made to appraise or inspect a highly detailed item. Lighting a fire with a Magnifying Glass requires light as bright as sunlight to focus, tinder to ignite, and about 5 minutes for the fire to ignite.",,todo
-equipment.manacles.name,Manacles,,todo
+The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.","Священный символ имеет одну из форм из таблицы священных символов и украшен самоцветами или росписью, чтобы направлять божественную магию. Жрец или паладин может использовать священный символ как заклинательную фокусировку.
+В таблице указано, нужно ли символ держать в руке, носить на себе или нанести на ткань (табард, знамя) или щит.",draft
+equipment.entertainers-pack.name,Entertainer's Pack,Набор артиста,draft
+equipment.explorers-pack.name,Explorer's Pack,Набор путешественника,draft
+equipment.explorers-pack.description,"An Explorer’s Pack contains the following items: Backpack, Bedroll, 2 flasks of Oil, 10 days of Rations, Rope, Tinderbox, 10 Torches, and Waterskin.","Набор путешественника содержит: рюкзак, спальник, 2 фляги масла, рационы на 10 дней, верёвку, трутницу, 10 факелов и бурдюк.",draft
+equipment.flail.name,Flail,Цеп,draft
+equipment.flask.name,Flask,Фляга,draft
+equipment.flask.description,A Flask holds up to 1 pint.,Во флягу помещается до 1 пинты.,draft
+equipment.flute.name,Flute,Флейта,draft
+equipment.flute.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.flute.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.forgery-kit.name,Forgery Kit,Набор фальсификатора,draft
+equipment.forgery-kit.utilize.0,Mimic 10 or fewer words of someone else's handwriting,Подделать до 10 слов чужого почерка,draft
+equipment.forgery-kit.utilize.1,Duplicate a wax seal,Скопировать восковую печать,draft
+equipment.glaive.name,Glaive,Глефа,draft
+equipment.glassblowers-tools.name,Glassblower's Tools,Инструменты стеклодува,draft
+equipment.grappling-hook.name,Grappling Hook,Кошка,draft
+equipment.grappling-hook.description,"As a Utilize action, you can throw the Grappling Hook at a railing, a ledge, or another catch within 50 feet of yourself, and the hook catches on if you succeed on a DC 13 Dexterity (Acrobatics) check. If you tied a Rope to the hook, you can then climb it.","Действием «Использование» вы можете забросить кошку на перила, уступ или другой выступ в пределах 50 фт; она цепляется, если вы преуспеете в проверке Ловкости (Акробатика) СЛ 13. Если к кошке привязана верёвка, по ней можно взобраться.",draft
+equipment.greataxe.name,Greataxe,Секира,draft
+equipment.greatclub.name,Greatclub,Палица,draft
+equipment.greatsword.name,Greatsword,Двуручный меч,draft
+equipment.halberd.name,Halberd,Алебарда,draft
+equipment.half-plate-armor.name,Half-Plate Armor,Полулаты,draft
+equipment.hand-crossbow.name,Hand Crossbow,Ручной арбалет,draft
+equipment.handaxe.name,Handaxe,Ручной топор,draft
+equipment.healers-kit.name,Healer's Kit,Набор целителя,draft
+equipment.healers-kit.description,"A Healer's Kit has ten uses. As a Utilize action, you can expend one of its uses to stabilize an Unconscious creature that has 0 Hit Points without needing to make a Wisdom (Medicine) check.","Набора целителя хватает на десять применений. Действием «Использование» вы можете потратить одно применение, чтобы стабилизировать существо без сознания с 0 хитов без проверки Мудрости (Медицина).",draft
+equipment.heavy-crossbow.name,Heavy Crossbow,Тяжёлый арбалет,draft
+equipment.herbalism-kit.name,Herbalism Kit,Набор травника,draft
+equipment.herbalism-kit.utilize.0,Identify a plant,Определить растение,draft
+equipment.hide-armor.name,Hide Armor,Шкурный доспех,draft
+equipment.holy-water.name,Holy Water,Святая вода,draft
+equipment.holy-water.description,"When you take the Attack action, you can replace one of your attacks with throwing a flask of Holy Water. Target one creature you can see within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or take 2d8 Radiant damage if it is a Fiend or an Undead.","Совершая действие «Атака», вы можете заменить одну из атак броском фляги святой воды. Выберите существо, которое видите в пределах 20 фт. Если это исчадие или нежить, цель должна преуспеть в спасброске Ловкости (СЛ 8 + ваш модификатор Ловкости + бонус мастерства), иначе получает 2к8 урона излучением.",draft
+equipment.horn.name,Horn,Рожок,draft
+equipment.horn.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.horn.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.hunting-trap.name,Hunting Trap,Охотничий капкан,draft
+equipment.hunting-trap.description,"As a Utilize action, you can set a Hunting Trap, which is a sawtooth steel ring that snaps shut when a creature steps on a pressure plate in the center. The trap is affixed by a heavy chain to an immobile object, such as a tree or a spike driven into the ground. A creature that steps on the plate must succeed on a DC 13 Dexterity saving throw or take 1d4 Piercing damage and have its Speed reduced to 0 until the start of its next turn. Thereafter, until the creature breaks free of the trap, its movement is limited by the length of the chain (typically 3 feet). A creature can use its action to make a DC 13 Strength (Athletics) check, freeing itself or another creature within its reach on a success. Each failed check deals 1 Piercing damage to the trapped creature.","Действием «Использование» вы можете установить охотничий капкан — зубчатое стальное кольцо, которое захлопывается, когда существо наступает на нажимную пластину в центре. Капкан крепится тяжёлой цепью к неподвижному предмету, например дереву или вбитому в землю колу. Наступившее на пластину существо должно преуспеть в спасброске Ловкости СЛ 13, иначе получает 1к4 колющего урона, а его скорость становится 0 до начала его следующего хода. После этого, пока существо не освободится, его перемещение ограничено длиной цепи (обычно 3 фт). Существо может действием совершить проверку Силы (Атлетика) СЛ 13 и при успехе освободить себя или другое существо в пределах досягаемости. Каждая проваленная проверка наносит пойманному существу 1 колющий урон.",draft
+equipment.ink.name,Ink,Чернила,draft
+equipment.ink.description,"Ink comes in a 1-ounce bottle, which provides enough ink to write about 500 pages.",Чернила продаются во флаконе на 1 унцию — этого хватает примерно на 500 страниц.,draft
+equipment.ink-pen.name,Ink Pen,Перо,draft
+equipment.ink-pen.description,"Using Ink, an Ink Pen is used to write or draw.",Пером с чернилами пишут или рисуют.,draft
+equipment.javelin.name,Javelin,Метательное копьё,draft
+equipment.jewelers-tools.name,Jeweler's Tools,Инструменты ювелира,draft
+equipment.jewelers-tools.utilize.0,Discern a gem's value,Определить ценность самоцвета,draft
+equipment.jug.name,Jug,Кувшин,draft
+equipment.jug.description,A Jug holds up to 1 gallon.,В кувшин помещается до 1 галлона.,draft
+equipment.ladder.name,Ladder,Лестница,draft
+equipment.ladder.description,A Ladder is 10 feet tall. You must climb to move up or down it. Lamp (5 SP),"Лестница высотой 10 фт. Чтобы перемещаться по ней вверх или вниз, нужно лезть.",draft
+equipment.lamp.name,Lamp,Лампа,draft
+equipment.lamp.description,A Lamp burns Oil as fuel to cast Bright Light in a 15- foot radius and Dim Light for an additional 30 feet,Лампа сжигает масло и даёт яркий свет в радиусе 15 фт и тусклый свет ещё на 30 фт.,draft
+equipment.lance.name,Lance,Длинное копьё,draft
+equipment.lance.description,Two-handed unless mounted,"Двуручное, если вы не верхом",draft
+equipment.lantern-bullseye.name,"Lantern, Bullseye",Направленный фонарь,draft
+equipment.lantern-bullseye.description,A Bullseye Lantern burns Oil as fuel to cast Bright Light in a 60-foot Cone and Dim Light for an additional 60 feet.,Направленный фонарь сжигает масло и даёт яркий свет конусом 60 фт и тусклый свет ещё на 60 фт.,draft
+equipment.lantern-hooded.name,"Lantern, Hooded",Фонарь с колпаком,draft
+equipment.lantern-hooded.description,"A Hooded Lantern burns Oil as fuel to cast Bright Light in a 30-foot radius and Dim Light for an additional 30 feet. As a Bonus Action, you can lower the hood, reducing the light to Dim Light in a 5-foot radius, or raise it again.","Фонарь с колпаком сжигает масло и даёт яркий свет в радиусе 30 фт и тусклый свет ещё на 30 фт. Бонусным действием можно опустить колпак, уменьшив свет до тусклого в радиусе 5 фт, или поднять его снова.",draft
+equipment.leather-armor.name,Leather Armor,Кожаный доспех,draft
+equipment.leatherworkers-tools.name,Leatherworker's Tools,Инструменты кожевника,draft
+equipment.leatherworkers-tools.utilize.0,Add a design to a leather item,Нанести узор на кожаный предмет,draft
+equipment.light-crossbow.name,Light Crossbow,Лёгкий арбалет,draft
+equipment.light-hammer.name,Light Hammer,Лёгкий молот,draft
+equipment.lock.name,Lock,Замок,draft
+equipment.lock.description,"A Lock comes with a key. Without the key, a creature can use Thieves' Tools to pick this Lock with a successful DC 15 Dexterity (Sleight of Hand) check.","К замку прилагается ключ. Без ключа существо может вскрыть этот замок воровскими инструментами, преуспев в проверке Ловкости (Ловкость рук) СЛ 15.",draft
+equipment.longbow.name,Longbow,Длинный лук,draft
+equipment.longsword.name,Longsword,Длинный меч,draft
+equipment.lute.name,Lute,Лютня,draft
+equipment.lute.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.lute.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.lyre.name,Lyre,Лира,draft
+equipment.lyre.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.lyre.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.mace.name,Mace,Булава,draft
+equipment.magnifying-glass.name,Magnifying Glass,Увеличительное стекло,draft
+equipment.magnifying-glass.description,"A Magnifying Glass grants Advantage on any ability check made to appraise or inspect a highly detailed item. Lighting a fire with a Magnifying Glass requires light as bright as sunlight to focus, tinder to ignite, and about 5 minutes for the fire to ignite.","Увеличительное стекло даёт преимущество на проверки характеристик, чтобы оценить или осмотреть предмет с мелкими деталями. Чтобы развести огонь увеличительным стеклом, нужен свет не слабее солнечного, трут и около 5 минут.",draft
+equipment.manacles.name,Manacles,Кандалы,draft
 equipment.manacles.description,"As a Utilize action, you can use Manacles to bind an unwilling Small or Medium creature within 5 feet of yourself that has the Grappled, Incapacitated, or Restrained condition if you succeed on a DC 13 Dexterity (Sleight of Hand) check. While bound, a creature has Disadvantage on attack rolls, and the creature is Restrained if the Manacles are attached to a chain or hook that is fixed in place. Escaping the Manacles requires a successful DC 20 Dexterity (Sleight of Hand) check as an action. Bursting them requires a successful DC 25 Strength (Athletics) check as an action.
-Each set of Manacles comes with a key. Without the key, a creature can use Thieves' Tools to pick the Manacles' lock with a successful DC 15 Dexterity (Sleight of Hand) check.",,todo
-equipment.map.name,Map,,todo
-equipment.map.description,"If you consult an accurate Map, you gain a +5 bonus to Wisdom (Survival) checks you make to find your way in the place represented on it.",,todo
-equipment.masons-tools.name,Mason's Tools,,todo
-equipment.masons-tools.utilize.0,: Chisel a symbol or hole in stone,,todo
-equipment.maul.name,Maul,,todo
-equipment.mirror.name,Mirror,,todo
-equipment.mirror.description,A handheld steel Mirror is useful for personal cosmetics but also for peeking around corners and reflecting light as a signal.,,todo
-equipment.morningstar.name,Morningstar,,todo
-equipment.musket.name,Musket,,todo
-equipment.navigators-tools.name,Navigator's Tools,,todo
-equipment.navigators-tools.utilize.0,Plot a course,,todo
-equipment.navigators-tools.utilize.1,Determine position by stargazing,,todo
-equipment.needles.name,Needles,,todo
-equipment.net.name,Net,,todo
+Each set of Manacles comes with a key. Without the key, a creature can use Thieves' Tools to pick the Manacles' lock with a successful DC 15 Dexterity (Sleight of Hand) check.","Действием «Использование» вы можете заковать в кандалы несогласное Маленькое или Среднее существо в пределах 5 фт от вас, если оно схвачено, недееспособно или опутано, преуспев в проверке Ловкости (Ловкость рук) СЛ 13. Закованное существо совершает броски атаки с помехой, а если кандалы прикреплены к закреплённой цепи или крюку — оно опутано. Чтобы освободиться, нужно действием преуспеть в проверке Ловкости (Ловкость рук) СЛ 20, а чтобы разорвать кандалы — в проверке Силы (Атлетика) СЛ 25.
+К кандалам прилагается ключ. Без ключа существо может вскрыть их замок воровскими инструментами, преуспев в проверке Ловкости (Ловкость рук) СЛ 15.",draft
+equipment.map.name,Map,Карта,draft
+equipment.map.description,"If you consult an accurate Map, you gain a +5 bonus to Wisdom (Survival) checks you make to find your way in the place represented on it.","Сверяясь с точной картой, вы получаете бонус +5 к проверкам Мудрости (Выживание), чтобы найти дорогу в изображённой местности.",draft
+equipment.masons-tools.name,Mason's Tools,Инструменты каменщика,draft
+equipment.masons-tools.utilize.0,: Chisel a symbol or hole in stone,Высечь символ или отверстие в камне,draft
+equipment.maul.name,Maul,Молот,draft
+equipment.mirror.name,Mirror,Зеркало,draft
+equipment.mirror.description,A handheld steel Mirror is useful for personal cosmetics but also for peeking around corners and reflecting light as a signal.,"Ручное стальное зеркало пригодится не только для ухода за собой, но и чтобы заглянуть за угол или подать сигнал отражённым светом.",draft
+equipment.morningstar.name,Morningstar,Моргенштерн,draft
+equipment.musket.name,Musket,Мушкет,draft
+equipment.navigators-tools.name,Navigator's Tools,Инструменты навигатора,draft
+equipment.navigators-tools.utilize.0,Plot a course,Проложить курс,draft
+equipment.navigators-tools.utilize.1,Determine position by stargazing,Определить положение по звёздам,draft
+equipment.needles.name,Needles,Иглы,draft
+equipment.net.name,Net,Сеть,draft
 equipment.net.description,"When you take the Attack action, you can replace one of your attacks with throwing a Net. Target a creature you can see within 15 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or have the Restrained condition until it escapes. The target succeeds automatically if it is Huge or larger.
-To escape, the target or a creature within 5 feet of it must take an action to make a DC 10 Strength (Athletics) check, freeing the Restrained creature on a success. Destroying the Net (AC 10; 5 HP; Immunity to Bludgeoning, Poison, and Psychic damage) also frees the target, ending the effect.",,todo
-equipment.oil.name,Oil,,todo
+To escape, the target or a creature within 5 feet of it must take an action to make a DC 10 Strength (Athletics) check, freeing the Restrained creature on a success. Destroying the Net (AC 10; 5 HP; Immunity to Bludgeoning, Poison, and Psychic damage) also frees the target, ending the effect.","Совершая действие «Атака», вы можете заменить одну из атак броском сети. Выберите существо, которое видите в пределах 15 фт. Цель должна преуспеть в спасброске Ловкости (СЛ 8 + ваш модификатор Ловкости + бонус мастерства), иначе опутана, пока не освободится. Огромные и более крупные цели преуспевают автоматически.
+Чтобы освободиться, цель или существо в пределах 5 фт от неё должно действием преуспеть в проверке Силы (Атлетика) СЛ 10. Уничтожение сети (КЗ 10; 5 хитов; иммунитет к дробящему, психическому урону и урону ядом) тоже освобождает цель.",draft
+equipment.oil.name,Oil,Масло,draft
 equipment.oil.description,"You can douse a creature, object, or space with Oil or use it as fuel, as detailed below.
 **Dousing a Creature or an Object.** When you take the Attack action, you can replace one of your attacks with throwing an Oil flask. Target one creature or object within 20 feet of yourself. The target must succeed on a Dexterity saving throw (DC 8 plus your Dexterity modifier and Proficiency Bonus) or be covered in oil. If the target takes Fire damage before the oil dries (after 1 minute), the target takes an extra 5 Fire damage from burning oil.
 **Dousing a Space.** You can take the Utilize action to pour an Oil flask on level ground to cover a 5-foot-square area within 5 feet of yourself. If lit, the oil burns until the end of the turn 2 rounds from when the oil was lit (or 12 seconds) and deals 5 Fire damage to any creature that enters the area or ends its turn there. A creature can take this damage only once per turn.
-**Fuel.**  Oil serves as fuel for Lamps and Lanterns. Once lit, a flask of Oil burns for 6 hours in a Lamp or Lantern. That duration doesn't need to be consecutive; you can extinguish the burning Oil (as a Utilize action) and rekindle it again until it has burned for a total of 6 hours",,todo
-equipment.orb.name,Orb,,todo
-equipment.padded-armor.name,Padded Armor,,todo
-equipment.painters-supplies.name,Painter's Supplies,,todo
-equipment.painters-supplies.utilize.0,Paint a recognizable image of something you've seen,,todo
-equipment.pan-flute.name,Pan flute,,todo
-equipment.pan-flute.utilize.0,Play a known tune,,todo
-equipment.pan-flute.utilize.1,Improvise a song,,todo
-equipment.paper.name,Paper,,todo
-equipment.paper.description,One sheet of Paper can hold about 250 handwritten words.,,todo
-equipment.parchment.name,Parchment,,todo
-equipment.parchment.description,One sheet of Parchment can hold about 250 handwritten words.,,todo
-equipment.perfume.name,Perfume,,todo
-equipment.perfume.description,"Perfume comes in a 4-ounce vial. For 1 hour after applying Perfume to yourself, you have Advantage on Charisma (Persuasion) checks made to influence an Indifferent Humanoid within 5 feet of yourself.",,todo
-equipment.pike.name,Pike,,todo
-equipment.pistol.name,Pistol,,todo
-equipment.plate-armor.name,Plate Armor,,todo
-equipment.playing-cards.name,Playing Cards,,todo
-equipment.playing-cards.utilize.0,Discern whether someone is cheating,,todo
-equipment.playing-cards.utilize.1,Win the game,,todo
-equipment.poison-basic.name,"Poison, Basic",,todo
-equipment.poison-basic.description,"As a Bonus Action, you can use a vial of Basic Poison to coat one weapon or up to three pieces of ammunition. A creature that takes Piercing or Slashing damage from the poisoned weapon or ammunition takes an extra 1d4 Poison damage. Once applied, the poison retains potency for 1 minute or until its damage is dealt, whichever comes first.",,todo
-equipment.poisoners-kit.name,Poisoner's Kit,,todo
-equipment.poisoners-kit.utilize.0,Detect a poisoned object,,todo
-equipment.pole.name,Pole,,todo
-equipment.pole.description,"A Pole is 10 feet long. You can use it to touch something up to 10 feet away. If you must make a Strength (Athletics) check as part of a High or Long Jump, you can use the Pole to vault, giving yourself Advantage on the check.",,todo
-equipment.pot-iron.name,"Pot, Iron",,todo
-equipment.pot-iron.description,An Iron Pot holds up to 1 gallon.,,todo
-equipment.potion-of-healing.name,Potion of Healing,,todo
-equipment.potion-of-healing.description,"This potion is a magic item. As a Bonus Action, you can drink it or administer it to another creature within 5 feet of yourself. The creature that drinks the magical red fluid in this vial regains 2d4 + 2 Hit Points.",,todo
-equipment.potters-tools.name,Potter's Tools,,todo
-equipment.potters-tools.utilize.0,Discern what a ceramic object held in the past 24 hours,,todo
-equipment.pouch.name,Pouch,,todo
-equipment.pouch.description,A Pouch holds up to 6 pounds within one-fifth of a cubic foot.,,todo
-equipment.priests-pack.name,Priest's Pack,,todo
-equipment.priests-pack.description,"A Priest's Pack contains the following items: Backpack, Blanket, Holy Water, Lamp, 7 days of Rations, Robe, and Tinderbox.",,todo
-equipment.quarterstaff.name,Quarterstaff,,todo
-equipment.quiver.name,Quiver,,todo
-equipment.quiver.description,A Quiver holds up to 20 Arrows.,,todo
-equipment.ram-portable.name,"Ram, Portable",,todo
-equipment.ram-portable.description,"You can use a Portable Ram to break down doors. When doing so, you gain a +4 bonus to the Strength check. One other character can help you use the ram, giving you Advantage on this check.",,todo
-equipment.rapier.name,Rapier,,todo
-equipment.rations.name,Rations,,todo
-equipment.rations.description,"Rations consist of travel-ready food, including jerky, dried fruit, hardtack, and nuts. See ""Malnutrition"" in ""Rules Glossary"" for the risks of not eating.",,todo
-equipment.reliquary.name,Reliquary,,todo
+**Fuel.**  Oil serves as fuel for Lamps and Lanterns. Once lit, a flask of Oil burns for 6 hours in a Lamp or Lantern. That duration doesn't need to be consecutive; you can extinguish the burning Oil (as a Utilize action) and rekindle it again until it has burned for a total of 6 hours","Маслом можно облить существо, предмет или участок либо использовать его как топливо.
+**Облить существо или предмет.** Совершая действие «Атака», вы можете заменить одну из атак броском фляги масла. Выберите существо или предмет в пределах 20 фт. Цель должна преуспеть в спасброске Ловкости (СЛ 8 + ваш модификатор Ловкости + бонус мастерства), иначе покрывается маслом. Если цель получает урон огнём, пока масло не высохло (через 1 минуту), она получает дополнительно 5 урона огнём от горящего масла.
+**Облить участок.** Действием «Использование» вы можете вылить флягу масла на ровную землю, покрыв квадрат 5 на 5 фт в пределах 5 фт от вас. Подожжённое масло горит до конца хода через 2 раунда после поджога (12 секунд) и наносит 5 урона огнём каждому существу, входящему в область или заканчивающему в ней ход. Существо получает этот урон не чаще раза в ход.
+**Топливо.** Масло служит топливом для ламп и фонарей. Фляги хватает на 6 часов горения. Гореть непрерывно не обязательно: масло можно погасить (действием «Использование») и разжечь снова, пока оно не прогорит в сумме 6 часов.",draft
+equipment.orb.name,Orb,Сфера,draft
+equipment.padded-armor.name,Padded Armor,Стёганый доспех,draft
+equipment.painters-supplies.name,Painter's Supplies,Инструменты художника,draft
+equipment.painters-supplies.utilize.0,Paint a recognizable image of something you've seen,"Нарисовать узнаваемое изображение того, что вы видели",draft
+equipment.pan-flute.name,Pan flute,Свирель,draft
+equipment.pan-flute.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.pan-flute.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.paper.name,Paper,Бумага,draft
+equipment.paper.description,One sheet of Paper can hold about 250 handwritten words.,На один лист бумаги помещается около 250 рукописных слов.,draft
+equipment.parchment.name,Parchment,Пергамент,draft
+equipment.parchment.description,One sheet of Parchment can hold about 250 handwritten words.,На один лист пергамента помещается около 250 рукописных слов.,draft
+equipment.perfume.name,Perfume,Духи,draft
+equipment.perfume.description,"Perfume comes in a 4-ounce vial. For 1 hour after applying Perfume to yourself, you have Advantage on Charisma (Persuasion) checks made to influence an Indifferent Humanoid within 5 feet of yourself.","Духи продаются во флаконе на 4 унции. В течение 1 часа после того, как вы надушились, вы совершаете с преимуществом проверки Харизмы (Убеждение), чтобы повлиять на безразличного гуманоида в пределах 5 фт.",draft
+equipment.pike.name,Pike,Пика,draft
+equipment.pistol.name,Pistol,Пистоль,draft
+equipment.plate-armor.name,Plate Armor,Латы,draft
+equipment.playing-cards.name,Playing Cards,Игральные карты,draft
+equipment.playing-cards.utilize.0,Discern whether someone is cheating,"Понять, жульничает ли кто-то",draft
+equipment.playing-cards.utilize.1,Win the game,Выиграть партию,draft
+equipment.poison-basic.name,"Poison, Basic",Обычный яд,draft
+equipment.poison-basic.description,"As a Bonus Action, you can use a vial of Basic Poison to coat one weapon or up to three pieces of ammunition. A creature that takes Piercing or Slashing damage from the poisoned weapon or ammunition takes an extra 1d4 Poison damage. Once applied, the poison retains potency for 1 minute or until its damage is dealt, whichever comes first.","Бонусным действием вы можете нанести флакон обычного яда на одно оружие или до трёх боеприпасов. Существо, получившее колющий или рубящий урон от отравленного оружия или боеприпаса, получает дополнительно 1к4 урона ядом. Нанесённый яд действует 1 минуту или до нанесения урона — смотря что наступит раньше.",draft
+equipment.poisoners-kit.name,Poisoner's Kit,Набор отравителя,draft
+equipment.poisoners-kit.utilize.0,Detect a poisoned object,Обнаружить отравленный предмет,draft
+equipment.pole.name,Pole,Шест,draft
+equipment.pole.description,"A Pole is 10 feet long. You can use it to touch something up to 10 feet away. If you must make a Strength (Athletics) check as part of a High or Long Jump, you can use the Pole to vault, giving yourself Advantage on the check.","Шест длиной 10 фт. Им можно коснуться чего-то на расстоянии до 10 фт. Если в прыжке в высоту или в длину нужна проверка Силы (Атлетика), можно опереться на шест и совершить её с преимуществом.",draft
+equipment.pot-iron.name,"Pot, Iron",Железный котелок,draft
+equipment.pot-iron.description,An Iron Pot holds up to 1 gallon.,В железный котелок помещается до 1 галлона.,draft
+equipment.potion-of-healing.name,Potion of Healing,Зелье лечения,draft
+equipment.potion-of-healing.description,"This potion is a magic item. As a Bonus Action, you can drink it or administer it to another creature within 5 feet of yourself. The creature that drinks the magical red fluid in this vial regains 2d4 + 2 Hit Points.",Это зелье — магический предмет. Бонусным действием его можно выпить или дать выпить другому существу в пределах 5 фт. Выпивший красную магическую жидкость восстанавливает 2к4 + 2 хита.,draft
+equipment.potters-tools.name,Potter's Tools,Инструменты гончара,draft
+equipment.potters-tools.utilize.0,Discern what a ceramic object held in the past 24 hours,"Понять, что хранилось в керамическом сосуде за последние 24 часа",draft
+equipment.pouch.name,Pouch,Поясная сумка,draft
+equipment.pouch.description,A Pouch holds up to 6 pounds within one-fifth of a cubic foot.,В поясную сумку помещается до 6 фунтов в объёме одной пятой кубического фута.,draft
+equipment.priests-pack.name,Priest's Pack,Набор священника,draft
+equipment.priests-pack.description,"A Priest's Pack contains the following items: Backpack, Blanket, Holy Water, Lamp, 7 days of Rations, Robe, and Tinderbox.","Набор священника содержит: рюкзак, одеяло, святую воду, лампу, рационы на 7 дней, мантию и трутницу.",draft
+equipment.quarterstaff.name,Quarterstaff,Боевой посох,draft
+equipment.quiver.name,Quiver,Колчан,draft
+equipment.quiver.description,A Quiver holds up to 20 Arrows.,В колчан помещается до 20 стрел.,draft
+equipment.ram-portable.name,"Ram, Portable",Переносной таран,draft
+equipment.ram-portable.description,"You can use a Portable Ram to break down doors. When doing so, you gain a +4 bonus to the Strength check. One other character can help you use the ram, giving you Advantage on this check.","Переносным тараном можно выбивать двери; при этом вы получаете бонус +4 к проверке Силы. Ещё один персонаж может помогать вам, давая преимущество на эту проверку.",draft
+equipment.rapier.name,Rapier,Рапира,draft
+equipment.rations.name,Rations,Рационы,draft
+equipment.rations.description,"Rations consist of travel-ready food, including jerky, dried fruit, hardtack, and nuts. See ""Malnutrition"" in ""Rules Glossary"" for the risks of not eating.","Рационы — еда в дорогу: вяленое мясо, сухофрукты, сухари и орехи. О последствиях голода см. «Недоедание» в «Глоссарии правил».",draft
+equipment.reliquary.name,Reliquary,Реликварий,draft
 equipment.reliquary.description,"A Holy Symbol takes one of the forms in the Holy Symbol table and is bejeweled or painted to channel divine magic. A Cleric or Paladin can use a Holy Symbol as a Spellcasting Focus.
-The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.",,todo
-equipment.ring-mail.name,Ring Mail,,todo
-equipment.robe.name,Robe,,todo
-equipment.robe.description,A Robe has vocational or ceremonial significance. Some events and locations admit only people wearing a Robe bearing certain colors or symbols.,,todo
-equipment.rod.name,Rod,,todo
-equipment.rope.name,Rope,,todo
+The table indicates whether a Holy Symbol needs to be held, worn, or borne on fabric (such as a tabard or banner) or a Shield.","Священный символ имеет одну из форм из таблицы священных символов и украшен самоцветами или росписью, чтобы направлять божественную магию. Жрец или паладин может использовать священный символ как заклинательную фокусировку.
+В таблице указано, нужно ли символ держать в руке, носить на себе или нанести на ткань (табард, знамя) или щит.",draft
+equipment.ring-mail.name,Ring Mail,Колечный доспех,draft
+equipment.robe.name,Robe,Мантия,draft
+equipment.robe.description,A Robe has vocational or ceremonial significance. Some events and locations admit only people wearing a Robe bearing certain colors or symbols.,Мантия имеет профессиональное или церемониальное значение. На некоторые мероприятия и в некоторые места пускают только в мантии определённых цветов или с определёнными символами.,draft
+equipment.rod.name,Rod,Жезл,draft
+equipment.rope.name,Rope,Верёвка,draft
 equipment.rope.description,"As a Utilize action, you can tie a knot with Rope if you succeed on a DC 10 Dexterity (Sleight of Hand) check. The Rope can be burst with a successful DC 20 Strength (Athletics) check.
- You can bind an unwilling creature with the Rope only if the creature has the Grappled, Incapacitated, or Restrained condition. If the creature's legs are bound, the creature has the Restrained condition until it escapes. Escaping the Rope requires the creature to make a successful DC 15 Dexterity (Acrobatics) check as an action.",,todo
-equipment.sack.name,Sack,,todo
-equipment.sack.description,A Sack holds up to 30 pounds within 1 cubic foot.,,todo
-equipment.scale-mail.name,Scale Mail,,todo
-equipment.scholars-pack.name,Scholar's Pack,,todo
-equipment.scholars-pack.description,"A Scholar's Pack contains the following items: Backpack, Blanket, Book, Ink, Ink Pen, Lamp, 10 flasks of Oil, 10 sheets of Parchment, and Tinderbox.",,todo
-equipment.scimitar.name,Scimitar,,todo
-equipment.shawm.name,Shawm,,todo
-equipment.shawm.utilize.0,Play a known tune,,todo
-equipment.shawm.utilize.1,Improvise a song,,todo
-equipment.shield.name,Shield,,todo
-equipment.shortbow.name,Shortbow,,todo
-equipment.shortsword.name,Shortsword,,todo
-equipment.shovel.name,Shovel,,todo
-equipment.shovel.description,"Working for 1 hour, you can use a Shovel to dig a hole that is 5 feet on each side in soil or similar material.",,todo
-equipment.sickle.name,Sickle,,todo
-equipment.signal-whistle.name,Signal Whistle,,todo
-equipment.signal-whistle.description,"When blown as a Utilize action, a Signal Whistle produces a sound that can be heard up to 600 feet away.",,todo
-equipment.sling.name,Sling,,todo
-equipment.smiths-tools.name,Smith's Tools,,todo
-equipment.smiths-tools.utilize.0,Pry open a door or container,,todo
-equipment.spear.name,Spear,,todo
-equipment.spell-scroll-cantrip.name,"Spell Scroll, Cantrip",,todo
+ You can bind an unwilling creature with the Rope only if the creature has the Grappled, Incapacitated, or Restrained condition. If the creature's legs are bound, the creature has the Restrained condition until it escapes. Escaping the Rope requires the creature to make a successful DC 15 Dexterity (Acrobatics) check as an action.","Действием «Использование» вы можете завязать узел на верёвке, преуспев в проверке Ловкости (Ловкость рук) СЛ 10. Верёвку можно разорвать, преуспев в проверке Силы (Атлетика) СЛ 20.
+Связать несогласное существо можно, только если оно схвачено, недееспособно или опутано. Если ноги существа связаны, оно опутано, пока не освободится. Чтобы освободиться, существо должно действием преуспеть в проверке Ловкости (Акробатика) СЛ 15.",draft
+equipment.sack.name,Sack,Мешок,draft
+equipment.sack.description,A Sack holds up to 30 pounds within 1 cubic foot.,В мешок помещается до 30 фунтов в объёме 1 кубического фута.,draft
+equipment.scale-mail.name,Scale Mail,Чешуйчатый доспех,draft
+equipment.scholars-pack.name,Scholar's Pack,Набор учёного,draft
+equipment.scholars-pack.description,"A Scholar's Pack contains the following items: Backpack, Blanket, Book, Ink, Ink Pen, Lamp, 10 flasks of Oil, 10 sheets of Parchment, and Tinderbox.","Набор учёного содержит: рюкзак, одеяло, книгу, чернила, перо, лампу, 10 фляг масла, 10 листов пергамента и трутницу.",draft
+equipment.scimitar.name,Scimitar,Скимитар,draft
+equipment.shawm.name,Shawm,Шалмей,draft
+equipment.shawm.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.shawm.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.shield.name,Shield,Щит,draft
+equipment.shortbow.name,Shortbow,Короткий лук,draft
+equipment.shortsword.name,Shortsword,Короткий меч,draft
+equipment.shovel.name,Shovel,Лопата,draft
+equipment.shovel.description,"Working for 1 hour, you can use a Shovel to dig a hole that is 5 feet on each side in soil or similar material.","Работая лопатой 1 час, можно выкопать яму 5 на 5 на 5 фт в земле или похожем грунте.",draft
+equipment.sickle.name,Sickle,Серп,draft
+equipment.signal-whistle.name,Signal Whistle,Сигнальный свисток,draft
+equipment.signal-whistle.description,"When blown as a Utilize action, a Signal Whistle produces a sound that can be heard up to 600 feet away.","Если свистнуть в сигнальный свисток действием «Использование», звук слышен на расстоянии до 600 фт.",draft
+equipment.sling.name,Sling,Праща,draft
+equipment.smiths-tools.name,Smith's Tools,Инструменты кузнеца,draft
+equipment.smiths-tools.utilize.0,Pry open a door or container,Вскрыть дверь или контейнер,draft
+equipment.spear.name,Spear,Копьё,draft
+equipment.spell-scroll-cantrip.name,"Spell Scroll, Cantrip",Свиток заклинания (заговор),draft
 equipment.spell-scroll-cantrip.description,"A *Spell Scroll* (Cantrip) or *Spell Scroll* (Level 1) is a magic item that bears the words of a cantrip or level 1 spell, respectively, determined by the scroll's creator. If the spell is on your class's spell list, you can read the scroll and cast the spell using its normal casting time and without providing any Material components.
-If the spell requires a saving throw or an attack roll, the spell save DC is 13, and the attack bonus is +5. The scroll disintegrates when the casting is completed.",,todo
-equipment.spell-scroll-level-1.name,"Spell Scroll, Level 1",,todo
+If the spell requires a saving throw or an attack roll, the spell save DC is 13, and the attack bonus is +5. The scroll disintegrates when the casting is completed.","Свиток заклинания (заговор) или свиток заклинания (1-й круг) — магический предмет, на котором записан заговор или заклинание 1-го круга по выбору создателя свитка. Если заклинание есть в списке вашего класса, вы можете прочитать свиток и сотворить заклинание за обычное время, без материальных компонентов.
+Если заклинание требует спасброска или броска атаки, СЛ спасброска 13, а бонус атаки +5. После сотворения свиток рассыпается в прах.",draft
+equipment.spell-scroll-level-1.name,"Spell Scroll, Level 1",Свиток заклинания (1-й круг),draft
 equipment.spell-scroll-level-1.description,"A *Spell Scroll* (Cantrip) or *Spell Scroll* (Level 1) is a magic item that bears the words of a cantrip or level 1 spell, respectively, determined by the scroll's creator. If the spell is on your class's spell list, you can read the scroll and cast the spell using its normal casting time and without providing any Material components.
-If the spell requires a saving throw or an attack roll, the spell save DC is 13, and the attack bonus is +5. The scroll disintegrates when the casting is completed.",,todo
-equipment.spellbook.name,Spellbook,,todo
+If the spell requires a saving throw or an attack roll, the spell save DC is 13, and the attack bonus is +5. The scroll disintegrates when the casting is completed.","Свиток заклинания (заговор) или свиток заклинания (1-й круг) — магический предмет, на котором записан заговор или заклинание 1-го круга по выбору создателя свитка. Если заклинание есть в списке вашего класса, вы можете прочитать свиток и сотворить заклинание за обычное время, без материальных компонентов.
+Если заклинание требует спасброска или броска атаки, СЛ спасброска 13, а бонус атаки +5. После сотворения свиток рассыпается в прах.",draft
+equipment.spellbook.name,Spellbook,Книга заклинаний,draft
 equipment.spellbook.description,"Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells.
-Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells.",,todo
-equipment.spikes-iron.name,"Spikes, Iron",,todo
-equipment.spikes-iron.description,"Iron Spikes come in bundles of ten. As a Utilize action, you can use a blunt object, such as a Light Hammer, to hammer a spike into wood, earth, or a similar material. You can do so to jam a door shut or to then tie a Rope or Chain to the Spike.",,todo
-equipment.splint-armor.name,Splint Armor,,todo
-equipment.sprig-of-mistletoe.name,Sprig of Mistletoe,,todo
-equipment.spyglass.name,Spyglass,,todo
-equipment.spyglass.description,Objects viewed through a Spyglass are magnified to twice their size.,,todo
-equipment.staff.name,Staff,,todo
-equipment.string.name,String,,todo
-equipment.string.description,String is 10 feet long. You can tie a knot in it as a Utilize action.,,todo
-equipment.studded-leather-armor.name,Studded Leather Armor,,todo
-equipment.tent.name,Tent,,todo
-equipment.tent.description,A Tent sleeps up to two Small or Medium creatures.,,todo
-equipment.thieves-tools.name,Thieves' Tools,,todo
-equipment.thieves-tools.utilize.0,Pick a lock,,todo
-equipment.thieves-tools.utilize.1,Disarm a trap,,todo
-equipment.three-dragon-ante.name,Three-Dragon Ante,,todo
-equipment.three-dragon-ante.utilize.0,Discern whether someone is cheating,,todo
-equipment.three-dragon-ante.utilize.1,Win the game,,todo
-equipment.tinderbox.name,Tinderbox,,todo
-equipment.tinderbox.description,"A Tinderbox is a small container holding flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a Candle, Lamp, Lantern, or Torch—or anything else with exposed fuel—takes a Bonus Action. Lighting any other fire takes 1 minute.",,todo
-equipment.tinkers-tools.name,Tinker's Tools,,todo
-equipment.tinkers-tools.utilize.0,"Assemble a Tiny item composed of scrap, which falls apart in 1 minute",,todo
-equipment.torch.name,Torch,,todo
-equipment.torch.description,"A Torch burns for 1 hour, casting Bright Light in a 20-foot radius and Dim Light for an additional 20 feet. When you take the Attack action, you can attack with the Torch, using it as a Simple Melee weapon. On a hit, the target takes 1 Fire damage.",,todo
-equipment.trident.name,Trident,,todo
-equipment.vial.name,Vial,,todo
-equipment.vial.description,A Vial holds up to 4 ounces.,,todo
-equipment.viol.name,Viol,,todo
-equipment.viol.utilize.0,Play a known tune,,todo
-equipment.viol.utilize.1,Improvise a song,,todo
-equipment.wand.name,Wand,,todo
-equipment.war-pick.name,War Pick,,todo
-equipment.warhammer.name,Warhammer,,todo
-equipment.waterskin.name,Waterskin,,todo
-equipment.waterskin.description,"A Waterskin holds up to 4 pints. If you don't drink sufficient water, you risk dehydration (see “Rules Glossary”).",,todo
-equipment.weavers-tools.name,Weaver's Tools,,todo
-equipment.weavers-tools.utilize.0,Mend a tear in clothing,,todo
-equipment.weavers-tools.utilize.1,sew a Tiny design,,todo
-equipment.whip.name,Whip,,todo
-equipment.woodcarvers-tools.name,Woodcarver's Tools,,todo
-equipment.woodcarvers-tools.utilize.0,Carve a pattern in wood,,todo
-equipment.yew-wand.name,Yew Wand,,todo
-equipmentCategory.adventuring-gear.name,Adventuring Gear,,todo
-equipmentCategory.ammunition.name,Ammunition,,todo
-equipmentCategory.arcane-foci.name,Arcane Foci,,todo
-equipmentCategory.armor.name,Armor,,todo
-equipmentCategory.artisans-tools.name,Artisan's Tools,,todo
-equipmentCategory.druidic-foci.name,Druidic Foci,,todo
-equipmentCategory.equipment-packs.name,Equipment Packs,,todo
-equipmentCategory.gaming-sets.name,Gaming Sets,,todo
-equipmentCategory.heavy-armor.name,Heavy Armor,,todo
-equipmentCategory.holy-symbols.name,Holy Symbols,,todo
-equipmentCategory.light-armor.name,Light Armor,,todo
-equipmentCategory.martial-melee-weapons.name,Martial Melee Weapons,,todo
-equipmentCategory.martial-ranged-weapons.name,Martial Ranged Weapons,,todo
-equipmentCategory.martial-weapons.name,Martial Weapons,,todo
-equipmentCategory.medium-armor.name,Medium Armor,,todo
-equipmentCategory.melee-weapons.name,Melee Weapons,,todo
-equipmentCategory.musical-instruments.name,Musical Instruments,,todo
-equipmentCategory.other-tools.name,Other Tools,,todo
-equipmentCategory.potions.name,Potions,,todo
-equipmentCategory.ranged-weapons.name,Ranged Weapons,,todo
-equipmentCategory.rings.name,Rings,,todo
-equipmentCategory.shields.name,Shields,,todo
-equipmentCategory.simple-melee-weapons.name,Simple Melee Weapons,,todo
-equipmentCategory.simple-ranged-weapons.name,Simple Ranged Weapons,,todo
-equipmentCategory.simple-weapons.name,Simple Weapons,,todo
-equipmentCategory.staffs.name,Staffs,,todo
-equipmentCategory.tools.name,Tools,,todo
-equipmentCategory.wands.name,Wands,,todo
-equipmentCategory.weapons.name,Weapons,,todo
-equipmentCategory.wondrous-items.name,Wondrous Items,,todo
+Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells.",Книга заклинаний — незаменимая для волшебника книга в кожаном переплёте со 100 чистыми пергаментными страницами для записи заклинаний.,draft
+equipment.spikes-iron.name,"Spikes, Iron",Железные клинья,draft
+equipment.spikes-iron.description,"Iron Spikes come in bundles of ten. As a Utilize action, you can use a blunt object, such as a Light Hammer, to hammer a spike into wood, earth, or a similar material. You can do so to jam a door shut or to then tie a Rope or Chain to the Spike.","Железные клинья продаются связками по десять. Действием «Использование» можно тупым предметом (например, лёгким молотом) вбить клин в дерево, землю или похожий материал — чтобы заклинить дверь или привязать к клину верёвку или цепь.",draft
+equipment.splint-armor.name,Splint Armor,Наборный доспех,draft
+equipment.sprig-of-mistletoe.name,Sprig of Mistletoe,Веточка омелы,draft
+equipment.spyglass.name,Spyglass,Подзорная труба,draft
+equipment.spyglass.description,Objects viewed through a Spyglass are magnified to twice their size.,В подзорную трубу предметы видны увеличенными вдвое.,draft
+equipment.staff.name,Staff,Посох,draft
+equipment.string.name,String,Бечёвка,draft
+equipment.string.description,String is 10 feet long. You can tie a knot in it as a Utilize action.,Бечёвка длиной 10 фт. Действием «Использование» на ней можно завязать узел.,draft
+equipment.studded-leather-armor.name,Studded Leather Armor,Проклёпанный кожаный доспех,draft
+equipment.tent.name,Tent,Палатка,draft
+equipment.tent.description,A Tent sleeps up to two Small or Medium creatures.,В палатке могут спать до двух Маленьких или Средних существ.,draft
+equipment.thieves-tools.name,Thieves' Tools,Воровские инструменты,draft
+equipment.thieves-tools.utilize.0,Pick a lock,Вскрыть замок,draft
+equipment.thieves-tools.utilize.1,Disarm a trap,Обезвредить ловушку,draft
+equipment.three-dragon-ante.name,Three-Dragon Ante,Ставка трёх драконов,draft
+equipment.three-dragon-ante.utilize.0,Discern whether someone is cheating,"Понять, жульничает ли кто-то",draft
+equipment.three-dragon-ante.utilize.1,Win the game,Выиграть партию,draft
+equipment.tinderbox.name,Tinderbox,Трутница,draft
+equipment.tinderbox.description,"A Tinderbox is a small container holding flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a Candle, Lamp, Lantern, or Torch—or anything else with exposed fuel—takes a Bonus Action. Lighting any other fire takes 1 minute.","Трутница — коробочка с кремнем, огнивом и трутом (обычно сухой тканью, пропитанной маслом) для разведения огня. Зажечь ею свечу, лампу, фонарь, факел или что-то ещё с открытым топливом можно бонусным действием. Развести любой другой огонь — за 1 минуту.",draft
+equipment.tinkers-tools.name,Tinker's Tools,Инструменты ремонтника,draft
+equipment.tinkers-tools.utilize.0,"Assemble a Tiny item composed of scrap, which falls apart in 1 minute","Собрать из обрезков крошечный предмет, который развалится через 1 минуту",draft
+equipment.torch.name,Torch,Факел,draft
+equipment.torch.description,"A Torch burns for 1 hour, casting Bright Light in a 20-foot radius and Dim Light for an additional 20 feet. When you take the Attack action, you can attack with the Torch, using it as a Simple Melee weapon. On a hit, the target takes 1 Fire damage.","Факел горит 1 час, давая яркий свет в радиусе 20 фт и тусклый свет ещё на 20 фт. Совершая действие «Атака», можно атаковать факелом как простым рукопашным оружием. При попадании цель получает 1 урон огнём.",draft
+equipment.trident.name,Trident,Трезубец,draft
+equipment.vial.name,Vial,Флакон,draft
+equipment.vial.description,A Vial holds up to 4 ounces.,Во флакон помещается до 4 унций.,draft
+equipment.viol.name,Viol,Виола,draft
+equipment.viol.utilize.0,Play a known tune,Сыграть знакомую мелодию,draft
+equipment.viol.utilize.1,Improvise a song,Сымпровизировать песню,draft
+equipment.wand.name,Wand,Волшебная палочка,draft
+equipment.war-pick.name,War Pick,Боевая кирка,draft
+equipment.warhammer.name,Warhammer,Боевой молот,draft
+equipment.waterskin.name,Waterskin,Бурдюк,draft
+equipment.waterskin.description,"A Waterskin holds up to 4 pints. If you don't drink sufficient water, you risk dehydration (see “Rules Glossary”).","В бурдюк помещается до 4 пинт. Если не пить достаточно воды, есть риск обезвоживания (см. «Глоссарий правил»).",draft
+equipment.weavers-tools.name,Weaver's Tools,Инструменты ткача,draft
+equipment.weavers-tools.utilize.0,Mend a tear in clothing,Зашить прореху в одежде,draft
+equipment.weavers-tools.utilize.1,sew a Tiny design,Вышить крошечный узор,draft
+equipment.whip.name,Whip,Кнут,draft
+equipment.woodcarvers-tools.name,Woodcarver's Tools,Инструменты резчика по дереву,draft
+equipment.woodcarvers-tools.utilize.0,Carve a pattern in wood,Вырезать узор на дереве,draft
+equipment.yew-wand.name,Yew Wand,Тисовая палочка,draft
+equipmentCategory.adventuring-gear.name,Adventuring Gear,Снаряжение искателя приключений,draft
+equipmentCategory.ammunition.name,Ammunition,Боеприпасы,draft
+equipmentCategory.arcane-foci.name,Arcane Foci,Магические фокусировки,draft
+equipmentCategory.armor.name,Armor,Доспехи,draft
+equipmentCategory.artisans-tools.name,Artisan's Tools,Инструменты ремесленника,draft
+equipmentCategory.druidic-foci.name,Druidic Foci,Друидические фокусировки,draft
+equipmentCategory.equipment-packs.name,Equipment Packs,Наборы снаряжения,draft
+equipmentCategory.gaming-sets.name,Gaming Sets,Игровой набор,draft
+equipmentCategory.heavy-armor.name,Heavy Armor,Тяжёлые доспехи,draft
+equipmentCategory.holy-symbols.name,Holy Symbols,Священный символ,draft
+equipmentCategory.light-armor.name,Light Armor,Лёгкие доспехи,draft
+equipmentCategory.martial-melee-weapons.name,Martial Melee Weapons,Воинское рукопашное оружие,draft
+equipmentCategory.martial-ranged-weapons.name,Martial Ranged Weapons,Воинское дальнобойное оружие,draft
+equipmentCategory.martial-weapons.name,Martial Weapons,Воинское оружие,draft
+equipmentCategory.medium-armor.name,Medium Armor,Средние доспехи,draft
+equipmentCategory.melee-weapons.name,Melee Weapons,Рукопашное оружие,draft
+equipmentCategory.musical-instruments.name,Musical Instruments,Музыкальный инструмент,draft
+equipmentCategory.other-tools.name,Other Tools,Прочие инструменты,draft
+equipmentCategory.potions.name,Potions,Зелья,draft
+equipmentCategory.ranged-weapons.name,Ranged Weapons,Дальнобойное оружие,draft
+equipmentCategory.rings.name,Rings,Кольца,draft
+equipmentCategory.shields.name,Shields,Щиты,draft
+equipmentCategory.simple-melee-weapons.name,Simple Melee Weapons,Простое рукопашное оружие,draft
+equipmentCategory.simple-ranged-weapons.name,Simple Ranged Weapons,Простое дальнобойное оружие,draft
+equipmentCategory.simple-weapons.name,Simple Weapons,Простое оружие,draft
+equipmentCategory.staffs.name,Staffs,Посохи,draft
+equipmentCategory.tools.name,Tools,Инструменты,draft
+equipmentCategory.wands.name,Wands,Волшебные палочки,draft
+equipmentCategory.weapons.name,Weapons,Оружие,draft
+equipmentCategory.wondrous-items.name,Wondrous Items,Чудесные предметы,draft

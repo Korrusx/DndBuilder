@@ -32,16 +32,17 @@ subspecies.giant-ancestry-stones-endurance.name,Giant Ancestry: Stone's Enduranc
 subspecies.giant-ancestry-storms-thunder.name,Giant Ancestry: Storm's Thunder,Великан: штормовой гром,draft
 subspecies.gnomish-lineage-forest-gnome.name,Gnomish Lineage: Forest Gnome,Родословная: лесной гном,draft
 subspecies.gnomish-lineage-rock-gnome.name,Gnomish Lineage: Rock Gnome,Родословная: скальный гном,draft
-trait.adrenaline-rush.name,Adrenaline Rush,,todo
+trait.adrenaline-rush.name,Adrenaline Rush,Прилив адреналина,draft
 trait.adrenaline-rush.description,"You can take the Dash action as a Bonus Action. When you do so, you gain a number of Temporary Hit Points equal to your Proficiency Bonus.
-You can use this trait a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Short or Long Rest.",,todo
-trait.brave.name,Brave,,todo
-trait.brave.description,You have Advantage on saving throws you make to avoid or end the Frightened condition.,,todo
-trait.darkvision-120.name,Darkvision (120 ft.),,todo
-trait.darkvision-120.description,You have Darkvision with a range of 120 feet.,,todo
-trait.darkvision-60.name,Darkvision (60 ft.),,todo
-trait.darkvision-60.description,You have Darkvision with a range of 60 feet.,,todo
-trait.draconic-ancestry.name,Draconic Ancestry,,todo
+You can use this trait a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Short or Long Rest.","Вы можете совершить действие «Рывок» бонусным действием. Когда вы это делаете, вы получаете временные хиты, равные вашему бонусу мастерства.
+Эту особенность можно использовать число раз, равное бонусу мастерства; все использования восстанавливаются после короткого или долгого отдыха.",draft
+trait.brave.name,Brave,Храбрость,draft
+trait.brave.description,You have Advantage on saving throws you make to avoid or end the Frightened condition.,"Вы совершаете с преимуществом спасброски, чтобы избежать состояния «испуганный» или закончить его.",draft
+trait.darkvision-120.name,Darkvision (120 ft.),Тёмное зрение (120 фт),draft
+trait.darkvision-120.description,You have Darkvision with a range of 120 feet.,У вас тёмное зрение в радиусе 120 фт.,draft
+trait.darkvision-60.name,Darkvision (60 ft.),Тёмное зрение (60 фт),draft
+trait.darkvision-60.description,You have Darkvision with a range of 60 feet.,У вас тёмное зрение в радиусе 60 фт.,draft
+trait.draconic-ancestry.name,Draconic Ancestry,Драконий предок,draft
 trait.draconic-ancestry.description,"Your lineage stems from a dragon progenitor. Choose the kind of dragon from the Draconic Ancestors table. Your choice affects your Breath Weapon and Damage Resistance traits as well as your appearance.
 Draconic Ancestors
 Dragon / Damage Type
@@ -54,39 +55,56 @@ Green / Poison
 Gold / Fire
 Red / Fire
 Silver / Cold
-White / Cold",,todo
-trait.draconic-breath-weapon-acid.name,Breath Weapon: Acid,,todo
+White / Cold","Ваш род восходит к дракону-прародителю. Выберите вид дракона из таблицы «Драконьи предки». Выбор определяет ваше оружие дыхания, сопротивление урону и внешность.
+Драконьи предки
+Дракон / вид урона
+Чёрный / кислота
+Синий / электричество
+Латунный / огонь
+Бронзовый / электричество
+Медный / кислота
+Зелёный / яд
+Золотой / огонь
+Красный / огонь
+Серебряный / холод
+Белый / холод",draft
+trait.draconic-breath-weapon-acid.name,Breath Weapon: Acid,Оружие дыхания: кислота,draft
 trait.draconic-breath-weapon-acid.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 acid damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
-You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
-trait.draconic-breath-weapon-cold.name,Breath Weapon: Cold,,todo
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.","Совершая в свой ход действие «Атака», вы можете заменить одну из атак выдохом магической энергии в виде конуса 15 фт или линии длиной 30 фт и шириной 5 фт (форму выбираете каждый раз). Каждое существо в этой области совершает спасбросок Ловкости (СЛ 8 + модификатор Телосложения + бонус мастерства). При провале существо получает 1к10 урона кислотой, при успехе — половину. Урон растёт на 1к10 на 5-м (2к10), 11-м (3к10) и 17-м (4к10) уровнях персонажа.
+Оружие дыхания можно использовать число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха.",draft
+trait.draconic-breath-weapon-cold.name,Breath Weapon: Cold,Оружие дыхания: холод,draft
 trait.draconic-breath-weapon-cold.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 cold damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
-You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
-trait.draconic-breath-weapon-fire.name,Breath Weapon: Fire,,todo
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.","Совершая в свой ход действие «Атака», вы можете заменить одну из атак выдохом магической энергии в виде конуса 15 фт или линии длиной 30 фт и шириной 5 фт (форму выбираете каждый раз). Каждое существо в этой области совершает спасбросок Ловкости (СЛ 8 + модификатор Телосложения + бонус мастерства). При провале существо получает 1к10 урона холодом, при успехе — половину. Урон растёт на 1к10 на 5-м (2к10), 11-м (3к10) и 17-м (4к10) уровнях персонажа.
+Оружие дыхания можно использовать число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха.",draft
+trait.draconic-breath-weapon-fire.name,Breath Weapon: Fire,Оружие дыхания: огонь,draft
 trait.draconic-breath-weapon-fire.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 fire damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
-You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
-trait.draconic-breath-weapon-lightning.name,Breath Weapon: Lightning,,todo
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.","Совершая в свой ход действие «Атака», вы можете заменить одну из атак выдохом магической энергии в виде конуса 15 фт или линии длиной 30 фт и шириной 5 фт (форму выбираете каждый раз). Каждое существо в этой области совершает спасбросок Ловкости (СЛ 8 + модификатор Телосложения + бонус мастерства). При провале существо получает 1к10 урона огнём, при успехе — половину. Урон растёт на 1к10 на 5-м (2к10), 11-м (3к10) и 17-м (4к10) уровнях персонажа.
+Оружие дыхания можно использовать число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха.",draft
+trait.draconic-breath-weapon-lightning.name,Breath Weapon: Lightning,Оружие дыхания: электричество,draft
 trait.draconic-breath-weapon-lightning.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 lightning damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
-You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
-trait.draconic-breath-weapon-poison.name,Breath Weapon: Poison,,todo
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.","Совершая в свой ход действие «Атака», вы можете заменить одну из атак выдохом магической энергии в виде конуса 15 фт или линии длиной 30 фт и шириной 5 фт (форму выбираете каждый раз). Каждое существо в этой области совершает спасбросок Ловкости (СЛ 8 + модификатор Телосложения + бонус мастерства). При провале существо получает 1к10 урона электричеством, при успехе — половину. Урон растёт на 1к10 на 5-м (2к10), 11-м (3к10) и 17-м (4к10) уровнях персонажа.
+Оружие дыхания можно использовать число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха.",draft
+trait.draconic-breath-weapon-poison.name,Breath Weapon: Poison,Оружие дыхания: яд,draft
 trait.draconic-breath-weapon-poison.description,"When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 poison damage. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10).
-You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
-trait.draconic-damage-resistance-acid.name,Damage Resistance: Acid,,todo
-trait.draconic-damage-resistance-acid.description,"You have Resistance to acid damage, as determined by your Draconic Ancestry trait.",,todo
-trait.draconic-damage-resistance-cold.name,Damage Resistance: Cold,,todo
-trait.draconic-damage-resistance-cold.description,"You have Resistance to cold damage, as determined by your Draconic Ancestry trait.",,todo
-trait.draconic-damage-resistance-fire.name,Damage Resistance: Fire,,todo
-trait.draconic-damage-resistance-fire.description,"You have Resistance to fire damage, as determined by your Draconic Ancestry trait.",,todo
-trait.draconic-damage-resistance-lightning.name,Damage Resistance: Lightning,,todo
-trait.draconic-damage-resistance-lightning.description,"You have Resistance to lightning damage, as determined by your Draconic Ancestry trait.",,todo
-trait.draconic-damage-resistance-poison.name,Damage Resistance: Poison,,todo
-trait.draconic-damage-resistance-poison.description,"You have Resistance to poison damage, as determined by your Draconic Ancestry trait.",,todo
-trait.draconic-flight.name,Draconic Flight,,todo
-trait.draconic-flight.description,"When you reach character level 5, you can channel draconic magic to give yourself temporary flight. As a Bonus Action, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the Incapacitated condition. During that time, you have a Fly Speed equal to your Speed. Your wings appear to be made of the same energy as your Breath Weapon. Once you use this trait, you can't use it again until you finish a Long Rest.",,todo
-trait.dwarven-resilience.name,Dwarven Resilience,,todo
-trait.dwarven-resilience.description,You have Resistance to Poison damage. You also have Advantage on saving throws you make to avoid or end the Poisoned condition.,,todo
-trait.dwarven-toughness.name,Dwarven Toughness,,todo
-trait.dwarven-toughness.description,"Your Hit Point maximum increases by 1, and it increases by 1 again whenever you gain a level.",,todo
-trait.elven-lineage.name,Elven Lineage,,todo
+You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.","Совершая в свой ход действие «Атака», вы можете заменить одну из атак выдохом магической энергии в виде конуса 15 фт или линии длиной 30 фт и шириной 5 фт (форму выбираете каждый раз). Каждое существо в этой области совершает спасбросок Ловкости (СЛ 8 + модификатор Телосложения + бонус мастерства). При провале существо получает 1к10 урона ядом, при успехе — половину. Урон растёт на 1к10 на 5-м (2к10), 11-м (3к10) и 17-м (4к10) уровнях персонажа.
+Оружие дыхания можно использовать число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха.",draft
+trait.draconic-damage-resistance-acid.name,Damage Resistance: Acid,Сопротивление урону: кислота,draft
+trait.draconic-damage-resistance-acid.description,"You have Resistance to acid damage, as determined by your Draconic Ancestry trait.",У вас сопротивление урону кислотой (по особенности «Драконий предок»).,draft
+trait.draconic-damage-resistance-cold.name,Damage Resistance: Cold,Сопротивление урону: холод,draft
+trait.draconic-damage-resistance-cold.description,"You have Resistance to cold damage, as determined by your Draconic Ancestry trait.",У вас сопротивление урону холодом (по особенности «Драконий предок»).,draft
+trait.draconic-damage-resistance-fire.name,Damage Resistance: Fire,Сопротивление урону: огонь,draft
+trait.draconic-damage-resistance-fire.description,"You have Resistance to fire damage, as determined by your Draconic Ancestry trait.",У вас сопротивление урону огнём (по особенности «Драконий предок»).,draft
+trait.draconic-damage-resistance-lightning.name,Damage Resistance: Lightning,Сопротивление урону: электричество,draft
+trait.draconic-damage-resistance-lightning.description,"You have Resistance to lightning damage, as determined by your Draconic Ancestry trait.",У вас сопротивление урону электричеством (по особенности «Драконий предок»).,draft
+trait.draconic-damage-resistance-poison.name,Damage Resistance: Poison,Сопротивление урону: яд,draft
+trait.draconic-damage-resistance-poison.description,"You have Resistance to poison damage, as determined by your Draconic Ancestry trait.",У вас сопротивление урону ядом (по особенности «Драконий предок»).,draft
+trait.draconic-flight.name,Draconic Flight,Драконий полёт,draft
+trait.draconic-flight.description,"When you reach character level 5, you can channel draconic magic to give yourself temporary flight. As a Bonus Action, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the Incapacitated condition. During that time, you have a Fly Speed equal to your Speed. Your wings appear to be made of the same energy as your Breath Weapon. Once you use this trait, you can't use it again until you finish a Long Rest.","Начиная с 5-го уровня персонажа, вы можете направить драконью магию, чтобы ненадолго обрести полёт. Бонусным действием вы отращиваете на спине призрачные крылья на 10 минут или пока не уберёте их (действие не требуется) или не станете недееспособным. В это время ваша скорость полёта равна вашей скорости. Крылья выглядят созданными из той же энергии, что и ваше оружие дыхания. Использовав эту особенность, вы не можете использовать её снова до конца долгого отдыха.",draft
+trait.dwarven-resilience.name,Dwarven Resilience,Дварфийская устойчивость,draft
+trait.dwarven-resilience.description,You have Resistance to Poison damage. You also have Advantage on saving throws you make to avoid or end the Poisoned condition.,"У вас сопротивление урону ядом. Кроме того, вы совершаете с преимуществом спасброски, чтобы избежать состояния «отравленный» или закончить его.",draft
+trait.dwarven-toughness.name,Dwarven Toughness,Дварфийская выносливость,draft
+trait.dwarven-toughness.description,"Your Hit Point maximum increases by 1, and it increases by 1 again whenever you gain a level.",Ваш максимум хитов увеличивается на 1 и увеличивается ещё на 1 с каждым новым уровнем.,draft
+trait.elven-lineage.name,Elven Lineage,Эльфийская родословная,draft
 trait.elven-lineage.description,"You are part of a lineage that grants you supernatural abilities. Choose a lineage from the Elven Lineages table. You gain the level 1 benefit of that lineage.
 When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table.
 You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level.
@@ -103,10 +121,26 @@ Wood Elf
 Level 1. Your Speed increases to 35 feet. You also know the Druidcraft cantrip.
 Level 3. Longstrider
 Level 5. Pass without Trace
-Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).",,todo
-trait.fey-ancestry.name,Fey Ancestry,,todo
-trait.fey-ancestry.description,You have Advantage on saving throws you make to avoid or end the Charmed condition.,,todo
-trait.fiendish-legacy.name,Fiendish Legacy,,todo
+Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).","Вы принадлежите к родословной, дающей сверхъестественные способности. Выберите родословную из таблицы «Эльфийские родословные» — вы получаете её особенность 1-го уровня.
+На 3-м и 5-м уровнях персонажа вы узнаёте заклинание более высокого круга, как указано в таблице.
+Это заклинание всегда у вас подготовлено. Вы можете один раз сотворить его без ячейки и снова получаете такую возможность после долгого отдыха. Его также можно творить, тратя ячейки подходящего круга.
+Эльфийские родословные
+Дроу
+1-й уровень. Дальность тёмного зрения увеличивается до 120 фт. Вы знаете заговор «Пляшущие огоньки».
+3-й уровень. «Огонь фей»
+5-й уровень. «Тьма»
+Высший эльф
+1-й уровень. Вы знаете заговор «Фокусы». После каждого долгого отдыха его можно заменить другим заговором из списка волшебника.
+3-й уровень. «Обнаружение магии»
+5-й уровень. «Туманный шаг»
+Лесной эльф
+1-й уровень. Ваша скорость увеличивается до 35 фт. Вы знаете заговор «Искусство друидов».
+3-й уровень. «Скороход»
+5-й уровень. «Бесследное передвижение»
+Заклинательная характеристика для заклинаний этой особенности — Интеллект, Мудрость или Харизма (выберите при выборе родословной).",draft
+trait.fey-ancestry.name,Fey Ancestry,Наследие фей,draft
+trait.fey-ancestry.description,You have Advantage on saving throws you make to avoid or end the Charmed condition.,"Вы совершаете с преимуществом спасброски, чтобы избежать состояния «очарованный» или закончить его.",draft
+trait.fiendish-legacy.name,Fiendish Legacy,Наследие исчадий,draft
 trait.fiendish-legacy.description,"You are the recipient of a legacy that grants you supernatural abilities. Choose a legacy from the Fiendish Legacies table. You gain the level 1 benefit of the chosen legacy.
 When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table.
 You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level.
@@ -123,183 +157,234 @@ Level 5. Ray of Enfeeblement
 Infernal.
 Level 1. You have Resistance to Fire damage. You also know the Fire Bolt cantrip.
 Level 3. Hellish Rebuke
-Level 5. Darkness",,todo
-trait.giant-ancestry.name,Giant Ancestry,,todo
+Level 5. Darkness","Вам досталось наследие, дающее сверхъестественные способности. Выберите наследие из таблицы «Наследия исчадий» — вы получаете его особенность 1-го уровня.
+На 3-м и 5-м уровнях персонажа вы узнаёте заклинание более высокого круга, как указано в таблице.
+Это заклинание всегда у вас подготовлено. Вы можете один раз сотворить его без ячейки и снова получаете такую возможность после долгого отдыха. Его также можно творить, тратя ячейки подходящего круга.
+Заклинательная характеристика для заклинаний этой особенности — Интеллект, Мудрость или Харизма (выберите при выборе наследия).
+Наследия исчадий
+Бездна.
+1-й уровень. Сопротивление урону ядом. Вы знаете заговор «Ядовитые брызги».
+3-й уровень. «Луч болезни»
+5-й уровень. «Удержание личности»
+Хтоническое.
+1-й уровень. Сопротивление некротическому урону. Вы знаете заговор «Леденящее прикосновение».
+3-й уровень. «Ложная жизнь»
+5-й уровень. «Луч слабости»
+Преисподняя.
+1-й уровень. Сопротивление урону огнём. Вы знаете заговор «Огненный снаряд».
+3-й уровень. «Адское возмездие»
+5-й уровень. «Тьма»",draft
+trait.giant-ancestry.name,Giant Ancestry,Великанье происхождение,draft
 trait.giant-ancestry.description,"You are descended from Giants. Choose one of the following benefits-a supernatural boon from your ancestry; you can use the chosen benefit a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest:
 Cloud's Jaunt (Cloud Giant). As a Bonus Action, you magically teleport up to 30 feet to an unoccupied space you can see.
 Fire's Burn (Fire Giant). When you hit a target with an attack roll and deal damage to it, you can also deal 1d10 Fire damage to that target.
 Frost's Chill (Frost Giant). When you hit a target with an attack roll and deal damage to it, you can also deal 1d6 Cold damage to that target and reduce its Speed by 10 feet until the start of your next turn.
 Hill's Tumble (Hill Giant). When you hit a Large or smaller creature with an attack roll and deal damage to it, you can give that target the Prone condition.
 Stone's Endurance (Stone Giant). When you take damage, you can take a Reaction to roll 1d12. Add your Constitution modifier to the number rolled and reduce the damage by that total.
-- Storm's Thunder (Storm Giant). When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature.",,todo
-trait.giant-ancestry-clouds-jaunt.name,Giant Ancestry: Cloud's Jaunt,,todo
-trait.giant-ancestry-clouds-jaunt.description,"As a Bonus Action, you magically teleport up to 30 feet to an unoccupied space you can see.",,todo
-trait.giant-ancestry-fires-burn.name,Giant Ancestry: Fire's Burn,,todo
-trait.giant-ancestry-fires-burn.description,"When you hit a target with an attack roll and deal damage to it, you can also deal 1d10 Fire damage to that target.",,todo
-trait.giant-ancestry-frosts-chill.name,Giant Ancestry: Frost's Chill,,todo
-trait.giant-ancestry-frosts-chill.description,"When you hit a target with an attack roll and deal damage to it, you can also deal 1d6 Cold damage to that target and reduce its Speed by 10 feet until the start of your next turn.",,todo
-trait.giant-ancestry-hills-tumble.name,Giant Ancestry: Hill's Tumble,,todo
-trait.giant-ancestry-hills-tumble.description,"When you hit a Large or smaller creature with an attack roll and deal damage to it, you can give that target the Prone condition.",,todo
-trait.giant-ancestry-stones-endurance.name,Giant Ancestry: Stone's Endurance,,todo
-trait.giant-ancestry-stones-endurance.description,"When you take damage, you can take a Reaction to roll 1d12. Add your Constitution modifier to the number rolled and reduce the damage by that total.",,todo
-trait.giant-ancestry-storms-thunder.name,Giant Ancestry: Storm's Thunder,,todo
-trait.giant-ancestry-storms-thunder.description,"When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature.",,todo
-trait.gnomish-cunning.name,Gnomish Cunning,,todo
-trait.gnomish-cunning.description,"You have Advantage on Intelligence, Wisdom, and Charisma saving throws.",,todo
-trait.gnomish-lineage.name,Gnomish Lineage,,todo
+- Storm's Thunder (Storm Giant). When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature.","Вы потомок великанов. Выберите одно из следующих преимуществ — сверхъестественный дар предков. Его можно использовать число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха:
+Облачный шаг (облачный великан). Бонусным действием вы магически телепортируетесь на расстояние до 30 фт в видимое вами свободное пространство.
+Огненный ожог (огненный великан). Когда вы попадаете по цели броском атаки и наносите ей урон, можете дополнительно нанести ей 1к10 урона огнём.
+Морозный холод (ледяной великан). Когда вы попадаете по цели броском атаки и наносите ей урон, можете дополнительно нанести ей 1к6 урона холодом и уменьшить её скорость на 10 фт до начала вашего следующего хода.
+Холмовой удар (холмовой великан). Когда вы попадаете броском атаки по существу размером не больше Большого и наносите ему урон, можете сбить его с ног.
+Каменная стойкость (каменный великан). Получив урон, вы можете реакцией бросить 1к12, прибавить модификатор Телосложения и уменьшить урон на эту сумму.
+Штормовой гром (штормовой великан). Получив урон от существа в пределах 60 фт, вы можете реакцией нанести этому существу 1к8 урона звуком.",draft
+trait.giant-ancestry-clouds-jaunt.name,Giant Ancestry: Cloud's Jaunt,Великан: облачный шаг,draft
+trait.giant-ancestry-clouds-jaunt.description,"As a Bonus Action, you magically teleport up to 30 feet to an unoccupied space you can see.",Бонусным действием вы магически телепортируетесь на расстояние до 30 фт в видимое вами свободное пространство.,draft
+trait.giant-ancestry-fires-burn.name,Giant Ancestry: Fire's Burn,Великан: огненный ожог,draft
+trait.giant-ancestry-fires-burn.description,"When you hit a target with an attack roll and deal damage to it, you can also deal 1d10 Fire damage to that target.","Когда вы попадаете по цели броском атаки и наносите ей урон, можете дополнительно нанести ей 1к10 урона огнём.",draft
+trait.giant-ancestry-frosts-chill.name,Giant Ancestry: Frost's Chill,Великан: морозный холод,draft
+trait.giant-ancestry-frosts-chill.description,"When you hit a target with an attack roll and deal damage to it, you can also deal 1d6 Cold damage to that target and reduce its Speed by 10 feet until the start of your next turn.","Когда вы попадаете по цели броском атаки и наносите ей урон, можете дополнительно нанести ей 1к6 урона холодом и уменьшить её скорость на 10 фт до начала вашего следующего хода.",draft
+trait.giant-ancestry-hills-tumble.name,Giant Ancestry: Hill's Tumble,Великан: холмовой удар,draft
+trait.giant-ancestry-hills-tumble.description,"When you hit a Large or smaller creature with an attack roll and deal damage to it, you can give that target the Prone condition.","Когда вы попадаете броском атаки по существу размером не больше Большого и наносите ему урон, можете сбить его с ног (лежит ничком).",draft
+trait.giant-ancestry-stones-endurance.name,Giant Ancestry: Stone's Endurance,Великан: каменная стойкость,draft
+trait.giant-ancestry-stones-endurance.description,"When you take damage, you can take a Reaction to roll 1d12. Add your Constitution modifier to the number rolled and reduce the damage by that total.","Получив урон, вы можете реакцией бросить 1к12, прибавить модификатор Телосложения и уменьшить урон на эту сумму.",draft
+trait.giant-ancestry-storms-thunder.name,Giant Ancestry: Storm's Thunder,Великан: штормовой гром,draft
+trait.giant-ancestry-storms-thunder.description,"When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature.","Получив урон от существа в пределах 60 фт от вас, вы можете реакцией нанести этому существу 1к8 урона звуком.",draft
+trait.gnomish-cunning.name,Gnomish Cunning,Гномья хитрость,draft
+trait.gnomish-cunning.description,"You have Advantage on Intelligence, Wisdom, and Charisma saving throws.","Вы совершаете с преимуществом спасброски Интеллекта, Мудрости и Харизмы.",draft
+trait.gnomish-lineage.name,Gnomish Lineage,Гномья родословная,draft
 trait.gnomish-lineage.description,"You are part of a lineage that grants you supernatural abilities. Choose one of the following options; whichever one you choose, Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage):
 Forest Gnome. You know the Minor Illusion cantrip. You also always have the Speak with Animals spell prepared. You can cast it without a spell slot a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest. You can also use any spell slots you have to cast the spell.
 Rock Gnome. You know the Mending and Prestidigitation cantrips. In addition, you can spend 10 minutes casting Prestidigitation to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from Prestidigitation; the device produces that effect whenever you or another creature takes a Bonus Action to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it.
-For example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a Utilize action.",,todo
-trait.gnomish-lineage-forest-gnome.name,Gnomish Lineage: Forest Gnome,,todo
-trait.gnomish-lineage-forest-gnome.description,"You always have the Speak with Animals spell prepared. You can cast it without a spell slot a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest. You can also use any spell slots you have to cast the spell.",,todo
-trait.gnomish-lineage-rock-gnome.name,Gnomish Lineage: Rock Gnome,,todo
-trait.gnomish-lineage-rock-gnome.description,"You know the Prestidigitation cantrip. In addition, you can spend 10 minutes casting Prestidigitation to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from Prestidigitation; the device produces that effect whenever you or another creature takes a Bonus Action to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it. For example, if you choose the spell’s ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn’t do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a Utilize action.",,todo
-trait.halfling-nimbleness.name,Halfling Nimbleness,,todo
-trait.halfling-nimbleness.description,"You can move through the space of any creature that is a size larger than you, but you can't stop in the same space.",,todo
-trait.high-elf-cantrip-versatility.name,High Elf: Cantrip Versatility,,todo
-trait.high-elf-cantrip-versatility.description,"You know the Prestidigitation cantrip. Whenever you finish a Long Rest, you can replace that cantrip with a different cantrip from the Wizard spell list.",,todo
-trait.keen-senses.name,Keen Senses,,todo
-trait.keen-senses.description,"You have proficiency in the Insight, Perception, or Survival skill.",,todo
-trait.keen-senses.proficiencyChoice.0.desc,"Choose one of the following skills: Insight, Perception, or Survival.",,todo
-trait.large-form.name,Large Form,,todo
-trait.large-form.description,"Starting at character level 5, you can change your size to Large as a Bonus Action if you're in a big enough space. This transformation lasts for 10 minutes or until you end it (no action required). For that duration, you have Advantage on Strength checks, and your Speed increases by 10 feet. Once you use this trait, you can't use it again until you finish a Long Rest.",,todo
-trait.lineage-resistance-fire.name,Damage Resistance: Fire,,todo
-trait.lineage-resistance-fire.description,You have Resistance to Fire damage.,,todo
-trait.lineage-resistance-necrotic.name,Damage Resistance: Necrotic,,todo
-trait.lineage-resistance-necrotic.description,You have Resistance to Necrotic damage.,,todo
-trait.lineage-resistance-poison.name,Damage Resistance: Poison,,todo
-trait.lineage-resistance-poison.description,You have Resistance to Poison damage.,,todo
-trait.lineage-spell-chill-touch.name,Chill Touch,,todo
-trait.lineage-spell-chill-touch.description,You know the spell Chill Touch.,,todo
-trait.lineage-spell-dancing-lights.name,Dancing Lights,,todo
-trait.lineage-spell-dancing-lights.description,You know the spell Dancing Lights.,,todo
-trait.lineage-spell-darkness.name,Darkness,,todo
-trait.lineage-spell-darkness.description,You know the spell Darkness.,,todo
-trait.lineage-spell-detect-magic.name,Detect Magic,,todo
-trait.lineage-spell-detect-magic.description,You know the spell Detect Magic.,,todo
-trait.lineage-spell-faerie-fire.name,Faerie Fire,,todo
-trait.lineage-spell-faerie-fire.description,You know the spell Faerie Fire.,,todo
-trait.lineage-spell-false-life.name,False Life,,todo
-trait.lineage-spell-false-life.description,You know the spell False Life.,,todo
-trait.lineage-spell-fire-bolt.name,Fire Bolt,,todo
-trait.lineage-spell-fire-bolt.description,You know the spell Fire Bolt.,,todo
-trait.lineage-spell-hellish-rebuke.name,Hellish Rebuke,,todo
-trait.lineage-spell-hellish-rebuke.description,You know the spell Hellish Rebuke.,,todo
-trait.lineage-spell-hold-person.name,Hold Person,,todo
-trait.lineage-spell-hold-person.description,You know the spell Hold Person.,,todo
-trait.lineage-spell-longstrider.name,Longstrider,,todo
-trait.lineage-spell-longstrider.description,You learn the spell Longstrider.,,todo
-trait.lineage-spell-mending.name,Mending,,todo
-trait.lineage-spell-mending.description,You know the cantrip Mending.,,todo
-trait.lineage-spell-minor-illusion.name,Minor Illusion,,todo
-trait.lineage-spell-minor-illusion.description,You know the spell Minor Illusion.,,todo
-trait.lineage-spell-misty-step.name,Misty Step,,todo
-trait.lineage-spell-misty-step.description,You know the spell Misty Step.,,todo
-trait.lineage-spell-pass-without-trace.name,Pass without Trace,,todo
-trait.lineage-spell-pass-without-trace.description,You learn the spell Pass without Trace.,,todo
-trait.lineage-spell-poison-spray.name,Poison Spray,,todo
-trait.lineage-spell-poison-spray.description,You know the spell Poison Spray.,,todo
-trait.lineage-spell-ray-of-enfeeblement.name,Ray of Enfeeblement,,todo
-trait.lineage-spell-ray-of-enfeeblement.description,You know the spell Ray of Enfeeblement.,,todo
-trait.lineage-spell-ray-of-sickness.name,Ray of Sickness,,todo
-trait.lineage-spell-ray-of-sickness.description,You know the spell Ray of Sickness.,,todo
-trait.luck.name,Luck,,todo
-trait.luck.description,"When you roll a 1 on the d20 of a D20 Test, you can reroll the die, and you must use the new roll.",,todo
-trait.naturally-stealthy.name,Naturally Stealthy,,todo
-trait.naturally-stealthy.description,You can take the Hide action even when you are obscured only by a creature that is at least one size larger than you.,,todo
-trait.otherworldly-presence.name,Otherworldly Presence,,todo
-trait.otherworldly-presence.description,"You know the Thaumaturgy cantrip. When you cast it with this trait, the spell uses the same spellcasting ability you use for your Fiendish Legacy trait.",,todo
-trait.powerful-build.name,Powerful Build,,todo
-trait.powerful-build.description,You have Advantage on any ability check you make to end the Grappled condition. You also count as one size larger when determining your carrying capacity.,,todo
-trait.relentless-endurance.name,Relentless Endurance,,todo
-trait.relentless-endurance.description,"When you are reduced to 0 Hit Points but not killed outright, you can drop to 1 Hit Point instead. Once you use this trait, you can't do so again until you finish a Long Rest.",,todo
-trait.resourceful.name,Resourceful,,todo
-trait.resourceful.description,You gain Heroic Inspiration whenever you finish a Long Rest.,,todo
-trait.skillful.name,Skillful,,todo
-trait.skillful.description,You gain proficiency in one skill of your choice.,,todo
-trait.skillful.proficiencyChoice.0.desc,Choose any skill.,,todo
-trait.stonecunning.name,Stonecunning,,todo
+For example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a Utilize action.","Вы принадлежите к родословной, дающей сверхъестественные способности. Выберите один из вариантов; для заклинаний этой особенности заклинательная характеристика — Интеллект, Мудрость или Харизма (выберите при выборе родословной):
+Лесной гном. Вы знаете заговор «Малая иллюзия». Заклинание «Разговор с животными» всегда у вас подготовлено. Вы можете творить его без ячейки число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха. Его также можно творить, тратя ячейки.
+Скальный гном. Вы знаете заговоры «Починка» и «Фокусы». Кроме того, потратив 10 минут на сотворение «Фокусов», вы можете создать крошечное заводное устройство (КЗ 5, 1 хит): игрушку, огниво, музыкальную шкатулку и т.п. При создании вы выбираете один эффект «Фокусов» — устройство производит его, когда вы или другое существо бонусным действием активирует его касанием. Если у эффекта есть варианты, вы выбираете один из них при создании.
+Например, выбрав эффект «зажечь/погасить», вы решаете, зажигает устройство огонь или гасит — но не то и другое. Одновременно у вас может быть три таких устройства; каждое разваливается через 8 часов после создания или когда вы разбираете его касанием действием «Использование».",draft
+trait.gnomish-lineage-forest-gnome.name,Gnomish Lineage: Forest Gnome,Родословная: лесной гном,draft
+trait.gnomish-lineage-forest-gnome.description,"You always have the Speak with Animals spell prepared. You can cast it without a spell slot a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest. You can also use any spell slots you have to cast the spell.","Заклинание «Разговор с животными» всегда у вас подготовлено. Вы можете творить его без ячейки число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха. Его также можно творить, тратя ячейки.",draft
+trait.gnomish-lineage-rock-gnome.name,Gnomish Lineage: Rock Gnome,Родословная: скальный гном,draft
+trait.gnomish-lineage-rock-gnome.description,"You know the Prestidigitation cantrip. In addition, you can spend 10 minutes casting Prestidigitation to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from Prestidigitation; the device produces that effect whenever you or another creature takes a Bonus Action to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it. For example, if you choose the spell’s ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn’t do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a Utilize action.","Вы знаете заговор «Фокусы». Кроме того, потратив 10 минут на сотворение «Фокусов», вы можете создать крошечное заводное устройство (КЗ 5, 1 хит): игрушку, огниво, музыкальную шкатулку и т.п. При создании вы выбираете один эффект «Фокусов» — устройство производит его, когда вы или другое существо бонусным действием активирует его касанием. Если у эффекта есть варианты, вы выбираете один из них при создании. Например, выбрав эффект «зажечь/погасить», вы решаете, зажигает устройство огонь или гасит — но не то и другое. Одновременно у вас может быть три таких устройства; каждое разваливается через 8 часов после создания или когда вы разбираете его касанием действием «Использование».",draft
+trait.halfling-nimbleness.name,Halfling Nimbleness,Проворство полурослика,draft
+trait.halfling-nimbleness.description,"You can move through the space of any creature that is a size larger than you, but you can't stop in the same space.","Вы можете проходить через пространство любого существа, которое больше вас хотя бы на один размер, но не можете останавливаться в нём.",draft
+trait.high-elf-cantrip-versatility.name,High Elf: Cantrip Versatility,Высший эльф: смена заговора,draft
+trait.high-elf-cantrip-versatility.description,"You know the Prestidigitation cantrip. Whenever you finish a Long Rest, you can replace that cantrip with a different cantrip from the Wizard spell list.",Вы знаете заговор «Фокусы». После каждого долгого отдыха его можно заменить другим заговором из списка волшебника.,draft
+trait.keen-senses.name,Keen Senses,Острые чувства,draft
+trait.keen-senses.description,"You have proficiency in the Insight, Perception, or Survival skill.","Вы владеете навыком Проницательность, Восприятие или Выживание (на выбор).",draft
+trait.keen-senses.proficiencyChoice.0.desc,"Choose one of the following skills: Insight, Perception, or Survival.","Выберите один навык: Проницательность, Восприятие или Выживание.",draft
+trait.large-form.name,Large Form,Большая форма,draft
+trait.large-form.description,"Starting at character level 5, you can change your size to Large as a Bonus Action if you're in a big enough space. This transformation lasts for 10 minutes or until you end it (no action required). For that duration, you have Advantage on Strength checks, and your Speed increases by 10 feet. Once you use this trait, you can't use it again until you finish a Long Rest.","Начиная с 5-го уровня персонажа, вы можете бонусным действием стать Большим, если вокруг достаточно места. Превращение длится 10 минут или пока вы его не прекратите (действие не требуется). В это время вы совершаете проверки Силы с преимуществом, а ваша скорость увеличивается на 10 фт. Использовав эту особенность, вы не можете использовать её снова до конца долгого отдыха.",draft
+trait.lineage-resistance-fire.name,Damage Resistance: Fire,Сопротивление урону: огонь,draft
+trait.lineage-resistance-fire.description,You have Resistance to Fire damage.,У вас сопротивление урону огнём.,draft
+trait.lineage-resistance-necrotic.name,Damage Resistance: Necrotic,Сопротивление урону: некротический,draft
+trait.lineage-resistance-necrotic.description,You have Resistance to Necrotic damage.,У вас сопротивление некротическому урону.,draft
+trait.lineage-resistance-poison.name,Damage Resistance: Poison,Сопротивление урону: яд,draft
+trait.lineage-resistance-poison.description,You have Resistance to Poison damage.,У вас сопротивление урону ядом.,draft
+trait.lineage-spell-chill-touch.name,Chill Touch,Леденящее прикосновение,draft
+trait.lineage-spell-chill-touch.description,You know the spell Chill Touch.,Вы знаете заклинание «Леденящее прикосновение».,draft
+trait.lineage-spell-dancing-lights.name,Dancing Lights,Пляшущие огоньки,draft
+trait.lineage-spell-dancing-lights.description,You know the spell Dancing Lights.,Вы знаете заклинание «Пляшущие огоньки».,draft
+trait.lineage-spell-darkness.name,Darkness,Тьма,draft
+trait.lineage-spell-darkness.description,You know the spell Darkness.,Вы знаете заклинание «Тьма».,draft
+trait.lineage-spell-detect-magic.name,Detect Magic,Обнаружение магии,draft
+trait.lineage-spell-detect-magic.description,You know the spell Detect Magic.,Вы знаете заклинание «Обнаружение магии».,draft
+trait.lineage-spell-faerie-fire.name,Faerie Fire,Огонь фей,draft
+trait.lineage-spell-faerie-fire.description,You know the spell Faerie Fire.,Вы знаете заклинание «Огонь фей».,draft
+trait.lineage-spell-false-life.name,False Life,Ложная жизнь,draft
+trait.lineage-spell-false-life.description,You know the spell False Life.,Вы знаете заклинание «Ложная жизнь».,draft
+trait.lineage-spell-fire-bolt.name,Fire Bolt,Огненный снаряд,draft
+trait.lineage-spell-fire-bolt.description,You know the spell Fire Bolt.,Вы знаете заклинание «Огненный снаряд».,draft
+trait.lineage-spell-hellish-rebuke.name,Hellish Rebuke,Адское возмездие,draft
+trait.lineage-spell-hellish-rebuke.description,You know the spell Hellish Rebuke.,Вы знаете заклинание «Адское возмездие».,draft
+trait.lineage-spell-hold-person.name,Hold Person,Удержание личности,draft
+trait.lineage-spell-hold-person.description,You know the spell Hold Person.,Вы знаете заклинание «Удержание личности».,draft
+trait.lineage-spell-longstrider.name,Longstrider,Скороход,draft
+trait.lineage-spell-longstrider.description,You learn the spell Longstrider.,Вы узнаёте заклинание «Скороход».,draft
+trait.lineage-spell-mending.name,Mending,Починка,draft
+trait.lineage-spell-mending.description,You know the cantrip Mending.,Вы знаете заговор «Починка».,draft
+trait.lineage-spell-minor-illusion.name,Minor Illusion,Малая иллюзия,draft
+trait.lineage-spell-minor-illusion.description,You know the spell Minor Illusion.,Вы знаете заклинание «Малая иллюзия».,draft
+trait.lineage-spell-misty-step.name,Misty Step,Туманный шаг,draft
+trait.lineage-spell-misty-step.description,You know the spell Misty Step.,Вы знаете заклинание «Туманный шаг».,draft
+trait.lineage-spell-pass-without-trace.name,Pass without Trace,Бесследное передвижение,draft
+trait.lineage-spell-pass-without-trace.description,You learn the spell Pass without Trace.,Вы узнаёте заклинание «Бесследное передвижение».,draft
+trait.lineage-spell-poison-spray.name,Poison Spray,Ядовитые брызги,draft
+trait.lineage-spell-poison-spray.description,You know the spell Poison Spray.,Вы знаете заклинание «Ядовитые брызги».,draft
+trait.lineage-spell-ray-of-enfeeblement.name,Ray of Enfeeblement,Луч слабости,draft
+trait.lineage-spell-ray-of-enfeeblement.description,You know the spell Ray of Enfeeblement.,Вы знаете заклинание «Луч слабости».,draft
+trait.lineage-spell-ray-of-sickness.name,Ray of Sickness,Луч болезни,draft
+trait.lineage-spell-ray-of-sickness.description,You know the spell Ray of Sickness.,Вы знаете заклинание «Луч болезни».,draft
+trait.luck.name,Luck,Удача,draft
+trait.luck.description,"When you roll a 1 on the d20 of a D20 Test, you can reroll the die, and you must use the new roll.","Если на к20 в тесте к20 у вас выпала 1, вы можете перебросить кость и должны взять новый результат.",draft
+trait.naturally-stealthy.name,Naturally Stealthy,Природная скрытность,draft
+trait.naturally-stealthy.description,You can take the Hide action even when you are obscured only by a creature that is at least one size larger than you.,"Вы можете совершить действие «Засада», даже если вас заслоняет только существо, которое больше вас хотя бы на один размер.",draft
+trait.otherworldly-presence.name,Otherworldly Presence,Потустороннее присутствие,draft
+trait.otherworldly-presence.description,"You know the Thaumaturgy cantrip. When you cast it with this trait, the spell uses the same spellcasting ability you use for your Fiendish Legacy trait.","Вы знаете заговор «Чудотворство». Когда вы творите его с помощью этой особенности, заклинательная характеристика та же, что для особенности «Наследие исчадий».",draft
+trait.powerful-build.name,Powerful Build,Мощное телосложение,draft
+trait.powerful-build.description,You have Advantage on any ability check you make to end the Grappled condition. You also count as one size larger when determining your carrying capacity.,"Вы совершаете с преимуществом проверки характеристик, чтобы закончить состояние «схваченный». При определении грузоподъёмности вы считаетесь на один размер больше.",draft
+trait.relentless-endurance.name,Relentless Endurance,Неутомимая стойкость,draft
+trait.relentless-endurance.description,"When you are reduced to 0 Hit Points but not killed outright, you can drop to 1 Hit Point instead. Once you use this trait, you can't do so again until you finish a Long Rest.","Если ваши хиты опускаются до 0, но вы не убиты сразу, вы можете вместо этого остаться с 1 хитом. Использовав эту особенность, вы не можете использовать её снова до конца долгого отдыха.",draft
+trait.resourceful.name,Resourceful,Находчивость,draft
+trait.resourceful.description,You gain Heroic Inspiration whenever you finish a Long Rest.,Вы получаете героическое вдохновение после каждого долгого отдыха.,draft
+trait.skillful.name,Skillful,Умелость,draft
+trait.skillful.description,You gain proficiency in one skill of your choice.,Вы получаете владение одним навыком на выбор.,draft
+trait.skillful.proficiencyChoice.0.desc,Choose any skill.,Выберите любой навык.,draft
+trait.stonecunning.name,Stonecunning,Знание камня,draft
 trait.stonecunning.description,"As a Bonus Action, you gain Tremorsense with a range of 60 feet for 10 minutes. You must be on a stone surface or touching a stone surface to use this Tremorsense. The stone can be natural or worked.
-You can use this Bonus Action a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",,todo
-trait.trance.name,Trance,,todo
-trait.trance.description,"You don't need to sleep, and magic can't put you to sleep. You can finish a Long Rest in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness.",,todo
-trait.versatile.name,Versatile,,todo
-trait.versatile.description,"You gain an Origin feat of your choice (see ""Feats""). Skilled is recommended.",,todo
-trait.wood-elf-speed-increase.name,Wood Elf: Movement Speed Increase,,todo
-trait.wood-elf-speed-increase.description,Your Movement Speed increases to 35 feet.,,todo
+You can use this Bonus Action a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.","Бонусным действием вы получаете чувство вибраций в радиусе 60 фт на 10 минут. Для этого нужно стоять на каменной поверхности или касаться её; камень может быть природным или обработанным.
+Это бонусное действие можно использовать число раз, равное бонусу мастерства; все использования восстанавливаются после долгого отдыха.",draft
+trait.trance.name,Trance,Транс,draft
+trait.trance.description,"You don't need to sleep, and magic can't put you to sleep. You can finish a Long Rest in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness.","Вам не нужно спать, и магия не может вас усыпить. Вы можете завершить долгий отдых за 4 часа, проведя их в похожей на транс медитации, во время которой остаётесь в сознании.",draft
+trait.versatile.name,Versatile,Универсальность,draft
+trait.versatile.description,"You gain an Origin feat of your choice (see ""Feats""). Skilled is recommended.",Вы получаете черту происхождения на выбор (см. «Черты»). Рекомендуется «Одарённый».,draft
+trait.wood-elf-speed-increase.name,Wood Elf: Movement Speed Increase,Лесной эльф: повышенная скорость,draft
+trait.wood-elf-speed-increase.description,Your Movement Speed increases to 35 feet.,Ваша скорость увеличивается до 35 фт.,draft
 background.acolyte.name,Acolyte,Прислужник,draft
-background.acolyte.equipment.0.desc,"Choose A or B: (A) Calligrapher's Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP; or (B) 50 GP",,todo
+background.acolyte.equipment.0.desc,"Choose A or B: (A) Calligrapher's Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP; or (B) 50 GP","Выберите А или Б: (А) инструменты каллиграфа, книга (молитвы), священный символ, пергамент (10 листов), мантия, 8 зм или (Б) 50 зм",draft
 background.criminal.name,Criminal,Преступник,draft
-background.criminal.equipment.0.desc,"Choose A or B: (A) 2 Daggers, Thieves' Tools, Crowbar, 2 Pouches, Traveler's Clothes, 16 GP; or (B) 50 GP",,todo
+background.criminal.equipment.0.desc,"Choose A or B: (A) 2 Daggers, Thieves' Tools, Crowbar, 2 Pouches, Traveler's Clothes, 16 GP; or (B) 50 GP","Выберите А или Б: (А) 2 кинжала, воровские инструменты, ломик, 2 поясные сумки, дорожная одежда, 16 зм или (Б) 50 зм",draft
 background.sage.name,Sage,Мудрец,draft
-background.sage.equipment.0.desc,"Choose A or B: (A) Quarterstaff, Calligrapher's Supplies, Book (history), Parchment (8 sheets), Robe, 8 GP; or (B) 50 GP",,todo
+background.sage.equipment.0.desc,"Choose A or B: (A) Quarterstaff, Calligrapher's Supplies, Book (history), Parchment (8 sheets), Robe, 8 GP; or (B) 50 GP","Выберите А или Б: (А) боевой посох, инструменты каллиграфа, книга (история), пергамент (8 листов), мантия, 8 зм или (Б) 50 зм",draft
 background.soldier.name,Soldier,Солдат,draft
-background.soldier.proficiencyChoice.0.desc,"Choose one kind of Gaming Set (see ""Equipment"")",,todo
-background.soldier.equipment.0.desc,"Choose A or B: (A) Spear, Shortbow, 20 Arrows, Gaming Set (same as above), Healer's Kit, Quiver, Traveler's Clothes, 14 GP; or (B) 50 GP",,todo
+background.soldier.proficiencyChoice.0.desc,"Choose one kind of Gaming Set (see ""Equipment"")",Выберите один игровой набор (см. «Снаряжение»),draft
+background.soldier.equipment.0.desc,"Choose A or B: (A) Spear, Shortbow, 20 Arrows, Gaming Set (same as above), Healer's Kit, Quiver, Traveler's Clothes, 14 GP; or (B) 50 GP","Выберите А или Б: (А) копьё, короткий лук, 20 стрел, игровой набор (тот же, что выше), набор целителя, колчан, дорожная одежда, 14 зм или (Б) 50 зм",draft
 feat.ability-score-improvement.name,Ability Score Improvement,Увеличение характеристик,draft
-feat.ability-score-improvement.description,"Increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. This feat can't increase an ability score above 20.",,todo
-feat.ability-score-improvement.repeatable,You can take this feat more than once.,,todo
+feat.ability-score-improvement.description,"Increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. This feat can't increase an ability score above 20.",Увеличьте одну характеристику на выбор на 2 или две характеристики на 1. Эта черта не может поднять характеристику выше 20.,draft
+feat.ability-score-improvement.repeatable,You can take this feat more than once.,Эту черту можно брать несколько раз.,draft
 feat.alert.name,Alert,Бдительность,draft
 feat.alert.description,"You gain the following benefits.
 **Initiative Proficiency.** When you roll Initiative, you can add your Proficiency Bonus to the roll.
-**Initiative Swap.** Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can't make this swap if you or the ally has the Incapacitated condition.",,todo
+**Initiative Swap.** Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can't make this swap if you or the ally has the Incapacitated condition.","Вы получаете следующие преимущества.
+**Мастерство в инициативе.** Бросая инициативу, вы можете добавить к броску бонус мастерства.
+**Обмен инициативой.** Сразу после броска инициативы вы можете поменяться инициативой с одним согласным союзником в том же бою. Обмен невозможен, если вы или союзник недееспособны.",draft
 feat.archery.name,Archery,Стрельба,draft
-feat.archery.description,You gain a +2 bonus to attack rolls you make with Ranged weapons.,,todo
-feat.boon-of-combat-prowess.name,Boon of Combat Prowess,,todo
+feat.archery.description,You gain a +2 bonus to attack rolls you make with Ranged weapons.,Вы получаете бонус +2 к броскам атаки дальнобойным оружием.,draft
+feat.boon-of-combat-prowess.name,Boon of Combat Prowess,Дар боевого мастерства,draft
 feat.boon-of-combat-prowess.description,"You gain the following benefits.
 **Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
-**Peerless Aim.** When you miss with an attack roll, you can hit instead. Once you use this benefit, you can't use it again until the start of your next turn.",,todo
-feat.boon-of-dimensional-travel.name,Boon of Dimensional Travel,,todo
+**Peerless Aim.** When you miss with an attack roll, you can hit instead. Once you use this benefit, you can't use it again until the start of your next turn.","Вы получаете следующие преимущества.
+**Увеличение характеристики.** Увеличьте одну характеристику на выбор на 1, максимум до 30.
+**Безупречный прицел.** Если вы промахнулись броском атаки, можете вместо этого попасть. Использовав это преимущество, вы не можете использовать его снова до начала вашего следующего хода.",draft
+feat.boon-of-dimensional-travel.name,Boon of Dimensional Travel,Дар пространственных странствий,draft
 feat.boon-of-dimensional-travel.description,"You gain the following benefits.
 **Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
-**Blink Steps.** Immediately after you take the Attack action or the Magic action, you can teleport up to 30 feet to an unoccupied space you can see.",,todo
-feat.boon-of-fate.name,Boon of Fate,,todo
+**Blink Steps.** Immediately after you take the Attack action or the Magic action, you can teleport up to 30 feet to an unoccupied space you can see.","Вы получаете следующие преимущества.
+**Увеличение характеристики.** Увеличьте одну характеристику на выбор на 1, максимум до 30.
+**Мерцающие шаги.** Сразу после действия «Атака» или «Магия» вы можете телепортироваться на расстояние до 30 фт в видимое вами свободное пространство.",draft
+feat.boon-of-fate.name,Boon of Fate,Дар судьбы,draft
 feat.boon-of-fate.description,"You gain the following benefits.
 **Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
-**Improve Fate.** When you or another creature within 60 feet of you succeeds on or fails a D20 Test, you can roll 2d4 and apply the total rolled as a bonus or penalty to the d20 roll. Once you use this benefit, you can't use it again until you roll Initiative or finish a Short or Long Rest.",,todo
-feat.boon-of-irresistible-offense.name,Boon of Irresistible Offense,,todo
+**Improve Fate.** When you or another creature within 60 feet of you succeeds on or fails a D20 Test, you can roll 2d4 and apply the total rolled as a bonus or penalty to the d20 roll. Once you use this benefit, you can't use it again until you roll Initiative or finish a Short or Long Rest.","Вы получаете следующие преимущества.
+**Увеличение характеристики.** Увеличьте одну характеристику на выбор на 1, максимум до 30.
+**Поправка судьбы.** Когда вы или другое существо в пределах 60 фт от вас преуспевает или проваливает тест к20, вы можете бросить 2к4 и применить результат как бонус или штраф к броску к20. Использовав это преимущество, вы не можете использовать его снова, пока не бросите инициативу или не завершите короткий или долгий отдых.",draft
+feat.boon-of-irresistible-offense.name,Boon of Irresistible Offense,Дар неотразимого натиска,draft
 feat.boon-of-irresistible-offense.description,"You gain the following benefits.
 **Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
 **Overcome Defenses.** The Bludgeoning, Piercing, and Slashing damage you deal always ignores Resistance.
-**Overwhelming Strike.** When you roll a 20 on the d20 for an attack roll, you can deal extra damage to the target equal to the ability score increased by this feat. The extra damage's type is the same as the attack's type.",,todo
-feat.boon-of-spell-recall.name,Boon of Spell Recall,,todo
+**Overwhelming Strike.** When you roll a 20 on the d20 for an attack roll, you can deal extra damage to the target equal to the ability score increased by this feat. The extra damage's type is the same as the attack's type.","Вы получаете следующие преимущества.
+**Увеличение характеристики.** Увеличьте одну характеристику на выбор на 1, максимум до 30.
+**Преодоление защиты.** Наносимый вами дробящий, колющий и рубящий урон всегда игнорирует сопротивление.
+**Сокрушающий удар.** Если на к20 при броске атаки выпало 20, вы можете нанести цели дополнительный урон, равный значению характеристики, увеличенной этой чертой. Вид дополнительного урона тот же, что у атаки.",draft
+feat.boon-of-spell-recall.name,Boon of Spell Recall,Дар возврата заклинаний,draft
 feat.boon-of-spell-recall.description,"You gain the following benefits.
 **Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
-**Free Casting.** Whenever you cast a spell with a level 1–4 spell slot, roll 1d4. If the number you roll is the same as the slot's level, the slot isn't expended.",,todo
-feat.boon-of-the-night-spirit.name,Boon of the Night Spirit,,todo
+**Free Casting.** Whenever you cast a spell with a level 1–4 spell slot, roll 1d4. If the number you roll is the same as the slot's level, the slot isn't expended.","Вы получаете следующие преимущества.
+**Увеличение характеристики.** Увеличьте одну характеристику на выбор на 1, максимум до 30.
+**Бесплатное сотворение.** Каждый раз, творя заклинание с ячейкой 1–4-го круга, бросьте 1к4. Если выпавшее число равно кругу ячейки, ячейка не тратится.",draft
+feat.boon-of-the-night-spirit.name,Boon of the Night Spirit,Дар ночного духа,draft
 feat.boon-of-the-night-spirit.description,"You gain the following benefits.
 **Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
 **Merge with Shadows.** While within Dim Light or Darkness, you can give yourself the Invisible condition as a Bonus Action. The condition ends on you immediately after you take an action, a Bonus Action, or a Reaction.
-**Shadowy form.** While within Dim Light or Darkness, you have Resistance to all damage except Psychic and Radiant.",,todo
-feat.boon-of-truesight.name,Boon of Truesight,,todo
+**Shadowy form.** While within Dim Light or Darkness, you have Resistance to all damage except Psychic and Radiant.","Вы получаете следующие преимущества.
+**Увеличение характеристики.** Увеличьте одну характеристику на выбор на 1, максимум до 30.
+**Слияние с тенями.** Находясь в тусклом свете или темноте, вы можете бонусным действием стать невидимым. Состояние заканчивается сразу после того, как вы совершите действие, бонусное действие или реакцию.
+**Теневой облик.** Находясь в тусклом свете или темноте, вы получаете сопротивление всем видам урона, кроме психического и излучения.",draft
+feat.boon-of-truesight.name,Boon of Truesight,Дар истинного зрения,draft
 feat.boon-of-truesight.description,"You gain the following benefits.
 **Ability Score Increase.** Increase one ability score of your choice by 1, to a maximum of 30.
-**Truesight.** You have Truesight with a range of 60 feet.",,todo
+**Truesight.** You have Truesight with a range of 60 feet.","Вы получаете следующие преимущества.
+**Увеличение характеристики.** Увеличьте одну характеристику на выбор на 1, максимум до 30.
+**Истинное зрение.** У вас истинное зрение в радиусе 60 фт.",draft
 feat.defense.name,Defense,Оборона,draft
-feat.defense.description,"While you're wearing Light, Medium, or Heavy armor, you gain a +1 bonus to Armor Class.",,todo
-feat.grappler.prerequisite.desc,Strength or Dexterity 13+,,todo
+feat.defense.description,"While you're wearing Light, Medium, or Heavy armor, you gain a +1 bonus to Armor Class.","Пока на вас лёгкий, средний или тяжёлый доспех, вы получаете бонус +1 к КЗ.",draft
+feat.grappler.prerequisite.desc,Strength or Dexterity 13+,Сила или Ловкость 13+,draft
 feat.grappler.name,Grappler,Борец,draft
 feat.grappler.description,"You gain the following benefits.
 **Ability Score Increase.** Increase your Strength or Dexterity score by 1, to a maximum of 20.
 **Punch and Grab.** When you hit a creature with an Unarmed Strike as part of the Attack action on your turn, you can use both the Damage and the Grapple option. You can use this benefit only once per turn.
 **Attack Advantage.** You have Advantage on attack rolls against a creature Grappled by you.
-**Fast Wrestler.** You don't have to spend extra movement to move a creature Grappled by you if the creature is your size or smaller.",,todo
+**Fast Wrestler.** You don't have to spend extra movement to move a creature Grappled by you if the creature is your size or smaller.","Вы получаете следующие преимущества.
+**Увеличение характеристики.** Увеличьте Силу или Ловкость на 1, максимум до 20.
+**Удар и захват.** Попав по существу безоружным ударом в рамках действия «Атака» в свой ход, вы можете использовать и вариант «урон», и вариант «захват». Это преимущество можно использовать только раз в ход.
+**Преимущество в атаке.** Вы совершаете с преимуществом броски атаки по существу, которое вы схватили.
+**Быстрый борец.** Вам не нужно тратить дополнительное перемещение, чтобы перемещать схваченное вами существо вашего размера или меньше.",draft
 feat.great-weapon-fighting.name,Great Weapon Fighting,Сражение большим оружием,draft
-feat.great-weapon-fighting.description,"When you roll damage for an attack you make with a Melee weapon that you are holding with two hands, you can treat any 1 or 2 on a damage die as a 3. The weapon must have the Two-Handed or Versatile property to gain this benefit.",,todo
+feat.great-weapon-fighting.description,"When you roll damage for an attack you make with a Melee weapon that you are holding with two hands, you can treat any 1 or 2 on a damage die as a 3. The weapon must have the Two-Handed or Versatile property to gain this benefit.","Бросая урон атаки рукопашным оружием, которое вы держите двумя руками, можете считать каждую 1 или 2 на кости урона за 3. Оружие должно иметь свойство «двуручное» или «универсальное».",draft
 feat.magic-initiate.name,Magic Initiate,Посвящённый в магию,draft
 feat.magic-initiate.description,"You gain the following benefits.
 **Two Cantrips.** You learn two cantrips of your choice from the Cleric, Druid, or Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).
 **Level 1 Spell.** Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.
-**Spell Change.** Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.",,todo
-feat.magic-initiate.repeatable,"You can take this feat more than once, but you must choose a different spell list each time.",,todo
+**Spell Change.** Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.","Вы получаете следующие преимущества.
+**Два заговора.** Вы узнаёте два заговора на выбор из списка жреца, друида или волшебника. Заклинательная характеристика для заклинаний этой черты — Интеллект, Мудрость или Харизма (выберите при получении черты).
+**Заклинание 1-го круга.** Выберите заклинание 1-го круга из того же списка. Оно всегда у вас подготовлено. Вы можете один раз сотворить его без ячейки и снова получаете такую возможность после долгого отдыха. Его также можно творить, тратя любые свои ячейки.
+**Смена заклинаний.** С каждым новым уровнем вы можете заменить одно из заклинаний этой черты другим заклинанием того же круга из выбранного списка.",draft
+feat.magic-initiate.repeatable,"You can take this feat more than once, but you must choose a different spell list each time.","Эту черту можно брать несколько раз, но каждый раз нужно выбирать другой список заклинаний.",draft
 feat.savage-attacker.name,Savage Attacker,Свирепый атакующий,draft
-feat.savage-attacker.description,"You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.",,todo
+feat.savage-attacker.description,"You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.","Вы научились наносить особенно разрушительные удары. Раз в ход, попав по цели оружием, вы можете бросить кости урона оружия дважды и использовать любой из результатов.",draft
 feat.skilled.name,Skilled,Одарённый,draft
-feat.skilled.description,You gain proficiency in any combination of three skills or tools of your choice.,,todo
-feat.skilled.repeatable,You can take this feat more than once.,,todo
+feat.skilled.description,You gain proficiency in any combination of three skills or tools of your choice.,Вы получаете владение тремя навыками или инструментами на выбор в любом сочетании.,draft
+feat.skilled.repeatable,You can take this feat more than once.,Эту черту можно брать несколько раз.,draft
 feat.two-weapon-fighting.name,Two Weapon Fighting,Сражение двумя оружиями,draft
-feat.two-weapon-fighting.description,"When you make an extra attack as a result of using a weapon that has the Light property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.",,todo
+feat.two-weapon-fighting.description,"When you make an extra attack as a result of using a weapon that has the Light property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.","Совершая дополнительную атаку благодаря оружию со свойством «лёгкое», вы можете добавить к её урону модификатор характеристики, если ещё не добавляете его.",draft
 background.artisan.name,Artisan,Ремесленник,draft
 background.charlatan.name,Charlatan,Шарлатан,draft
 background.entertainer.name,Entertainer,Артист,draft

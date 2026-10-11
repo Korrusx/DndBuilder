@@ -1,88 +1,88 @@
 ﻿key,en,ru,status
 ability.cha.abbr,CHA,ХАР,done
 ability.cha.name,Charisma,Харизма,done
-ability.cha.description,"Confidence, poise, and charm",,todo
+ability.cha.description,"Confidence, poise, and charm","Уверенность, самообладание и обаяние",draft
 ability.con.abbr,CON,ТЕЛ,done
 ability.con.name,Constitution,Телосложение,done
-ability.con.description,Health and stamina,,todo
+ability.con.description,Health and stamina,Здоровье и выносливость,draft
 ability.dex.abbr,DEX,ЛОВ,done
 ability.dex.name,Dexterity,Ловкость,done
-ability.dex.description,"Agility, reflexes, and balance",,todo
+ability.dex.description,"Agility, reflexes, and balance","Подвижность, реакция и равновесие",draft
 ability.int.abbr,INT,ИНТ,done
 ability.int.name,Intelligence,Интеллект,done
-ability.int.description,Reasoning and memory,,todo
+ability.int.description,Reasoning and memory,Рассудок и память,draft
 ability.str.abbr,STR,СИЛ,done
 ability.str.name,Strength,Сила,done
-ability.str.description,Physical might,,todo
+ability.str.description,Physical might,Физическая мощь,draft
 ability.wis.abbr,WIS,МДР,done
 ability.wis.name,Wisdom,Мудрость,done
-ability.wis.description,Perceptiveness and mental fortitude,,todo
+ability.wis.description,Perceptiveness and mental fortitude,Внимательность и стойкость духа,draft
 skill.acrobatics.name,Acrobatics,Акробатика,done
-skill.acrobatics.description,"Stay on your feet in a tricky situation, or perform an acrobatic stunt.",,todo
+skill.acrobatics.description,"Stay on your feet in a tricky situation, or perform an acrobatic stunt.",Удержаться на ногах в сложной ситуации или выполнить акробатический трюк.,draft
 skill.animal-handling.name,Animal Handling,Уход за животными,done
-skill.animal-handling.description,"Calm or train an animal, or get an animal to behave in a certain way.",,todo
+skill.animal-handling.description,"Calm or train an animal, or get an animal to behave in a certain way.",Успокоить или обучить животное либо заставить его вести себя определённым образом.,draft
 skill.arcana.name,Arcana,Магия,done
-skill.arcana.description,"Recall lore about spells, magic items, and the planes of existence.",,todo
+skill.arcana.description,"Recall lore about spells, magic items, and the planes of existence.","Вспомнить сведения о заклинаниях, магических предметах и планах бытия.",draft
 skill.athletics.name,Athletics,Атлетика,done
-skill.athletics.description,"Jump farther than normal, stay afloat in rough water, or break something.",,todo
+skill.athletics.description,"Jump farther than normal, stay afloat in rough water, or break something.","Прыгнуть дальше обычного, удержаться на плаву в бурной воде или что-нибудь сломать.",draft
 skill.deception.name,Deception,Обман,done
-skill.deception.description,"Tell a convincing lie, or wear a disguise convincingly.",,todo
+skill.deception.description,"Tell a convincing lie, or wear a disguise convincingly.",Убедительно солгать или правдоподобно выдать себя за другого.,draft
 skill.history.name,History,История,done
-skill.history.description,"Recall lore about historical events, people, nations, and cultures.",,todo
+skill.history.description,"Recall lore about historical events, people, nations, and cultures.","Вспомнить сведения об исторических событиях, людях, народах и культурах.",draft
 skill.insight.name,Insight,Проницательность,done
-skill.insight.description,Discern a person’s mood and intentions.,,todo
+skill.insight.description,Discern a person’s mood and intentions.,Распознать настроение и намерения собеседника.,draft
 skill.intimidation.name,Intimidation,Запугивание,done
-skill.intimidation.description,Awe or threaten someone into doing what you want.,,todo
+skill.intimidation.description,Awe or threaten someone into doing what you want.,"Внушить кому-то трепет или угрозами заставить сделать то, что вам нужно.",draft
 skill.investigation.name,Investigation,Анализ,done
-skill.investigation.description,"Find obscure information in books, or deduce how something works.",,todo
+skill.investigation.description,"Find obscure information in books, or deduce how something works.","Найти малоизвестные сведения в книгах или понять, как что-то устроено.",draft
 skill.medicine.name,Medicine,Медицина,done
-skill.medicine.description,"Diagnose an illness, or determine what killed the recently slain.",,todo
+skill.medicine.description,"Diagnose an illness, or determine what killed the recently slain.","Определить болезнь или понять, от чего погиб недавно убитый.",draft
 skill.nature.name,Nature,Природа,done
-skill.nature.description,"Recall lore about terrain, plants, animals, and weather.",,todo
+skill.nature.description,"Recall lore about terrain, plants, animals, and weather.","Вспомнить сведения о местности, растениях, животных и погоде.",draft
 skill.perception.name,Perception,Восприятие,done
-skill.perception.description,"Using a combination of senses, notice something that’s easy to miss.",,todo
+skill.perception.description,"Using a combination of senses, notice something that’s easy to miss.","С помощью всех чувств заметить то, что легко упустить.",draft
 skill.performance.name,Performance,Выступление,done
-skill.performance.description,"Act, tell a story, perform music, or dance.",,todo
+skill.performance.description,"Act, tell a story, perform music, or dance.","Играть роль, рассказывать историю, исполнять музыку или танцевать.",draft
 skill.persuasion.name,Persuasion,Убеждение,done
-skill.persuasion.description,Honestly and graciously convince someone of something.,,todo
+skill.persuasion.description,Honestly and graciously convince someone of something.,Честно и вежливо убедить кого-то в чём-то.,draft
 skill.religion.name,Religion,Религия,done
-skill.religion.description,"Recall lore about gods, religious rituals, and holy symbols.",,todo
+skill.religion.description,"Recall lore about gods, religious rituals, and holy symbols.","Вспомнить сведения о богах, религиозных обрядах и священных символах.",draft
 skill.sleight-of-hand.name,Sleight of Hand,Ловкость рук,done
-skill.sleight-of-hand.description,"Pick a pocket, conceal a handheld object, or perform legerdemain.",,todo
+skill.sleight-of-hand.description,"Pick a pocket, conceal a handheld object, or perform legerdemain.","Обчистить карман, спрятать небольшой предмет или показать фокус.",draft
 skill.stealth.name,Stealth,Скрытность,done
-skill.stealth.description,Escape notice by moving quietly and hiding behind things.,,todo
+skill.stealth.description,Escape notice by moving quietly and hiding behind things.,"Остаться незамеченным, двигаясь тихо и прячась за укрытиями.",draft
 skill.survival.name,Survival,Выживание,done
-skill.survival.description,"Follow tracks, forage, find a trail, or avoid natural hazards.",,todo
-alignment.chaotic-evil.abbr,CE,,todo
+skill.survival.description,"Follow tracks, forage, find a trail, or avoid natural hazards.","Идти по следу, добывать пропитание, находить тропу или избегать природных опасностей.",draft
+alignment.chaotic-evil.abbr,CE,ХЗ,draft
 alignment.chaotic-evil.name,Chaotic Evil,Хаотично-злое,draft
-alignment.chaotic-evil.description,"Chaotic Evil creatures act with arbitrary violence, spurred by their hatred or bloodlust. A villain pursuing schemes of vengeance and havoc is probably Chaotic Evil.",,todo
-alignment.chaotic-good.abbr,CG,,todo
+alignment.chaotic-evil.description,"Chaotic Evil creatures act with arbitrary violence, spurred by their hatred or bloodlust. A villain pursuing schemes of vengeance and havoc is probably Chaotic Evil.","Хаотично-злые существа творят беспричинное насилие, движимые ненавистью или жаждой крови. Злодей, строящий планы мести и разрушения, скорее всего, хаотично-злой.",draft
+alignment.chaotic-good.abbr,CG,ХД,draft
 alignment.chaotic-good.name,Chaotic Good,Хаотично-доброе,draft
-alignment.chaotic-good.description,Chaotic Good creatures act as their conscience directs with little regard for what others expect. A rebel who waylays a cruel baron's tax collectors and uses the stolen money to help the poor is probably Chaotic Good.,,todo
-alignment.chaotic-neutral.abbr,CN,,todo
+alignment.chaotic-good.description,Chaotic Good creatures act as their conscience directs with little regard for what others expect. A rebel who waylays a cruel baron's tax collectors and uses the stolen money to help the poor is probably Chaotic Good.,"Хаотично-добрые существа поступают так, как велит совесть, мало заботясь об ожиданиях других. Бунтарь, который грабит сборщиков налогов жестокого барона и раздаёт деньги бедным, скорее всего, хаотично-добрый.",draft
+alignment.chaotic-neutral.abbr,CN,ХН,draft
 alignment.chaotic-neutral.name,Chaotic Neutral,Хаотично-нейтральное,draft
-alignment.chaotic-neutral.description,"Chaotic Neutral creatures follow their whims, valuing their personal freedom above all else. A scoundrel who wanders the land living by their wits is probably Chaotic Neutral.",,todo
-alignment.lawful-evil.abbr,LE,,todo
+alignment.chaotic-neutral.description,"Chaotic Neutral creatures follow their whims, valuing their personal freedom above all else. A scoundrel who wanders the land living by their wits is probably Chaotic Neutral.","Хаотично-нейтральные существа следуют своим прихотям и ценят личную свободу превыше всего. Проходимец, который скитается по свету и живёт своим умом, скорее всего, хаотично-нейтральный.",draft
+alignment.lawful-evil.abbr,LE,ЗЗ,draft
 alignment.lawful-evil.name,Lawful Evil,Законно-злое,draft
-alignment.lawful-evil.description,"Lawful Evil creatures methodically take what they want within the limits of a code of tradition, loyalty, or order. An aristocrat exploiting citizens while scheming for power is probably Lawful Evil.",,todo
-alignment.lawful-good.abbr,LG,,todo
+alignment.lawful-evil.description,"Lawful Evil creatures methodically take what they want within the limits of a code of tradition, loyalty, or order. An aristocrat exploiting citizens while scheming for power is probably Lawful Evil.","Законно-злые существа планомерно берут то, что хотят, в рамках традиций, верности или порядка. Аристократ, эксплуатирующий горожан и плетущий интриги ради власти, скорее всего, законно-злой.",draft
+alignment.lawful-good.abbr,LG,ЗД,draft
 alignment.lawful-good.name,Lawful Good,Законно-доброе,draft
-alignment.lawful-good.description,Lawful Good creatures endeavor to do the right thing as expected by society. Someone who fights injustice and protects the innocent without hesitation is probably Lawful Good.,,todo
-alignment.lawful-neutral.abbr,LN,,todo
+alignment.lawful-good.description,Lawful Good creatures endeavor to do the right thing as expected by society. Someone who fights injustice and protects the innocent without hesitation is probably Lawful Good.,"Законно-добрые существа стремятся поступать правильно, как того ждёт общество. Тот, кто без колебаний борется с несправедливостью и защищает невинных, скорее всего, законно-добрый.",draft
+alignment.lawful-neutral.abbr,LN,ЗН,draft
 alignment.lawful-neutral.name,Lawful Neutral,Законно-нейтральное,draft
-alignment.lawful-neutral.description,"Lawful Neutral individuals act in accordance with law, tradition, or personal codes. Someone who follows a disciplined rule of life—and isn't swayed either by the demands of those in need or by the temptations of evil—is probably Lawful Neutral.",,todo
-alignment.neutral.abbr,N,,todo
+alignment.lawful-neutral.description,"Lawful Neutral individuals act in accordance with law, tradition, or personal codes. Someone who follows a disciplined rule of life—and isn't swayed either by the demands of those in need or by the temptations of evil—is probably Lawful Neutral.","Законно-нейтральные существа действуют согласно закону, традиции или личному кодексу. Тот, кто следует строгим жизненным правилам и не поддаётся ни просьбам нуждающихся, ни соблазнам зла, скорее всего, законно-нейтральный.",draft
+alignment.neutral.abbr,N,Н,draft
 alignment.neutral.name,Neutral,Нейтральное,draft
-alignment.neutral.description,"Neutral is the alignment of those who prefer to avoid moral questions and don't take sides, doing what seems best at the time. Someone who's bored by moral debate is probably Neutral.",,todo
-alignment.neutral-evil.abbr,NE,,todo
+alignment.neutral.description,"Neutral is the alignment of those who prefer to avoid moral questions and don't take sides, doing what seems best at the time. Someone who's bored by moral debate is probably Neutral.","Нейтральное мировоззрение у тех, кто избегает моральных вопросов, не принимает ничью сторону и делает то, что кажется лучшим в данный момент. Тот, кому скучны споры о морали, скорее всего, нейтральный.",draft
+alignment.neutral-evil.abbr,NE,НЗ,draft
 alignment.neutral-evil.name,Neutral Evil,Нейтрально-злое,draft
-alignment.neutral-evil.description,Neutral Evil is the alignment of those who are untroubled by the harm they cause as they pursue their desires. A criminal who robs and murders as they please is probably Neutral Evil.,,todo
-alignment.neutral-good.abbr,NG,,todo
+alignment.neutral-evil.description,Neutral Evil is the alignment of those who are untroubled by the harm they cause as they pursue their desires. A criminal who robs and murders as they please is probably Neutral Evil.,"Нейтрально-злое мировоззрение у тех, кого не беспокоит вред, причиняемый ради своих желаний. Преступник, который грабит и убивает, когда ему вздумается, скорее всего, нейтрально-злой.",draft
+alignment.neutral-good.abbr,NG,НД,draft
 alignment.neutral-good.name,Neutral Good,Нейтрально-доброе,draft
-alignment.neutral-good.description,"Neutral Good creatures do the best they can, working within rules but not feeling bound by them. A kindly person who helps others according to their needs is probably Neutral Good.",,todo
-alignment.unaligned.abbr,U,,todo
+alignment.neutral-good.description,"Neutral Good creatures do the best they can, working within rules but not feeling bound by them. A kindly person who helps others according to their needs is probably Neutral Good.","Нейтрально-добрые существа делают всё, что в их силах, действуя в рамках правил, но не чувствуя себя связанными ими. Добрый человек, помогающий другим по мере их нужд, скорее всего, нейтрально-добрый.",draft
+alignment.unaligned.abbr,U,БМ,draft
 alignment.unaligned.name,Unaligned,Без мировоззрения,draft
-alignment.unaligned.description,"Most creatures that lack the capacity for rational thought don't have alignments; they are unaligned. Sharks are savage predators, for example, but they aren't evil; they are unaligned.",,todo
+alignment.unaligned.description,"Most creatures that lack the capacity for rational thought don't have alignments; they are unaligned. Sharks are savage predators, for example, but they aren't evil; they are unaligned.","У большинства существ, не способных к разумному мышлению, нет мировоззрения — они без мировоззрения. Акулы, например, свирепые хищники, но не злые: у них нет мировоззрения.",draft
 language.abyssal.name,Abyssal,Язык Бездны,draft
 language.celestial.name,Celestial,Небесный,draft
 language.common.name,Common,Общий,draft
@@ -99,54 +99,80 @@ language.halfling.name,Halfling,Язык полуросликов,draft
 language.infernal.name,Infernal,Инфернальный,draft
 language.orc.name,Orc,Орочий,draft
 language.primordial.name,Primordial,Первичный,draft
-language.primordial.note,"Primordial includes the Aquan, Auran, Ignan, and Terran dialects. Creatures that know one of these dialects can communicate with those that know a different one.",,todo
+language.primordial.note,"Primordial includes the Aquan, Auran, Ignan, and Terran dialects. Creatures that know one of these dialects can communicate with those that know a different one.","Первичный язык включает диалекты акван, ауран, игнан и терран. Существа, знающие один из них, могут общаться с теми, кто знает другой.",draft
 language.sylvan.name,Sylvan,Сильван,draft
 language.thieves-cant.name,Thieves' Cant,Воровской жаргон,draft
 language.undercommon.name,Undercommon,Подземный общий,draft
 condition.blinded.name,Blinded,Ослеплённый,draft
 condition.blinded.description,"While you have the Blinded condition, you experience the following effects.
 **Can't See.** You can't see and automatically fail any ability check that requires sight.
-**Attacks Affected.** Attack rolls against you have Advantage, and your attack rolls have Disadvantage.",,todo
+**Attacks Affected.** Attack rolls against you have Advantage, and your attack rolls have Disadvantage.","Пока вы ослеплены, действуют следующие эффекты.
+**Не видите.** Вы ничего не видите и автоматически проваливаете проверки характеристик, требующие зрения.
+**Атаки.** Броски атаки по вам совершаются с преимуществом, а ваши броски атаки — с помехой.",draft
 condition.charmed.name,Charmed,Очарованный,draft
 condition.charmed.description,"While you have the Charmed condition, you experience the following effects.
 **Can't Harm the Charmer.** You can't attack the charmer or target the charmer with damaging abilities or magical effects.
-**Social Advantage.** The charmer has Advantage on ability checks to interact socially with you.",,todo
+**Social Advantage.** The charmer has Advantage on ability checks to interact socially with you.","Пока вы очарованы, действуют следующие эффекты.
+**Нельзя навредить очарователю.** Вы не можете атаковать очарователя или выбирать его целью вредящих способностей и магических эффектов.
+**Преимущество в общении.** Очарователь совершает с преимуществом проверки характеристик при социальном взаимодействии с вами.",draft
 condition.deafened.name,Deafened,Оглохший,draft
 condition.deafened.description,"While you have the Deafened condition, you experience the following effect.
-**Can't Hear.** You can't hear and automatically fail any ability check that requires hearing.",,todo
+**Can't Hear.** You can't hear and automatically fail any ability check that requires hearing.","Пока вы оглохли, действует следующий эффект.
+**Не слышите.** Вы ничего не слышите и автоматически проваливаете проверки характеристик, требующие слуха.",draft
 condition.exhaustion.name,Exhaustion,Истощение,draft
 condition.exhaustion.description,"While you have the Exhaustion condition, you experience the following effects.
 **Exhaustion Levels.** This condition is cumulative. Each time you receive it, you gain 1 Exhaustion level. You die if your Exhaustion level is 6.
 **D20 Tests Affected.** When you make a D20 Test, the roll is reduced by 2 times your Exhaustion level.
 **Speed Reduced.** Your Speed is reduced by a number of feet equal to 5 times your Exhaustion level.
-**Removing Exhaustion Levels.** Finishing a Long Rest removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends.",,todo
+**Removing Exhaustion Levels.** Finishing a Long Rest removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends.","Пока у вас истощение, действуют следующие эффекты.
+**Уровни истощения.** Состояние накапливается: каждый раз, получая его, вы получаете 1 уровень истощения. На 6-м уровне истощения вы умираете.
+**Тесты к20.** Результат каждого теста к20 уменьшается на удвоенный уровень истощения.
+**Скорость.** Ваша скорость уменьшается на 5 фт за каждый уровень истощения.
+**Снятие истощения.** Долгий отдых снимает 1 уровень истощения. Когда уровень истощения становится 0, состояние заканчивается.",draft
 condition.frightened.name,Frightened,Испуганный,draft
 condition.frightened.description,"While you have the Frightened condition, you experience the following effects.
 **Ability Checks and Attacks Affected.** You have Disadvantage on ability checks and attack rolls while the source of fear is within line of sight.
-**Can't Approach.** You can't willingly move closer to the source of your fear.",,todo
+**Can't Approach.** You can't willingly move closer to the source of your fear.","Пока вы испуганы, действуют следующие эффекты.
+**Проверки и атаки.** Вы совершаете проверки характеристик и броски атаки с помехой, пока источник страха находится в пределах вашей линии обзора.
+**Нельзя приблизиться.** Вы не можете добровольно приблизиться к источнику страха.",draft
 condition.grappled.name,Grappled,Схваченный,draft
 condition.grappled.description,"While you have the Grappled condition, you experience the following effects.
 **Speed 0.** Your Speed is 0 and can't increase.
 **Attacks Affected.** You have Disadvantage on attack rolls against any target other than the grappler.
-**Movable.** The grappler can drag or carry you when it moves, but every foot of movement costs it 1 extra foot unless you are Tiny or two or more sizes smaller.",,todo
+**Movable.** The grappler can drag or carry you when it moves, but every foot of movement costs it 1 extra foot unless you are Tiny or two or more sizes smaller.","Пока вы схвачены, действуют следующие эффекты.
+**Скорость 0.** Ваша скорость равна 0 и не может увеличиться.
+**Атаки.** Вы совершаете с помехой броски атаки по всем целям, кроме схватившего вас.
+**Перемещение.** Схвативший может тащить или нести вас, перемещаясь, но каждый фут перемещения стоит ему 1 дополнительный фут, если только вы не Крошечный или не меньше его на два размера и более.",draft
 condition.incapacitated.name,Incapacitated,Недееспособный,draft
 condition.incapacitated.description,"While you have the Incapacitated condition, you experience the following effects.
 **Inactive.** You can't take any action, Bonus Action, or Reaction.
 **No Concentration.** Your Concentration is broken.
 **Speechless.** You can't speak.
-**Surprised.** If you're Incapacitated when you roll Initiative, you have Disadvantage on the roll.",,todo
+**Surprised.** If you're Incapacitated when you roll Initiative, you have Disadvantage on the roll.","Пока вы недееспособны, действуют следующие эффекты.
+**Бездействие.** Вы не можете совершать действия, бонусные действия и реакции.
+**Без концентрации.** Ваша концентрация прерывается.
+**Без речи.** Вы не можете говорить.
+**Врасплох.** Если вы недееспособны, когда бросаете инициативу, вы бросаете её с помехой.",draft
 condition.invisible.name,Invisible,Невидимый,draft
 condition.invisible.description,"While you have the Invisible condition, you experience the following effects.
 **Surprise.** If you're Invisible when you roll Initiative, you have Advantage on the roll.
 **Concealed.** You aren't affected by any effect that requires its target to be seen unless the effect's creator can somehow see you. Any equipment you are wearing or carrying is also concealed.
-**Attacks Affected.** Attack rolls against you have Disadvantage, and your attack rolls have Advantage. If a creature can somehow see you, you don't gain this benefit against that creature.",,todo
+**Attacks Affected.** Attack rolls against you have Disadvantage, and your attack rolls have Advantage. If a creature can somehow see you, you don't gain this benefit against that creature.","Пока вы невидимы, действуют следующие эффекты.
+**Внезапность.** Если вы невидимы, когда бросаете инициативу, вы бросаете её с преимуществом.
+**Скрытность.** На вас не действуют эффекты, которым нужно видеть цель, если только создатель эффекта как-то не видит вас. Надетое и носимое вами снаряжение тоже скрыто.
+**Атаки.** Броски атаки по вам совершаются с помехой, а ваши броски атаки — с преимуществом. Если существо как-то видит вас, против него вы этих преимуществ не получаете.",draft
 condition.paralyzed.name,Paralyzed,Парализованный,draft
 condition.paralyzed.description,"While you have the Paralyzed condition, you experience the following effects.
 **Incapacitated.** You have the Incapacitated condition.
 **Speed 0.** Your Speed is 0 and can't increase.
 **Saving Throws Affected.** You automatically fail Strength and Dexterity saving throws.
 **Attacks Affected.** Attack rolls against you have Advantage.
-**Automatic Critical Hits.** Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.",,todo
+**Automatic Critical Hits.** Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.","Пока вы парализованы, действуют следующие эффекты.
+**Недееспособность.** Вы недееспособны.
+**Скорость 0.** Ваша скорость равна 0 и не может увеличиться.
+**Спасброски.** Вы автоматически проваливаете спасброски Силы и Ловкости.
+**Атаки.** Броски атаки по вам совершаются с преимуществом.
+**Автоматические критические попадания.** Любое попадание по вам — критическое, если атакующий находится в пределах 5 фт от вас.",draft
 condition.petrified.name,Petrified,Окаменевший,draft
 condition.petrified.description,"While you have the Petrified condition, you experience the following effects.
 **Turned to Inanimate Substance.** You are transformed, along with any nonmagical objects you are wearing and carrying, into a solid inanimate substance (usually stone). Your weight increases by a factor of ten, and you cease aging.
@@ -158,24 +184,40 @@ condition.petrified.description,"While you have the Petrified condition, you exp
 **Poison Immunity.** You have Immunity to the Poisoned condition.
 **Saving Throws Affected.** You automatically fail Strength and Dexterity saving throws.
 **Resist Damage.** You have Resistance to all damage.
-**Poison Immunity.** You have Immunity to the Poisoned condition.",,todo
+**Poison Immunity.** You have Immunity to the Poisoned condition.","Пока вы окаменели, действуют следующие эффекты.
+**Неодушевлённое вещество.** Вы вместе со всеми немагическими предметами, которые на вас надеты или которые вы несёте, превращаетесь в твёрдое неодушевлённое вещество (обычно камень). Ваш вес увеличивается в десять раз, и вы перестаёте стареть.
+**Недееспособность.** Вы недееспособны.
+**Скорость 0.** Ваша скорость равна 0 и не может увеличиться.
+**Атаки.** Броски атаки по вам совершаются с преимуществом.
+**Спасброски.** Вы автоматически проваливаете спасброски Силы и Ловкости.
+**Сопротивление урону.** У вас сопротивление всем видам урона.
+**Иммунитет к яду.** У вас иммунитет к состоянию «отравленный».",draft
 condition.poisoned.name,Poisoned,Отравленный,draft
 condition.poisoned.description,"While you have the Poisoned condition, you experience the following effect.
-**Ability Checks and Attacks Affected.** You have Disadvantage on attack rolls and ability checks.",,todo
+**Ability Checks and Attacks Affected.** You have Disadvantage on attack rolls and ability checks.","Пока вы отравлены, действует следующий эффект.
+**Проверки и атаки.** Вы совершаете броски атаки и проверки характеристик с помехой.",draft
 condition.prone.name,Prone,Лежащий ничком,draft
 condition.prone.description,"While you have the Prone condition, you experience the following effects.
 **Restricted Movement.** Your only movement options are to crawl or to spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition. If your Speed is 0, you can't right yourself.
-**Attacks Affected.** You have Disadvantage on attack rolls. An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.",,todo
+**Attacks Affected.** You have Disadvantage on attack rolls. An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.","Пока вы лежите ничком, действуют следующие эффекты.
+**Ограниченное перемещение.** Вы можете только ползти или потратить перемещение, равное половине скорости (с округлением вниз), чтобы встать и тем самым закончить состояние. Если ваша скорость равна 0, встать нельзя.
+**Атаки.** Вы совершаете броски атаки с помехой. Бросок атаки по вам совершается с преимуществом, если атакующий в пределах 5 фт от вас, иначе — с помехой.",draft
 condition.restrained.name,Restrained,Опутанный,draft
 condition.restrained.description,"While you have the Restrained condition, you experience the following effects.
 **Speed 0.** Your Speed is 0 and can't increase.
 **Attacks Affected.** Attack rolls against you have Advantage, and your attack rolls have Disadvantage.
-**Saving Throws Affected.** You have Disadvantage on Dexterity saving throws.",,todo
+**Saving Throws Affected.** You have Disadvantage on Dexterity saving throws.","Пока вы опутаны, действуют следующие эффекты.
+**Скорость 0.** Ваша скорость равна 0 и не может увеличиться.
+**Атаки.** Броски атаки по вам совершаются с преимуществом, а ваши броски атаки — с помехой.
+**Спасброски.** Вы совершаете спасброски Ловкости с помехой.",draft
 condition.stunned.name,Stunned,Ошеломлённый,draft
 condition.stunned.description,"While you have the Stunned condition, you experience the following effects.
 **Incapacitated.** You have the Incapacitated condition.
 **Saving Throws Affected.** You automatically fail Strength and Dexterity saving throws.
-**Attacks Affected.** Attack rolls against you have Advantage.",,todo
+**Attacks Affected.** Attack rolls against you have Advantage.","Пока вы ошеломлены, действуют следующие эффекты.
+**Недееспособность.** Вы недееспособны.
+**Спасброски.** Вы автоматически проваливаете спасброски Силы и Ловкости.
+**Атаки.** Броски атаки по вам совершаются с преимуществом.",draft
 condition.unconscious.name,Unconscious,Без сознания,draft
 condition.unconscious.description,"While you have the Unconscious condition, you experience the following effects.
 **Inert.** You have the Incapacitated and Prone conditions, and you drop whatever you're holding.
@@ -184,120 +226,126 @@ condition.unconscious.description,"While you have the Unconscious condition, you
 **Attacks Affected.** Attack rolls against you have Advantage.
 **Saving Throws Affected.** You automatically fail Strength and Dexterity saving throws.
 **Automatic Critical Hits.** Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.
-**Unaware.** You're unaware of your surroundings.",,todo
+**Unaware.** You're unaware of your surroundings.","Пока вы без сознания, действуют следующие эффекты.
+**Бесчувственность.** Вы недееспособны и лежите ничком, а всё, что держали, роняете. Когда состояние заканчивается, вы остаётесь лежать ничком.
+**Скорость 0.** Ваша скорость равна 0 и не может увеличиться.
+**Атаки.** Броски атаки по вам совершаются с преимуществом.
+**Спасброски.** Вы автоматически проваливаете спасброски Силы и Ловкости.
+**Автоматические критические попадания.** Любое попадание по вам — критическое, если атакующий находится в пределах 5 фт от вас.
+**Неосознанность.** Вы не осознаёте происходящее вокруг.",draft
 damageType.acid.name,Acid,кислота,draft
-damageType.acid.description,"Corrosive liquids, digestive enzymes",,todo
+damageType.acid.description,"Corrosive liquids, digestive enzymes","Едкие жидкости, пищеварительные соки",draft
 damageType.bludgeoning.name,Bludgeoning,дробящий,draft
-damageType.bludgeoning.description,"Blunt objects, constriction, falling",,todo
+damageType.bludgeoning.description,"Blunt objects, constriction, falling","Тупые предметы, сдавливание, падение",draft
 damageType.cold.name,Cold,холод,draft
-damageType.cold.description,"Freezing water, icy blasts",,todo
+damageType.cold.description,"Freezing water, icy blasts","Ледяная вода, морозные порывы",draft
 damageType.fire.name,Fire,огонь,draft
-damageType.fire.description,"Flames, unbearable heat",,todo
+damageType.fire.description,"Flames, unbearable heat","Пламя, нестерпимый жар",draft
 damageType.force.name,Force,силовое поле,draft
-damageType.force.description,Pure magical energy,,todo
+damageType.force.description,Pure magical energy,Чистая магическая энергия,draft
 damageType.lightning.name,Lightning,электричество,draft
-damageType.lightning.description,Electricity,,todo
+damageType.lightning.description,Electricity,Электричество,draft
 damageType.necrotic.name,Necrotic,некротический,draft
-damageType.necrotic.description,Life-draining energy,,todo
+damageType.necrotic.description,Life-draining energy,"Энергия, вытягивающая жизнь",draft
 damageType.piercing.name,Piercing,колющий,draft
-damageType.piercing.description,"Fangs, puncturing objects",,todo
+damageType.piercing.description,"Fangs, puncturing objects","Клыки, колющие предметы",draft
 damageType.poison.name,Poison,яд,draft
-damageType.poison.description,"Toxic gas, venom",,todo
+damageType.poison.description,"Toxic gas, venom","Ядовитый газ, яд",draft
 damageType.psychic.name,Psychic,психический,draft
-damageType.psychic.description,Mind-rending energy,,todo
+damageType.psychic.description,Mind-rending energy,"Энергия, разрывающая разум",draft
 damageType.radiant.name,Radiant,излучение,draft
-damageType.radiant.description,"Holy energy, searing radiation",,todo
+damageType.radiant.description,"Holy energy, searing radiation","Священная энергия, палящее излучение",draft
 damageType.slashing.name,Slashing,рубящий,draft
-damageType.slashing.description,"Claws, cutting objects",,todo
+damageType.slashing.description,"Claws, cutting objects","Когти, режущие предметы",draft
 damageType.thunder.name,Thunder,звук,draft
-damageType.thunder.description,Concussive sound,,todo
-magicSchool.abjuration.name,Abjuration,,todo
-magicSchool.abjuration.description,Prevents or reverses harmful effects,,todo
-magicSchool.conjuration.name,Conjuration,,todo
-magicSchool.conjuration.description,Transports creatures or objects,,todo
-magicSchool.divination.name,Divination,,todo
-magicSchool.divination.description,Reveals information,,todo
-magicSchool.enchantment.name,Enchantment,,todo
-magicSchool.enchantment.description,Influences minds,,todo
-magicSchool.evocation.name,Evocation,,todo
-magicSchool.evocation.description,Channels energy to create effects that are often destructive,,todo
-magicSchool.illusion.name,Illusion,,todo
-magicSchool.illusion.description,Deceives the mind or senses,,todo
-magicSchool.necromancy.name,Necromancy,,todo
-magicSchool.necromancy.description,Manipulates life and death,,todo
-magicSchool.transmutation.name,Transmutation,,todo
-magicSchool.transmutation.description,Transforms creatures or objects,,todo
-proficiency.alchemists-supplies.name,Alchemist's Supplies,,todo
-proficiency.all-armor.name,All armor,,todo
-proficiency.bagpipes.name,Bagpipes,,todo
-proficiency.brewers-supplies.name,Brewer's Supplies,,todo
-proficiency.drum.name,Drum,,todo
-proficiency.dulcimer.name,Dulcimer,,todo
-proficiency.flute.name,Flute,,todo
-proficiency.hand-crossbows.name,Hand crossbows,,todo
-proficiency.heavy-armor.name,Heavy Armor,,todo
-proficiency.herbalism-kit.name,Herbalism Kit,,todo
-proficiency.horn.name,Horn,,todo
-proficiency.light-armor.name,Light Armor,,todo
-proficiency.longswords.name,Longswords,,todo
-proficiency.lute.name,Lute,,todo
-proficiency.lyre.name,Lyre,,todo
-proficiency.martial-weapons.name,Martial Weapons,,todo
-proficiency.medium-armor.name,Medium Armor,,todo
-proficiency.pan-flute.name,Pan flute,,todo
-proficiency.rapiers.name,Rapiers,,todo
-proficiency.saving-throw-cha.name,Saving Throw: CHA,,todo
-proficiency.saving-throw-con.name,Saving Throw: CON,,todo
-proficiency.saving-throw-dex.name,Saving Throw: DEX,,todo
-proficiency.saving-throw-int.name,Saving Throw: INT,,todo
-proficiency.saving-throw-str.name,Saving Throw: STR,,todo
-proficiency.saving-throw-wis.name,Saving Throw: WIS,,todo
-proficiency.scimitars.name,Scimitars,,todo
-proficiency.shawm.name,Shawm,,todo
-proficiency.shields.name,Shields,,todo
-proficiency.shortswords.name,Shortswords,,todo
-proficiency.simple-weapons.name,Simple Weapons,,todo
-proficiency.skill-acrobatics.name,Skill: Acrobatics,,todo
-proficiency.skill-animal-handling.name,Skill: Animal Handling,,todo
-proficiency.skill-arcana.name,Skill: Arcana,,todo
-proficiency.skill-athletics.name,Skill: Athletics,,todo
-proficiency.skill-deception.name,Skill: Deception,,todo
-proficiency.skill-history.name,Skill: History,,todo
-proficiency.skill-insight.name,Skill: Insight,,todo
-proficiency.skill-intimidation.name,Skill: Intimidation,,todo
-proficiency.skill-investigation.name,Skill: Investigation,,todo
-proficiency.skill-medicine.name,Skill: Medicine,,todo
-proficiency.skill-nature.name,Skill: Nature,,todo
-proficiency.skill-perception.name,Skill: Perception,,todo
-proficiency.skill-performance.name,Skill: Performance,,todo
-proficiency.skill-persuasion.name,Skill: Persuasion,,todo
-proficiency.skill-religion.name,Skill: Religion,,todo
-proficiency.skill-sleight-of-hand.name,Skill: Sleight of Hand,,todo
-proficiency.skill-stealth.name,Skill: Stealth,,todo
-proficiency.skill-survival.name,Skill: Survival,,todo
-proficiency.tool-calligraphers-supplies.name,Tool: Calligrapher's Supplies,,todo
-proficiency.tool-carpenters-tools.name,Carpenter's Tools,,todo
-proficiency.tool-cartographers-tools.name,Cartographer's Tools,,todo
-proficiency.tool-cobblers-tools.name,Cobbler's Tools,,todo
-proficiency.tool-cooks-utensils.name,Cook's Utensils,,todo
-proficiency.tool-dice.name,Tool: Dice,,todo
-proficiency.tool-disguise-kit.name,Disguise Kit,,todo
-proficiency.tool-dragonchess.name,Tool: Dragonchess,,todo
-proficiency.tool-forgery-kit.name,Forgery Kit,,todo
-proficiency.tool-glassblowers-tools.name,Glassblower's Tools,,todo
-proficiency.tool-jewelers-tools.name,Jeweler's Tools,,todo
-proficiency.tool-leatherworkers-tools.name,Leatherworker's Tools,,todo
-proficiency.tool-masons-tools.name,Mason's Tools,,todo
-proficiency.tool-navigators-tools.name,Tool: Navigator's Tools,,todo
-proficiency.tool-painters-supplies.name,Painter's Supplies,,todo
-proficiency.tool-playing-cards.name,Tool: Playing Cards,,todo
-proficiency.tool-poisoners-kit.name,Tool: Poisoner's Kit,,todo
-proficiency.tool-potters-tools.name,Potter's Tools,,todo
-proficiency.tool-smiths-tools.name,Smith's Tools,,todo
-proficiency.tool-thieves-tools.name,Tool: Thieves' Tools,,todo
-proficiency.tool-three-dragon-ante.name,Tool: Three-Dragon Ante,,todo
-proficiency.tool-tinkers-tools.name,Tinker's Tools,,todo
-proficiency.tool-weavers-tools.name,Weaver's Tools,,todo
-proficiency.tool-woodcarvers-tools.name,Woodcarver's Tools,,todo
-proficiency.viol.name,Viol,,todo
-proficiency.whips.name,Whips,,todo
+damageType.thunder.description,Concussive sound,Оглушительный звук,draft
+magicSchool.abjuration.name,Abjuration,Ограждение,draft
+magicSchool.abjuration.description,Prevents or reverses harmful effects,Предотвращает или отменяет вредные эффекты,draft
+magicSchool.conjuration.name,Conjuration,Вызов,draft
+magicSchool.conjuration.description,Transports creatures or objects,Перемещает существ или предметы,draft
+magicSchool.divination.name,Divination,Прорицание,draft
+magicSchool.divination.description,Reveals information,Раскрывает сведения,draft
+magicSchool.enchantment.name,Enchantment,Очарование,draft
+magicSchool.enchantment.description,Influences minds,Влияет на разум,draft
+magicSchool.evocation.name,Evocation,Воплощение,draft
+magicSchool.evocation.description,Channels energy to create effects that are often destructive,"Направляет энергию для эффектов, зачастую разрушительных",draft
+magicSchool.illusion.name,Illusion,Иллюзия,draft
+magicSchool.illusion.description,Deceives the mind or senses,Обманывает разум или чувства,draft
+magicSchool.necromancy.name,Necromancy,Некромантия,draft
+magicSchool.necromancy.description,Manipulates life and death,Управляет жизнью и смертью,draft
+magicSchool.transmutation.name,Transmutation,Преобразование,draft
+magicSchool.transmutation.description,Transforms creatures or objects,Изменяет существ или предметы,draft
+proficiency.alchemists-supplies.name,Alchemist's Supplies,Инструменты алхимика,draft
+proficiency.all-armor.name,All armor,Все доспехи,draft
+proficiency.bagpipes.name,Bagpipes,Волынка,draft
+proficiency.brewers-supplies.name,Brewer's Supplies,Инструменты пивовара,draft
+proficiency.drum.name,Drum,Барабан,draft
+proficiency.dulcimer.name,Dulcimer,Цимбалы,draft
+proficiency.flute.name,Flute,Флейта,draft
+proficiency.hand-crossbows.name,Hand crossbows,Ручные арбалеты,draft
+proficiency.heavy-armor.name,Heavy Armor,Тяжёлые доспехи,draft
+proficiency.herbalism-kit.name,Herbalism Kit,Набор травника,draft
+proficiency.horn.name,Horn,Рожок,draft
+proficiency.light-armor.name,Light Armor,Лёгкие доспехи,draft
+proficiency.longswords.name,Longswords,Длинные мечи,draft
+proficiency.lute.name,Lute,Лютня,draft
+proficiency.lyre.name,Lyre,Лира,draft
+proficiency.martial-weapons.name,Martial Weapons,Воинское оружие,draft
+proficiency.medium-armor.name,Medium Armor,Средние доспехи,draft
+proficiency.pan-flute.name,Pan flute,Свирель,draft
+proficiency.rapiers.name,Rapiers,Рапиры,draft
+proficiency.saving-throw-cha.name,Saving Throw: CHA,Спасбросок: ХАР,draft
+proficiency.saving-throw-con.name,Saving Throw: CON,Спасбросок: ТЕЛ,draft
+proficiency.saving-throw-dex.name,Saving Throw: DEX,Спасбросок: ЛОВ,draft
+proficiency.saving-throw-int.name,Saving Throw: INT,Спасбросок: ИНТ,draft
+proficiency.saving-throw-str.name,Saving Throw: STR,Спасбросок: СИЛ,draft
+proficiency.saving-throw-wis.name,Saving Throw: WIS,Спасбросок: МДР,draft
+proficiency.scimitars.name,Scimitars,Скимитары,draft
+proficiency.shawm.name,Shawm,Шалмей,draft
+proficiency.shields.name,Shields,Щиты,draft
+proficiency.shortswords.name,Shortswords,Короткие мечи,draft
+proficiency.simple-weapons.name,Simple Weapons,Простое оружие,draft
+proficiency.skill-acrobatics.name,Skill: Acrobatics,Навык: Акробатика,draft
+proficiency.skill-animal-handling.name,Skill: Animal Handling,Навык: Уход за животными,draft
+proficiency.skill-arcana.name,Skill: Arcana,Навык: Магия,draft
+proficiency.skill-athletics.name,Skill: Athletics,Навык: Атлетика,draft
+proficiency.skill-deception.name,Skill: Deception,Навык: Обман,draft
+proficiency.skill-history.name,Skill: History,Навык: История,draft
+proficiency.skill-insight.name,Skill: Insight,Навык: Проницательность,draft
+proficiency.skill-intimidation.name,Skill: Intimidation,Навык: Запугивание,draft
+proficiency.skill-investigation.name,Skill: Investigation,Навык: Анализ,draft
+proficiency.skill-medicine.name,Skill: Medicine,Навык: Медицина,draft
+proficiency.skill-nature.name,Skill: Nature,Навык: Природа,draft
+proficiency.skill-perception.name,Skill: Perception,Навык: Восприятие,draft
+proficiency.skill-performance.name,Skill: Performance,Навык: Выступление,draft
+proficiency.skill-persuasion.name,Skill: Persuasion,Навык: Убеждение,draft
+proficiency.skill-religion.name,Skill: Religion,Навык: Религия,draft
+proficiency.skill-sleight-of-hand.name,Skill: Sleight of Hand,Навык: Ловкость рук,draft
+proficiency.skill-stealth.name,Skill: Stealth,Навык: Скрытность,draft
+proficiency.skill-survival.name,Skill: Survival,Навык: Выживание,draft
+proficiency.tool-calligraphers-supplies.name,Tool: Calligrapher's Supplies,Инструменты каллиграфа,draft
+proficiency.tool-carpenters-tools.name,Carpenter's Tools,Инструменты плотника,draft
+proficiency.tool-cartographers-tools.name,Cartographer's Tools,Инструменты картографа,draft
+proficiency.tool-cobblers-tools.name,Cobbler's Tools,Инструменты сапожника,draft
+proficiency.tool-cooks-utensils.name,Cook's Utensils,Инструменты повара,draft
+proficiency.tool-dice.name,Tool: Dice,Кости,draft
+proficiency.tool-disguise-kit.name,Disguise Kit,Набор для грима,draft
+proficiency.tool-dragonchess.name,Tool: Dragonchess,Драконьи шахматы,draft
+proficiency.tool-forgery-kit.name,Forgery Kit,Набор фальсификатора,draft
+proficiency.tool-glassblowers-tools.name,Glassblower's Tools,Инструменты стеклодува,draft
+proficiency.tool-jewelers-tools.name,Jeweler's Tools,Инструменты ювелира,draft
+proficiency.tool-leatherworkers-tools.name,Leatherworker's Tools,Инструменты кожевника,draft
+proficiency.tool-masons-tools.name,Mason's Tools,Инструменты каменщика,draft
+proficiency.tool-navigators-tools.name,Tool: Navigator's Tools,Инструменты навигатора,draft
+proficiency.tool-painters-supplies.name,Painter's Supplies,Инструменты художника,draft
+proficiency.tool-playing-cards.name,Tool: Playing Cards,Игральные карты,draft
+proficiency.tool-poisoners-kit.name,Tool: Poisoner's Kit,Набор отравителя,draft
+proficiency.tool-potters-tools.name,Potter's Tools,Инструменты гончара,draft
+proficiency.tool-smiths-tools.name,Smith's Tools,Инструменты кузнеца,draft
+proficiency.tool-thieves-tools.name,Tool: Thieves' Tools,Воровские инструменты,draft
+proficiency.tool-three-dragon-ante.name,Tool: Three-Dragon Ante,Ставка трёх драконов,draft
+proficiency.tool-tinkers-tools.name,Tinker's Tools,Инструменты ремонтника,draft
+proficiency.tool-weavers-tools.name,Weaver's Tools,Инструменты ткача,draft
+proficiency.tool-woodcarvers-tools.name,Woodcarver's Tools,Инструменты резчика по дереву,draft
+proficiency.viol.name,Viol,Виола,draft
+proficiency.whips.name,Whips,Кнуты,draft
