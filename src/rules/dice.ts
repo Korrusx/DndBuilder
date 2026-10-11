@@ -1,0 +1,50 @@
+// Кости: разбор записи «2d6», показ по-русски «2к6», броски.
+
+export type DiceExpr = { count: number; sides: number };
+
+export function parseDice(expr: string): DiceExpr {
+  const m = /^(\d+)\s*[dк](\d+)$/i.exec(expr.trim());
+  if (!m) throw new Error(`Не понимаю запись костей: ${expr}`);
+  return { count: Number(m[1]), sides: Number(m[2]) };
+}
+
+/** «1d6» → «1к6». */
+export function formatDice(expr: string | DiceExpr): string {
+  const { count, sides } = typeof expr === 'string' ? parseDice(expr) : expr;
+  return `${count}к${sides}`;
+}
+
+/** Модификатор со знаком: +5, −1, +0. */
+export function formatModifier(value: number): string {
+  return value < 0 ? `−${Math.abs(value)}` : `+${value}`;
+}
+
+/** «1к6+3», «1к4−1», «1к8». */
+export function formatDamage(dice: string, bonus: number): string {
+  return bonus === 0 ? formatDice(dice) : `${formatDice(dice)}${formatModifier(bonus)}`;
+}
+
+export function rollDie(sides: number, rng: () => number = Math.random): number {
+  return 1 + Math.floor(rng() * sides);
+}
+
+export type D20Mode = 'normal' | 'advantage' | 'disadvantage';
+
+export type D20Roll = {
+  /** Обе кости при преимуществе/помехе, одна — при обычном броске. */
+  dice: number[];
+  /** Индекс кости, которая пошла в зачёт. */
+  keptIndex: number;
+  natural: number;
+  total: number;
+};
+
+/** Бросок к20 с модификатором. Преимущество — берём большую из двух, помеха — меньшую. */
+export function rollD20(modifier: number, mode: D20Mode = 'normal', rng: () => number = Math.random): D20Roll {
+  const dice = mode === 'normal' ? [rollDie(20, rng)] : [rollDie(20, rng), rollDie(20, rng)];
+  let keptIndex = 0;
+  if (mode === 'advantage' && dice[1] > dice[0]) keptIndex = 1;
+  if (mode === 'disadvantage' && dice[1] < dice[0]) keptIndex = 1;
+  const natural = dice[keptIndex];
+  return { dice, keptIndex, natural, total: natural + modifier };
+}
