@@ -1,16 +1,48 @@
-import type { Character } from '@/entities/character';
-import { choiceOptionIds, finalAbilityScores, proficientSkills, weaponMasteryCount, weaponMasteryOptions } from '@/entities/character';
-import { usePlay } from '@/entities/character/ui';
-import { SpellsEditSheet } from '@/features/edit-spells';
-import { AsiPicker, clearLevelFeatChoices, featAbilityRule, finishLevelUp, levelFeat, levelFeatOptions, levelFeatProfKey, levelUpHpGain, levelUpIssues, levelUpPlan, startLevelUp } from '@/features/level-up';
-import { colors, spacing } from '@/shared/config';
-import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, byId, content, nameOf, plain, proficiencyName, tr } from '@/shared/content';
-import type { InfoContent } from '@/shared/ui';
-import { AppText, Button, Card, Chip, ChipRow, InfoSheet, MultiPick, OptionCard, Screen, Section, SmallButton } from '@/shared/ui';
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
+
+import type { Character } from '@/entities/character';
+import {
+  choiceOptionIds,
+  finalAbilityScores,
+  proficientSkills,
+  weaponMasteryCount,
+  weaponMasteryOptions,
+} from '@/entities/character';
+import { usePlay } from '@/entities/character/ui';
+import { SpellsEditSheet } from '@/features/edit-spells';
+import {
+  AsiPicker,
+  clearLevelFeatChoices,
+  featAbilityRule,
+  finishLevelUp,
+  levelFeat,
+  levelFeatOptions,
+  levelFeatProfKey,
+  levelUpHpGain,
+  levelUpIssues,
+  levelUpPlan,
+  startLevelUp,
+} from '@/features/level-up';
+import type { AbilityId } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, plain, proficiencyName, tr } from '@/shared/content';
+import type { InfoContent } from '@/shared/ui';
+import {
+  AppText,
+  Button,
+  Card,
+  Chip,
+  ChipRow,
+  InfoSheet,
+  MultiPick,
+  OptionCard,
+  Screen,
+  Section,
+  SmallButton,
+} from '@/shared/ui';
+
+import { styles } from './LevelUpPage.styles';
 
 export function LevelUpPage() {
   const { character: prev, update } = usePlay();
@@ -99,7 +131,7 @@ export function LevelUpPage() {
         {nameOf('classes', plan.classId)}: {level - 1} → {level}
       </AppText>
 
-      <Card style={{ gap: spacing.sm }}>
+      <Card style={styles.gapSm}>
         <AppText variant="heading">Хиты: +{hpGain}</AppText>
         <AppText variant="secondary">Среднее значение кости хитов + модификатор Телосложения (и прибавки от черт и умений).</AppText>
       </Card>
@@ -257,8 +289,8 @@ export function LevelUpPage() {
       {issues
         .filter((i) => !i.blocking)
         .map((i) => (
-          <View key={i.message} style={{ gap: spacing.sm }}>
-            <AppText style={{ color: colors.info }}>{i.message}</AppText>
+          <View key={i.message} style={styles.gapSm}>
+            <AppText style={styles.textInfo}>{i.message}</AppText>
             {i.message.startsWith('Можно выбрать ещё заклинаний') ? (
               <SmallButton title="Выбрать заклинания" tone="accent" onPress={() => setSpells(true)} />
             ) : null}

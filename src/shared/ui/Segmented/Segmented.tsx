@@ -1,5 +1,7 @@
-import { colors } from '@/shared/config';
 import { Pressable, View } from 'react-native';
+
+import { colors } from '@/shared/config';
+
 import { AppText } from '../AppText/AppText';
 import { styles } from './Segmented.styles';
 import type { SegmentedProps } from './Segmented.types';

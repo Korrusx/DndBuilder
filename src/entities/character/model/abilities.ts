@@ -1,4 +1,5 @@
 import type { AbilityId } from '@/shared/content';
+
 import { ABILITY_IDS, ABILITY_MAX, POINT_BUY_COST, STANDARD_ARRAY } from '../config/constants';
 import type { AbilityRoll, AbilityScores } from './types';
 

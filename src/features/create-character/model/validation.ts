@@ -1,7 +1,33 @@
 import type { Character, ProficiencySlot } from '@/entities/character';
-import { ABILITY_IDS, choice1, CHOICE_KEYS, computeSheet, equipmentChoice, equipmentPicks, expertiseCount, FEAT_FEATURES, featFeatureIds, featureOptionIds, isStandardArray, magicInitiateSlots, originFeats, POINT_BUY_BUDGET, POINT_BUY_MAX, POINT_BUY_MIN, pointBuySpent, proficiencySlots, proficientSkills, spellLimits, STANDARD_LANGUAGE_COUNT, startingClass, validateBackgroundBonuses, weaponMasteryCount } from '@/entities/character';
+import {
+  ABILITY_IDS,
+  choice1,
+  CHOICE_KEYS,
+  computeSheet,
+  equipmentChoice,
+  equipmentPicks,
+  expertiseCount,
+  FEAT_FEATURES,
+  featFeatureIds,
+  featureOptionIds,
+  isStandardArray,
+  magicInitiateSlots,
+  originFeats,
+  POINT_BUY_BUDGET,
+  POINT_BUY_MAX,
+  POINT_BUY_MIN,
+  pointBuySpent,
+  proficiencySlots,
+  proficientSkills,
+  spellLimits,
+  STANDARD_LANGUAGE_COUNT,
+  startingClass,
+  validateBackgroundBonuses,
+  weaponMasteryCount,
+} from '@/entities/character';
 import type { Content } from '@/shared/content';
 import { findById } from '@/shared/lib/collections';
+
 import type { Issue } from './types';
 
 // ---------- Проверка ----------

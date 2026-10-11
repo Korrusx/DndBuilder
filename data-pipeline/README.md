@@ -35,4 +35,4 @@ npm run data:build   # собрать assets/content/content.json и обнов�
   Вариант B (50 зм) добавляется автоматически.
 
 Черта: `id`, `name`, `type`, `description` (механика своими словами), `proficiencyChoices`.
-Механические эффекты (например, «Крепкий» +2 хита за уровень) задаются в `src/rules/effects.ts`.
+Механические эффекты (например, «Крепкий» +2 хита за уровень) задаются в `src/entities/character/config/effects.ts`.

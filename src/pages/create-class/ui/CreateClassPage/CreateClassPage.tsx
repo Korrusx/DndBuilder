@@ -1,9 +1,10 @@
+import { View } from 'react-native';
+
 import { setClass } from '@/entities/character';
 import { useDraft, WizardScreen } from '@/features/create-character';
-import { colors } from '@/shared/config';
 import { abilityAbbr, content, nameOf } from '@/shared/content';
 import { AppText, OptionCard } from '@/shared/ui';
-import { View } from 'react-native';
+
 import { styles } from './CreateClassPage.styles';
 
 export function CreateClassPage() {
@@ -21,7 +22,7 @@ export function CreateClassPage() {
       summary={
         cls ? (
           <AppText variant="secondary">
-            Выбран: <AppText style={{ color: colors.text }}>{nameOf('classes', cls.id)}</AppText> · к{cls.hitDie}
+            Выбран: <AppText style={styles.textText}>{nameOf('classes', cls.id)}</AppText> · к{cls.hitDie}
           </AppText>
         ) : (
           <AppText variant="secondary">Выберите класс</AppText>

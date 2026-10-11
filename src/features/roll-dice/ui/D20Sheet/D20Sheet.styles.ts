@@ -1,5 +1,6 @@
-import { colors, fonts, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   result: { alignItems: 'center', gap: spacing.sm, paddingVertical: spacing.md },
@@ -7,4 +8,5 @@ export const styles = StyleSheet.create({
   total: { fontFamily: fonts.displayBold, fontSize: 56, lineHeight: 64, color: colors.text },
   nat: { fontFamily: fonts.textBold, fontSize: 16 },
   buttons: { flexDirection: 'row', gap: spacing.sm },
+  fill: { flex: 1 },
 });

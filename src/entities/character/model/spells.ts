@@ -1,4 +1,5 @@
 import type { CharacterClass } from '@/shared/content';
+
 import type { ClassEntry } from './types';
 
 /** СЛ спасброска от заклинаний = 8 + мод + БМ. */

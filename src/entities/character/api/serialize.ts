@@ -1,6 +1,7 @@
 // Превращение персонажа в строку таблицы и обратно.
 
 import { withDefaults } from "../model/normalize";
+
 import type { Character } from '../model/types';
 import type { CharacterRow } from './types';
 

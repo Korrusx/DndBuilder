@@ -1,7 +1,23 @@
-import { choice1, CHOICE_KEYS, expertiseCount, FEAT_FEATURES, featFeatureIds, FEATURE_OPTIONS, featureOptionIds, fixedProficiencies, languageOptions, proficiencySlots, proficientSkills, STANDARD_LANGUAGE_COUNT, weaponMasteryCount, weaponMasteryOptions } from '@/entities/character';
+import {
+  choice1,
+  CHOICE_KEYS,
+  expertiseCount,
+  FEAT_FEATURES,
+  featFeatureIds,
+  FEATURE_OPTIONS,
+  featureOptionIds,
+  fixedProficiencies,
+  languageOptions,
+  proficiencySlots,
+  proficientSkills,
+  STANDARD_LANGUAGE_COUNT,
+  weaponMasteryCount,
+  weaponMasteryOptions,
+} from '@/entities/character';
 import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { content, nameOf, proficiencyName, tr } from '@/shared/content';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
+
 import { SOURCE_TITLE } from '../../config/constants';
 
 export function CreateSkillsPage() {

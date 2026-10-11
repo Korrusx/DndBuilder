@@ -1,4 +1,5 @@
 import { AppText } from '@/shared/ui';
+
 import type { StepStatusProps } from './StepStatus.types';
 
 /** Строка над «Далее»: чего не хватает на шаге. */

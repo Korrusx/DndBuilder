@@ -1,5 +1,7 @@
-import { colors } from '@/shared/config';
 import { Pressable, View } from 'react-native';
+
+import { colors } from '@/shared/config';
+
 import { styles } from './Dots.styles';
 import type { DotsProps } from './Dots.types';
 

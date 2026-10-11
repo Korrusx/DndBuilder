@@ -1,5 +1,6 @@
-import { colors, fonts, sizes, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   chip: {

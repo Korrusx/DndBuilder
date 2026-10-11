@@ -1,5 +1,6 @@
-import type { Character } from '@/entities/character';
 import { ReactNode } from 'react';
+
+import type { Character } from '@/entities/character';
 
 export type WizardScreenProps = {
   step: number;

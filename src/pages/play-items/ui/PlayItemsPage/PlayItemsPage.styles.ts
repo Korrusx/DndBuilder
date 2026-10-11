@@ -1,5 +1,6 @@
-import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   list: {
@@ -25,4 +26,7 @@ export const styles = StyleSheet.create({
     textAlign: 'right',
     paddingHorizontal: spacing.md,
   },
+  fillGap2: { flex: 1, gap: 2 },
+  size12: { fontSize: 12 },
+  fill: { flex: 1 },
 });

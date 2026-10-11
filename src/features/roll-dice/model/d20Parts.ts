@@ -1,4 +1,5 @@
 import { exhaustionPenalty } from '@/entities/character';
+
 import type { RollPart } from './types';
 
 /** Слагаемые броска к20 с учётом истощения. */

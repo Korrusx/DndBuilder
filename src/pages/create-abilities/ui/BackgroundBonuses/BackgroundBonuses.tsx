@@ -4,6 +4,7 @@ import { useDraft } from '@/features/create-character';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, nameOf } from '@/shared/content';
 import { AppText, Chip, ChipRow, Hint, Section, Segmented } from '@/shared/ui';
+
 import { styles } from './BackgroundBonuses.styles';
 import type { BackgroundBonusesProps } from './BackgroundBonuses.types';
 

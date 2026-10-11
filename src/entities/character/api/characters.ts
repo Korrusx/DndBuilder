@@ -1,6 +1,7 @@
 // Работа с персонажами в пользовательской базе.
 
 import type { SQLiteDatabase } from 'expo-sqlite';
+
 import type { Character } from '../model/types';
 import { characterToRow, rowToCharacter } from './serialize';
 import type { CharacterRow } from './types';

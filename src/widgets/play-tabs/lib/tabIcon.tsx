@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { ColorValue } from 'react-native';
+
 import type { IconName } from '../model/types';
 
 /** Иконка вкладки нижнего бара. */

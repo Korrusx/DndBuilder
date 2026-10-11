@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+
 import { styles } from './Card.styles';
 import type { CardProps } from './Card.types';
 

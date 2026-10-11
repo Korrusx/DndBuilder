@@ -1,9 +1,11 @@
-import type { InventoryItem } from '@/entities/character';
-import { CUSTOM_ITEM_PREFIX } from '@/entities/character';
-import { colors, spacing } from '@/shared/config';
-import { AppText, BottomSheet, Segmented } from '@/shared/ui';
 import { useMemo, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
+
+import type { InventoryItem } from '@/entities/character';
+import { CUSTOM_ITEM_PREFIX } from '@/entities/character';
+import { colors } from '@/shared/config';
+import { AppText, BottomSheet, Segmented } from '@/shared/ui';
+
 import { MAX_RESULTS } from '../../config/constants';
 import { EQUIPMENT, MAGIC } from '../../model/catalog';
 import type { Source } from '../../model/types';
@@ -55,7 +57,7 @@ export function AddItemSheet({
         placeholderTextColor={colors.textSecondary}
         style={styles.input}
       />
-      {added ? <AppText style={{ color: colors.heal }}>Добавлено: {added}</AppText> : null}
+      {added ? <AppText style={styles.textHeal}>Добавлено: {added}</AppText> : null}
 
       {custom ? (
         <Pressable
@@ -63,7 +65,7 @@ export function AddItemSheet({
           onPress={() => add({ itemId: `${CUSTOM_ITEM_PREFIX}${Date.now().toString(36)}`, quantity: 1, name: custom }, custom)}
           style={({ pressed }) => [styles.row, styles.customRow, pressed && { opacity: 0.8 }]}
         >
-          <AppText style={{ flex: 1, color: colors.accent }}>+ Свой предмет «{custom}»</AppText>
+          <AppText style={styles.customItem}>+ Свой предмет «{custom}»</AppText>
         </Pressable>
       ) : null}
 
@@ -75,14 +77,14 @@ export function AddItemSheet({
             onPress={() => add({ itemId: e.id, quantity: 1 }, e.name)}
             style={({ pressed }) => [styles.row, i > 0 && styles.divider, pressed && { backgroundColor: colors.surface2 }]}
           >
-            <AppText style={{ flex: 1 }}>{e.name}</AppText>
-            <AppText variant="secondary" style={{ fontSize: 12 }}>
+            <AppText style={styles.fill}>{e.name}</AppText>
+            <AppText variant="secondary" style={styles.size12}>
               {e.note}
             </AppText>
           </Pressable>
         ))}
         {results.length === 0 ? (
-          <AppText variant="secondary" style={{ padding: spacing.md }}>
+          <AppText variant="secondary" style={styles.padMd}>
             Ничего не найдено. Можно добавить свой предмет кнопкой выше.
           </AppText>
         ) : null}

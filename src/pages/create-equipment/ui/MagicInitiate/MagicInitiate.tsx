@@ -1,7 +1,14 @@
-import { choice1, CHOICE_KEYS, MAGIC_INITIATE_ABILITIES, MAGIC_INITIATE_LISTS, spellOptions } from '@/entities/character';
+import {
+  choice1,
+  CHOICE_KEYS,
+  MAGIC_INITIATE_ABILITIES,
+  MAGIC_INITIATE_LISTS,
+  spellOptions,
+} from '@/entities/character';
 import { useDraft } from '@/features/create-character';
 import { abilityAbbr, content, nameOf, spellName } from '@/shared/content';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
+
 import type { MagicInitiateProps } from './MagicInitiate.types';
 
 export function MagicInitiate({

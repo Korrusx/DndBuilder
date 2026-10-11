@@ -2,8 +2,18 @@
 // чего не хватает и сколько хитов прибавится. Чистые функции, без React и базы.
 
 import type { Character, FeatChoice } from '@/entities/character';
-import { choiceOptionIds, computeSheet, FEAT_FEATURES, finalAbilityScores, originFeatIds, proficientSkills, spellLimits, weaponMasteryCount } from '@/entities/character';
+import {
+  choiceOptionIds,
+  computeSheet,
+  FEAT_FEATURES,
+  finalAbilityScores,
+  originFeatIds,
+  proficientSkills,
+  spellLimits,
+  weaponMasteryCount,
+} from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
+
 import { EXPERTISE_GRANTS, FEAT_ABILITY, LANGUAGE_GRANTS, SKILL_GRANTS } from '../config/constants';
 import type { FeatSlotKind, LevelUpIssue, LevelUpPlan } from './types';
 

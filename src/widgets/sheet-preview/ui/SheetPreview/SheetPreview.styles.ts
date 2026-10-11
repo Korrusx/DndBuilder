@@ -1,5 +1,6 @@
-import { colors, fonts, radius, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, radius, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   card: {
@@ -12,4 +13,8 @@ export const styles = StyleSheet.create({
   },
   line: { flexDirection: 'row', alignItems: 'center', minHeight: 36, gap: spacing.sm },
   num: { fontFamily: fonts.display, fontSize: 15, color: colors.text, textAlign: 'right' },
+  padVXs: { paddingVertical: spacing.xs },
+  groupTitle: { fontFamily: fonts.display, fontSize: 13, color: colors.textSecondary },
+  profMark: { width: 18, color: colors.accent },
+  fill: { flex: 1 },
 });

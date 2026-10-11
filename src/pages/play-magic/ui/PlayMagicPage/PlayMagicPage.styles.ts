@@ -1,5 +1,6 @@
-import { colors, radius, sizes, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   spell: {
@@ -15,4 +16,9 @@ export const styles = StyleSheet.create({
   },
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   section: { gap: spacing.sm },
+  fillGap2: { flex: 1, gap: 2 },
+  spellName: { fontFamily: fonts.textBold, flexShrink: 1 },
+  size13: { fontSize: 13 },
+  width70: { width: 70 },
+  textAccent: { color: colors.accent },
 });

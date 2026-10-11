@@ -1,5 +1,6 @@
-import { colors, fonts, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   hpTop: { flexDirection: 'row', alignItems: 'flex-end' },
@@ -27,4 +28,7 @@ export const styles = StyleSheet.create({
     padding: 0,
   },
   death: { gap: spacing.sm, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: spacing.md },
+  fill2: { flex: 1 },
+  tempLabel: { fontSize: 12, color: colors.info },
+  width72: { width: 72 },
 });

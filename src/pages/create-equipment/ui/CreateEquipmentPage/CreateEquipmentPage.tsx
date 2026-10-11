@@ -2,6 +2,7 @@ import { magicInitiateSlots, spellLimits, spellOptions } from '@/entities/charac
 import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { content, nameOf, spellName } from '@/shared/content';
 import { MultiPick, Section } from '@/shared/ui';
+
 import { applyKit } from '../../lib/applyKit';
 import { EquipmentSection } from '../EquipmentSection/EquipmentSection';
 import { MagicInitiate } from '../MagicInitiate/MagicInitiate';

@@ -1,5 +1,6 @@
-import { colors, fonts, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   item: { gap: spacing.xs },

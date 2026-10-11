@@ -2,6 +2,7 @@
 
 import { byId, nameOf, plain } from '@/shared/content';
 import type { InfoContent } from '@/shared/ui';
+
 import { FEATURE_SOURCE_LABEL } from '../config/featureSource';
 import type { SourcedId } from '../model/types';
 

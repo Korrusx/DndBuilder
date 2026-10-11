@@ -1,5 +1,6 @@
-import { spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   dots: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },

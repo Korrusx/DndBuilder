@@ -1,11 +1,12 @@
+import { useState } from 'react';
+import { View } from 'react-native';
+
 import { characterResources, finishShortRest, shortRestResources, spendHitDie } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
-import { colors } from '@/shared/config';
 import { content, nameOf, tr } from '@/shared/content';
 import { formatModifier, rollDie } from '@/shared/lib/dice';
 import { AppText, BottomSheet, SmallButton } from '@/shared/ui';
-import { useState } from 'react';
-import { View } from 'react-native';
+
 import { styles } from './ShortRestSheet.styles';
 import type { ShortRestSheetProps } from './ShortRestSheet.types';
 
@@ -35,7 +36,7 @@ export function ShortRestSheet({ visible, onClose }: ShortRestSheetProps) {
         const left = h.total - (c.state.hitDiceSpent[h.classId] ?? 0);
         return (
           <View key={h.classId} style={styles.row}>
-            <AppText style={{ flex: 1 }}>
+            <AppText style={styles.fill}>
               {nameOf('classes', h.classId)}: {left} из {h.total} к{h.die}
             </AppText>
             <SmallButton
@@ -51,7 +52,7 @@ export function ShortRestSheet({ visible, onClose }: ShortRestSheetProps) {
           </View>
         );
       })}
-      {last ? <AppText style={{ color: colors.heal }}>{last}</AppText> : null}
+      {last ? <AppText style={styles.textHeal}>{last}</AppText> : null}
       <AppText variant="secondary">
         Хиты: {c.state.currentHp} / {sheet.maxHp}
       </AppText>

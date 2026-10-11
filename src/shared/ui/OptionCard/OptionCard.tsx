@@ -1,4 +1,5 @@
 import { Pressable, View } from 'react-native';
+
 import { AppText } from '../AppText/AppText';
 import { styles } from './OptionCard.styles';
 import type { OptionCardProps } from './OptionCard.types';

@@ -1,6 +1,7 @@
 // Сборка всех производных чисел персонажа из его выборов и справочника.
 
 import type { Content, Equipment } from '@/shared/content';
+
 import { ABILITY_IDS, CHOICE_KEYS } from '../config/constants';
 import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';
 import { totalLevel } from './character';
@@ -9,11 +10,11 @@ import { chosenProficiencyIds, featureOptionProficiencies } from './choices';
 import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack } from './combat';
 import { effectsOf } from './effects';
 import { characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
-import type { AbilityScores, Character, CharacterSheet, Index, SourcedId, WeaponAttack } from './types';
+import type { AbilityScores, Character, CharacterSheet, ContentIndex, SourcedId, WeaponAttack } from './types';
 
-const indexCache = new WeakMap<Content, Index>();
+const indexCache = new WeakMap<Content, ContentIndex>();
 
-function indexOf(content: Content): Index {
+function indexOf(content: Content): ContentIndex {
   let idx = indexCache.get(content);
   if (!idx) {
     const by = <T extends { id: string }>(xs: T[]) => new Map(xs.map((x) => [x.id, x]));

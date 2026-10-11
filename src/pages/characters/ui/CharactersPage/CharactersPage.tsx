@@ -1,3 +1,7 @@
+import { router, useFocusEffect, useNavigation } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, BackHandler, View } from 'react-native';
+
 import type { Character } from '@/entities/character';
 import { computeSheet, irmaLevel1 } from '@/entities/character';
 import { deleteCharacters, newId, saveCharacter, saveCharacters, useCharacterList } from '@/entities/character/api';
@@ -9,9 +13,7 @@ import { content } from '@/shared/content';
 import { setMeta } from '@/shared/db';
 import { formatDate } from '@/shared/lib/date';
 import { AppText, Button, Placeholder, Screen } from '@/shared/ui';
-import { router, useFocusEffect, useNavigation } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, BackHandler, View } from 'react-native';
+
 import { styles } from './CharactersPage.styles';
 
 export function CharactersPage() {
@@ -156,7 +158,7 @@ export function CharactersPage() {
         selected ? (
           <>
             <View style={styles.row}>
-              <View style={{ flex: 1 }}>
+              <View style={styles.fill}>
                 <Button
                   title={`В файл (${selected.size})`}
                   variant="secondary"
@@ -164,19 +166,19 @@ export function CharactersPage() {
                   onPress={() => exportCharacters((characters ?? []).filter((c) => selected.has(c.id)), allSelected)}
                 />
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={styles.fill}>
                 <Button title={`Удалить (${selected.size})`} variant="danger" onPress={confirmDelete} />
               </View>
             </View>
             <View style={styles.row}>
-              <View style={{ flex: 1 }}>
+              <View style={styles.fill}>
                 <Button
                   title={allSelected ? 'Снять все' : 'Выбрать все'}
                   variant="secondary"
                   onPress={() => setSelected(allSelected ? null : new Set((characters ?? []).map((c) => c.id)))}
                 />
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={styles.fill}>
                 <Button title="Отмена" variant="secondary" onPress={() => setSelected(null)} />
               </View>
             </View>
@@ -185,10 +187,10 @@ export function CharactersPage() {
           <>
             <Button title="Новый персонаж" onPress={() => router.push('/create/class')} />
             <View style={styles.row}>
-              <View style={{ flex: 1 }}>
+              <View style={styles.fill}>
                 <Button title="Импорт" variant="secondary" disabled={busy} onPress={importCharacters} />
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={styles.fill}>
                 <Button
                   title="Копия всех"
                   variant="secondary"
@@ -213,14 +215,14 @@ export function CharactersPage() {
       {drafts.map(card)}
 
       {characters && characters.length > 0 ? (
-        <AppText variant="secondary" style={{ textAlign: 'center' }}>
+        <AppText variant="secondary" style={styles.centered}>
           {selected ? 'Нажимайте на карточки, чтобы отметить их' : 'Удерживайте карточку, чтобы выбрать персонажей: удалить или сохранить в файл'}
         </AppText>
       ) : null}
 
       {__DEV__ ? <Button title="Добавить примеры (для проверки)" variant="secondary" onPress={addSamples} /> : null}
       <Button title="О приложении и лицензии" variant="secondary" onPress={() => router.push('/about')} />
-      <AppText variant="secondary" style={{ textAlign: 'center' }}>
+      <AppText variant="secondary" style={styles.centered}>
         Работает без интернета ·{' '}
         {lastBackupAt ? `последняя копия ${formatDate(lastBackupAt)}` : 'резервных копий ещё не было'}
       </AppText>

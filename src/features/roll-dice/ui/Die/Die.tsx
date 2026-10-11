@@ -1,5 +1,7 @@
-import { AppText } from '@/shared/ui';
 import { View } from 'react-native';
+
+import { AppText } from '@/shared/ui';
+
 import { styles } from './Die.styles';
 import type { DieProps } from './Die.types';
 

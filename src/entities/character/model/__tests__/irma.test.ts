@@ -1,5 +1,6 @@
 import { content } from '@/shared/content';
 import { formatDamage, formatModifier } from '@/shared/lib/dice';
+
 import { irmaLevel1, irmaLevel5 } from '../../lib/samples';
 import { computeSheet } from '../sheet';
 

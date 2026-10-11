@@ -1,9 +1,11 @@
+import { View } from 'react-native';
+
 import type { ResourceView } from '@/entities/character';
 import { adjustResource } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { tr } from '@/shared/content';
 import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
-import { View } from 'react-native';
+
 import { MAX_DOTS, RECOVERY } from '../../config/constants';
 import { styles } from './ResourcesCard.styles';
 import type { ResourcesCardProps } from './ResourcesCard.types';

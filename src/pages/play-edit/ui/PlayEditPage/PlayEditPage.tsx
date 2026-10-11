@@ -1,11 +1,13 @@
+import { useState } from 'react';
+import { Alert, TextInput } from 'react-native';
+
 import type { Character } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { shareCharacters } from '@/features/transfer-characters';
 import { colors } from '@/shared/config';
 import { content, nameOf, tr } from '@/shared/content';
 import { Chip, ChipRow, Screen, Section, SmallButton } from '@/shared/ui';
-import { useState } from 'react';
-import { Alert, TextInput } from 'react-native';
+
 import type { TextField } from '../../model/types';
 import { styles } from './PlayEditPage.styles';
 

@@ -2,11 +2,12 @@
 // Максимум считается из справочника (content.resources), в состоянии игры хранится только потраченное.
 
 import type { ClassResource, Content, ResourceFormula } from '@/shared/content';
+
 import { totalLevel } from './character';
 import { computeSheet } from './sheet';
-import type { Character, CharacterSheet, Ctx, GameState, ResourceView } from './types';
+import type { Character, CharacterSheet, GameState, ResourceContext, ResourceView } from './types';
 
-function evalFormula(f: ResourceFormula, { level, sheet, classId }: Ctx): number {
+function evalFormula(f: ResourceFormula, { level, sheet, classId }: ResourceContext): number {
   if ('fixed' in f) return f.fixed;
   if ('classSpecific' in f) {
     const v = classId ? sheet.classSpecific[classId]?.[f.classSpecific] : undefined;

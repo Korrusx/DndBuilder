@@ -1,10 +1,12 @@
+import { useState } from 'react';
+import { TextInput, View } from 'react-native';
+
 import { addToInventory, toggleEquipped } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { AddItemSheet } from '@/features/add-item';
 import { byId, COIN_ABBR, COIN_NAMES, COIN_ORDER, content, itemName, nameOf } from '@/shared/content';
 import { AppText, Card, Screen, SmallButton } from '@/shared/ui';
-import { useState } from 'react';
-import { TextInput, View } from 'react-native';
+
 import { styles } from './PlayItemsPage.styles';
 
 export function PlayItemsPage() {
@@ -30,10 +32,10 @@ export function PlayItemsPage() {
           const contents = item?.contents?.map((x) => (x.count > 1 ? `${nameOf('equipment', x.id)} ×${x.count}` : nameOf('equipment', x.id)));
           return (
             <View key={`${it.itemId}-${index}`} style={[styles.row, index > 0 && styles.divider]}>
-              <View style={{ flex: 1, gap: 2 }}>
+              <View style={styles.fillGap2}>
                 <AppText>{itemName(it)}</AppText>
                 {contents?.length ? (
-                  <AppText variant="secondary" style={{ fontSize: 12 }}>
+                  <AppText variant="secondary" style={styles.size12}>
                     {contents.join(', ')}
                   </AppText>
                 ) : null}
@@ -59,7 +61,7 @@ export function PlayItemsPage() {
         <AppText variant="heading">Монеты</AppText>
         {[...COIN_ORDER].reverse().map((id) => ({ id, label: `${COIN_NAMES[id]} (${COIN_ABBR[id]})` })).map((coin) => (
           <View key={coin.id} style={styles.coinRow}>
-            <AppText style={{ flex: 1 }}>{coin.label}</AppText>
+            <AppText style={styles.fill}>{coin.label}</AppText>
             <TextInput
               value={String(c.coins[coin.id] ?? 0)}
               onChangeText={(t) => {

@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
+
 import { colors } from '@/shared/config';
 import type { D20Mode, D20Roll } from '@/shared/lib/dice';
 import { formatModifier, rollD20 } from '@/shared/lib/dice';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+
 import { Die } from '../Die/Die';
 import { styles } from './D20Sheet.styles';
 import type { D20SheetProps } from './D20Sheet.types';
@@ -61,11 +63,11 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
       ) : null}
       <View style={styles.buttons}>
         {fixed ? null : (
-          <View style={{ flex: 1 }}>
+          <View style={styles.fill}>
             <Button title="Бросить ещё" variant="secondary" onPress={() => doRoll(mode)} />
           </View>
         )}
-        <View style={{ flex: 1 }}>
+        <View style={styles.fill}>
           <Button title="Готово" onPress={onClose} />
         </View>
       </View>

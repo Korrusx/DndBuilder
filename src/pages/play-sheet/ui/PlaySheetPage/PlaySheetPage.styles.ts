@@ -1,5 +1,6 @@
-import { colors, fonts, radius, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, radius, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   headerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
@@ -20,4 +21,5 @@ export const styles = StyleSheet.create({
   save: { minHeight: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface2 },
   saveText: { fontFamily: fonts.textMedium, fontSize: 13, color: colors.text },
   exhaustion: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  fill: { flex: 1 },
 });

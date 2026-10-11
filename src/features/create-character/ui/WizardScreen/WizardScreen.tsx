@@ -1,6 +1,8 @@
+import { View } from 'react-native';
+
 import { colors } from '@/shared/config';
 import { AppText, Button, Screen } from '@/shared/ui';
-import { View } from 'react-native';
+
 import { CREATE_STEPS } from '../../config/steps';
 import { useDraft } from '../../model/DraftContext';
 import { styles } from './WizardScreen.styles';

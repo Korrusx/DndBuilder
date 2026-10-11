@@ -1,5 +1,7 @@
-import { colors } from '@/shared/config';
 import { Pressable } from 'react-native';
+
+import { colors } from '@/shared/config';
+
 import { AppText } from '../AppText/AppText';
 import { styles } from './Chip.styles';
 import type { ChipProps } from './Chip.types';

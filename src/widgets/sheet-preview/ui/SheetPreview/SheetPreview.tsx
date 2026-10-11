@@ -1,9 +1,19 @@
+import { View } from 'react-native';
+
 import { ABILITY_IDS, FEATURE_SOURCE_LABEL, featureName } from '@/entities/character';
-import { colors, fonts, spacing } from '@/shared/config';
-import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/shared/content';
+import { colors } from '@/shared/config';
+import {
+  abilityAbbr,
+  abilityName,
+  coinsText,
+  groupSkillsByAbility,
+  nameOf,
+  proficiencyName,
+  spellName,
+} from '@/shared/content';
 import { formatDamage, formatModifier } from '@/shared/lib/dice';
 import { AppText, Section } from '@/shared/ui';
-import { View } from 'react-native';
+
 import { Grid } from '../Grid/Grid';
 import { Stat } from '../Stat/Stat';
 import { styles } from './SheetPreview.styles';
@@ -45,11 +55,11 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
       <Section title="Навыки" hint="● владение, ◆ компетентность">
         <View style={styles.card}>
           {groupSkillsByAbility(sheet.skills).map(({ ability, skills }) => (
-            <View key={ability} style={{ paddingVertical: spacing.xs }}>
-              <AppText style={{ fontFamily: fonts.display, fontSize: 13, color: colors.textSecondary }}>{abilityName(ability)}</AppText>
+            <View key={ability} style={styles.padVXs}>
+              <AppText style={styles.groupTitle}>{abilityName(ability)}</AppText>
               {skills.map((s) => (
                 <View key={s.id} style={styles.line}>
-                  <AppText style={{ width: 18, color: colors.accent }}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
+                  <AppText style={styles.profMark}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
                   <AppText style={{ flex: 1, color: s.proficient ? colors.text : colors.textSecondary }}>{nameOf('skills', s.id)}</AppText>
                   <AppText style={styles.num}>{formatModifier(s.bonus)}</AppText>
                 </View>
@@ -64,7 +74,7 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
           <View style={styles.card}>
             {sheet.attacks.map((a) => (
               <View key={a.itemId} style={styles.line}>
-                <AppText style={{ flex: 1 }}>{nameOf('equipment', a.itemId)}</AppText>
+                <AppText style={styles.fill}>{nameOf('equipment', a.itemId)}</AppText>
                 <AppText style={[styles.num, { width: 48 }]}>{formatModifier(a.toHit)}</AppText>
                 <AppText style={[styles.num, { width: 80 }]}>{formatDamage(a.damageDice, a.damageBonus)}</AppText>
               </View>
@@ -88,7 +98,7 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
         <View style={styles.card}>
           {sheet.features.map((f) => (
             <View key={`${f.source}-${f.id}`} style={styles.line}>
-              <AppText style={{ flex: 1 }}>{featureName(f)}</AppText>
+              <AppText style={styles.fill}>{featureName(f)}</AppText>
               <AppText variant="secondary">{FEATURE_SOURCE_LABEL[f.source]}</AppText>
             </View>
           ))}

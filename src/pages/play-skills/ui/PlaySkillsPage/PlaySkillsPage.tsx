@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { Pressable, View } from 'react-native';
+
 import { exhaustionPenalty } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import type { D20Request } from '@/features/roll-dice';
@@ -6,8 +9,7 @@ import { colors } from '@/shared/config';
 import { abilityAbbr, abilityName, groupSkillsByAbility, nameOf } from '@/shared/content';
 import { formatModifier } from '@/shared/lib/dice';
 import { AppText, Screen } from '@/shared/ui';
-import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+
 import { styles } from './PlaySkillsPage.styles';
 
 export function PlaySkillsPage() {
@@ -38,7 +40,7 @@ export function PlaySkillsPage() {
                 onPress={() =>
                   setRoll({ title: `Проверка: ${abilityName(ability)}`, parts: d20Parts([{ label: abilityAbbr(ability), value: a.mod }], ex) })
                 }
-                style={{ flex: 1 }}
+                style={styles.fill}
               >
                 <AppText variant="heading">{abilityName(ability)}</AppText>
                 <AppText variant="secondary">

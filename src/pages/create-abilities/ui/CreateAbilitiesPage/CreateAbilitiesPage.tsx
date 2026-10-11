@@ -1,13 +1,26 @@
+import { useState } from 'react';
+import { Pressable, View } from 'react-native';
+
 import type { AbilityMethod, AbilityRoll, AbilityScores } from '@/entities/character';
-import { ABILITY_IDS, abilityModifier, finalAbilityScores, POINT_BUY_BUDGET, POINT_BUY_MAX, POINT_BUY_MIN, pointBuyCost, pointBuySpent, roll4d6DropLowest, STANDARD_ARRAY } from '@/entities/character';
+import {
+  ABILITY_IDS,
+  abilityModifier,
+  finalAbilityScores,
+  POINT_BUY_BUDGET,
+  POINT_BUY_MAX,
+  POINT_BUY_MIN,
+  pointBuyCost,
+  pointBuySpent,
+  roll4d6DropLowest,
+  STANDARD_ARRAY,
+} from '@/entities/character';
 import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import { colors, spacing } from '@/shared/config';
+import { colors } from '@/shared/config';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, abilityName, content } from '@/shared/content';
 import { formatModifier } from '@/shared/lib/dice';
 import { AppText, Button, Chip, ChipRow, Section, Segmented } from '@/shared/ui';
-import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+
 import { ALL_EIGHT, EMPTY } from '../../config/constants';
 import { freeValues } from '../../lib/freeValues';
 import { BackgroundBonuses } from '../BackgroundBonuses/BackgroundBonuses';
@@ -73,7 +86,7 @@ export function CreateAbilitiesPage() {
       />
 
       {c.abilityMethod === 'roll' ? (
-        <View style={{ gap: spacing.sm }}>
+        <View style={styles.gapSm}>
           <Button title={c.abilityRolls?.length ? 'Перебросить все' : 'Бросить 4к6 шесть раз'} variant="secondary" onPress={roll} />
           {lastRolls ? (
             <AppText variant="secondary">
@@ -111,9 +124,9 @@ export function CreateAbilitiesPage() {
           const bonus = c.backgroundBonuses[id] ?? 0;
           return (
             <Pressable key={id} onPress={() => tapAbility(id)} style={({ pressed }) => [styles.row, styles.dataRow, pressed && { opacity: 0.8 }]}>
-              <View style={{ flex: 1 }}>
+              <View style={styles.fill}>
                 <AppText style={styles.abbr}>{abilityAbbr(id)}</AppText>
-                <AppText variant="secondary" style={{ fontSize: 12 }}>
+                <AppText variant="secondary" style={styles.size12}>
                   {abilityName(id)}
                 </AppText>
               </View>

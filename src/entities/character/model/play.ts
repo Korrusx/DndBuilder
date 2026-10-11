@@ -2,6 +2,7 @@
 
 import type { Content } from '@/shared/content';
 import { parseDice, rollDie } from '@/shared/lib/dice';
+
 import { CUSTOM_ITEM_PREFIX, EXHAUSTION_MAX } from '../config/constants';
 import type { DamageRoll, DeathStatus, GameState, InventoryItem } from './types';
 

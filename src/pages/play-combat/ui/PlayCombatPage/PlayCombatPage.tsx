@@ -1,13 +1,14 @@
+import { useState } from 'react';
+import { View } from 'react-native';
+
 import { speedWithExhaustion, unarmedStrike, weaponMasteryCount, weaponMasteryOptions } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import type { D20Request, DamageRequest } from '@/features/roll-dice';
 import { d20Parts, D20Sheet, DamageSheet } from '@/features/roll-dice';
-import { colors, spacing } from '@/shared/config';
 import { abilityAbbr, byId, content, nameOf, plain, tr } from '@/shared/content';
 import { formatDamage, formatModifier } from '@/shared/lib/dice';
 import { AppText, BottomSheet, Card, InfoSheet, MultiPick, Screen, SmallButton, StatBox } from '@/shared/ui';
-import { useState } from 'react';
-import { View } from 'react-native';
+
 import { styles } from './PlayCombatPage.styles';
 
 export function PlayCombatPage() {
@@ -44,9 +45,9 @@ export function PlayCombatPage() {
         const mastery = c.weaponMasteries.includes(a.itemId) ? item?.weapon?.mastery : undefined;
         const masteryEntry = mastery ? byId.weaponMasteries.get(mastery) : undefined;
         return (
-          <Card key={a.itemId} style={{ gap: spacing.sm }}>
+          <Card key={a.itemId} style={styles.gapSm}>
             <View style={styles.row}>
-              <View style={{ flex: 1 }}>
+              <View style={styles.fill}>
                 <AppText variant="heading">{nameOf('equipment', a.itemId)}</AppText>
                 <AppText variant="secondary">
                   {abilityAbbr(a.ability)}
@@ -84,9 +85,9 @@ export function PlayCombatPage() {
         );
       })}
 
-      <Card style={{ gap: spacing.sm }}>
+      <Card style={styles.gapSm}>
         <View style={styles.row}>
-          <View style={{ flex: 1 }}>
+          <View style={styles.fill}>
             <AppText variant="heading">Безоружный удар</AppText>
             <AppText variant="secondary">
               Урон {brawler ? formatDamage('1d4', sheet.abilities.str.mod) : unarmed.damage}, дробящий
@@ -108,9 +109,9 @@ export function PlayCombatPage() {
       </Card>
 
       {sneak ? (
-        <Card style={{ gap: spacing.sm }}>
+        <Card style={styles.gapSm}>
           <View style={styles.row}>
-            <View style={{ flex: 1 }}>
+            <View style={styles.fill}>
               <AppText variant="heading">{nameOf('features', 'rogue-sneak-attack')}</AppText>
               <AppText variant="secondary">Раз в ход, при преимуществе или союзнике рядом с целью</AppText>
             </View>
@@ -123,12 +124,12 @@ export function PlayCombatPage() {
         </Card>
       ) : null}
 
-      <AppText variant="secondary" style={{ color: colors.textSecondary }}>
+      <AppText variant="secondary" style={styles.muted}>
         Атака — бросок к20; при естественной 20 нажмите «Критический» в панели урона.
       </AppText>
 
       {masteryCount ? (
-        <Card style={{ gap: spacing.sm }}>
+        <Card style={styles.gapSm}>
           <AppText variant="heading">Приёмы оружия</AppText>
           <AppText variant="secondary">
             {c.weaponMasteries.length ? c.weaponMasteries.map((id) => nameOf('equipment', id)).join(', ') : 'Не выбраны'} ·{' '}

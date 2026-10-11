@@ -1,5 +1,6 @@
-import { colors, fonts, radius, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, radius, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   table: {
@@ -19,4 +20,7 @@ export const styles = StyleSheet.create({
   value: { fontFamily: fonts.display, fontSize: 16, color: colors.text, textAlign: 'center' },
   slot: { height: 40, borderRadius: 10, backgroundColor: colors.surface2, justifyContent: 'center' },
   slotTarget: { borderWidth: 1, borderColor: colors.accent },
+  gapSm: { gap: spacing.sm },
+  fill: { flex: 1 },
+  size12: { fontSize: 12 },
 });

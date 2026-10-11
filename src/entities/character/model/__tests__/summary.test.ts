@@ -1,4 +1,5 @@
 import { content } from '@/shared/content';
+
 import { irmaLevel1 } from '../../lib/samples';
 import { newDraftCharacter } from '../character';
 import { characterSummary, hpLevel } from '../summary';

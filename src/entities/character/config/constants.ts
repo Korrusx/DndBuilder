@@ -1,4 +1,5 @@
 import type { AbilityId } from '@/shared/content';
+
 import type { FeatureOption, OriginFeatSlot } from '../model/types';
 
 export const ABILITY_MAX = 20;

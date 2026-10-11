@@ -1,12 +1,14 @@
-import { usePlay } from '@/entities/character/ui';
-import { usePdfExport } from '@/features/export-pdf';
-import { colors, fonts, sizes } from '@/shared/config';
-import { AppText } from '@/shared/ui';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
 import { ActivityIndicator, Pressable, View } from 'react-native';
+
+import { usePlay } from '@/entities/character/ui';
+import { usePdfExport } from '@/features/export-pdf';
+import { colors, fonts } from '@/shared/config';
+import { AppText } from '@/shared/ui';
+
 import { tabIcon } from '../../lib/tabIcon';
-import { headerButton } from './PlayTabs.styles';
+import { styles } from './PlayTabs.styles';
 
 export function PlayTabs() {
   const { character } = usePlay();
@@ -20,13 +22,13 @@ export function PlayTabs() {
         headerTitleStyle: { fontFamily: fonts.display },
         headerShadowVisible: false,
         headerRight: () => (
-          <View style={{ flexDirection: 'row', marginRight: 8 }}>
+          <View style={styles.headerRight}>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Лист в PDF"
               disabled={pdf.busy}
               onPress={() => pdf.run(character)}
-              style={headerButton}
+              style={styles.headerButton}
             >
               {pdf.busy ? (
                 <ActivityIndicator color={colors.accent} />
@@ -38,7 +40,7 @@ export function PlayTabs() {
               accessibilityRole="button"
               accessibilityLabel="Изменить персонажа"
               onPress={() => router.navigate({ pathname: '/character/[id]/edit', params: { id: character.id } })}
-              style={headerButton}
+              style={styles.headerButton}
             >
               <MaterialCommunityIcons name="pencil-outline" size={24} color={colors.text} />
             </Pressable>
@@ -49,9 +51,9 @@ export function PlayTabs() {
             accessibilityRole="button"
             accessibilityLabel="К списку персонажей"
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-            style={{ minWidth: sizes.touchMin, minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: 16 }}
+            style={styles.backButton}
           >
-            <AppText style={{ fontSize: 28, color: colors.text }}>‹</AppText>
+            <AppText style={styles.backArrow}>‹</AppText>
           </Pressable>
         ),
         sceneStyle: { backgroundColor: colors.bg },
@@ -78,9 +80,9 @@ export function PlayTabs() {
               accessibilityRole="button"
               accessibilityLabel="Готово"
               onPress={() => router.navigate({ pathname: '/character/[id]', params: { id: character.id } })}
-              style={{ minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: 16 }}
+              style={styles.textButton}
             >
-              <AppText style={{ color: colors.accent, fontFamily: fonts.textBold }}>Готово</AppText>
+              <AppText style={styles.linkLabel}>Готово</AppText>
             </Pressable>
           ),
         }}
@@ -97,9 +99,9 @@ export function PlayTabs() {
               accessibilityRole="button"
               accessibilityLabel="Отмена"
               onPress={() => router.navigate({ pathname: '/character/[id]', params: { id: character.id } })}
-              style={{ minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: 16 }}
+              style={styles.textButton}
             >
-              <AppText style={{ color: colors.accent, fontFamily: fonts.textBold }}>Отмена</AppText>
+              <AppText style={styles.linkLabel}>Отмена</AppText>
             </Pressable>
           ),
         }}

@@ -102,7 +102,7 @@ export type Character = {
   /**
    * Выборы мастера создания «ключ → выбранные id»: навыки и инструменты на выбор, варианты умений,
    * черта от особенности «Универсальность», заклинания черты «Посвящённый в магию», стартовое снаряжение.
-   * Ключи описаны в src/rules/choices.ts.
+   * Ключи описаны в src/entities/character/config/constants.ts (CHOICE_KEYS).
    */
   choices: Record<string, string[]>;
 
@@ -202,7 +202,7 @@ export type ResourceView = {
   recovery: ResourceRecovery;
 };
 
-export type Ctx = { level: number; sheet: CharacterSheet; classId?: string };
+export type ResourceContext = { level: number; sheet: CharacterSheet; classId?: string };
 
 export type SourcedId = { id: string; source: 'class' | 'subclass' | 'species' | 'feat' };
 
@@ -227,7 +227,7 @@ export type CharacterSheet = {
   proficiencies: string[];
 };
 
-export type Index = {
+export type ContentIndex = {
   classes: Map<string, CharacterClass>;
   equipment: Map<string, Equipment>;
   [key: string]: Map<string, any>;

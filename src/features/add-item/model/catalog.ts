@@ -1,5 +1,6 @@
 import type { Coin } from '@/shared/content';
 import { COIN_ABBR, content, tr } from '@/shared/content';
+
 import type { Entry } from './types';
 
 export const EQUIPMENT: Entry[] = content.equipment

@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
+
 import type { DamageRoll } from '@/entities/character';
 import { rollDamage } from '@/entities/character';
 import { formatDice, formatModifier } from '@/shared/lib/dice';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+
 import { Die } from '../Die/Die';
 import { styles } from './DamageSheet.styles';
 import type { DamageSheetProps } from './DamageSheet.types';
@@ -52,10 +54,10 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
         </View>
       ) : null}
       <View style={styles.buttons}>
-        <View style={{ flex: 1 }}>
+        <View style={styles.fill}>
           <Button title="Бросить ещё" variant="secondary" onPress={() => doRoll(critical)} />
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={styles.fill}>
           <Button title="Готово" onPress={onClose} />
         </View>
       </View>

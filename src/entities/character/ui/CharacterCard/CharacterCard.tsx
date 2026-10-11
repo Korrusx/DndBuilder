@@ -3,6 +3,7 @@ import { Pressable, View } from 'react-native';
 import { colors } from '@/shared/config';
 import { content, tr } from '@/shared/content';
 import { AppText, Button } from '@/shared/ui';
+
 import { HP_COLORS } from '../../config/hpColors';
 import { characterSummary, hpLevel } from '../../model/summary';
 import { styles } from './CharacterCard.styles';
@@ -48,7 +49,7 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
             </AppText>
           ) : null}
           {c.campaign ? (
-            <AppText variant="secondary" numberOfLines={1} style={{ color: colors.info }}>
+            <AppText variant="secondary" numberOfLines={1} style={styles.textInfo}>
               {c.campaign}
             </AppText>
           ) : null}
@@ -90,7 +91,7 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
 
       {draft ? (
         <View style={styles.draftRow}>
-          <AppText variant="secondary" style={{ flex: 1 }}>
+          <AppText variant="secondary" style={styles.fill}>
             Черновик · шаг {draft.step} из {draftSteps}
           </AppText>
           {selecting ? null : <Button title="Продолжить" variant="secondary" onPress={onPress} />}

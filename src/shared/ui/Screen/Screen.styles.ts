@@ -1,5 +1,6 @@
-import { colors, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },

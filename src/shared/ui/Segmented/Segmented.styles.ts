@@ -1,5 +1,6 @@
-import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   segmented: {

@@ -1,5 +1,6 @@
-import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   list: {
@@ -16,4 +17,5 @@ export const styles = StyleSheet.create({
   divider: { borderTopWidth: 1, borderTopColor: colors.border },
   mark: { width: 16, color: colors.accent },
   bonus: { fontFamily: fonts.displayBold, fontSize: 17, color: colors.text, width: 44, textAlign: 'right' },
+  fill: { flex: 1 },
 });

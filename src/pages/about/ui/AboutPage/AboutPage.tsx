@@ -1,6 +1,8 @@
+import { View } from 'react-native';
+
 import { content, translationProgress } from '@/shared/content';
 import { AppText, LText, Screen } from '@/shared/ui';
-import { View } from 'react-native';
+
 import { styles } from './AboutPage.styles';
 
 export function AboutPage() {

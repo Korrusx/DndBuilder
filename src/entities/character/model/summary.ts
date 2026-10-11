@@ -1,6 +1,7 @@
 // Краткая сводка персонажа для карточки в списке «Мои персонажи».
 
 import type { Content } from '@/shared/content';
+
 import { totalLevel } from './character';
 import { computeSheet } from './sheet';
 import type { Character, CharacterSummary } from './types';

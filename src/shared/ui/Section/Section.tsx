@@ -1,5 +1,7 @@
-import { colors } from '@/shared/config';
 import { View } from 'react-native';
+
+import { colors } from '@/shared/config';
+
 import { AppText } from '../AppText/AppText';
 import { styles } from './Section.styles';
 import type { SectionProps } from './Section.types';
@@ -16,7 +18,7 @@ export function Section({
   return (
     <View style={styles.section}>
       <View style={styles.sectionHead}>
-        <AppText variant="heading" style={{ flex: 1 }}>
+        <AppText variant="heading" style={styles.fill}>
           {title}
         </AppText>
         {need !== undefined ? (

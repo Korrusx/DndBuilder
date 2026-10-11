@@ -1,11 +1,13 @@
+import { Pressable, TextInput, View } from 'react-native';
+
 import { safeSheet } from '@/entities/character';
 import { draftIssues, useDraft, WizardScreen } from '@/features/create-character';
 import { usePdfExport } from '@/features/export-pdf';
-import { colors, fonts, spacing } from '@/shared/config';
+import { colors } from '@/shared/config';
 import { content, nameOf, tr } from '@/shared/content';
 import { AppText, Button, Chip, ChipRow, Section } from '@/shared/ui';
 import { SheetPreview } from '@/widgets/sheet-preview';
-import { Pressable, TextInput, View } from 'react-native';
+
 import { styles } from './CreateReviewPage.styles';
 
 export function CreateReviewPage() {
@@ -28,7 +30,7 @@ export function CreateReviewPage() {
       canContinue={blocking.length === 0}
       footer={
         <View style={styles.footer}>
-          <View style={{ flex: 1 }}>
+          <View style={styles.fill}>
             <Button
               title={pdf.busy ? 'PDF…' : 'PDF'}
               variant="secondary"
@@ -36,7 +38,7 @@ export function CreateReviewPage() {
               onPress={() => pdf.run(c)}
             />
           </View>
-          <View style={{ flex: 2 }}>
+          <View style={styles.fill2}>
             <Button title="Начать игру" disabled={blocking.length > 0} onPress={finish} />
           </View>
         </View>
@@ -46,7 +48,7 @@ export function CreateReviewPage() {
         <View style={styles.avatar}>
           <AppText style={styles.avatarLetter}>{(c.name.trim()[0] ?? '?').toUpperCase()}</AppText>
         </View>
-        <View style={{ flex: 1, gap: spacing.xs }}>
+        <View style={styles.heroText}>
           <TextInput
             value={c.name}
             onChangeText={(name) => update((d) => ({ ...d, name }))}
@@ -59,13 +61,13 @@ export function CreateReviewPage() {
       </View>
 
       {issues.length ? (
-        <View style={{ gap: spacing.sm }}>
+        <View style={styles.gapSm}>
           {issues.map((i) => (
             <View key={i.message} style={[styles.issue, !i.blocking && { backgroundColor: colors.infoBg }]}>
               <AppText style={{ flex: 1, color: i.blocking ? colors.damage : colors.info, fontSize: 14 }}>{i.message}</AppText>
               {i.step < 6 ? (
                 <Pressable accessibilityRole="button" onPress={() => goTo(i.step)} style={styles.fix}>
-                  <AppText style={{ color: colors.accent, fontFamily: fonts.textBold }}>Исправить</AppText>
+                  <AppText style={styles.linkLabel}>Исправить</AppText>
                 </Pressable>
               ) : null}
             </View>

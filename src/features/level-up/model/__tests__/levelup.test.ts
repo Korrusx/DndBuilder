@@ -1,14 +1,15 @@
 import type { Character } from '@/entities/character';
 import { computeSheet, irmaLevel1, setClass } from '@/entities/character';
 import { content } from '@/shared/content';
+
 import {
-    featAbilityRule,
-    finishLevelUp,
-    levelFeatOptions,
-    levelUpHpGain,
-    levelUpIssues,
-    levelUpPlan,
-    startLevelUp,
+  featAbilityRule,
+  finishLevelUp,
+  levelFeatOptions,
+  levelUpHpGain,
+  levelUpIssues,
+  levelUpPlan,
+  startLevelUp,
 } from '../levelup';
 
 const blocking = (next: Character, prev: Character) =>

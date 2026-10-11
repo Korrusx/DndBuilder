@@ -1,5 +1,6 @@
-import { colors, fonts, sizes, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   footer: { flexDirection: 'row', gap: spacing.sm },
@@ -34,4 +35,9 @@ export const styles = StyleSheet.create({
     minHeight: sizes.touchMin,
   },
   fix: { minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: spacing.md },
+  fill: { flex: 1 },
+  fill2: { flex: 2 },
+  heroText: { flex: 1, gap: spacing.xs },
+  gapSm: { gap: spacing.sm },
+  linkLabel: { color: colors.accent, fontFamily: fonts.textBold },
 });

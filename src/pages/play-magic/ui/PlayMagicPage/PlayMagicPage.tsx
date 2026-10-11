@@ -1,16 +1,25 @@
-import { adjustSlot, castSpell, choice1, CHOICE_KEYS, magicInitiateSlots, spellAttackBonus, spellSaveDC } from '@/entities/character';
+import { useState } from 'react';
+import { Alert, Pressable, View } from 'react-native';
+
+import {
+  adjustSlot,
+  castSpell,
+  choice1,
+  CHOICE_KEYS,
+  magicInitiateSlots,
+  spellAttackBonus,
+  spellSaveDC,
+} from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
 import type { D20Request } from '@/features/roll-dice';
 import { d20Parts, D20Sheet } from '@/features/roll-dice';
-import { colors, fonts } from '@/shared/config';
 import type { AbilityId, Spell } from '@/shared/content';
 import { abilityAbbr, byId, content, nameOf, plain, spellMeta, tr } from '@/shared/content';
 import { formatModifier } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
 import { AppText, Badge, Card, Dots, InfoSheet, Placeholder, Screen, SmallButton, StatBox } from '@/shared/ui';
-import { useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+
 import { styles } from './PlayMagicPage.styles';
 
 export function PlayMagicPage() {
@@ -68,13 +77,13 @@ export function PlayMagicPage() {
         onPress={() => setInfo({ title: tr(s.name).text, subtitle: spellMeta(s), text: [plain(s.description), plain(s.higherLevel)].filter(Boolean).join('\n\n') })}
         style={({ pressed }) => [styles.spell, pressed && { opacity: 0.85 }]}
       >
-        <View style={{ flex: 1, gap: 2 }}>
+        <View style={styles.fillGap2}>
           <View style={styles.row}>
-            <AppText style={{ fontFamily: fonts.textBold, flexShrink: 1 }}>{tr(s.name).text}</AppText>
+            <AppText style={styles.spellName}>{tr(s.name).text}</AppText>
             {s.concentration ? <Badge label="К" /> : null}
             {s.ritual ? <Badge label="Р" /> : null}
           </View>
-          <AppText variant="secondary" style={{ fontSize: 13 }} numberOfLines={2}>
+          <AppText variant="secondary" style={styles.size13} numberOfLines={2}>
             {spellMeta(s)}
           </AppText>
         </View>
@@ -103,7 +112,7 @@ export function PlayMagicPage() {
             {sc.slots.map((max, i) =>
               max > 0 ? (
                 <View key={i} style={styles.row}>
-                  <AppText style={{ width: 70 }}>{i + 1} круг</AppText>
+                  <AppText style={styles.width70}>{i + 1} круг</AppText>
                   <Dots
                     total={max}
                     filled={c.state.slotsSpent[i] ?? 0}
@@ -115,7 +124,7 @@ export function PlayMagicPage() {
           </Card>
 
           <SmallButton title="Изменить заклинания" onPress={() => setEditing(true)} />
-          {message ? <AppText style={{ color: colors.accent }}>{message}</AppText> : null}
+          {message ? <AppText style={styles.textAccent}>{message}</AppText> : null}
 
           {c.cantrips.length ? (
             <View style={styles.section}>

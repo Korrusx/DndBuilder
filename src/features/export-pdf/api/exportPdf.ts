@@ -6,6 +6,7 @@ import * as Sharing from 'expo-sharing';
 
 import type { Character } from '@/entities/character';
 import { content } from '@/shared/content';
+
 import { PDF_FONT_CSS } from '../config/fonts.generated';
 import { characterSheetHtml } from '../model/sheetHtml';
 

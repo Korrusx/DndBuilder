@@ -2,6 +2,7 @@ import { choice1, CHOICE_KEYS, equipmentChoice, equipmentPicks } from '@/entitie
 import { useDraft } from '@/features/create-character';
 import { content, equipmentOptionText, nameOf } from '@/shared/content';
 import { MultiPick, OptionCard, Section } from '@/shared/ui';
+
 import { LETTERS } from '../../config/constants';
 import type { EquipmentSectionProps } from './EquipmentSection.types';
 

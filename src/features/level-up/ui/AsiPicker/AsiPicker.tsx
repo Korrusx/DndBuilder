@@ -1,10 +1,12 @@
+import { useState } from 'react';
+import { View } from 'react-native';
+
 import { ABILITY_IDS } from '@/entities/character';
-import { spacing } from '@/shared/config';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr } from '@/shared/content';
 import { Chip, ChipRow, Segmented } from '@/shared/ui';
-import { useState } from 'react';
-import { View } from 'react-native';
+
+import { styles } from './AsiPicker.styles';
 import type { AsiPickerProps } from './AsiPicker.types';
 
 /** «Увеличение характеристик»: +2 к одной или +1 к двум, не выше 20. */
@@ -24,7 +26,7 @@ export function AsiPicker({
   };
 
   return (
-    <View style={{ gap: spacing.sm }}>
+    <View style={styles.gapSm}>
       <Segmented<'two' | 'split'>
         value={current}
         onChange={(m) => {

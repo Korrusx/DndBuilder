@@ -1,5 +1,6 @@
-import { colors, fonts, radius, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
+
+import { colors, fonts, radius, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   card: {
@@ -49,4 +50,6 @@ export const styles = StyleSheet.create({
   },
   acNumber: { fontFamily: fonts.displayBold, fontSize: 18, color: colors.text },
   draftRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  textInfo: { color: colors.info },
+  fill: { flex: 1 },
 });

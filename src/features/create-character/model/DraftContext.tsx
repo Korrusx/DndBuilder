@@ -1,6 +1,7 @@
 // Черновик персонажа, общий для всех шагов мастера создания.
 // Загружается из базы по id из адреса; если такого нет — это новый персонаж (в базу попадёт после шага 1).
 
+import type { DraftApi } from "./types";
 import { router, useGlobalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
@@ -9,8 +10,8 @@ import type { Character } from '@/entities/character';
 import { newDraftCharacter } from '@/entities/character';
 import { getCharacter, newId, saveCharacter } from '@/entities/character/api';
 import { content } from '@/shared/content';
+
 import { CREATE_STEPS } from '../config/steps';
-import type { DraftApi } from "./types";
 import { finishCharacter } from './validation';
 
 const DraftContext = createContext<DraftApi | null>(null);

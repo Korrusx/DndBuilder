@@ -2,6 +2,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { spacing } from '@/shared/config';
+
 import { AppText } from '../AppText/AppText';
 import { styles } from './BottomSheet.styles';
 import type { BottomSheetProps } from './BottomSheet.types';

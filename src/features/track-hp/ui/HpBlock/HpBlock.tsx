@@ -1,9 +1,11 @@
+import { useState } from 'react';
+import { Pressable, TextInput, View } from 'react-native';
+
 import { applyDamage, applyHealing, deathStatus, HP_COLORS, hpLevel, setTempHp } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { colors, fonts } from '@/shared/config';
 import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
-import { useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+
 import { styles } from './HpBlock.styles';
 import type { HpBlockProps } from './HpBlock.types';
 
@@ -19,7 +21,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
   return (
     <Card>
       <View style={styles.hpTop}>
-        <View style={{ flex: 1 }}>
+        <View style={styles.fill2}>
           <AppText variant="secondary">Хиты</AppText>
           <AppText style={[styles.hpValue, { color }]}>
             {currentHp}
@@ -29,7 +31,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
         {tempHp > 0 ? (
           <View style={styles.temp}>
             <AppText style={[styles.hpMax, { color: colors.info }]}>+{tempHp}</AppText>
-            <AppText style={{ fontSize: 12, color: colors.info }}>врем.</AppText>
+            <AppText style={styles.tempLabel}>врем.</AppText>
           </View>
         ) : null}
       </View>
@@ -72,13 +74,13 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
             {status === 'dead' ? 'Персонаж погиб' : status === 'stable' ? 'Стабилен (без сознания)' : 'При смерти — спасброски от смерти'}
           </AppText>
           <View style={styles.row}>
-            <AppText variant="secondary" style={{ width: 72 }}>
+            <AppText variant="secondary" style={styles.width72}>
               Успехи
             </AppText>
             <Dots total={3} filled={c.state.deathSaves.successes} color={colors.heal} />
           </View>
           <View style={styles.row}>
-            <AppText variant="secondary" style={{ width: 72 }}>
+            <AppText variant="secondary" style={styles.width72}>
               Провалы
             </AppText>
             <Dots total={3} filled={c.state.deathSaves.failures} color={colors.damage} />

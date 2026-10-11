@@ -1,8 +1,10 @@
+import { View } from 'react-native';
+
 import { spellLimits, spellOptions } from '@/entities/character';
-import { spacing } from '@/shared/config';
 import { content, spellName } from '@/shared/content';
 import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
-import { View } from 'react-native';
+
+import { styles } from './SpellsEditSheet.styles';
 import type { SpellsEditSheetProps } from './SpellsEditSheet.types';
 
 export function SpellsEditSheet({
@@ -33,13 +35,13 @@ export function SpellsEditSheet({
         </Section>
       ) : null}
       <Section title="Подготовленные" picked={c.preparedSpells.length} need={limits.prepared}>
-        <View style={{ gap: spacing.md }}>
+        <View style={styles.gapMd}>
           {circles.map((circle) => {
             const options = spellOptions(limits.classId, circle, content);
             const inCircle = c.preparedSpells.filter((id) => options.includes(id));
             const others = c.preparedSpells.length - inCircle.length;
             return (
-              <View key={circle} style={{ gap: spacing.sm }}>
+              <View key={circle} style={styles.gapSm}>
                 <AppText variant="secondary">{circle} круг</AppText>
                 <MultiPick
                   options={options}

@@ -1,4 +1,18 @@
-import { ABILITY_IDS, characterResources, deathSave, EXHAUSTION_MAX, featureInfo, longRest, setExhaustion, speedWithExhaustion, toggleCondition } from '@/entities/character';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, Pressable, View } from 'react-native';
+
+import {
+  ABILITY_IDS,
+  characterResources,
+  deathSave,
+  EXHAUSTION_MAX,
+  featureInfo,
+  longRest,
+  setExhaustion,
+  speedWithExhaustion,
+  toggleCondition,
+} from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { MAX_LEVEL } from '@/features/level-up';
 import { ShortRestSheet } from '@/features/rest';
@@ -11,9 +25,7 @@ import { abilityAbbr, byId, content, nameOf, plain, tr } from '@/shared/content'
 import { formatModifier, rollD20 } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
 import { AppText, BottomSheet, Card, Chip, ChipRow, InfoSheet, Screen, SmallButton, StatBox } from '@/shared/ui';
-import { router } from 'expo-router';
-import { useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+
 import { styles } from './PlaySheetPage.styles';
 
 export function PlaySheetPage() {
@@ -61,7 +73,7 @@ export function PlaySheetPage() {
   return (
     <Screen>
       <View style={styles.headerRow}>
-        <AppText variant="secondary" style={{ flex: 1 }}>
+        <AppText variant="secondary" style={styles.fill}>
           {subtitle}
         </AppText>
         <Chip
@@ -124,7 +136,7 @@ export function PlaySheetPage() {
           <Chip label="+ Состояние" onPress={() => setPickCondition(true)} />
         </ChipRow>
         <View style={styles.exhaustion}>
-          <AppText style={{ flex: 1 }}>
+          <AppText style={styles.fill}>
             Истощение: {ex} / {EXHAUSTION_MAX}
             {ex ? <AppText variant="secondary">{`  (к20 ${formatModifier(-2 * ex)}, скорость −${5 * ex} фт)`}</AppText> : null}
           </AppText>

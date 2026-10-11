@@ -37,20 +37,40 @@
 Проверять приложение я буду на своём телефоне через Expo Go. Не добавляй зависимостей, которые
 требуют нативной сборки, без предупреждения.
 
-## Структура проекта
+## Структура проекта (Feature-Sliced Design)
+
+Слои снизу вверх: `shared → entities → features → widgets → pages → app`.
+Слой импортирует только из слоёв ниже; слайсы одного слоя друг друга не импортируют; снаружи к слайсу
+обращаются только через его публичный API (`index.ts`). Правила проверяет тест `src/architecture.test.ts`.
 
 ```
-/app                — экраны (expo-router)
-/src/rules          — чистые функции расчётов (без React, без БД), покрыты тестами
-/src/content        — типы справочника и доступ к нему
-/src/db             — работа с пользовательской базой, миграции
-/src/components     — переиспользуемые UI-компоненты
-/src/theme          — цвета, шрифты, отступы
+/app                — слой app: маршруты expo-router (тонкие файлы, подключают страницы из pages) и корневые провайдеры
+/src/shared         — общее без бизнес-логики:
+    config/           тема (цвета, шрифты, отступы)
+    content/          справочник: типы, доступ (content, byId, tr), названия, константы (монеты, размеры)
+    db/               пользовательская база: подключение, миграции, служебные значения
+    lib/<имя>/        утилиты (кости, даты, поиск по id)
+    ui/<Компонент>/   UI-кит: AppText, Button, Chip, Section, BottomSheet…
+/src/entities/character — персонаж:
+    model/            правила D&D — чистые функции (без React, без БД), покрыты тестами; model/types.ts — типы
+    config/           константы и таблицы (CHOICE_KEYS, EFFECTS…)
+    lib/              хелперы (названия умений, образец «Ирма»)
+    api/              работа с базой, хук списка персонажей  → публичный API '@/entities/character/api'
+    ui/               карточка персонажа, провайдер режима игры → публичный API '@/entities/character/ui'
+/src/features       — действия пользователя: create-character, level-up, roll-dice, track-hp, rest, track-resources,
+                      add-item, edit-spells, export-pdf, transfer-characters
+/src/widgets        — составные блоки: play-tabs (вкладки режима игры), sheet-preview
+/src/pages          — экраны: characters, create-*, play-*, level-up, about
 /data-pipeline      — скрипты подготовки справочника (Node.js, запускаются на компьютере)
 /data-pipeline/translations — файлы перевода
 /assets/content     — готовый справочник, который попадает в приложение
 /design             — экспортированные макеты экранов (картинки), ориентир для UI
 ```
+
+Внутри слайса — сегменты `ui/`, `model/`, `lib/`, `api/`, `config/`. Каждый компонент — в своей папке:
+`Имя.tsx` (только компонент), `Имя.styles.ts` (StyleSheet), `Имя.types.ts` (типы пропсов).
+Типы — в `model/types.ts`, константы — в `config/`, а не в файлах с логикой или компонентами.
+Папку `src/app` не создавать: expo-router тогда возьмёт маршруты из неё вместо корневой `app/`.
 
 ## Справочник (контент)
 
@@ -102,7 +122,7 @@ equipment-categories, weapon-properties, weapon-mastery-properties, magic-school
 
 Миграции базы с самого начала (версия схемы).
 
-## Логика правил (src/rules)
+## Логика правил (src/entities/character/model)
 
 Чистые функции, всё на тестах. Базовое:
 - модификатор = floor((значение − 10) / 2)
@@ -178,7 +198,7 @@ equipment-categories, weapon-properties, weapon-mastery-properties, magic-school
 
 1. Каркас: Expo + TypeScript, тема, шрифты, навигация, пустые экраны.
 2. Конвейер данных: fetch + build + формат перевода; пока с английскими текстами.
-3. src/rules с тестами на примере Ирмы.
+3. Логика правил (src/entities/character/model) с тестами на примере Ирмы.
 4. Пользовательская база и экран «Мои персонажи».
 5. Мастер создания (6 шагов) и экран «Персонаж готов».
 6. Режим игры, броски, заклинания, отдых.

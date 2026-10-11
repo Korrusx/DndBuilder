@@ -1,6 +1,7 @@
 // Служебные значения пользовательской базы (ключ — значение).
 
 import type { SQLiteDatabase } from 'expo-sqlite';
+
 import type { MetaKey } from './types';
 
 export async function getMeta(db: SQLiteDatabase, key: MetaKey): Promise<string | null> {

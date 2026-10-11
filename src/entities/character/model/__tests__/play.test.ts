@@ -1,20 +1,21 @@
 import { content } from '@/shared/content';
+
 import { emptyGameState } from '../character';
 import {
-    addToInventory,
-    adjustSlot,
-    castSpell,
-    deathSave,
-    deathStatus,
-    exhaustionPenalty,
-    finishShortRest,
-    lowestFreeSlot,
-    rollDamage,
-    setExhaustion,
-    speedWithExhaustion,
-    toggleCondition,
-    toggleEquipped,
-    unarmedStrike,
+  addToInventory,
+  adjustSlot,
+  castSpell,
+  deathSave,
+  deathStatus,
+  exhaustionPenalty,
+  finishShortRest,
+  lowestFreeSlot,
+  rollDamage,
+  setExhaustion,
+  speedWithExhaustion,
+  toggleCondition,
+  toggleEquipped,
+  unarmedStrike,
 } from '../play';
 import { applyDamage } from '../rest';
 import type { GameState } from '../types';
