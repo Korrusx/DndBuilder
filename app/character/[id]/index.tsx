@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 
@@ -21,6 +22,7 @@ import {
   speedWithExhaustion,
   toggleCondition,
 } from '@/rules/play';
+import { MAX_LEVEL } from '@/rules/levelup';
 import { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from '@/rules/rest';
 import type { CharacterSheet, SourcedId } from '@/rules/sheet';
 import { hpLevel } from '@/rules/summary';
@@ -165,6 +167,14 @@ export default function SheetTab() {
           ))}
         </ChipRow>
       </Card>
+
+      {c.classes[0].level < MAX_LEVEL ? (
+        <SmallButton
+          title={`Повысить уровень (${c.classes[0].level} → ${c.classes[0].level + 1})`}
+          tone="accent"
+          onPress={() => router.navigate({ pathname: '/character/[id]/level-up', params: { id: c.id } })}
+        />
+      ) : null}
 
       <View style={styles.row}>
         <SmallButton title="Короткий отдых" flex={1} onPress={() => setShortRest(true)} />

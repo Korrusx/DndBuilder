@@ -12,3 +12,4 @@ export * from './summary';
 export * from './choices';
 export * from './creation';
 export * from './play';
+export * from './levelup';

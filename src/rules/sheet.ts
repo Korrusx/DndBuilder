@@ -1,7 +1,7 @@
 // Сборка всех производных чисел персонажа из его выборов и справочника.
 
 import type { AbilityId, CharacterClass, Content, Equipment } from '@/content/types';
-import { abilityModifier, applyIncreases, modifiers, proficiencyBonus } from './abilities';
+import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';
 import { ABILITY_IDS, totalLevel, type AbilityScores, type Character } from './character';
 import { passiveScore, savingThrow, skillBonus } from './checks';
 import { CHOICE_KEYS, chosenProficiencyIds, featureOptionProficiencies } from './choices';
@@ -67,7 +67,8 @@ function need<T>(map: Map<string, T>, id: string, what: string): T {
 }
 
 export function finalAbilityScores(c: Character): AbilityScores {
-  return applyIncreases(c.baseAbilities, c.backgroundBonuses, ...c.feats.map((f) => f.abilityIncreases ?? {}));
+  const withBackground = applyIncreases(c.baseAbilities, c.backgroundBonuses);
+  return c.feats.reduce((scores, f) => addIncrease(scores, f.abilityIncreases ?? {}, f.abilityCap), withBackground);
 }
 
 /** id всех владений персонажа: класс, предыстория, выборы мастера, варианты умений. */

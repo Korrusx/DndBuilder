@@ -21,12 +21,16 @@ export function modifiers(scores: AbilityScores): AbilityScores {
 
 /** Складывает базовые значения и все прибавки, не поднимая выше 20. */
 export function applyIncreases(base: AbilityScores, ...increases: Partial<AbilityScores>[]): AbilityScores {
-  const out = { ...base };
-  for (const inc of increases) {
-    for (const id of ABILITY_IDS) {
-      const add = inc[id] ?? 0;
-      if (add) out[id] = Math.min(ABILITY_MAX, out[id] + add);
-    }
+  return increases.reduce<AbilityScores>((out, inc) => addIncrease(out, inc), { ...base });
+}
+
+/** Одна прибавка к характеристикам с пределом (обычно 20; эпические дары — 30). */
+export function addIncrease(scores: AbilityScores, inc: Partial<AbilityScores>, cap = ABILITY_MAX): AbilityScores {
+  const out = { ...scores };
+  for (const id of ABILITY_IDS) {
+    const add = inc[id] ?? 0;
+    // Прибавка не снижает значение, уже превышающее предел.
+    if (add) out[id] = Math.max(out[id], Math.min(cap, out[id] + add));
   }
   return out;
 }

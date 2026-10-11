@@ -75,6 +75,25 @@ function PlayTabs() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="level-up"
+        options={{
+          href: null,
+          title: 'Новый уровень',
+          tabBarStyle: { display: 'none' },
+          headerRight: () => null,
+          headerLeft: () => (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Отмена"
+              onPress={() => router.navigate({ pathname: '/character/[id]', params: { id: character.id } })}
+              style={{ minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: 16 }}
+            >
+              <AppText style={{ color: colors.accent, fontFamily: fonts.textBold }}>Отмена</AppText>
+            </Pressable>
+          ),
+        }}
+      />
     </Tabs>
   );
 }

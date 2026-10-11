@@ -88,6 +88,9 @@ export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
 /** Умения, которые дают черту определённого типа (воин: «Боевой стиль»). */
 export const FEAT_FEATURES: Record<string, 'fighting-style'> = {
   'fighter-fighting-style': 'fighting-style',
+  'paladin-fighting-style': 'fighting-style',
+  'ranger-fighting-style': 'fighting-style',
+  'champion-additional-fighting-style': 'fighting-style',
 };
 
 /** Владения от выбранных вариантов умений. */
