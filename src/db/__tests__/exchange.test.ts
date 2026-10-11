@@ -33,6 +33,16 @@ describe('файл обмена персонажами', () => {
     expect(c.state.resourcesSpent).toEqual({});
   });
 
+  test('метка BOM и пробелы по краям не мешают', () => {
+    const text = '\uFEFF  ' + JSON.stringify(buildExchange([irmaLevel1()], NOW, 'x')) + '\n';
+    expect(parse(text).characters).toHaveLength(1);
+  });
+
+  test('в ошибке видно, что прочитано', () => {
+    expect(() => parse('%PDF-1.4 бинарные данные')).toThrow('Начало: «%PDF-1.4 бинарные данные»');
+    expect(() => parse('')).toThrow('Файл пустой.');
+  });
+
   test('чужие и повреждённые файлы отклоняются понятной ошибкой', () => {
     expect(() => parse('не json')).toThrow(ImportError);
     expect(() => parse({ hello: 1 })).toThrow('не файл персонажей нашего приложения');

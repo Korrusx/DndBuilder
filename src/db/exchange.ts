@@ -83,17 +83,26 @@ function unknownRefs(c: Character, content: Content): string[] {
   ];
 }
 
+/** Для сообщения об ошибке: размер и начало прочитанного, без управляющих символов. */
+export function describeStart(text: string): string {
+  if (!text) return 'Файл пустой.';
+  const start = text.slice(0, 60).replace(/[\u0000-\u001f\u007f-\u009f\ufffd]/g, '·');
+  return `Прочитано символов: ${text.length}. Начало: «${start}${text.length > 60 ? '…' : ''}»`;
+}
+
 /**
  * Читает файл обмена. Каждый персонаж получает новый id (существующие не затираются).
  * Персонажи, которых нельзя открыть (неизвестный класс, вид или предыстория), пропускаются с предупреждением.
  */
 export function parseExchange(text: string, content: Content, makeId: () => string, now: string): ImportResult {
   if (text.length > EXCHANGE_MAX_BYTES) throw new ImportError('Файл слишком большой — это не файл персонажей.');
+  // Невидимая метка порядка байтов (BOM) и пробелы по краям появляются, если файл пересохранили другим приложением.
+  const body = text.replace(/^\uFEFF/, '').trim();
   let data: unknown;
   try {
-    data = JSON.parse(text);
+    data = JSON.parse(body);
   } catch {
-    throw new ImportError('Это не файл персонажей: не удаётся прочитать содержимое.');
+    throw new ImportError(`Это не файл персонажей: не удаётся прочитать содержимое.\n\n${describeStart(body)}`);
   }
   if (!isObject(data) || data.format !== EXCHANGE_FORMAT) {
     throw new ImportError('Это не файл персонажей нашего приложения. Выберите файл с расширением .dnd.json.');
