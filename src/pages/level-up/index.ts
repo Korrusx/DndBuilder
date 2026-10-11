@@ -1,1 +1,1 @@
-export { LevelUpPage } from './ui/LevelUpPage';
+export { LevelUpPage } from './ui/LevelUpPage/LevelUpPage';

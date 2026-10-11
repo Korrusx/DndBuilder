@@ -1,1 +1,1 @@
-export { PlayMagicPage } from './ui/PlayMagicPage';
+export { PlayMagicPage } from './ui/PlayMagicPage/PlayMagicPage';

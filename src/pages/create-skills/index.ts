@@ -1,1 +1,1 @@
-export { CreateSkillsPage } from './ui/CreateSkillsPage';
+export { CreateSkillsPage } from './ui/CreateSkillsPage/CreateSkillsPage';

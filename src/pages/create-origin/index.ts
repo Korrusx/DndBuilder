@@ -1,1 +1,1 @@
-export { CreateOriginPage } from './ui/CreateOriginPage';
+export { CreateOriginPage } from './ui/CreateOriginPage/CreateOriginPage';

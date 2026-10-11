@@ -1,1 +1,1 @@
-export { CreateClassPage } from './ui/CreateClassPage';
+export { CreateClassPage } from './ui/CreateClassPage/CreateClassPage';

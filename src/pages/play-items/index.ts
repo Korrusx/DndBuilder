@@ -1,1 +1,1 @@
-export { PlayItemsPage } from './ui/PlayItemsPage';
+export { PlayItemsPage } from './ui/PlayItemsPage/PlayItemsPage';
