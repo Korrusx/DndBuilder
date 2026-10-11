@@ -1,4 +1,4 @@
-import { AppText } from '@/shared/ui/AppText/AppText';
+import { AppText } from '@/shared/ui';
 import { Pressable } from 'react-native';
 import { styles } from './StepButton.styles';
 

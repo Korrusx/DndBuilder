@@ -1,9 +1,7 @@
 // Названия и описания умений персонажа: класс, подкласс, особенности вида, черты.
 
-import { byId } from '@/shared/content/content';
-import { nameOf } from '@/shared/content/names';
-import { plain } from '@/shared/content/plain';
-import type { InfoContent } from '@/shared/ui/InfoSheet/InfoSheet.types';
+import { byId, nameOf, plain } from '@/shared/content';
+import type { InfoContent } from '@/shared/ui';
 import { FEATURE_SOURCE_LABEL } from '../config/featureSource';
 import type { SourcedId } from '../model/types';
 

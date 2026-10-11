@@ -1,9 +1,7 @@
-import { CUSTOM_ITEM_PREFIX } from '@/entities/character/config/constants';
-import type { InventoryItem } from '@/entities/character/model/types';
-import { colors, spacing } from '@/shared/config/theme';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
-import { Segmented } from '@/shared/ui/Segmented/Segmented';
+import type { InventoryItem } from '@/entities/character';
+import { CUSTOM_ITEM_PREFIX } from '@/entities/character';
+import { colors, spacing } from '@/shared/config';
+import { AppText, BottomSheet, Segmented } from '@/shared/ui';
 import { useMemo, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { MAX_RESULTS } from '../../config/constants';

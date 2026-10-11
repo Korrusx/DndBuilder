@@ -1,12 +1,7 @@
-import { magicInitiateSlots, spellLimits, spellOptions } from '@/entities/character/model/build';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { draftIssues } from '@/features/create-character/model/validation';
-import { StepStatus } from '@/features/create-character/ui/StepStatus/StepStatus';
-import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
-import { content } from '@/shared/content/content';
-import { nameOf, spellName } from '@/shared/content/names';
-import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
-import { Section } from '@/shared/ui/Section/Section';
+import { magicInitiateSlots, spellLimits, spellOptions } from '@/entities/character';
+import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
+import { content, nameOf, spellName } from '@/shared/content';
+import { MultiPick, Section } from '@/shared/ui';
 import { applyKit } from '../../lib/applyKit';
 import { EquipmentSection } from '../EquipmentSection/EquipmentSection';
 import { MagicInitiate } from '../MagicInitiate/MagicInitiate';

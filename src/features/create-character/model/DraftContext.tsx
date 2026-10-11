@@ -5,10 +5,10 @@ import { router, useGlobalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
-import { getCharacter, newId, saveCharacter } from '@/entities/character/api/characters';
-import { newDraftCharacter } from '@/entities/character/model/character';
-import type { Character } from '@/entities/character/model/types';
-import { content } from '@/shared/content/content';
+import type { Character } from '@/entities/character';
+import { newDraftCharacter } from '@/entities/character';
+import { getCharacter, newId, saveCharacter } from '@/entities/character/api';
+import { content } from '@/shared/content';
 import { CREATE_STEPS } from '../config/steps';
 import type { DraftApi } from "./types";
 import { finishCharacter } from './validation';

@@ -1,5 +1,5 @@
-import { colors } from '@/shared/config/theme';
-import { tr } from '@/shared/content/content';
+import { colors } from '@/shared/config';
+import { tr } from '@/shared/content';
 import { AppText } from '../AppText/AppText';
 import type { LTextProps } from './LText.types';
 

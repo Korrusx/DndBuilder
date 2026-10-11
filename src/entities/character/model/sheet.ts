@@ -1,6 +1,6 @@
 // Сборка всех производных чисел персонажа из его выборов и справочника.
 
-import type { Content, Equipment } from '@/shared/content/types';
+import type { Content, Equipment } from '@/shared/content';
 import { ABILITY_IDS, CHOICE_KEYS } from '../config/constants';
 import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';
 import { totalLevel } from './character';

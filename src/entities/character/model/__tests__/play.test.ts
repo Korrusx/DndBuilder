@@ -1,4 +1,4 @@
-import { content } from '@/shared/content/content';
+import { content } from '@/shared/content';
 import { emptyGameState } from '../character';
 import {
     addToInventory,

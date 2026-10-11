@@ -1,5 +1,5 @@
-import { ABILITY_IDS } from '@/entities/character/config/constants';
-import type { AbilityId } from '@/shared/content/types';
+import { ABILITY_IDS } from '@/entities/character';
+import type { AbilityId } from '@/shared/content';
 
 export const MAX_LEVEL = 20;
 

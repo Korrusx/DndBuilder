@@ -1,6 +1,6 @@
-import { startingKit } from '@/entities/character/model/build';
-import type { Character } from '@/entities/character/model/types';
-import { content } from '@/shared/content/content';
+import type { Character } from '@/entities/character';
+import { startingKit } from '@/entities/character';
+import { content } from '@/shared/content';
 
 /** Записывает выбранные наборы в инвентарь и кошелёк. */
 export function applyKit(c: Character): Character {

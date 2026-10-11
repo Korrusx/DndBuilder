@@ -1,4 +1,4 @@
-import { AppText } from '@/shared/ui/AppText/AppText';
+import { AppText } from '@/shared/ui';
 import { View } from 'react-native';
 import { styles } from './Die.styles';
 

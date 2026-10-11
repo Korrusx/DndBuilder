@@ -1,6 +1,6 @@
 import { Pressable, Text } from 'react-native';
 
-import { colors } from '@/shared/config/theme';
+import { colors } from '@/shared/config';
 import { styles } from './Button.styles';
 import type { ButtonProps } from './Button.types';
 

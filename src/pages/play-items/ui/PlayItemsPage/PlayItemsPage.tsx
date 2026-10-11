@@ -1,13 +1,8 @@
-import { usePlay } from '@/entities/character/model/CharacterContext';
-import { addToInventory, toggleEquipped } from '@/entities/character/model/play';
-import { AddItemSheet } from '@/features/add-item/ui/AddItemSheet/AddItemSheet';
-import { COIN_ABBR, COIN_NAMES, COIN_ORDER } from '@/shared/content/constants';
-import { byId, content } from '@/shared/content/content';
-import { itemName, nameOf } from '@/shared/content/names';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Card } from '@/shared/ui/Card/Card';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
+import { addToInventory, toggleEquipped } from '@/entities/character';
+import { usePlay } from '@/entities/character/ui';
+import { AddItemSheet } from '@/features/add-item';
+import { byId, COIN_ABBR, COIN_NAMES, COIN_ORDER, content, itemName, nameOf } from '@/shared/content';
+import { AppText, Card, Screen, SmallButton } from '@/shared/ui';
 import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { styles } from './PlayItemsPage.styles';

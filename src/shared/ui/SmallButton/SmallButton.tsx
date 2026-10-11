@@ -1,4 +1,4 @@
-import { colors } from '@/shared/config/theme';
+import { colors } from '@/shared/config';
 import { Pressable } from 'react-native';
 import { AppText } from '../AppText/AppText';
 import { styles } from './SmallButton.styles';

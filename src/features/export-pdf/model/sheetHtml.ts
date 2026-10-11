@@ -1,26 +1,20 @@
-import { featureName } from '@/entities/character/lib/features';
+import { featureName } from '@/entities/character';
 // Лист персонажа для печати: HTML двух страниц A4. Без React — только данные справочника и расчёты из src/rules.
 // Стр. 1 — персонаж (характеристики и навыки, бой, хиты, атаки, ресурсы, умения, владения),
 // стр. 2 — заклинания, внешность и характер, снаряжение, настройка, монеты.
 // Бланк чёрный с бордовым акцентом, данные тёмно-синие. Текущие и временные хиты пустые — для карандаша.
 
-import { ABILITY_IDS, CHOICE_KEYS } from '@/entities/character/config/constants';
-import { magicInitiateSlots } from '@/entities/character/model/build';
-import { characterResources } from '@/entities/character/model/resources';
-import { computeSheet } from '@/entities/character/model/sheet';
-import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
-import { COIN_ABBR, COIN_ORDER, SIZE_NAMES } from '@/shared/content/constants';
-import { byId, tr } from '@/shared/content/content';
+import type { Character, CharacterSheet, SourcedId } from '@/entities/character';
+import { ABILITY_IDS, characterResources, CHOICE_KEYS, computeSheet, magicInitiateSlots } from '@/entities/character';
+import type { AbilityId, Content } from '@/shared/content';
 import {
     abilityAbbr,
-    abilityName,
-    groupSkillsByAbility,
+    abilityName, byId, COIN_ABBR, COIN_ORDER, groupSkillsByAbility,
     itemName,
     nameOf,
-    proficiencyName,
-} from '@/shared/content/names';
-import type { AbilityId, Content } from '@/shared/content/types';
-import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
+    proficiencyName, SIZE_NAMES, tr
+} from '@/shared/content';
+import { formatDamage, formatModifier } from '@/shared/lib/dice';
 import { SLOT_FORM } from '../config/constants';
 import { SHEET_CSS } from '../config/sheetCss';
 import type { SheetSpell } from './types';

@@ -1,4 +1,4 @@
-import type { ResourceRecovery } from '@/entities/character/model/types';
+import type { ResourceRecovery } from '@/entities/character';
 
 /** Больше стольких использований — показываем счётчик вместо кружков. */
 export const MAX_DOTS = 10;

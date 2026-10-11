@@ -1,7 +1,7 @@
-import { usePlay } from '@/entities/character/model/CharacterContext';
-import { usePdfExport } from '@/features/export-pdf/model/usePdfExport';
-import { colors, fonts, sizes } from '@/shared/config/theme';
-import { AppText } from '@/shared/ui/AppText/AppText';
+import { usePlay } from '@/entities/character/ui';
+import { usePdfExport } from '@/features/export-pdf';
+import { colors, fonts, sizes } from '@/shared/config';
+import { AppText } from '@/shared/ui';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
 import { ActivityIndicator, Pressable, View } from 'react-native';

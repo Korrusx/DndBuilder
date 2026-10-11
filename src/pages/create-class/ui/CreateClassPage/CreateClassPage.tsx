@@ -1,11 +1,8 @@
-import { setClass } from '@/entities/character/model/build';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
-import { colors } from '@/shared/config/theme';
-import { content } from '@/shared/content/content';
-import { abilityAbbr, nameOf } from '@/shared/content/names';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { OptionCard } from '@/shared/ui/OptionCard/OptionCard';
+import { setClass } from '@/entities/character';
+import { useDraft, WizardScreen } from '@/features/create-character';
+import { colors } from '@/shared/config';
+import { abilityAbbr, content, nameOf } from '@/shared/content';
+import { AppText, OptionCard } from '@/shared/ui';
 import { View } from 'react-native';
 import { styles } from './CreateClassPage.styles';
 

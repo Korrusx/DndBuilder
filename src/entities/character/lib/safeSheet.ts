@@ -1,4 +1,4 @@
-import { content } from '@/shared/content/content';
+import { content } from '@/shared/content';
 import { computeSheet } from '../model/sheet';
 import type { Character, CharacterSheet } from '../model/types';
 

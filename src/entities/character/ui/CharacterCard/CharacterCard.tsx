@@ -1,10 +1,9 @@
 import { Pressable, View } from 'react-native';
 
-import { CREATE_STEPS } from '@/features/create-character/config/steps';
-import { colors } from '@/shared/config/theme';
-import { content, tr } from '@/shared/content/content';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Button } from '@/shared/ui/Button/Button';
+import { CREATE_STEPS } from '@/features/create-character';
+import { colors } from '@/shared/config';
+import { content, tr } from '@/shared/content';
+import { AppText, Button } from '@/shared/ui';
 import { HP_COLORS } from '../../config/hpColors';
 import { characterSummary, hpLevel } from '../../model/summary';
 import { styles } from './CharacterCard.styles';

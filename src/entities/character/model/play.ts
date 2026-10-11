@@ -1,7 +1,7 @@
 // Режим игры: спасброски от смерти, истощение, ячейки, сотворение заклинаний, броски урона, вещи.
 
-import type { Content } from '@/shared/content/types';
-import { parseDice, rollDie } from '@/shared/lib/dice/dice';
+import type { Content } from '@/shared/content';
+import { parseDice, rollDie } from '@/shared/lib/dice';
 import { CUSTOM_ITEM_PREFIX, EXHAUSTION_MAX } from '../config/constants';
 import type { DamageRoll, DeathStatus, GameState, InventoryItem } from './types';
 

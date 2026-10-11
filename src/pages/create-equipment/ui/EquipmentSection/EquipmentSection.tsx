@@ -1,13 +1,8 @@
-import { CHOICE_KEYS } from '@/entities/character/config/constants';
-import { equipmentChoice, equipmentPicks } from '@/entities/character/model/build';
-import { choice1 } from '@/entities/character/model/choices';
-import type { EquipmentSource } from '@/entities/character/model/types';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { content } from '@/shared/content/content';
-import { equipmentOptionText, nameOf } from '@/shared/content/names';
-import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
-import { OptionCard } from '@/shared/ui/OptionCard/OptionCard';
-import { Section } from '@/shared/ui/Section/Section';
+import type { EquipmentSource } from '@/entities/character';
+import { choice1, CHOICE_KEYS, equipmentChoice, equipmentPicks } from '@/entities/character';
+import { useDraft } from '@/features/create-character';
+import { content, equipmentOptionText, nameOf } from '@/shared/content';
+import { MultiPick, OptionCard, Section } from '@/shared/ui';
 import { LETTERS } from '../../config/constants';
 
 export function EquipmentSection({ source, title }: { source: EquipmentSource; title: string }) {

@@ -1,11 +1,9 @@
 // Файл обмена персонажами: экспорт (резервная копия, передача другу) и проверка файла при импорте.
 // В файле — те же данные, что в базе: выборы игрока и состояние игры; все числа пересчитываются из справочника.
 
-import { withDefaults } from '@/entities/character/api/serialize';
-import { ABILITY_IDS } from '@/entities/character/config/constants';
-import { computeSheet } from '@/entities/character/model/sheet';
-import type { Character } from '@/entities/character/model/types';
-import type { Content } from '@/shared/content/types';
+import type { Character } from '@/entities/character';
+import { ABILITY_IDS, computeSheet, withDefaults } from '@/entities/character';
+import type { Content } from '@/shared/content';
 import { EXCHANGE_FORMAT, EXCHANGE_MAX_BYTES, EXCHANGE_VERSION } from '../config/constants';
 import type { ExchangeFile, ImportResult } from './types';
 

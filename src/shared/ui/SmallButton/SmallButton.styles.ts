@@ -1,4 +1,4 @@
-import { fonts, sizes, spacing } from '@/shared/config/theme';
+import { fonts, sizes, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({

@@ -1,4 +1,4 @@
-import type { Character } from "@/entities/character/model/types";
+import type { Character } from "@/entities/character";
 
 // ---------- Проверка ----------
 

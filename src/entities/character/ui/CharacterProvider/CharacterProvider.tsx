@@ -5,12 +5,11 @@ import { useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { content } from '@/shared/content/content';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Screen } from '@/shared/ui/Screen/Screen';
-import { getCharacter, saveCharacter } from '../api/characters';
-import { computeSheet } from './sheet';
-import type { Character, GameState, PlayApi } from './types';
+import { content } from '@/shared/content';
+import { AppText, Screen } from '@/shared/ui';
+import { getCharacter, saveCharacter } from '../../api/characters';
+import { computeSheet } from '../../model/sheet';
+import type { Character, GameState, PlayApi } from '../../model/types';
 
 const PlayContext = createContext<PlayApi | null>(null);
 

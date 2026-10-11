@@ -1,10 +1,7 @@
-import { colors } from '@/shared/config/theme';
-import { formatModifier, rollD20 } from '@/shared/lib/dice/dice';
-import type { D20Mode, D20Roll } from '@/shared/lib/dice/types';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
-import { Button } from '@/shared/ui/Button/Button';
-import { Segmented } from '@/shared/ui/Segmented/Segmented';
+import { colors } from '@/shared/config';
+import type { D20Mode, D20Roll } from '@/shared/lib/dice';
+import { formatModifier, rollD20 } from '@/shared/lib/dice';
+import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import type { D20Request } from '../../model/types';

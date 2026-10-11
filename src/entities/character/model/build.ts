@@ -2,7 +2,7 @@ import { findById } from '@/shared/lib/collections';
 // Мастер создания персонажа 1-го уровня: какие выборы нужно сделать, что из них следует,
 // и чего не хватает, чтобы персонаж был готов. Чистые функции, без React и базы.
 
-import type { AbilityId, Choice, ChoiceOption, Coin, Content } from '@/shared/content/types';
+import type { AbilityId, Choice, ChoiceOption, Coin, Content } from '@/shared/content';
 import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_OPTIONS } from '../config/constants';
 import {
     choice1

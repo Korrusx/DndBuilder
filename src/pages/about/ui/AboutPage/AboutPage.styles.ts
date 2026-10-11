@@ -1,4 +1,4 @@
-import { colors, radius, spacing } from '@/shared/config/theme';
+import { colors, radius, spacing } from '@/shared/config';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({

@@ -1,10 +1,7 @@
-import { rollDamage } from '@/entities/character/model/play';
-import type { DamageRoll } from '@/entities/character/model/types';
-import { formatDice, formatModifier } from '@/shared/lib/dice/dice';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
-import { Button } from '@/shared/ui/Button/Button';
-import { Segmented } from '@/shared/ui/Segmented/Segmented';
+import type { DamageRoll } from '@/entities/character';
+import { rollDamage } from '@/entities/character';
+import { formatDice, formatModifier } from '@/shared/lib/dice';
+import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import type { DamageRequest } from '../../model/types';

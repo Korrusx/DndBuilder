@@ -1,11 +1,9 @@
 // Повышение уровня (один класс): что появляется на новом уровне, какие выборы нужно сделать,
 // чего не хватает и сколько хитов прибавится. Чистые функции, без React и базы.
 
-import { FEAT_FEATURES } from '@/entities/character/config/constants';
-import { choiceOptionIds, proficientSkills, spellLimits, weaponMasteryCount } from '@/entities/character/model/build';
-import { computeSheet, finalAbilityScores, originFeatIds } from '@/entities/character/model/sheet';
-import type { Character, FeatChoice } from '@/entities/character/model/types';
-import type { AbilityId, Content } from '@/shared/content/types';
+import type { Character, FeatChoice } from '@/entities/character';
+import { choiceOptionIds, computeSheet, FEAT_FEATURES, finalAbilityScores, originFeatIds, proficientSkills, spellLimits, weaponMasteryCount } from '@/entities/character';
+import type { AbilityId, Content } from '@/shared/content';
 import { EXPERTISE_GRANTS, FEAT_ABILITY, LANGUAGE_GRANTS, SKILL_GRANTS } from '../config/constants';
 import type { FeatSlotKind, LevelUpIssue, LevelUpPlan } from './types';
 

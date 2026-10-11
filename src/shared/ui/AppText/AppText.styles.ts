@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, fonts } from '@/shared/config/theme';
+import { colors, fonts } from '@/shared/config';
 
 /** Стили по варианту текста (`variant`). */
 export const styles = StyleSheet.create({

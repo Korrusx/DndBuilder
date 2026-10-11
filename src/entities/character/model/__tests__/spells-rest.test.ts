@@ -1,5 +1,5 @@
-import { content } from '@/shared/content/content';
-import { formatDamage, formatDice, formatModifier, rollD20 } from '@/shared/lib/dice/dice';
+import { content } from '@/shared/content';
+import { formatDamage, formatDice, formatModifier, rollD20 } from '@/shared/lib/dice';
 import { emptyGameState } from '../character';
 import { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from '../rest';
 import { spellAttackBonus, spellSaveDC, spellSlots, spellsKnown } from '../spells';

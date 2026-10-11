@@ -1,17 +1,10 @@
-import { safeSheet } from '@/entities/character/lib/safeSheet';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { draftIssues } from '@/features/create-character/model/validation';
-import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
-import { usePdfExport } from '@/features/export-pdf/model/usePdfExport';
-import { colors, fonts, spacing } from '@/shared/config/theme';
-import { content, tr } from '@/shared/content/content';
-import { nameOf } from '@/shared/content/names';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Button } from '@/shared/ui/Button/Button';
-import { Chip } from '@/shared/ui/Chip/Chip';
-import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
-import { Section } from '@/shared/ui/Section/Section';
-import { SheetPreview } from '@/widgets/sheet-preview/ui/SheetPreview/SheetPreview';
+import { safeSheet } from '@/entities/character';
+import { draftIssues, useDraft, WizardScreen } from '@/features/create-character';
+import { usePdfExport } from '@/features/export-pdf';
+import { colors, fonts, spacing } from '@/shared/config';
+import { content, nameOf, tr } from '@/shared/content';
+import { AppText, Button, Chip, ChipRow, Section } from '@/shared/ui';
+import { SheetPreview } from '@/widgets/sheet-preview';
 import { Pressable, TextInput, View } from 'react-native';
 import { styles } from './CreateReviewPage.styles';
 

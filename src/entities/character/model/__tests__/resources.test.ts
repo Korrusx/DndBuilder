@@ -1,4 +1,4 @@
-import { content } from '@/shared/content/content';
+import { content } from '@/shared/content';
 import { irmaLevel1 } from '../../lib/samples';
 import { setClass } from '../build';
 import { adjustResource, characterResources, shortRestResources } from '../resources';

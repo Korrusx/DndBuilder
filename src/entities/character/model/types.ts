@@ -1,4 +1,4 @@
-import type { AbilityId, ArmorInfo, CharacterClass, Coin, Equipment, LocalizedText } from '@/shared/content/types';
+import type { AbilityId, ArmorInfo, CharacterClass, Coin, Equipment, LocalizedText } from '@/shared/content';
 
 export type AbilityRoll = { dice: number[]; droppedIndex: number; total: number };
 

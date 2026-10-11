@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 
-import { DraftProvider } from '@/features/create-character/model/DraftContext';
-import { colors, fonts } from '@/shared/config/theme';
+import { DraftProvider } from '@/features/create-character';
+import { colors, fonts } from '@/shared/config';
 
 export default function CreateLayout() {
   return (

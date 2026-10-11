@@ -1,5 +1,5 @@
-import { irmaLevel1 } from '@/entities/character/lib/samples';
-import { content } from '@/shared/content/content';
+import { irmaLevel1 } from '@/entities/character';
+import { content } from '@/shared/content';
 import { characterSheetHtml, escapeHtml, sheetSpells } from '../sheetHtml';
 
 describe('лист персонажа для PDF', () => {

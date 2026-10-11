@@ -1,8 +1,6 @@
-import { irmaLevel1 } from '@/entities/character/lib/samples';
-import { setClass } from '@/entities/character/model/build';
-import { computeSheet } from '@/entities/character/model/sheet';
-import type { Character } from '@/entities/character/model/types';
-import { content } from '@/shared/content/content';
+import type { Character } from '@/entities/character';
+import { computeSheet, irmaLevel1, setClass } from '@/entities/character';
+import { content } from '@/shared/content';
 import {
     featAbilityRule,
     finishLevelUp,

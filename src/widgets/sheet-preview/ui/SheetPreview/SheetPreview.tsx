@@ -1,12 +1,9 @@
-import { ABILITY_IDS } from '@/entities/character/config/constants';
-import { FEATURE_SOURCE_LABEL } from '@/entities/character/config/featureSource';
-import { featureName } from '@/entities/character/lib/features';
-import type { Character, CharacterSheet } from '@/entities/character/model/types';
-import { colors, fonts, spacing } from '@/shared/config/theme';
-import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/shared/content/names';
-import { formatDamage, formatModifier } from '@/shared/lib/dice/dice';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Section } from '@/shared/ui/Section/Section';
+import type { Character, CharacterSheet } from '@/entities/character';
+import { ABILITY_IDS, FEATURE_SOURCE_LABEL, featureName } from '@/entities/character';
+import { colors, fonts, spacing } from '@/shared/config';
+import { abilityAbbr, abilityName, coinsText, groupSkillsByAbility, nameOf, proficiencyName, spellName } from '@/shared/content';
+import { formatDamage, formatModifier } from '@/shared/lib/dice';
+import { AppText, Section } from '@/shared/ui';
 import { View } from 'react-native';
 import { Grid } from '../Grid/Grid';
 import { Stat } from '../Stat/Stat';

@@ -1,4 +1,4 @@
-import { AppText } from '@/shared/ui/AppText/AppText';
+import { AppText } from '@/shared/ui';
 import { ReactNode } from 'react';
 
 /** Строка над «Далее»: чего не хватает на шаге. */

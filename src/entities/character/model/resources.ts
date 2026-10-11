@@ -1,7 +1,7 @@
 // Ресурсы умений с ограниченным числом использований: ярость, дикий облик, кости превосходства, наложение рук…
 // Максимум считается из справочника (content.resources), в состоянии игры хранится только потраченное.
 
-import type { ClassResource, Content, ResourceFormula } from '@/shared/content/types';
+import type { ClassResource, Content, ResourceFormula } from '@/shared/content';
 import { totalLevel } from './character';
 import { computeSheet } from './sheet';
 import type { Character, CharacterSheet, Ctx, GameState, ResourceView } from './types';

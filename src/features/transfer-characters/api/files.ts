@@ -5,9 +5,9 @@ import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Platform } from 'react-native';
 
-import { newId } from '@/entities/character/api/characters';
-import type { Character } from '@/entities/character/model/types';
-import { content } from '@/shared/content/content';
+import type { Character } from '@/entities/character';
+import { newId } from '@/entities/character/api';
+import { content } from '@/shared/content';
 import { buildExchange, exchangeFileName, parseExchange } from '../model/exchange';
 import type { ImportResult } from '../model/types';
 

@@ -1,6 +1,5 @@
 // Пользовательская база (персонажи). Справочник хранится отдельно — см. src/content.
-export * from '@/entities/character/api/characters';
-export * from '@/entities/character/api/serialize';
+export * from '@/entities/character';
 export * from './meta';
 export * from './migrations';
 

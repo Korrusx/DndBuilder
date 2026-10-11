@@ -1,7 +1,5 @@
-import { content, translationProgress } from '@/shared/content/content';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { LText } from '@/shared/ui/LText/LText';
-import { Screen } from '@/shared/ui/Screen/Screen';
+import { content, translationProgress } from '@/shared/content';
+import { AppText, LText, Screen } from '@/shared/ui';
 import { View } from 'react-native';
 import { styles } from './AboutPage.styles';
 

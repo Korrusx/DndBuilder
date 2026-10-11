@@ -1,4 +1,4 @@
-import { colors, fonts } from '@/shared/config/theme';
+import { colors, fonts } from '@/shared/config';
 import { View } from 'react-native';
 import { AppText } from '../AppText/AppText';
 import { styles } from './Badge.styles';

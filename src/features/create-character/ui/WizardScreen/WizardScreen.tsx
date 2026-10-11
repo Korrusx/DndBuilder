@@ -1,7 +1,5 @@
-import { colors } from '@/shared/config/theme';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Button } from '@/shared/ui/Button/Button';
-import { Screen } from '@/shared/ui/Screen/Screen';
+import { colors } from '@/shared/config';
+import { AppText, Button, Screen } from '@/shared/ui';
 import { View } from 'react-native';
 import { CREATE_STEPS } from '../../config/steps';
 import { useDraft } from '../../model/DraftContext';

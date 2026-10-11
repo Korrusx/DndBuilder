@@ -1,5 +1,5 @@
-import { ABILITY_IDS } from '@/entities/character/config/constants';
-import type { AbilityScores } from '@/entities/character/model/types';
+import type { AbilityScores } from '@/entities/character';
+import { ABILITY_IDS } from '@/entities/character';
 
 /** Значения пула, ещё не назначенные характеристикам (с учётом повторов). */
 export function freeValues(pool: number[], base: AbilityScores): number[] {

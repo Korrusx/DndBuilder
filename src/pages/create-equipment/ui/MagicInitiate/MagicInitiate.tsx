@@ -1,15 +1,8 @@
-import { CHOICE_KEYS, MAGIC_INITIATE_ABILITIES, MAGIC_INITIATE_LISTS } from '@/entities/character/config/constants';
-import { spellOptions } from '@/entities/character/model/build';
-import { choice1 } from '@/entities/character/model/choices';
-import type { OriginFeatSlot } from '@/entities/character/model/types';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { content } from '@/shared/content/content';
-import { abilityAbbr, nameOf, spellName } from '@/shared/content/names';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Chip } from '@/shared/ui/Chip/Chip';
-import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
-import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
-import { Section } from '@/shared/ui/Section/Section';
+import type { OriginFeatSlot } from '@/entities/character';
+import { choice1, CHOICE_KEYS, MAGIC_INITIATE_ABILITIES, MAGIC_INITIATE_LISTS, spellOptions } from '@/entities/character';
+import { useDraft } from '@/features/create-character';
+import { abilityAbbr, content, nameOf, spellName } from '@/shared/content';
+import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
 
 export function MagicInitiate({
   slot,

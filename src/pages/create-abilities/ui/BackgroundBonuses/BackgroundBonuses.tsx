@@ -1,14 +1,9 @@
-import { backgroundBonusPattern } from '@/entities/character/model/build';
-import type { AbilityScores, Character } from '@/entities/character/model/types';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { abilityAbbr, nameOf } from '@/shared/content/names';
-import type { AbilityId } from '@/shared/content/types';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Chip } from '@/shared/ui/Chip/Chip';
-import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
-import { Hint } from '@/shared/ui/Hint/Hint';
-import { Section } from '@/shared/ui/Section/Section';
-import { Segmented } from '@/shared/ui/Segmented/Segmented';
+import type { AbilityScores, Character } from '@/entities/character';
+import { backgroundBonusPattern } from '@/entities/character';
+import { useDraft } from '@/features/create-character';
+import type { AbilityId } from '@/shared/content';
+import { abilityAbbr, nameOf } from '@/shared/content';
+import { AppText, Chip, ChipRow, Hint, Section, Segmented } from '@/shared/ui';
 import { styles } from './BackgroundBonuses.styles';
 
 export function BackgroundBonuses({ c, allowed }: { c: Character; allowed: AbilityId[] }) {

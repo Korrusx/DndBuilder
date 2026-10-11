@@ -1,4 +1,4 @@
-import type { D20Mode, D20Roll } from '@/shared/lib/dice/types';
+import type { D20Mode, D20Roll } from '@/shared/lib/dice';
 
 export type RollPart = { label: string; value: number };
 

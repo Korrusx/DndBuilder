@@ -1,4 +1,4 @@
-import type { Character } from '@/entities/character/model/types';
+import type { Character } from '@/entities/character';
 import { ReactNode } from 'react';
 
 export type WizardScreenProps = {

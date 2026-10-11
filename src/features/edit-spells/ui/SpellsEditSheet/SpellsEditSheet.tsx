@@ -1,12 +1,8 @@
-import { spellLimits, spellOptions } from '@/entities/character/model/build';
-import type { Character } from '@/entities/character/model/types';
-import { spacing } from '@/shared/config/theme';
-import { content } from '@/shared/content/content';
-import { spellName } from '@/shared/content/names';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { BottomSheet } from '@/shared/ui/BottomSheet/BottomSheet';
-import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
-import { Section } from '@/shared/ui/Section/Section';
+import type { Character } from '@/entities/character';
+import { spellLimits, spellOptions } from '@/entities/character';
+import { spacing } from '@/shared/config';
+import { content, spellName } from '@/shared/content';
+import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
 import { View } from 'react-native';
 
 export function SpellsEditSheet({

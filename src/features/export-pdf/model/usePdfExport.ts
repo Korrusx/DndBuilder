@@ -1,6 +1,6 @@
 // Кнопка «PDF»: экспорт с защитой от двойного нажатия и сообщением об ошибке.
 
-import type { Character } from '@/entities/character/model/types';
+import type { Character } from '@/entities/character';
 import { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 import { exportCharacterPdf } from '../api/exportPdf';

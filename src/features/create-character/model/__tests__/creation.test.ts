@@ -1,22 +1,18 @@
-import { CHOICE_KEYS } from '@/entities/character/config/constants';
+import type { Character } from '@/entities/character';
 import {
-    equipmentChoice,
+    CHOICE_KEYS, computeSheet, equipmentChoice,
     equipmentPicks,
     expertiseCount,
-    magicInitiateSlots,
-    proficiencySlots,
+    magicInitiateSlots, newDraftCharacter, proficiencySlots,
     setBackground,
     setClass,
     setSpecies,
     spellLimits,
     startingKit,
     weaponMasteryCount,
-    weaponMasteryOptions,
-} from '@/entities/character/model/build';
-import { newDraftCharacter } from '@/entities/character/model/character';
-import { computeSheet } from '@/entities/character/model/sheet';
-import type { Character } from '@/entities/character/model/types';
-import { content } from '@/shared/content/content';
+    weaponMasteryOptions
+} from '@/entities/character';
+import { content } from '@/shared/content';
 import { draftIssues, finishCharacter, firstIncompleteStep } from '../validation';
 
 const blank = () => newDraftCharacter('t', '2026-01-01T00:00:00.000Z');

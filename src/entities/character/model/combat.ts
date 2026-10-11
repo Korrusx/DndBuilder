@@ -1,4 +1,4 @@
-import type { AbilityId, Equipment } from '@/shared/content/types';
+import type { AbilityId, Equipment } from '@/shared/content';
 import type { AbilityScores, AcInput, Effect, HpLevel, WeaponAttack } from './types';
 
 // --- Хиты ---

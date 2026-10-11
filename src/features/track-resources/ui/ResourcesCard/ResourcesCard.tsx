@@ -1,11 +1,8 @@
-import { usePlay } from '@/entities/character/model/CharacterContext';
-import { adjustResource } from '@/entities/character/model/resources';
-import type { ResourceView } from '@/entities/character/model/types';
-import { tr } from '@/shared/content/content';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Card } from '@/shared/ui/Card/Card';
-import { Dots } from '@/shared/ui/Dots/Dots';
-import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
+import type { ResourceView } from '@/entities/character';
+import { adjustResource } from '@/entities/character';
+import { usePlay } from '@/entities/character/ui';
+import { tr } from '@/shared/content';
+import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
 import { View } from 'react-native';
 import { MAX_DOTS, RECOVERY } from '../../config/constants';
 import { styles } from './ResourcesCard.styles';

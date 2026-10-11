@@ -1,4 +1,4 @@
-import type { ArmorInfo, Equipment } from '@/shared/content/types';
+import type { ArmorInfo, Equipment } from '@/shared/content';
 import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack } from '../combat';
 import { effectsOf } from '../effects';
 

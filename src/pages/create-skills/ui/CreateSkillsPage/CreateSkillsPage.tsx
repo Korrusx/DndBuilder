@@ -1,17 +1,7 @@
-import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_OPTIONS, STANDARD_LANGUAGE_COUNT } from '@/entities/character/config/constants';
-import { expertiseCount, featFeatureIds, featureOptionIds, fixedProficiencies, languageOptions, proficiencySlots, proficientSkills, weaponMasteryCount, weaponMasteryOptions } from '@/entities/character/model/build';
-import { choice1 } from '@/entities/character/model/choices';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { draftIssues } from '@/features/create-character/model/validation';
-import { StepStatus } from '@/features/create-character/ui/StepStatus/StepStatus';
-import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
-import { content, tr } from '@/shared/content/content';
-import { nameOf, proficiencyName } from '@/shared/content/names';
-import { AppText } from '@/shared/ui/AppText/AppText';
-import { Chip } from '@/shared/ui/Chip/Chip';
-import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
-import { MultiPick } from '@/shared/ui/MultiPick/MultiPick';
-import { Section } from '@/shared/ui/Section/Section';
+import { choice1, CHOICE_KEYS, expertiseCount, FEAT_FEATURES, featFeatureIds, FEATURE_OPTIONS, featureOptionIds, fixedProficiencies, languageOptions, proficiencySlots, proficientSkills, STANDARD_LANGUAGE_COUNT, weaponMasteryCount, weaponMasteryOptions } from '@/entities/character';
+import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
+import { content, nameOf, proficiencyName, tr } from '@/shared/content';
+import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
 import { SOURCE_TITLE } from '../../config/constants';
 
 export function CreateSkillsPage() {

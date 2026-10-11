@@ -1,10 +1,6 @@
-import { ABILITY_IDS, CHOICE_KEYS, FEAT_FEATURES, POINT_BUY_BUDGET, POINT_BUY_MAX, POINT_BUY_MIN, STANDARD_LANGUAGE_COUNT } from '@/entities/character/config/constants';
-import { isStandardArray, pointBuySpent, validateBackgroundBonuses } from '@/entities/character/model/abilities';
-import { equipmentChoice, equipmentPicks, expertiseCount, featFeatureIds, featureOptionIds, magicInitiateSlots, originFeats, proficiencySlots, proficientSkills, spellLimits, startingClass, weaponMasteryCount } from '@/entities/character/model/build';
-import { choice1 } from '@/entities/character/model/choices';
-import { computeSheet } from '@/entities/character/model/sheet';
-import type { Character, ProficiencySlot } from '@/entities/character/model/types';
-import type { Content } from '@/shared/content/types';
+import type { Character, ProficiencySlot } from '@/entities/character';
+import { ABILITY_IDS, choice1, CHOICE_KEYS, computeSheet, equipmentChoice, equipmentPicks, expertiseCount, FEAT_FEATURES, featFeatureIds, featureOptionIds, isStandardArray, magicInitiateSlots, originFeats, POINT_BUY_BUDGET, POINT_BUY_MAX, POINT_BUY_MIN, pointBuySpent, proficiencySlots, proficientSkills, spellLimits, STANDARD_LANGUAGE_COUNT, startingClass, validateBackgroundBonuses, weaponMasteryCount } from '@/entities/character';
+import type { Content } from '@/shared/content';
 import { findById } from '@/shared/lib/collections';
 import type { Issue } from './types';
 

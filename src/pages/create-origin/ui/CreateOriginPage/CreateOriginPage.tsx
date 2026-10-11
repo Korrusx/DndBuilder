@@ -1,16 +1,7 @@
-import { CHOICE_KEYS } from '@/entities/character/config/constants';
-import { originFeats, setBackground, setSpecies } from '@/entities/character/model/build';
-import { useDraft } from '@/features/create-character/model/DraftContext';
-import { draftIssues } from '@/features/create-character/model/validation';
-import { StepStatus } from '@/features/create-character/ui/StepStatus/StepStatus';
-import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
-import { SIZE_NAMES } from '@/shared/content/constants';
-import { content } from '@/shared/content/content';
-import { abilityAbbr, nameOf, proficiencyName } from '@/shared/content/names';
-import { Chip } from '@/shared/ui/Chip/Chip';
-import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
-import { OptionCard } from '@/shared/ui/OptionCard/OptionCard';
-import { Section } from '@/shared/ui/Section/Section';
+import { CHOICE_KEYS, originFeats, setBackground, setSpecies } from '@/entities/character';
+import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
+import { abilityAbbr, content, nameOf, proficiencyName, SIZE_NAMES } from '@/shared/content';
+import { Chip, ChipRow, OptionCard, Section } from '@/shared/ui';
 
 export function CreateOriginPage() {
   const { character: c, update } = useDraft();

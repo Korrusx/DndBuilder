@@ -1,10 +1,8 @@
-import { ABILITY_IDS } from '@/entities/character/config/constants';
-import { spacing } from '@/shared/config/theme';
-import { abilityAbbr } from '@/shared/content/names';
-import type { AbilityId } from '@/shared/content/types';
-import { Chip } from '@/shared/ui/Chip/Chip';
-import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
-import { Segmented } from '@/shared/ui/Segmented/Segmented';
+import { ABILITY_IDS } from '@/entities/character';
+import { spacing } from '@/shared/config';
+import type { AbilityId } from '@/shared/content';
+import { abilityAbbr } from '@/shared/content';
+import { Chip, ChipRow, Segmented } from '@/shared/ui';
 import { useState } from 'react';
 import { View } from 'react-native';
 

@@ -1,4 +1,4 @@
-import { colors } from '@/shared/config/theme';
+import { colors } from '@/shared/config';
 import { ReactNode } from 'react';
 import { View } from 'react-native';
 import { AppText } from '../AppText/AppText';
