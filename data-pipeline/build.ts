@@ -24,7 +24,7 @@ import type {
   Feature,
   LocalizedText,
   ProficiencyType,
-} from '../src/content/types.ts';
+} from '../src/shared/content/types.ts';
 import { parseCsv, stringifyCsv } from './csv.ts';
 
 const SCHEMA_VERSION = 1;

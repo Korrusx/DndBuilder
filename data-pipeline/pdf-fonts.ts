@@ -1,4 +1,4 @@
-// Встраивает шрифты листа PDF (assets/fonts/pdf/*.woff2) в src/pdf/fonts.generated.ts как @font-face с data-URI,
+// Встраивает шрифты листа PDF (assets/fonts/pdf/*.woff2) в src/features/export-pdf/config/fonts.generated.ts как @font-face с data-URI,
 // чтобы PDF собирался без интернета. Запуск: npm run pdf:fonts (нужен только при смене шрифтов).
 
 import { readFile, writeFile } from 'node:fs/promises';
@@ -28,7 +28,7 @@ for (const f of FACES) {
 }
 
 await writeFile(
-  join(ROOT, 'src/pdf/fonts.generated.ts'),
+  join(ROOT, 'src/features/export-pdf/config/fonts.generated.ts'),
   `// Сгенерировано data-pipeline/pdf-fonts.ts — не править руками.\n// Alegreya SC и IBM Plex Sans Condensed, лицензия SIL OFL 1.1 (assets/fonts/pdf/OFL-*.txt).\n\nexport const PDF_FONT_CSS =\n  ${JSON.stringify(css.join('\n'))};\n`,
 );
 console.log(`Шрифты листа встроены: ${FACES.length} начертаний`);
