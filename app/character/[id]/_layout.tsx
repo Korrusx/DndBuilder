@@ -1,9 +1,18 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import type { ComponentProps } from 'react';
+import { Pressable, type ColorValue } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { CharacterProvider, usePlay } from '@/components/play/CharacterContext';
 import { colors, fonts, sizes } from '@/theme';
+
+type IconName = ComponentProps<typeof MaterialCommunityIcons>['name'];
+
+/** Иконка вкладки нижнего бара. */
+const tabIcon =
+  (name: IconName) =>
+  ({ color, size }: { color: ColorValue; size: number }) => <MaterialCommunityIcons name={name} color={color as string} size={size} />;
 
 function PlayTabs() {
   const { character } = usePlay();
@@ -29,15 +38,14 @@ function PlayTabs() {
         tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.border },
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.textSecondary,
-        tabBarLabelStyle: { fontFamily: fonts.textMedium, fontSize: 13 },
-        tabBarIconStyle: { display: 'none' },
+        tabBarLabelStyle: { fontFamily: fonts.textMedium, fontSize: 12 },
       }}
     >
-      <Tabs.Screen name="index" options={{ tabBarLabel: 'Лист' }} />
-      <Tabs.Screen name="skills" options={{ tabBarLabel: 'Навыки' }} />
-      <Tabs.Screen name="combat" options={{ tabBarLabel: 'Бой' }} />
-      <Tabs.Screen name="magic" options={{ tabBarLabel: 'Магия' }} />
-      <Tabs.Screen name="items" options={{ tabBarLabel: 'Вещи' }} />
+      <Tabs.Screen name="index" options={{ tabBarLabel: 'Лист', tabBarIcon: tabIcon('card-account-details-outline') }} />
+      <Tabs.Screen name="skills" options={{ tabBarLabel: 'Навыки', tabBarIcon: tabIcon('dice-d20-outline') }} />
+      <Tabs.Screen name="combat" options={{ tabBarLabel: 'Бой', tabBarIcon: tabIcon('sword-cross') }} />
+      <Tabs.Screen name="magic" options={{ tabBarLabel: 'Магия', tabBarIcon: tabIcon('auto-fix') }} />
+      <Tabs.Screen name="items" options={{ tabBarLabel: 'Вещи', tabBarIcon: tabIcon('bag-personal-outline') }} />
     </Tabs>
   );
 }
