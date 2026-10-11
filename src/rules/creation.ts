@@ -12,7 +12,6 @@ import {
 } from './abilities';
 import { ABILITY_IDS, type Character, type InventoryItem } from './character';
 import {
-  BACKGROUND_SPELL_LIST,
   CHOICE_KEYS,
   choice1,
   FEAT_FEATURES,
@@ -131,8 +130,12 @@ export function proficiencySlots(c: Character, content: Content): ProficiencySlo
       slots.push({ key: CHOICE_KEYS.traitProf(traitId, i), source: 'species', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
     );
   }
-  // Черта «Одарённый»: любые три навыка или инструмента.
   for (const f of originFeats(c, content)) {
+    // Владения на выбор из данных черты («Ремесленник», «Музыкант»).
+    find(content.feats, f.featId)?.proficiencyChoices?.forEach((ch, i) =>
+      slots.push({ key: `${CHOICE_KEYS.featProf(f.slot)}.${i}`, source: 'feat', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
+    );
+    // Черта «Одарённый»: любые три навыка или инструмента.
     if (f.featId !== 'skilled') continue;
     const options = content.proficiencies
       .filter((p) => ['skill', 'tool', 'artisanTool', 'instrument'].includes(p.type))
@@ -282,7 +285,10 @@ export function spellOptions(classId: string, level: number, content: Content): 
 export function magicInitiateSlots(c: Character, content: Content): { slot: OriginFeatSlot; fixedList?: string }[] {
   return originFeats(c, content)
     .filter((f) => f.featId === 'magic-initiate')
-    .map((f) => ({ slot: f.slot, fixedList: f.slot === 'bgfeat' ? BACKGROUND_SPELL_LIST[c.backgroundId] : undefined }));
+    .map((f) => ({
+      slot: f.slot,
+      fixedList: f.slot === 'bgfeat' ? find(content.backgrounds, c.backgroundId)?.featSpellList : undefined,
+    }));
 }
 
 // ---------- Проверка ----------

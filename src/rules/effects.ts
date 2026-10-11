@@ -23,6 +23,8 @@ export const EFFECTS: Record<string, Effect[]> = {
   alert: [{ type: 'initiativeAddsProficiency' }],
   // Черта стиля боя «Оборона» (Defense): +1 к КЗ в лёгком, среднем или тяжёлом доспехе.
   defense: [{ type: 'armoredAcBonus', value: 1 }],
+  // Черта «Крепкий» (Tough, не SRD): +2 хита за каждый уровень.
+  tough: [{ type: 'hpPerLevel', value: 2 }],
   // Дварф, «Дварфийская стойкость»: +1 хит за каждый уровень.
   'dwarven-toughness': [{ type: 'hpPerLevel', value: 1 }],
   // Варвар, «Защита без доспехов»: 10 + ЛОВ + ТЕЛ, щит можно.

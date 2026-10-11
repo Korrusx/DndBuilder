@@ -10,6 +10,7 @@ const SIZE_NAMES: Record<string, string> = { Small: 'Маленький', Medium
 export default function CreateOriginScreen() {
   const { character: c, update } = useDraft();
   const species = content.species.find((s) => s.id === c.speciesId);
+  const background = content.backgrounds.find((b) => b.id === c.backgroundId);
   const versatile = originFeats(c, content).find((f) => f.slot === 'versatile');
   const issues = draftIssues(c, content).filter((i) => i.step === 2);
 
@@ -20,20 +21,29 @@ export default function CreateOriginScreen() {
       summary={<StepStatus issues={issues} />}
     >
       <Section title="Предыстория" hint="Даёт бонусы к трём характеристикам, черту, навыки и снаряжение.">
-        {content.backgrounds.map((b) => (
-          <OptionCard
-            key={b.id}
-            title={nameOf('backgrounds', b.id)}
-            selected={b.id === c.backgroundId}
-            onPress={() => update((d) => setBackground(d, b.id))}
-            lines={[
-              `Характеристики: ${b.abilities.map(abilityAbbr).join(', ')}`,
-              `Черта: ${nameOf('feats', b.featId)}`,
-              `Владения: ${b.proficiencies.map(proficiencyName).join(', ')}`,
-            ]}
-          />
-        ))}
+        <ChipRow>
+          {content.backgrounds.map((b) => (
+            <Chip
+              key={b.id}
+              label={nameOf('backgrounds', b.id)}
+              selected={b.id === c.backgroundId}
+              onPress={() => update((d) => setBackground(d, b.id))}
+            />
+          ))}
+        </ChipRow>
       </Section>
+
+      {background ? (
+        <OptionCard
+          title={nameOf('backgrounds', background.id)}
+          lines={[
+            `Характеристики: ${background.abilities.map(abilityAbbr).join(', ')}`,
+            `Черта: ${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}`,
+            `Владения: ${background.proficiencies.map(proficiencyName).join(', ')}${background.proficiencyChoices.length ? ' + на выбор' : ''}`,
+            ...(background.extra ? ['Из Player\'s Handbook 2024 (не SRD)'] : []),
+          ]}
+        />
+      ) : null}
 
       <Section title="Вид">
         <ChipRow>

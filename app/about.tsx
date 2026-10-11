@@ -44,6 +44,11 @@ export default function AboutScreen() {
         Тексты SRD приведены в собственном переводе и могут быть изменены по сравнению с оригиналом.
         Приложение не является официальным продуктом Wizards of the Coast.
       </AppText>
+      <AppText variant="secondary">
+        Кроме SRD, в справочник добавлена игровая механика {content.backgrounds.filter((b) => b.extra).length} предысторий и{' '}
+        {content.feats.filter((f) => f.extra).length} черт происхождения из Player&apos;s Handbook 2024 (характеристики, навыки,
+        инструменты, снаряжение). Тексты книги не используются, описания черт написаны заново.
+      </AppText>
     </Screen>
   );
 }

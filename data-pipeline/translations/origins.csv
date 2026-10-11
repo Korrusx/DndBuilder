@@ -300,3 +300,27 @@ feat.skilled.description,You gain proficiency in any combination of three skills
 feat.skilled.repeatable,You can take this feat more than once.,,todo
 feat.two-weapon-fighting.name,Two Weapon Fighting,Сражение двумя оружиями,draft
 feat.two-weapon-fighting.description,"When you make an extra attack as a result of using a weapon that has the Light property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.",,todo
+background.artisan.name,Artisan,Ремесленник,draft
+background.charlatan.name,Charlatan,Шарлатан,draft
+background.entertainer.name,Entertainer,Артист,draft
+background.farmer.name,Farmer,Фермер,draft
+background.guard.name,Guard,Стражник,draft
+background.guide.name,Guide,Проводник,draft
+background.hermit.name,Hermit,Отшельник,draft
+background.merchant.name,Merchant,Торговец,draft
+background.noble.name,Noble,Дворянин,draft
+background.sailor.name,Sailor,Моряк,draft
+background.scribe.name,Scribe,Писарь,draft
+background.wayfarer.name,Wayfarer,Странник,draft
+feat.crafter.name,Crafter,Мастеровой,draft
+feat.crafter.description,Proficiency with three Artisan's Tools of your choice from the Fast Crafting list. 20% discount on nonmagical items you buy. After a Long Rest you can craft one item from the Fast Crafting list if you have the matching tools; it lasts until your next Long Rest.,"Владение тремя инструментами ремесленника на выбор из списка быстрого изготовления. Скидка 20% на покупку немагических предметов. После долгого отдыха можно изготовить один предмет из списка быстрого изготовления, если есть нужные инструменты; он служит до следующего долгого отдыха.",draft
+feat.healer.name,Healer,Лекарь,draft
+feat.healer.description,"Battle Medic: as a Utilize action, expend one use of a Healer's Kit to let a creature within 5 feet expend one of its Hit Point Dice; you roll it and the creature regains that many Hit Points plus your Proficiency Bonus. Healing Rerolls: when you roll a die to restore Hit Points (spell or this feat), you can reroll a 1 and must use the new roll.","Полевой медик: действием «Использование» потратьте одно применение набора целителя, чтобы существо в пределах 5 фт потратило одну кость хитов; вы бросаете её, и существо восстанавливает выпавшее число хитов + ваш бонус мастерства. Переброс лечения: если на кости восстановления хитов (заклинание или эта черта) выпала 1, можно перебросить и взять новый результат.",draft
+feat.lucky.name,Lucky,Везунчик,draft
+feat.lucky.description,"You have Luck Points equal to your Proficiency Bonus; you regain all of them after a Long Rest. Spend 1 Luck Point to give yourself Advantage on a D20 Test, or to impose Disadvantage on an attack roll made against you.","У вас есть очки удачи, равные бонусу мастерства; все восстанавливаются после долгого отдыха. Потратьте 1 очко, чтобы получить преимущество на тест к20 или наложить помеху на бросок атаки по вам.",draft
+feat.musician.name,Musician,Музыкант,draft
+feat.musician.description,"Proficiency with three Musical Instruments of your choice. When you finish a Short or Long Rest, you can play a song and give Heroic Inspiration to allies who hear it, up to a number equal to your Proficiency Bonus.","Владение тремя музыкальными инструментами на выбор. Закончив короткий или долгий отдых, можно сыграть песню и дать героическое вдохновение слышащим её союзникам — не больше, чем ваш бонус мастерства.",draft
+feat.tavern-brawler.name,Tavern Brawler,Трактирный драчун,draft
+feat.tavern-brawler.description,"Your Unarmed Strike deals 1d4 + Strength modifier Bludgeoning damage. When you roll damage for an Unarmed Strike, you can reroll a 1 and must use the new roll. You are proficient with improvised weapons. Once per turn, when you hit with an Unarmed Strike as part of the Attack action, you can also push the target 5 feet away.","Безоружный удар наносит 1к4 + мод. СИЛ дробящего урона. На броске урона безоружного удара можно перебросить 1 и взять новый результат. Вы владеете импровизированным оружием. Раз в ход, попав безоружным ударом в рамках действия «Атака», можно также оттолкнуть цель на 5 фт.",draft
+feat.tough.name,Tough,Крепкий,draft
+feat.tough.description,"Your Hit Point maximum increases by twice your character level when you gain this feat, and by 2 more each time you gain a level.",Максимум хитов увеличивается на удвоенный уровень персонажа при получении черты и ещё на 2 с каждым новым уровнем.,draft

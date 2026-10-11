@@ -159,4 +159,25 @@ describe('мастер создания', () => {
     expect(steps({ ...rolled, baseAbilities: { str: 18, dex: 16, con: 14, int: 12, wis: 11, cha: 9 } })).toEqual([3]);
     expect(steps({ ...c, backgroundBonuses: { str: 2, dex: 1 } })).toEqual([3]);
   });
+
+  test('предыстории не из SRD: механика из data-pipeline/extra', () => {
+    expect(content.backgrounds).toHaveLength(16);
+    // Ремесленник: инструмент на выбор + три инструмента от черты «Ремесленник».
+    const artisan = setBackground(setClass(blank(), 'fighter'), 'artisan');
+    const slots = proficiencySlots(artisan, content).filter((sl) => sl.source !== 'class');
+    expect(slots.map((sl) => [sl.source, sl.choose])).toEqual([
+      ['background', 1],
+      ['feat', 3],
+    ]);
+    // Проводник: «Посвящённый в магию» со списком друида.
+    expect(magicInitiateSlots(setBackground(blank(), 'guide'), content)).toEqual([{ slot: 'bgfeat', fixedList: 'druid' }]);
+    // Фермер: черта «Крепкий» — +2 хита за уровень.
+    const irma = irmaViaWizard();
+    const farmer = { ...irma, backgroundId: 'farmer' };
+    expect(computeSheet(farmer, content).maxHp).toBe(computeSheet(irma, content).maxHp + 2);
+    // Стражник: снаряжение с игровым набором на выбор.
+    const guard = { ...setBackground(blank(), 'guard'), choices: { 'equip.background': ['0'] } };
+    const picks = equipmentPicks(equipmentChoice(guard, content, 'background')?.options?.[0], content);
+    expect(picks[0].options).toContain('dice');
+  });
 });

@@ -102,14 +102,5 @@ export function featureOptionProficiencies(c: Character): string[] {
 export const MAGIC_INITIATE_LISTS = ['cleric', 'druid', 'wizard'] as const;
 export const MAGIC_INITIATE_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
 
-/**
- * Предыстории SRD 5.2 дают «Посвящённого в магию» с заданным списком:
- * Прислужник — жреца, Мудрец — волшебника. В данных API список не указан.
- */
-export const BACKGROUND_SPELL_LIST: Record<string, string> = {
-  acolyte: 'cleric',
-  sage: 'wizard',
-};
-
 /** Сколько стандартных языков выбирается при создании (кроме Общего). */
 export const STANDARD_LANGUAGE_COUNT = 2;

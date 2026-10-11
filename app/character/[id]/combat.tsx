@@ -22,6 +22,8 @@ export default function CombatTab() {
   const [info, setInfo] = useState<{ title: string; text: string } | null>(null);
   const ex = c.state.exhaustion;
   const unarmed = unarmedStrike(sheet.abilities.str.mod, sheet.profBonus);
+  // Черта «Трактирный драчун»: безоружный удар 1к4 + СИЛ.
+  const brawler = sheet.features.some((f) => f.source === 'feat' && f.id === 'tavern-brawler');
   const sneak = sheet.classSpecific.rogue?.sneak_attack as { dice_count: number; dice_value: number } | undefined;
 
   const damageType = (id?: string) => (id ? tr(damageTypes.get(id)?.name).text || id : undefined);
@@ -89,13 +91,22 @@ export default function CombatTab() {
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
             <AppText variant="heading">Безоружный удар</AppText>
-            <AppText variant="secondary">Урон {unarmed.damage}, дробящий</AppText>
+            <AppText variant="secondary">
+              Урон {brawler ? formatDamage('1d4', sheet.abilities.str.mod) : unarmed.damage}, дробящий
+            </AppText>
           </View>
           <SmallButton
             title={`Атака ${formatModifier(unarmed.toHit)}`}
             tone="accent"
             onPress={() => setRoll({ title: 'Безоружный удар', parts: d20Parts([{ label: 'Попадание', value: unarmed.toHit }], ex) })}
           />
+          {brawler ? (
+            <SmallButton
+              title="Урон"
+              tone="damage"
+              onPress={() => setDamage({ title: 'Безоружный удар', dice: '1d4', bonus: sheet.abilities.str.mod, damageType: 'дробящий' })}
+            />
+          ) : null}
         </View>
       </Card>
 

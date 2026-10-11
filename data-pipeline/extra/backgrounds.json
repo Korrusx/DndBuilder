@@ -1,0 +1,130 @@
+{
+  "_comment": "Предыстории Player's Handbook 2024, которых нет в SRD 5.2. Только механика, без текстов книги. Формат описан в data-pipeline/README.md. Перед использованием сверить с книгой.",
+  "backgrounds": [
+    {
+      "id": "artisan",
+      "name": "Artisan",
+      "abilities": ["str", "dex", "int"],
+      "feat": "crafter",
+      "proficiencies": ["skill-investigation", "skill-persuasion"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "artisanTool" }],
+      "equipment": { "items": [["pouch", 2], ["clothes-travelers", 1]], "pickFromCategory": ["artisans-tools"], "gp": 32 }
+    },
+    {
+      "id": "charlatan",
+      "name": "Charlatan",
+      "abilities": ["dex", "con", "cha"],
+      "feat": "skilled",
+      "proficiencies": ["skill-deception", "skill-sleight-of-hand", "tool-forgery-kit"],
+      "equipment": { "items": [["forgery-kit", 1], ["costume", 1], ["clothes-fine", 1]], "gp": 15 }
+    },
+    {
+      "id": "entertainer",
+      "name": "Entertainer",
+      "abilities": ["str", "dex", "cha"],
+      "feat": "musician",
+      "proficiencies": ["skill-acrobatics", "skill-performance"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "instrument" }],
+      "equipment": {
+        "items": [["costume", 2], ["mirror", 1], ["perfume", 1], ["clothes-travelers", 1]],
+        "pickFromCategory": ["musical-instruments"],
+        "gp": 11
+      }
+    },
+    {
+      "id": "farmer",
+      "name": "Farmer",
+      "abilities": ["str", "con", "wis"],
+      "feat": "tough",
+      "proficiencies": ["skill-animal-handling", "skill-nature", "tool-carpenters-tools"],
+      "equipment": {
+        "items": [["sickle", 1], ["carpenters-tools", 1], ["healers-kit", 1], ["pot-iron", 1], ["shovel", 1], ["clothes-travelers", 1]],
+        "gp": 30
+      }
+    },
+    {
+      "id": "guard",
+      "name": "Guard",
+      "abilities": ["str", "int", "wis"],
+      "feat": "alert",
+      "proficiencies": ["skill-athletics", "skill-perception"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "gamingSet" }],
+      "equipment": {
+        "items": [["spear", 1], ["light-crossbow", 1], ["bolts", 20], ["lantern-hooded", 1], ["manacles", 1], ["quiver", 1], ["clothes-travelers", 1]],
+        "pickFromCategory": ["gaming-sets"],
+        "gp": 12
+      }
+    },
+    {
+      "id": "guide",
+      "name": "Guide",
+      "abilities": ["dex", "con", "wis"],
+      "feat": "magic-initiate",
+      "featSpellList": "druid",
+      "proficiencies": ["skill-stealth", "skill-survival", "tool-cartographers-tools"],
+      "equipment": {
+        "items": [["shortbow", 1], ["arrows", 20], ["cartographer-tools", 1], ["bedroll", 1], ["quiver", 1], ["tent", 1], ["clothes-travelers", 1]],
+        "gp": 3
+      }
+    },
+    {
+      "id": "hermit",
+      "name": "Hermit",
+      "abilities": ["con", "wis", "cha"],
+      "feat": "healer",
+      "proficiencies": ["skill-medicine", "skill-religion", "herbalism-kit"],
+      "equipment": {
+        "items": [["quarterstaff", 1], ["herbalism-kit", 1], ["bedroll", 1], ["book", 1], ["lamp", 1], ["oil", 3], ["clothes-travelers", 1]],
+        "gp": 16
+      }
+    },
+    {
+      "id": "merchant",
+      "name": "Merchant",
+      "abilities": ["con", "int", "cha"],
+      "feat": "lucky",
+      "proficiencies": ["skill-animal-handling", "skill-persuasion", "tool-navigators-tools"],
+      "equipment": { "items": [["navigators-tools", 1], ["pouch", 2], ["clothes-travelers", 1]], "gp": 22 }
+    },
+    {
+      "id": "noble",
+      "name": "Noble",
+      "abilities": ["str", "int", "cha"],
+      "feat": "skilled",
+      "proficiencies": ["skill-history", "skill-persuasion"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "gamingSet" }],
+      "equipment": { "items": [["clothes-fine", 1], ["perfume", 1]], "pickFromCategory": ["gaming-sets"], "gp": 29 }
+    },
+    {
+      "id": "sailor",
+      "name": "Sailor",
+      "abilities": ["str", "dex", "wis"],
+      "feat": "tavern-brawler",
+      "proficiencies": ["skill-acrobatics", "skill-perception", "tool-navigators-tools"],
+      "equipment": { "items": [["dagger", 1], ["navigators-tools", 1], ["rope", 1], ["clothes-travelers", 1]], "gp": 20 }
+    },
+    {
+      "id": "scribe",
+      "name": "Scribe",
+      "abilities": ["dex", "int", "wis"],
+      "feat": "skilled",
+      "proficiencies": ["skill-investigation", "skill-perception", "tool-calligraphers-supplies"],
+      "equipment": {
+        "items": [["calligraphers-supplies", 1], ["clothes-fine", 1], ["lamp", 1], ["oil", 3], ["parchment", 12]],
+        "gp": 23
+      }
+    },
+    {
+      "id": "wayfarer",
+      "name": "Wayfarer",
+      "abilities": ["dex", "wis", "cha"],
+      "feat": "lucky",
+      "proficiencies": ["skill-insight", "skill-stealth", "tool-thieves-tools"],
+      "equipment": {
+        "items": [["dagger", 2], ["thieves-tools", 1], ["bedroll", 1], ["pouch", 2], ["clothes-travelers", 1]],
+        "pickFromCategory": ["gaming-sets"],
+        "gp": 16
+      }
+    }
+  ]
+}

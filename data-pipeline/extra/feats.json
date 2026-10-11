@@ -1,0 +1,61 @@
+{
+  "_comment": "Черты происхождения Player's Handbook 2024, которых нет в SRD 5.2. Только механика своими словами. Перед использованием сверить с книгой.",
+  "feats": [
+    {
+      "id": "crafter",
+      "name": "Crafter",
+      "type": "origin",
+      "description": "Proficiency with three Artisan's Tools of your choice from the Fast Crafting list. 20% discount on nonmagical items you buy. After a Long Rest you can craft one item from the Fast Crafting list if you have the matching tools; it lasts until your next Long Rest.",
+      "proficiencyChoices": [
+        {
+          "choose": 3,
+          "options": [
+            "tool-carpenters-tools",
+            "tool-leatherworkers-tools",
+            "tool-masons-tools",
+            "tool-potters-tools",
+            "tool-smiths-tools",
+            "tool-tinkers-tools",
+            "tool-weavers-tools",
+            "tool-woodcarvers-tools"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "healer",
+      "name": "Healer",
+      "type": "origin",
+      "description": "Battle Medic: as a Utilize action, expend one use of a Healer's Kit to let a creature within 5 feet expend one of its Hit Point Dice; you roll it and the creature regains that many Hit Points plus your Proficiency Bonus. Healing Rerolls: when you roll a die to restore Hit Points (spell or this feat), you can reroll a 1 and must use the new roll.",
+      "proficiencyChoices": []
+    },
+    {
+      "id": "lucky",
+      "name": "Lucky",
+      "type": "origin",
+      "description": "You have Luck Points equal to your Proficiency Bonus; you regain all of them after a Long Rest. Spend 1 Luck Point to give yourself Advantage on a D20 Test, or to impose Disadvantage on an attack roll made against you.",
+      "proficiencyChoices": []
+    },
+    {
+      "id": "musician",
+      "name": "Musician",
+      "type": "origin",
+      "description": "Proficiency with three Musical Instruments of your choice. When you finish a Short or Long Rest, you can play a song and give Heroic Inspiration to allies who hear it, up to a number equal to your Proficiency Bonus.",
+      "proficiencyChoices": [{ "choose": 3, "fromProficiencyType": "instrument" }]
+    },
+    {
+      "id": "tavern-brawler",
+      "name": "Tavern Brawler",
+      "type": "origin",
+      "description": "Your Unarmed Strike deals 1d4 + Strength modifier Bludgeoning damage. When you roll damage for an Unarmed Strike, you can reroll a 1 and must use the new roll. You are proficient with improvised weapons. Once per turn, when you hit with an Unarmed Strike as part of the Attack action, you can also push the target 5 feet away.",
+      "proficiencyChoices": []
+    },
+    {
+      "id": "tough",
+      "name": "Tough",
+      "type": "origin",
+      "description": "Your Hit Point maximum increases by twice your character level when you gain this feat, and by 2 more each time you gain a level.",
+      "proficiencyChoices": []
+    }
+  ]
+}

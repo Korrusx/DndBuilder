@@ -159,9 +159,13 @@ export type Background = {
   /** Три характеристики, к которым распределяются +2/+1 или +1/+1/+1. */
   abilities: AbilityId[];
   featId: string;
+  /** Список заклинаний черты «Посвящённый в магию», если предыстория его задаёт (Прислужник — cleric). */
+  featSpellList?: string;
   proficiencies: string[];
   proficiencyChoices: Choice[];
   equipment: Choice[];
+  /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
+  extra?: boolean;
 };
 
 export type FeatType = 'origin' | 'general' | 'fighting-style' | 'epic-boon';
@@ -173,6 +177,10 @@ export type Feat = {
   description: LocalizedText;
   prerequisites?: { minLevel?: number; feature?: string; abilityOptions?: Choice };
   repeatable?: LocalizedText;
+  /** Владения на выбор, которые даёт черта (id владений). */
+  proficiencyChoices?: Choice[];
+  /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
+  extra?: boolean;
 };
 
 export type WeaponInfo = {

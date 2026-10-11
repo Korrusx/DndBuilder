@@ -29,6 +29,7 @@ import { parseCsv, stringifyCsv } from './csv.ts';
 const SCHEMA_VERSION = 1;
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const RAW_DIR = join(ROOT, 'raw');
+const EXTRA_DIR = join(ROOT, 'extra');
 const TRANSLATIONS_DIR = join(ROOT, 'translations');
 const REPORT_FILE = join(ROOT, 'missing-translations.txt');
 const OUT_FILE = join(ROOT, '..', 'assets', 'content', 'content.json');
@@ -232,6 +233,77 @@ const PROFICIENCY_TYPES: Record<string, ProficiencyType> = {
   'Musical Instruments': 'instrument',
   Other: 'other',
 };
+
+// ---------------------------------------------------------------------------
+// Не-SRD механика: data-pipeline/extra/*.json (предыстории и черты Player's Handbook 2024).
+// Только механика, тексты книги не используются. Формат — см. data-pipeline/README.md.
+// ---------------------------------------------------------------------------
+
+/** Предыстории SRD 5.2 с «Посвящённым в магию» и его списком заклинаний. */
+const SRD_FEAT_SPELL_LIST: Record<string, string> = { acolyte: 'cleric', sage: 'wizard' };
+
+type ExtraProfChoice = { choose: number; options?: string[]; fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' };
+
+function equipmentCategoriesForExtra(rawCategories: Raw[]): Map<string, string[]> {
+  return new Map(rawCategories.map((c) => [c.index, ids(c.equipment)]));
+}
+
+async function readExtra(
+  proficiencies: { id: string; type: ProficiencyType; refId?: string }[],
+  categories: Map<string, string[]>,
+) {
+  const read = async (name: string) => JSON.parse(await readFile(join(EXTRA_DIR, `${name}.json`), 'utf8'));
+  const gamingSets = new Set(categories.get('gaming-sets') ?? []);
+
+  const profChoice = (c: ExtraProfChoice, where: string): Choice => {
+    let options = c.options ?? [];
+    if (c.fromProficiencyType === 'gamingSet') {
+      options = proficiencies.filter((p) => p.refId && gamingSets.has(p.refId)).map((p) => p.id);
+    } else if (c.fromProficiencyType) {
+      options = proficiencies.filter((p) => p.type === c.fromProficiencyType).map((p) => p.id);
+    }
+    if (!options.length) warn(`${where}: пустой выбор владений`);
+    return { choose: c.choose, options: options.map((id) => ({ kind: 'ref', id })) };
+  };
+
+  const backgrounds = (await read('backgrounds')).backgrounds.map((b: Raw) => {
+    const kit: ChoiceOption = {
+      kind: 'all',
+      items: [
+        ...b.equipment.items.map(([id, count]: [string, number]): ChoiceOption => ({ kind: 'item', id, count })),
+        ...(b.equipment.pickFromCategory ?? []).map(
+          (cat: string): ChoiceOption => ({ kind: 'choice', choice: { choose: 1, fromCategory: cat } }),
+        ),
+        { kind: 'money', amount: b.equipment.gp, unit: 'gp' },
+      ],
+    };
+    return {
+      id: b.id,
+      name: tx(`background.${b.id}.name`, b.name),
+      abilities: b.abilities as AbilityId[],
+      featId: b.feat,
+      ...(b.featSpellList ? { featSpellList: b.featSpellList } : {}),
+      proficiencies: b.proficiencies,
+      proficiencyChoices: (b.proficiencyChoices ?? []).map((c: ExtraProfChoice) => profChoice(c, `предыстория ${b.id}`)),
+      // Как у всех предысторий 2024: набор или 50 зм.
+      equipment: [{ choose: 1, options: [kit, { kind: 'money', amount: 50, unit: 'gp' }] } as Choice],
+      extra: true,
+    };
+  });
+
+  const feats = (await read('feats')).feats.map((f: Raw) => ({
+    id: f.id,
+    name: tx(`feat.${f.id}.name`, f.name),
+    type: f.type,
+    description: tx(`feat.${f.id}.description`, f.description),
+    ...(f.proficiencyChoices?.length
+      ? { proficiencyChoices: f.proficiencyChoices.map((c: ExtraProfChoice) => profChoice(c, `черта ${f.id}`)) }
+      : {}),
+    extra: true,
+  }));
+
+  return { backgrounds, feats };
+}
 
 // ---------------------------------------------------------------------------
 // Сборка
@@ -454,6 +526,8 @@ async function build(): Promise<Omit<Content, 'version'>> {
     name: tx(`background.${b.index}.name`, b.name),
     abilities: ids(b.ability_scores) as AbilityId[],
     featId: b.feat.index,
+    // В SRD 5.2 черта названа «Magic Initiate (Cleric)» и т.п., а в API список потерян.
+    ...(SRD_FEAT_SPELL_LIST[b.index] ? { featSpellList: SRD_FEAT_SPELL_LIST[b.index] } : {}),
     proficiencies: ids(b.proficiencies),
     proficiencyChoices: (b.proficiency_choices ?? []).map((ch: Raw, i: number) =>
       convChoice(ch, `background.${b.index}.proficiencyChoice.${i}`),
@@ -481,6 +555,11 @@ async function build(): Promise<Omit<Content, 'version'>> {
       ...(f.repeatable ? { repeatable: tx(`feat.${f.index}.repeatable`, f.repeatable) } : {}),
     };
   });
+
+  // --- Не-SRD механика (data-pipeline/extra) ---
+  const extra = await readExtra(proficiencies, equipmentCategoriesForExtra(await raw('equipment-categories')));
+  backgrounds.push(...extra.backgrounds);
+  feats.push(...extra.feats);
 
   // --- Снаряжение ---
   const equipment = (await raw('equipment')).map((e) => {
@@ -607,7 +686,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
 
   return {
     schemaVersion: SCHEMA_VERSION,
-    source: 'SRD 5.2 (CC BY 4.0) via dnd5eapi.co/api/2024',
+    source: 'SRD 5.2 (CC BY 4.0) via dnd5eapi.co/api/2024; механика не-SRD предысторий и черт — data-pipeline/extra',
     abilities,
     skills,
     alignments,
@@ -675,6 +754,7 @@ function checkReferences(c: Omit<Content, 'version'>) {
     b.equipment.forEach((ch) => walkChoice(w, ch, items));
     b.abilities.forEach((id) => check(w, 'характеристика', id, abilities));
   }
+  for (const f of c.feats) f.proficiencyChoices?.forEach((ch) => walkChoice(`черта ${f.id}`, ch, profs));
   const traits = set(c.traits);
   const spells = set(c.spells);
   for (const s of c.species) s.traits.forEach((id) => check(`вид ${s.id}`, 'особенность', id, traits));
