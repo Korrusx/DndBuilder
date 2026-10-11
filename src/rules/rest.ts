@@ -42,27 +42,13 @@ export function spendHitDie(
   return { ...healed, hitDiceSpent: { ...state.hitDiceSpent, [classId]: spent + 1 } };
 }
 
-/**
- * Долгий отдых: все хиты, все ячейки, −1 уровень истощения,
- * возвращается половина костей хитов (минимум 1).
- *
- * TODO: в SRD 5.2 (правила 2024) при долгом отдыхе возвращаются ВСЕ потраченные кости хитов;
- * «половина, минимум 1» — правило 2014 года. Сейчас сделано по CLAUDE.md — уточнить.
- */
-export function longRest(state: GameState, maxHp: number, hitDiceByClass: Record<string, number>): GameState {
-  const totalDice = Object.values(hitDiceByClass).reduce((s, n) => s + n, 0);
-  let toRecover = Math.max(1, Math.floor(totalDice / 2));
-  const hitDiceSpent: Record<string, number> = {};
-  for (const [classId, spent] of Object.entries(state.hitDiceSpent)) {
-    const back = Math.min(spent, toRecover);
-    toRecover -= back;
-    if (spent - back > 0) hitDiceSpent[classId] = spent - back;
-  }
+/** Долгий отдых (SRD 5.2): все хиты, все кости хитов, все ячейки, −1 уровень истощения. */
+export function longRest(state: GameState, maxHp: number): GameState {
   return {
     ...state,
     currentHp: maxHp,
     tempHp: 0,
-    hitDiceSpent,
+    hitDiceSpent: {},
     slotsSpent: state.slotsSpent.map(() => 0),
     deathSaves: { successes: 0, failures: 0 },
     exhaustion: Math.max(0, state.exhaustion - 1),

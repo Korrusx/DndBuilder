@@ -73,10 +73,8 @@ describe('состояние игры и отдых', () => {
       exhaustion: 2,
       heroicInspiration: true,
     };
-    const s = longRest(tired, 38, { rogue: 5 });
-    expect(s).toMatchObject({ currentHp: 38, tempHp: 0, hitDiceSpent: { rogue: 3 }, exhaustion: 1, heroicInspiration: true });
+    const s = longRest(tired, 38);
+    expect(s).toMatchObject({ currentHp: 38, tempHp: 0, hitDiceSpent: {}, exhaustion: 1, heroicInspiration: true });
     expect(s.slotsSpent).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    // минимум одна кость
-    expect(longRest({ ...base, hitDiceSpent: { rogue: 1 } }, 10, { rogue: 1 }).hitDiceSpent).toEqual({});
   });
 });
