@@ -21,19 +21,15 @@ export function pdfFileName(name: string): string {
 /** Собирает PDF листа и открывает системное окно «Поделиться» (сохранить, отправить, распечатать). */
 export async function exportCharacterPdf(c: Character): Promise<void> {
   const html = characterSheetHtml(c, content, PDF_FONT_CSS);
-  const { uri } = await Print.printToFileAsync({ html, ...A4, margins: { left: 0, right: 0, top: 0, bottom: 0 } });
-
-  // У файла от printToFileAsync случайное имя — переименовываем копией в кэш.
-  let shareUri = uri;
-  try {
-    const target = new File(Paths.cache, pdfFileName(c.name));
-    if (target.exists) target.delete();
-    new File(uri).moveSync(target);
-    shareUri = target.uri;
-  } catch {
-    // Не получилось переименовать — делимся файлом как есть.
-  }
+  // В Expo Go «Поделиться» может читать только папки приложения, а печать кладёт файл в чужую папку
+  // (Not allowed to read file under given url). Поэтому берём содержимое PDF и сами пишем файл в кэш приложения.
+  const { base64 } = await Print.printToFileAsync({ html, ...A4, base64: true, margins: { left: 0, right: 0, top: 0, bottom: 0 } });
+  if (!base64) throw new Error('Печать не вернула содержимое PDF.');
+  const target = new File(Paths.cache, pdfFileName(c.name));
+  if (target.exists) target.delete();
+  target.create();
+  target.write(base64, { encoding: 'base64' });
 
   if (!(await Sharing.isAvailableAsync())) throw new Error('На этом устройстве нельзя поделиться файлом.');
-  await Sharing.shareAsync(shareUri, { mimeType: 'application/pdf', UTI: 'com.adobe.pdf', dialogTitle: c.name || 'Лист персонажа' });
+  await Sharing.shareAsync(target.uri, { mimeType: 'application/pdf', UTI: 'com.adobe.pdf', dialogTitle: c.name || 'Лист персонажа' });
 }
