@@ -1,3 +1,4 @@
+import { spellMeta } from '@/shared/content/spellMeta';
 import type { InfoContent } from '@/shared/ui/InfoSheet/InfoSheet.types';
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, View } from 'react-native';
@@ -26,12 +27,6 @@ import { Placeholder } from '@/shared/ui/Placeholder/Placeholder';
 import { Screen } from '@/shared/ui/Screen/Screen';
 import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 import { StatBox } from '@/shared/ui/StatBox/StatBox';
-
-function spellMeta(s: Spell): string {
-  return [s.level === 0 ? 'Заговор' : `${s.level} круг`, tr(s.castingTime).text, tr(s.range).text, tr(s.duration).text]
-    .filter(Boolean)
-    .join(' · ');
-}
 
 export function PlayMagicPage() {
   const { character: c, sheet, update, updateState } = usePlay();

@@ -1,8 +1,10 @@
+import { FEATURE_SOURCE_LABEL } from '@/entities/character/config/featureSource';
+import { featureName } from '@/entities/character/lib/features';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { ABILITY_IDS } from '@/entities/character/config/constants';
 import { computeSheet } from '@/entities/character/model/sheet';
-import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
+import type { Character, CharacterSheet } from '@/entities/character/model/types';
 import { useDraft } from '@/features/create-character/model/DraftContext';
 import { draftIssues } from '@/features/create-character/model/validation';
 import { WizardScreen } from '@/features/create-character/ui/WizardScreen/WizardScreen';
@@ -17,20 +19,12 @@ import { Chip } from '@/shared/ui/Chip/Chip';
 import { ChipRow } from '@/shared/ui/ChipRow/ChipRow';
 import { Section } from '@/shared/ui/Section/Section';
 
-const SOURCE_LABEL: Record<SourcedId['source'], string> = { class: 'Класс', subclass: 'Подкласс', species: 'Вид', feat: 'Черта' };
-
 function safeSheet(c: Character): CharacterSheet | null {
   try {
     return computeSheet(c, content);
   } catch {
     return null;
   }
-}
-
-function featureName(f: SourcedId): string {
-  if (f.source === 'species') return nameOf('traits', f.id);
-  if (f.source === 'feat') return nameOf('feats', f.id);
-  return nameOf('features', f.id);
 }
 
 export function CreateReviewPage() {
@@ -196,7 +190,7 @@ function SheetPreview({ c, sheet }: { c: Character; sheet: CharacterSheet }) {
           {sheet.features.map((f) => (
             <View key={`${f.source}-${f.id}`} style={styles.line}>
               <AppText style={{ flex: 1 }}>{featureName(f)}</AppText>
-              <AppText variant="secondary">{SOURCE_LABEL[f.source]}</AppText>
+              <AppText variant="secondary">{FEATURE_SOURCE_LABEL[f.source]}</AppText>
             </View>
           ))}
         </View>

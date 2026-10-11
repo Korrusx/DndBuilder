@@ -1,4 +1,5 @@
 import { HP_COLORS } from '@/entities/character/config/hpColors';
+import { featureInfo } from '@/entities/character/lib/features';
 import type { InfoContent } from '@/shared/ui/InfoSheet/InfoSheet.types';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -17,7 +18,7 @@ import {
 import { characterResources, shortRestResources } from '@/entities/character/model/resources';
 import { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from '@/entities/character/model/rest';
 import { hpLevel } from '@/entities/character/model/summary';
-import type { Character, CharacterSheet, SourcedId } from '@/entities/character/model/types';
+import type { Character, CharacterSheet } from '@/entities/character/model/types';
 import { MAX_LEVEL } from '@/features/level-up/config/constants';
 import { d20Parts } from '@/features/roll-dice/model/d20Parts';
 import type { D20Request } from '@/features/roll-dice/model/types';
@@ -38,19 +39,6 @@ import { InfoSheet } from '@/shared/ui/InfoSheet/InfoSheet';
 import { Screen } from '@/shared/ui/Screen/Screen';
 import { SmallButton } from '@/shared/ui/SmallButton/SmallButton';
 import { StatBox } from '@/shared/ui/StatBox/StatBox';
-
-function featureInfo(f: SourcedId): InfoContent {
-  if (f.source === 'species') {
-    const t = byId.traits.get(f.id);
-    return { title: nameOf('traits', f.id), text: plain(t?.description), subtitle: 'Вид' };
-  }
-  if (f.source === 'feat') {
-    const t = byId.feats.get(f.id);
-    return { title: nameOf('feats', f.id), text: plain(t?.description), subtitle: 'Черта' };
-  }
-  const t = byId.features.get(f.id);
-  return { title: nameOf('features', f.id), text: plain(t?.description), subtitle: f.source === 'class' ? 'Класс' : 'Подкласс' };
-}
 
 export function PlaySheetPage() {
   const { character: c, sheet, update, updateState } = usePlay();

@@ -1,3 +1,4 @@
+import { featureName } from '@/entities/character/lib/features';
 // Лист персонажа для печати: HTML двух страниц A4. Без React — только данные справочника и расчёты из src/rules.
 // Стр. 1 — персонаж (характеристики и навыки, бой, хиты, атаки, ресурсы, умения, владения),
 // стр. 2 — заклинания, внешность и характер, снаряжение, настройка, монеты.
@@ -56,12 +57,6 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
   );
 }
 
-function featureLabel(f: SourcedId): string {
-  if (f.source === 'species') return nameOf('traits', f.id);
-  if (f.source === 'feat') return nameOf('feats', f.id);
-  return nameOf('features', f.id);
-}
-
 /** Уникальные умения без строк-заглушек «Подкласс» из таблицы класса. */
 function featureGroups(sheet: CharacterSheet) {
   const seen = new Set<string>();
@@ -73,13 +68,13 @@ function featureGroups(sheet: CharacterSheet) {
   });
   const withLevel = (f: SourcedId) => {
     const lvl = byId.features.get(f.id)?.level;
-    return `${e(featureLabel(f))}${lvl ? ` <span class="muted">${lvl}</span>` : ''}`;
+    return `${e(featureName(f))}${lvl ? ` <span class="muted">${lvl}</span>` : ''}`;
   };
   return {
     cls: list.filter((f) => f.source === 'class').map(withLevel),
     sub: list.filter((f) => f.source === 'subclass').map(withLevel),
-    species: list.filter((f) => f.source === 'species').map((f) => e(featureLabel(f))),
-    feats: list.filter((f) => f.source === 'feat').map((f) => e(featureLabel(f))),
+    species: list.filter((f) => f.source === 'species').map((f) => e(featureName(f))),
+    feats: list.filter((f) => f.source === 'feat').map((f) => e(featureName(f))),
   };
 }
 
