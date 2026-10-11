@@ -38,3 +38,11 @@ export async function saveCharacter(db: SQLiteDatabase, c: Character): Promise<C
 export async function deleteCharacter(db: SQLiteDatabase, id: string): Promise<void> {
   await db.runAsync('DELETE FROM characters WHERE id = ?', id);
 }
+
+/** Удаляет сразу несколько персонажей одной транзакцией. */
+export async function deleteCharacters(db: SQLiteDatabase, ids: string[]): Promise<void> {
+  if (ids.length === 0) return;
+  await db.withTransactionAsync(async () => {
+    for (const id of ids) await db.runAsync('DELETE FROM characters WHERE id = ?', id);
+  });
+}
