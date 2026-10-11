@@ -28,8 +28,9 @@
 
 - **Expo (React Native) + TypeScript**, строгий режим.
 - Навигация: expo-router.
-- Хранилище: expo-sqlite (две базы: справочник только для чтения и пользовательская).
-- Состояние: Zustand (или простой React context, если хватает).
+- Хранилище: expo-sqlite — пользовательская база (персонажи); справочник — JSON-файл в сборке (`assets/content/content.json`), только для чтения.
+- Состояние: React context (DraftProvider — мастер создания, CharacterProvider — режим игры); Zustand не используется.
+- Файлы: expo-file-system, expo-sharing, expo-document-picker (экспорт/импорт `.dnd.json`). В Expo Go файлы писать только в `Paths.cache`, выбранные файлы читать по `content://`.
 - PDF: expo-print (генерация из HTML-шаблона листа) + expo-sharing.
 - Тесты: Jest для логики правил. Логика расчётов обязана быть покрыта тестами.
 - Шрифты: Unbounded (заголовки, цифры) и Golos Text (текст), через expo-font. Оба поддерживают кириллицу.
@@ -85,7 +86,7 @@ equipment-categories, weapon-properties, weapon-mastery-properties, magic-school
 1. `data-pipeline/fetch.ts` — один раз скачивает все ресурсы в `data-pipeline/raw/*.json`.
 2. `data-pipeline/build.ts` — превращает сырые данные в нашу структуру, подставляет перевод,
    проверяет, что у всех ключей есть перевод (иначе предупреждение со списком), и собирает
-   `assets/content/content.json` (или .db) с полем `version`.
+   `assets/content/content.json` с полем `version`.
 3. Перевод хранится в `data-pipeline/translations/*.csv` с колонками
    `key, en, ru, status` (status: todo / draft / done). Ключ — например `spell.shield.name`,
    `spell.shield.description`. Так перевод можно вести в таблице, не трогая код.
