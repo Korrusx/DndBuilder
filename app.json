@@ -7,9 +7,12 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nikitakim.dndbuilder"
     },
     "android": {
+      "package": "com.nikitakim.dndbuilder",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#0F1114",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -28,6 +31,9 @@
       [
         "expo-splash-screen",
         {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain",
           "backgroundColor": "#0F1114"
         }
       ],
