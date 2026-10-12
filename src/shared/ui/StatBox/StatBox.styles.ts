@@ -13,7 +13,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: spacing.sm,
+    paddingHorizontal: 2,
   },
   statValue: { fontFamily: fonts.displayBold, fontSize: 22, color: colors.text },
-  statLabel: { fontFamily: fonts.text, fontSize: 12, color: colors.textSecondary },
+  statLabel: { fontFamily: fonts.text, fontSize: 12, color: colors.textSecondary, textAlign: 'center' },
 });

@@ -19,6 +19,7 @@ export { featureSourceLabel } from './config/featureSource';
 export { HP_COLORS } from './config/hpColors';
 export { attackName } from './lib/attacks';
 export { featureInfo, featureName } from './lib/features';
+export { proficiencyGroups } from './lib/proficiencies';
 export { safeSheet } from './lib/safeSheet';
 export { irmaLevel1 } from './lib/samples';
 export {

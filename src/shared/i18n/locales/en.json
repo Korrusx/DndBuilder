@@ -363,7 +363,8 @@
     "speed": "Speed",
     "profBonus": "Proficiency Bonus",
     "pb": "PB",
-    "passivePerception": "Passive Perception"
+    "passivePerception": "Passive Perception",
+    "passivePerceptionFull": "Passive Perception"
   },
   "preview": {
     "abilities": "Ability Scores",
@@ -524,7 +525,8 @@
     "features": "Features",
     "levelUp": "Level up ({{from}} → {{to}})",
     "removeCondition": "Remove condition",
-    "pickCondition": "Add a condition"
+    "pickCondition": "Add a condition",
+    "passiveInfo": "10 + your Perception skill bonus ({{bonus}}). The GM compares it with creatures’ Stealth and the DC of traps when you aren’t actively searching: if it is equal or higher, you notice."
   },
   "skillsTab": {
     "proficiency": "Proficiency",
@@ -532,7 +534,9 @@
     "summary": "Passive Perception {{value}} · ● proficiency, ◆ expertise",
     "exhaustion": " · exhaustion {{penalty}} to rolls",
     "modScore": "Modifier {{mod}} · score {{score}}",
-    "feature": "Class feature"
+    "feature": "Class feature",
+    "proficiencies": "Proficiencies and languages",
+    "proficienciesHint": "Mark a language learned during play in “Edit”."
   },
   "combat": {
     "attacks": "Attacks",

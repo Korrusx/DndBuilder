@@ -484,10 +484,12 @@ async function build(): Promise<Omit<Content, 'version'>> {
     description: tx(`alignment.${a.index}.description`, a.description),
   }));
 
+  // В API у Друидического нет пометки «редкий», а в SRD 5.2 он в таблице редких языков.
+  const RARE_LANGUAGES = new Set(['druidic']);
   const languages = (await raw('languages')).map((l) => ({
     id: l.index,
     name: tx(`language.${l.index}.name`, l.name),
-    rare: Boolean(l.is_rare),
+    rare: Boolean(l.is_rare) || RARE_LANGUAGES.has(l.index),
     ...(l.note ? { note: tx(`language.${l.index}.note`, l.note) } : {}),
   }));
 

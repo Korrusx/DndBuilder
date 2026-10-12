@@ -92,6 +92,16 @@ export function PlaySheetPage() {
         <StatBox label={t('stats.initiative')} value={formatModifier(sheet.initiative)} onPress={rollInitiative} accent />
         <StatBox label={t('stats.speed')} value={`${speedWithExhaustion(sheet.speed, ex)}`} />
         <StatBox label={t('stats.pb')} value={formatModifier(sheet.profBonus)} />
+        <StatBox
+          label={t('stats.passivePerception')}
+          value={String(sheet.passivePerception)}
+          onPress={() =>
+            setInfo({
+              title: t('stats.passivePerceptionFull'),
+              text: t('sheet.passiveInfo', { bonus: formatModifier(sheet.passivePerception - 10) }),
+            })
+          }
+        />
       </View>
 
       <View style={styles.grid}>

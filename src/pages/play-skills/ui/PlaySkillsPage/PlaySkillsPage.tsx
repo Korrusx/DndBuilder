@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { exhaustionPenalty } from '@/entities/character';
+import { exhaustionPenalty, knownLanguages, proficiencyGroups } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import type { D20Request } from '@/features/roll-dice';
 import { d20Parts, D20Sheet } from '@/features/roll-dice';
 import { colors } from '@/shared/config';
-import { abilityAbbr, abilityName, groupSkillsByAbility, nameOf } from '@/shared/content';
+import { abilityAbbr, abilityName, content, groupSkillsByAbility, nameOf } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
-import { AppText, Screen } from '@/shared/ui';
+import { AppText, Card, Screen } from '@/shared/ui';
 
 import { styles } from './PlaySkillsPage.styles';
 
@@ -18,6 +18,7 @@ export function PlaySkillsPage() {
   const { t } = useTranslation();
   const [roll, setRoll] = useState<D20Request | null>(null);
   const ex = c.state.exhaustion;
+  const profs = proficiencyGroups(sheet);
 
   const open = (s: (typeof sheet.skills)[number]) => {
     const parts = [{ label: abilityAbbr(s.ability), value: sheet.abilities[s.ability].mod }];
@@ -80,6 +81,22 @@ export function PlaySkillsPage() {
           </View>
         );
       })}
+      <Card style={styles.gapSm}>
+        <AppText variant="heading">{t('skillsTab.proficiencies')}</AppText>
+        {[
+          { label: t('pdf.languages'), list: knownLanguages(c, content).map((id) => nameOf('languages', id)) },
+          { label: t('pdf.armor'), list: profs.armor },
+          { label: t('pdf.weapons'), list: profs.weapons },
+          { label: t('pdf.tools'), list: profs.tools },
+        ].map((row) => (
+          <AppText key={row.label}>
+            <AppText style={styles.muted}>{row.label}: </AppText>
+            {row.list.length ? row.list.join(', ') : '—'}
+          </AppText>
+        ))}
+        <AppText variant="secondary">{t('skillsTab.proficienciesHint')}</AppText>
+      </Card>
+
       <D20Sheet request={roll} onClose={() => setRoll(null)} />
     </Screen>
   );

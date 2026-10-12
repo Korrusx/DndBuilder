@@ -15,6 +15,7 @@ import {
   computeSheet,
   knownLanguages,
   magicInitiateSlots,
+  proficiencyGroups,
   speciesSpellcasting,
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
@@ -95,16 +96,12 @@ function featureGroups(sheet: CharacterSheet) {
   };
 }
 
-function proficiencyGroups(sheet: CharacterSheet, c: Character, content: Content) {
-  const of = (...types: string[]) =>
-    sheet.proficiencies
-      .filter((id) => types.includes(byId.proficiencies.get(id)?.type ?? ''))
-      .map(proficiencyName)
-      .join(', ');
+function proficiencyRows(sheet: CharacterSheet, c: Character, content: Content) {
+  const g = proficiencyGroups(sheet);
   return [
-    { label: t('pdf.armor'), text: of('armor') },
-    { label: t('pdf.weapons'), text: of('weapon') },
-    { label: t('pdf.tools'), text: of('tool', 'artisanTool', 'instrument', 'other') },
+    { label: t('pdf.armor'), text: g.armor.join(', ') },
+    { label: t('pdf.weapons'), text: g.weapons.join(', ') },
+    { label: t('pdf.tools'), text: g.tools.join(', ') },
     { label: t('pdf.languages'), text: knownLanguages(c, content).map((l) => nameOf('languages', l)).join(', ') },
   ];
 }
@@ -238,7 +235,7 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
 
   const profs = box(
     t('pdf.proficiencies'),
-    proficiencyGroups(sheet, c, content)
+    proficiencyRows(sheet, c, content)
       .map((p) => `<div class="prof"><span class="lbl">${e(p.label)}</span> <span class="d">${e(p.text) || '—'}</span></div>`)
       .join(''),
   );

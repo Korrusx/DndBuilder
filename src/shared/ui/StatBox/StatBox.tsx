@@ -16,7 +16,9 @@ export function StatBox({ label, value, onPress, accent }: StatBoxProps) {
       style={({ pressed }) => [styles.stat, pressed && { opacity: 0.8 }]}
     >
       <AppText style={[styles.statValue, accent && { color: colors.accent }]}>{value}</AppText>
-      <AppText style={styles.statLabel}>{label}</AppText>
+      <AppText style={styles.statLabel} numberOfLines={2}>
+        {label}
+      </AppText>
     </Pressable>
   );
 }

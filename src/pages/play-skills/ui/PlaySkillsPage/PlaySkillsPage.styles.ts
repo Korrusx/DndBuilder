@@ -18,4 +18,6 @@ export const styles = StyleSheet.create({
   mark: { width: 16, color: colors.accent },
   bonus: { fontFamily: fonts.displayBold, fontSize: 17, color: colors.text, width: 44, textAlign: 'right' },
   fill: { flex: 1 },
+  gapSm: { gap: spacing.sm },
+  muted: { color: colors.textSecondary },
 });
