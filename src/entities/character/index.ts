@@ -80,6 +80,18 @@ export { adjustResource, characterResources, shortRestResources } from './model/
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
 export { computeSheet, finalAbilityScores, originFeatIds } from './model/sheet';
 export { spellAttackBonus, spellSaveDC } from './model/spells';
+export type { ClassOptionSlot, ClassOptionSpell } from './model/classOptions';
+export {
+  chosenClassOptions,
+  classOptionChoices,
+  classOptionProblems,
+  classOptionProblemTexts,
+  classOptionSlots,
+  classOptionSpells,
+  meetsPrerequisite,
+  tomeSlots,
+  unmetClassOptions,
+} from './model/classOptions';
 export type { SpeciesSpell, SpeciesSpellcasting } from './model/speciesSpells';
 export { needsSpeciesSpellAbility, speciesSpellcasting } from './model/speciesSpells';
 export { hpLevel } from './model/summary';

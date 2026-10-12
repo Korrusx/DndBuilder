@@ -13,6 +13,7 @@ import {
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
+import { ClassOptionsPicker } from '@/features/pick-class-options';
 import {
   AsiPicker,
   clearLevelFeatChoices,
@@ -264,6 +265,8 @@ export function LevelUpPage() {
           />
         </Section>
       ))}
+
+      <ClassOptionsPicker character={next} onChoice={(key, ids) => set((c) => ({ ...c, choices: { ...c.choices, [key]: ids } }))} />
 
       {plan.languages ? (
         <Section title={t('levelUpPage.languages')} picked={newLanguages.length} need={plan.languages}>

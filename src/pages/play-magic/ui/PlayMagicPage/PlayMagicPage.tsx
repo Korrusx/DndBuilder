@@ -7,6 +7,8 @@ import {
   adjustResource,
   adjustSlot,
   castSpell,
+  chosenClassOptions,
+  classOptionSpells,
   choice1,
   CHOICE_KEYS,
   magicInitiateSlots,
@@ -163,6 +165,50 @@ export function PlayMagicPage() {
           {mi.spells.map((id) => spellRow(id, !!sc))}
         </View>
       ))}
+
+      {(['invocation', 'metamagic'] as const).map((kind) => {
+        const chosen = chosenClassOptions(c, kind).map((id) => byId.classOptions.get(id)).filter((o) => !!o);
+        if (!chosen.length) return null;
+        const spells = kind === 'invocation' ? classOptionSpells(c, content) : [];
+        return (
+          <View key={kind} style={styles.section}>
+            <AppText variant="heading">{t(`classOptions.${kind}`)}</AppText>
+            <AppText variant="secondary">{t(kind === 'invocation' ? 'magic.invocationsHint' : 'magic.metamagicHint')}</AppText>
+            <ChipRow>
+              {chosen.map((o) => (
+                <Chip
+                  key={o.id}
+                  label={o.cost ? t('classOptions.withCost', { name: tr(o.name).text, count: o.cost }) : tr(o.name).text}
+                  onPress={() => setInfo({ title: tr(o.name).text, text: plain(o.description) })}
+                />
+              ))}
+            </ChipRow>
+            {spells.map((s) => {
+              const left = s.free === 'longRest' ? 1 - Math.min(1, c.state.resourcesSpent[s.resourceKey] ?? 0) : 0;
+              return (
+                <View key={`${s.optionId}-${s.spellId}`}>
+                  {spellRow(
+                    s.spellId,
+                    s.free === 'tome' && !!sc,
+                    s.free === 'atWill' ? (
+                      <SmallButton title={t('magic.atWill')} onPress={() => setMessage(t('magic.freeCast', { name: spellName(s.spellId) }))} />
+                    ) : s.free === 'longRest' ? (
+                      <SmallButton
+                        title={t('magic.free', { left })}
+                        disabled={left === 0}
+                        onPress={() => {
+                          updateState((st) => adjustResource(st, s.resourceKey, 1, 1));
+                          setMessage(t('magic.freeCast', { name: spellName(s.spellId) }));
+                        }}
+                      />
+                    ) : null,
+                  )}
+                </View>
+              );
+            })}
+          </View>
+        );
+      })}
 
       {species ? (
         <View style={styles.section}>

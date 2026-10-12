@@ -4,6 +4,7 @@ import { Alert, TextInput } from 'react-native';
 import type { Character } from '@/entities/character';
 import { choice1, CHOICE_KEYS, knownLanguages, needsSpeciesSpellAbility, SPECIES_SPELL_ABILITIES } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
+import { ClassOptionsPicker } from '@/features/pick-class-options';
 import { shareCharacters } from '@/features/transfer-characters';
 import { colors } from '@/shared/config';
 import { abilityName, content, nameOf, tr } from '@/shared/content';
@@ -13,7 +14,7 @@ import { Chip, ChipRow, Screen, Section, SmallButton } from '@/shared/ui';
 import type { TextField } from '../../model/types';
 import { styles } from './PlayEditPage.styles';
 
-/** Изменение данных персонажа, которые меняются по ходу игры: имя, кампания, мировоззрение, языки, заметки. */
+/** Изменение данных персонажа, которые меняются по ходу игры: имя, кампания, мировоззрение, языки, воззвания, заметки. */
 export function PlayEditPage() {
   const { character: c, update } = usePlay();
   const { t } = useTranslation();
@@ -93,6 +94,8 @@ export function PlayEditPage() {
           </ChipRow>
         </Section>
       ) : null}
+
+      <ClassOptionsPicker character={c} onChoice={(key, ids) => set({ choices: { ...c.choices, [key]: ids } })} />
 
       <Section title={t('edit.notes')}>{field('notes', t('edit.notesPlaceholder'), true)}</Section>
 

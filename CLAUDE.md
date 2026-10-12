@@ -63,7 +63,7 @@
     api/              работа с базой, хук списка персонажей  → публичный API '@/entities/character/api'
     ui/               карточка персонажа, провайдер режима игры → публичный API '@/entities/character/ui'
 /src/features       — действия пользователя: create-character, level-up, roll-dice, track-hp, rest, track-resources,
-                      add-item, edit-spells, export-pdf, transfer-characters
+                      add-item, edit-spells, pick-class-options, export-pdf, transfer-characters
 /src/widgets        — составные блоки: play-tabs (вкладки режима игры), sheet-preview
 /src/pages          — экраны: characters, create-*, play-*, level-up, about
 /data-pipeline      — скрипты подготовки справочника (Node.js, запускаются на компьютере)

@@ -6,7 +6,17 @@ import { attackName, featureName } from '@/entities/character';
 // Бланк чёрный с бордовым акцентом, данные тёмно-синие. Текущие и временные хиты пустые — для карандаша.
 
 import type { Character, CharacterSheet, SourcedId } from '@/entities/character';
-import { ABILITY_IDS, characterResources, CHOICE_KEYS, computeSheet, knownLanguages, magicInitiateSlots, speciesSpellcasting } from '@/entities/character';
+import {
+  ABILITY_IDS,
+  characterResources,
+  CHOICE_KEYS,
+  chosenClassOptions,
+  classOptionSpells,
+  computeSheet,
+  knownLanguages,
+  magicInitiateSlots,
+  speciesSpellcasting,
+} from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import {
   abilityAbbr,
@@ -58,6 +68,7 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
   const species = speciesSpellcasting(c, content);
   const speciesNote = [t('pdf.species'), species?.ability ? abilityAbbr(species.ability) : ''].filter(Boolean).join(', ');
   species?.spells.forEach((s) => add(s.spellId, speciesNote));
+  classOptionSpells(c, content).forEach((s) => add(s.spellId, tr(byId.classOptions.get(s.optionId)?.name).text));
   return [...out.values()].sort(
     (a, b) => a.spell.level - b.spell.level || tr(a.spell.name).text.localeCompare(tr(b.spell.name).text, currentLanguage()),
   );
@@ -213,7 +224,11 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const fg = featureGroups(sheet);
   const featureList = (items: string[], cols = 2) =>
     items.length ? `<ul class="flist d" style="column-count:${cols}">${items.map((x) => `<li>${x}</li>`).join('')}</ul>` : lines(2);
-  const classItems = [...fg.cls, ...fg.sub.map((x) => `${x} <span class="muted">${e(t('pdf.subclassMark'))}</span>`)];
+  // Воззвания и метамагия — в том же списке, что и умения класса.
+  const optionItems = (['invocation', 'metamagic'] as const)
+    .flatMap((kind) => chosenClassOptions(c, kind))
+    .map((id) => e(tr(byId.classOptions.get(id)?.name).text || id));
+  const classItems = [...fg.cls, ...fg.sub.map((x) => `${x} <span class="muted">${e(t('pdf.subclassMark'))}</span>`), ...optionItems];
   const features = `
     ${box(t('pdf.classFeatures'), featureList(classItems, classItems.length > 24 ? 3 : 2), 'grow')}
     <div class="pair">

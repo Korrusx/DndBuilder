@@ -19,6 +19,7 @@ import type {
   Choice,
   ChoiceOption,
   Coin,
+  ClassOption,
   ClassResource,
   Content,
   Feature,
@@ -30,10 +31,11 @@ import type {
 } from '../src/shared/content/types.ts';
 import { parseCsv, stringifyCsv } from './csv.ts';
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const RAW_DIR = join(ROOT, 'raw');
 const EXTRA_DIR = join(ROOT, 'extra');
+const SRD_DIR = join(ROOT, 'srd');
 const TRANSLATIONS_DIR = join(ROOT, 'translations');
 const REPORT_FILE = join(ROOT, 'missing-translations.txt');
 const OUT_FILE = join(ROOT, '..', 'assets', 'content', 'content.json');
@@ -62,6 +64,7 @@ const FILE_BY_PREFIX: Record<string, string> = {
   subspecies: 'origins',
   trait: 'origins',
   resource: 'classes',
+  classOption: 'classes',
   background: 'origins',
   feat: 'origins',
   equipment: 'equipment',
@@ -431,6 +434,23 @@ async function readExtra(
 }
 
 /** Текст из extra: английский — для ключа, русский — сразу в перевод. */
+/** Воззвания колдуна и метамагия чародея из SRD 5.2 (в API их нет): srd/class-options.json, перевод — наш. */
+async function readClassOptions(): Promise<ClassOption[]> {
+  const data = JSON.parse(await readFile(join(SRD_DIR, 'class-options.json'), 'utf8'));
+  const conv = (kind: ClassOption['kind'], classId: string) => (o: Raw): ClassOption => ({
+    id: o.id,
+    classId,
+    kind,
+    name: seeded(`classOption.${o.id}.name`, o.name.en, o.name.ru),
+    description: seeded(`classOption.${o.id}.description`, o.en, o.ru),
+    ...(o.prerequisite ? { prerequisite: o.prerequisite } : {}),
+    ...(o.repeatable ? { repeatable: true } : {}),
+    ...(o.cost ? { cost: o.cost } : {}),
+    ...(o.spells ? { spells: o.spells } : {}),
+  });
+  return [...data.invocations.map(conv('invocation', 'warlock')), ...data.metamagic.map(conv('metamagic', 'sorcerer'))];
+}
+
 function seeded(key: string, en: string, ru: string): LocalizedText {
   // Английский текст нужен для английского языка приложения; без него показался бы русский.
   if (/[А-Яа-яЁё]/.test(en)) warn(`Нет английского текста: ${key} — добавьте поле textEn / summaryEn / descEn в data-pipeline/extra`);
@@ -860,6 +880,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
     spells,
     magicItems,
     resources: extra.resources,
+    classOptions: await readClassOptions(),
   } as Omit<Content, 'version'>;
 }
 
@@ -918,6 +939,11 @@ function checkReferences(c: Omit<Content, 'version'>) {
   for (const r of c.resources) {
     r.features.forEach((id) => check(`ресурс ${r.id}`, 'умение', id, known));
     if (r.classId) check(`ресурс ${r.id}`, 'класс', r.classId, set(c.classes));
+  }
+  const options = set(c.classOptions);
+  for (const o of c.classOptions) {
+    o.spells?.forEach((s) => check(`воззвание ${o.id}`, 'заклинание', s.id, spells));
+    if (o.prerequisite?.invocation) check(`воззвание ${o.id}`, 'воззвание', o.prerequisite.invocation, options);
   }
   for (const e of c.equipment) e.contents?.forEach((x) => check(`набор ${e.id}`, 'предмет', x.id, items));
   const anyItems = new Set([...items, ...set(c.magicItems)]);

@@ -19,6 +19,13 @@ npm run data:build   # собрать assets/content/content.json и обнов�
 напишет предупреждение. Ключи без перевода перечислены в `missing-translations.txt`;
 в приложении вместо перевода показывается английский текст с пометкой «EN».
 
+## Тексты SRD, которых нет в API (`srd/`)
+
+`srd/class-options.json` — таинственные воззвания колдуна и метамагия чародея из SRD 5.2.1 (с. 66–67, 72–74):
+`en` — текст SRD, `ru` — наш перевод. Перевод при первой сборке попадает в `translations/classes.csv` черновиком
+(ключи `classOption.<id>.name` / `.description`); дальше его правят в CSV. Поля `prerequisite`, `repeatable`, `cost`,
+`spells` — механика для приложения.
+
 ## Механика не из SRD (`extra/`)
 
 `extra/backgrounds.json` и `extra/feats.json` — предыстории и черты происхождения Player's Handbook 2024,

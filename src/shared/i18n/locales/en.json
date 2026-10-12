@@ -115,7 +115,7 @@
     "featureOption": "No class feature option chosen",
     "fightingStyle": "No Fighting Style chosen",
     "languages": "Choose languages: {{count}}",
-    "invocations": "Eldritch Invocations can't be chosen in the app yet — write them in the notes",
+    "invocations": "Choose Eldritch Invocations: {{count}}",
     "classEquipment": "No class equipment chosen",
     "backgroundEquipment": "No background equipment chosen",
     "equipmentPick": "An item in the equipment pack isn't chosen",
@@ -130,7 +130,10 @@
       "feat": "feat"
     },
     "featureLanguages": "{{feature}}: choose a language ({{count}} more)",
-    "speciesSpellAbility": "Species spellcasting ability is not chosen"
+    "speciesSpellAbility": "Species spellcasting ability is not chosen",
+    "metamagic": "Choose Metamagic options: {{count}}",
+    "unmetOptions": "Prerequisites not met: {{list}}",
+    "tome": "Book of Shadows: choose 3 cantrips and 2 rituals"
   },
   "roll": {
     "exhaustion": "Exhaustion {{level}}",
@@ -197,8 +200,7 @@
       "skills": "Choose skills: {{count}}",
       "languages": "Choose languages: {{count}}",
       "moreSpells": "You can choose more spells: {{count}}",
-      "moreMasteries": "You can choose more Weapon Masteries: {{count}}",
-      "invocations": "Choose Invocations and Metamagic by hand for now and keep them in the notes"
+      "moreMasteries": "You can choose more Weapon Masteries: {{count}}"
     },
     "asiTwo": "+2 to one",
     "asiSplit": "+1 to two"
@@ -590,7 +592,10 @@
     "free": "No slot: {{left}}",
     "freeCast": "{{name}}: cast without a slot",
     "swapCantrip": "Change",
-    "swapCantripHint": "After a Long Rest you can replace this cantrip with another Wizard cantrip."
+    "swapCantripHint": "After a Long Rest you can replace this cantrip with another Wizard cantrip.",
+    "atWill": "No slot",
+    "invocationsHint": "Tap an invocation to read it. “No slot” invocation spells can be cast any number of times; Book of Shadows spells are prepared Warlock spells.",
+    "metamagicHint": "Track Sorcery Points in Resources on the Sheet tab. Tap an option to read it."
   },
   "edit": {
     "saveFailed": "Couldn't save the file",
@@ -641,5 +646,17 @@
     "languages": "Languages",
     "masteries": "Weapon Mastery",
     "pickSpells": "Choose spells"
+  },
+  "classOptions": {
+    "invocation": "Eldritch Invocations",
+    "invocationHint": "You gain more invocations as a Warlock; on level up you can replace one. “?” shows the description.",
+    "metamagic": "Metamagic",
+    "metamagicHint": "Ways to modify spells with Sorcery Points. On level up you can replace one option. “?” shows the description.",
+    "withCost_one": "{{name}} · {{count}} point",
+    "withCost_other": "{{name}} · {{count}} points",
+    "unmet": "prerequisite not met",
+    "tomeCantrips": "Book of Shadows: cantrips",
+    "tomeRituals": "Book of Shadows: level 1 rituals",
+    "tomeHint": "From any class’s spell list. While the book is on you, they are prepared and count as Warlock spells."
   }
 }

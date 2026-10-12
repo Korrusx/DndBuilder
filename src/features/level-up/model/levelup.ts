@@ -4,6 +4,7 @@
 import type { Character, FeatChoice } from '@/entities/character';
 import {
   choiceOptionIds,
+  classOptionProblemTexts,
   computeSheet,
   FEAT_FEATURES,
   finalAbilityScores,
@@ -166,9 +167,7 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
   if (masteries > next.weaponMasteries.length) {
     need(false, t('levelUp.issues.moreMasteries', { count: masteries - next.weaponMasteries.length }), false);
   }
-  if (plan.features.some((f) => f.id === 'warlock-eldritch-invocations' || f.id.startsWith('sorcerer-metamagic'))) {
-    need(false, t('levelUp.issues.invocations'), false);
-  }
+  for (const message of classOptionProblemTexts(next, content)) need(false, message);
   return issues;
 }
 

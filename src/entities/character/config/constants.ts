@@ -42,6 +42,11 @@ export const CHOICE_KEYS = {
   speciesSpellAbility: 'trait.spellAbility',
   /** Заговор вместо заданного особенностью (высший эльф: вместо «Фокусов»). */
   speciesCantrip: (traitId: string) => `trait.${traitId}.cantrip`,
+  /** Варианты умений класса: воззвания колдуна, метамагия чародея (id из `content.classOptions`). */
+  classOptions: (kind: 'invocation' | 'metamagic') => (kind === 'invocation' ? 'class.warlock.invocations' : 'class.sorcerer.metamagic'),
+  /** «Договор гримуара»: три заговора и два ритуала 1-го круга из любых списков. */
+  tomeCantrips: 'class.warlock.tome.cantrips',
+  tomeRituals: 'class.warlock.tome.rituals',
   /** Стартовое снаряжение: номер варианта (A = 0) и выбор предмета внутри набора. */
   equipment: (source: 'class' | 'background') => `equip.${source}`,
   equipmentPick: (source: 'class' | 'background', i: number) => `equip.${source}.pick.${i}`,
@@ -95,6 +100,19 @@ export const FEAT_FEATURES: Record<string, 'fighting-style'> = {
 export const MAGIC_INITIATE_LISTS = ['cleric', 'druid', 'wizard'] as const;
 
 export const MAGIC_INITIATE_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
+
+// ---------- Варианты умений классов (SRD 5.2) ----------
+
+/** Сколько вариантов метамагии знает чародей: 2 со 2-го уровня, ещё 2 на 10-м и 17-м. */
+export const METAMAGIC_COUNT: [level: number, count: number][] = [
+  [2, 2],
+  [10, 4],
+  [17, 6],
+];
+
+/** «Договор гримуара»: сколько заговоров и ритуалов 1-го круга в Книге теней. */
+export const TOME_CANTRIPS = 3;
+export const TOME_RITUALS = 2;
 
 // ---------- Заклинания вида (SRD 5.2) ----------
 

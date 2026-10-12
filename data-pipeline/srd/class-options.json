@@ -1,0 +1,284 @@
+{
+  "_comment": "Варианты умений классов из SRD 5.2.1 (CC BY 4.0), которых нет в данных API: таинственные воззвания колдуна (Eldritch Invocation Options, с. 72–74) и метамагия чародея (Metamagic Options, с. 66–67). en — текст SRD, ru — наш перевод (попадает в translations/classes.csv черновиком). prerequisite: level — уровень колдуна, invocation — нужное воззвание, cantrip — нужен заговор колдуна, наносящий урон (damage) или с броском атаки (attack). spells: заклинания, которые можно творить без ячейки (atWill — сколько угодно, longRest — раз до долгого отдыха).",
+  "invocations": [
+    {
+      "id": "agonizing-blast",
+      "name": { "en": "Agonizing Blast", "ru": "Мучительный взрыв" },
+      "prerequisite": { "level": 2, "cantrip": "damage" },
+      "repeatable": true,
+      "en": "Choose one of your known Warlock cantrips that deals damage. You can add your Charisma modifier to that spell's damage rolls.\nRepeatable. You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip.",
+      "ru": "Выберите один известный вам заговор колдуна, наносящий урон. К броскам урона этого заклинания вы можете прибавлять модификатор Харизмы.\nПовторяемое. Это воззвание можно взять несколько раз, каждый раз выбирая другой подходящий заговор."
+    },
+    {
+      "id": "armor-of-shadows",
+      "name": { "en": "Armor of Shadows", "ru": "Доспех теней" },
+      "spells": [{ "id": "mage-armor", "free": "atWill" }],
+      "en": "You can cast Mage Armor on yourself without expending a spell slot.",
+      "ru": "Вы можете накладывать на себя «Доспехи мага», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "ascendant-step",
+      "name": { "en": "Ascendant Step", "ru": "Восходящий шаг" },
+      "prerequisite": { "level": 5 },
+      "spells": [{ "id": "levitate", "free": "atWill" }],
+      "en": "You can cast Levitate on yourself without expending a spell slot.",
+      "ru": "Вы можете накладывать на себя «Левитацию», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "devils-sight",
+      "name": { "en": "Devil's Sight", "ru": "Дьявольское зрение" },
+      "prerequisite": { "level": 2 },
+      "en": "You can see normally in Dim Light and Darkness—both magical and nonmagical—within 120 feet of yourself.",
+      "ru": "В пределах 120 футов от себя вы нормально видите в тусклом свете и темноте — как магической, так и обычной."
+    },
+    {
+      "id": "devouring-blade",
+      "name": { "en": "Devouring Blade", "ru": "Пожирающий клинок" },
+      "prerequisite": { "level": 12, "invocation": "thirsting-blade" },
+      "en": "The Extra Attack of your Thirsting Blade invocation confers two extra attacks rather than one.",
+      "ru": "«Дополнительная атака» от воззвания «Жаждущий клинок» даёт не одну, а две дополнительные атаки."
+    },
+    {
+      "id": "eldritch-mind",
+      "name": { "en": "Eldritch Mind", "ru": "Таинственный разум" },
+      "en": "You have Advantage on Constitution saving throws that you make to maintain Concentration.",
+      "ru": "Вы совершаете с преимуществом спасброски Телосложения для сохранения концентрации."
+    },
+    {
+      "id": "eldritch-smite",
+      "name": { "en": "Eldritch Smite", "ru": "Таинственная кара" },
+      "prerequisite": { "level": 5, "invocation": "pact-of-the-blade" },
+      "en": "Once per turn when you hit a creature with your pact weapon, you can expend a Pact Magic spell slot to deal an extra 1d8 Force damage to the target, plus another 1d8 per level of the spell slot, and you can give the target the Prone condition if it is Huge or smaller.",
+      "ru": "Раз в ход, попав по существу оружием договора, вы можете потратить ячейку «Магии договора», чтобы нанести цели дополнительно 1к8 урона силовым полем и ещё 1к8 за каждый круг ячейки. Если цель Огромная или меньше, вы можете сбить её с ног (состояние «Лежащий ничком»)."
+    },
+    {
+      "id": "eldritch-spear",
+      "name": { "en": "Eldritch Spear", "ru": "Таинственное копьё" },
+      "prerequisite": { "level": 2, "cantrip": "damage" },
+      "repeatable": true,
+      "en": "Choose one of your known Warlock cantrips that deals damage and has a range of 10+ feet. When you cast that spell, its range increases by a number of feet equal to 30 times your Warlock level.\nRepeatable. You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip.",
+      "ru": "Выберите один известный вам заговор колдуна, наносящий урон, с дистанцией от 10 футов. Когда вы его творите, его дистанция увеличивается на 30 футов за каждый уровень колдуна.\nПовторяемое. Это воззвание можно взять несколько раз, каждый раз выбирая другой подходящий заговор."
+    },
+    {
+      "id": "fiendish-vigor",
+      "name": { "en": "Fiendish Vigor", "ru": "Демоническая живучесть" },
+      "prerequisite": { "level": 2 },
+      "spells": [{ "id": "false-life", "free": "atWill" }],
+      "en": "You can cast False Life on yourself without expending a spell slot. When you cast the spell with this feature, you don't roll the die for the Temporary Hit Points; you automatically get the highest number on the die.",
+      "ru": "Вы можете накладывать на себя «Псевдожизнь», не тратя ячейку заклинаний. Когда вы творите его так, кость временных хитов не бросается: вы сразу получаете её максимальное значение."
+    },
+    {
+      "id": "gaze-of-two-minds",
+      "name": { "en": "Gaze of Two Minds", "ru": "Взгляд двух разумов" },
+      "prerequisite": { "level": 5 },
+      "en": "You can use a Bonus Action to touch a willing creature and perceive through its senses until the end of your next turn. As long as the creature is on the same plane of existence as you, you can take a Bonus Action on subsequent turns to maintain this connection, extending the duration until the end of your next turn. The connection ends if you don't maintain it in this way.\nWhile perceiving through the other creature's senses, you benefit from any special senses possessed by that creature, and you can cast spells as if you were in your space or the other creature's space if the two of you are within 60 feet of each other.",
+      "ru": "Бонусным действием вы касаетесь согласного существа и воспринимаете мир его чувствами до конца своего следующего хода. Пока существо на одном плане с вами, в следующие ходы вы можете бонусным действием поддерживать связь, продлевая её до конца своего следующего хода. Если не поддерживать связь, она прерывается.\nПока вы воспринимаете мир чувствами другого существа, вам доступны его особые чувства, и если вы находитесь в пределах 60 футов друг от друга, вы можете творить заклинания так, будто находитесь в своём пространстве или в пространстве этого существа."
+    },
+    {
+      "id": "gift-of-the-depths",
+      "name": { "en": "Gift of the Depths", "ru": "Дар глубин" },
+      "prerequisite": { "level": 5 },
+      "spells": [{ "id": "water-breathing", "free": "longRest" }],
+      "en": "You can breathe underwater, and you gain a Swim Speed equal to your Speed.\nYou can also cast Water Breathing once without expending a spell slot. You regain the ability to cast it in this way again when you finish a Long Rest.",
+      "ru": "Вы можете дышать под водой и получаете скорость плавания, равную вашей скорости.\nКроме того, вы можете один раз сотворить «Подводное дыхание», не тратя ячейку заклинаний. Эта возможность восстанавливается после долгого отдыха."
+    },
+    {
+      "id": "gift-of-the-protectors",
+      "name": { "en": "Gift of the Protectors", "ru": "Дар защитников" },
+      "prerequisite": { "level": 9, "invocation": "pact-of-the-tome" },
+      "en": "A new page appears in your Book of Shadows when you conjure it. With your permission, a creature can take an action to write its name on that page, which can contain a number of names equal to your Charisma modifier (minimum of one name).\nWhen any creature whose name is on the page is reduced to 0 Hit Points but not killed outright, the creature magically drops to 1 Hit Point instead. Once this magic is triggered, no creature can benefit from it until you finish a Long Rest.\nAs a Magic action, you can erase a name on the page by touching it.",
+      "ru": "Когда вы призываете Книгу теней, в ней появляется новая страница. С вашего разрешения существо может действием вписать на неё своё имя; всего на странице помещается столько имён, каков ваш модификатор Харизмы (минимум одно).\nКогда хиты любого существа, чьё имя есть на странице, опускаются до 0, но оно не убито сразу, вместо этого у него магическим образом остаётся 1 хит. После срабатывания этой магией никто не может воспользоваться, пока вы не закончите долгий отдых.\nДействием «Магия» вы можете стереть имя со страницы, коснувшись его."
+    },
+    {
+      "id": "investment-of-the-chain-master",
+      "name": { "en": "Investment of the Chain Master", "ru": "Дар повелителя цепи" },
+      "prerequisite": { "level": 5, "invocation": "pact-of-the-chain" },
+      "en": "When you cast Find Familiar, you infuse the summoned familiar with a measure of your eldritch power, granting the creature the following benefits.\nAerial or Aquatic. The familiar gains either a Fly Speed or a Swim Speed (your choice) of 40 feet.\nQuick Attack. As a Bonus Action, you can command the familiar to take the Attack action.\nNecrotic or Radiant Damage. Whenever the familiar deals Bludgeoning, Piercing, or Slashing damage, you can make it deal Necrotic or Radiant damage instead.\nYour Save DC. If the familiar forces a creature to make a saving throw, it uses your spell save DC.\nResistance. When the familiar takes damage, you can take a Reaction to grant it Resistance against that damage.",
+      "ru": "Когда вы творите «Поиск фамильяра», вы наделяете фамильяра частью своей таинственной силы, и он получает следующие преимущества.\nВоздух или вода. Фамильяр получает скорость полёта или плавания (на ваш выбор) 40 футов.\nБыстрая атака. Бонусным действием вы можете приказать фамильяру совершить действие «Атака».\nНекротический урон или урон излучением. Когда фамильяр наносит дробящий, колющий или рубящий урон, вы можете сделать его некротическим или излучением.\nВаша СЛ. Если фамильяр заставляет существо совершить спасбросок, используется СЛ спасброска ваших заклинаний.\nСопротивление. Когда фамильяр получает урон, вы можете реакцией дать ему сопротивление этому урону."
+    },
+    {
+      "id": "lessons-of-the-first-ones",
+      "name": { "en": "Lessons of the First Ones", "ru": "Уроки Первых" },
+      "prerequisite": { "level": 2 },
+      "repeatable": true,
+      "en": "You have received knowledge from an elder entity of the multiverse, allowing you to gain one Origin feat of your choice (see \"Feats\").\nRepeatable. You can gain this invocation more than once. Each time you do so, choose a different Origin feat.",
+      "ru": "Древняя сущность мультивселенной поделилась с вами знанием: вы получаете одну черту происхождения на выбор (см. «Черты»).\nПовторяемое. Это воззвание можно взять несколько раз, каждый раз выбирая другую черту происхождения."
+    },
+    {
+      "id": "lifedrinker",
+      "name": { "en": "Lifedrinker", "ru": "Пьющий жизнь" },
+      "prerequisite": { "level": 9, "invocation": "pact-of-the-blade" },
+      "en": "Once per turn when you hit a creature with your pact weapon, you can deal an extra 1d6 Necrotic, Psychic, or Radiant damage (your choice) to the creature, and you can expend one of your Hit Point Dice to roll it and regain a number of Hit Points equal to the roll plus your Constitution modifier (minimum of 1 Hit Point).",
+      "ru": "Раз в ход, попав по существу оружием договора, вы можете нанести ему дополнительно 1к6 некротического урона, урона психической энергией или излучением (на выбор). Кроме того, вы можете потратить одну кость хитов, бросить её и восстановить столько хитов, сколько выпало, плюс модификатор Телосложения (минимум 1 хит)."
+    },
+    {
+      "id": "mask-of-many-faces",
+      "name": { "en": "Mask of Many Faces", "ru": "Маска многих лиц" },
+      "prerequisite": { "level": 2 },
+      "spells": [{ "id": "disguise-self", "free": "atWill" }],
+      "en": "You can cast Disguise Self without expending a spell slot.",
+      "ru": "Вы можете творить «Маскировку», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "master-of-myriad-forms",
+      "name": { "en": "Master of Myriad Forms", "ru": "Мастер бесчисленных обликов" },
+      "prerequisite": { "level": 5 },
+      "spells": [{ "id": "alter-self", "free": "atWill" }],
+      "en": "You can cast Alter Self without expending a spell slot.",
+      "ru": "Вы можете творить «Смену обличья», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "misty-visions",
+      "name": { "en": "Misty Visions", "ru": "Туманные видения" },
+      "prerequisite": { "level": 2 },
+      "spells": [{ "id": "silent-image", "free": "atWill" }],
+      "en": "You can cast Silent Image without expending a spell slot.",
+      "ru": "Вы можете творить «Безмолвный образ», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "one-with-shadows",
+      "name": { "en": "One with Shadows", "ru": "Единство с тенями" },
+      "prerequisite": { "level": 5 },
+      "spells": [{ "id": "invisibility", "free": "atWill" }],
+      "en": "While you're in an area of Dim Light or Darkness, you can cast Invisibility on yourself without expending a spell slot.",
+      "ru": "Находясь в области тусклого света или темноты, вы можете накладывать на себя «Невидимость», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "otherworldly-leap",
+      "name": { "en": "Otherworldly Leap", "ru": "Потусторонний прыжок" },
+      "prerequisite": { "level": 2 },
+      "spells": [{ "id": "jump", "free": "atWill" }],
+      "en": "You can cast Jump on yourself without expending a spell slot.",
+      "ru": "Вы можете накладывать на себя «Прыжок», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "pact-of-the-blade",
+      "name": { "en": "Pact of the Blade", "ru": "Договор клинка" },
+      "en": "As a Bonus Action, you can conjure a pact weapon in your hand—a Simple or Martial Melee weapon of your choice with which you bond—or create a bond with a magic weapon you touch; you can't bond with a magic weapon if someone else is attuned to it or another Warlock is bonded with it. Until the bond ends, you have proficiency with the weapon, and you can use it as a Spellcasting Focus.\nWhenever you attack with the bonded weapon, you can use your Charisma modifier for the attack and damage rolls instead of using Strength or Dexterity; and you can cause the weapon to deal Necrotic, Psychic, or Radiant damage or its normal damage type.\nYour bond with the weapon ends if you use this feature's Bonus Action again, if the weapon is more than 5 feet away from you for 1 minute or more, or if you die. A conjured weapon disappears when the bond ends.",
+      "ru": "Бонусным действием вы можете призвать в руку оружие договора — простое или воинское рукопашное оружие на ваш выбор, с которым вы связываете себя, — или установить связь с магическим оружием, которого касаетесь. Нельзя связать себя с магическим оружием, если кто-то другой настроен на него или с ним уже связан другой колдун. Пока связь не разорвана, вы владеете этим оружием и можете использовать его как заклинательную фокусировку.\nАтакуя связанным оружием, вы можете использовать для бросков атаки и урона модификатор Харизмы вместо Силы или Ловкости, а также можете сделать урон оружия некротическим, психической энергией или излучением вместо обычного.\nСвязь разрывается, если вы снова используете бонусное действие этого умения, если оружие находится дальше 5 футов от вас 1 минуту или дольше или если вы умираете. Призванное оружие исчезает, когда связь разрывается."
+    },
+    {
+      "id": "pact-of-the-chain",
+      "name": { "en": "Pact of the Chain", "ru": "Договор цепи" },
+      "spells": [{ "id": "find-familiar", "free": "atWill" }],
+      "en": "You learn the Find Familiar spell and can cast it as a Magic action without expending a spell slot.\nWhen you cast the spell, you choose one of the normal forms for your familiar or one of the following special forms: Imp, Pseudodragon, Quasit, Skeleton, Sphinx of Wonder, Sprite, or Venomous Snake (see \"Monsters\" for the familiar's stat block).\nAdditionally, when you take the Attack action, you can forgo one of your own attacks to allow your familiar to make one attack of its own with its Reaction.",
+      "ru": "Вы узнаёте заклинание «Поиск фамильяра» и можете творить его действием «Магия», не тратя ячейку заклинаний.\nСотворяя его, вы выбираете для фамильяра один из обычных обликов или один из особых: бес, псевдодракон, квазит, скелет, сфинкс чудес, спрайт или ядовитая змея (характеристики фамильяра — в разделе «Чудовища»).\nКроме того, совершая действие «Атака», вы можете отказаться от одной своей атаки, чтобы фамильяр совершил одну атаку своей реакцией."
+    },
+    {
+      "id": "pact-of-the-tome",
+      "name": { "en": "Pact of the Tome", "ru": "Договор гримуара" },
+      "en": "Stitching together strands of shadow, you conjure forth a book in your hand at the end of a Short or Long Rest. This Book of Shadows (you determine its appearance) contains eldritch magic that only you can access, granting you the benefits below. The book disappears if you conjure another book with this feature or if you die.\nCantrips and Rituals. When the book appears, choose three cantrips, and choose two level 1 spells that have the Ritual tag. The spells can be from any class's spell list, and they must be spells you don't already have prepared. While the book is on your person, you have the chosen spells prepared, and they function as Warlock spells for you.\nSpellcasting Focus. You can use the book as a Spellcasting Focus.",
+      "ru": "Сплетая нити тени, в конце короткого или долгого отдыха вы призываете в руку книгу. Эта Книга теней (её вид определяете вы) хранит таинственную магию, доступную только вам, и даёт следующие преимущества. Книга исчезает, если вы призываете другую книгу этим умением или умираете.\nЗаговоры и ритуалы. Когда книга появляется, выберите три заговора и два заклинания 1-го круга с пометкой «ритуал». Заклинания могут быть из списка любого класса, но не должны быть у вас уже подготовлены. Пока книга при вас, выбранные заклинания у вас подготовлены и считаются для вас заклинаниями колдуна.\nЗаклинательная фокусировка. Книгу можно использовать как заклинательную фокусировку."
+    },
+    {
+      "id": "repelling-blast",
+      "name": { "en": "Repelling Blast", "ru": "Отталкивающий взрыв" },
+      "prerequisite": { "level": 2, "cantrip": "attack" },
+      "repeatable": true,
+      "en": "Choose one of your known Warlock cantrips that requires an attack roll. When you hit a Large or smaller creature with that cantrip, you can push the creature up to 10 feet straight away from you.\nRepeatable. You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip.",
+      "ru": "Выберите один известный вам заговор колдуна, требующий броска атаки. Когда вы попадаете этим заговором по Большому или меньшему существу, вы можете оттолкнуть его по прямой от себя на расстояние до 10 футов.\nПовторяемое. Это воззвание можно взять несколько раз, каждый раз выбирая другой подходящий заговор."
+    },
+    {
+      "id": "thirsting-blade",
+      "name": { "en": "Thirsting Blade", "ru": "Жаждущий клинок" },
+      "prerequisite": { "level": 5, "invocation": "pact-of-the-blade" },
+      "en": "You gain the Extra Attack feature for your pact weapon only. With that feature, you can attack twice with the weapon instead of once when you take the Attack action on your turn.",
+      "ru": "Вы получаете умение «Дополнительная атака», но только для оружия договора: совершая в свой ход действие «Атака», вы можете атаковать им дважды, а не один раз."
+    },
+    {
+      "id": "visions-of-distant-realms",
+      "name": { "en": "Visions of Distant Realms", "ru": "Видения далёких миров" },
+      "prerequisite": { "level": 9 },
+      "spells": [{ "id": "arcane-eye", "free": "atWill" }],
+      "en": "You can cast Arcane Eye without expending a spell slot.",
+      "ru": "Вы можете творить «Магический глаз», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "whispers-of-the-grave",
+      "name": { "en": "Whispers of the Grave", "ru": "Шёпот могилы" },
+      "prerequisite": { "level": 7 },
+      "spells": [{ "id": "speak-with-dead", "free": "atWill" }],
+      "en": "You can cast Speak with Dead without expending a spell slot.",
+      "ru": "Вы можете творить «Разговор с мёртвыми», не тратя ячейку заклинаний."
+    },
+    {
+      "id": "witch-sight",
+      "name": { "en": "Witch Sight", "ru": "Ведьмин взор" },
+      "prerequisite": { "level": 15 },
+      "en": "You have Truesight with a range of 30 feet.",
+      "ru": "Вы обладаете истинным зрением в пределах 30 футов."
+    }
+  ],
+  "metamagic": [
+    {
+      "id": "careful-spell",
+      "name": { "en": "Careful Spell", "ru": "Осторожное заклинание" },
+      "cost": 1,
+      "en": "When you cast a spell that forces other creatures to make a saving throw, you can protect some of those creatures from the spell's full force. To do so, spend 1 Sorcery Point and choose a number of those creatures up to your Charisma modifier (minimum of one creature). A chosen creature automatically succeeds on its saving throw against the spell, and it takes no damage if it would normally take half damage on a successful save.",
+      "ru": "Когда вы творите заклинание, заставляющее других существ совершать спасбросок, вы можете уберечь некоторых из них от полной силы заклинания. Для этого потратьте 1 единицу чародейства и выберите столько из этих существ, каков ваш модификатор Харизмы (минимум одно). Выбранное существо автоматически преуспевает в спасброске от заклинания и не получает урона, если при успехе получило бы половину."
+    },
+    {
+      "id": "distant-spell",
+      "name": { "en": "Distant Spell", "ru": "Далёкое заклинание" },
+      "cost": 1,
+      "en": "When you cast a spell that has a range of at least 5 feet, you can spend 1 Sorcery Point to double the spell's range. Or when you cast a spell that has a range of Touch, you can spend 1 Sorcery Point to make the spell's range 30 feet.",
+      "ru": "Когда вы творите заклинание с дистанцией не меньше 5 футов, вы можете потратить 1 единицу чародейства, чтобы удвоить дистанцию. А когда вы творите заклинание с дистанцией «касание», вы можете потратить 1 единицу чародейства, чтобы его дистанция стала 30 футов."
+    },
+    {
+      "id": "empowered-spell",
+      "name": { "en": "Empowered Spell", "ru": "Усиленное заклинание" },
+      "cost": 1,
+      "en": "When you roll damage for a spell, you can spend 1 Sorcery Point to reroll a number of the damage dice up to your Charisma modifier (minimum of one), and you must use the new rolls.\nYou can use Empowered Spell even if you've already used a different Metamagic option during the casting of the spell.",
+      "ru": "Бросая урон заклинания, вы можете потратить 1 единицу чародейства, чтобы перебросить столько костей урона, каков ваш модификатор Харизмы (минимум одну); нужно использовать новые результаты.\n«Усиленное заклинание» можно применить, даже если при сотворении этого заклинания вы уже использовали другой вариант метамагии."
+    },
+    {
+      "id": "extended-spell",
+      "name": { "en": "Extended Spell", "ru": "Продлённое заклинание" },
+      "cost": 1,
+      "en": "When you cast a spell that has a duration of 1 minute or longer, you can spend 1 Sorcery Point to double its duration to a maximum duration of 24 hours.\nIf the affected spell requires Concentration, you have Advantage on any saving throw you make to maintain that Concentration.",
+      "ru": "Когда вы творите заклинание с длительностью 1 минута или больше, вы можете потратить 1 единицу чародейства, чтобы удвоить его длительность, но не больше чем до 24 часов.\nЕсли заклинание требует концентрации, спасброски для её сохранения вы совершаете с преимуществом."
+    },
+    {
+      "id": "heightened-spell",
+      "name": { "en": "Heightened Spell", "ru": "Обострённое заклинание" },
+      "cost": 2,
+      "en": "When you cast a spell that forces a creature to make a saving throw, you can spend 2 Sorcery Points to give one target of the spell Disadvantage on saves against the spell.",
+      "ru": "Когда вы творите заклинание, заставляющее существо совершить спасбросок, вы можете потратить 2 единицы чародейства, чтобы одна цель совершала спасброски от этого заклинания с помехой."
+    },
+    {
+      "id": "quickened-spell",
+      "name": { "en": "Quickened Spell", "ru": "Ускоренное заклинание" },
+      "cost": 2,
+      "en": "When you cast a spell that has a casting time of an action, you can spend 2 Sorcery Points to change the casting time to a Bonus Action for this casting. You can't modify a spell in this way if you've already cast a level 1+ spell on the current turn, nor can you cast a level 1+ spell on this turn after modifying a spell in this way.",
+      "ru": "Когда вы творите заклинание со временем сотворения «действие», вы можете потратить 2 единицы чародейства, чтобы в этот раз сотворить его бонусным действием. Так нельзя изменить заклинание, если в этот ход вы уже сотворили заклинание 1-го круга или выше, и после такого изменения в этот ход нельзя творить заклинания 1-го круга или выше."
+    },
+    {
+      "id": "seeking-spell",
+      "name": { "en": "Seeking Spell", "ru": "Ищущее заклинание" },
+      "cost": 1,
+      "en": "If you make an attack roll for a spell and miss, you can spend 1 Sorcery Point to reroll the d20, and you must use the new roll.\nYou can use Seeking Spell even if you've already used a different Metamagic option during the casting of the spell.",
+      "ru": "Если вы промахнулись броском атаки заклинания, вы можете потратить 1 единицу чародейства, чтобы перебросить к20; нужно использовать новый результат.\n«Ищущее заклинание» можно применить, даже если при сотворении этого заклинания вы уже использовали другой вариант метамагии."
+    },
+    {
+      "id": "subtle-spell",
+      "name": { "en": "Subtle Spell", "ru": "Неприметное заклинание" },
+      "cost": 1,
+      "en": "When you cast a spell, you can spend 1 Sorcery Point to cast it without any Verbal, Somatic, or Material components, except Material components that are consumed by the spell or that have a cost specified in the spell.",
+      "ru": "Когда вы творите заклинание, вы можете потратить 1 единицу чародейства, чтобы сотворить его без вербальных, соматических и материальных компонентов — кроме материальных компонентов, которые заклинание расходует или у которых указана цена."
+    },
+    {
+      "id": "transmuted-spell",
+      "name": { "en": "Transmuted Spell", "ru": "Преобразованное заклинание" },
+      "cost": 1,
+      "en": "When you cast a spell that deals a type of damage from the following list, you can spend 1 Sorcery Point to change that damage type to one of the other listed types: Acid, Cold, Fire, Lightning, Poison, Thunder.",
+      "ru": "Когда вы творите заклинание, наносящее урон одного из перечисленных видов, вы можете потратить 1 единицу чародейства, чтобы заменить его другим видом из списка: кислота, холод, огонь, электричество, яд, звук."
+    },
+    {
+      "id": "twinned-spell",
+      "name": { "en": "Twinned Spell", "ru": "Сдвоенное заклинание" },
+      "cost": 1,
+      "en": "When you cast a spell, such as Charm Person, that can be cast with a higher-level spell slot to target an additional creature, you can spend 1 Sorcery Point to increase the spell's effective level by 1.",
+      "ru": "Когда вы творите заклинание, которое ячейкой более высокого круга может нацеливаться на дополнительное существо (например, «Очарование личности»), вы можете потратить 1 единицу чародейства, чтобы его эффективный круг увеличился на 1."
+    }
+  ]
+}

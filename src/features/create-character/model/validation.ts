@@ -3,6 +3,7 @@ import {
   ABILITY_IDS,
   choice1,
   CHOICE_KEYS,
+  classOptionProblemTexts,
   computeSheet,
   equipmentChoice,
   equipmentPicks,
@@ -35,6 +36,7 @@ import { indexOf } from '@/shared/content';
 import type { Issue } from './types';
 
 // ---------- Проверка ----------
+
 const count = (xs: string[] | undefined) => xs?.length ?? 0;
 
 /** Чего не хватает в персонаже, по шагам мастера. Пустой список — можно начинать игру. */
@@ -102,9 +104,7 @@ export function draftIssues(c: Character, content: Content): Issue[] {
     const left = slot.choose - count(c.choices[slot.key]);
     need(4, left === 0, t('issues.featureLanguages', { feature: featureName({ id: slot.featureId, source: 'class' }), count: left }));
   }
-  if (cls?.levels[0]?.features.includes('warlock-eldritch-invocations')) {
-    need(4, false, t('issues.invocations'), false);
-  }
+  for (const message of classOptionProblemTexts(c, content)) need(4, false, message);
 
   // 5. Снаряжение и заклинания
   for (const source of ['class', 'background'] as const) {

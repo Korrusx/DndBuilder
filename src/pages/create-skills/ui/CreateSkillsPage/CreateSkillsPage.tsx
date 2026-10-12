@@ -19,6 +19,7 @@ import {
   weaponMasteryOptions,
 } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
+import { ClassOptionsPicker } from '@/features/pick-class-options';
 import { byId, content, nameOf, proficiencyName, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
@@ -115,6 +116,8 @@ export function CreateSkillsPage() {
           </Section>
         );
       })}
+
+      <ClassOptionsPicker character={c} onChoice={setChoice} />
 
       {featFeatureIds(c, content).map((featureId) => {
         const type = FEAT_FEATURES[featureId];

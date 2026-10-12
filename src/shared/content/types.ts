@@ -292,6 +292,28 @@ export type ResourceFormula =
   /** уровень × perLevel + plus. */
   | { perLevel: number; plus?: number };
 
+/** Вариант умения класса из SRD 5.2: таинственное воззвание колдуна или метамагия чародея. */
+export type ClassOption = {
+  id: string;
+  classId: string;
+  kind: 'invocation' | 'metamagic';
+  name: LocalizedText;
+  description: LocalizedText;
+  prerequisite?: {
+    /** Уровень класса. */
+    level?: number;
+    /** Нужное воззвание («Договор клинка»). */
+    invocation?: string;
+    /** Нужен заговор класса, наносящий урон (`damage`) или с броском атаки (`attack`). */
+    cantrip?: 'damage' | 'attack';
+  };
+  repeatable?: boolean;
+  /** Стоимость в очках чародейства (метамагия). */
+  cost?: number;
+  /** Заклинания без ячейки: `atWill` — сколько угодно, `longRest` — раз до долгого отдыха. */
+  spells?: { id: string; free: 'atWill' | 'longRest' }[];
+};
+
 /** Ресурс умения с ограниченным числом использований (ярость, кости превосходства…). */
 export type ClassResource = {
   id: string;
@@ -339,6 +361,7 @@ export type Content = {
   spells: Spell[];
   magicItems: MagicItem[];
   resources: ClassResource[];
+  classOptions: ClassOption[];
 };
 
 /** Списки справочника, у записей которых есть id. */

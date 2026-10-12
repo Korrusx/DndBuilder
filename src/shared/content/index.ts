@@ -22,6 +22,7 @@ export type {
   CharacterClass,
   Choice,
   ChoiceOption,
+  ClassOption,
   ClassResource,
   Coin,
   Content,

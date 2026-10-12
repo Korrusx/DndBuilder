@@ -1,16 +1,26 @@
 import { View } from 'react-native';
 
-import { ABILITY_IDS, attackName, featureName, featureSourceLabel, knownLanguages, speciesSpellcasting } from '@/entities/character';
+import {
+  ABILITY_IDS,
+  attackName,
+  chosenClassOptions,
+  featureName,
+  featureSourceLabel,
+  knownLanguages,
+  speciesSpellcasting,
+} from '@/entities/character';
 import { colors } from '@/shared/config';
 import {
   abilityAbbr,
   abilityName,
+  byId,
   coinsText,
   content,
   groupSkillsByAbility,
   nameOf,
   proficiencyName,
   spellName,
+  tr,
 } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDamage, formatFeet, formatModifier } from '@/shared/lib/dice';
@@ -108,6 +118,14 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
           <AppText>{speciesSpells.spells.map((s) => spellName(s.spellId)).join(', ')}</AppText>
         </Section>
       ) : null}
+
+      {(['invocation', 'metamagic'] as const).map((kind) =>
+        chosenClassOptions(c, kind).length ? (
+          <Section key={kind} title={t(`classOptions.${kind}`)}>
+            <AppText>{chosenClassOptions(c, kind).map((id) => tr(byId.classOptions.get(id)?.name).text || id).join(', ')}</AppText>
+          </Section>
+        ) : null,
+      )}
 
       <Section title={t('preview.features')}>
         <View style={styles.card}>
