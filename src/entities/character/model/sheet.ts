@@ -8,7 +8,7 @@ import { ABILITY_IDS, CHOICE_KEYS } from '../config/constants';
 import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';
 import { totalLevel } from './character';
 import { passiveScore, savingThrow, skillBonus } from './checks';
-import { chosenProficiencyIds, featureOptionProficiencies } from './choices';
+import { chosenProficiencyIds, featureOptionEffects, featureOptionProficiencies } from './choices';
 import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack } from './combat';
 import { effectsOf } from './effects';
 import { characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
@@ -86,7 +86,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   for (const id of species.traits) features.push({ id, source: 'species' });
   for (const t of subspecies?.traits ?? []) if (t.level <= level) features.push({ id: t.id, source: 'species' });
   for (const id of [...originFeatIds(c, content), ...c.feats.map((f) => f.featId)]) features.push({ id, source: 'feat' });
-  const effects = effectsOf(features.map((f) => f.id));
+  const effects = [...effectsOf(features.map((f) => f.id)), ...featureOptionEffects(c)];
 
   // --- Характеристики и спасброски ---
   const scores = finalAbilityScores(c);
@@ -112,7 +112,8 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   const skills = content.skills.map((s) => {
     const proficient = skillProfs.has(s.id);
     const exp = proficient && expertise.has(s.id);
-    return { id: s.id, ability: s.ability, bonus: skillBonus(mods[s.ability], proficient, exp, pb), proficient, expertise: exp };
+    const extra = skillExtraBonus(s.id, mods, effects);
+    return { id: s.id, ability: s.ability, bonus: skillBonus(mods[s.ability], proficient, exp, pb) + extra, extra, proficient, expertise: exp };
   });
   const perception = skills.find((s) => s.id === 'perception')?.bonus ?? mods.wis;
 
@@ -206,5 +207,12 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
 function sumEffects(effects: Effect[], type: 'rangedAttackBonus'): number {
   let sum = 0;
   for (const e of effects) if (e.type === type) sum += e.value;
+  return sum;
+}
+
+/** Бонус к навыку от эффектов («Чудотворец»: + мод. МДР к Магии и Религии, минимум +1). */
+function skillExtraBonus(skillId: string, mods: AbilityScores, effects: Effect[]): number {
+  let sum = 0;
+  for (const e of effects) if (e.type === 'skillBonusFromAbility' && e.skills.includes(skillId)) sum += Math.max(e.min, mods[e.ability]);
   return sum;
 }

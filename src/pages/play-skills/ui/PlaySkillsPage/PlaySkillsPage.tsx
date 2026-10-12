@@ -23,6 +23,7 @@ export function PlaySkillsPage() {
     const parts = [{ label: abilityAbbr(s.ability), value: sheet.abilities[s.ability].mod }];
     if (s.proficient) parts.push({ label: t('skillsTab.proficiency'), value: sheet.profBonus });
     if (s.expertise) parts.push({ label: t('skillsTab.expertise'), value: sheet.profBonus });
+    if (s.extra) parts.push({ label: t('skillsTab.feature'), value: s.extra });
     setRoll({ title: nameOf('skills', s.id), parts: d20Parts(parts, ex) });
   };
 

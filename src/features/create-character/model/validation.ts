@@ -9,6 +9,8 @@ import {
   expertiseCount,
   FEAT_FEATURES,
   featFeatureIds,
+  featureLanguageSlots,
+  featureName,
   featureOptionIds,
   isStandardArray,
   magicInitiateSlots,
@@ -94,6 +96,10 @@ export function draftIssues(c: Character, content: Content): Issue[] {
     need(4, c.feats.some((f) => f.source === 'class' && idx.feats.get(f.featId)?.type === FEAT_FEATURES[featureId]), t('issues.fightingStyle'));
   }
   need(4, c.languages.filter((l) => l !== 'common').length === STANDARD_LANGUAGE_COUNT, t('issues.languages', { count: STANDARD_LANGUAGE_COUNT }));
+  for (const slot of featureLanguageSlots(c, content)) {
+    const left = slot.choose - count(c.choices[slot.key]);
+    need(4, left === 0, t('issues.featureLanguages', { feature: featureName({ id: slot.featureId, source: 'class' }), count: left }));
+  }
   if (cls?.levels[0]?.features.includes('warlock-eldritch-invocations')) {
     need(4, false, t('issues.invocations'), false);
   }

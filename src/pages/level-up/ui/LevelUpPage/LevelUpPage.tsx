@@ -6,6 +6,7 @@ import type { Character } from '@/entities/character';
 import {
   choiceOptionIds,
   finalAbilityScores,
+  knownLanguages,
   proficientSkills,
   weaponMasteryCount,
   weaponMasteryOptions,
@@ -267,7 +268,7 @@ export function LevelUpPage() {
       {plan.languages ? (
         <Section title={t('levelUpPage.languages')} picked={newLanguages.length} need={plan.languages}>
           <MultiPick
-            options={content.languages.map((l) => l.id).filter((id) => !prev.languages.includes(id))}
+            options={content.languages.map((l) => l.id).filter((id) => !knownLanguages(prev, content).includes(id))}
             selected={newLanguages}
             max={plan.languages}
             label={(id) => nameOf('languages', id)}

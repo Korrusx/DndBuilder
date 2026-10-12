@@ -2,7 +2,7 @@
 // В справочнике эти варианты описаны только текстом, поэтому таблицы ниже — по тексту SRD 5.2.
 
 import { CHOICE_KEYS, FEATURE_OPTIONS } from '../config/constants';
-import type { Character } from './types';
+import type { Character, Effect } from './types';
 
 /** Значение выбора с одним вариантом. */
 export function choice1(c: Character, key: string): string | undefined {
@@ -17,6 +17,14 @@ export function chosenProficiencyIds(c: Character): string[] {
 }
 
 /** Владения от выбранных вариантов умений. */
+/** Эффекты выбранных вариантов умений («Чудотворец»: бонус МДР к Магии и Религии). */
+export function featureOptionEffects(c: Character): Effect[] {
+  return Object.entries(FEATURE_OPTIONS).flatMap(([featureId, options]) => {
+    const chosen = choice1(c, CHOICE_KEYS.featureOption(featureId));
+    return options.find((o) => o.id === chosen)?.effects ?? [];
+  });
+}
+
 export function featureOptionProficiencies(c: Character): string[] {
   return Object.entries(FEATURE_OPTIONS).flatMap(([featureId, options]) => {
     const chosen = choice1(c, CHOICE_KEYS.featureOption(featureId));

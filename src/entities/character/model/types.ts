@@ -149,6 +149,8 @@ export type FeatureOption = {
   proficiencies?: string[];
   /** Дополнительные заговоры из списка класса. */
   extraCantrips?: number;
+  /** Что вариант меняет в расчётах. */
+  effects?: Effect[];
 };
 
 // --- Хиты ---
@@ -212,7 +214,9 @@ export type Effect =
   /** +N к попаданию дальнобойным оружием (стиль «Стрельба»). */
   | { type: 'rangedAttackBonus'; value: number }
   /** Урон двуручным или универсальным (двумя руками) рукопашным оружием: 1 и 2 на кости считаются за N. */
-  | { type: 'greatWeaponMinDie'; value: number };
+  | { type: 'greatWeaponMinDie'; value: number }
+  /** Бонус к проверкам навыков, равный модификатору характеристики (не меньше `min`). */
+  | { type: 'skillBonusFromAbility'; skills: string[]; ability: AbilityId; min: number };
 
 // ---------- Спасброски от смерти ----------
 
@@ -243,7 +247,8 @@ export type CharacterSheet = {
   level: number;
   profBonus: number;
   abilities: Record<AbilityId, { score: number; mod: number; save: number; saveProficient: boolean }>;
-  skills: { id: string; ability: AbilityId; bonus: number; proficient: boolean; expertise: boolean }[];
+  /** `extra` — бонус от умений сверх характеристики и мастерства («Чудотворец»). */
+  skills: { id: string; ability: AbilityId; bonus: number; extra: number; proficient: boolean; expertise: boolean }[];
   passivePerception: number;
   initiative: number;
   maxHp: number;

@@ -4,9 +4,13 @@ import {
   expertiseCount,
   FEAT_FEATURES,
   featFeatureIds,
+  FEATURE_LANGUAGES,
   FEATURE_OPTIONS,
+  featureLanguageSlots,
+  featureName,
   featureOptionIds,
   fixedProficiencies,
+  knownLanguages,
   languageOptions,
   proficiencySlots,
   proficientSkills,
@@ -42,6 +46,9 @@ export function CreateSkillsPage() {
   const skillsForExpertise = proficientSkills(c, content);
   const masteryCount = weaponMasteryCount(c, content);
   const languages = c.languages.filter((l) => l !== 'common');
+  const languageSlots = featureLanguageSlots(c, content);
+  const slotLanguages = new Set(languageSlots.flatMap((s) => c.choices[s.key] ?? []));
+  const classLanguages = knownLanguages(c, content).filter((id) => id !== 'common' && !c.languages.includes(id) && !slotLanguages.has(id));
 
   return (
     <WizardScreen step={4} canContinue={issues.every((i) => !i.blocking)} summary={<StepStatus issues={issues.filter((i) => i.blocking)} />}>
@@ -157,13 +164,37 @@ export function CreateSkillsPage() {
         need={STANDARD_LANGUAGE_COUNT}
       >
         <MultiPick
-          options={languageOptions(content)}
+          options={languageOptions(content).filter((id) => !slotLanguages.has(id) && !classLanguages.includes(id))}
           selected={languages}
           max={STANDARD_LANGUAGE_COUNT}
           label={(id) => nameOf('languages', id)}
           onChange={(ids) => update((d) => ({ ...d, languages: ['common', ...ids] }))}
         />
+        {classLanguages.length ? (
+          <AppText variant="secondary">{t('skillsStep.classLanguages', { list: classLanguages.map((id) => nameOf('languages', id)).join(', ') })}</AppText>
+        ) : null}
       </Section>
+
+      {languageSlots.map((slot) => (
+        <Section
+          key={slot.key}
+          title={featureName({ id: slot.featureId, source: 'class' })}
+          hint={t('skillsStep.featureLanguagesHint', {
+            known: FEATURE_LANGUAGES[slot.featureId].known.map((id) => nameOf('languages', id)).join(', '),
+            count: slot.choose,
+          })}
+          picked={(c.choices[slot.key] ?? []).length}
+          need={slot.choose}
+        >
+          <MultiPick
+            options={slot.options}
+            selected={c.choices[slot.key] ?? []}
+            max={slot.choose}
+            label={(id) => nameOf('languages', id)}
+            onChange={(ids) => setChoice(slot.key, ids)}
+          />
+        </Section>
+      ))}
 
       {otherFixed.length ? (
         <Section title={t('skillsStep.fixed')}>

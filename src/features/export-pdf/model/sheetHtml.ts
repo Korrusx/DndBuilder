@@ -6,7 +6,7 @@ import { attackName, featureName } from '@/entities/character';
 // Бланк чёрный с бордовым акцентом, данные тёмно-синие. Текущие и временные хиты пустые — для карандаша.
 
 import type { Character, CharacterSheet, SourcedId } from '@/entities/character';
-import { ABILITY_IDS, characterResources, CHOICE_KEYS, computeSheet, magicInitiateSlots } from '@/entities/character';
+import { ABILITY_IDS, characterResources, CHOICE_KEYS, computeSheet, knownLanguages, magicInitiateSlots } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import {
   abilityAbbr,
@@ -81,7 +81,7 @@ function featureGroups(sheet: CharacterSheet) {
   };
 }
 
-function proficiencyGroups(sheet: CharacterSheet, c: Character) {
+function proficiencyGroups(sheet: CharacterSheet, c: Character, content: Content) {
   const of = (...types: string[]) =>
     sheet.proficiencies
       .filter((id) => types.includes(byId.proficiencies.get(id)?.type ?? ''))
@@ -91,7 +91,7 @@ function proficiencyGroups(sheet: CharacterSheet, c: Character) {
     { label: t('pdf.armor'), text: of('armor') },
     { label: t('pdf.weapons'), text: of('weapon') },
     { label: t('pdf.tools'), text: of('tool', 'artisanTool', 'instrument', 'other') },
-    { label: t('pdf.languages'), text: c.languages.map((l) => nameOf('languages', l)).join(', ') },
+    { label: t('pdf.languages'), text: knownLanguages(c, content).map((l) => nameOf('languages', l)).join(', ') },
   ];
 }
 
@@ -220,7 +220,7 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
 
   const profs = box(
     t('pdf.proficiencies'),
-    proficiencyGroups(sheet, c)
+    proficiencyGroups(sheet, c, content)
       .map((p) => `<div class="prof"><span class="lbl">${e(p.label)}</span> <span class="d">${e(p.text) || '—'}</span></div>`)
       .join(''),
   );

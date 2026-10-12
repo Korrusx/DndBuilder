@@ -3,7 +3,7 @@
 
 import type { AbilityId, Choice, ChoiceOption, Coin, Content } from '@/shared/content';
 import { indexOf } from '@/shared/content';
-import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_OPTIONS } from '../config/constants';
+import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_LANGUAGES, FEATURE_OPTIONS } from '../config/constants';
 import { choice1 } from './choices';
 import { makeProficiencyCheck, proficiencyIds } from './sheet';
 import type { Character, EquipmentSource, InventoryItem, OriginFeat, OriginFeatSlot, ProficiencySlot, SpellLimits } from './types';
@@ -188,6 +188,43 @@ export function featFeatureIds(c: Character, content: Content): string[] {
 /** Стандартные языки, из которых выбирают (Общий есть у всех). */
 export function languageOptions(content: Content): string[] {
   return content.languages.filter((l) => !l.rare && l.id !== 'common').map((l) => l.id);
+}
+
+/** Умения классов персонажа, которые дают языки (плут: «Воровской жаргон»; друид: «Друидический»). */
+function languageFeatureIds(c: Character, content: Content): string[] {
+  const classes = indexOf(content).classes;
+  return c.classes.flatMap((e) =>
+    (classes.get(e.classId)?.levels.slice(0, e.level) ?? []).flatMap((row) => row.features.filter((id) => FEATURE_LANGUAGES[id])),
+  );
+}
+
+/** Выборы языков от умений класса: сколько выбрать и из чего (любой язык, которого ещё нет). */
+export function featureLanguageSlots(c: Character, content: Content): { featureId: string; key: string; choose: number; options: string[] }[] {
+  return languageFeatureIds(c, content)
+    .filter((id) => FEATURE_LANGUAGES[id].choose > 0)
+    .map((featureId) => {
+      const key = CHOICE_KEYS.featureLanguages(featureId);
+      const own = new Set(c.choices[key] ?? []);
+      const known = new Set(knownLanguages(c, content));
+      return {
+        featureId,
+        key,
+        choose: FEATURE_LANGUAGES[featureId].choose,
+        options: content.languages.map((l) => l.id).filter((id) => own.has(id) || !known.has(id)),
+      };
+    });
+}
+
+/** Все языки персонажа: Общий, выбранные, от умений класса (даны и выбраны). */
+export function knownLanguages(c: Character, content: Content): string[] {
+  const ids = new Set(['common', ...c.languages]);
+  for (const featureId of languageFeatureIds(c, content)) {
+    for (const id of FEATURE_LANGUAGES[featureId].known) ids.add(id);
+    for (const id of c.choices[CHOICE_KEYS.featureLanguages(featureId)] ?? []) ids.add(id);
+  }
+  // Порядок — как в справочнике; языки, которых в справочнике нет (из файла другой версии), — в конце.
+  const ordered = content.languages.map((l) => l.id).filter((id) => ids.has(id));
+  return [...ordered, ...[...ids].filter((id) => !ordered.includes(id))];
 }
 
 // ---------- Шаг 5: снаряжение ----------

@@ -128,7 +128,8 @@
       "background": "background",
       "species": "species",
       "feat": "feat"
-    }
+    },
+    "featureLanguages": "{{feature}}: choose a language ({{count}} more)"
   },
   "roll": {
     "exhaustion": "Exhaustion {{level}}",
@@ -475,7 +476,9 @@
     "masteriesHint": "Kinds of weapons whose mastery properties you can use. You can change them after a Long Rest.",
     "languages": "Languages",
     "languagesHint": "Everyone knows Common. Choose {{count}} more standard languages.",
-    "fixed": "Fixed proficiencies"
+    "fixed": "Fixed proficiencies",
+    "featureLanguagesHint": "You know: {{known}}. Choose {{count}} more — any language, rare ones included.",
+    "classLanguages": "From your class: {{list}}"
   },
   "equipmentStep": {
     "kit": "Equipment: {{name}}",
@@ -523,7 +526,8 @@
     "expertise": "Expertise",
     "summary": "Passive Perception {{value}} · ● proficiency, ◆ expertise",
     "exhaustion": " · exhaustion {{penalty}} to rolls",
-    "modScore": "Modifier {{mod}} · score {{score}}"
+    "modScore": "Modifier {{mod}} · score {{score}}",
+    "feature": "Class feature"
   },
   "combat": {
     "attacks": "Attacks",

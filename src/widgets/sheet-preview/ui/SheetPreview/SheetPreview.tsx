@@ -1,11 +1,12 @@
 import { View } from 'react-native';
 
-import { ABILITY_IDS, attackName, featureName, featureSourceLabel } from '@/entities/character';
+import { ABILITY_IDS, attackName, featureName, featureSourceLabel, knownLanguages } from '@/entities/character';
 import { colors } from '@/shared/config';
 import {
   abilityAbbr,
   abilityName,
   coinsText,
+  content,
   groupSkillsByAbility,
   nameOf,
   proficiencyName,
@@ -114,7 +115,7 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
             .map(proficiencyName)
             .join(', ') || '—'}
         </AppText>
-        <AppText variant="secondary">{t('preview.languages', { list: c.languages.map((l) => nameOf('languages', l)).join(', ') })}</AppText>
+        <AppText variant="secondary">{t('preview.languages', { list: knownLanguages(c, content).map((l) => nameOf('languages', l)).join(', ') })}</AppText>
         <AppText variant="secondary">{t('preview.coins', { list: coinsText(c.coins) || '—' })}</AppText>
       </Section>
     </>

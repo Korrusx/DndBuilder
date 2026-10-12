@@ -40,6 +40,7 @@ function irmaViaWizard(): Character {
       [CHOICE_KEYS.classProf('rogue', 0)]: ['skill-acrobatics', 'skill-investigation', 'skill-perception', 'skill-deception'],
       [CHOICE_KEYS.equipment('class')]: ['0'],
       [CHOICE_KEYS.equipment('background')]: ['0'],
+      [CHOICE_KEYS.featureLanguages('rogue-thieves-cant')]: ['dwarvish'],
     },
     expertise: ['stealth', 'sleight-of-hand'],
     weaponMasteries: ['shortsword', 'dagger'],

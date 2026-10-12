@@ -36,15 +36,14 @@ export const CHOICE_KEYS = {
   featSpell: (slot: OriginFeatSlot) => `${slot}.spell`,
   /** Вариант умения класса («Божественный порядок» и т.п.). */
   featureOption: (featureId: string) => `feature.${featureId}`,
+  /** Языки на выбор от умения класса (плут: «Воровской жаргон»). */
+  featureLanguages: (featureId: string) => `feature.${featureId}.languages`,
   /** Стартовое снаряжение: номер варианта (A = 0) и выбор предмета внутри набора. */
   equipment: (source: 'class' | 'background') => `equip.${source}`,
   equipmentPick: (source: 'class' | 'background', i: number) => `equip.${source}.pick.${i}`,
 } as const;
 
-/**
- * Умения 1-го уровня с выбором одного из вариантов.
- * TODO: бонус МДР к проверкам Магии/Религии (Чудотворец) и Магии/Природы (Волхв) пока не считается.
- */
+/** Умения 1-го уровня с выбором одного из вариантов. */
 export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
   'cleric-divine-order': [
     {
@@ -58,6 +57,8 @@ export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
       name: { en: 'Thaumaturge', ru: 'Чудотворец' },
       description: { en: 'One extra Cleric cantrip; WIS bonus to Arcana and Religion checks.', ru: 'Дополнительный заговор жреца; бонус МДР к проверкам Магии и Религии.' },
       extraCantrips: 1,
+      // SRD 5.2: бонус к проверкам ИНТ (Магия или Религия), равный модификатору МДР (минимум +1).
+      effects: [{ type: 'skillBonusFromAbility', skills: ['arcana', 'religion'], ability: 'wis', min: 1 }],
     },
   ],
   'druid-primal-order': [
@@ -66,6 +67,8 @@ export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
       name: { en: 'Magician', ru: 'Волхв' },
       description: { en: 'One extra Druid cantrip; WIS bonus to Arcana and Nature checks.', ru: 'Дополнительный заговор друида; бонус МДР к проверкам Магии и Природы.' },
       extraCantrips: 1,
+      // SRD 5.2: бонус к проверкам ИНТ (Магия или Природа), равный модификатору МДР (минимум +1).
+      effects: [{ type: 'skillBonusFromAbility', skills: ['arcana', 'nature'], ability: 'wis', min: 1 }],
     },
     {
       id: 'warden',
@@ -91,6 +94,15 @@ export const MAGIC_INITIATE_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
 
 /** Сколько стандартных языков выбирается при создании (кроме Общего). */
 export const STANDARD_LANGUAGE_COUNT = 2;
+
+/**
+ * Языки от умений класса (SRD 5.2): `known` — даются сразу, `choose` — сколько ещё выбрать из любых
+ * (стандартных и редких). Плут: «Воровской жаргон» и ещё один язык; друид: «Друидический».
+ */
+export const FEATURE_LANGUAGES: Record<string, { known: string[]; choose: number }> = {
+  'rogue-thieves-cant': { known: ['thieves-cant'], choose: 1 },
+  'druid-druidic': { known: ['druidic'], choose: 0 },
+};
 
 // ---------- Истощение (SRD 5.2) ----------
 
