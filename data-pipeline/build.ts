@@ -26,6 +26,7 @@ import type {
   LocalizedText,
   ProficiencyType,
   Species,
+  Spell,
   Subspecies,
   Trait,
 } from '../src/shared/content/types.ts';
@@ -460,6 +461,35 @@ function spellScaling(s: Raw, d: Raw): { bySlotLevel?: Record<string, string>; b
   return out;
 }
 
+/** Урон и лечение заклинаний, которых нет в API: srd/spell-damage.json (числа из текста SRD 5.2). */
+async function applySpellDamage(spells: Spell[]): Promise<void> {
+  const data = JSON.parse(await readFile(join(SRD_DIR, 'spell-damage.json'), 'utf8'));
+  const dice = (s: string) => s.match(/^(\d+)d(\d+)$/)!.slice(1).map(Number);
+  for (const o of data.spells as Raw[]) {
+    const spell = spells.find((s) => s.id === o.id);
+    if (!spell) {
+      warn(`srd/spell-damage.json: нет заклинания ${o.id}`);
+      continue;
+    }
+    if (spell.damage) warn(`srd/spell-damage.json: у ${o.id} урон уже есть в API`);
+    const [n, die] = dice(o.base);
+    const [perN, perDie] = o.perSlot ? dice(o.perSlot) : [0, die];
+    if (perDie !== die) warn(`srd/spell-damage.json: у ${o.id} разные кости в base и perSlot`);
+    const levels = spell.level === 0 ? [0] : Array.from({ length: 10 - spell.level }, (_, i) => spell.level + i);
+    const up = (l: number) => l - spell.level;
+    spell.damage = {
+      ...(o.type ? { type: o.type } : {}),
+      ...(o.chosenType ? { chosenType: true } : {}),
+      ...(o.kind ? { kind: o.kind } : {}),
+      ...(o.addModifier ? { addModifier: true } : {}),
+      bySlotLevel: Object.fromEntries(levels.map((l) => [String(l), `${n + perN * up(l)}d${die}`])),
+      ...(o.bonus ? { bonusBySlotLevel: Object.fromEntries(levels.map((l) => [String(l), o.bonus + (o.bonusPerSlot ?? 0) * up(l)])) } : {}),
+      ...(o.count ? { countBySlotLevel: Object.fromEntries(levels.map((l) => [String(l), o.count + (o.countPerSlot ?? 0) * up(l)])) } : {}),
+      ...(o.cantrip ? { byCharacterLevel: { '1': o.cantrip[0], '5': o.cantrip[1], '11': o.cantrip[2], '17': o.cantrip[3] } } : {}),
+    };
+  }
+}
+
 /** Воззвания колдуна и метамагия чародея из SRD 5.2 (в API их нет): srd/class-options.json, перевод — наш. */
 async function readClassOptions(): Promise<ClassOption[]> {
   const data = JSON.parse(await readFile(join(SRD_DIR, 'class-options.json'), 'utf8'));
@@ -862,6 +892,8 @@ async function build(): Promise<Omit<Content, 'version'>> {
       subclasses: ids(s.subclasses),
     };
   });
+
+  await applySpellDamage(spells as Spell[]);
 
   const itemText = (en: string) => tx(`magicItemText.${slug(en)}`, en);
   const magicItems = (await raw('magic-items')).map((m) => {

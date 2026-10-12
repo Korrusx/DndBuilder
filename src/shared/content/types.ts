@@ -260,6 +260,16 @@ export type Spell = {
     byCharacterLevel?: Record<string, string>;
     /** «Мистический заряд»: на 5/11/17 уровне не больше костей, а больше лучей (у каждого свой бросок атаки). */
     beams?: boolean;
+    /** Вид урона выбирает заклинатель («Цветной шар»). */
+    chosenType?: boolean;
+    /** heal — лечение, tempHp — временные хиты; по умолчанию урон. */
+    kind?: 'heal' | 'tempHp';
+    /** Постоянная прибавка (по кругу ячейки): «10к6 + 40». */
+    bonusBySlotLevel?: Record<string, number>;
+    /** + модификатор заклинательной характеристики. */
+    addModifier?: boolean;
+    /** Число дротиков по кругу ячейки («Волшебная стрела»): каждый наносит кости + прибавку. */
+    countBySlotLevel?: Record<string, number>;
   };
   description: LocalizedText;
   higherLevel?: LocalizedText;

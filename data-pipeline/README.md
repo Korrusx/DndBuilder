@@ -26,6 +26,10 @@ npm run data:build   # собрать assets/content/content.json и обнов�
 (ключи `classOption.<id>.name` / `.description`); дальше его правят в CSV. Поля `prerequisite`, `repeatable`, `cost`,
 `spells` — механика для приложения.
 
+`srd/spell-damage.json` — урон и лечение заклинаний, у которых в API есть только текст («Волшебная стрела», «Лечение ран»,
+«Цветной шар» и др.): числа взяты из текста SRD 5.2.1. Рост урона по кругам у остальных заклинаний конвейер сам читает
+из текста SRD («увеличивается на 1к6 за каждый круг выше…», «Cantrip Upgrade…»).
+
 ## Механика не из SRD (`extra/`)
 
 `extra/backgrounds.json` и `extra/feats.json` — предыстории и черты происхождения Player's Handbook 2024,

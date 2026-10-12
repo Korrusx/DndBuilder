@@ -616,7 +616,13 @@
     "spellbook": "Spellbook: not prepared",
     "spellbookHint": "You can cast rituals from your book as Rituals without preparing them. Change prepared spells after a Long Rest via “Edit spells”.",
     "beams": "{{count}} × {{dice}}",
-    "beamsNote": "Beams: {{count}}. Each has its own attack roll; roll damage for each beam that hits."
+    "beamsNote": "Beams: {{count}}. Each has its own attack roll; roll damage for each beam that hits.",
+    "heal": "Heal {{value}}",
+    "tempHp": "Temp HP {{value}}",
+    "healTitle": "healing",
+    "tempHpTitle": "temporary HP",
+    "dartsNote": "Darts: {{count}} — total of all darts; split it if they hit different targets.",
+    "chosenType": "You choose the damage type when casting."
   },
   "edit": {
     "saveFailed": "Couldn't save the file",

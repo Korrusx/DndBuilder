@@ -17,14 +17,15 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
   const [roll, setRoll] = useState<DamageRoll | null>(null);
   const [variant, setVariant] = useState(0);
   const dice = request?.variants?.[variant]?.dice ?? request?.dice ?? '';
+  const bonus = request?.variants?.[variant]?.bonus ?? request?.bonus ?? 0;
 
-  const doRoll = (crit: boolean, d = dice) => request && setRoll(rollDamage(d, request.bonus, crit, Math.random, request.minDie));
+  const doRoll = (crit: boolean, d = dice, b = bonus) => request && setRoll(rollDamage(d, b, crit, Math.random, request.minDie));
 
   useEffect(() => {
     if (!request) return;
     setCritical(false);
     setVariant(0);
-    doRoll(false, request.variants?.[0]?.dice ?? request.dice);
+    doRoll(false, request.variants?.[0]?.dice ?? request.dice, request.variants?.[0]?.bonus ?? request.bonus);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request]);
 
@@ -33,7 +34,7 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
       {request ? (
         <AppText variant="secondary">
           {formatDice(dice)}
-          {request.bonus ? ` ${formatModifier(request.bonus)}` : ''}
+          {bonus ? ` ${formatModifier(bonus)}` : ''}
           {request.damageType ? ` · ${request.damageType}` : ''}
         </AppText>
       ) : null}
@@ -48,23 +49,25 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
               selected={i === variant}
               onPress={() => {
                 setVariant(i);
-                doRoll(critical, v.dice);
+                doRoll(critical, v.dice, v.bonus ?? request.bonus);
               }}
             />
           ))}
         </ChipRow>
       ) : null}
-      <Segmented<'normal' | 'crit'>
-        value={critical ? 'crit' : 'normal'}
-        onChange={(v) => {
-          setCritical(v === 'crit');
-          doRoll(v === 'crit');
-        }}
-        options={[
-          { value: 'normal', label: t('roll.normal') },
-          { value: 'crit', label: t('roll.critical') },
-        ]}
-      />
+      {request?.noCritical ? null : (
+        <Segmented<'normal' | 'crit'>
+          value={critical ? 'crit' : 'normal'}
+          onChange={(v) => {
+            setCritical(v === 'crit');
+            doRoll(v === 'crit');
+          }}
+          options={[
+            { value: 'normal', label: t('roll.normal') },
+            { value: 'crit', label: t('roll.critical') },
+          ]}
+        />
+      )}
       {roll ? (
         <View style={styles.result}>
           <View style={styles.diceRow}>

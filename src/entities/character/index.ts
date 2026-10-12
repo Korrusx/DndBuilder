@@ -82,6 +82,7 @@ export {
 export { adjustResource, characterResources, shortRestResources } from './model/resources';
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
 export { computeSheet, finalAbilityScores, originFeatIds } from './model/sheet';
+export type { SpellDamage } from './model/spells';
 export { spellAttackBonus, spellDamage, spellDamageLevels, spellSaveDC } from './model/spells';
 export type { ClassOptionSlot, ClassOptionSpell } from './model/classOptions';
 export {

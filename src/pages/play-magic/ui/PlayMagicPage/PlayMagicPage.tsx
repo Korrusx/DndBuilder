@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { Alert, Pressable, View } from 'react-native';
 
-import type { SpeciesSpell } from '@/entities/character';
+import type { SpeciesSpell, SpellDamage } from '@/entities/character';
 import {
   adjustResource,
   adjustSlot,
@@ -94,14 +94,24 @@ export function PlayMagicPage() {
   /** Кнопки «Атака» и «Урон» заклинания; `attackBonus` — от характеристики источника (класс, черта, вид). */
   const spellActions = (s: Spell, attackBonus: number | undefined) => {
     const name = tr(s.name).text;
+    // Модификатор заклинательной характеристики источника: бонус атаки − БМ.
+    const mod = attackBonus === undefined ? 0 : attackBonus - sheet.profBonus;
+    const total = (d: SpellDamage) => d.bonus + (d.addModifier ? mod : 0) + (s.id === 'eldritch-blast' ? agonizing : 0);
     const base = spellDamage(s, sheet.level);
-    const bonus = s.id === 'eldritch-blast' ? agonizing : 0;
-    const beams = base?.beams ?? 1;
-    const variants = spellDamageLevels(s, maxSlot).map((level) => ({
-      label: t('spell.circle', { level }),
-      dice: spellDamage(s, sheet.level, level)?.dice ?? '',
-    }));
     if (!s.attackType && !base) return null;
+    const beams = base?.beams ?? 1;
+    const levels = spellDamageLevels(s, maxSlot).map((level) => ({ level, d: spellDamage(s, sheet.level, level)! }));
+    const variants = levels.map(({ level, d }) => ({ label: t('spell.circle', { level }), dice: d.dice, bonus: total(d) }));
+    const differ = new Set(variants.map((v) => `${v.dice}+${v.bonus}`)).size > 1;
+    const kind = base?.kind;
+    const value = base ? formatDamage(base.dice, total(base)) : '';
+    const note = [
+      beams > 1 ? t('magic.beamsNote', { count: beams }) : '',
+      base?.count ? t('magic.dartsNote', { count: base.count }) : '',
+      base?.chosenType ? t('magic.chosenType') : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
     return (
       <View style={styles.row}>
         {s.attackType && attackBonus !== undefined ? (
@@ -115,20 +125,25 @@ export function PlayMagicPage() {
         {base ? (
           <SmallButton
             title={
-              beams > 1
-                ? t('magic.beams', { count: beams, dice: formatDamage(base.dice, bonus) })
-                : t('combat.damage', { value: formatDamage(base.dice, bonus) })
+              kind === 'heal'
+                ? t('magic.heal', { value })
+                : kind === 'tempHp'
+                  ? t('magic.tempHp', { value })
+                  : beams > 1
+                    ? t('magic.beams', { count: beams, dice: value })
+                    : t('combat.damage', { value })
             }
-            tone="damage"
+            tone={kind ? 'heal' : 'damage'}
             flex={1}
             onPress={() =>
               setDamage({
-                title: t('combat.damageOf', { name }),
+                title: kind ? `${name}: ${t(kind === 'heal' ? 'magic.healTitle' : 'magic.tempHpTitle')}` : t('combat.damageOf', { name }),
                 dice: base.dice,
-                bonus,
-                damageType: damageTypeName(s.damage?.type),
-                ...(variants.length > 1 ? { variants } : {}),
-                ...(beams > 1 ? { note: t('magic.beamsNote', { count: beams }) } : {}),
+                bonus: total(base),
+                damageType: kind ? undefined : damageTypeName(s.damage?.type),
+                ...(kind ? { noCritical: true } : {}),
+                ...(differ ? { variants } : {}),
+                ...(note ? { note } : {}),
               })
             }
           />

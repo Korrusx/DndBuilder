@@ -1,0 +1,26 @@
+{
+  "_comment": "Урон и лечение заклинаний, которых нет в данных API (там только текст). Числа — из текста заклинаний SRD 5.2.1. base — кости на круге заклинания; perSlot — сколько костей прибавляется за каждый круг выше; bonus — постоянная прибавка (bonusPerSlot — её рост за круг); addModifier — + модификатор заклинательной характеристики; count/countPerSlot — число дротиков («Волшебная стрела»: каждый наносит base + bonus); cantrip — урон заговора на 1/5/11/17 уровне; chosenType — вид урона выбирает заклинатель; kind: heal — лечение, tempHp — временные хиты.",
+  "spells": [
+    { "id": "chromatic-orb", "chosenType": true, "base": "3d8", "perSlot": "1d8" },
+    { "id": "magic-missile", "type": "force", "base": "1d4", "bonus": 1, "count": 3, "countPerSlot": 1 },
+    { "id": "sorcerous-burst", "chosenType": true, "base": "1d8", "cantrip": ["1d8", "2d8", "3d8", "4d8"] },
+    { "id": "spiritual-weapon", "type": "force", "base": "1d8", "perSlot": "1d8", "addModifier": true },
+    { "id": "flame-blade", "type": "fire", "base": "3d6", "perSlot": "1d6", "addModifier": true },
+    { "id": "dragons-breath", "chosenType": true, "base": "3d6", "perSlot": "1d6" },
+    { "id": "glyph-of-warding", "chosenType": true, "base": "5d8", "perSlot": "1d8" },
+    { "id": "conjure-minor-elementals", "chosenType": true, "base": "2d8", "perSlot": "1d8" },
+    { "id": "conjure-fey", "type": "psychic", "base": "3d12", "perSlot": "1d12", "addModifier": true },
+    { "id": "disintegrate", "type": "force", "base": "10d6", "perSlot": "3d6", "bonus": 40 },
+    { "id": "arcane-sword", "type": "force", "base": "4d12", "addModifier": true },
+    { "id": "delayed-blast-fireball", "type": "fire", "base": "12d6", "perSlot": "1d6" },
+    { "id": "finger-of-death", "type": "necrotic", "base": "7d8", "bonus": 30 },
+    { "id": "forbiddance", "chosenType": true, "base": "5d10" },
+    { "id": "cure-wounds", "kind": "heal", "base": "2d8", "perSlot": "2d8", "addModifier": true },
+    { "id": "healing-word", "kind": "heal", "base": "2d4", "perSlot": "2d4", "addModifier": true },
+    { "id": "mass-cure-wounds", "kind": "heal", "base": "5d8", "perSlot": "1d8", "addModifier": true },
+    { "id": "mass-healing-word", "kind": "heal", "base": "2d4", "perSlot": "1d4", "addModifier": true },
+    { "id": "prayer-of-healing", "kind": "heal", "base": "2d8", "perSlot": "1d8" },
+    { "id": "regenerate", "kind": "heal", "base": "4d8", "bonus": 15 },
+    { "id": "false-life", "kind": "tempHp", "base": "2d4", "bonus": 4, "bonusPerSlot": 5 }
+  ]
+}

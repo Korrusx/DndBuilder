@@ -37,23 +37,48 @@ export function spellsKnown(cls: CharacterClass, level: number): { cantrips: num
 /** Пороги уровня персонажа, на которых растёт урон заговоров (SRD 5.2: «Cantrip Upgrade»). */
 const CANTRIP_TIERS = [1, 5, 11, 17];
 
+export type SpellDamage = {
+  /** Все кости броска («Волшебная стрела» 3 дротика по 1к4+1 → 3к4 и прибавка 3). */
+  dice: string;
+  /** Постоянная прибавка, без модификатора характеристики. */
+  bonus: number;
+  /** + модификатор заклинательной характеристики. */
+  addModifier?: boolean;
+  /** Лучи «Мистического заряда»: каждый — отдельная атака с этими костями. */
+  beams?: number;
+  /** Дротики «Волшебной стрелы». */
+  count?: number;
+  kind?: 'heal' | 'tempHp';
+  chosenType?: boolean;
+};
+
 /**
- * Урон заклинания: кости для круга ячейки (заговор — для уровня персонажа).
- * `beams` — сколько лучей у «Мистического заряда» (каждый — отдельная атака с этими костями).
- * null — у заклинания нет урона в справочнике или нет данных для этого круга.
+ * Урон (или лечение) заклинания для круга ячейки; у заговора — для уровня персонажа.
+ * null — в справочнике нет урона или нет данных для этого круга.
  */
-export function spellDamage(spell: Spell, characterLevel: number, slotLevel = spell.level): { dice: string; beams?: number } | null {
+export function spellDamage(spell: Spell, characterLevel: number, slotLevel = spell.level): SpellDamage | null {
   const d = spell.damage;
   if (!d) return null;
+  const key = spell.level === 0 ? '0' : String(slotLevel);
+  const common = {
+    ...(d.addModifier ? { addModifier: true } : {}),
+    ...(d.kind ? { kind: d.kind } : {}),
+    ...(d.chosenType ? { chosenType: true } : {}),
+  };
+  let dice = d.bySlotLevel?.[key];
+  let bonus = d.bonusBySlotLevel?.[key] ?? 0;
   if (spell.level === 0) {
     const tier = CANTRIP_TIERS.filter((l) => l <= characterLevel).length;
-    if (d.beams) return d.bySlotLevel?.['0'] ? { dice: d.bySlotLevel['0'], beams: tier } : null;
-    const key = String(CANTRIP_TIERS[tier - 1]);
-    const dice = d.byCharacterLevel?.[key] ?? d.bySlotLevel?.['0'];
-    return dice ? { dice } : null;
+    if (d.beams) return dice ? { dice, bonus, beams: tier, ...common } : null;
+    dice = d.byCharacterLevel?.[String(CANTRIP_TIERS[tier - 1])] ?? dice;
   }
-  const dice = d.bySlotLevel?.[String(slotLevel)];
-  return dice ? { dice } : null;
+  if (!dice) return null;
+  const count = d.countBySlotLevel?.[key];
+  if (count) {
+    const [n, die] = dice.split('d');
+    return { dice: `${Number(n) * count}d${die}`, bonus: bonus * count, count, ...common };
+  }
+  return { dice, bonus, ...common };
 }
 
 /** Круги, для которых известен урон заклинания: от его круга до `maxSlot`. */

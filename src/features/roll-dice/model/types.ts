@@ -18,7 +18,9 @@ export type DamageRequest = {
   /** «Сражение большим оружием»: 1 и 2 на костях считаются за это число. */
   minDie?: number;
   /** Варианты костей на выбор (урон заклинания по кругу ячейки); `dice` — первый из них. */
-  variants?: { label: string; dice: string }[];
+  variants?: { label: string; dice: string; bonus?: number }[];
+  /** Лечение и временные хиты: без критического. */
+  noCritical?: boolean;
   /** Пояснение под костями. */
   note?: string;
 };
