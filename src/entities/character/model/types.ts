@@ -35,7 +35,17 @@ export type SpellLimits = {
 export type AbilityScores = Record<AbilityId, number>;
 
 /** Уровни по классам. Для MVP один элемент, но модель допускает мультикласс. Первый элемент — стартовый класс. */
-export type ClassEntry = { classId: string; subclassId?: string; level: number };
+export type ClassEntry = {
+  classId: string;
+  subclassId?: string;
+  level: number;
+  /**
+   * Заговоры и подготовленные заклинания этого класса, если он не основной заклинатель.
+   * У основного (первого по порядку класса с заклинаниями) они в `Character.cantrips` / `preparedSpells`.
+   */
+  cantrips?: string[];
+  preparedSpells?: string[];
+};
 
 export type AbilityMethod = 'standard' | 'pointBuy' | 'roll';
 
@@ -80,6 +90,8 @@ export type GameState = {
   heroicInspiration: boolean;
   /** Варвар в ярости: к урону атак Силой прибавляется бонус ярости. */
   raging?: boolean;
+  /** Потраченные ячейки «Магии договора» у мультиклассового колдуна (у одноклассового — в `slotsSpent`). */
+  pactSlotsSpent?: number[];
 };
 
 export type CharacterStatus = { kind: 'draft'; step: number } | { kind: 'ready' };
@@ -266,7 +278,15 @@ export type CharacterSheet = {
   attacks: WeaponAttack[];
   /** Бонус ярости к урону атак Силой; 0 — не в ярости. */
   rageDamage: number;
-  spellcasting?: { classId: string; ability: AbilityId; saveDC: number; attackBonus: number; slots: number[] };
+  /**
+   * Основной заклинатель (первый по порядку класс с заклинаниями) и общие ячейки.
+   * `slotsFromPact` — ячейки только от «Магии договора» (колдун без других заклинателей): их возвращает короткий отдых.
+   */
+  spellcasting?: { classId: string; ability: AbilityId; saveDC: number; attackBonus: number; slots: number[]; slotsFromPact: boolean };
+  /** Каждый класс с заклинаниями: своя характеристика, СЛ и бонус атаки. */
+  spellcastingClasses: { classId: string; ability: AbilityId; saveDC: number; attackBonus: number }[];
+  /** Ячейки «Магии договора» отдельно от общих — у колдуна, если есть и другой заклинатель. */
+  pactSlots?: number[];
   /** Особые столбцы таблицы класса на текущем уровне (скрытая атака, ярость…). */
   classSpecific: Record<string, Record<string, unknown>>;
   /** Умения класса/подкласса, особенности вида и черты — для «Что умеет». */

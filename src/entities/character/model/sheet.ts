@@ -4,14 +4,14 @@ import type { Content, Equipment } from '@/shared/content';
 import { indexOf } from '@/shared/content';
 import { t } from '@/shared/i18n/model';
 
-import { ABILITY_IDS, CHOICE_KEYS } from '../config/constants';
+import { ABILITY_IDS, CHOICE_KEYS, SPELLCASTER_PROGRESSION } from '../config/constants';
 import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';
 import { totalLevel } from './character';
 import { passiveScore, savingThrow, skillBonus } from './checks';
 import { chosenProficiencyIds, featureOptionEffects, featureOptionProficiencies } from './choices';
 import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack } from './combat';
 import { effectsOf } from './effects';
-import { characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
+import { characterPactSlots, characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
 import type { AbilityScores, Character, CharacterSheet, Effect, SourcedId, WeaponAttack } from './types';
 
 function need<T>(map: ReadonlyMap<string, T>, id: string, what: 'background' | 'species' | 'subspecies' | 'class' | 'subclass'): T {
@@ -172,18 +172,19 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   }
 
   // --- Заклинания ---
-  let spellcasting: CharacterSheet['spellcasting'];
-  const caster = classes.find(({ entry, cls }) => cls.spellcasting && entry.level >= cls.spellcasting.fromLevel);
-  if (caster?.cls.spellcasting) {
-    const ability = caster.cls.spellcasting.ability;
-    spellcasting = {
-      classId: caster.cls.id,
-      ability,
-      saveDC: spellSaveDC(mods[ability], pb),
-      attackBonus: spellAttackBonus(mods[ability], pb),
-      slots: characterSpellSlots(c.classes, idx.classes),
-    };
-  }
+  // Каждый класс с заклинаниями — со своей характеристикой; основной — первый по порядку.
+  const spellcastingClasses = classes
+    .filter(({ entry, cls }) => cls.spellcasting && entry.level >= cls.spellcasting.fromLevel)
+    .map(({ cls }) => {
+      const ability = cls.spellcasting!.ability;
+      return { classId: cls.id, ability, saveDC: spellSaveDC(mods[ability], pb), attackBonus: spellAttackBonus(mods[ability], pb) };
+    });
+  const pactSlots = characterPactSlots(c.classes, idx.classes);
+  const spellcasting: CharacterSheet['spellcasting'] = spellcastingClasses[0] && {
+    ...spellcastingClasses[0],
+    slots: characterSpellSlots(c.classes, idx.classes),
+    slotsFromPact: spellcastingClasses.every((s) => SPELLCASTER_PROGRESSION[s.classId] === 'pact'),
+  };
 
   return {
     level,
@@ -199,6 +200,8 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     attacks,
     rageDamage,
     spellcasting,
+    spellcastingClasses,
+    ...(pactSlots ? { pactSlots } : {}),
     classSpecific,
     features,
     proficiencies: [...profIds],

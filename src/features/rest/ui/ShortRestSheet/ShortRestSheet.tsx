@@ -18,7 +18,7 @@ export function ShortRestSheet({ visible, onClose }: ShortRestSheetProps) {
   const conMod = sheet.abilities.con.mod;
   const resources = characterResources(c, content, sheet);
   const restored = [
-    ...(sheet.spellcasting?.classId === 'warlock' && c.state.slotsSpent.some(Boolean) ? [t('rest.pactSlots')] : []),
+    ...((sheet.spellcasting?.slotsFromPact && c.state.slotsSpent.some(Boolean)) || c.state.pactSlotsSpent?.some(Boolean) ? [t('rest.pactSlots')] : []),
     ...resources
       .filter((r) => r.spent > 0 && r.recovery !== 'long')
       .map((r) => `${tr(r.name).text}${r.recovery === 'short-one' && r.spent > 1 ? ' (1)' : ''}`),
@@ -63,7 +63,7 @@ export function ShortRestSheet({ visible, onClose }: ShortRestSheetProps) {
         title={t('rest.finish')}
         tone="accent"
         onPress={() => {
-          updateState((s) => shortRestResources(finishShortRest(s, sheet.spellcasting?.classId === 'warlock'), resources));
+          updateState((s) => shortRestResources(finishShortRest(s, sheet.spellcasting?.slotsFromPact ?? false), resources));
           setLast(null);
           onClose();
         }}

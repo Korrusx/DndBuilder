@@ -43,7 +43,10 @@ export {
   fixedProficiencies,
   featureLanguageSlots,
   knownLanguages,
+  classSpellLists,
   languageOptions,
+  primaryCasterId,
+  setClassSpellLists,
   magicInitiateSlots,
   originFeats,
   proficiencySlots,
@@ -63,6 +66,7 @@ export { choice1 } from './model/choices';
 export { withDefaults } from './model/normalize';
 export {
   addToInventory,
+  adjustPactSlot,
   adjustSlot,
   castSpell,
   deathSave,

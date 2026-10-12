@@ -154,22 +154,30 @@ export function expertiseCount(c: Character, content: Content): number {
 
 /** Сколько видов оружия с приёмами (из таблицы класса; если столбца нет — 2). */
 export function weaponMasteryCount(c: Character, content: Content): number {
-  const cls = startingClass(c, content);
-  const level = c.classes[0]?.level ?? 1;
-  const rows = cls?.levels.slice(0, level) ?? [];
-  if (!rows.some((r) => r.features.some((id) => id.endsWith('-weapon-mastery')))) return 0;
-  // Столбец таблицы класса на текущем уровне; если его нет (плут, паладин, следопыт) — 2.
-  const fromTable = rows[rows.length - 1]?.classSpecific?.weapon_mastery;
-  return typeof fromTable === 'number' ? fromTable : 2;
+  // Несколько классов с «Приёмами оружия»: берём наибольшее число, а не сумму.
+  return Math.max(0, ...masteryClasses(c, content).map((m) => m.count));
+}
+
+/** Классы персонажа, у которых на их уровне есть «Приёмы оружия», и сколько приёмов даёт каждый. */
+function masteryClasses(c: Character, content: Content): { classId: string; count: number }[] {
+  const classes = indexOf(content).classes;
+  return c.classes.flatMap((e) => {
+    const rows = classes.get(e.classId)?.levels.slice(0, e.level) ?? [];
+    if (!rows.some((r) => r.features.some((id) => id.endsWith('-weapon-mastery')))) return [];
+    // Столбец таблицы класса на текущем уровне; если его нет (плут, паладин, следопыт) — 2.
+    const fromTable = rows[rows.length - 1]?.classSpecific?.weapon_mastery;
+    return [{ classId: e.classId, count: typeof fromTable === 'number' ? fromTable : 2 }];
+  });
 }
 
 /** Оружие, для которого можно выбрать приём: есть приём и есть владение (варвар — только рукопашное). */
 export function weaponMasteryOptions(c: Character, content: Content): string[] {
-  const cls = startingClass(c, content);
+  // Только рукопашное — если приёмы даёт лишь варвар.
+  const meleeOnly = masteryClasses(c, content).every((m) => m.classId === 'barbarian');
   const proficient = makeProficiencyCheck(proficiencyIds(c, content), content);
   return content.equipment
     .filter((e) => e.weapon?.mastery && proficient(e))
-    .filter((e) => cls?.id !== 'barbarian' || e.weapon?.range === 'melee')
+    .filter((e) => !meleeOnly || e.weapon?.range === 'melee')
     .map((e) => e.id);
 }
 
@@ -279,16 +287,46 @@ export function startingKit(c: Character, content: Content): { items: InventoryI
 
 // ---------- Шаг 5: заклинания ----------
 
-/** Сколько заговоров и подготовленных заклинаний у заклинателя на текущем уровне стартового класса. */
-export function spellLimits(c: Character, content: Content): SpellLimits | null {
-  const cls = startingClass(c, content);
-  const level = c.classes[0]?.level ?? 1;
-  const sc = cls?.levels[level - 1]?.spellcasting;
-  if (!cls || !sc || (cls.spellcasting?.fromLevel ?? 99) > level) return null;
+/** Основной заклинатель: первый по порядку класс с заклинаниями. Его заклинания — в `cantrips` / `preparedSpells`. */
+export function primaryCasterId(c: Character, content: Content): string | undefined {
+  const classes = indexOf(content).classes;
+  return c.classes.find((e) => classes.get(e.classId)?.spellcasting)?.classId;
+}
+
+/** Заговоры и подготовленные заклинания класса (у основного заклинателя — общие поля персонажа). */
+export function classSpellLists(c: Character, content: Content, classId: string): { cantrips: string[]; preparedSpells: string[] } {
+  if (classId === primaryCasterId(c, content)) return { cantrips: c.cantrips, preparedSpells: c.preparedSpells };
+  const e = c.classes.find((x) => x.classId === classId);
+  return { cantrips: e?.cantrips ?? [], preparedSpells: e?.preparedSpells ?? [] };
+}
+
+/** Записать заговоры / подготовленные заклинания класса. */
+export function setClassSpellLists(
+  c: Character,
+  content: Content,
+  classId: string,
+  patch: Partial<{ cantrips: string[]; preparedSpells: string[] }>,
+): Character {
+  if (classId === primaryCasterId(c, content)) return { ...c, ...patch };
+  return { ...c, classes: c.classes.map((e) => (e.classId === classId ? { ...e, ...patch } : e)) };
+}
+
+/**
+ * Сколько заговоров и подготовленных заклинаний у класса на его уровне — как у одноклассового (SRD 5.2:
+ * «Spells Prepared»). По умолчанию — основной заклинатель. null — у класса пока нет заклинаний.
+ */
+export function spellLimits(c: Character, content: Content, classId = primaryCasterId(c, content)): SpellLimits | null {
+  const entry = c.classes.find((e) => e.classId === classId);
+  const cls = entry && indexOf(content).classes.get(entry.classId);
+  if (!entry || !cls) return null;
+  const sc = cls.levels[entry.level - 1]?.spellcasting;
+  if (!sc || (cls.spellcasting?.fromLevel ?? 99) > entry.level) return null;
   let cantrips = sc.cantrips;
-  for (const featureId of featureOptionIds(c, content)) {
+  // «Божественный порядок» и т.п.: дополнительные заговоры у класса, которому принадлежит умение.
+  for (const [featureId, options] of Object.entries(FEATURE_OPTIONS)) {
+    if (!featureId.startsWith(`${cls.id}-`)) continue;
     const chosen = choice1(c, CHOICE_KEYS.featureOption(featureId));
-    cantrips += FEATURE_OPTIONS[featureId].find((o) => o.id === chosen)?.extraCantrips ?? 0;
+    cantrips += options.find((o) => o.id === chosen)?.extraCantrips ?? 0;
   }
   const maxSpellLevel = sc.slots.reduce((max, n, i) => (n > 0 ? i + 1 : max), 0);
   return { classId: cls.id, cantrips, prepared: sc.prepared, maxSpellLevel };

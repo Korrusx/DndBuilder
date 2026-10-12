@@ -255,7 +255,7 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
 function page2(c: Character, content: Content, sheet: CharacterSheet): string {
   const sc = sheet.spellcasting;
   const slots = sc?.slots ?? [];
-  const pact = sc?.classId === 'warlock';
+  const pact = !!sc?.slotsFromPact;
 
   const castRow = `
     <div class="stats">

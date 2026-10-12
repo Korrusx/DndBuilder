@@ -32,7 +32,7 @@ export function spellbookMinimum(c: Character): number {
 
 /** Что можно вписать в книгу: заклинания волшебника тех кругов, для которых есть ячейки. */
 export function spellbookOptions(c: Character, content: Content, circle: number): string[] {
-  const max = spellLimits(c, content)?.maxSpellLevel ?? 1;
+  const max = spellLimits(c, content, 'wizard')?.maxSpellLevel ?? 1;
   return circle <= max ? spellOptions('wizard', circle, content) : [];
 }
 

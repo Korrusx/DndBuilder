@@ -103,6 +103,26 @@ export const MAGIC_INITIATE_LISTS = ['cleric', 'druid', 'wizard'] as const;
 
 export const MAGIC_INITIATE_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
 
+// ---------- Мультикласс (SRD 5.2) ----------
+
+/**
+ * Как уровни класса идут в ячейки мультиклассового заклинателя: full — все уровни, half — половина
+ * (с округлением вверх), pact — «Магия договора» колдуна, ячейки отдельно.
+ */
+export const SPELLCASTER_PROGRESSION: Record<string, 'full' | 'half' | 'pact'> = {
+  bard: 'full',
+  cleric: 'full',
+  druid: 'full',
+  sorcerer: 'full',
+  wizard: 'full',
+  paladin: 'half',
+  ranger: 'half',
+  warlock: 'pact',
+};
+
+/** Таблица «Multiclass Spellcaster» совпадает с таблицей ячеек полного заклинателя — берём её у этого класса. */
+export const MULTICLASS_SLOTS_CLASS = 'wizard';
+
 // ---------- Варианты умений классов (SRD 5.2) ----------
 
 /** Сколько вариантов метамагии знает чародей: 2 со 2-го уровня, ещё 2 на 10-м и 17-м. */

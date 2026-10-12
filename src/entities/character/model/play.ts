@@ -64,6 +64,14 @@ export function adjustSlot(state: GameState, level: number, delta: number, slots
   return { ...state, slotsSpent };
 }
 
+/** Потратить (+1) или вернуть (−1) отдельную ячейку «Магии договора» круга `level`. */
+export function adjustPactSlot(state: GameState, level: number, delta: number, pactSlots: number[]): GameState {
+  const i = level - 1;
+  const spent = [...(state.pactSlotsSpent ?? pactSlots.map(() => 0))];
+  spent[i] = Math.max(0, Math.min(pactSlots[i] ?? 0, (spent[i] ?? 0) + delta));
+  return { ...state, pactSlotsSpent: spent };
+}
+
 /** Самый низкий круг ≥ `spellLevel` со свободной ячейкой, или null. */
 export function lowestFreeSlot(state: GameState, spellLevel: number, slots: number[]): number | null {
   for (let level = Math.max(1, spellLevel); level <= slots.length; level++) {
@@ -89,10 +97,13 @@ export function castSpell(
   return { state: adjustSlot(state, level, 1, slots), slotLevel: level };
 }
 
-/** Короткий отдых завершён: колдун восстанавливает ячейки «Магии договора». */
+/**
+ * Короткий отдых завершён: колдун восстанавливает ячейки «Магии договора» — отдельные (`pactSlotsSpent`)
+ * всегда, а общие — если они только от договора (`pactMagic`, колдун без других заклинателей).
+ */
 export function finishShortRest(state: GameState, pactMagic: boolean): GameState {
   // Ярость длится не больше 10 минут — после часа отдыха её уже нет.
-  const rested = { ...state, raging: false };
+  const rested = { ...state, raging: false, pactSlotsSpent: undefined };
   return pactMagic ? { ...rested, slotsSpent: state.slotsSpent.map(() => 0) } : rested;
 }
 
