@@ -1,16 +1,26 @@
+import { useSQLiteContext } from 'expo-sqlite';
 import { View } from 'react-native';
 
 import { content, translationProgress } from '@/shared/content';
-import { AppText, LText, Screen } from '@/shared/ui';
+import type { Language } from '@/shared/i18n';
+import { LANGUAGES, setLanguage, useTranslation } from '@/shared/i18n';
+import { AppText, LText, Screen, Segmented } from '@/shared/ui';
 
 import { styles } from './AboutPage.styles';
 
 export function AboutPage() {
+  const db = useSQLiteContext();
+  // Подписка на смену языка: страница перерисуется сразу после переключения.
+  const { t, i18n } = useTranslation();
   const { done, total } = translationProgress();
   const percent = total ? Math.round((done / total) * 100) : 0;
 
   return (
     <Screen>
+      <AppText variant="heading">{t('language.title')}</AppText>
+      <Segmented<Language> options={LANGUAGES} value={i18n.language as Language} onChange={(lang) => setLanguage(db, lang)} />
+      <AppText variant="secondary">{t('language.hint')}</AppText>
+
       <AppText variant="heading">Справочник</AppText>
       <View style={styles.card}>
         <AppText>Версия: {content.version}</AppText>

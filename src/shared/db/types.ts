@@ -1,5 +1,5 @@
 
-export type MetaKey = 'lastBackupAt';
+export type MetaKey = 'lastBackupAt' | 'language';
 
 // Миграции пользовательской базы. Версия схемы хранится в PRAGMA user_version.
 // Новую миграцию добавляй в конец списка; уже выпущенные миграции не меняй.

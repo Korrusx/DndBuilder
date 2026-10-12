@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 
 import { colors, fonts } from '@/shared/config';
 import { initUserDb, USER_DB_NAME } from '@/shared/db';
+import { LanguageGate } from '@/shared/i18n';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,20 +31,22 @@ export default function RootLayout() {
   return (
     <SQLiteProvider databaseName={USER_DB_NAME} onInit={initUserDb}>
       <StatusBar style="light" />
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: colors.bg },
-          headerTintColor: colors.text,
-          headerTitleStyle: { fontFamily: fonts.display },
-          headerShadowVisible: false,
-          contentStyle: { backgroundColor: colors.bg },
-        }}
-      >
-        <Stack.Screen name="index" options={{ title: 'Мои персонажи' }} />
-        <Stack.Screen name="create" options={{ headerShown: false }} />
-        <Stack.Screen name="character/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="about" options={{ title: 'О приложении' }} />
-      </Stack>
+      <LanguageGate>
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: colors.bg },
+            headerTintColor: colors.text,
+            headerTitleStyle: { fontFamily: fonts.display },
+            headerShadowVisible: false,
+            contentStyle: { backgroundColor: colors.bg },
+          }}
+        >
+          <Stack.Screen name="index" options={{ title: 'Мои персонажи' }} />
+          <Stack.Screen name="create" options={{ headerShown: false }} />
+          <Stack.Screen name="character/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="about" options={{ title: 'О приложении' }} />
+        </Stack>
+      </LanguageGate>
     </SQLiteProvider>
   );
 }

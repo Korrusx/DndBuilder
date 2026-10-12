@@ -1,0 +1,6 @@
+{
+  "language": {
+    "title": "Language",
+    "hint": "Language of the interface and the rules reference. If a text is missing in the chosen language, the other one is shown with a mark."
+  }
+}
