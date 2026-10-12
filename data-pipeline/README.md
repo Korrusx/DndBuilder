@@ -35,4 +35,12 @@ npm run data:build   # собрать assets/content/content.json и обнов�
   Вариант B (50 зм) добавляется автоматически.
 
 Черта: `id`, `name`, `type`, `description` (механика своими словами), `proficiencyChoices`.
+
+`extra/species.json` — виды не из SRD (Аасимар из PHB 2024; Дампир, Калаштар, Кованый, Кхоравар, Ченджлинг, Шифтер
+из других книг). Вид: `id`, `name` (`{ en, ru }`), `creatureType`, `sizes`, `speed`, `traits`, `subspecies`.
+Особенность в `traits` — либо строка (id готовой особенности SRD, например `darkvision-60`), либо объект
+`{ id, name, text, spells?, proficiencyChoices?, speed? }`; `text` — описание сразу по-русски.
+В `proficiencyChoices` кроме `artisanTool | instrument | gamingSet` можно `skill` (любой навык) и `anyTool`
+(любой инструмент), `desc` — подсказка к выбору. Подвид: `{ id, name, traits }`, у особенностей подвида можно указать `level`.
+Ресурсы особенностей (сколько раз до отдыха) — в `extra/resources.json`.
 Механические эффекты (например, «Крепкий» +2 хита за уровень) задаются в `src/entities/character/config/effects.ts`.

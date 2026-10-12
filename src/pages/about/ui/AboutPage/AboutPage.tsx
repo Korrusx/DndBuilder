@@ -46,8 +46,8 @@ export function AboutPage() {
       <AppText variant="secondary">
         Кроме SRD, в справочник добавлена игровая механика {content.backgrounds.filter((b) => b.extra).length} предысторий и{' '}
         {content.feats.filter((f) => f.extra).length} черт происхождения, а также {content.subclasses.filter((s) => s.extra).length}{' '}
-        подклассов из Player&apos;s Handbook 2024. Тексты книги не используются: описания умений написаны заново,
-        кратко, своими словами.
+        подклассов из Player&apos;s Handbook 2024 и {content.species.filter((s) => s.extra).length} видов из Player&apos;s Handbook 2024
+        и других книг. Тексты книг не используются: описания написаны заново, кратко, своими словами.
       </AppText>
     </Screen>
   );

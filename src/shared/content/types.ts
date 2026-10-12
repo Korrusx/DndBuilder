@@ -136,6 +136,8 @@ export type Species = {
   speed: number;
   traits: string[];
   subspecies: string[];
+  /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
+  extra?: boolean;
 };
 
 export type Subspecies = {
@@ -144,6 +146,8 @@ export type Subspecies = {
   name: LocalizedText;
   damageType?: string;
   traits: { id: string; level: number }[];
+  /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
+  extra?: boolean;
 };
 
 export type Trait = {
@@ -155,6 +159,8 @@ export type Trait = {
   spells?: string[];
   proficiencyChoices?: Choice[];
   speed?: number;
+  /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
+  extra?: boolean;
 };
 
 export type Background = {

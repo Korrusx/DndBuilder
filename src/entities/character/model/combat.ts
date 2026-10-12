@@ -53,6 +53,7 @@ export function armorClass({ armor, shield, mods, effects }: AcInput): number {
     }
   }
   if (shield) ac += shield.base;
+  for (const e of effects) if (e.type === 'acBonus') ac += e.value;
   return ac;
 }
 

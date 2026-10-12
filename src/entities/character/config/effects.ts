@@ -9,6 +9,8 @@ export const EFFECTS: Record<string, Effect[]> = {
   tough: [{ type: 'hpPerLevel', value: 2 }],
   // Дварф, «Дварфийская стойкость»: +1 хит за каждый уровень.
   'dwarven-toughness': [{ type: 'hpPerLevel', value: 1 }],
+  // Кованый (не SRD), «Встроенная защита»: +1 к КЗ.
+  'integrated-protection': [{ type: 'acBonus', value: 1 }],
   // Варвар, «Защита без доспехов»: 10 + ЛОВ + ТЕЛ, щит можно.
   'barbarian-unarmored-defense': [{ type: 'unarmoredDefense', abilities: ['dex', 'con'], shieldAllowed: true }],
   // Монах, «Защита без доспехов»: 10 + ЛОВ + МДР, без доспеха и щита.

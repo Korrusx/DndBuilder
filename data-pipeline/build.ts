@@ -24,6 +24,9 @@ import type {
   Feature,
   LocalizedText,
   ProficiencyType,
+  Species,
+  Subspecies,
+  Trait,
 } from '../src/shared/content/types.ts';
 import { parseCsv, stringifyCsv } from './csv.ts';
 
@@ -251,7 +254,16 @@ const PROFICIENCY_TYPES: Record<string, ProficiencyType> = {
 /** Предыстории SRD 5.2 с «Посвящённым в магию» и его списком заклинаний. */
 const SRD_FEAT_SPELL_LIST: Record<string, string> = { acolyte: 'cleric', sage: 'wizard' };
 
-type ExtraProfChoice = { choose: number; options?: string[]; fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' };
+type ExtraProfChoice = {
+  choose: number;
+  options?: string[];
+  /** anyTool — любой инструмент (инструменты, ремесленные, музыкальные); skill — любой навык. */
+  fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' | 'skill' | 'anyTool';
+  /** Подсказка к выбору (сразу по-русски). */
+  desc?: string;
+};
+
+const ANY_TOOL_TYPES: ProficiencyType[] = ['tool', 'artisanTool', 'instrument'];
 
 function equipmentCategoriesForExtra(rawCategories: Raw[]): Map<string, string[]> {
   return new Map(rawCategories.map((c) => [c.index, ids(c.equipment)]));
@@ -264,15 +276,21 @@ async function readExtra(
   const read = async (name: string) => JSON.parse(await readFile(join(EXTRA_DIR, `${name}.json`), 'utf8'));
   const gamingSets = new Set(categories.get('gaming-sets') ?? []);
 
-  const profChoice = (c: ExtraProfChoice, where: string): Choice => {
+  const profChoice = (c: ExtraProfChoice, where: string, descKey?: string): Choice => {
     let options = c.options ?? [];
     if (c.fromProficiencyType === 'gamingSet') {
       options = proficiencies.filter((p) => p.refId && gamingSets.has(p.refId)).map((p) => p.id);
+    } else if (c.fromProficiencyType === 'anyTool') {
+      options = proficiencies.filter((p) => ANY_TOOL_TYPES.includes(p.type)).map((p) => p.id);
     } else if (c.fromProficiencyType) {
       options = proficiencies.filter((p) => p.type === c.fromProficiencyType).map((p) => p.id);
     }
     if (!options.length) warn(`${where}: пустой выбор владений`);
-    return { choose: c.choose, options: options.map((id) => ({ kind: 'ref', id })) };
+    return {
+      choose: c.choose,
+      ...(c.desc && descKey ? { desc: seeded(descKey, c.desc, c.desc) } : {}),
+      options: options.map((id) => ({ kind: 'ref', id })),
+    };
   };
 
   const backgrounds = (await read('backgrounds')).backgrounds.map((b: Raw) => {
@@ -352,7 +370,63 @@ async function readExtra(
     }),
   );
 
-  return { backgrounds, feats, subclasses, features, resources };
+  // Виды: extra/species.json. Особенность — объект (новая) или строка (id особенности SRD).
+  const species: Species[] = [];
+  const subspecies: Subspecies[] = [];
+  const traits: Trait[] = [];
+  /** Существующие особенности SRD, которые получают новые виды: id особенности → id видов. */
+  const sharedTraits = new Map<string, string[]>();
+  const trait = (t: Raw, speciesId: string, subspeciesId?: string): Trait => ({
+    id: t.id,
+    name: seeded(`trait.${t.id}.name`, t.name.en, t.name.ru),
+    description: seeded(`trait.${t.id}.description`, t.text, t.text),
+    species: [speciesId],
+    subspecies: subspeciesId ? [subspeciesId] : [],
+    ...(t.spells ? { spells: t.spells } : {}),
+    ...(t.proficiencyChoices
+      ? {
+          proficiencyChoices: t.proficiencyChoices.map((c: ExtraProfChoice, i: number) =>
+            profChoice(c, `особенность ${t.id}`, `trait.${t.id}.proficiencyChoice.${i}.desc`),
+          ),
+        }
+      : {}),
+    ...(t.speed ? { speed: t.speed } : {}),
+    extra: true,
+  });
+  for (const s of (await read('species')).species as Raw[]) {
+    const traitIds = (s.traits as (string | Raw)[]).map((t) => {
+      if (typeof t === 'string') {
+        sharedTraits.set(t, [...(sharedTraits.get(t) ?? []), s.id]);
+        return t;
+      }
+      traits.push(trait(t, s.id));
+      return t.id as string;
+    });
+    for (const sub of (s.subspecies ?? []) as Raw[]) {
+      subspecies.push({
+        id: sub.id,
+        speciesId: s.id,
+        name: seeded(`subspecies.${sub.id}.name`, sub.name.en, sub.name.ru),
+        traits: (sub.traits as Raw[]).map((t) => {
+          traits.push(trait(t, s.id, sub.id));
+          return { id: t.id, level: t.level ?? 1 };
+        }),
+        extra: true,
+      });
+    }
+    species.push({
+      id: s.id,
+      name: seeded(`species.${s.id}.name`, s.name.en, s.name.ru),
+      creatureType: s.creatureType,
+      sizes: s.sizes,
+      speed: s.speed,
+      traits: traitIds,
+      subspecies: ((s.subspecies ?? []) as Raw[]).map((sub) => sub.id),
+      extra: true,
+    });
+  }
+
+  return { backgrounds, feats, subclasses, features, resources, species, subspecies, traits, sharedTraits };
 }
 
 /** Текст из extra: английский — для ключа, русский — сразу в перевод. */
@@ -542,7 +616,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
   });
 
   // --- Виды, черты вида, предыстории, черты ---
-  const species = (await raw('species')).map((s) => ({
+  const species: Species[] = (await raw('species')).map((s) => ({
     id: s.index,
     name: tx(`species.${s.index}.name`, s.name),
     creatureType: s.type,
@@ -552,7 +626,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
     subspecies: ids(s.subspecies),
   }));
 
-  const subspecies = (await raw('subspecies')).map((s) => ({
+  const subspecies: Subspecies[] = (await raw('subspecies')).map((s) => ({
     id: s.index,
     speciesId: s.species.index,
     name: tx(`subspecies.${s.index}.name`, s.name),
@@ -560,7 +634,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
     traits: (s.traits ?? []).map((t: Raw) => ({ id: t.index, level: t.level ?? 1 })),
   }));
 
-  const traits = (await raw('traits')).map((t) => ({
+  const traits: Trait[] = (await raw('traits')).map((t) => ({
     id: t.index,
     name: tx(`trait.${t.index}.name`, t.name),
     description: tx(`trait.${t.index}.description`, t.description ?? ''),
@@ -619,6 +693,14 @@ async function build(): Promise<Omit<Content, 'version'>> {
   features.push(...extra.features);
   subclasses.push(...extra.subclasses);
   for (const sc of extra.subclasses) classes.find((c) => c.id === sc.classId)?.subclasses.push(sc.id);
+  species.push(...extra.species);
+  subspecies.push(...extra.subspecies);
+  traits.push(...extra.traits);
+  for (const [id, speciesIds] of extra.sharedTraits) {
+    const t = traits.find((x) => x.id === id);
+    if (t) t.species.push(...speciesIds);
+    else warn(`Виды ${speciesIds.join(', ')}: нет особенности ${id}`);
+  }
 
   // --- Снаряжение ---
   const equipment = (await raw('equipment')).map((e) => {
@@ -745,7 +827,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
 
   return {
     schemaVersion: SCHEMA_VERSION,
-    source: 'SRD 5.2 (CC BY 4.0) via dnd5eapi.co/api/2024; механика не-SRD предысторий и черт — data-pipeline/extra',
+    source: 'SRD 5.2 (CC BY 4.0) via dnd5eapi.co/api/2024; механика не-SRD видов, предысторий, черт и подклассов — data-pipeline/extra',
     abilities,
     skills,
     alignments,

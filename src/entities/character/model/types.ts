@@ -176,6 +176,8 @@ export type Effect =
   | { type: 'hpPerClassLevel'; classId: string; fromLevel: number }
   /** Защита без доспехов: 10 + модификаторы указанных характеристик. */
   | { type: 'unarmoredDefense'; abilities: AbilityId[]; shieldAllowed: boolean }
+  /** +N к КЗ всегда (Кованый: «Встроенная защита»). */
+  | { type: 'acBonus'; value: number }
   /** +N к КЗ, пока надет доспех (лёгкий, средний или тяжёлый). */
   | { type: 'armoredAcBonus'; value: number }
   /** Прибавка к скорости без доспехов и щита (из столбца таблицы класса). */

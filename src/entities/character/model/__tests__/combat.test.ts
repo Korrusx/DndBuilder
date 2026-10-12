@@ -32,6 +32,12 @@ describe('класс защиты', () => {
     expect(armorClass({ armor: armor('light', 11, true), mods, effects })).toBe(14);
     expect(armorClass({ mods, effects })).toBe(12);
   });
+  test('Кованый, «Встроенная защита»: +1 и в доспехе, и без него', () => {
+    const effects = effectsOf(['integrated-protection']);
+    expect(armorClass({ mods, effects })).toBe(13);
+    expect(armorClass({ armor: armor('heavy', 16, false), shield, mods, effects })).toBe(19);
+    expect(armorClass({ mods, effects: [...effects, ...effectsOf(['monk-unarmored-defense'])] })).toBe(16);
+  });
 });
 
 describe('хиты', () => {

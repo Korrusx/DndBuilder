@@ -101,6 +101,11 @@
     { "id": "large-form", "name": { "en": "Large Form", "ru": "Большая форма" }, "features": "large-form", "minLevel": 5, "max": { "fixed": 1 } },
     { "id": "adrenaline-rush", "name": { "en": "Adrenaline Rush", "ru": "Прилив адреналина" }, "features": "adrenaline-rush", "max": { "profBonus": true }, "short": "all" },
     { "id": "relentless-endurance", "name": { "en": "Relentless Endurance", "ru": "Неутомимая стойкость" }, "features": "relentless-endurance", "max": { "fixed": 1 } },
-    { "id": "luck-points", "name": { "en": "Luck Points", "ru": "Очки удачи" }, "features": "lucky", "max": { "profBonus": true } }
+    { "id": "luck-points", "name": { "en": "Luck Points", "ru": "Очки удачи" }, "features": "lucky", "max": { "profBonus": true } },
+
+    { "id": "healing-hands", "name": { "en": "Healing Hands", "ru": "Исцеляющие руки" }, "features": "healing-hands", "max": { "fixed": 1 } },
+    { "id": "celestial-revelation", "name": { "en": "Celestial Revelation", "ru": "Небесное откровение" }, "features": "celestial-revelation", "minLevel": 3, "max": { "fixed": 1 } },
+    { "id": "vampiric-bite", "name": { "en": "Vampiric Bite", "ru": "Усиление укусом" }, "features": "vampiric-bite", "max": { "profBonus": true } },
+    { "id": "shifting", "name": { "en": "Shifting", "ru": "Смена облика" }, "features": "shifting", "max": { "profBonus": true } }
   ]
 }
