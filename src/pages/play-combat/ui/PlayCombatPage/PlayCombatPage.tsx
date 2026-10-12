@@ -1,19 +1,30 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 
-import { speedWithExhaustion, unarmedStrike, weaponMasteryCount, weaponMasteryOptions } from '@/entities/character';
+import {
+  attackName,
+  castSpell,
+  characterResources,
+  divineSmiteDice,
+  endRage,
+  speedWithExhaustion,
+  startRage,
+  unarmedStrike,
+  weaponMasteryCount,
+  weaponMasteryOptions,
+} from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import type { D20Request, DamageRequest } from '@/features/roll-dice';
 import { d20Parts, D20Sheet, DamageSheet } from '@/features/roll-dice';
-import { abilityAbbr, byId, content, nameOf, plain, tr } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, plain, spellName, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDamage, formatDice, formatFeet, formatModifier } from '@/shared/lib/dice';
-import { AppText, BottomSheet, Card, InfoSheet, MultiPick, Screen, SmallButton, StatBox } from '@/shared/ui';
+import { AppText, BottomSheet, Card, Chip, ChipRow, InfoSheet, MultiPick, Screen, Segmented, SmallButton, StatBox } from '@/shared/ui';
 
 import { styles } from './PlayCombatPage.styles';
 
 export function PlayCombatPage() {
-  const { character: c, sheet, update } = usePlay();
+  const { character: c, sheet, update, updateState } = usePlay();
   const { t } = useTranslation();
   const [editMastery, setEditMastery] = useState(false);
   const masteryCount = weaponMasteryCount(c, content);
@@ -21,10 +32,33 @@ export function PlayCombatPage() {
   const [damage, setDamage] = useState<DamageRequest | null>(null);
   const [info, setInfo] = useState<{ title: string; text: string } | null>(null);
   const ex = c.state.exhaustion;
-  const unarmed = unarmedStrike(sheet.abilities.str.mod, sheet.profBonus);
+  const unarmed = unarmedStrike(sheet.abilities.str.mod, sheet.profBonus, sheet.rageDamage);
   // Черта «Трактирный драчун»: безоружный удар 1к4 + СИЛ.
   const brawler = sheet.features.some((f) => f.source === 'feat' && f.id === 'tavern-brawler');
   const sneak = sheet.classSpecific.rogue?.sneak_attack as { dice_count: number; dice_value: number } | undefined;
+  const rage = sheet.classSpecific.barbarian ? characterResources(c, content, sheet).find((r) => r.id === 'rage') : undefined;
+  const rageLeft = rage ? rage.max - Math.min(rage.max, c.state.resourcesSpent.rage ?? 0) : 0;
+  const rageBonus = sheet.classSpecific.barbarian?.rage_damage_bonus;
+  // «Божественная кара»: у паладина со 2-го уровня («Кара паладина») всегда подготовлена.
+  const slots = sheet.spellcasting?.slots ?? [];
+  const smite =
+    slots.some((n) => n > 0) && (sheet.features.some((f) => f.id === 'paladin-paladins-smite') || c.preparedSpells.includes('divine-smite'));
+  const smiteLevels = slots.map((n, i) => (n > 0 ? i + 1 : 0)).filter(Boolean);
+  const [smiteLevel, setSmiteLevel] = useState<string>('1');
+  const [smiteFiend, setSmiteFiend] = useState(false);
+  const smiteSlot = smiteLevel === 'free' ? 1 : Number(smiteLevel);
+  const castSmite = () => {
+    const dice = divineSmiteDice(smiteSlot, smiteFiend);
+    if (smiteLevel !== 'free') {
+      const result = castSpell(c.state, 1, slots, smiteSlot);
+      if (!result) {
+        Alert.alert(t('magic.noSlots'), t('combat.smiteNoSlot', { level: smiteSlot }));
+        return;
+      }
+      updateState(() => result.state);
+    }
+    setDamage({ title: spellName('divine-smite'), dice, bonus: 0, damageType: damageType('radiant') });
+  };
 
   const damageType = (id?: string) => (id ? tr(byId.damageTypes.get(id)?.name).text || id : undefined);
 
@@ -41,16 +75,40 @@ export function PlayCombatPage() {
         <StatBox label={t('stats.speed')} value={formatFeet(speedWithExhaustion(sheet.speed, ex))} />
       </View>
 
+      {rage ? (
+        <Card style={styles.gapSm}>
+          <View style={styles.row}>
+            <View style={styles.fill}>
+              <AppText variant="heading">{tr(rage.name).text}</AppText>
+              <AppText variant="secondary">
+                {c.state.raging ? t('combat.rageActive', { bonus: rageBonus }) : t('combat.rageInactive', { left: rageLeft, max: rage.max })}
+              </AppText>
+            </View>
+            {c.state.raging ? (
+              <SmallButton title={t('combat.rageEnd')} onPress={() => updateState(endRage)} />
+            ) : (
+              <SmallButton
+                title={t('combat.rageStart')}
+                tone="accent"
+                disabled={rageLeft === 0}
+                onPress={() => updateState((s) => startRage(s, rage.max) ?? s)}
+              />
+            )}
+          </View>
+        </Card>
+      ) : null}
+
       <AppText variant="heading">{t('combat.attacks')}</AppText>
       {sheet.attacks.map((a) => {
         const item = byId.equipment.get(a.itemId);
+        const name = attackName(a);
         const mastery = c.weaponMasteries.includes(a.itemId) ? item?.weapon?.mastery : undefined;
         const masteryEntry = mastery ? byId.weaponMasteries.get(mastery) : undefined;
         return (
-          <Card key={a.itemId} style={styles.gapSm}>
+          <Card key={a.key} style={styles.gapSm}>
             <View style={styles.row}>
               <View style={styles.fill}>
-                <AppText variant="heading">{nameOf('equipment', a.itemId)}</AppText>
+                <AppText variant="heading">{name}</AppText>
                 <AppText variant="secondary">
                   {abilityAbbr(a.ability)}
                   {a.proficient ? '' : t('combat.notProficient')}
@@ -65,7 +123,7 @@ export function PlayCombatPage() {
                 tone="accent"
                 flex={1}
                 onPress={() =>
-                  setRoll({ title: t('combat.attackOf', { name: nameOf('equipment', a.itemId) }), parts: d20Parts([{ label: t('combat.hit'), value: a.toHit }], ex) })
+                  setRoll({ title: t('combat.attackOf', { name }), parts: d20Parts([{ label: t('combat.hit'), value: a.toHit }], ex) })
                 }
               />
               <SmallButton
@@ -73,10 +131,31 @@ export function PlayCombatPage() {
                 tone="damage"
                 flex={1}
                 onPress={() =>
-                  setDamage({ title: t('combat.damageOf', { name: nameOf('equipment', a.itemId) }), dice: a.damageDice, bonus: a.damageBonus, damageType: damageType(a.damageType) })
+                  setDamage({
+                    title: t('combat.damageOf', { name }),
+                    dice: a.damageDice,
+                    bonus: a.damageBonus,
+                    damageType: damageType(a.damageType),
+                    minDie: a.damageMinDie,
+                  })
                 }
               />
             </View>
+            {a.twoHanded ? (
+              <SmallButton
+                title={t('combat.twoHanded', { value: formatDamage(a.twoHanded.dice, a.damageBonus) })}
+                tone="damage"
+                onPress={() =>
+                  setDamage({
+                    title: t('combat.damageOf', { name }),
+                    dice: a.twoHanded!.dice,
+                    bonus: a.damageBonus,
+                    damageType: damageType(a.damageType),
+                    minDie: a.twoHanded!.minDie,
+                  })
+                }
+              />
+            ) : null}
             {masteryEntry ? (
               <SmallButton
                 title={t('combat.mastery', { name: tr(masteryEntry.name).text })}
@@ -92,7 +171,7 @@ export function PlayCombatPage() {
           <View style={styles.fill}>
             <AppText variant="heading">{t('combat.unarmed')}</AppText>
             <AppText variant="secondary">
-              {t('combat.unarmedDamage', { damage: brawler ? formatDamage('1d4', sheet.abilities.str.mod) : unarmed.damage, type: damageType('bludgeoning') })}
+              {t('combat.unarmedDamage', { damage: brawler ? formatDamage('1d4', sheet.abilities.str.mod + sheet.rageDamage) : unarmed.damage, type: damageType('bludgeoning') })}
             </AppText>
           </View>
           <SmallButton
@@ -104,7 +183,7 @@ export function PlayCombatPage() {
             <SmallButton
               title={t('combat.damageShort')}
               tone="damage"
-              onPress={() => setDamage({ title: t('combat.unarmed'), dice: '1d4', bonus: sheet.abilities.str.mod, damageType: damageType('bludgeoning') })}
+              onPress={() => setDamage({ title: t('combat.unarmed'), dice: '1d4', bonus: sheet.abilities.str.mod + sheet.rageDamage, damageType: damageType('bludgeoning') })}
             />
           ) : null}
         </View>
@@ -123,6 +202,30 @@ export function PlayCombatPage() {
               onPress={() => setDamage({ title: nameOf('features', 'rogue-sneak-attack'), dice: `${sneak.dice_count}d${sneak.dice_value}`, bonus: 0 })}
             />
           </View>
+        </Card>
+      ) : null}
+
+      {smite ? (
+        <Card style={styles.gapSm}>
+          <AppText variant="heading">{spellName('divine-smite')}</AppText>
+          <AppText variant="secondary">{t('combat.smiteHint')}</AppText>
+          <Segmented<string>
+            value={smiteLevel}
+            onChange={setSmiteLevel}
+            options={[
+              ...smiteLevels.map((n) => ({ value: String(n), label: t('spell.circle', { level: n }) })),
+              ...(sheet.features.some((f) => f.id === 'paladin-paladins-smite') ? [{ value: 'free', label: t('combat.smiteFree') }] : []),
+            ]}
+          />
+          {smiteLevel === 'free' ? <AppText variant="secondary">{t('combat.smiteFreeHint')}</AppText> : null}
+          <ChipRow>
+            <Chip label={t('combat.smiteFiend')} selected={smiteFiend} onPress={() => setSmiteFiend((v) => !v)} />
+          </ChipRow>
+          <SmallButton
+            title={t('combat.smiteCast', { dice: formatDice(divineSmiteDice(smiteSlot, smiteFiend)) })}
+            tone="damage"
+            onPress={castSmite}
+          />
         </Card>
       ) : null}
 

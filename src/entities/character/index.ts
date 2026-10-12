@@ -15,6 +15,7 @@ export {
 } from './config/constants';
 export { featureSourceLabel } from './config/featureSource';
 export { HP_COLORS } from './config/hpColors';
+export { attackName } from './lib/attacks';
 export { featureInfo, featureName } from './lib/features';
 export { safeSheet } from './lib/safeSheet';
 export { irmaLevel1 } from './lib/samples';
@@ -59,11 +60,14 @@ export {
   castSpell,
   deathSave,
   deathStatus,
+  divineSmiteDice,
+  endRage,
   exhaustionPenalty,
   finishShortRest,
   rollDamage,
   setExhaustion,
   speedWithExhaustion,
+  startRage,
   toggleCondition,
   toggleEquipped,
   unarmedStrike,

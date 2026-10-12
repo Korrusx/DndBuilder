@@ -14,6 +14,7 @@ export function emptyGameState(): GameState {
     conditions: [],
     exhaustion: 0,
     heroicInspiration: false,
+    raging: false,
   };
 }
 

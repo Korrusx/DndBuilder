@@ -91,21 +91,46 @@ export function castSpell(
 
 /** Короткий отдых завершён: колдун восстанавливает ячейки «Магии договора». */
 export function finishShortRest(state: GameState, pactMagic: boolean): GameState {
-  return pactMagic ? { ...state, slotsSpent: state.slotsSpent.map(() => 0) } : state;
+  // Ярость длится не больше 10 минут — после часа отдыха её уже нет.
+  const rested = { ...state, raging: false };
+  return pactMagic ? { ...rested, slotsSpent: state.slotsSpent.map(() => 0) } : rested;
 }
 
 // ---------- Броски урона ----------
 
-/** Бросок урона «1к6+3». При критическом попадании кости бросаются дважды. */
-export function rollDamage(dice: string, bonus: number, critical = false, rng: () => number = Math.random): DamageRoll {
+/**
+ * Бросок урона «1к6+3». При критическом попадании кости бросаются дважды.
+ * `minDie` — «Сражение большим оружием»: выпавшие ниже значения считаются за него.
+ */
+export function rollDamage(dice: string, bonus: number, critical = false, rng: () => number = Math.random, minDie = 0): DamageRoll {
   const { count, sides } = parseDice(dice);
-  const rolled = Array.from({ length: critical ? count * 2 : count }, () => rollDie(sides, rng));
+  const rolled = Array.from({ length: critical ? count * 2 : count }, () => Math.max(minDie, rollDie(sides, rng)));
   return { dice: rolled, sides, bonus, total: Math.max(0, rolled.reduce((s, d) => s + d, 0) + bonus) };
 }
 
-/** Безоружный удар: попадание СИЛ + БМ, урон 1 + СИЛ (дробящий). */
-export function unarmedStrike(strMod: number, profBonus: number): { toHit: number; damage: number } {
-  return { toHit: strMod + profBonus, damage: Math.max(0, 1 + strMod) };
+/** Безоружный удар: попадание СИЛ + БМ, урон 1 + СИЛ (дробящий) + бонус ярости. */
+export function unarmedStrike(strMod: number, profBonus: number, rageDamage = 0): { toHit: number; damage: number } {
+  return { toHit: strMod + profBonus, damage: Math.max(0, 1 + strMod) + rageDamage };
+}
+
+// ---------- Ярость и кара ----------
+
+/** Войти в ярость: тратится одно использование «Ярости». null — использований не осталось. */
+export function startRage(state: GameState, max: number): GameState | null {
+  if ((state.resourcesSpent.rage ?? 0) >= max) return null;
+  return { ...state, raging: true, resourcesSpent: { ...state.resourcesSpent, rage: (state.resourcesSpent.rage ?? 0) + 1 } };
+}
+
+export function endRage(state: GameState): GameState {
+  return { ...state, raging: false };
+}
+
+/**
+ * «Божественная кара» (SRD 5.2): 2к8 излучением ячейкой 1-го круга, +1к8 за каждый круг выше;
+ * ещё +1к8, если цель — исчадие или нежить.
+ */
+export function divineSmiteDice(slotLevel: number, fiendOrUndead: boolean): string {
+  return `${1 + slotLevel + (fiendOrUndead ? 1 : 0)}d8`;
 }
 
 // ---------- Вещи ----------
@@ -133,7 +158,9 @@ export function toggleEquipped(items: InventoryItem[], index: number, content: C
 
 /** Добавляет предмет: если такой уже есть (и это не свой предмет), увеличивает количество. */
 export function addToInventory(items: InventoryItem[], item: InventoryItem): InventoryItem[] {
-  const i = items.findIndex((x) => x.itemId === item.itemId && !x.itemId.startsWith(CUSTOM_ITEM_PREFIX));
+  const i = items.findIndex(
+    (x) => x.itemId === item.itemId && (x.magicBonus ?? 0) === (item.magicBonus ?? 0) && !x.itemId.startsWith(CUSTOM_ITEM_PREFIX),
+  );
   if (i < 0) return [...items, item];
   return items.map((x, j) => (j === i ? { ...x, quantity: x.quantity + item.quantity } : x));
 }

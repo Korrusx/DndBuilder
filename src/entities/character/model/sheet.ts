@@ -12,7 +12,7 @@ import { chosenProficiencyIds, featureOptionProficiencies } from './choices';
 import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack } from './combat';
 import { effectsOf } from './effects';
 import { characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
-import type { AbilityScores, Character, CharacterSheet, SourcedId, WeaponAttack } from './types';
+import type { AbilityScores, Character, CharacterSheet, Effect, SourcedId, WeaponAttack } from './types';
 
 function need<T>(map: ReadonlyMap<string, T>, id: string, what: 'background' | 'species' | 'subspecies' | 'class' | 'subclass'): T {
   const x = map.get(id);
@@ -122,14 +122,24 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   const shieldItem = equipped.find((e) => e.armor?.category === 'shield');
   const ac = armorClass({ armor: armorItem?.armor, shield: shieldItem?.armor, mods, effects });
 
+  // Ярость: бонус к урону из таблицы варвара, пока персонаж в ярости.
+  const barbarian = classes.find(({ cls }) => cls.id === 'barbarian');
+  const rageBonus = barbarian?.cls.levels[barbarian.entry.level - 1]?.classSpecific?.rage_damage_bonus;
+  const rageDamage = c.state.raging && typeof rageBonus === 'number' ? rageBonus : 0;
+  const attackOpts = {
+    rangedAttackBonus: sumEffects(effects, 'rangedAttackBonus'),
+    strengthDamageBonus: rageDamage,
+    greatWeaponMinDie: effects.find((e) => e.type === 'greatWeaponMinDie')?.value,
+  };
   const attacks: WeaponAttack[] = [];
   const seen = new Set<string>();
   for (const inv of c.equipment) {
     const item = idx.equipment.get(inv.itemId);
-    if (!item?.weapon || seen.has(item.id)) continue;
-    seen.add(item.id);
-    const attack = weaponAttack(item, mods, pb, isProficient(item));
-    if (attack) attacks.push(attack);
+    if (!item?.weapon) continue;
+    const attack = weaponAttack(item, mods, pb, isProficient(item), { ...attackOpts, magicBonus: inv.magicBonus });
+    if (!attack || seen.has(attack.key)) continue;
+    seen.add(attack.key);
+    attacks.push(attack);
   }
 
   // --- Хиты ---
@@ -185,9 +195,16 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     speed,
     hitDice,
     attacks,
+    rageDamage,
     spellcasting,
     classSpecific,
     features,
     proficiencies: [...profIds],
   };
+}
+
+function sumEffects(effects: Effect[], type: 'rangedAttackBonus'): number {
+  let sum = 0;
+  for (const e of effects) if (e.type === type) sum += e.value;
+  return sum;
 }

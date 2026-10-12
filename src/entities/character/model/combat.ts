@@ -1,6 +1,6 @@
 import type { AbilityId, Equipment } from '@/shared/content';
 
-import type { AbilityScores, AcInput, Effect, HpLevel, WeaponAttack } from './types';
+import type { AbilityScores, AcInput, Effect, HpLevel, WeaponAttack, WeaponAttackOptions } from './types';
 
 // --- Хиты ---
 
@@ -75,20 +75,28 @@ export function weaponAttack(
   mods: AbilityScores,
   profBonus: number,
   proficient: boolean,
+  opts: WeaponAttackOptions = {},
 ): WeaponAttack | undefined {
   const w = item.weapon;
   if (!w?.damage) return undefined;
-  let ability: AbilityId = w.range === 'ranged' ? 'dex' : 'str';
+  const ranged = w.range === 'ranged';
+  let ability: AbilityId = ranged ? 'dex' : 'str';
   if (w.properties.includes('finesse')) ability = mods.dex > mods.str ? 'dex' : 'str';
   const mod = mods[ability];
+  const magic = opts.magicBonus ?? 0;
+  const minDie = !ranged ? opts.greatWeaponMinDie : undefined;
   return {
+    key: magic ? `${item.id}+${magic}` : item.id,
     itemId: item.id,
     ability,
-    toHit: mod + (proficient ? profBonus : 0),
+    toHit: mod + (proficient ? profBonus : 0) + magic + (ranged ? (opts.rangedAttackBonus ?? 0) : 0),
     damageDice: w.damage.dice,
-    damageBonus: mod,
+    damageBonus: mod + magic + (ability === 'str' ? (opts.strengthDamageBonus ?? 0) : 0),
+    damageMinDie: w.properties.includes('two-handed') ? minDie : undefined,
+    twoHanded: w.twoHandedDamage ? { dice: w.twoHandedDamage.dice, minDie } : undefined,
     damageType: w.damage.type,
     proficient,
+    magicBonus: magic,
   };
 }
 

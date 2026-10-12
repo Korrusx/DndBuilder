@@ -10,4 +10,11 @@ export type D20Request = {
   roll?: D20Roll;
 };
 
-export type DamageRequest = { title: string; dice: string; bonus: number; damageType?: string };
+export type DamageRequest = {
+  title: string;
+  dice: string;
+  bonus: number;
+  damageType?: string;
+  /** «Сражение большим оружием»: 1 и 2 на костях считаются за это число. */
+  minDie?: number;
+};

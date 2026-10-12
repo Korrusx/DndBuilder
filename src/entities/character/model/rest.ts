@@ -63,5 +63,6 @@ export function longRest(state: GameState, maxHp: number): GameState {
     resourcesSpent: {},
     deathSaves: { successes: 0, failures: 0 },
     exhaustion: Math.max(0, state.exhaustion - 1),
+    raging: false,
   };
 }

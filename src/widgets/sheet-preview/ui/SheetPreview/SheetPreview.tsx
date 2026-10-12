@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 
-import { ABILITY_IDS, featureName, featureSourceLabel } from '@/entities/character';
+import { ABILITY_IDS, attackName, featureName, featureSourceLabel } from '@/entities/character';
 import { colors } from '@/shared/config';
 import {
   abilityAbbr,
@@ -75,8 +75,8 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
         <Section title={t('preview.attacks')}>
           <View style={styles.card}>
             {sheet.attacks.map((a) => (
-              <View key={a.itemId} style={styles.line}>
-                <AppText style={styles.fill}>{nameOf('equipment', a.itemId)}</AppText>
+              <View key={a.key} style={styles.line}>
+                <AppText style={styles.fill}>{attackName(a)}</AppText>
                 <AppText style={[styles.num, { width: 48 }]}>{formatModifier(a.toHit)}</AppText>
                 <AppText style={[styles.num, { width: 80 }]}>{formatDamage(a.damageDice, a.damageBonus)}</AppText>
               </View>

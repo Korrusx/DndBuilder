@@ -35,13 +35,28 @@ export function PlayItemsPage() {
           return (
             <View key={`${it.itemId}-${index}`} style={[styles.row, index > 0 && styles.divider]}>
               <View style={styles.fillGap2}>
-                <AppText>{itemName(it)}</AppText>
+                <AppText>
+                  {itemName(it)}
+                  {it.magicBonus ? ` +${it.magicBonus}` : ''}
+                </AppText>
                 {contents?.length ? (
                   <AppText variant="secondary" style={styles.size12}>
                     {contents.join(', ')}
                   </AppText>
                 ) : null}
               </View>
+              {item?.weapon ? (
+                <SmallButton
+                  title={`+${it.magicBonus ?? 0}`}
+                  tone={it.magicBonus ? 'accent' : 'neutral'}
+                  onPress={() =>
+                    update((d) => ({
+                      ...d,
+                      equipment: d.equipment.map((x, i) => (i === index ? { ...x, magicBonus: ((x.magicBonus ?? 0) + 1) % 4 || undefined } : x)),
+                    }))
+                  }
+                />
+              ) : null}
               {wearable ? (
                 <SmallButton
                   title={it.equipped ? (item?.armor ? t('inventory.worn') : t('inventory.held')) : item?.armor ? t('inventory.wear') : t('inventory.take')}

@@ -139,7 +139,8 @@
     "advantage": "Advantage",
     "critical": "Critical",
     "nat20": "Natural 20!",
-    "nat1": "Natural 1"
+    "nat1": "Natural 1",
+    "greatWeapon": "1s and 2s on the dice count as {{min}}"
   },
   "rest": {
     "short": "Short Rest",
@@ -537,12 +538,23 @@
     "unarmed": "Unarmed Strike",
     "unarmedDamage": "Damage {{damage}}, {{type}}",
     "sneakHint": "Once per turn, with Advantage or an ally next to the target",
-    "critHint": "An attack is a {{d20}} roll; on a natural 20 tap “Critical” in the damage panel.",
+    "critHint": "An attack is a {{d20}} roll; on a natural 20 tap “Critical” in the damage panel: damage dice are rolled twice.",
     "masteries": "Weapon Mastery",
     "noMasteries": "None chosen",
     "masteriesCount": "{{count}} of {{max}}",
     "editMasteries": "Change masteries",
-    "masteriesHint": "Kinds of weapons whose mastery properties you use. You can change them after a Long Rest."
+    "masteriesHint": "Kinds of weapons whose mastery properties you use. You can change them after a Long Rest.",
+    "twoHanded": "Two hands {{value}}",
+    "rageActive": "Raging: +{{bonus}} damage on Strength attacks (and Unarmed Strikes).",
+    "rageInactive": "Uses left: {{left}} of {{max}}.",
+    "rageStart": "Enter Rage",
+    "rageEnd": "End",
+    "smiteHint": "Bonus Action right after you hit with a Melee weapon or an Unarmed Strike.",
+    "smiteFree": "No slot",
+    "smiteFreeHint": "Paladin’s Smite: once per Long Rest you can cast it without a slot — track that yourself.",
+    "smiteFiend": "Fiend or Undead",
+    "smiteCast": "Cast {{dice}}",
+    "smiteNoSlot": "No free level {{level}} slots."
   },
   "magic": {
     "none": "No spells",

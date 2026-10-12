@@ -16,7 +16,7 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
   const [critical, setCritical] = useState(false);
   const [roll, setRoll] = useState<DamageRoll | null>(null);
 
-  const doRoll = (crit: boolean) => request && setRoll(rollDamage(request.dice, request.bonus, crit));
+  const doRoll = (crit: boolean) => request && setRoll(rollDamage(request.dice, request.bonus, crit, Math.random, request.minDie));
 
   useEffect(() => {
     if (!request) return;
@@ -34,6 +34,7 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
           {request.damageType ? ` · ${request.damageType}` : ''}
         </AppText>
       ) : null}
+      {request?.minDie ? <AppText variant="secondary">{t('roll.greatWeapon', { min: request.minDie })}</AppText> : null}
       <Segmented<'normal' | 'crit'>
         value={critical ? 'crit' : 'normal'}
         onChange={(v) => {

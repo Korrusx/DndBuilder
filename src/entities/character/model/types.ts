@@ -56,7 +56,14 @@ export type FeatChoice = {
  * Предмет в инвентаре. `itemId` — id снаряжения или магического предмета из справочника,
  * либо `custom:…` для своего предмета; тогда название хранится в `name`.
  */
-export type InventoryItem = { itemId: string; quantity: number; equipped?: boolean; name?: string };
+export type InventoryItem = {
+  itemId: string;
+  quantity: number;
+  equipped?: boolean;
+  name?: string;
+  /** Магическое оружие +1/+2/+3: прибавка к попаданию и урону. */
+  magicBonus?: number;
+};
 
 export type GameState = {
   currentHp: number;
@@ -71,6 +78,8 @@ export type GameState = {
   conditions: string[];
   exhaustion: number;
   heroicInspiration: boolean;
+  /** Варвар в ярости: к урону атак Силой прибавляется бонус ярости. */
+  raging?: boolean;
 };
 
 export type CharacterStatus = { kind: 'draft'; step: number } | { kind: 'ready' };
@@ -158,13 +167,31 @@ export type AcInput = {
 // --- Атаки оружием ---
 
 export type WeaponAttack = {
+  /** Уникален в списке атак: одно и то же оружие может быть обычным и магическим. */
+  key: string;
   itemId: string;
   ability: AbilityId;
   toHit: number;
   damageDice: string;
   damageBonus: number;
+  /** «Сражение большим оружием»: 1 и 2 на костях урона считаются за это число. */
+  damageMinDie?: number;
+  /** Универсальное оружие двумя руками: другая кость урона. */
+  twoHanded?: { dice: string; minDie?: number };
   damageType?: string;
   proficient: boolean;
+  magicBonus: number;
+};
+
+/** Что меняет атаки оружием помимо характеристики и владения. */
+export type WeaponAttackOptions = {
+  magicBonus?: number;
+  /** Стиль «Стрельба»: к попаданию дальнобойным оружием. */
+  rangedAttackBonus?: number;
+  /** Ярость: к урону атак Силой. */
+  strengthDamageBonus?: number;
+  /** Стиль «Сражение большим оружием»: минимальное значение кости урона. */
+  greatWeaponMinDie?: number;
 };
 
 export type Effect =
@@ -181,7 +208,11 @@ export type Effect =
   /** +N к КЗ, пока надет доспех (лёгкий, средний или тяжёлый). */
   | { type: 'armoredAcBonus'; value: number }
   /** Прибавка к скорости без доспехов и щита (из столбца таблицы класса). */
-  | { type: 'unarmoredSpeedFromClassTable'; classId: string; column: string };
+  | { type: 'unarmoredSpeedFromClassTable'; classId: string; column: string }
+  /** +N к попаданию дальнобойным оружием (стиль «Стрельба»). */
+  | { type: 'rangedAttackBonus'; value: number }
+  /** Урон двуручным или универсальным (двумя руками) рукопашным оружием: 1 и 2 на кости считаются за N. */
+  | { type: 'greatWeaponMinDie'; value: number };
 
 // ---------- Спасброски от смерти ----------
 
@@ -220,6 +251,8 @@ export type CharacterSheet = {
   speed: number;
   hitDice: { classId: string; die: number; total: number }[];
   attacks: WeaponAttack[];
+  /** Бонус ярости к урону атак Силой; 0 — не в ярости. */
+  rageDamage: number;
   spellcasting?: { classId: string; ability: AbilityId; saveDC: number; attackBonus: number; slots: number[] };
   /** Особые столбцы таблицы класса на текущем уровне (скрытая атака, ярость…). */
   classSpecific: Record<string, Record<string, unknown>>;

@@ -1,4 +1,4 @@
-import { featureName } from '@/entities/character';
+import { attackName, featureName } from '@/entities/character';
 
 // Лист персонажа для печати: HTML двух страниц A4. Без React — только данные справочника и расчёты из сущности персонажа (src/entities/character).
 // Стр. 1 — персонаж (характеристики и навыки, бой, хиты, атаки, ресурсы, умения, владения),
@@ -183,7 +183,7 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const attackRows = sheet.attacks.map((a) => {
     const type = a.damageType ? tr(byId.damageTypes.get(a.damageType)?.name).text : '';
     const mastery = masteryOf(a.itemId);
-    return `<tr><td class="d">${e(nameOf('equipment', a.itemId))}</td><td class="d c">${formatModifier(a.toHit)}</td><td class="d">${e(
+    return `<tr><td class="d">${e(attackName(a))}</td><td class="d c">${formatModifier(a.toHit)}</td><td class="d">${e(
       `${formatDamage(a.damageDice, a.damageBonus)} ${type}`.trim(),
     )}</td><td class="d">${mastery ? e(t('pdf.mastery', { name: mastery })) : ''}</td></tr>`;
   });
