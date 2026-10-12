@@ -8,6 +8,7 @@ import { Platform } from 'react-native';
 import type { Character } from '@/entities/character';
 import { newId } from '@/entities/character/api';
 import { content } from '@/shared/content';
+import { t } from '@/shared/i18n/model';
 
 import { buildExchange, exchangeFileName, parseExchange } from '../model/exchange';
 import type { ImportResult } from '../model/types';
@@ -19,8 +20,8 @@ export async function shareCharacters(characters: Character[]): Promise<void> {
   if (file.exists) file.delete();
   file.create();
   file.write(JSON.stringify(buildExchange(characters, now, content.version), null, 1));
-  if (!(await Sharing.isAvailableAsync())) throw new Error('На этом устройстве нельзя поделиться файлом.');
-  await Sharing.shareAsync(file.uri, { mimeType: 'application/json', UTI: 'public.json', dialogTitle: 'Файл персонажей' });
+  if (!(await Sharing.isAvailableAsync())) throw new Error(t('files.cantShare'));
+  await Sharing.shareAsync(file.uri, { mimeType: 'application/json', UTI: 'public.json', dialogTitle: t('files.dialogCharacters') });
 }
 
 /** Открывает выбор файла и читает персонажей. null — пользователь ничего не выбрал. */

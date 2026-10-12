@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 
-import { ABILITY_IDS, FEATURE_SOURCE_LABEL, featureName } from '@/entities/character';
+import { ABILITY_IDS, featureName, featureSourceLabel } from '@/entities/character';
 import { colors } from '@/shared/config';
 import {
   abilityAbbr,
@@ -11,7 +11,8 @@ import {
   proficiencyName,
   spellName,
 } from '@/shared/content';
-import { formatDamage, formatModifier } from '@/shared/lib/dice';
+import { useTranslation } from '@/shared/i18n';
+import { formatDamage, formatFeet, formatModifier } from '@/shared/lib/dice';
 import { AppText, Section } from '@/shared/ui';
 
 import { Grid } from '../Grid/Grid';
@@ -20,13 +21,14 @@ import { styles } from './SheetPreview.styles';
 import type { SheetPreviewProps } from './SheetPreview.types';
 
 export function SheetPreview({ c, sheet }: SheetPreviewProps) {
+  const { t } = useTranslation();
   const main = [
-    { label: 'Хиты', value: String(sheet.maxHp) },
-    { label: 'КЗ', value: String(sheet.armorClass) },
-    { label: 'Инициатива', value: formatModifier(sheet.initiative) },
-    { label: 'Скорость', value: `${sheet.speed} фт` },
-    { label: 'Бонус мастерства', value: formatModifier(sheet.profBonus) },
-    { label: 'Пасс. восприятие', value: String(sheet.passivePerception) },
+    { label: t('stats.hp'), value: String(sheet.maxHp) },
+    { label: t('stats.ac'), value: String(sheet.armorClass) },
+    { label: t('stats.initiative'), value: formatModifier(sheet.initiative) },
+    { label: t('stats.speed'), value: formatFeet(sheet.speed) },
+    { label: t('stats.profBonus'), value: formatModifier(sheet.profBonus) },
+    { label: t('stats.passivePerception'), value: String(sheet.passivePerception) },
   ];
   return (
     <>
@@ -36,7 +38,7 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
         ))}
       </Grid>
 
-      <Section title="Характеристики">
+      <Section title={t('preview.abilities')}>
         <Grid>
           {ABILITY_IDS.map((id) => {
             const a = sheet.abilities[id];
@@ -45,14 +47,14 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
                 key={id}
                 label={abilityAbbr(id)}
                 value={formatModifier(a.mod)}
-                note={`${a.score} · спас ${formatModifier(a.save)}${a.saveProficient ? ' ●' : ''}`}
+                note={`${t('preview.save', { score: a.score, save: formatModifier(a.save) })}${a.saveProficient ? ' ●' : ''}`}
               />
             );
           })}
         </Grid>
       </Section>
 
-      <Section title="Навыки" hint="● владение, ◆ компетентность">
+      <Section title={t('preview.skills')} hint={t('preview.legend')}>
         <View style={styles.card}>
           {groupSkillsByAbility(sheet.skills).map(({ ability, skills }) => (
             <View key={ability} style={styles.padVXs}>
@@ -70,7 +72,7 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
       </Section>
 
       {sheet.attacks.length ? (
-        <Section title="Атаки">
+        <Section title={t('preview.attacks')}>
           <View style={styles.card}>
             {sheet.attacks.map((a) => (
               <View key={a.itemId} style={styles.line}>
@@ -84,36 +86,36 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
       ) : null}
 
       {c.cantrips.length || c.preparedSpells.length ? (
-        <Section title="Заклинания">
+        <Section title={t('preview.spells')}>
           {sheet.spellcasting ? (
             <AppText variant="secondary">
-              СЛ {sheet.spellcasting.saveDC} · бонус атаки {formatModifier(sheet.spellcasting.attackBonus)}
+              {t('preview.spellStats', { dc: sheet.spellcasting.saveDC, attack: formatModifier(sheet.spellcasting.attackBonus) })}
             </AppText>
           ) : null}
           <AppText>{[...c.cantrips, ...c.preparedSpells].map(spellName).join(', ')}</AppText>
         </Section>
       ) : null}
 
-      <Section title="Что умеет">
+      <Section title={t('preview.features')}>
         <View style={styles.card}>
           {sheet.features.map((f) => (
             <View key={`${f.source}-${f.id}`} style={styles.line}>
               <AppText style={styles.fill}>{featureName(f)}</AppText>
-              <AppText variant="secondary">{FEATURE_SOURCE_LABEL[f.source]}</AppText>
+              <AppText variant="secondary">{featureSourceLabel(f.source)}</AppText>
             </View>
           ))}
         </View>
       </Section>
 
-      <Section title="Владения">
+      <Section title={t('preview.proficiencies')}>
         <AppText variant="secondary">
           {sheet.proficiencies
             .filter((id) => !id.startsWith('skill-'))
             .map(proficiencyName)
             .join(', ') || '—'}
         </AppText>
-        <AppText variant="secondary">Языки: {c.languages.map((l) => nameOf('languages', l)).join(', ')}</AppText>
-        <AppText variant="secondary">Монеты: {coinsText(c.coins) || '—'}</AppText>
+        <AppText variant="secondary">{t('preview.languages', { list: c.languages.map((l) => nameOf('languages', l)).join(', ') })}</AppText>
+        <AppText variant="secondary">{t('preview.coins', { list: coinsText(c.coins) || '—' })}</AppText>
       </Section>
     </>
   );

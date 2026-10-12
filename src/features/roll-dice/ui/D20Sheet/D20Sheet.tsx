@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { colors } from '@/shared/config';
+import { useTranslation } from '@/shared/i18n';
 import type { D20Mode, D20Roll } from '@/shared/lib/dice';
 import { formatModifier, rollD20 } from '@/shared/lib/dice';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
@@ -11,6 +12,7 @@ import { styles } from './D20Sheet.styles';
 import type { D20SheetProps } from './D20Sheet.types';
 
 export function D20Sheet({ request, onClose }: D20SheetProps) {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<D20Mode>('normal');
   const [roll, setRoll] = useState<D20Roll | null>(null);
   const modifier = request?.parts.reduce((s, p) => s + p.value, 0) ?? 0;
@@ -32,8 +34,8 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
       <AppText variant="secondary">
         {request?.parts.length
           ? request.parts.map((p) => `${p.label} ${formatModifier(p.value)}`).join(' · ')
-          : 'Без модификаторов'}
-        {'  '}= к20 {formatModifier(modifier)}
+          : t('roll.noModifiers')}
+        {'  '}= {t('roll.d20')} {formatModifier(modifier)}
       </AppText>
       {fixed ? null : (
         <Segmented<D20Mode>
@@ -43,9 +45,9 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
             doRoll(m);
           }}
           options={[
-            { value: 'disadvantage', label: 'Помеха' },
-            { value: 'normal', label: 'Обычный' },
-            { value: 'advantage', label: 'Преимущество' },
+            { value: 'disadvantage', label: t('roll.disadvantage') },
+            { value: 'normal', label: t('roll.normal') },
+            { value: 'advantage', label: t('roll.advantage') },
           ]}
         />
       )}
@@ -57,18 +59,18 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
             ))}
           </View>
           <AppText style={styles.total}>{roll.total}</AppText>
-          {roll.natural === 20 ? <AppText style={[styles.nat, { color: colors.heal }]}>Естественная 20!</AppText> : null}
-          {roll.natural === 1 ? <AppText style={[styles.nat, { color: colors.damage }]}>Естественная 1</AppText> : null}
+          {roll.natural === 20 ? <AppText style={[styles.nat, { color: colors.heal }]}>{t('roll.nat20')}</AppText> : null}
+          {roll.natural === 1 ? <AppText style={[styles.nat, { color: colors.damage }]}>{t('roll.nat1')}</AppText> : null}
         </View>
       ) : null}
       <View style={styles.buttons}>
         {fixed ? null : (
           <View style={styles.fill}>
-            <Button title="Бросить ещё" variant="secondary" onPress={() => doRoll(mode)} />
+            <Button title={t('common.rollAgain')} variant="secondary" onPress={() => doRoll(mode)} />
           </View>
         )}
         <View style={styles.fill}>
-          <Button title="Готово" onPress={onClose} />
+          <Button title={t('common.done')} onPress={onClose} />
         </View>
       </View>
     </BottomSheet>

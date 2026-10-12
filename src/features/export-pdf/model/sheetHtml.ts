@@ -9,13 +9,21 @@ import type { Character, CharacterSheet, SourcedId } from '@/entities/character'
 import { ABILITY_IDS, characterResources, CHOICE_KEYS, computeSheet, magicInitiateSlots } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import {
-    abilityAbbr,
-    abilityName, byId, COIN_ABBR, COIN_ORDER, groupSkillsByAbility,
-    itemName,
-    nameOf,
-    proficiencyName, SIZE_NAMES, tr
+  abilityAbbr,
+  abilityName,
+  byId,
+  coinAbbr,
+  COIN_ORDER,
+  groupSkillsByAbility,
+  itemName,
+  nameOf,
+  proficiencyName,
+  sizeName,
+  tr,
 } from '@/shared/content';
-import { formatDamage, formatModifier } from '@/shared/lib/dice';
+import { currentLanguage, t } from '@/shared/i18n/model';
+import { formatDamage, formatDice, formatDie, formatFeet, formatModifier } from '@/shared/lib/dice';
+
 import { SLOT_FORM } from '../config/constants';
 import { SHEET_CSS } from '../config/sheetCss';
 import type { SheetSpell } from './types';
@@ -44,11 +52,11 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
   c.preparedSpells.forEach((id) => add(id));
   for (const { slot } of magicInitiateSlots(c, content)) {
     for (const id of [...(c.choices[CHOICE_KEYS.featCantrips(slot)] ?? []), ...(c.choices[CHOICE_KEYS.featSpell(slot)] ?? [])]) {
-      add(id, 'черта');
+      add(id, t('pdf.feat'));
     }
   }
   return [...out.values()].sort(
-    (a, b) => a.spell.level - b.spell.level || tr(a.spell.name).text.localeCompare(tr(b.spell.name).text, 'ru'),
+    (a, b) => a.spell.level - b.spell.level || tr(a.spell.name).text.localeCompare(tr(b.spell.name).text, currentLanguage()),
   );
 }
 
@@ -80,10 +88,10 @@ function proficiencyGroups(sheet: CharacterSheet, c: Character) {
       .map(proficiencyName)
       .join(', ');
   return [
-    { label: 'Доспехи', text: of('armor') },
-    { label: 'Оружие', text: of('weapon') },
-    { label: 'Инструменты', text: of('tool', 'artisanTool', 'instrument', 'other') },
-    { label: 'Языки', text: c.languages.map((l) => nameOf('languages', l)).join(', ') },
+    { label: t('pdf.armor'), text: of('armor') },
+    { label: t('pdf.weapons'), text: of('weapon') },
+    { label: t('pdf.tools'), text: of('tool', 'artisanTool', 'instrument', 'other') },
+    { label: t('pdf.languages'), text: c.languages.map((l) => nameOf('languages', l)).join(', ') },
   ];
 }
 
@@ -98,10 +106,10 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
 
   const header = `
     <header class="hdr">
-      <div class="namebox">${field(c.name, 'Имя персонажа', 'name')}</div>
+      <div class="namebox">${field(c.name, t('pdf.name'), 'name')}</div>
       <div class="fields">
-        ${field(cls, 'Класс и уровень')}${field(sub, 'Подкласс')}${field(nameOf('backgrounds', c.backgroundId), 'Предыстория')}
-        ${field(species, 'Вид')}${field(alignment, 'Мировоззрение')}${field(c.player ?? '', 'Игрок')}
+        ${field(cls, t('pdf.classLevel'))}${field(sub, t('pdf.subclass'))}${field(nameOf('backgrounds', c.backgroundId), t('pdf.background'))}
+        ${field(species, t('pdf.species'))}${field(alignment, t('pdf.alignment'))}${field(c.player ?? '', t('pdf.player'))}
       </div>
     </header>`;
 
@@ -122,47 +130,47 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
           <div class="abmod d">${formatModifier(a.mod)}</div>
           <div class="absc d">${a.score}</div>
         </div>
-        <div class="row save">${circle(a.saveProficient)}<span class="num d">${formatModifier(a.save)}</span><span>Спасбросок</span></div>
+        <div class="row save">${circle(a.saveProficient)}<span class="num d">${formatModifier(a.save)}</span><span>${e(t('pdf.save'))}</span></div>
         ${skills}
       </section>`;
   };
   const left = `
     <div class="col left">
       ${ABILITY_IDS.map(abilityBox).join('')}
-      <div class="legend">${circle(true)} владение &nbsp; ${circle(true, ' x')} компетентность</div>
+      <div class="legend">${circle(true)} ${e(t('pdf.proficiency'))} &nbsp; ${circle(true, ' x')} ${e(t('pdf.expertise'))}</div>
       <div class="pair">
-        ${stat(c.state.heroicInspiration ? '★' : '', 'Героическое вдохновение')}
-        ${stat(String(sheet.passivePerception), 'Пассивное восприятие')}
+        ${stat(c.state.heroicInspiration ? '★' : '', t('pdf.inspiration'))}
+        ${stat(String(sheet.passivePerception), t('pdf.passivePerception'))}
       </div>
     </div>`;
 
   // --- Правая колонка ---
   const stats = `
     <div class="stats">
-      ${stat(String(sheet.armorClass), 'Класс защиты')}${stat(formatModifier(sheet.initiative), 'Инициатива')}
-      ${stat(`${sheet.speed} фт`, 'Скорость')}${stat(SIZE_NAMES[size] ?? size, 'Размер')}${stat(formatModifier(sheet.profBonus), 'Бонус мастерства')}
+      ${stat(String(sheet.armorClass), t('pdf.ac'))}${stat(formatModifier(sheet.initiative), t('pdf.initiative'))}
+      ${stat(formatFeet(sheet.speed), t('pdf.speed'))}${stat(sizeName(size), t('pdf.size'))}${stat(formatModifier(sheet.profBonus), t('pdf.profBonus'))}
     </div>`;
 
-  const hitDice = sheet.hitDice.map((h) => `${h.total}к${h.die}`).join(' + ');
+  const hitDice = sheet.hitDice.map((h) => formatDice({ count: h.total, sides: h.die })).join(' + ');
   const hp = `
     <div class="hp">
       ${box(
-        'Хиты',
+        t('pdf.hp'),
         `<div class="hpgrid">
-          <div class="hpcell"><div class="big d">${sheet.maxHp}</div><div class="lbl">Максимум</div></div>
-          <div class="hpcell blank"><div class="big">&nbsp;</div><div class="lbl">Текущие</div></div>
-          <div class="hpcell blank"><div class="big">&nbsp;</div><div class="lbl">Временные</div></div>
+          <div class="hpcell"><div class="big d">${sheet.maxHp}</div><div class="lbl">${e(t('pdf.max'))}</div></div>
+          <div class="hpcell blank"><div class="big">&nbsp;</div><div class="lbl">${e(t('pdf.current'))}</div></div>
+          <div class="hpcell blank"><div class="big">&nbsp;</div><div class="lbl">${e(t('pdf.temp'))}</div></div>
         </div>`,
         'grow',
       )}
       ${box(
-        'Кости хитов',
-        `<div class="big d">${e(hitDice)}</div><div class="lbl">Всего</div><div class="ln short"></div><div class="lbl">Потрачено</div>`,
+        t('pdf.hitDice'),
+        `<div class="big d">${e(hitDice)}</div><div class="lbl">${e(t('pdf.total'))}</div><div class="ln short"></div><div class="lbl">${e(t('pdf.spent'))}</div>`,
         'hd',
       )}
       ${box(
-        'Спасброски от смерти',
-        `<div class="row">Успехи&nbsp;${circles(3)}</div><div class="row">Провалы&nbsp;${circles(3)}</div>`,
+        t('pdf.deathSaves'),
+        `<div class="row">${e(t('pdf.successes'))}&nbsp;${circles(3)}</div><div class="row">${e(t('pdf.failures'))}&nbsp;${circles(3)}</div>`,
         'ds',
       )}
     </div>`;
@@ -177,41 +185,41 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
     const mastery = masteryOf(a.itemId);
     return `<tr><td class="d">${e(nameOf('equipment', a.itemId))}</td><td class="d c">${formatModifier(a.toHit)}</td><td class="d">${e(
       `${formatDamage(a.damageDice, a.damageBonus)} ${type}`.trim(),
-    )}</td><td class="d">${mastery ? `Приём: ${e(mastery)}` : ''}</td></tr>`;
+    )}</td><td class="d">${mastery ? e(t('pdf.mastery', { name: mastery })) : ''}</td></tr>`;
   });
   while (attackRows.length < 4) attackRows.push('<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>');
   const attacks = box(
-    'Оружие и атаки',
-    `<table class="tbl"><thead><tr><th>Название</th><th class="c">Бонус</th><th>Урон и вид</th><th>Заметки</th></tr></thead><tbody>${attackRows.join('')}</tbody></table>`,
+    t('pdf.attacks'),
+    `<table class="tbl"><thead><tr><th>${e(t('pdf.attackName'))}</th><th class="c">${e(t('pdf.attackBonus'))}</th><th>${e(t('pdf.damage'))}</th><th>${e(t('pdf.notes'))}</th></tr></thead><tbody>${attackRows.join('')}</tbody></table>`,
   );
 
   const resources = characterResources(c, content, sheet);
   const resourceBox = resources.length
     ? box(
-        'Ресурсы',
+        t('pdf.resources'),
         `<div class="cols2">${resources
           .map((r) => {
             const marks = r.max <= 10 ? circles(r.max) : `<span class="pool">___ / <span class="d">${r.max}</span></span>`;
-            const recovery = r.recovery === 'long' ? 'Д' : r.recovery === 'short' ? 'К' : 'К1';
-            return `<div class="res"><span>${e(tr(r.name).text)}${r.die ? ` <span class="d">к${r.die}</span>` : ''} <span class="muted">${recovery}</span></span><span class="marks">${marks}</span></div>`;
+            const recovery = t(r.recovery === 'long' ? 'pdf.recLong' : r.recovery === 'short' ? 'pdf.recShort' : 'pdf.recShortOne');
+            return `<div class="res"><span>${e(tr(r.name).text)}${r.die ? ` <span class="d">${formatDie(r.die)}</span>` : ''} <span class="muted">${recovery}</span></span><span class="marks">${marks}</span></div>`;
           })
-          .join('')}</div><div class="hint">Д — восстанавливается долгим отдыхом, К — коротким, К1 — по одному за короткий.</div>`,
+          .join('')}</div><div class="hint">${e(t('pdf.recHint'))}</div>`,
       )
     : '';
 
   const fg = featureGroups(sheet);
   const featureList = (items: string[], cols = 2) =>
     items.length ? `<ul class="flist d" style="column-count:${cols}">${items.map((x) => `<li>${x}</li>`).join('')}</ul>` : lines(2);
-  const classItems = [...fg.cls, ...fg.sub.map((x) => `${x} <span class="muted">подкл.</span>`)];
+  const classItems = [...fg.cls, ...fg.sub.map((x) => `${x} <span class="muted">${e(t('pdf.subclassMark'))}</span>`)];
   const features = `
-    ${box('Умения класса', featureList(classItems, classItems.length > 24 ? 3 : 2), 'grow')}
+    ${box(t('pdf.classFeatures'), featureList(classItems, classItems.length > 24 ? 3 : 2), 'grow')}
     <div class="pair">
-      ${box('Особенности вида', featureList(fg.species, 1))}
-      ${box('Черты', featureList(fg.feats, 1))}
+      ${box(t('pdf.speciesTraits'), featureList(fg.species, 1))}
+      ${box(t('pdf.feats'), featureList(fg.feats, 1))}
     </div>`;
 
   const profs = box(
-    'Владения и языки',
+    t('pdf.proficiencies'),
     proficiencyGroups(sheet, c)
       .map((p) => `<div class="prof"><span class="lbl">${e(p.label)}</span> <span class="d">${e(p.text) || '—'}</span></div>`)
       .join(''),
@@ -234,26 +242,26 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
 
   const castRow = `
     <div class="stats">
-      ${stat(sc ? nameOf('classes', sc.classId) : '', 'Класс заклинателя')}
-      ${stat(sc ? abilityAbbr(sc.ability) : '', 'Характеристика')}
-      ${stat(sc ? formatModifier(sheet.abilities[sc.ability].mod) : '', 'Модификатор')}
-      ${stat(sc ? String(sc.saveDC) : '', 'СЛ спасброска')}
-      ${stat(sc ? formatModifier(sc.attackBonus) : '', 'Бонус атаки')}
+      ${stat(sc ? nameOf('classes', sc.classId) : '', t('pdf.casterClass'))}
+      ${stat(sc ? abilityAbbr(sc.ability) : '', t('pdf.ability'))}
+      ${stat(sc ? formatModifier(sheet.abilities[sc.ability].mod) : '', t('pdf.modifier'))}
+      ${stat(sc ? String(sc.saveDC) : '', t('pdf.saveDC'))}
+      ${stat(sc ? formatModifier(sc.attackBonus) : '', t('pdf.spellAttack'))}
     </div>`;
 
   const slotBoxes = SLOT_FORM.map((n, i) => {
     const have = slots[i] ?? 0;
     const marks = Array.from({ length: Math.max(n, have) }, (_, k) => circle(false, k < have ? ' have' : ' off')).join('');
-    return `<div class="box slot"><div class="lbl">${i + 1} круг</div><div class="marks">${marks}</div></div>`;
+    return `<div class="box slot"><div class="lbl">${e(t('spell.circle', { level: i + 1 }))}</div><div class="marks">${marks}</div></div>`;
   }).join('');
   const slotsBlock = `<div class="slots">${slotBoxes}</div>${
-    pact ? '<div class="hint">Магия договора: ячейки восстанавливаются коротким отдыхом.</div>' : ''
+    pact ? `<div class="hint">${e(t('pdf.pactHint'))}</div>` : ''
   }`;
 
   const spells = sheetSpells(c, content);
   const spellRows = spells.map(({ spell: s, note }) => {
-    const comps = s.components.map((x) => ({ V: 'В', S: 'С', M: 'М' })[x]).join('');
-    return `<tr><td class="d c">${s.level === 0 ? 'заг.' : s.level}</td><td class="d">${e(tr(s.name).text)}${
+    const comps = s.components.map((x) => t(x === 'V' ? 'pdf.compV' : x === 'S' ? 'pdf.compS' : 'pdf.compM')).join('');
+    return `<tr><td class="d c">${s.level === 0 ? e(t('pdf.cantripShort')) : s.level}</td><td class="d">${e(tr(s.name).text)}${
       note ? ` <span class="muted">${e(note)}</span>` : ''
     }</td><td class="d">${e(tr(s.castingTime).text)}</td><td class="d">${e(tr(s.range).text)}</td><td class="d">${e(
       tr(s.duration).text,
@@ -265,10 +273,10 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
   const dense = spellRows.length > 28;
   while (spellRows.length < 28) spellRows.push('<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td class="c">' + circle() + '</td><td class="c">' + circle() + '</td></tr>');
   const spellTable = box(
-    'Заговоры и подготовленные заклинания',
-    `<table class="tbl sp${dense ? ' dense' : ''}"><thead><tr><th class="c">Круг</th><th>Название</th><th>Время</th><th>Дистанция</th><th>Длительность</th><th class="c">Комп.</th><th class="c">К</th><th class="c">Р</th></tr></thead><tbody>${spellRows.join(
+    t('pdf.spellTable'),
+    `<table class="tbl sp${dense ? ' dense' : ''}"><thead><tr><th class="c">${e(t('pdf.level'))}</th><th>${e(t('pdf.attackName'))}</th><th>${e(t('pdf.time'))}</th><th>${e(t('pdf.range'))}</th><th>${e(t('pdf.duration'))}</th><th class="c">${e(t('pdf.components'))}</th><th class="c">${e(t('pdf.concentrationShort'))}</th><th class="c">${e(t('pdf.ritualShort'))}</th></tr></thead><tbody>${spellRows.join(
       '',
-    )}</tbody></table><div class="hint">заг. — заговор, К — концентрация, Р — ритуал; компоненты: В — вербальный, С — соматический, М — материальный.</div>`,
+    )}</tbody></table><div class="hint">${e(t('pdf.spellHint'))}</div>`,
     'grow spells',
   );
 
@@ -277,12 +285,12 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
       `<div class="item">${circle(!!i.equipped)}<span class="d">${e(itemName(i))}${i.quantity > 1 ? ` ×${i.quantity}` : ''}</span></div>`,
   );
   while (items.length < 14) items.push(`<div class="item">${circle()}<span class="ln inline"></span></div>`);
-  const equipment = box('Снаряжение', `<div class="items">${items.join('')}</div><div class="hint">${circle(true)} — надето или в руках</div>`, 'grow');
+  const equipment = box(t('pdf.equipment'), `<div class="items">${items.join('')}</div><div class="hint">${circle(true)} ${e(t('pdf.equippedHint'))}</div>`, 'grow');
 
-  const attune = box('Настройка', Array.from({ length: 3 }, () => `<div class="item">${circle()}<span class="ln inline"></span></div>`).join(''));
+  const attune = box(t('pdf.attunement'), Array.from({ length: 3 }, () => `<div class="item">${circle()}<span class="ln inline"></span></div>`).join(''));
   const coins = box(
-    'Монеты',
-    `<div class="coins">${COIN_ORDER.map((id) => `<div class="coin"><div class="sv d">${c.coins[id] ?? ''}&nbsp;</div><div class="lbl">${COIN_ABBR[id].toUpperCase()}</div></div>`).join('')}</div>`,
+    t('pdf.coins'),
+    `<div class="coins">${COIN_ORDER.map((id) => `<div class="coin"><div class="sv d">${c.coins[id] ?? ''}&nbsp;</div><div class="lbl">${coinAbbr(id).toUpperCase()}</div></div>`).join('')}</div>`,
   );
 
   const notes = c.notes?.trim();
@@ -290,20 +298,20 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
     <div class="page">
       <header class="hdr2">
         <div class="d n2">${e(c.name)}</div>
-        <h2>Заклинания</h2>
+        <h2>${e(t('pdf.spells'))}</h2>
       </header>
       ${castRow}
       ${slotsBlock}
       ${spellTable}
       <div class="bottom">
         <div class="col">
-          ${box('Внешность', lines(4))}
-          ${box('Характер и предыстория', notes ? `<div class="notes d">${e(notes)}</div>` : lines(6), 'grow')}
+          ${box(t('pdf.appearance'), lines(4))}
+          ${box(t('pdf.personality'), notes ? `<div class="notes d">${e(notes)}</div>` : lines(6), 'grow')}
         </div>
         <div class="col">${equipment}</div>
-        <div class="col">${attune}${coins}${box('Заметки', lines(5), 'grow')}</div>
+        <div class="col">${attune}${coins}${box(t('pdf.notes'), lines(5), 'grow')}</div>
       </div>
-      <footer>Лист создан в «Конструкторе персонажей D&amp;D». Правила — System Reference Document 5.2, CC BY 4.0.</footer>
+      <footer>${e(t('pdf.footer'))}</footer>
     </div>`;
 }
 
@@ -311,8 +319,8 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
 export function characterSheetHtml(c: Character, content: Content, fontCss = ''): string {
   const sheet = computeSheet(c, content);
   return `<!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=210mm">
-<title>${e(c.name || 'Персонаж')}</title>
+<html lang="${currentLanguage()}"><head><meta charset="utf-8"><meta name="viewport" content="width=210mm">
+<title>${e(c.name || t('pdf.untitled'))}</title>
 <style>${fontCss}\n${SHEET_CSS}</style></head>
 <body>${page1(c, content, sheet)}${page2(c, content, sheet)}</body></html>`;
 }

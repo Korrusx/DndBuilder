@@ -11,6 +11,7 @@ import { ImportError, pickCharactersFile, shareCharacters } from '@/features/tra
 import { colors } from '@/shared/config';
 import { content } from '@/shared/content';
 import { setMeta } from '@/shared/db';
+import { useTranslation } from '@/shared/i18n';
 import { formatDate } from '@/shared/lib/date';
 import { AppText, Button, Placeholder, Screen } from '@/shared/ui';
 
@@ -18,6 +19,7 @@ import { styles } from './CharactersPage.styles';
 
 export function CharactersPage() {
   const { db, characters, lastBackupAt, reload } = useCharacterList();
+  const { t } = useTranslation();
 
   const open = (c: Character) => {
     if (c.status.kind === 'draft') {
@@ -33,8 +35,8 @@ export function CharactersPage() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    navigation.setOptions({ title: selected ? `Выбрано: ${selected.size}` : 'Мои персонажи' });
-  }, [navigation, selected]);
+    navigation.setOptions({ title: selected ? t('characters.selected', { count: selected.size }) : t('nav.characters') });
+  }, [navigation, selected, t]);
 
   // Кнопка «Назад» на Android выходит из режима выбора, а не из приложения.
   useFocusEffect(
@@ -58,15 +60,15 @@ export function CharactersPage() {
 
   const confirmDelete = () => {
     if (!selected?.size) return;
-    const names = (characters ?? []).filter((c) => selected.has(c.id)).map((c) => `«${c.name || 'Без имени'}»`);
-    const shown = names.length > 5 ? [...names.slice(0, 5), `и ещё ${names.length - 5}`] : names;
+    const names = (characters ?? []).filter((c) => selected.has(c.id)).map((c) => `«${c.name || t('common.unnamed')}»`);
+    const shown = names.length > 5 ? [...names.slice(0, 5), t('common.andMore', { count: names.length - 5 })] : names;
     Alert.alert(
-      names.length === 1 ? 'Удалить персонажа?' : `Удалить персонажей: ${names.length}?`,
-      `${shown.join(', ')} — восстановить будет нельзя.`,
+      names.length === 1 ? t('characters.deleteOne') : t('characters.deleteMany', { count: names.length }),
+      t('characters.deleteWarning', { names: shown.join(', ') }),
       [
-        { text: 'Отмена', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Удалить',
+          text: t('common.delete'),
           style: 'destructive',
           onPress: async () => {
             await deleteCharacters(db, [...selected]);
@@ -99,7 +101,7 @@ export function CharactersPage() {
         await setMeta(db, 'lastBackupAt', new Date().toISOString());
         reload();
       }
-    }, 'Не удалось сохранить файл');
+    }, t('characters.saveFailed'));
 
   const importCharacters = () =>
     withBusy(async () => {
@@ -108,7 +110,7 @@ export function CharactersPage() {
         result = await pickCharactersFile();
       } catch (err) {
         if (err instanceof ImportError) {
-          Alert.alert('Не удалось загрузить', err.message);
+          Alert.alert(t('characters.loadFailed'), err.message);
           return;
         }
         throw err;
@@ -116,10 +118,10 @@ export function CharactersPage() {
       if (!result) return;
       await saveCharacters(db, result.characters);
       reload();
-      const names = result.characters.map((c) => `«${c.name || 'Без имени'}»`).join(', ');
-      const title = result.characters.length === 1 ? 'Персонаж загружен' : `Загружено персонажей: ${result.characters.length}`;
+      const names = result.characters.map((c) => `«${c.name || t('common.unnamed')}»`).join(', ');
+      const title = result.characters.length === 1 ? t('characters.loadedOne') : t('characters.loadedMany', { count: result.characters.length });
       Alert.alert(title, [names, ...result.warnings].join('\n\n'));
-    }, 'Не удалось загрузить');
+    }, t('characters.loadFailed'));
 
   // Только для проверки в режиме разработки, пока нет мастера создания (этап 5).
   const addSamples = async () => {
@@ -160,39 +162,39 @@ export function CharactersPage() {
             <View style={styles.row}>
               <View style={styles.fill}>
                 <Button
-                  title={`В файл (${selected.size})`}
+                  title={t('characters.toFile', { count: selected.size })}
                   variant="secondary"
                   disabled={busy}
                   onPress={() => exportCharacters((characters ?? []).filter((c) => selected.has(c.id)), allSelected)}
                 />
               </View>
               <View style={styles.fill}>
-                <Button title={`Удалить (${selected.size})`} variant="danger" onPress={confirmDelete} />
+                <Button title={t('characters.deleteCount', { count: selected.size })} variant="danger" onPress={confirmDelete} />
               </View>
             </View>
             <View style={styles.row}>
               <View style={styles.fill}>
                 <Button
-                  title={allSelected ? 'Снять все' : 'Выбрать все'}
+                  title={allSelected ? t('characters.selectNone') : t('characters.selectAll')}
                   variant="secondary"
                   onPress={() => setSelected(allSelected ? null : new Set((characters ?? []).map((c) => c.id)))}
                 />
               </View>
               <View style={styles.fill}>
-                <Button title="Отмена" variant="secondary" onPress={() => setSelected(null)} />
+                <Button title={t('common.cancel')} variant="secondary" onPress={() => setSelected(null)} />
               </View>
             </View>
           </>
         ) : (
           <>
-            <Button title="Новый персонаж" onPress={() => router.push('/create/class')} />
+            <Button title={t('characters.new')} onPress={() => router.push('/create/class')} />
             <View style={styles.row}>
               <View style={styles.fill}>
-                <Button title="Импорт" variant="secondary" disabled={busy} onPress={importCharacters} />
+                <Button title={t('characters.import')} variant="secondary" disabled={busy} onPress={importCharacters} />
               </View>
               <View style={styles.fill}>
                 <Button
-                  title="Копия всех"
+                  title={t('characters.backupAll')}
                   variant="secondary"
                   disabled={busy || !characters?.length}
                   onPress={() => exportCharacters(characters ?? [], true)}
@@ -206,25 +208,25 @@ export function CharactersPage() {
       {characters === null ? (
         <ActivityIndicator color={colors.accent} />
       ) : characters.length === 0 ? (
-        <Placeholder title="Пока пусто" note="Создайте первого персонажа кнопкой «Новый персонаж»." />
+        <Placeholder title={t('characters.empty')} note={t('characters.emptyHint')} />
       ) : null}
 
       {ready.map(card)}
 
-      {drafts.length > 0 ? <AppText variant="heading">Черновики</AppText> : null}
+      {drafts.length > 0 ? <AppText variant="heading">{t('characters.drafts')}</AppText> : null}
       {drafts.map(card)}
 
       {characters && characters.length > 0 ? (
         <AppText variant="secondary" style={styles.centered}>
-          {selected ? 'Нажимайте на карточки, чтобы отметить их' : 'Удерживайте карточку, чтобы выбрать персонажей: удалить или сохранить в файл'}
+          {selected ? t('characters.selectHint') : t('characters.holdHint')}
         </AppText>
       ) : null}
 
-      {__DEV__ ? <Button title="Добавить примеры (для проверки)" variant="secondary" onPress={addSamples} /> : null}
-      <Button title="О приложении и лицензии" variant="secondary" onPress={() => router.push('/about')} />
+      {__DEV__ ? <Button title={t('characters.addSamples')} variant="secondary" onPress={addSamples} /> : null}
+      <Button title={t('characters.about')} variant="secondary" onPress={() => router.push('/about')} />
       <AppText variant="secondary" style={styles.centered}>
-        Работает без интернета ·{' '}
-        {lastBackupAt ? `последняя копия ${formatDate(lastBackupAt)}` : 'резервных копий ещё не было'}
+        {t('characters.offline')} ·{' '}
+        {lastBackupAt ? t('characters.lastBackup', { date: formatDate(lastBackupAt) }) : t('characters.noBackup')}
       </AppText>
     </Screen>
   );

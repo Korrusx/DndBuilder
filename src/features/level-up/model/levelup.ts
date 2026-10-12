@@ -14,6 +14,7 @@ import {
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import { indexOf } from '@/shared/content';
+import { t } from '@/shared/i18n/model';
 
 import { EXPERTISE_GRANTS, FEAT_ABILITY, LANGUAGE_GRANTS, SKILL_GRANTS } from '../config/constants';
 import type { FeatSlotKind, LevelUpIssue, LevelUpPlan } from './types';
@@ -109,26 +110,26 @@ export function featAbilityRule(featId: string): { mode: 'asi' } | { mode: 'one'
 export function levelUpIssues(next: Character, prev: Character, content: Content): LevelUpIssue[] {
   const plan = levelUpPlan(next, content);
   const issues: LevelUpIssue[] = [];
-  const need = (ok: boolean, message: string, blocking = true) => {
-    if (!ok) issues.push({ message, blocking });
+  const need = (ok: boolean, message: string, blocking = true, action?: LevelUpIssue['action']) => {
+    if (!ok) issues.push({ message, blocking, ...(action ? { action } : {}) });
   };
 
-  if (plan.needsSubclass) need(!!next.classes[0].subclassId, 'Выберите подкласс');
+  if (plan.needsSubclass) need(!!next.classes[0].subclassId, t('levelUp.issues.subclass'));
 
   if (plan.featSlot) {
     const feat = levelFeat(next, content, plan.toLevel);
-    need(!!feat, plan.featSlot === 'asi' ? 'Выберите увеличение характеристик или черту' : 'Выберите эпический дар');
+    need(!!feat, plan.featSlot === 'asi' ? t('levelUp.issues.asi') : t('levelUp.issues.epicBoon'));
     if (feat) {
       const rule = featAbilityRule(feat.featId);
       const inc = Object.values(feat.abilityIncreases ?? {}).filter(Boolean) as number[];
       const total = inc.reduce((a, b) => a + b, 0);
-      if (rule?.mode === 'asi') need(total === 2 && inc.every((v) => v <= 2), 'Распределите +2 к характеристикам');
-      if (rule?.mode === 'one') need(total === 1 && inc.length === 1, 'Выберите характеристику для +1');
+      if (rule?.mode === 'asi') need(total === 2 && inc.every((v) => v <= 2), t('levelUp.issues.asiSpread'));
+      if (rule?.mode === 'one') need(total === 1 && inc.length === 1, t('levelUp.issues.asiOne'));
       const featData = indexOf(content).feats.get(feat.featId);
       const slots = feat.featId === 'skilled' ? [3] : (featData?.proficiencyChoices ?? []).map((ch) => ch.choose);
       slots.forEach((n, i) => {
         const key = levelFeatProfKey(plan.toLevel, feat.featId, i);
-        need((next.choices[key]?.length ?? 0) === n, `Выберите владения черты: ${n}`);
+        need((next.choices[key]?.length ?? 0) === n, t('levelUp.issues.featProficiencies', { count: n }));
       });
     }
   }
@@ -137,36 +138,36 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
     const skills = proficientSkills(next, content);
     need(
       next.expertise.length === prev.expertise.length + plan.expertise && next.expertise.every((s) => skills.includes(s)),
-      `Выберите компетентность: ${plan.expertise}`,
+      t('levelUp.issues.expertise', { count: plan.expertise }),
     );
   }
 
   if (plan.fightingStyles) {
     const count = (c: Character) =>
       c.feats.filter((f) => f.source === 'class' && indexOf(content).feats.get(f.featId)?.type === 'fighting-style').length;
-    need(count(next) === count(prev) + plan.fightingStyles, 'Выберите боевой стиль');
+    need(count(next) === count(prev) + plan.fightingStyles, t('levelUp.issues.fightingStyle'));
   }
 
   for (const sc of plan.skillChoices) {
-    need((next.choices[sc.key]?.length ?? 0) === sc.choose, `Выберите навыки: ${sc.choose}`);
+    need((next.choices[sc.key]?.length ?? 0) === sc.choose, t('levelUp.issues.skills', { count: sc.choose }));
   }
 
   if (plan.languages) {
-    need(next.languages.length >= prev.languages.length + plan.languages, `Выберите языки: ${plan.languages}`);
+    need(next.languages.length >= prev.languages.length + plan.languages, t('levelUp.issues.languages', { count: plan.languages }));
   }
 
   // Необязательное: новые заклинания и приёмы оружия можно добрать и позже.
   const limits = spellLimits(next, content);
   if (limits) {
     const more = limits.cantrips - next.cantrips.length + (limits.prepared - next.preparedSpells.length);
-    need(more <= 0, `Можно выбрать ещё заклинаний: ${more}`, false);
+    need(more <= 0, t('levelUp.issues.moreSpells', { count: more }), false, 'spells');
   }
   const masteries = weaponMasteryCount(next, content);
   if (masteries > next.weaponMasteries.length) {
-    need(false, `Можно выбрать ещё приёмов оружия: ${masteries - next.weaponMasteries.length}`, false);
+    need(false, t('levelUp.issues.moreMasteries', { count: masteries - next.weaponMasteries.length }), false);
   }
   if (plan.features.some((f) => f.id === 'warlock-eldritch-invocations' || f.id.startsWith('sorcerer-metamagic'))) {
-    need(false, 'Воззвания и метамагию пока выбирайте вручную и отмечайте в заметках', false);
+    need(false, t('levelUp.issues.invocations'), false);
   }
   return issues;
 }

@@ -3,7 +3,7 @@
 import { byId, nameOf, plain } from '@/shared/content';
 import type { InfoContent } from '@/shared/ui';
 
-import { FEATURE_SOURCE_LABEL } from '../config/featureSource';
+import { featureSourceLabel } from '../config/featureSource';
 import type { SourcedId } from '../model/types';
 
 export function featureName(f: SourcedId): string {
@@ -15,5 +15,5 @@ export function featureName(f: SourcedId): string {
 /** Название, описание и источник умения — для панели с описанием. */
 export function featureInfo(f: SourcedId): InfoContent {
   const entry = f.source === 'species' ? byId.traits.get(f.id) : f.source === 'feat' ? byId.feats.get(f.id) : byId.features.get(f.id);
-  return { title: featureName(f), text: plain(entry?.description), subtitle: FEATURE_SOURCE_LABEL[f.source] };
+  return { title: featureName(f), text: plain(entry?.description), subtitle: featureSourceLabel(f.source) };
 }

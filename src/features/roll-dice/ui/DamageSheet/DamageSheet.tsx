@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import type { DamageRoll } from '@/entities/character';
 import { rollDamage } from '@/entities/character';
+import { useTranslation } from '@/shared/i18n';
 import { formatDice, formatModifier } from '@/shared/lib/dice';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 
@@ -11,6 +12,7 @@ import { styles } from './DamageSheet.styles';
 import type { DamageSheetProps } from './DamageSheet.types';
 
 export function DamageSheet({ request, onClose }: DamageSheetProps) {
+  const { t } = useTranslation();
   const [critical, setCritical] = useState(false);
   const [roll, setRoll] = useState<DamageRoll | null>(null);
 
@@ -39,8 +41,8 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
           doRoll(v === 'crit');
         }}
         options={[
-          { value: 'normal', label: 'Обычный' },
-          { value: 'crit', label: 'Критический' },
+          { value: 'normal', label: t('roll.normal') },
+          { value: 'crit', label: t('roll.critical') },
         ]}
       />
       {roll ? (
@@ -55,10 +57,10 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
       ) : null}
       <View style={styles.buttons}>
         <View style={styles.fill}>
-          <Button title="Бросить ещё" variant="secondary" onPress={() => doRoll(critical)} />
+          <Button title={t('common.rollAgain')} variant="secondary" onPress={() => doRoll(critical)} />
         </View>
         <View style={styles.fill}>
-          <Button title="Готово" onPress={onClose} />
+          <Button title={t('common.done')} onPress={onClose} />
         </View>
       </View>
     </BottomSheet>

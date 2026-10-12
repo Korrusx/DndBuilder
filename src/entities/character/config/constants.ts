@@ -50,13 +50,13 @@ export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
     {
       id: 'protector',
       name: { en: 'Protector', ru: 'Защитник' },
-      description: { en: '', ru: 'Владение воинским оружием и тяжёлыми доспехами.' },
+      description: { en: 'Proficiency with Martial weapons and Heavy armor.', ru: 'Владение воинским оружием и тяжёлыми доспехами.' },
       proficiencies: ['martial-weapons', 'heavy-armor'],
     },
     {
       id: 'thaumaturge',
       name: { en: 'Thaumaturge', ru: 'Чудотворец' },
-      description: { en: '', ru: 'Дополнительный заговор жреца; бонус МДР к проверкам Магии и Религии.' },
+      description: { en: 'One extra Cleric cantrip; WIS bonus to Arcana and Religion checks.', ru: 'Дополнительный заговор жреца; бонус МДР к проверкам Магии и Религии.' },
       extraCantrips: 1,
     },
   ],
@@ -64,13 +64,13 @@ export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
     {
       id: 'magician',
       name: { en: 'Magician', ru: 'Волхв' },
-      description: { en: '', ru: 'Дополнительный заговор друида; бонус МДР к проверкам Магии и Природы.' },
+      description: { en: 'One extra Druid cantrip; WIS bonus to Arcana and Nature checks.', ru: 'Дополнительный заговор друида; бонус МДР к проверкам Магии и Природы.' },
       extraCantrips: 1,
     },
     {
       id: 'warden',
       name: { en: 'Warden', ru: 'Страж' },
-      description: { en: '', ru: 'Владение воинским оружием и средними доспехами.' },
+      description: { en: 'Proficiency with Martial weapons and Medium armor.', ru: 'Владение воинским оружием и средними доспехами.' },
       proficiencies: ['martial-weapons', 'medium-armor'],
     },
   ],

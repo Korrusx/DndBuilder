@@ -4,6 +4,7 @@
 import type { Character } from '@/entities/character';
 import { ABILITY_IDS, computeSheet, withDefaults } from '@/entities/character';
 import type { Content } from '@/shared/content';
+import { t } from '@/shared/i18n/model';
 
 import { EXCHANGE_FORMAT, EXCHANGE_MAX_BYTES, EXCHANGE_VERSION } from '../config/constants';
 import type { ExchangeFile, ImportResult } from './types';
@@ -15,7 +16,7 @@ export function buildExchange(characters: Character[], now: string, contentVersi
 /** Имя файла: «Ирма Вейл.dnd.json» для одного персонажа, «Персонажи 2026-10-11.dnd.json» для нескольких. */
 export function exchangeFileName(characters: Character[], now: string): string {
   const one = characters.length === 1 ? characters[0].name.replace(/[\\/:*?"<>|\n\r\t]+/g, ' ').trim().slice(0, 60) : '';
-  return `${one || `Персонажи ${now.slice(0, 10)}`}.dnd.json`;
+  return `${one || t('files.manyName', { date: now.slice(0, 10) })}.dnd.json`;
 }
 
 export class ImportError extends Error {}
@@ -25,24 +26,24 @@ const isStringArray = (x: unknown) => x === undefined || (Array.isArray(x) && x.
 
 /** Почему запись не похожа на персонажа (или null, если похожа). */
 function shapeProblem(x: unknown): string | null {
-  if (!isObject(x)) return 'это не персонаж';
-  if (typeof x.name !== 'string') return 'нет имени';
-  if (!Array.isArray(x.classes)) return 'нет классов';
+  if (!isObject(x)) return t('import.shape.notCharacter');
+  if (typeof x.name !== 'string') return t('import.shape.noName');
+  if (!Array.isArray(x.classes)) return t('import.shape.noClasses');
   for (const e of x.classes) {
     if (!isObject(e) || typeof e.classId !== 'string' || typeof e.level !== 'number' || e.level < 1 || e.level > 20) {
-      return 'неверные уровни класса';
+      return t('import.shape.badLevels');
     }
   }
-  if (typeof x.speciesId !== 'string' || typeof x.backgroundId !== 'string') return 'нет вида или предыстории';
+  if (typeof x.speciesId !== 'string' || typeof x.backgroundId !== 'string') return t('import.shape.noOrigin');
   if (!isObject(x.baseAbilities) || !ABILITY_IDS.every((a) => typeof (x.baseAbilities as Record<string, unknown>)[a] === 'number')) {
-    return 'неверные характеристики';
+    return t('import.shape.badAbilities');
   }
   for (const key of ['skillProficiencies', 'expertise', 'languages', 'toolProficiencies', 'weaponMasteries', 'cantrips', 'preparedSpells']) {
-    if (!isStringArray(x[key])) return `неверное поле ${key}`;
+    if (!isStringArray(x[key])) return t('import.shape.badField', { key });
   }
-  if (x.equipment !== undefined && !Array.isArray(x.equipment)) return 'неверное снаряжение';
-  if (x.feats !== undefined && !Array.isArray(x.feats)) return 'неверные черты';
-  if (x.state !== undefined && !isObject(x.state)) return 'неверное состояние игры';
+  if (x.equipment !== undefined && !Array.isArray(x.equipment)) return t('import.shape.badEquipment');
+  if (x.feats !== undefined && !Array.isArray(x.feats)) return t('import.shape.badFeats');
+  if (x.state !== undefined && !isObject(x.state)) return t('import.shape.badState');
   return null;
 }
 
@@ -66,9 +67,9 @@ function unknownRefs(c: Character, content: Content): string[] {
 
 /** Для сообщения об ошибке: размер и начало прочитанного, без управляющих символов. */
 export function describeStart(text: string): string {
-  if (!text) return 'Файл пустой.';
+  if (!text) return t('import.empty');
   const start = text.slice(0, 60).replace(/[\u0000-\u001f\u007f-\u009f\ufffd]/g, '·');
-  return `Прочитано символов: ${text.length}. Начало: «${start}${text.length > 60 ? '…' : ''}»`;
+  return t('import.readStart', { length: text.length, start: `${start}${text.length > 60 ? '…' : ''}` });
 }
 
 /**
@@ -76,28 +77,25 @@ export function describeStart(text: string): string {
  * Персонажи, которых нельзя открыть (неизвестный класс, вид или предыстория), пропускаются с предупреждением.
  */
 export function parseExchange(text: string, content: Content, makeId: () => string, now: string): ImportResult {
-  if (text.length > EXCHANGE_MAX_BYTES) throw new ImportError('Файл слишком большой — это не файл персонажей.');
+  if (text.length > EXCHANGE_MAX_BYTES) throw new ImportError(t('import.tooBig'));
   // Невидимая метка порядка байтов (BOM) и пробелы по краям появляются, если файл пересохранили другим приложением.
   const body = text.replace(/^\uFEFF/, '').trim();
   if (body.startsWith('%PDF')) {
-    throw new ImportError(
-      'Это PDF-лист для печати — его нельзя загрузить обратно.\n\nДля переноса и резервной копии нужен файл .dnd.json: ' +
-        'кнопка «Копия всех» на экране «Мои персонажи» или «Сохранить персонажа в файл» в редактировании персонажа (карандаш).',
-    );
+    throw new ImportError(t('import.pdf'));
   }
   let data: unknown;
   try {
     data = JSON.parse(body);
   } catch {
-    throw new ImportError(`Это не файл персонажей: не удаётся прочитать содержимое.\n\n${describeStart(body)}`);
+    throw new ImportError(t('import.unreadable', { details: describeStart(body) }));
   }
   if (!isObject(data) || data.format !== EXCHANGE_FORMAT) {
-    throw new ImportError('Это не файл персонажей нашего приложения. Выберите файл с расширением .dnd.json.');
+    throw new ImportError(t('import.notOurs'));
   }
   if (typeof data.version !== 'number' || data.version > EXCHANGE_VERSION) {
-    throw new ImportError('Файл сделан более новой версией приложения. Обновите приложение и попробуйте снова.');
+    throw new ImportError(t('import.newer'));
   }
-  if (!Array.isArray(data.characters) || data.characters.length === 0) throw new ImportError('В файле нет персонажей.');
+  if (!Array.isArray(data.characters) || data.characters.length === 0) throw new ImportError(t('import.noCharacters'));
 
   const characters: Character[] = [];
   const warnings: string[] = [];
@@ -109,10 +107,10 @@ export function parseExchange(text: string, content: Content, makeId: () => stri
   };
 
   data.characters.forEach((raw: unknown, i: number) => {
-    const label = isObject(raw) && typeof raw.name === 'string' && raw.name.trim() ? `«${raw.name.trim()}»` : `№${i + 1}`;
+    const label = isObject(raw) && typeof raw.name === 'string' && raw.name.trim() ? `«${raw.name.trim()}»` : t('import.number', { n: i + 1 });
     const problem = shapeProblem(raw);
     if (problem) {
-      warnings.push(`Персонаж ${label} пропущен: ${problem}.`);
+      warnings.push(t('import.skipped', { label, reason: problem }));
       return;
     }
     const saved = raw as Partial<Character>;
@@ -120,28 +118,28 @@ export function parseExchange(text: string, content: Content, makeId: () => stri
     const c = withDefaults(saved, { id: makeId(), createdAt, updatedAt: now });
 
     const missing = [
-      ...c.classes.filter((e) => !known.classes.has(e.classId)).map((e) => `класс ${e.classId}`),
-      ...c.classes.filter((e) => e.subclassId && !known.subclasses.has(e.subclassId)).map((e) => `подкласс ${e.subclassId}`),
-      ...(c.speciesId && !known.species.has(c.speciesId) ? [`вид ${c.speciesId}`] : []),
-      ...(c.backgroundId && !known.backgrounds.has(c.backgroundId) ? [`предыстория ${c.backgroundId}`] : []),
+      ...c.classes.filter((e) => !known.classes.has(e.classId)).map((e) => t('import.missingClass', { id: e.classId })),
+      ...c.classes.filter((e) => e.subclassId && !known.subclasses.has(e.subclassId)).map((e) => t('import.missingSubclass', { id: e.subclassId })),
+      ...(c.speciesId && !known.species.has(c.speciesId) ? [t('import.missingSpecies', { id: c.speciesId })] : []),
+      ...(c.backgroundId && !known.backgrounds.has(c.backgroundId) ? [t('import.missingBackground', { id: c.backgroundId })] : []),
     ];
     if (missing.length) {
-      warnings.push(`Персонаж ${label} пропущен: в справочнике нет — ${missing.join(', ')}.`);
+      warnings.push(t('import.skipped', { label, reason: t('import.missing', { list: missing.join(', ') }) }));
       return;
     }
     if (c.status.kind === 'ready') {
       try {
         computeSheet(c, content);
       } catch (err) {
-        warnings.push(`Персонаж ${label} пропущен: ${err instanceof Error ? err.message : 'не удаётся рассчитать лист'}.`);
+        warnings.push(t('import.skipped', { label, reason: err instanceof Error ? err.message : t('import.sheetFailed') }));
         return;
       }
     }
     const unknown = unknownRefs(c, content);
-    if (unknown.length) warnings.push(`У персонажа ${label} не найдено в справочнике: ${unknown.join(', ')}.`);
+    if (unknown.length) warnings.push(t('import.unknownRefs', { label, list: unknown.join(', ') }));
     characters.push(c);
   });
 
-  if (characters.length === 0) throw new ImportError(['Ни одного персонажа не удалось загрузить.', ...warnings].join('\n'));
+  if (characters.length === 0) throw new ImportError([t('import.noneLoaded'), ...warnings].join('\n'));
   return { characters, warnings };
 }

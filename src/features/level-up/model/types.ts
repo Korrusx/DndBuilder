@@ -14,4 +14,5 @@ export type LevelUpPlan = {
   languages: number;
 };
 
-export type LevelUpIssue = { message: string; blocking: boolean };
+/** `action: 'spells'` — у проблемы есть кнопка «Выбрать заклинания». */
+export type LevelUpIssue = { message: string; blocking: boolean; action?: 'spells' };

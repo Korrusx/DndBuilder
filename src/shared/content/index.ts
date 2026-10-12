@@ -1,14 +1,17 @@
-export { COIN_ABBR, COIN_NAMES, COIN_ORDER, SIZE_NAMES } from './constants';
+export { COIN_ORDER } from './constants';
 export { byId, content, indexOf, tr, translationProgress } from './content';
 export {
   abilityAbbr,
   abilityName,
+  coinAbbr,
+  coinName,
   coinsText,
   equipmentOptionText,
   groupSkillsByAbility,
   itemName,
   nameOf,
   proficiencyName,
+  sizeName,
   spellName,
 } from './names';
 export { plain } from './plain';

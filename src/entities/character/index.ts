@@ -13,7 +13,7 @@ export {
   STANDARD_ARRAY,
   STANDARD_LANGUAGE_COUNT,
 } from './config/constants';
-export { FEATURE_SOURCE_LABEL } from './config/featureSource';
+export { featureSourceLabel } from './config/featureSource';
 export { HP_COLORS } from './config/hpColors';
 export { featureInfo, featureName } from './lib/features';
 export { safeSheet } from './lib/safeSheet';

@@ -1,6 +1,8 @@
+import { t } from '@/shared/i18n/model';
+
 import type { D20Mode, D20Roll, DiceExpr } from './types';
 
-// Кости: разбор записи «2d6», показ по-русски «2к6», броски.
+// Кости: разбор записи «2d6», показ на текущем языке («2к6» / «2d6»), броски.
 
 export function parseDice(expr: string): DiceExpr {
   const m = /^(\d+)\s*[dк](\d+)$/i.exec(expr.trim());
@@ -8,10 +10,20 @@ export function parseDice(expr: string): DiceExpr {
   return { count: Number(m[1]), sides: Number(m[2]) };
 }
 
-/** «1d6» → «1к6». */
+/** Кость без количества: 8 → «к8» / «d8». */
+export function formatDie(sides: number): string {
+  return `${t('dice.d')}${sides}`;
+}
+
+/** «1d6» → «1к6» (по-английски «1d6»). */
 export function formatDice(expr: string | DiceExpr): string {
   const { count, sides } = typeof expr === 'string' ? parseDice(expr) : expr;
-  return `${count}к${sides}`;
+  return `${count}${formatDie(sides)}`;
+}
+
+/** Расстояние в футах: «30 фт» / «30 ft». */
+export function formatFeet(value: number): string {
+  return t('units.ft', { value });
 }
 
 /** Модификатор со знаком: +5, −1, +0. */

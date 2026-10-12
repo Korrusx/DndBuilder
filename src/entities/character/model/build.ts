@@ -114,7 +114,7 @@ export function proficiencySlots(c: Character, content: Content): ProficiencySlo
     const options = content.proficiencies
       .filter((p) => ['skill', 'tool', 'artisanTool', 'instrument'].includes(p.type))
       .map((p) => p.id);
-    slots.push({ key: CHOICE_KEYS.featProf(f.slot), source: 'feat', desc: { en: 'Skilled', ru: 'Одарённый: три навыка или инструмента' }, choose: 3, options });
+    slots.push({ key: CHOICE_KEYS.featProf(f.slot), source: 'feat', desc: { en: 'Skilled: three skills or tools', ru: 'Одарённый: три навыка или инструмента' }, choose: 3, options });
   }
   return slots;
 }

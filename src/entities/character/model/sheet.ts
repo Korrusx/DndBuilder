@@ -2,6 +2,7 @@
 
 import type { Content, Equipment } from '@/shared/content';
 import { indexOf } from '@/shared/content';
+import { t } from '@/shared/i18n/model';
 
 import { ABILITY_IDS, CHOICE_KEYS } from '../config/constants';
 import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';
@@ -13,9 +14,9 @@ import { effectsOf } from './effects';
 import { characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
 import type { AbilityScores, Character, CharacterSheet, SourcedId, WeaponAttack } from './types';
 
-function need<T>(map: ReadonlyMap<string, T>, id: string, what: string): T {
+function need<T>(map: ReadonlyMap<string, T>, id: string, what: 'background' | 'species' | 'subspecies' | 'class' | 'subclass'): T {
   const x = map.get(id);
-  if (!x) throw new Error(`Неизвестный ${what}: ${id}`);
+  if (!x) throw new Error(t('contentError.unknown', { what: t(`contentError.${what}`), id }));
   return x;
 }
 
@@ -62,10 +63,10 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   const idx = indexOf(content);
   const level = totalLevel(c.classes);
   const pb = proficiencyBonus(level);
-  const background = need(idx.backgrounds, c.backgroundId, 'предыстория');
-  const species = need(idx.species, c.speciesId, 'вид');
-  const subspecies = c.subspeciesId ? need(idx.subspecies, c.subspeciesId, 'подвид') : undefined;
-  const classes = c.classes.map((e) => ({ entry: e, cls: need(idx.classes, e.classId, 'класс') }));
+  const background = need(idx.backgrounds, c.backgroundId, 'background');
+  const species = need(idx.species, c.speciesId, 'species');
+  const subspecies = c.subspeciesId ? need(idx.subspecies, c.subspeciesId, 'subspecies') : undefined;
+  const classes = c.classes.map((e) => ({ entry: e, cls: need(idx.classes, e.classId, 'class') }));
 
   // --- Умения, особенности, черты ---
   const features: SourcedId[] = [];
@@ -76,7 +77,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
       for (const id of row.features) features.push({ id, source: 'class' });
     }
     if (entry.subclassId) {
-      const sub = need(idx.subclasses, entry.subclassId, 'подкласс');
+      const sub = need(idx.subclasses, entry.subclassId, 'subclass');
       for (const id of sub.features) {
         if ((idx.features.get(id)?.level ?? 99) <= entry.level) features.push({ id, source: 'subclass' });
       }

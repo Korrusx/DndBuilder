@@ -1,6 +1,7 @@
 import { magicInitiateSlots, spellLimits, spellOptions } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { content, nameOf, spellName } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { MultiPick, Section } from '@/shared/ui';
 
 import { applyKit } from '../../lib/applyKit';
@@ -9,18 +10,19 @@ import { MagicInitiate } from '../MagicInitiate/MagicInitiate';
 
 export function CreateEquipmentPage() {
   const { character: c, update, issues: allIssues } = useDraft();
+  const { t } = useTranslation();
   const issues = allIssues.filter((i) => i.step === 5);
   const setChoice = (key: string, ids: string[]) => update((d) => ({ ...d, choices: { ...d.choices, [key]: ids } }));
   const limits = spellLimits(c, content);
 
   return (
     <WizardScreen step={5} canContinue={issues.length === 0} summary={<StepStatus issues={issues} />} prepare={applyKit}>
-      <EquipmentSection source="class" title={`Снаряжение: ${nameOf('classes', c.classes[0]?.classId)}`} />
-      <EquipmentSection source="background" title={`Снаряжение: ${nameOf('backgrounds', c.backgroundId)}`} />
+      <EquipmentSection source="class" title={t('equipmentStep.kit', { name: nameOf('classes', c.classes[0]?.classId) })} />
+      <EquipmentSection source="background" title={t('equipmentStep.kit', { name: nameOf('backgrounds', c.backgroundId) })} />
 
       {limits ? (
         <>
-          <Section title="Заговоры" picked={c.cantrips.length} need={limits.cantrips}>
+          <Section title={t('equipmentStep.cantrips')} picked={c.cantrips.length} need={limits.cantrips}>
             <MultiPick
               options={spellOptions(limits.classId, 0, content)}
               selected={c.cantrips}
@@ -29,7 +31,7 @@ export function CreateEquipmentPage() {
               onChange={(cantrips) => update((d) => ({ ...d, cantrips }))}
             />
           </Section>
-          <Section title="Подготовленные заклинания 1-го круга" picked={c.preparedSpells.length} need={limits.prepared}>
+          <Section title={t('equipmentStep.spells')} picked={c.preparedSpells.length} need={limits.prepared}>
             <MultiPick
               options={spellOptions(limits.classId, 1, content)}
               selected={c.preparedSpells}

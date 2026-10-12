@@ -10,6 +10,7 @@ import type { Character } from '@/entities/character';
 import { newDraftCharacter } from '@/entities/character';
 import { getCharacter, newId, saveCharacter } from '@/entities/character/api';
 import { content } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 
 import { CREATE_STEPS } from '../config/steps';
 import { draftIssues, finishCharacter } from './validation';
@@ -33,7 +34,9 @@ export function DraftProvider({ children }: { children: ReactNode }) {
   }, [db, id]);
 
   const update = useCallback((fn: (c: Character) => Character) => setCharacter((c) => (c ? fn(c) : c)), []);
-  const issues = useMemo(() => (character ? draftIssues(character, content) : []), [character]);
+  // Сообщения о проблемах — на текущем языке: при смене языка пересчитываем.
+  const { i18n } = useTranslation();
+  const issues = useMemo(() => (character ? draftIssues(character, content) : []), [character, i18n.language]);
 
   if (!character) return null;
 

@@ -1,8 +1,9 @@
+// Шаги мастера создания; название шага — t(`wizard.steps.${id}`).
 export const CREATE_STEPS = [
-  { route: '/create/class', title: 'Класс' },
-  { route: '/create/origin', title: 'Предыстория и вид' },
-  { route: '/create/abilities', title: 'Характеристики' },
-  { route: '/create/skills', title: 'Навыки и владения' },
-  { route: '/create/equipment', title: 'Снаряжение' },
-  { route: '/create/review', title: 'Проверка' },
+  { route: '/create/class', id: 'class' },
+  { route: '/create/origin', id: 'origin' },
+  { route: '/create/abilities', id: 'abilities' },
+  { route: '/create/skills', id: 'skills' },
+  { route: '/create/equipment', id: 'equipment' },
+  { route: '/create/review', id: 'review' },
 ] as const;

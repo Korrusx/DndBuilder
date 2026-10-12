@@ -1,4 +1,4 @@
-import type { Character, ProficiencySlot } from '@/entities/character';
+import type { Character } from '@/entities/character';
 import {
   ABILITY_IDS,
   choice1,
@@ -26,6 +26,7 @@ import {
   weaponMasteryCount,
 } from '@/entities/character';
 import type { Content } from '@/shared/content';
+import { t } from '@/shared/i18n/model';
 import { indexOf } from '@/shared/content';
 
 import type { Issue } from './types';
@@ -42,59 +43,59 @@ export function draftIssues(c: Character, content: Content): Issue[] {
 
   // 1. Класс
   const cls = startingClass(c, content);
-  need(1, !!cls, 'Не выбран класс');
+  need(1, !!cls, t('issues.noClass'));
 
   // 2. Предыстория и вид
   const idx = indexOf(content);
   const background = idx.backgrounds.get(c.backgroundId);
   const species = idx.species.get(c.speciesId);
-  need(2, !!background, 'Не выбрана предыстория');
-  need(2, !!species, 'Не выбран вид');
+  need(2, !!background, t('issues.noBackground'));
+  need(2, !!species, t('issues.noSpecies'));
   if (species) {
-    need(2, species.subspecies.length === 0 || !!c.subspeciesId, 'Не выбрано происхождение вида (родословная, предок)');
-    need(2, !!c.size && species.sizes.includes(c.size), 'Не выбран размер');
+    need(2, species.subspecies.length === 0 || !!c.subspeciesId, t('issues.noSubspecies'));
+    need(2, !!c.size && species.sizes.includes(c.size), t('issues.noSize'));
   }
   for (const f of originFeats(c, content)) {
-    if (f.slot === 'versatile') need(2, !!f.featId, 'Не выбрана черта происхождения («Универсальность»)');
+    if (f.slot === 'versatile') need(2, !!f.featId, t('issues.noVersatileFeat'));
   }
 
   // 3. Характеристики
   const base = c.baseAbilities;
   const values = ABILITY_IDS.map((id) => base[id]);
-  if (values.some((v) => !v)) need(3, false, 'Не всем характеристикам назначены значения');
-  else if (c.abilityMethod === 'standard') need(3, isStandardArray(base), 'Значения не совпадают со стандартным набором');
+  if (values.some((v) => !v)) need(3, false, t('issues.abilitiesUnassigned'));
+  else if (c.abilityMethod === 'standard') need(3, isStandardArray(base), t('issues.notStandardArray'));
   else if (c.abilityMethod === 'pointBuy') {
     const spent = pointBuySpent(base);
-    need(3, spent !== undefined && values.every((v) => v >= POINT_BUY_MIN && v <= POINT_BUY_MAX), 'Значения вне диапазона 8–15');
-    need(3, spent === undefined || spent <= POINT_BUY_BUDGET, `Потрачено больше ${POINT_BUY_BUDGET} очков`);
+    need(3, spent !== undefined && values.every((v) => v >= POINT_BUY_MIN && v <= POINT_BUY_MAX), t('issues.pointBuyRange'));
+    need(3, spent === undefined || spent <= POINT_BUY_BUDGET, t('issues.pointBuyOver', { count: POINT_BUY_BUDGET }));
   } else {
     const rolls = [...(c.abilityRolls ?? [])].sort().join(',');
-    need(3, rolls === [...values].sort().join(','), 'Значения не совпадают с результатами бросков');
+    need(3, rolls === [...values].sort().join(','), t('issues.rollsMismatch'));
   }
   if (background) {
-    need(3, validateBackgroundBonuses(c.backgroundBonuses, background.abilities).length === 0, 'Не распределены бонусы предыстории');
+    need(3, validateBackgroundBonuses(c.backgroundBonuses, background.abilities).length === 0, t('issues.backgroundBonuses'));
   }
 
   // 4. Навыки и владения
   for (const slot of proficiencySlots(c, content)) {
-    need(4, count(c.choices[slot.key]) === slot.choose, `Выберите владения: ${slot.choose} (${sourceName(slot.source)})`);
+    need(4, count(c.choices[slot.key]) === slot.choose, t('issues.proficiencies', { count: slot.choose, source: t(`issues.source.${slot.source}`) }));
   }
   const exp = expertiseCount(c, content);
   if (exp) {
     const skills = proficientSkills(c, content);
-    need(4, c.expertise.length === exp && c.expertise.every((s) => skills.includes(s)), `Выберите компетентность: ${exp} навыка`);
+    need(4, c.expertise.length === exp && c.expertise.every((s) => skills.includes(s)), t('issues.expertise', { count: exp }));
   }
   const masteries = weaponMasteryCount(c, content);
-  if (masteries) need(4, c.weaponMasteries.length === masteries, `Выберите приёмы оружия: ${masteries}`);
+  if (masteries) need(4, c.weaponMasteries.length === masteries, t('issues.masteries', { count: masteries }));
   for (const featureId of featureOptionIds(c, content)) {
-    need(4, !!choice1(c, CHOICE_KEYS.featureOption(featureId)), 'Не выбран вариант умения класса');
+    need(4, !!choice1(c, CHOICE_KEYS.featureOption(featureId)), t('issues.featureOption'));
   }
   for (const featureId of featFeatureIds(c, content)) {
-    need(4, c.feats.some((f) => f.source === 'class' && idx.feats.get(f.featId)?.type === FEAT_FEATURES[featureId]), 'Не выбран боевой стиль');
+    need(4, c.feats.some((f) => f.source === 'class' && idx.feats.get(f.featId)?.type === FEAT_FEATURES[featureId]), t('issues.fightingStyle'));
   }
-  need(4, c.languages.filter((l) => l !== 'common').length === STANDARD_LANGUAGE_COUNT, `Выберите языки: ${STANDARD_LANGUAGE_COUNT}`);
+  need(4, c.languages.filter((l) => l !== 'common').length === STANDARD_LANGUAGE_COUNT, t('issues.languages', { count: STANDARD_LANGUAGE_COUNT }));
   if (cls?.levels[0]?.features.includes('warlock-eldritch-invocations')) {
-    need(4, false, 'Таинственные воззвания пока не выбираются в приложении — запишите их в заметки', false);
+    need(4, false, t('issues.invocations'), false);
   }
 
   // 5. Снаряжение и заклинания
@@ -103,15 +104,15 @@ export function draftIssues(c: Character, content: Content): Issue[] {
     if (!choice) continue;
     const chosen = choice1(c, CHOICE_KEYS.equipment(source));
     const option = chosen === undefined ? undefined : choice.options?.[Number(chosen)];
-    need(5, !!option, source === 'class' ? 'Не выбрано снаряжение класса' : 'Не выбрано снаряжение предыстории');
+    need(5, !!option, source === 'class' ? t('issues.classEquipment') : t('issues.backgroundEquipment'));
     for (const pick of equipmentPicks(option, content)) {
-      need(5, !!choice1(c, CHOICE_KEYS.equipmentPick(source, pick.index)), 'Не выбран предмет в наборе снаряжения');
+      need(5, !!choice1(c, CHOICE_KEYS.equipmentPick(source, pick.index)), t('issues.equipmentPick'));
     }
   }
   const limits = spellLimits(c, content);
   if (limits) {
-    need(5, c.cantrips.length === limits.cantrips, `Выберите заговоры: ${limits.cantrips}`);
-    need(5, c.preparedSpells.length === limits.prepared, `Выберите заклинания 1-го круга: ${limits.prepared}`);
+    need(5, c.cantrips.length === limits.cantrips, t('issues.cantrips', { count: limits.cantrips }));
+    need(5, c.preparedSpells.length === limits.prepared, t('issues.spells', { count: limits.prepared }));
   }
   for (const { slot, fixedList } of magicInitiateSlots(c, content)) {
     const ok =
@@ -119,17 +120,14 @@ export function draftIssues(c: Character, content: Content): Issue[] {
       !!choice1(c, CHOICE_KEYS.featAbility(slot)) &&
       count(c.choices[CHOICE_KEYS.featCantrips(slot)]) === 2 &&
       count(c.choices[CHOICE_KEYS.featSpell(slot)]) === 1;
-    need(5, ok, '«Посвящённый в магию»: выберите список, характеристику, 2 заговора и заклинание');
+    need(5, ok, t('issues.magicInitiate'));
   }
 
   // 6. Проверка
-  need(6, c.name.trim().length > 0, 'Не указано имя');
+  need(6, c.name.trim().length > 0, t('issues.noName'));
   return issues;
 }
 
-function sourceName(source: ProficiencySlot['source']): string {
-  return { class: 'класс', background: 'предыстория', species: 'вид', feat: 'черта' }[source];
-}
 
 /** Первый шаг, на котором есть незаполненное (для кнопки «Продолжить»). */
 export function firstIncompleteStep(c: Character, content: Content): number {

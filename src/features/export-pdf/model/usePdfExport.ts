@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 
 import type { Character } from '@/entities/character';
+import { t } from '@/shared/i18n/model';
 
 import { exportCharacterPdf } from '../api/exportPdf';
 
@@ -16,7 +17,7 @@ export function usePdfExport() {
       try {
         await exportCharacterPdf(c);
       } catch (err) {
-        Alert.alert('Не удалось создать PDF', err instanceof Error ? err.message : String(err));
+        Alert.alert(t('files.pdfFailed'), err instanceof Error ? err.message : String(err));
       } finally {
         setBusy(false);
       }

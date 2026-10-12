@@ -1,4 +1,8 @@
+import { t } from '@/shared/i18n/model';
+
 import type { SourcedId } from '../model/types';
 
-/** Подписи источника умения: «Класс», «Подкласс», «Вид», «Черта». */
-export const FEATURE_SOURCE_LABEL: Record<SourcedId['source'], string> = { class: 'Класс', subclass: 'Подкласс', species: 'Вид', feat: 'Черта' };
+/** Подпись источника умения: «Класс», «Подкласс», «Вид», «Черта». */
+export function featureSourceLabel(source: SourcedId['source']): string {
+  return t(`featureSource.${source}`);
+}

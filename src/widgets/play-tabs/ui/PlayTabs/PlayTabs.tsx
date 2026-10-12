@@ -5,6 +5,7 @@ import { ActivityIndicator, Pressable, View } from 'react-native';
 import { usePlay } from '@/entities/character/ui';
 import { usePdfExport } from '@/features/export-pdf';
 import { colors, fonts } from '@/shared/config';
+import { useTranslation } from '@/shared/i18n';
 import { AppText } from '@/shared/ui';
 
 import { tabIcon } from '../../lib/tabIcon';
@@ -13,6 +14,7 @@ import { styles } from './PlayTabs.styles';
 export function PlayTabs() {
   const { character } = usePlay();
   const pdf = usePdfExport();
+  const { t } = useTranslation();
   return (
     <Tabs
       screenOptions={{
@@ -25,7 +27,7 @@ export function PlayTabs() {
           <View style={styles.headerRight}>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Лист в PDF"
+              accessibilityLabel={t('tabs.pdf')}
               disabled={pdf.busy}
               onPress={() => pdf.run(character)}
               style={styles.headerButton}
@@ -38,7 +40,7 @@ export function PlayTabs() {
             </Pressable>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Изменить персонажа"
+              accessibilityLabel={t('tabs.editCharacter')}
               onPress={() => router.navigate({ pathname: '/character/[id]/edit', params: { id: character.id } })}
               style={styles.headerButton}
             >
@@ -49,7 +51,7 @@ export function PlayTabs() {
         headerLeft: () => (
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="К списку персонажей"
+            accessibilityLabel={t('tabs.back')}
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
             style={styles.backButton}
           >
@@ -63,26 +65,26 @@ export function PlayTabs() {
         tabBarLabelStyle: { fontFamily: fonts.textMedium, fontSize: 12 },
       }}
     >
-      <Tabs.Screen name="index" options={{ tabBarLabel: 'Лист', tabBarIcon: tabIcon('card-account-details-outline') }} />
-      <Tabs.Screen name="skills" options={{ tabBarLabel: 'Навыки', tabBarIcon: tabIcon('dice-d20-outline') }} />
-      <Tabs.Screen name="combat" options={{ tabBarLabel: 'Бой', tabBarIcon: tabIcon('sword-cross') }} />
-      <Tabs.Screen name="magic" options={{ tabBarLabel: 'Магия', tabBarIcon: tabIcon('auto-fix') }} />
-      <Tabs.Screen name="items" options={{ tabBarLabel: 'Вещи', tabBarIcon: tabIcon('bag-personal-outline') }} />
+      <Tabs.Screen name="index" options={{ tabBarLabel: t('tabs.sheet'), tabBarIcon: tabIcon('card-account-details-outline') }} />
+      <Tabs.Screen name="skills" options={{ tabBarLabel: t('tabs.skills'), tabBarIcon: tabIcon('dice-d20-outline') }} />
+      <Tabs.Screen name="combat" options={{ tabBarLabel: t('tabs.combat'), tabBarIcon: tabIcon('sword-cross') }} />
+      <Tabs.Screen name="magic" options={{ tabBarLabel: t('tabs.magic'), tabBarIcon: tabIcon('auto-fix') }} />
+      <Tabs.Screen name="items" options={{ tabBarLabel: t('tabs.items'), tabBarIcon: tabIcon('bag-personal-outline') }} />
       <Tabs.Screen
         name="edit"
         options={{
           href: null,
-          title: 'Изменить',
+          title: t('nav.edit'),
           tabBarStyle: { display: 'none' },
           headerRight: () => null,
           headerLeft: () => (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Готово"
+              accessibilityLabel={t('common.done')}
               onPress={() => router.navigate({ pathname: '/character/[id]', params: { id: character.id } })}
               style={styles.textButton}
             >
-              <AppText style={styles.linkLabel}>Готово</AppText>
+              <AppText style={styles.linkLabel}>{t('common.done')}</AppText>
             </Pressable>
           ),
         }}
@@ -91,17 +93,17 @@ export function PlayTabs() {
         name="level-up"
         options={{
           href: null,
-          title: 'Новый уровень',
+          title: t('nav.levelUp'),
           tabBarStyle: { display: 'none' },
           headerRight: () => null,
           headerLeft: () => (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Отмена"
+              accessibilityLabel={t('common.cancel')}
               onPress={() => router.navigate({ pathname: '/character/[id]', params: { id: character.id } })}
               style={styles.textButton}
             >
-              <AppText style={styles.linkLabel}>Отмена</AppText>
+              <AppText style={styles.linkLabel}>{t('common.cancel')}</AppText>
             </Pressable>
           ),
         }}

@@ -9,11 +9,12 @@ import { useEffect } from 'react';
 
 import { colors, fonts } from '@/shared/config';
 import { initUserDb, USER_DB_NAME } from '@/shared/db';
-import { LanguageGate } from '@/shared/i18n';
+import { LanguageGate, useTranslation } from '@/shared/i18n';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const { t } = useTranslation();
   const [loaded, error] = useFonts({
     Unbounded_600SemiBold,
     Unbounded_700Bold,
@@ -41,10 +42,10 @@ export default function RootLayout() {
             contentStyle: { backgroundColor: colors.bg },
           }}
         >
-          <Stack.Screen name="index" options={{ title: 'Мои персонажи' }} />
+          <Stack.Screen name="index" options={{ title: t('nav.characters') }} />
           <Stack.Screen name="create" options={{ headerShown: false }} />
           <Stack.Screen name="character/[id]" options={{ headerShown: false }} />
-          <Stack.Screen name="about" options={{ title: 'О приложении' }} />
+          <Stack.Screen name="about" options={{ title: t('nav.about') }} />
         </Stack>
       </LanguageGate>
     </SQLiteProvider>

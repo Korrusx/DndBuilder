@@ -3,6 +3,7 @@ import { backgroundBonusPattern } from '@/entities/character';
 import { useDraft } from '@/features/create-character';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, nameOf } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, Chip, ChipRow, Hint, Section, Segmented } from '@/shared/ui';
 
 import { styles } from './BackgroundBonuses.styles';
@@ -10,6 +11,7 @@ import type { BackgroundBonusesProps } from './BackgroundBonuses.types';
 
 export function BackgroundBonuses({ c, allowed }: BackgroundBonusesProps) {
   const { update } = useDraft();
+  const { t } = useTranslation();
   const pattern = backgroundBonusPattern(c.backgroundBonuses);
   const plus2 = allowed.find((id) => c.backgroundBonuses[id] === 2);
   const plus1 = allowed.find((id) => c.backgroundBonuses[id] === 1);
@@ -25,17 +27,16 @@ export function BackgroundBonuses({ c, allowed }: BackgroundBonusesProps) {
   };
 
   return (
-    <Section title="Бонусы предыстории">
+    <Section title={t('abilities.bgBonuses')}>
       <Hint>
-        Предыстория «{nameOf('backgrounds', c.backgroundId)}» повышает {allowed.map(abilityAbbr).join(', ')}: +2 к одной и +1 к
-        другой или +1 ко всем трём. Итог не выше 20.
+        {t('abilities.bgHint', { background: nameOf('backgrounds', c.backgroundId), abilities: allowed.map(abilityAbbr).join(', ') })}
       </Hint>
       <Segmented<'2-1' | '1-1-1'>
         value={pattern}
         onChange={(p) => set(p === '1-1-1' ? Object.fromEntries(allowed.map((id) => [id, 1])) : {})}
         options={[
-          { value: '2-1', label: '+2 и +1' },
-          { value: '1-1-1', label: '+1 к трём' },
+          { value: '2-1', label: t('abilities.twoOne') },
+          { value: '1-1-1', label: t('abilities.oneOneOne') },
         ]}
       />
       {pattern === '2-1' ? (

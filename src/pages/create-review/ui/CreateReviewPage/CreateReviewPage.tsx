@@ -5,6 +5,7 @@ import { useDraft, WizardScreen } from '@/features/create-character';
 import { usePdfExport } from '@/features/export-pdf';
 import { colors } from '@/shared/config';
 import { content, nameOf, tr } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, Button, Chip, ChipRow, Section } from '@/shared/ui';
 import { SheetPreview } from '@/widgets/sheet-preview';
 
@@ -13,10 +14,11 @@ import { styles } from './CreateReviewPage.styles';
 export function CreateReviewPage() {
   const { character: c, issues, update, goTo, finish } = useDraft();
   const pdf = usePdfExport();
+  const { t } = useTranslation();
   const blocking = issues.filter((i) => i.blocking);
   const sheet = issues.some((i) => i.blocking && i.step <= 2) ? null : safeSheet(c);
   const subtitle = [
-    `${nameOf('classes', c.classes[0]?.classId)} 1`,
+    t('review.level1', { className: nameOf('classes', c.classes[0]?.classId) }),
     nameOf('species', c.speciesId),
     nameOf('backgrounds', c.backgroundId),
   ]
@@ -38,7 +40,7 @@ export function CreateReviewPage() {
             />
           </View>
           <View style={styles.fill2}>
-            <Button title="Начать игру" disabled={blocking.length > 0} onPress={finish} />
+            <Button title={t('review.start')} disabled={blocking.length > 0} onPress={finish} />
           </View>
         </View>
       }
@@ -51,7 +53,7 @@ export function CreateReviewPage() {
           <TextInput
             value={c.name}
             onChangeText={(name) => update((d) => ({ ...d, name }))}
-            placeholder="Имя персонажа"
+            placeholder={t('review.name')}
             placeholderTextColor={colors.textSecondary}
             style={styles.nameInput}
           />
@@ -66,7 +68,7 @@ export function CreateReviewPage() {
               <AppText style={{ flex: 1, color: i.blocking ? colors.damage : colors.info, fontSize: 14 }}>{i.message}</AppText>
               {i.step < 6 ? (
                 <Pressable accessibilityRole="button" onPress={() => goTo(i.step)} style={styles.fix}>
-                  <AppText style={styles.linkLabel}>Исправить</AppText>
+                  <AppText style={styles.linkLabel}>{t('review.fix')}</AppText>
                 </Pressable>
               ) : null}
             </View>
@@ -74,7 +76,7 @@ export function CreateReviewPage() {
         </View>
       ) : null}
 
-      <Section title="Мировоззрение">
+      <Section title={t('review.alignment')}>
         <ChipRow>
           {content.alignments.map((a) => (
             <Chip

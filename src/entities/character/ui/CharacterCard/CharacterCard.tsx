@@ -3,6 +3,7 @@ import { Pressable, View } from 'react-native';
 
 import { colors } from '@/shared/config';
 import { content, tr } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, Button } from '@/shared/ui';
 
 import { HP_COLORS } from '../../config/hpColors';
@@ -11,6 +12,7 @@ import { styles } from './CharacterCard.styles';
 import type { CharacterCardProps } from './CharacterCard.types';
 
 export function CharacterCard({ character: c, onPress, onLongPress, selected, draftSteps }: CharacterCardProps) {
+  const { t } = useTranslation();
   const selecting = selected !== undefined;
   // Сводка считает лист персонажа — пересчитываем, только когда изменился сам персонаж.
   const s = useMemo(() => characterSummary(c, content), [c]);
@@ -43,7 +45,7 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
         )}
         <View style={styles.info}>
           <AppText variant="heading" numberOfLines={1}>
-            {c.name || 'Без имени'}
+            {c.name || t('common.unnamed')}
           </AppText>
           {subtitle ? (
             <AppText variant="secondary" numberOfLines={1}>
@@ -59,7 +61,7 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
         {s.level > 0 ? (
           <View style={styles.level}>
             <AppText style={styles.levelNumber}>{s.level}</AppText>
-            <AppText style={styles.levelLabel}>ур.</AppText>
+            <AppText style={styles.levelLabel}>{t('card.level')}</AppText>
           </View>
         ) : null}
       </View>
@@ -79,13 +81,13 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
               />
             </View>
             <AppText variant="secondary">
-              Хиты {s.hp.current} / {s.hp.max}
+              {t('card.hp', { current: s.hp.current, max: s.hp.max })}
             </AppText>
           </View>
           {s.armorClass !== undefined ? (
             <View style={styles.ac}>
               <AppText style={styles.acNumber}>{s.armorClass}</AppText>
-              <AppText style={styles.levelLabel}>КЗ</AppText>
+              <AppText style={styles.levelLabel}>{t('card.ac')}</AppText>
             </View>
           ) : null}
         </View>
@@ -94,9 +96,9 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
       {draft ? (
         <View style={styles.draftRow}>
           <AppText variant="secondary" style={styles.fill}>
-            Черновик · шаг {draft.step} из {draftSteps}
+            {t('card.draft', { step: draft.step, total: draftSteps })}
           </AppText>
-          {selecting ? null : <Button title="Продолжить" variant="secondary" onPress={onPress} />}
+          {selecting ? null : <Button title={t('card.continue')} variant="secondary" onPress={onPress} />}
         </View>
       ) : null}
     </Pressable>

@@ -1,10 +1,13 @@
 import { CHOICE_KEYS, originFeats, setBackground, setSpecies } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import { abilityAbbr, byId, content, nameOf, proficiencyName, SIZE_NAMES } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, proficiencyName, sizeName } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
+import { formatFeet } from '@/shared/lib/dice';
 import { Chip, ChipRow, OptionCard, Section } from '@/shared/ui';
 
 export function CreateOriginPage() {
   const { character: c, update, issues: allIssues } = useDraft();
+  const { t } = useTranslation();
   const species = byId.species.get(c.speciesId);
   const background = byId.backgrounds.get(c.backgroundId);
   const versatile = originFeats(c, content).find((f) => f.slot === 'versatile');
@@ -16,7 +19,7 @@ export function CreateOriginPage() {
       canContinue={issues.length === 0}
       summary={<StepStatus issues={issues} />}
     >
-      <Section title="Предыстория" hint="Даёт бонусы к трём характеристикам, черту, навыки и снаряжение.">
+      <Section title={t('origin.background')} hint={t('origin.backgroundHint')}>
         <ChipRow>
           {content.backgrounds.map((b) => (
             <Chip
@@ -33,15 +36,15 @@ export function CreateOriginPage() {
         <OptionCard
           title={nameOf('backgrounds', background.id)}
           lines={[
-            `Характеристики: ${background.abilities.map(abilityAbbr).join(', ')}`,
-            `Черта: ${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}`,
-            `Владения: ${background.proficiencies.map(proficiencyName).join(', ')}${background.proficiencyChoices.length ? ' + на выбор' : ''}`,
-            ...(background.extra ? ['Из Player\'s Handbook 2024 (не SRD)'] : []),
+            t('origin.abilities', { list: background.abilities.map(abilityAbbr).join(', ') }),
+            t('origin.feat', { name: `${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}` }),
+            `${t('origin.proficiencies', { list: background.proficiencies.map(proficiencyName).join(', ') })}${background.proficiencyChoices.length ? t('origin.plusChoice') : ''}`,
+            ...(background.extra ? [t('common.fromPhb')] : []),
           ]}
         />
       ) : null}
 
-      <Section title="Вид">
+      <Section title={t('origin.species')}>
         <ChipRow>
           {content.species.map((s) => (
             <Chip
@@ -58,14 +61,14 @@ export function CreateOriginPage() {
         <OptionCard
           title={nameOf('species', species.id)}
           lines={[
-            `Скорость ${species.speed} фт · ${species.sizes.map((x) => SIZE_NAMES[x] ?? x).join(' или ')}`,
-            `Особенности: ${species.traits.map((t) => nameOf('traits', t)).join(', ')}`,
+            t('origin.speedSize', { speed: formatFeet(species.speed), sizes: species.sizes.map(sizeName).join(` ${t('common.or')} `) }),
+            t('origin.traits', { list: species.traits.map((id) => nameOf('traits', id)).join(', ') }),
           ]}
         />
       ) : null}
 
       {species && species.subspecies.length > 0 ? (
-        <Section title="Происхождение" hint="Родословная, предок или наследие — выберите одно.">
+        <Section title={t('origin.subspecies')} hint={t('origin.subspeciesHint')}>
           <ChipRow>
             {species.subspecies.map((id) => (
               <Chip
@@ -80,12 +83,12 @@ export function CreateOriginPage() {
       ) : null}
 
       {species && species.sizes.length > 1 ? (
-        <Section title="Размер">
+        <Section title={t('origin.size')}>
           <ChipRow>
             {species.sizes.map((size) => (
               <Chip
                 key={size}
-                label={SIZE_NAMES[size] ?? size}
+                label={sizeName(size)}
                 selected={c.size === size}
                 onPress={() => update((d) => ({ ...d, size }))}
               />
@@ -95,7 +98,7 @@ export function CreateOriginPage() {
       ) : null}
 
       {versatile ? (
-        <Section title="Универсальность" hint="Человек получает ещё одну черту происхождения. Рекомендуется «Одарённый».">
+        <Section title={t('origin.versatile')} hint={t('origin.versatileHint')}>
           <ChipRow>
             {content.feats
               .filter((f) => f.type === 'origin')

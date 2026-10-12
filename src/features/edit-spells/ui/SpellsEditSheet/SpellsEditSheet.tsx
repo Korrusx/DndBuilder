@@ -2,6 +2,7 @@ import { View } from 'react-native';
 
 import { spellLimits, spellOptions } from '@/entities/character';
 import { content, spellName } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
 
 import { styles } from './SpellsEditSheet.styles';
@@ -13,18 +14,18 @@ export function SpellsEditSheet({
   onChange,
   onClose,
 }: SpellsEditSheetProps) {
+  const { t } = useTranslation();
   const limits = spellLimits(c, content);
   if (!limits) return null;
   const circles = Array.from({ length: limits.maxSpellLevel }, (_, i) => i + 1);
 
   return (
-    <BottomSheet visible={visible} title="Заклинания" onClose={onClose}>
+    <BottomSheet visible={visible} title={t('spells.title')} onClose={onClose}>
       <AppText variant="secondary">
-        Подготовленные заклинания можно менять после долгого отдыха (волшебник — из книги заклинаний, бард, чародей и колдун —
-        при повышении уровня).
+        {t('spells.editHint')}
       </AppText>
       {limits.cantrips > 0 ? (
-        <Section title="Заговоры" picked={c.cantrips.length} need={limits.cantrips}>
+        <Section title={t('spells.cantrips')} picked={c.cantrips.length} need={limits.cantrips}>
           <MultiPick
             options={spellOptions(limits.classId, 0, content)}
             selected={c.cantrips}
@@ -34,7 +35,7 @@ export function SpellsEditSheet({
           />
         </Section>
       ) : null}
-      <Section title="Подготовленные" picked={c.preparedSpells.length} need={limits.prepared}>
+      <Section title={t('spells.prepared')} picked={c.preparedSpells.length} need={limits.prepared}>
         <View style={styles.gapMd}>
           {circles.map((circle) => {
             const options = spellOptions(limits.classId, circle, content);
@@ -43,7 +44,7 @@ export function SpellsEditSheet({
             const others = c.preparedSpells.length - inCircle.length;
             return (
               <View key={circle} style={styles.gapSm}>
-                <AppText variant="secondary">{circle} круг</AppText>
+                <AppText variant="secondary">{t('spell.circle', { level: circle })}</AppText>
                 <MultiPick
                   options={options}
                   selected={inCircle}

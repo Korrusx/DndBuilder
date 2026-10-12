@@ -27,6 +27,7 @@ import {
 } from '@/features/level-up';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, byId, content, nameOf, plain, proficiencyName, tr } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import type { InfoContent } from '@/shared/ui';
 import {
   AppText,
@@ -46,6 +47,7 @@ import { styles } from './LevelUpPage.styles';
 
 export function LevelUpPage() {
   const { character: prev, update } = usePlay();
+  const { t } = useTranslation();
   const [next, setNext] = useState<Character>(() => startLevelUp(prev));
   const [info, setInfo] = useState<InfoContent | null>(null);
   const [spells, setSpells] = useState(false);
@@ -104,7 +106,7 @@ export function LevelUpPage() {
   // Уже имеющиеся владения нельзя выбрать ещё раз.
   const owned = new Set<string>();
   for (const s of proficientSkills(prev, content)) owned.add(`skill-${s}`);
-  const blocked = new Map([...owned].map((id) => [id, 'уже есть'] as const));
+  const blocked = new Map([...owned].map((id) => [id, t('levelUpPage.owned')] as const));
 
   const newExpertise = next.expertise.filter((s) => !prev.expertise.includes(s));
   const expertiseOptions = proficientSkills(next, content).filter((s) => !prev.expertise.includes(s));
@@ -120,10 +122,10 @@ export function LevelUpPage() {
           {blocking[0] ? (
             <AppText variant="secondary" numberOfLines={2}>
               {blocking[0].message}
-              {blocking.length > 1 ? ` (и ещё ${blocking.length - 1})` : ''}
+              {blocking.length > 1 ? t('wizard.moreIssues', { count: blocking.length - 1 }) : ''}
             </AppText>
           ) : null}
-          <Button title={`Повысить до ${level} уровня`} disabled={blocking.length > 0} onPress={finish} />
+          <Button title={t('levelUpPage.finish', { level })} disabled={blocking.length > 0} onPress={finish} />
         </>
       }
     >
@@ -132,12 +134,12 @@ export function LevelUpPage() {
       </AppText>
 
       <Card style={styles.gapSm}>
-        <AppText variant="heading">Хиты: +{hpGain}</AppText>
-        <AppText variant="secondary">Среднее значение кости хитов + модификатор Телосложения (и прибавки от черт и умений).</AppText>
+        <AppText variant="heading">{t('levelUpPage.hp', { value: hpGain })}</AppText>
+        <AppText variant="secondary">{t('levelUpPage.hpHint')}</AppText>
       </Card>
 
       {plan.features.length ? (
-        <Section title="Новые умения" hint="Нажмите, чтобы прочитать описание.">
+        <Section title={t('levelUpPage.newFeatures')} hint={t('levelUpPage.newFeaturesHint')}>
           <ChipRow>
             {plan.features.map((f) => {
               const feature = byId.features.get(f.id);
@@ -145,7 +147,7 @@ export function LevelUpPage() {
                 <Chip
                   key={f.id}
                   label={nameOf('features', f.id)}
-                  note={f.source === 'subclass' ? 'подкласс' : undefined}
+                  note={f.source === 'subclass' ? t('levelUpPage.subclassNote') : undefined}
                   onPress={() => setInfo({ title: nameOf('features', f.id), text: plain(feature?.description) })}
                 />
               );
@@ -155,14 +157,14 @@ export function LevelUpPage() {
       ) : null}
 
       {plan.needsSubclass ? (
-        <Section title="Подкласс" picked={next.classes[0].subclassId ? 1 : 0} need={1}>
+        <Section title={t('levelUpPage.subclass')} picked={next.classes[0].subclassId ? 1 : 0} need={1}>
           {content.subclasses
             .filter((s) => s.classId === plan.classId)
             .map((s) => (
               <OptionCard
                 key={s.id}
                 title={tr(s.name).text}
-                lines={[tr(s.summary).text, ...(s.extra ? ["Из Player's Handbook 2024 (не SRD)"] : [])]}
+                lines={[tr(s.summary).text, ...(s.extra ? [t('common.fromPhb')] : [])]}
                 selected={next.classes[0].subclassId === s.id}
                 onPress={() => set((c) => ({ ...c, classes: [{ ...c.classes[0], subclassId: s.id }, ...c.classes.slice(1)] }))}
               />
@@ -172,8 +174,8 @@ export function LevelUpPage() {
 
       {plan.featSlot ? (
         <Section
-          title={plan.featSlot === 'asi' ? 'Увеличение характеристик или черта' : 'Эпический дар'}
-          hint={plan.featSlot === 'asi' ? '«Увеличение характеристик»: +2 к одной или +1 к двум (не выше 20). Или другая черта.' : undefined}
+          title={plan.featSlot === 'asi' ? t('levelUpPage.asi') : t('levelUpPage.epicBoon')}
+          hint={plan.featSlot === 'asi' ? t('levelUpPage.asiHint') : undefined}
           picked={feat ? 1 : 0}
           need={1}
         >
@@ -203,7 +205,7 @@ export function LevelUpPage() {
             </ChipRow>
           ) : null}
           {featProfSlots.map((slot) => (
-            <Section key={slot.key} title="Владения черты" picked={next.choices[slot.key]?.length ?? 0} need={slot.choose}>
+            <Section key={slot.key} title={t('levelUpPage.featProficiencies')} picked={next.choices[slot.key]?.length ?? 0} need={slot.choose}>
               <MultiPick
                 options={slot.options}
                 selected={next.choices[slot.key] ?? []}
@@ -218,7 +220,7 @@ export function LevelUpPage() {
       ) : null}
 
       {plan.expertise ? (
-        <Section title="Компетентность" hint="Бонус мастерства удваивается для этих навыков." picked={newExpertise.length} need={plan.expertise}>
+        <Section title={t('levelUpPage.expertise')} hint={t('levelUpPage.expertiseHint')} picked={newExpertise.length} need={plan.expertise}>
           <MultiPick
             options={expertiseOptions}
             selected={newExpertise}
@@ -230,7 +232,7 @@ export function LevelUpPage() {
       ) : null}
 
       {plan.fightingStyles ? (
-        <Section title="Боевой стиль" picked={fightingStyleFeats.length} need={plan.fightingStyles}>
+        <Section title={t('levelUpPage.fightingStyle')} picked={fightingStyleFeats.length} need={plan.fightingStyles}>
           <MultiPick
             options={content.feats.filter((f) => f.type === 'fighting-style' && !takenStyles.has(f.id)).map((f) => f.id)}
             selected={fightingStyleFeats.map((f) => f.featId)}
@@ -250,7 +252,7 @@ export function LevelUpPage() {
       ) : null}
 
       {plan.skillChoices.map((sc) => (
-        <Section key={sc.key} title={`Навыки: ${nameOf('features', sc.featureId)}`} picked={next.choices[sc.key]?.length ?? 0} need={sc.choose}>
+        <Section key={sc.key} title={t('levelUpPage.skills', { feature: nameOf('features', sc.featureId) })} picked={next.choices[sc.key]?.length ?? 0} need={sc.choose}>
           <MultiPick
             options={sc.options}
             selected={next.choices[sc.key] ?? []}
@@ -263,7 +265,7 @@ export function LevelUpPage() {
       ))}
 
       {plan.languages ? (
-        <Section title="Языки" picked={newLanguages.length} need={plan.languages}>
+        <Section title={t('levelUpPage.languages')} picked={newLanguages.length} need={plan.languages}>
           <MultiPick
             options={content.languages.map((l) => l.id).filter((id) => !prev.languages.includes(id))}
             selected={newLanguages}
@@ -275,7 +277,7 @@ export function LevelUpPage() {
       ) : null}
 
       {masteryCount > prev.weaponMasteries.length ? (
-        <Section title="Приёмы оружия" picked={next.weaponMasteries.length} need={masteryCount}>
+        <Section title={t('levelUpPage.masteries')} picked={next.weaponMasteries.length} need={masteryCount}>
           <MultiPick
             options={weaponMasteryOptions(next, content)}
             selected={next.weaponMasteries}
@@ -291,8 +293,8 @@ export function LevelUpPage() {
         .map((i) => (
           <View key={i.message} style={styles.gapSm}>
             <AppText style={styles.textInfo}>{i.message}</AppText>
-            {i.message.startsWith('Можно выбрать ещё заклинаний') ? (
-              <SmallButton title="Выбрать заклинания" tone="accent" onPress={() => setSpells(true)} />
+            {i.action === 'spells' ? (
+              <SmallButton title={t('levelUpPage.pickSpells')} tone="accent" onPress={() => setSpells(true)} />
             ) : null}
           </View>
         ))}

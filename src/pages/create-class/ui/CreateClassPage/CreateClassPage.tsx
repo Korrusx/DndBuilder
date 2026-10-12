@@ -3,12 +3,15 @@ import { View } from 'react-native';
 import { setClass } from '@/entities/character';
 import { useDraft, WizardScreen } from '@/features/create-character';
 import { abilityAbbr, byId, content, nameOf } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
+import { formatDie } from '@/shared/lib/dice';
 import { AppText, OptionCard } from '@/shared/ui';
 
 import { styles } from './CreateClassPage.styles';
 
 export function CreateClassPage() {
   const { character, update } = useDraft();
+  const { t } = useTranslation();
   const selected = character.classes[0]?.classId;
   const cls = selected ? byId.classes.get(selected) : undefined;
 
@@ -22,10 +25,10 @@ export function CreateClassPage() {
       summary={
         cls ? (
           <AppText variant="secondary">
-            Выбран: <AppText style={styles.textText}>{nameOf('classes', cls.id)}</AppText> · к{cls.hitDie}
+            {t('createClass.chosen')} <AppText style={styles.textText}>{nameOf('classes', cls.id)}</AppText> · {formatDie(cls.hitDie)}
           </AppText>
         ) : (
-          <AppText variant="secondary">Выберите класс</AppText>
+          <AppText variant="secondary">{t('createClass.choose')}</AppText>
         )
       }
     >
@@ -43,8 +46,8 @@ export function CreateClassPage() {
                 </AppText>
               }
               lines={[
-                `Кость хитов к${c.hitDie}`,
-                c.primaryAbilities.map(abilityAbbr).join(c.primaryAbilityChoice ? ' или ' : ' и '),
+                t('createClass.hitDie', { die: formatDie(c.hitDie) }),
+                c.primaryAbilities.map(abilityAbbr).join(` ${c.primaryAbilityChoice ? t('common.or') : t('common.and')} `),
               ]}
             />
           ))}

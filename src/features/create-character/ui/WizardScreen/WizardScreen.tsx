@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 
 import { colors } from '@/shared/config';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, Button, Screen } from '@/shared/ui';
 
 import { CREATE_STEPS } from '../../config/steps';
@@ -11,6 +12,7 @@ import type { WizardScreenProps } from './WizardScreen.types';
 /** Каркас шага: прогресс из 6 сегментов, заголовок, нижняя панель с «Далее». */
 export function WizardScreen({ step, children, summary, canContinue, footer, prepare }: WizardScreenProps) {
   const { next } = useDraft();
+  const { t } = useTranslation();
   return (
     <Screen
       footer={
@@ -18,7 +20,7 @@ export function WizardScreen({ step, children, summary, canContinue, footer, pre
           <>
             {summary}
             <Button
-              title="Далее"
+              title={t('common.next')}
               disabled={!canContinue}
               onPress={() => next(step, prepare)}
             />
@@ -28,13 +30,13 @@ export function WizardScreen({ step, children, summary, canContinue, footer, pre
     >
       <View style={styles.progress}>
         {CREATE_STEPS.map((s, i) => (
-          <View key={s.title} style={[styles.segment, { backgroundColor: i < step ? colors.accent : colors.surface2 }]} />
+          <View key={s.id} style={[styles.segment, { backgroundColor: i < step ? colors.accent : colors.surface2 }]} />
         ))}
       </View>
       <AppText variant="secondary">
-        Шаг {step} из {CREATE_STEPS.length}
+        {t('wizard.stepOf', { step, total: CREATE_STEPS.length })}
       </AppText>
-      <AppText variant="title">{CREATE_STEPS[step - 1].title}</AppText>
+      <AppText variant="title">{t(`wizard.steps.${CREATE_STEPS[step - 1].id}`)}</AppText>
       {children}
     </Screen>
   );

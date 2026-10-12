@@ -8,11 +8,11 @@
       "sizes": ["Medium", "Small"],
       "speed": 30,
       "traits": [
-        { "id": "celestial-resistance", "name": { "en": "Celestial Resistance", "ru": "Небесная стойкость" }, "text": "Сопротивление урону некротической энергией и излучением." },
+        { "id": "celestial-resistance", "name": { "en": "Celestial Resistance", "ru": "Небесная стойкость" }, "text": "Сопротивление урону некротической энергией и излучением.", "textEn": "Resistance to Necrotic and Radiant damage." },
         "darkvision-60",
-        { "id": "healing-hands", "name": { "en": "Healing Hands", "ru": "Исцеляющие руки" }, "text": "Действием «Магия» коснитесь существа и бросьте столько к4, каков ваш бонус мастерства: оно восстанавливает выпавшее число хитов. Один раз до долгого отдыха." },
-        { "id": "light-bearer", "name": { "en": "Light Bearer", "ru": "Несущий свет" }, "text": "Вы знаете заговор «Свет». Заклинательная характеристика — Харизма.", "spells": ["light"] },
-        { "id": "celestial-revelation", "name": { "en": "Celestial Revelation", "ru": "Небесное откровение" }, "text": "С 3-го уровня. Бонусным действием вы преображаетесь на 1 минуту (раньше — по желанию, без действия). Один раз до долгого отдыха. Выберите облик при каждом преображении: Небесные крылья — скорость полёта, равная скорости ходьбы; Внутреннее сияние — яркий свет на 10 фт и тусклый ещё на 10 фт, в конце каждого вашего хода существа в пределах 10 фт получают урон излучением, равный бонусу мастерства; Некротическая пелена — существа в пределах 10 фт, кроме союзников, проходят спасбросок Харизмы (СЛ 8 + мод. ХАР + БМ) или становятся испуганными до конца вашего следующего хода. Пока вы преображены, раз в ход можете добавить к урону атаки или заклинания по одной цели урон, равный бонусу мастерства: некротический для пелены, излучением для остальных обликов." }
+        { "id": "healing-hands", "name": { "en": "Healing Hands", "ru": "Исцеляющие руки" }, "text": "Действием «Магия» коснитесь существа и бросьте столько к4, каков ваш бонус мастерства: оно восстанавливает выпавшее число хитов. Один раз до долгого отдыха.", "textEn": "As a Magic action, touch a creature and roll a number of d4s equal to your Proficiency Bonus: it regains that many Hit Points. Once per Long Rest." },
+        { "id": "light-bearer", "name": { "en": "Light Bearer", "ru": "Несущий свет" }, "text": "Вы знаете заговор «Свет». Заклинательная характеристика — Харизма.", "textEn": "You know the Light cantrip. Charisma is your spellcasting ability for it.", "spells": ["light"] },
+        { "id": "celestial-revelation", "name": { "en": "Celestial Revelation", "ru": "Небесное откровение" }, "text": "С 3-го уровня. Бонусным действием вы преображаетесь на 1 минуту (раньше — по желанию, без действия). Один раз до долгого отдыха. Выберите облик при каждом преображении: Небесные крылья — скорость полёта, равная скорости ходьбы; Внутреннее сияние — яркий свет на 10 фт и тусклый ещё на 10 фт, в конце каждого вашего хода существа в пределах 10 фт получают урон излучением, равный бонусу мастерства; Некротическая пелена — существа в пределах 10 фт, кроме союзников, проходят спасбросок Харизмы (СЛ 8 + мод. ХАР + БМ) или становятся испуганными до конца вашего следующего хода. Пока вы преображены, раз в ход можете добавить к урону атаки или заклинания по одной цели урон, равный бонусу мастерства: некротический для пелены, излучением для остальных обликов.", "textEn": "From level 3. As a Bonus Action you transform for 1 minute (or until you end it, no action required). Once per Long Rest. Choose the form each time: Heavenly Wings — a Fly Speed equal to your Speed; Inner Radiance — Bright Light in 10 feet and Dim Light 10 feet beyond, and at the end of each of your turns creatures within 10 feet take Radiant damage equal to your Proficiency Bonus; Necrotic Shroud — creatures within 10 feet other than your allies make a Charisma saving throw (DC 8 + CHA modifier + PB) or are Frightened until the end of your next turn. While transformed, once per turn you can add damage equal to your Proficiency Bonus to one target of an attack or spell: Necrotic for the Shroud, Radiant for the other forms." }
       ]
     },
     {
@@ -23,9 +23,9 @@
       "speed": 35,
       "traits": [
         "darkvision-60",
-        { "id": "deathless-nature", "name": { "en": "Deathless Nature", "ru": "Неумирающая природа" }, "text": "Вам не нужно дышать." },
-        { "id": "spider-climb", "name": { "en": "Spider Climb", "ru": "Паучье лазание" }, "text": "Скорость лазания равна скорости ходьбы. С 3-го уровня вы можете перемещаться по вертикальным поверхностям и вниз головой по потолку, оставляя руки свободными." },
-        { "id": "vampiric-bite", "name": { "en": "Vampiric Bite", "ru": "Вампирский укус" }, "text": "Укус — безоружный удар: 1к4 + мод. ТЕЛ колющего урона; с преимуществом, если у вас осталось не больше половины хитов. Попав по существу, которое не является конструктом или нежитью, можете усилиться: восстановить хиты, равные урону укуса, или прибавить это число к следующей проверке характеристики или броску атаки. Усиление — столько раз, каков бонус мастерства, до долгого отдыха." }
+        { "id": "deathless-nature", "name": { "en": "Deathless Nature", "ru": "Неумирающая природа" }, "text": "Вам не нужно дышать.", "textEn": "You don't need to breathe." },
+        { "id": "spider-climb", "name": { "en": "Spider Climb", "ru": "Паучье лазание" }, "text": "Скорость лазания равна скорости ходьбы. С 3-го уровня вы можете перемещаться по вертикальным поверхностям и вниз головой по потолку, оставляя руки свободными.", "textEn": "You have a Climb Speed equal to your Speed. From level 3 you can move across vertical surfaces and upside down along ceilings, leaving your hands free." },
+        { "id": "vampiric-bite", "name": { "en": "Vampiric Bite", "ru": "Вампирский укус" }, "text": "Укус — безоружный удар: 1к4 + мод. ТЕЛ колющего урона; с преимуществом, если у вас осталось не больше половины хитов. Попав по существу, которое не является конструктом или нежитью, можете усилиться: восстановить хиты, равные урону укуса, или прибавить это число к следующей проверке характеристики или броску атаки. Усиление — столько раз, каков бонус мастерства, до долгого отдыха.", "textEn": "Your bite is an Unarmed Strike: 1d4 + CON modifier Piercing damage; with Advantage if you have no more than half your Hit Points left. When you hit a creature that isn't a Construct or Undead, you can empower yourself: regain Hit Points equal to the bite's damage, or add that number to your next ability check or attack roll. You can empower yourself a number of times equal to your Proficiency Bonus per Long Rest." }
       ]
     },
     {
@@ -35,10 +35,10 @@
       "sizes": ["Medium"],
       "speed": 30,
       "traits": [
-        { "id": "dual-mind", "name": { "en": "Dual Mind", "ru": "Двойной разум" }, "text": "Преимущество на спасброски Мудрости." },
-        { "id": "mental-discipline", "name": { "en": "Mental Discipline", "ru": "Ментальная дисциплина" }, "text": "Сопротивление урону психической энергией." },
-        { "id": "mind-link", "name": { "en": "Mind Link", "ru": "Мысленная связь" }, "text": "Вы можете телепатически говорить с существом, которое видите в пределах 10 × ваш уровень фт. Оно понимает вас, только если знает хотя бы один язык. Действием можно дать ему возможность отвечать вам телепатически в течение 1 часа." },
-        { "id": "severed-from-dreams", "name": { "en": "Severed from Dreams", "ru": "Отрезанный от снов" }, "text": "Вы спите, но не видите снов. Заклинания и эффекты, которым нужно, чтобы вы видели сон, на вас не действуют; эффекты, которые усыпляют, — действуют." }
+        { "id": "dual-mind", "name": { "en": "Dual Mind", "ru": "Двойной разум" }, "text": "Преимущество на спасброски Мудрости.", "textEn": "Advantage on Wisdom saving throws." },
+        { "id": "mental-discipline", "name": { "en": "Mental Discipline", "ru": "Ментальная дисциплина" }, "text": "Сопротивление урону психической энергией.", "textEn": "Resistance to Psychic damage." },
+        { "id": "mind-link", "name": { "en": "Mind Link", "ru": "Мысленная связь" }, "text": "Вы можете телепатически говорить с существом, которое видите в пределах 10 × ваш уровень фт. Оно понимает вас, только если знает хотя бы один язык. Действием можно дать ему возможность отвечать вам телепатически в течение 1 часа.", "textEn": "You can speak telepathically to a creature you can see within 10 × your level feet. It understands you only if it knows at least one language. As an action you can let it answer you telepathically for 1 hour." },
+        { "id": "severed-from-dreams", "name": { "en": "Severed from Dreams", "ru": "Отрезанный от снов" }, "text": "Вы спите, но не видите снов. Заклинания и эффекты, которым нужно, чтобы вы видели сон, на вас не действуют; эффекты, которые усыпляют, — действуют.", "textEn": "You sleep but don't dream. Spells and effects that require you to dream don't affect you; effects that put you to sleep still do." }
       ]
     },
     {
@@ -48,16 +48,17 @@
       "sizes": ["Medium"],
       "speed": 30,
       "traits": [
-        { "id": "constructed-resilience", "name": { "en": "Constructed Resilience", "ru": "Искусственная стойкость" }, "text": "Преимущество на спасброски от отравления и сопротивление урону ядом. Вам не нужно есть, пить и дышать, вы невосприимчивы к болезням, и магия не может вас усыпить." },
-        { "id": "sentrys-rest", "name": { "en": "Sentry's Rest", "ru": "Отдых часового" }, "text": "Долгий отдых — 6 часов в неподвижном состоянии: вы не спите и видите и слышите всё вокруг." },
-        { "id": "integrated-protection", "name": { "en": "Integrated Protection", "ru": "Встроенная защита" }, "text": "+1 к КЗ (учтено в листе). Надетый доспех становится частью тела: надеть или снять его можно только за 1 час, и против вашей воли его не снять." },
+        { "id": "constructed-resilience", "name": { "en": "Constructed Resilience", "ru": "Искусственная стойкость" }, "text": "Преимущество на спасброски от отравления и сопротивление урону ядом. Вам не нужно есть, пить и дышать, вы невосприимчивы к болезням, и магия не может вас усыпить.", "textEn": "Advantage on saving throws to avoid or end the Poisoned condition, and Resistance to Poison damage. You don't need to eat, drink or breathe, you are immune to disease, and magic can't put you to sleep." },
+        { "id": "sentrys-rest", "name": { "en": "Sentry's Rest", "ru": "Отдых часового" }, "text": "Долгий отдых — 6 часов в неподвижном состоянии: вы не спите и видите и слышите всё вокруг.", "textEn": "A Long Rest is 6 hours of inactivity: you don't sleep and can see and hear everything around you." },
+        { "id": "integrated-protection", "name": { "en": "Integrated Protection", "ru": "Встроенная защита" }, "text": "+1 к КЗ (учтено в листе). Надетый доспех становится частью тела: надеть или снять его можно только за 1 час, и против вашей воли его не снять.", "textEn": "+1 AC (included in the sheet). Armor you wear becomes part of your body: donning or doffing it takes 1 hour, and it can't be removed against your will." },
         {
           "id": "specialized-design",
           "name": { "en": "Specialized Design", "ru": "Особая конструкция" },
           "text": "Владение одним навыком и одним инструментом на ваш выбор.",
+          "textEn": "Proficiency in one skill and one tool of your choice.",
           "proficiencyChoices": [
-            { "choose": 1, "fromProficiencyType": "skill", "desc": "Выберите навык" },
-            { "choose": 1, "fromProficiencyType": "anyTool", "desc": "Выберите инструмент" }
+            { "choose": 1, "fromProficiencyType": "skill", "desc": "Выберите навык", "descEn": "Choose a skill" },
+            { "choose": 1, "fromProficiencyType": "anyTool", "desc": "Выберите инструмент", "descEn": "Choose a tool" }
           ]
         }
       ]
@@ -71,12 +72,13 @@
       "traits": [
         "darkvision-60",
         "fey-ancestry",
-        { "id": "lethargy-resilience", "name": { "en": "Lethargy Resilience", "ru": "Стойкость ко сну" }, "text": "Магия не может вас усыпить." },
+        { "id": "lethargy-resilience", "name": { "en": "Lethargy Resilience", "ru": "Стойкость ко сну" }, "text": "Магия не может вас усыпить.", "textEn": "Magic can't put you to sleep." },
         {
           "id": "khoravar-versatility",
           "name": { "en": "Khoravar Versatility", "ru": "Разносторонность кхоравара" },
           "text": "Владение одним навыком на ваш выбор.",
-          "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "skill", "desc": "Выберите навык" }]
+          "textEn": "Proficiency in one skill of your choice.",
+          "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "skill", "desc": "Выберите навык", "descEn": "Choose a skill" }]
         }
       ]
     },
@@ -91,11 +93,12 @@
           "id": "changeling-instincts",
           "name": { "en": "Changeling Instincts", "ru": "Инстинкты ченджлинга" },
           "text": "Владение двумя навыками из списка: Обман, Проницательность, Запугивание, Выступление, Убеждение.",
+          "textEn": "Proficiency in two skills from the list: Deception, Insight, Intimidation, Performance, Persuasion.",
           "proficiencyChoices": [
-            { "choose": 2, "options": ["skill-deception", "skill-insight", "skill-intimidation", "skill-performance", "skill-persuasion"], "desc": "Выберите два навыка" }
+            { "choose": 2, "options": ["skill-deception", "skill-insight", "skill-intimidation", "skill-performance", "skill-persuasion"], "desc": "Выберите два навыка", "descEn": "Choose two skills" }
           ]
         },
-        { "id": "shapechanger", "name": { "en": "Shapechanger", "ru": "Перевёртыш" }, "text": "Действием вы меняете внешность и голос: рост, телосложение, черты лица, цвет кожи и волос, размер (Средний или Маленький). Нельзя принять облик существа другого вида или скопировать того, кого вы ни разу не видели. Снаряжение не меняется. Облик держится, пока вы не вернёте свой действием или не умрёте." }
+        { "id": "shapechanger", "name": { "en": "Shapechanger", "ru": "Перевёртыш" }, "text": "Действием вы меняете внешность и голос: рост, телосложение, черты лица, цвет кожи и волос, размер (Средний или Маленький). Нельзя принять облик существа другого вида или скопировать того, кого вы ни разу не видели. Снаряжение не меняется. Облик держится, пока вы не вернёте свой действием или не умрёте.", "textEn": "As an action you change your appearance and voice: height, build, facial features, skin and hair color, size (Medium or Small). You can't take the form of a creature of another species or copy someone you have never seen. Your equipment doesn't change. The form lasts until you revert as an action or die." }
       ]
     },
     {
@@ -110,17 +113,18 @@
           "id": "bestial-instincts",
           "name": { "en": "Bestial Instincts", "ru": "Звериные инстинкты" },
           "text": "Владение одним навыком из списка: Акробатика, Атлетика, Запугивание, Выживание.",
+          "textEn": "Proficiency in one skill from the list: Acrobatics, Athletics, Intimidation, Survival.",
           "proficiencyChoices": [
-            { "choose": 1, "options": ["skill-acrobatics", "skill-athletics", "skill-intimidation", "skill-survival"], "desc": "Выберите навык" }
+            { "choose": 1, "options": ["skill-acrobatics", "skill-athletics", "skill-intimidation", "skill-survival"], "desc": "Выберите навык", "descEn": "Choose a skill" }
           ]
         },
-        { "id": "shifting", "name": { "en": "Shifting", "ru": "Смена облика" }, "text": "Бонусным действием вы принимаете звериный облик на 1 минуту (раньше — бонусным действием или если упали без сознания) и получаете временные хиты, равные 2 × бонус мастерства. Столько раз, каков бонус мастерства, до долгого отдыха. Что ещё даёт облик — зависит от наследия." }
+        { "id": "shifting", "name": { "en": "Shifting", "ru": "Смена облика" }, "text": "Бонусным действием вы принимаете звериный облик на 1 минуту (раньше — бонусным действием или если упали без сознания) и получаете временные хиты, равные 2 × бонус мастерства. Столько раз, каков бонус мастерства, до долгого отдыха. Что ещё даёт облик — зависит от наследия.", "textEn": "As a Bonus Action you take on a bestial form for 1 minute (ending it early as a Bonus Action or if you fall Unconscious) and gain Temporary Hit Points equal to 2 × your Proficiency Bonus. A number of times equal to your Proficiency Bonus per Long Rest. What else the form grants depends on your lineage." }
       ],
       "subspecies": [
-        { "id": "shifter-beasthide", "name": { "en": "Beasthide", "ru": "Толстошкурый" }, "traits": [{ "id": "beasthide-shift", "name": { "en": "Beasthide Shift", "ru": "Облик: толстая шкура" }, "text": "В облике — ещё 1к6 временных хитов и +1 к КЗ." }] },
-        { "id": "shifter-longtooth", "name": { "en": "Longtooth", "ru": "Длиннозубый" }, "traits": [{ "id": "longtooth-shift", "name": { "en": "Longtooth Shift", "ru": "Облик: клыки" }, "text": "В облике — бонусным действием безоружный удар клыками: 1к6 + мод. СИЛ колющего урона." }] },
-        { "id": "shifter-swiftstride", "name": { "en": "Swiftstride", "ru": "Быстроногий" }, "traits": [{ "id": "swiftstride-shift", "name": { "en": "Swiftstride Shift", "ru": "Облик: быстрые ноги" }, "text": "В облике — скорость +10 фт; когда враг заканчивает ход в пределах 5 фт от вас, реакцией можно отойти на 10 фт, не провоцируя атак." }] },
-        { "id": "shifter-wildhunt", "name": { "en": "Wildhunt", "ru": "Дикий охотник" }, "traits": [{ "id": "wildhunt-shift", "name": { "en": "Wildhunt Shift", "ru": "Облик: чутьё охотника" }, "text": "В облике — преимущество на проверки Мудрости, и никто в пределах 30 фт от вас не получает преимущество на броски атаки по вам, если вы не недееспособны." }] }
+        { "id": "shifter-beasthide", "name": { "en": "Beasthide", "ru": "Толстошкурый" }, "traits": [{ "id": "beasthide-shift", "name": { "en": "Beasthide Shift", "ru": "Облик: толстая шкура" }, "text": "В облике — ещё 1к6 временных хитов и +1 к КЗ.", "textEn": "While shifted — 1d6 more Temporary Hit Points and +1 AC." }] },
+        { "id": "shifter-longtooth", "name": { "en": "Longtooth", "ru": "Длиннозубый" }, "traits": [{ "id": "longtooth-shift", "name": { "en": "Longtooth Shift", "ru": "Облик: клыки" }, "text": "В облике — бонусным действием безоружный удар клыками: 1к6 + мод. СИЛ колющего урона.", "textEn": "While shifted — as a Bonus Action, an Unarmed Strike with your fangs: 1d6 + STR modifier Piercing damage." }] },
+        { "id": "shifter-swiftstride", "name": { "en": "Swiftstride", "ru": "Быстроногий" }, "traits": [{ "id": "swiftstride-shift", "name": { "en": "Swiftstride Shift", "ru": "Облик: быстрые ноги" }, "text": "В облике — скорость +10 фт; когда враг заканчивает ход в пределах 5 фт от вас, реакцией можно отойти на 10 фт, не провоцируя атак.", "textEn": "While shifted — +10 ft Speed; when an enemy ends its turn within 5 feet of you, you can take a Reaction to move 10 feet without provoking Opportunity Attacks." }] },
+        { "id": "shifter-wildhunt", "name": { "en": "Wildhunt", "ru": "Дикий охотник" }, "traits": [{ "id": "wildhunt-shift", "name": { "en": "Wildhunt Shift", "ru": "Облик: чутьё охотника" }, "text": "В облике — преимущество на проверки Мудрости, и никто в пределах 30 фт от вас не получает преимущество на броски атаки по вам, если вы не недееспособны.", "textEn": "While shifted — Advantage on Wisdom checks, and no creature within 30 feet of you can make an attack roll with Advantage against you unless you are Incapacitated." }] }
       ]
     }
   ]

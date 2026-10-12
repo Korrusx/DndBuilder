@@ -6,6 +6,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { content } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, Screen } from '@/shared/ui';
 
 import { getCharacter, saveCharacter } from '../../api/characters';
@@ -17,6 +18,7 @@ const PlayContext = createContext<PlayApi | null>(null);
 
 export function CharacterProvider({ children }: CharacterProviderProps) {
   const db = useSQLiteContext();
+  const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [character, setCharacter] = useState<Character | null | undefined>(undefined);
   const current = useRef<Character | null>(null);
@@ -56,8 +58,8 @@ export function CharacterProvider({ children }: CharacterProviderProps) {
   if (!character || !sheet) {
     return (
       <Screen>
-        <AppText variant="heading">Персонаж не найден или повреждён</AppText>
-        <AppText variant="secondary">Возможно, он был удалён или ссылается на запись, которой нет в справочнике.</AppText>
+        <AppText variant="heading">{t('play.notFound')}</AppText>
+        <AppText variant="secondary">{t('play.notFoundHint')}</AppText>
       </Screen>
     );
   }

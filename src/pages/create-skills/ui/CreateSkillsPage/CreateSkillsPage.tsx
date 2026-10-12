@@ -16,12 +16,12 @@ import {
 } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { byId, content, nameOf, proficiencyName, tr } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
-
-import { SOURCE_TITLE } from '../../config/constants';
 
 export function CreateSkillsPage() {
   const { character: c, update, issues: allIssues } = useDraft();
+  const { t } = useTranslation();
   const issues = allIssues.filter((i) => i.step === 4);
   const setChoice = (key: string, ids: string[]) => update((d) => ({ ...d, choices: { ...d.choices, [key]: ids } }));
 
@@ -33,8 +33,8 @@ export function CreateSkillsPage() {
   // Что уже есть: выдано без выбора или выбрано в другом разделе — второй раз не выбирается.
   const blockedFor = (key: string) => {
     const m = new Map<string, string>();
-    for (const f of fixed) m.set(f.id, f.source === 'class' ? 'от класса' : 'от предыстории');
-    for (const s of slots) if (s.key !== key) for (const id of c.choices[s.key] ?? []) m.set(id, 'уже выбрано');
+    for (const f of fixed) m.set(f.id, f.source === 'class' ? t('skillsStep.fromClass') : t('skillsStep.fromBackground'));
+    for (const s of slots) if (s.key !== key) for (const id of c.choices[s.key] ?? []) m.set(id, t('skillsStep.alreadyChosen'));
     return m;
   };
 
@@ -46,13 +46,16 @@ export function CreateSkillsPage() {
   return (
     <WizardScreen step={4} canContinue={issues.every((i) => !i.blocking)} summary={<StepStatus issues={issues.filter((i) => i.blocking)} />}>
       {fixedSkills.length ? (
-        <AppText variant="secondary">Уже есть: {fixedSkills.map((f) => proficiencyName(f.id)).join(', ')}</AppText>
+        <AppText variant="secondary">{t('skillsStep.alreadyHave', { list: fixedSkills.map((f) => proficiencyName(f.id)).join(', ') })}</AppText>
       ) : null}
 
       {slots.map((slot) => (
         <Section
           key={slot.key}
-          title={`${SOURCE_TITLE[slot.source]}: ${slot.options.every((o) => o.startsWith('skill-')) ? 'навыки' : 'владения'}`}
+          title={t('skillsStep.slotTitle', {
+            source: t(`skillsStep.source.${slot.source}`),
+            what: slot.options.every((o) => o.startsWith('skill-')) ? t('skillsStep.skills') : t('skillsStep.proficiencies'),
+          })}
           hint={tr(slot.desc).text}
           picked={c.choices[slot.key]?.length ?? 0}
           need={slot.choose}
@@ -69,7 +72,7 @@ export function CreateSkillsPage() {
       ))}
 
       {expCount ? (
-        <Section title="Компетентность" hint="Бонус мастерства удваивается для этих навыков." picked={c.expertise.length} need={expCount}>
+        <Section title={t('skillsStep.expertise')} hint={t('skillsStep.expertiseHint')} picked={c.expertise.length} need={expCount}>
           <MultiPick
             options={skillsForExpertise}
             selected={c.expertise.filter((s) => skillsForExpertise.includes(s))}
@@ -132,8 +135,8 @@ export function CreateSkillsPage() {
 
       {masteryCount ? (
         <Section
-          title="Приёмы оружия"
-          hint="Виды оружия, свойства-приёмы которых вы можете использовать. Можно менять после долгого отдыха."
+          title={t('skillsStep.masteries')}
+          hint={t('skillsStep.masteriesHint')}
           picked={c.weaponMasteries.length}
           need={masteryCount}
         >
@@ -148,8 +151,8 @@ export function CreateSkillsPage() {
       ) : null}
 
       <Section
-        title="Языки"
-        hint={`Общий язык знают все. Выберите ещё ${STANDARD_LANGUAGE_COUNT} стандартных.`}
+        title={t('skillsStep.languages')}
+        hint={t('skillsStep.languagesHint', { count: STANDARD_LANGUAGE_COUNT })}
         picked={languages.length}
         need={STANDARD_LANGUAGE_COUNT}
       >
@@ -163,7 +166,7 @@ export function CreateSkillsPage() {
       </Section>
 
       {otherFixed.length ? (
-        <Section title="Владения без выбора">
+        <Section title={t('skillsStep.fixed')}>
           <AppText variant="secondary">{otherFixed.map((f) => proficiencyName(f.id)).join(', ')}</AppText>
         </Section>
       ) : null}

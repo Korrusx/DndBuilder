@@ -21,6 +21,9 @@ i18n.use(initReactI18next).init({
 
 export { i18n };
 
+/** Перевод строки интерфейса по ключу — для кода вне React (в компонентах — useTranslation). */
+export const t = i18n.t.bind(i18n);
+
 export const isLanguage = (v: unknown): v is Language => v === 'ru' || v === 'en';
 
 /** Текущий язык (для кода вне React: справочник, PDF). */

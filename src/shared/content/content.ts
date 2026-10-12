@@ -25,16 +25,13 @@ export function indexOf(c: Content): ContentIndex {
 /** Таблицы поиска по id для справочника приложения. */
 export const byId = indexOf(content);
 
-/** Кириллица в поле `en`: у механики из data-pipeline/extra английского оригинала пока нет, там русский текст. */
-const CYRILLIC = /[А-Яа-яЁё]/;
-
 /**
  * Текст для показа на текущем языке. Если текста на этом языке нет — текст на другом языке
  * с флагом `translated: false` (для пометки).
  */
 export function tr(text: LocalizedText | undefined): { text: string; translated: boolean } {
   if (!text) return { text: '', translated: true };
-  if (currentLanguage() === 'en') return { text: text.en, translated: !CYRILLIC.test(text.en) };
+  if (currentLanguage() === 'en') return text.en ? { text: text.en, translated: true } : { text: text.ru ?? '', translated: false };
   return text.ru ? { text: text.ru, translated: true } : { text: text.en, translated: false };
 }
 

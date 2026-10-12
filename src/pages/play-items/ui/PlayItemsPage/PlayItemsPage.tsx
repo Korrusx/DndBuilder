@@ -4,13 +4,15 @@ import { TextInput, View } from 'react-native';
 import { addToInventory, toggleEquipped } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { AddItemSheet } from '@/features/add-item';
-import { byId, COIN_ABBR, COIN_NAMES, COIN_ORDER, content, itemName, nameOf } from '@/shared/content';
+import { byId, coinAbbr, coinName, COIN_ORDER, content, itemName, nameOf } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, Card, Screen, SmallButton } from '@/shared/ui';
 
 import { styles } from './PlayItemsPage.styles';
 
 export function PlayItemsPage() {
   const { character: c, sheet, update } = usePlay();
+  const { t } = useTranslation();
   const [adding, setAdding] = useState(false);
 
   const setQuantity = (index: number, quantity: number) =>
@@ -21,10 +23,10 @@ export function PlayItemsPage() {
 
   return (
     <Screen>
-      <AppText variant="secondary">КЗ сейчас: {sheet.armorClass}. Надетые доспех и щит учитываются в КЗ.</AppText>
+      <AppText variant="secondary">{t('inventory.acNow', { ac: sheet.armorClass })}</AppText>
 
-      <SmallButton title="+ Добавить предмет" tone="accent" onPress={() => setAdding(true)} />
-      {c.equipment.length === 0 ? <AppText variant="secondary">Снаряжения нет.</AppText> : null}
+      <SmallButton title={t('inventory.add')} tone="accent" onPress={() => setAdding(true)} />
+      {c.equipment.length === 0 ? <AppText variant="secondary">{t('inventory.empty')}</AppText> : null}
       <View style={styles.list}>
         {c.equipment.map((it, index) => {
           const item = byId.equipment.get(it.itemId);
@@ -42,7 +44,7 @@ export function PlayItemsPage() {
               </View>
               {wearable ? (
                 <SmallButton
-                  title={it.equipped ? (item?.armor ? 'Надето' : 'В руках') : item?.armor ? 'Надеть' : 'Взять'}
+                  title={it.equipped ? (item?.armor ? t('inventory.worn') : t('inventory.held')) : item?.armor ? t('inventory.wear') : t('inventory.take')}
                   tone={it.equipped ? 'accent' : 'neutral'}
                   onPress={() => update((d) => ({ ...d, equipment: toggleEquipped(d.equipment, index, content) }))}
                 />
@@ -58,14 +60,14 @@ export function PlayItemsPage() {
       </View>
 
       <Card>
-        <AppText variant="heading">Монеты</AppText>
-        {[...COIN_ORDER].reverse().map((id) => ({ id, label: `${COIN_NAMES[id]} (${COIN_ABBR[id]})` })).map((coin) => (
+        <AppText variant="heading">{t('inventory.coins')}</AppText>
+        {[...COIN_ORDER].reverse().map((id) => ({ id, label: t('inventory.coin', { name: coinName(id), abbr: coinAbbr(id) }) })).map((coin) => (
           <View key={coin.id} style={styles.coinRow}>
             <AppText style={styles.fill}>{coin.label}</AppText>
             <TextInput
               value={String(c.coins[coin.id] ?? 0)}
-              onChangeText={(t) => {
-                const n = parseInt(t.replace(/[^0-9]/g, ''), 10) || 0;
+              onChangeText={(text) => {
+                const n = parseInt(text.replace(/[^0-9]/g, ''), 10) || 0;
                 update((d) => ({ ...d, coins: { ...d.coins, [coin.id]: n } }));
               }}
               keyboardType="number-pad"

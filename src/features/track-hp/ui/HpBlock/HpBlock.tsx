@@ -4,6 +4,8 @@ import { Pressable, TextInput, View } from 'react-native';
 import { applyDamage, applyHealing, deathStatus, HP_COLORS, hpLevel, setTempHp } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { colors, fonts } from '@/shared/config';
+import { useTranslation } from '@/shared/i18n';
+import { formatDie } from '@/shared/lib/dice';
 import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
 
 import { styles } from './HpBlock.styles';
@@ -11,6 +13,7 @@ import type { HpBlockProps } from './HpBlock.types';
 
 export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
   const { updateState } = usePlay();
+  const { t } = useTranslation();
   const [amountText, setAmountText] = useState('1');
   const amount = Math.max(0, parseInt(amountText, 10) || 0);
   const { currentHp, tempHp } = c.state;
@@ -22,7 +25,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
     <Card>
       <View style={styles.hpTop}>
         <View style={styles.fill2}>
-          <AppText variant="secondary">Хиты</AppText>
+          <AppText variant="secondary">{t('hp.title')}</AppText>
           <AppText style={[styles.hpValue, { color }]}>
             {currentHp}
             <AppText style={styles.hpMax}> / {sheet.maxHp}</AppText>
@@ -31,7 +34,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
         {tempHp > 0 ? (
           <View style={styles.temp}>
             <AppText style={[styles.hpMax, { color: colors.info }]}>+{tempHp}</AppText>
-            <AppText style={styles.tempLabel}>врем.</AppText>
+            <AppText style={styles.tempLabel}>{t('hp.temp')}</AppText>
           </View>
         ) : null}
       </View>
@@ -40,7 +43,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
       </View>
 
       <View style={styles.row}>
-        <SmallButton title="− Урон" tone="damage" flex={1} disabled={!amount} onPress={() => updateState((s) => applyDamage(s, amount, sheet.maxHp))} />
+        <SmallButton title={t('hp.damage')} tone="damage" flex={1} disabled={!amount} onPress={() => updateState((s) => applyDamage(s, amount, sheet.maxHp))} />
         <View style={styles.amount}>
           <Pressable onPress={() => setAmount(amount - 1)} hitSlop={8} style={styles.amountBtn}>
             <AppText style={styles.amountSign}>−</AppText>
@@ -56,39 +59,39 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
             <AppText style={styles.amountSign}>+</AppText>
           </Pressable>
         </View>
-        <SmallButton title="+ Лечение" tone="heal" flex={1} disabled={!amount} onPress={() => updateState((s) => applyHealing(s, amount, sheet.maxHp))} />
+        <SmallButton title={t('hp.heal')} tone="heal" flex={1} disabled={!amount} onPress={() => updateState((s) => applyHealing(s, amount, sheet.maxHp))} />
       </View>
       <View style={styles.row}>
-        <SmallButton title={`Врем. хиты ${amount}`} tone="accent" flex={1} disabled={!amount} onPress={() => updateState((s) => setTempHp(s, amount))} />
-        {tempHp ? <SmallButton title="Сбросить врем." flex={1} onPress={() => updateState((s) => ({ ...s, tempHp: 0 }))} /> : null}
+        <SmallButton title={t('hp.setTemp', { amount })} tone="accent" flex={1} disabled={!amount} onPress={() => updateState((s) => setTempHp(s, amount))} />
+        {tempHp ? <SmallButton title={t('hp.resetTemp')} flex={1} onPress={() => updateState((s) => ({ ...s, tempHp: 0 }))} /> : null}
       </View>
 
       <AppText variant="secondary">
-        Кости хитов:{' '}
-        {sheet.hitDice.map((h) => `${h.total - (c.state.hitDiceSpent[h.classId] ?? 0)} из ${h.total} (к${h.die})`).join(', ')}
+        {t('hp.hitDice')}{' '}
+        {sheet.hitDice.map((h) => t('hp.hitDiceItem', { left: h.total - (c.state.hitDiceSpent[h.classId] ?? 0), total: h.total, die: formatDie(h.die) })).join(', ')}
       </AppText>
 
       {status !== 'alive' ? (
         <View style={styles.death}>
           <AppText style={{ color: status === 'dead' ? colors.damage : colors.text, fontFamily: fonts.textBold }}>
-            {status === 'dead' ? 'Персонаж погиб' : status === 'stable' ? 'Стабилен (без сознания)' : 'При смерти — спасброски от смерти'}
+            {status === 'dead' ? t('hp.dead') : status === 'stable' ? t('hp.stable') : t('hp.dying')}
           </AppText>
           <View style={styles.row}>
             <AppText variant="secondary" style={styles.width72}>
-              Успехи
+              {t('hp.successes')}
             </AppText>
             <Dots total={3} filled={c.state.deathSaves.successes} color={colors.heal} />
           </View>
           <View style={styles.row}>
             <AppText variant="secondary" style={styles.width72}>
-              Провалы
+              {t('hp.failures')}
             </AppText>
             <Dots total={3} filled={c.state.deathSaves.failures} color={colors.damage} />
           </View>
-          {status === 'dying' ? <SmallButton title="Бросить спасбросок от смерти" tone="accent" onPress={onDeathSave} /> : null}
+          {status === 'dying' ? <SmallButton title={t('hp.rollDeathSave')} tone="accent" onPress={onDeathSave} /> : null}
           {status === 'dead' ? (
             <SmallButton
-              title="Сбросить (воскрешение)"
+              title={t('hp.revive')}
               onPress={() => updateState((s) => ({ ...s, currentHp: 1, deathSaves: { successes: 0, failures: 0 } }))}
             />
           ) : null}

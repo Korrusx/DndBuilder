@@ -4,10 +4,11 @@ import { Pressable, TextInput, View } from 'react-native';
 import type { InventoryItem } from '@/entities/character';
 import { CUSTOM_ITEM_PREFIX } from '@/entities/character';
 import { colors } from '@/shared/config';
+import { useTranslation } from '@/shared/i18n';
 import { AppText, BottomSheet, Segmented } from '@/shared/ui';
 
 import { MAX_RESULTS } from '../../config/constants';
-import { EQUIPMENT, MAGIC } from '../../model/catalog';
+import { equipmentCatalog, magicCatalog } from '../../model/catalog';
 import type { Source } from '../../model/types';
 import { styles } from './AddItemSheet.styles';
 import type { AddItemSheetProps } from './AddItemSheet.types';
@@ -17,15 +18,19 @@ export function AddItemSheet({
   onClose,
   onAdd,
 }: AddItemSheetProps) {
+  const { t, i18n } = useTranslation();
   const [source, setSource] = useState<Source>('equipment');
   const [query, setQuery] = useState('');
   const [added, setAdded] = useState<string | null>(null);
 
+  // Каталог строится один раз на язык: названия и сортировка зависят от языка.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const catalogs = useMemo(() => ({ equipment: equipmentCatalog(), magic: magicCatalog() }), [i18n.language]);
   const results = useMemo(() => {
-    const list = source === 'equipment' ? EQUIPMENT : MAGIC;
+    const list = catalogs[source];
     const q = query.trim().toLowerCase();
     return (q ? list.filter((e) => e.name.toLowerCase().includes(q)) : list).slice(0, MAX_RESULTS);
-  }, [source, query]);
+  }, [catalogs, source, query]);
 
   const add = (item: InventoryItem, label: string) => {
     onAdd(item);
@@ -41,23 +46,23 @@ export function AddItemSheet({
   const custom = query.trim();
 
   return (
-    <BottomSheet visible={visible} title="Добавить предмет" onClose={close}>
+    <BottomSheet visible={visible} title={t('items.add')} onClose={close}>
       <Segmented<Source>
         value={source}
         onChange={setSource}
         options={[
-          { value: 'equipment', label: 'Снаряжение' },
-          { value: 'magic', label: 'Магические' },
+          { value: 'equipment', label: t('items.equipment') },
+          { value: 'magic', label: t('items.magic') },
         ]}
       />
       <TextInput
         value={query}
         onChangeText={setQuery}
-        placeholder="Поиск или название своего предмета"
+        placeholder={t('items.search')}
         placeholderTextColor={colors.textSecondary}
         style={styles.input}
       />
-      {added ? <AppText style={styles.textHeal}>Добавлено: {added}</AppText> : null}
+      {added ? <AppText style={styles.textHeal}>{t('items.added', { name: added })}</AppText> : null}
 
       {custom ? (
         <Pressable
@@ -65,7 +70,7 @@ export function AddItemSheet({
           onPress={() => add({ itemId: `${CUSTOM_ITEM_PREFIX}${Date.now().toString(36)}`, quantity: 1, name: custom }, custom)}
           style={({ pressed }) => [styles.row, styles.customRow, pressed && { opacity: 0.8 }]}
         >
-          <AppText style={styles.customItem}>+ Свой предмет «{custom}»</AppText>
+          <AppText style={styles.customItem}>{t('items.custom', { name: custom })}</AppText>
         </Pressable>
       ) : null}
 
@@ -85,7 +90,7 @@ export function AddItemSheet({
         ))}
         {results.length === 0 ? (
           <AppText variant="secondary" style={styles.padMd}>
-            Ничего не найдено. Можно добавить свой предмет кнопкой выше.
+            {t('items.nothing')}
           </AppText>
         ) : null}
       </View>

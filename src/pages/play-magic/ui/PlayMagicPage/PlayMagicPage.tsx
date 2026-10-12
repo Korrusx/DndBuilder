@@ -16,6 +16,7 @@ import type { D20Request } from '@/features/roll-dice';
 import { d20Parts, D20Sheet } from '@/features/roll-dice';
 import type { AbilityId, Spell } from '@/shared/content';
 import { abilityAbbr, byId, content, nameOf, plain, spellMeta, tr } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
 import { AppText, Badge, Card, Dots, InfoSheet, Placeholder, Screen, SmallButton, StatBox } from '@/shared/ui';
@@ -24,6 +25,7 @@ import { styles } from './PlayMagicPage.styles';
 
 export function PlayMagicPage() {
   const { character: c, sheet, update, updateState } = usePlay();
+  const { t } = useTranslation();
   const [editing, setEditing] = useState(false);
   const [info, setInfo] = useState<InfoContent | null>(null);
   const [roll, setRoll] = useState<D20Request | null>(null);
@@ -47,7 +49,7 @@ export function PlayMagicPage() {
   if (!sc && initiates.length === 0) {
     return (
       <Screen>
-        <Placeholder title="Нет заклинаний" note="У этого персонажа пока нет умения творить заклинания." />
+        <Placeholder title={t('magic.none')} note={t('magic.noneHint')} />
       </Screen>
     );
   }
@@ -56,14 +58,14 @@ export function PlayMagicPage() {
     if (!sc) return;
     const result = castSpell(c.state, spell.level, sc.slots);
     if (!result) {
-      Alert.alert('Нет ячеек', `Свободных ячеек ${spell.level} круга и выше не осталось.`);
+      Alert.alert(t('magic.noSlots'), t('magic.noSlotsHint', { level: spell.level }));
       return;
     }
     updateState(() => result.state);
     setMessage(
       result.slotLevel === 0
-        ? `${tr(spell.name).text}: заговор, ячейка не нужна`
-        : `${tr(spell.name).text}: потрачена ячейка ${result.slotLevel} круга`,
+        ? t('magic.castCantrip', { name: tr(spell.name).text })
+        : t('magic.castSlot', { name: tr(spell.name).text, level: result.slotLevel }),
     );
   };
 
@@ -80,14 +82,14 @@ export function PlayMagicPage() {
         <View style={styles.fillGap2}>
           <View style={styles.row}>
             <AppText style={styles.spellName}>{tr(s.name).text}</AppText>
-            {s.concentration ? <Badge label="К" /> : null}
-            {s.ritual ? <Badge label="Р" /> : null}
+            {s.concentration ? <Badge label={t('magic.concentrationBadge')} /> : null}
+            {s.ritual ? <Badge label={t('magic.ritualBadge')} /> : null}
           </View>
           <AppText variant="secondary" style={styles.size13} numberOfLines={2}>
             {spellMeta(s)}
           </AppText>
         </View>
-        {canCast && s.level > 0 ? <SmallButton title="Сотворить" tone="accent" onPress={() => cast(s)} /> : null}
+        {canCast && s.level > 0 ? <SmallButton title={t('magic.cast')} tone="accent" onPress={() => cast(s)} /> : null}
       </Pressable>
     );
   };
@@ -97,22 +99,22 @@ export function PlayMagicPage() {
       {sc ? (
         <>
           <View style={styles.row}>
-            <StatBox label={`СЛ спасброска (${abilityAbbr(sc.ability)})`} value={String(sc.saveDC)} />
+            <StatBox label={t('magic.saveDC', { ability: abilityAbbr(sc.ability) })} value={String(sc.saveDC)} />
             <StatBox
-              label="Атака заклинанием"
+              label={t('magic.spellAttack')}
               value={formatModifier(sc.attackBonus)}
               accent
-              onPress={() => setRoll({ title: 'Атака заклинанием', parts: d20Parts([{ label: 'Атака', value: sc.attackBonus }], ex) })}
+              onPress={() => setRoll({ title: t('magic.spellAttack'), parts: d20Parts([{ label: t('magic.attack'), value: sc.attackBonus }], ex) })}
             />
           </View>
 
           <Card>
-            <AppText variant="heading">Ячейки</AppText>
-            <AppText variant="secondary">Закрашенный кружок — потраченная ячейка. Нажмите, чтобы потратить или вернуть.</AppText>
+            <AppText variant="heading">{t('magic.slots')}</AppText>
+            <AppText variant="secondary">{t('magic.slotsHint')}</AppText>
             {sc.slots.map((max, i) =>
               max > 0 ? (
                 <View key={i} style={styles.row}>
-                  <AppText style={styles.width70}>{i + 1} круг</AppText>
+                  <AppText style={styles.width70}>{t('spell.circle', { level: i + 1 })}</AppText>
                   <Dots
                     total={max}
                     filled={c.state.slotsSpent[i] ?? 0}
@@ -123,18 +125,18 @@ export function PlayMagicPage() {
             )}
           </Card>
 
-          <SmallButton title="Изменить заклинания" onPress={() => setEditing(true)} />
+          <SmallButton title={t('magic.editSpells')} onPress={() => setEditing(true)} />
           {message ? <AppText style={styles.textAccent}>{message}</AppText> : null}
 
           {c.cantrips.length ? (
             <View style={styles.section}>
-              <AppText variant="heading">Заговоры</AppText>
+              <AppText variant="heading">{t('magic.cantrips')}</AppText>
               {c.cantrips.map((id) => spellRow(id, true))}
             </View>
           ) : null}
           {c.preparedSpells.length ? (
             <View style={styles.section}>
-              <AppText variant="heading">Подготовленные</AppText>
+              <AppText variant="heading">{t('magic.prepared')}</AppText>
               {c.preparedSpells.map((id) => spellRow(id, true))}
             </View>
           ) : null}
@@ -145,14 +147,15 @@ export function PlayMagicPage() {
         <View key={mi.slot} style={styles.section}>
           <AppText variant="heading">{nameOf('feats', 'magic-initiate')}</AppText>
           <AppText variant="secondary">
-            Список: {nameOf('classes', mi.list)} · {mi.ability ? abilityAbbr(mi.ability) : '—'} · СЛ {mi.dc} · атака {formatModifier(mi.attack)}
-            {'\n'}Заклинание 1-го круга можно сотворить раз в день без ячейки (отметку пока ведите сами).
+            {t('magic.initiateStats', { list: nameOf('classes', mi.list), ability: mi.ability ? abilityAbbr(mi.ability) : '—', dc: mi.dc, attack: formatModifier(mi.attack) })}
+            {'\n'}
+            {t('magic.initiateHint')}
           </AppText>
           {mi.spells.map((id) => spellRow(id, !!sc))}
         </View>
       ))}
 
-      <AppText variant="secondary">К — концентрация, Р — ритуал.</AppText>
+      <AppText variant="secondary">{t('magic.legend')}</AppText>
 
       <InfoSheet info={info} onClose={() => setInfo(null)} />
       <SpellsEditSheet

@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { ABILITY_IDS } from '@/entities/character';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { Chip, ChipRow, Segmented } from '@/shared/ui';
 
 import { styles } from './AsiPicker.styles';
@@ -15,6 +16,7 @@ export function AsiPicker({
   scores,
   onChange,
 }: AsiPickerProps) {
+  const { t } = useTranslation();
   const mode: 'two' | 'split' = Object.values(increases).some((v) => v === 2) || Object.keys(increases).length === 0 ? 'two' : 'split';
   const [current, setCurrent] = useState<'two' | 'split'>(mode);
   const picked = ABILITY_IDS.filter((id) => (increases[id] ?? 0) > 0);
@@ -34,8 +36,8 @@ export function AsiPicker({
           onChange({});
         }}
         options={[
-          { value: 'two', label: '+2 к одной' },
-          { value: 'split', label: '+1 к двум' },
+          { value: 'two', label: t('levelUp.asiTwo') },
+          { value: 'split', label: t('levelUp.asiSplit') },
         ]}
       />
       <ChipRow>

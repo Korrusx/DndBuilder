@@ -1,6 +1,6 @@
 import { i18n } from '@/shared/i18n/model';
 
-import { tr } from '../content';
+import { content, tr } from '../content';
 
 describe('tr: текст справочника на текущем языке', () => {
   afterEach(() => i18n.changeLanguage('ru'));
@@ -18,9 +18,24 @@ describe('tr: текст справочника на текущем языке',
     expect(tr({ en: 'Shield', ru: 'Щит' })).toEqual({ text: 'Shield', translated: true });
   });
 
-  test('английский язык, но оригинала нет (механика из extra) — русский текст с пометкой', async () => {
+  test('английский язык, но английского текста нет — русский с пометкой', async () => {
     await i18n.changeLanguage('en');
-    expect(tr({ en: 'Небесная стойкость', ru: 'Небесная стойкость' })).toEqual({ text: 'Небесная стойкость', translated: false });
+    expect(tr({ en: '', ru: 'Щит' })).toEqual({ text: 'Щит', translated: false });
+  });
+
+  test('в справочнике у каждого текста есть английский вариант (без кириллицы)', () => {
+    const bad: string[] = [];
+    const walk = (v: unknown, path: string) => {
+      if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${path}[${i}]`));
+      else if (v && typeof v === 'object') {
+        const t = v as { en?: unknown };
+        if (typeof t.en === 'string') {
+          if (/[А-Яа-яЁё]/.test(t.en)) bad.push(path);
+        } else Object.entries(v).forEach(([k, x]) => walk(x, `${path}.${k}`));
+      }
+    };
+    walk(content, 'content');
+    expect(bad).toEqual([]);
   });
 
   test('пустой текст', () => expect(tr(undefined)).toEqual({ text: '', translated: true }));

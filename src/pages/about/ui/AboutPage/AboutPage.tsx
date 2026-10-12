@@ -21,43 +21,39 @@ export function AboutPage() {
       <Segmented<Language> options={LANGUAGES} value={i18n.language as Language} onChange={(lang) => setLanguage(db, lang)} />
       <AppText variant="secondary">{t('language.hint')}</AppText>
 
-      <AppText variant="heading">Справочник</AppText>
+      <AppText variant="heading">{t('about.reference')}</AppText>
       <View style={styles.card}>
-        <AppText>Версия: {content.version}</AppText>
+        <AppText>{t('about.version', { version: content.version })}</AppText>
         <AppText variant="secondary">
-          Классов {content.classes.length}, видов {content.species.length}, предысторий{' '}
-          {content.backgrounds.length}, заклинаний {content.spells.length}, предметов{' '}
-          {content.equipment.length}
+          {t('about.counts', {
+            classes: content.classes.length,
+            species: content.species.length,
+            backgrounds: content.backgrounds.length,
+            spells: content.spells.length,
+            items: content.equipment.length,
+          })}
         </AppText>
-        <AppText variant="secondary">
-          Переведено {done} из {total} текстов ({percent}%)
-        </AppText>
-        <AppText variant="secondary">Навыки:</AppText>
+        <AppText variant="secondary">{t('about.translated', { done, total, percent })}</AppText>
+        <AppText variant="secondary">{t('about.skills')}</AppText>
         {content.skills.slice(0, 4).map((s) => (
           <LText key={s.id} text={s.name} variant="secondary" />
         ))}
-        <AppText variant="secondary">Классы:</AppText>
+        <AppText variant="secondary">{t('about.classes')}</AppText>
         {content.classes.slice(0, 3).map((c) => (
           <LText key={c.id} text={c.name} variant="secondary" />
         ))}
       </View>
 
-      <AppText variant="heading">Атрибуция</AppText>
-      <AppText>
-        Это приложение использует материалы System Reference Document 5.2 («SRD 5.2») от Wizards of
-        the Coast LLC, доступные по адресу https://www.dndbeyond.com/srd. SRD 5.2 распространяется
-        по лицензии Creative Commons Attribution 4.0 International (CC BY 4.0):
-        https://creativecommons.org/licenses/by/4.0/legalcode.
-      </AppText>
+      <AppText variant="heading">{t('about.attribution')}</AppText>
+      <AppText>{t('about.srd')}</AppText>
+      <AppText variant="secondary">{t('about.ownTranslation')}</AppText>
       <AppText variant="secondary">
-        Тексты SRD приведены в собственном переводе и могут быть изменены по сравнению с оригиналом.
-        Приложение не является официальным продуктом Wizards of the Coast.
-      </AppText>
-      <AppText variant="secondary">
-        Кроме SRD, в справочник добавлена игровая механика {content.backgrounds.filter((b) => b.extra).length} предысторий и{' '}
-        {content.feats.filter((f) => f.extra).length} черт происхождения, а также {content.subclasses.filter((s) => s.extra).length}{' '}
-        подклассов из Player&apos;s Handbook 2024 и {content.species.filter((s) => s.extra).length} видов из Player&apos;s Handbook 2024
-        и других книг. Тексты книг не используются: описания написаны заново, кратко, своими словами.
+        {t('about.extra', {
+          backgrounds: content.backgrounds.filter((b) => b.extra).length,
+          feats: content.feats.filter((f) => f.extra).length,
+          subclasses: content.subclasses.filter((x) => x.extra).length,
+          species: content.species.filter((x) => x.extra).length,
+        })}
       </AppText>
     </Screen>
   );

@@ -6,6 +6,7 @@ import { usePlay } from '@/entities/character/ui';
 import { shareCharacters } from '@/features/transfer-characters';
 import { colors } from '@/shared/config';
 import { content, nameOf, tr } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { Chip, ChipRow, Screen, Section, SmallButton } from '@/shared/ui';
 
 import type { TextField } from '../../model/types';
@@ -14,6 +15,7 @@ import { styles } from './PlayEditPage.styles';
 /** Изменение данных персонажа, которые меняются по ходу игры: имя, кампания, мировоззрение, языки, заметки. */
 export function PlayEditPage() {
   const { character: c, update } = usePlay();
+  const { t } = useTranslation();
   const set = (patch: Partial<Character>) => update((d) => ({ ...d, ...patch }));
   const [sharing, setSharing] = useState(false);
   const exportToFile = async () => {
@@ -21,7 +23,7 @@ export function PlayEditPage() {
     try {
       await shareCharacters([c]);
     } catch (err) {
-      Alert.alert('Не удалось сохранить файл', err instanceof Error ? err.message : String(err));
+      Alert.alert(t('edit.saveFailed'), err instanceof Error ? err.message : String(err));
     } finally {
       setSharing(false);
     }
@@ -43,11 +45,11 @@ export function PlayEditPage() {
 
   return (
     <Screen>
-      <Section title="Имя">{field('name', 'Имя персонажа')}</Section>
-      <Section title="Игрок">{field('player', 'Кто играет этим персонажем')}</Section>
-      <Section title="Кампания">{field('campaign', 'Название кампании')}</Section>
+      <Section title={t('edit.name')}>{field('name', t('edit.namePlaceholder'))}</Section>
+      <Section title={t('edit.player')}>{field('player', t('edit.playerPlaceholder'))}</Section>
+      <Section title={t('edit.campaign')}>{field('campaign', t('edit.campaignPlaceholder'))}</Section>
 
-      <Section title="Мировоззрение">
+      <Section title={t('edit.alignment')}>
         <ChipRow>
           {content.alignments.map((a) => (
             <Chip
@@ -60,7 +62,7 @@ export function PlayEditPage() {
         </ChipRow>
       </Section>
 
-      <Section title="Языки" hint="Отметьте языки, которые персонаж выучил по ходу игры.">
+      <Section title={t('edit.languages')} hint={t('edit.languagesHint')}>
         <ChipRow>
           {content.languages.map((l) => (
             <Chip key={l.id} label={nameOf('languages', l.id)} selected={c.languages.includes(l.id)} onPress={() => toggleLanguage(l.id)} />
@@ -68,10 +70,10 @@ export function PlayEditPage() {
         </ChipRow>
       </Section>
 
-      <Section title="Заметки">{field('notes', 'Внешность, характер, союзники, задания…', true)}</Section>
+      <Section title={t('edit.notes')}>{field('notes', t('edit.notesPlaceholder'), true)}</Section>
 
-      <Section title="Файл" hint="Файл .dnd.json можно отправить другу или сохранить как копию; открывается кнопкой «Импорт» на экране «Мои персонажи».">
-        <SmallButton title={sharing ? 'Сохраняем…' : 'Сохранить персонажа в файл'} disabled={sharing} onPress={exportToFile} />
+      <Section title={t('edit.file')} hint={t('edit.fileHint')}>
+        <SmallButton title={sharing ? t('edit.saving') : t('edit.saveToFile')} disabled={sharing} onPress={exportToFile} />
       </Section>
     </Screen>
   );

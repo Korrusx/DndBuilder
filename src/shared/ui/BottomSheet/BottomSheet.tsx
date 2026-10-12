@@ -2,6 +2,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { spacing } from '@/shared/config';
+import { useTranslation } from '@/shared/i18n';
 
 import { AppText } from '../AppText/AppText';
 import { styles } from './BottomSheet.styles';
@@ -15,10 +16,11 @@ export function BottomSheet({
   children,
 }: BottomSheetProps) {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <View style={styles.wrap}>
-        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel="Закрыть" />
+        <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel={t('common.close')} />
         <View style={[styles.sheet, { paddingBottom: insets.bottom + spacing.lg }]}>
           <View style={styles.handle} />
           <ScrollView contentContainerStyle={{ gap: spacing.md }} bounces={false}>

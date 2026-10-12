@@ -259,8 +259,9 @@ type ExtraProfChoice = {
   options?: string[];
   /** anyTool — любой инструмент (инструменты, ремесленные, музыкальные); skill — любой навык. */
   fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' | 'skill' | 'anyTool';
-  /** Подсказка к выбору (сразу по-русски). */
+  /** Подсказка к выбору: по-русски и по-английски. */
   desc?: string;
+  descEn?: string;
 };
 
 const ANY_TOOL_TYPES: ProficiencyType[] = ['tool', 'artisanTool', 'instrument'];
@@ -288,7 +289,7 @@ async function readExtra(
     if (!options.length) warn(`${where}: пустой выбор владений`);
     return {
       choose: c.choose,
-      ...(c.desc && descKey ? { desc: seeded(descKey, c.desc, c.desc) } : {}),
+      ...(c.desc && descKey ? { desc: seeded(descKey, c.descEn ?? c.desc, c.desc) } : {}),
       options: options.map((id) => ({ kind: 'ref', id })),
     };
   };
@@ -345,7 +346,7 @@ async function readExtra(
           subclassId: sc.id,
           level: f.level,
           name: seeded(`feature.${id}.name`, f.name.en, f.name.ru),
-          description: seeded(`feature.${id}.description`, f.text, f.text),
+          description: seeded(`feature.${id}.description`, f.textEn ?? f.text, f.text),
           extra: true,
         });
       }
@@ -353,8 +354,8 @@ async function readExtra(
         id: sc.id,
         classId: sc.classId,
         name: seeded(`subclass.${sc.id}.name`, sc.name.en, sc.name.ru),
-        summary: seeded(`subclass.${sc.id}.summary`, sc.summary, sc.summary),
-        description: seeded(`subclass.${sc.id}.description`, sc.summary, sc.summary),
+        summary: seeded(`subclass.${sc.id}.summary`, sc.summaryEn ?? sc.summary, sc.summary),
+        description: seeded(`subclass.${sc.id}.description`, sc.summaryEn ?? sc.summary, sc.summary),
         features: featureIds,
         extra: true,
       });
@@ -379,7 +380,7 @@ async function readExtra(
   const trait = (t: Raw, speciesId: string, subspeciesId?: string): Trait => ({
     id: t.id,
     name: seeded(`trait.${t.id}.name`, t.name.en, t.name.ru),
-    description: seeded(`trait.${t.id}.description`, t.text, t.text),
+    description: seeded(`trait.${t.id}.description`, t.textEn ?? t.text, t.text),
     species: [speciesId],
     subspecies: subspeciesId ? [subspeciesId] : [],
     ...(t.spells ? { spells: t.spells } : {}),
@@ -431,6 +432,8 @@ async function readExtra(
 
 /** Текст из extra: английский — для ключа, русский — сразу в перевод. */
 function seeded(key: string, en: string, ru: string): LocalizedText {
+  // Английский текст нужен для английского языка приложения; без него показался бы русский.
+  if (/[А-Яа-яЁё]/.test(en)) warn(`Нет английского текста: ${key} — добавьте поле textEn / summaryEn / descEn в data-pipeline/extra`);
   ruSeeds.set(key, ru);
   return tx(key, en);
 }

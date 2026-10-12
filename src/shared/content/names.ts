@@ -1,6 +1,8 @@
 // Названия записей справочника для подписей на экранах (русский, иначе английский).
 
-import { COIN_ABBR, COIN_ORDER } from './constants';
+import { currentLanguage, t } from '@/shared/i18n/model';
+
+import { COIN_ORDER } from './constants';
 import { byId, tr } from './content';
 import type { AbilityId, Choice, ChoiceOption, Coin } from './types';
 
@@ -33,9 +35,23 @@ export function abilityName(id: AbilityId): string {
   return tr(byId.abilities.get(id)?.name).text;
 }
 
+/** Сокращение монеты: «зм» / «gp». */
+export function coinAbbr(coin: Coin): string {
+  return t(`coins.abbr.${coin}`);
+}
+
+export function coinName(coin: Coin): string {
+  return t(`coins.name.${coin}`);
+}
+
+/** Размер существа из справочника (английское значение) на текущем языке. */
+export function sizeName(size: string): string {
+  return size === 'Small' || size === 'Medium' || size === 'Large' ? t(`sizes.${size}`) : size;
+}
+
 export function coinsText(coins: Partial<Record<Coin, number>>): string {
   return COIN_ORDER.filter((c) => coins[c])
-    .map((c) => `${coins[c]} ${COIN_ABBR[c]}`)
+    .map((c) => `${coins[c]} ${coinAbbr(c)}`)
     .join(', ');
 }
 
@@ -46,7 +62,7 @@ export function equipmentOptionText(option: ChoiceOption): string {
       case 'item':
         return o.count > 1 ? `${nameOf('equipment', o.id)} ×${o.count}` : nameOf('equipment', o.id);
       case 'money':
-        return `${o.amount} ${COIN_ABBR[o.unit]}`;
+        return `${o.amount} ${coinAbbr(o.unit)}`;
       case 'all':
         return o.items.map(one).join(', ');
       case 'choice':
@@ -61,9 +77,9 @@ export function equipmentOptionText(option: ChoiceOption): string {
 function choiceText(choice: Choice): string {
   if (choice.fromCategory) {
     const category = byId.equipmentCategories.get(choice.fromCategory);
-    return `${category ? tr(category.name).text : choice.fromCategory} на выбор`;
+    return t('choice.fromCategory', { category: category ? tr(category.name).text : choice.fromCategory });
   }
-  return 'предмет на выбор';
+  return t('choice.item');
 }
 
 /** Навыки по характеристикам (СИЛ, ЛОВ, ТЕЛ, ИНТ, МДР, ХАР), внутри — по алфавиту, как на бумажном листе. */
@@ -73,7 +89,7 @@ export function groupSkillsByAbility<T extends { id: string; ability: AbilityId 
     ability,
     skills: skills
       .filter((s) => s.ability === ability)
-      .sort((a, b) => nameOf('skills', a.id).localeCompare(nameOf('skills', b.id), 'ru')),
+      .sort((a, b) => nameOf('skills', a.id).localeCompare(nameOf('skills', b.id), currentLanguage())),
   }));
 }
 

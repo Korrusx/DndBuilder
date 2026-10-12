@@ -1,12 +1,18 @@
-import type { Coin } from '@/shared/content';
-import { COIN_ABBR, content, tr } from '@/shared/content';
+import { coinAbbr, content, tr } from '@/shared/content';
+import { currentLanguage } from '@/shared/i18n/model';
 
 import type { Entry } from './types';
 
-export const EQUIPMENT: Entry[] = content.equipment
-  .map((e) => ({ id: e.id, name: tr(e.name).text, note: `${e.cost.amount} ${COIN_ABBR[e.cost.unit as Coin] ?? e.cost.unit}` }))
-  .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+// Каталоги строятся на текущем языке: названия и порядок сортировки зависят от него.
 
-export const MAGIC: Entry[] = content.magicItems
-  .map((m) => ({ id: m.id, name: tr(m.name).text, note: tr(m.rarity).text }))
-  .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+export function equipmentCatalog(): Entry[] {
+  return content.equipment
+    .map((e) => ({ id: e.id, name: tr(e.name).text, note: `${e.cost.amount} ${coinAbbr(e.cost.unit)}` }))
+    .sort((a, b) => a.name.localeCompare(b.name, currentLanguage()));
+}
+
+export function magicCatalog(): Entry[] {
+  return content.magicItems
+    .map((m) => ({ id: m.id, name: tr(m.name).text, note: tr(m.rarity).text }))
+    .sort((a, b) => a.name.localeCompare(b.name, currentLanguage()));
+}

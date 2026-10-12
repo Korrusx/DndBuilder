@@ -22,7 +22,8 @@ import { HpBlock } from '@/features/track-hp';
 import { ResourcesCard } from '@/features/track-resources';
 import { colors } from '@/shared/config';
 import { abilityAbbr, byId, content, nameOf, plain, tr } from '@/shared/content';
-import { formatModifier, rollD20 } from '@/shared/lib/dice';
+import { useTranslation } from '@/shared/i18n';
+import { formatFeet, formatModifier, rollD20 } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
 import { AppText, BottomSheet, Card, Chip, ChipRow, InfoSheet, Screen, SmallButton, StatBox } from '@/shared/ui';
 
@@ -30,6 +31,7 @@ import { styles } from './PlaySheetPage.styles';
 
 export function PlaySheetPage() {
   const { character: c, sheet, update, updateState } = usePlay();
+  const { t } = useTranslation();
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [info, setInfo] = useState<(InfoContent & { conditionId?: string }) | null>(null);
   const [pickCondition, setPickCondition] = useState(false);
@@ -46,14 +48,14 @@ export function PlaySheetPage() {
   const rollAbility = (id: (typeof ABILITY_IDS)[number], save: boolean) => {
     const a = sheet.abilities[id];
     const parts = [{ label: abilityAbbr(id), value: a.mod }];
-    if (save && a.saveProficient) parts.push({ label: 'БМ', value: sheet.profBonus });
-    setRoll({ title: `${save ? 'Спасбросок' : 'Проверка'}: ${abilityAbbr(id)}`, parts: d20Parts(parts, ex) });
+    if (save && a.saveProficient) parts.push({ label: t('stats.pb'), value: sheet.profBonus });
+    setRoll({ title: t('sheet.rollTitle', { kind: save ? t('sheet.save') : t('sheet.check'), ability: abilityAbbr(id) }), parts: d20Parts(parts, ex) });
   };
 
   const rollInitiative = () => {
-    const parts = [{ label: 'ЛОВ', value: sheet.abilities.dex.mod }];
-    if (sheet.initiative !== sheet.abilities.dex.mod) parts.push({ label: 'Бдительность', value: sheet.initiative - sheet.abilities.dex.mod });
-    setRoll({ title: 'Инициатива', parts: d20Parts(parts, ex) });
+    const parts = [{ label: abilityAbbr('dex'), value: sheet.abilities.dex.mod }];
+    if (sheet.initiative !== sheet.abilities.dex.mod) parts.push({ label: nameOf('feats', 'alert'), value: sheet.initiative - sheet.abilities.dex.mod });
+    setRoll({ title: t('stats.initiative'), parts: d20Parts(parts, ex) });
   };
 
   const rollDeathSave = () => {
@@ -61,13 +63,13 @@ export function PlaySheetPage() {
     const modifier = parts.reduce((s, p) => s + p.value, 0);
     const r = rollD20(modifier);
     updateState((s) => deathSave(s, r.natural, r.total));
-    setRoll({ title: 'Спасбросок от смерти', parts, roll: r });
+    setRoll({ title: t('sheet.deathSave'), parts, roll: r });
   };
 
   const confirmLongRest = () =>
-    Alert.alert('Долгий отдых', 'Восстановить все хиты, кости хитов, ячейки и ресурсы умений; снять 1 уровень истощения?', [
-      { text: 'Отмена', style: 'cancel' },
-      { text: 'Отдохнуть', onPress: () => updateState((s) => longRest(s, sheet.maxHp)) },
+    Alert.alert(t('rest.long'), t('sheet.longRestConfirm'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      { text: t('sheet.rest'), onPress: () => updateState((s) => longRest(s, sheet.maxHp)) },
     ]);
 
   return (
@@ -77,7 +79,7 @@ export function PlaySheetPage() {
           {subtitle}
         </AppText>
         <Chip
-          label={c.state.heroicInspiration ? '★ Вдохновение' : '☆ Вдохновение'}
+          label={`${c.state.heroicInspiration ? '★' : '☆'} ${t('sheet.inspiration')}`}
           selected={c.state.heroicInspiration}
           onPress={() => updateState((s) => ({ ...s, heroicInspiration: !s.heroicInspiration }))}
         />
@@ -86,10 +88,10 @@ export function PlaySheetPage() {
       <HpBlock c={c} sheet={sheet} onDeathSave={rollDeathSave} />
 
       <View style={styles.row}>
-        <StatBox label="КЗ" value={String(sheet.armorClass)} />
-        <StatBox label="Инициатива" value={formatModifier(sheet.initiative)} onPress={rollInitiative} accent />
-        <StatBox label="Скорость" value={`${speedWithExhaustion(sheet.speed, ex)}`} />
-        <StatBox label="БМ" value={formatModifier(sheet.profBonus)} />
+        <StatBox label={t('stats.ac')} value={String(sheet.armorClass)} />
+        <StatBox label={t('stats.initiative')} value={formatModifier(sheet.initiative)} onPress={rollInitiative} accent />
+        <StatBox label={t('stats.speed')} value={`${speedWithExhaustion(sheet.speed, ex)}`} />
+        <StatBox label={t('stats.pb')} value={formatModifier(sheet.profBonus)} />
       </View>
 
       <View style={styles.grid}>
@@ -108,7 +110,7 @@ export function PlaySheetPage() {
                 style={[styles.save, a.saveProficient && { backgroundColor: colors.accentBg }]}
               >
                 <AppText style={[styles.saveText, a.saveProficient && { color: colors.accent }]}>
-                  Спас {formatModifier(a.save)}
+                  {t('sheet.saveShort', { value: formatModifier(a.save) })}
                   {a.saveProficient ? ' ●' : ''}
                 </AppText>
               </Pressable>
@@ -120,7 +122,7 @@ export function PlaySheetPage() {
       <ResourcesCard resources={resources} />
 
       <Card>
-        <AppText variant="heading">Состояния</AppText>
+        <AppText variant="heading">{t('sheet.conditions')}</AppText>
         <ChipRow>
           {c.state.conditions.map((id) => {
             const cond = byId.conditions.get(id);
@@ -133,12 +135,16 @@ export function PlaySheetPage() {
               />
             );
           })}
-          <Chip label="+ Состояние" onPress={() => setPickCondition(true)} />
+          <Chip label={t('sheet.addCondition')} onPress={() => setPickCondition(true)} />
         </ChipRow>
         <View style={styles.exhaustion}>
           <AppText style={styles.fill}>
-            Истощение: {ex} / {EXHAUSTION_MAX}
-            {ex ? <AppText variant="secondary">{`  (к20 ${formatModifier(-2 * ex)}, скорость −${5 * ex} фт)`}</AppText> : null}
+            {t('sheet.exhaustion', { level: ex, max: EXHAUSTION_MAX })}
+            {ex ? (
+              <AppText variant="secondary">
+                {t('sheet.exhaustionEffect', { d20: t('roll.d20'), penalty: formatModifier(-2 * ex), speed: formatFeet(5 * ex) })}
+              </AppText>
+            ) : null}
           </AppText>
           <SmallButton title="−" disabled={ex === 0} onPress={() => updateState((s) => setExhaustion(s, s.exhaustion - 1))} />
           <SmallButton title="+" disabled={ex === EXHAUSTION_MAX} onPress={() => updateState((s) => setExhaustion(s, s.exhaustion + 1))} />
@@ -146,7 +152,7 @@ export function PlaySheetPage() {
       </Card>
 
       <Card>
-        <AppText variant="heading">Умения</AppText>
+        <AppText variant="heading">{t('sheet.features')}</AppText>
         <ChipRow>
           {sheet.features.map((f) => (
             <Chip key={`${f.source}-${f.id}`} label={featureInfo(f).title} onPress={() => setInfo(featureInfo(f))} />
@@ -156,15 +162,15 @@ export function PlaySheetPage() {
 
       {c.classes[0].level < MAX_LEVEL ? (
         <SmallButton
-          title={`Повысить уровень (${c.classes[0].level} → ${c.classes[0].level + 1})`}
+          title={t('sheet.levelUp', { from: c.classes[0].level, to: c.classes[0].level + 1 })}
           tone="accent"
           onPress={() => router.navigate({ pathname: '/character/[id]/level-up', params: { id: c.id } })}
         />
       ) : null}
 
       <View style={styles.row}>
-        <SmallButton title="Короткий отдых" flex={1} onPress={() => setShortRest(true)} />
-        <SmallButton title="Долгий отдых" flex={1} onPress={confirmLongRest} />
+        <SmallButton title={t('rest.short')} flex={1} onPress={() => setShortRest(true)} />
+        <SmallButton title={t('rest.long')} flex={1} onPress={confirmLongRest} />
       </View>
 
       <D20Sheet request={roll} onClose={() => setRoll(null)} />
@@ -172,7 +178,7 @@ export function PlaySheetPage() {
       <InfoSheet info={info} onClose={() => setInfo(null)}>
         {info?.conditionId ? (
           <SmallButton
-            title="Снять состояние"
+            title={t('sheet.removeCondition')}
             tone="accent"
             onPress={() => {
               updateState((s) => toggleCondition(s, info.conditionId!));
@@ -182,7 +188,7 @@ export function PlaySheetPage() {
         ) : null}
       </InfoSheet>
 
-      <BottomSheet visible={pickCondition} title="Добавить состояние" onClose={() => setPickCondition(false)}>
+      <BottomSheet visible={pickCondition} title={t('sheet.pickCondition')} onClose={() => setPickCondition(false)}>
         <ChipRow>
           {content.conditions
             .filter((x) => x.id !== 'exhaustion' && !c.state.conditions.includes(x.id))

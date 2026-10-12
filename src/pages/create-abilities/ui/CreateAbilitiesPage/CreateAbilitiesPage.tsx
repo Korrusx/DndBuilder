@@ -18,6 +18,7 @@ import { StepStatus, useDraft, WizardScreen } from '@/features/create-character'
 import { colors } from '@/shared/config';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, abilityName, byId } from '@/shared/content';
+import { useTranslation } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
 import { AppText, Button, Chip, ChipRow, Section, Segmented } from '@/shared/ui';
 
@@ -29,6 +30,7 @@ import { styles } from './CreateAbilitiesPage.styles';
 
 export function CreateAbilitiesPage() {
   const { character: c, update, issues: allIssues } = useDraft();
+  const { t } = useTranslation();
   const [picked, setPicked] = useState<number | null>(null);
   const [lastRolls, setLastRolls] = useState<AbilityRoll[] | null>(null);
   const background = byId.backgrounds.get(c.backgroundId);
@@ -79,15 +81,15 @@ export function CreateAbilitiesPage() {
         value={c.abilityMethod}
         onChange={changeMethod}
         options={[
-          { value: 'standard', label: 'Стандартный' },
-          { value: 'pointBuy', label: 'Покупка очков' },
-          { value: 'roll', label: 'Броски 4к6' },
+          { value: 'standard', label: t('abilities.standard') },
+          { value: 'pointBuy', label: t('abilities.pointBuy') },
+          { value: 'roll', label: t('abilities.roll') },
         ]}
       />
 
       {c.abilityMethod === 'roll' ? (
         <View style={styles.gapSm}>
-          <Button title={c.abilityRolls?.length ? 'Перебросить все' : 'Бросить 4к6 шесть раз'} variant="secondary" onPress={roll} />
+          <Button title={c.abilityRolls?.length ? t('abilities.reroll') : t('abilities.rollSix')} variant="secondary" onPress={roll} />
           {lastRolls ? (
             <AppText variant="secondary">
               {lastRolls.map((r) => r.dice.map((d, i) => (i === r.droppedIndex ? `(${d})` : String(d))).join(' ') + ` = ${r.total}`).join('\n')}
@@ -98,26 +100,26 @@ export function CreateAbilitiesPage() {
 
       {c.abilityMethod === 'pointBuy' ? (
         <AppText variant="heading" style={{ color: (spent ?? 0) <= POINT_BUY_BUDGET ? colors.accent : colors.damage }}>
-          Осталось очков: {POINT_BUY_BUDGET - (spent ?? 0)} из {POINT_BUY_BUDGET}
+          {t('abilities.pointsLeft', { left: POINT_BUY_BUDGET - (spent ?? 0), total: POINT_BUY_BUDGET })}
         </AppText>
       ) : pool.length ? (
-        <Section title="Значения" hint={free.length ? 'Выберите значение, затем характеристику. Нажмите на назначенное, чтобы вернуть.' : undefined}>
+        <Section title={t('abilities.values')} hint={free.length ? t('abilities.valuesHint') : undefined}>
           <ChipRow>
             {free.map((v, i) => (
               <Chip key={`${v}-${i}`} label={String(v)} selected={picked === i} onPress={() => setPicked(picked === i ? null : i)} />
             ))}
-            {free.length === 0 ? <AppText variant="secondary">Все значения назначены</AppText> : null}
+            {free.length === 0 ? <AppText variant="secondary">{t('abilities.allAssigned')}</AppText> : null}
           </ChipRow>
         </Section>
       ) : null}
 
       <View style={styles.table}>
         <View style={styles.row}>
-          <AppText style={[styles.head, { flex: 1 }]}>Характеристика</AppText>
-          <AppText style={[styles.head, styles.cell]}>База</AppText>
-          <AppText style={[styles.head, styles.cell]}>Бонус</AppText>
-          <AppText style={[styles.head, styles.cell]}>Итог</AppText>
-          <AppText style={[styles.head, styles.cell]}>Мод.</AppText>
+          <AppText style={[styles.head, { flex: 1 }]}>{t('abilities.ability')}</AppText>
+          <AppText style={[styles.head, styles.cell]}>{t('abilities.base')}</AppText>
+          <AppText style={[styles.head, styles.cell]}>{t('abilities.bonus')}</AppText>
+          <AppText style={[styles.head, styles.cell]}>{t('abilities.total')}</AppText>
+          <AppText style={[styles.head, styles.cell]}>{t('abilities.mod')}</AppText>
         </View>
         {ABILITY_IDS.map((id) => {
           const base = c.baseAbilities[id];
