@@ -15,10 +15,11 @@ export function MultiPick({
   onChange,
 }: MultiPickProps) {
   const full = selected.length >= max;
+  const selectedSet = new Set(selected);
   return (
     <ChipRow>
       {options.map((id) => {
-        const isOn = selected.includes(id);
+        const isOn = selectedSet.has(id);
         const blockedNote = blocked?.get(id);
         return (
           <Chip

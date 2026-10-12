@@ -38,7 +38,8 @@ export function SpellsEditSheet({
         <View style={styles.gapMd}>
           {circles.map((circle) => {
             const options = spellOptions(limits.classId, circle, content);
-            const inCircle = c.preparedSpells.filter((id) => options.includes(id));
+            const inOptions = new Set(options);
+            const inCircle = c.preparedSpells.filter((id) => inOptions.has(id));
             const others = c.preparedSpells.length - inCircle.length;
             return (
               <View key={circle} style={styles.gapSm}>
@@ -52,7 +53,7 @@ export function SpellsEditSheet({
                   onChange={(ids) =>
                     onChange({
                       cantrips: c.cantrips,
-                      preparedSpells: [...c.preparedSpells.filter((id) => !options.includes(id)), ...ids],
+                      preparedSpells: [...c.preparedSpells.filter((id) => !inOptions.has(id)), ...ids],
                     })
                   }
                 />
