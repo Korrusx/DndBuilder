@@ -142,3 +142,15 @@ describe('выборы других классов', () => {
     expect(levelUpHpGain(next, prev, content)).toBe(6 + 2 + 8);
   });
 });
+
+describe('книга волшебника при повышении уровня', () => {
+  test('на 2-м уровне нужно вписать в книгу ещё 2 заклинания (не блокирует)', () => {
+    const level1 = content.spells.filter((s) => s.level === 1 && s.classes.includes('wizard')).map((s) => s.id);
+    const prev: Character = { ...irmaLevel1(), classes: [{ classId: 'wizard', level: 1 }], choices: { 'class.wizard.spellbook': level1.slice(0, 6) } };
+    const next = startLevelUp(prev);
+    const issue = levelUpIssues(next, prev, content).find((i) => i.action === 'spells' && /книг/.test(i.message));
+    expect(issue).toMatchObject({ blocking: false });
+    const added = { ...next, choices: { 'class.wizard.spellbook': level1.slice(0, 8) } };
+    expect(levelUpIssues(added, prev, content).some((i) => /книг/.test(i.message))).toBe(false);
+  });
+});

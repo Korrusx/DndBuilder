@@ -196,3 +196,16 @@ describe('мастер создания', () => {
     expect(weaponMasteryCount({ ...irmaViaWizard(), classes: [{ classId: 'rogue', level: 5 }] }, content)).toBe(2);
   });
 });
+
+describe('книга волшебника в мастере', () => {
+  test('нужно 6 заклинаний в книге, а подготовленные — только из неё', () => {
+    const level1 = content.spells.filter((s) => s.level === 1 && s.classes.includes('wizard')).map((s) => s.id);
+    const base = { ...irmaViaWizard(), classes: [{ classId: 'wizard', level: 1 }], cantrips: [], preparedSpells: level1.slice(0, 4) };
+    const step5 = (c: Character) => draftIssues(c, content).filter((i) => i.step === 5).map((i) => i.message);
+    expect(step5(base).some((m) => /Книга заклинаний/.test(m))).toBe(true);
+    const ok = { ...base, choices: { ...base.choices, 'class.wizard.spellbook': level1.slice(0, 6) } };
+    expect(step5(ok).filter((m) => /книг/i.test(m))).toEqual([]);
+    const outside = { ...ok, preparedSpells: [...level1.slice(0, 3), level1[10]] };
+    expect(step5(outside)).toContain('Подготовить можно только заклинания из книги');
+  });
+});

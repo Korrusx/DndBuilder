@@ -9,11 +9,13 @@ import {
   castSpell,
   chosenClassOptions,
   classOptionSpells,
+  hasSpellbook,
   choice1,
   CHOICE_KEYS,
   magicInitiateSlots,
   speciesSpellcasting,
   spellAttackBonus,
+  spellbook,
   spellOptions,
   spellSaveDC,
 } from '@/entities/character';
@@ -55,6 +57,8 @@ export function PlayMagicPage() {
   });
 
   const species = speciesSpellcasting(c, content, sheet);
+  // Волшебник: заклинания книги, которые сейчас не подготовлены.
+  const reserve = hasSpellbook(c) ? spellbook(c).filter((id) => !c.preparedSpells.includes(id)) : [];
 
   if (!sc && initiates.length === 0 && !species) {
     return (
@@ -149,6 +153,13 @@ export function PlayMagicPage() {
             <View style={styles.section}>
               <AppText variant="heading">{t('magic.prepared')}</AppText>
               {c.preparedSpells.map((id) => spellRow(id, true))}
+            </View>
+          ) : null}
+          {reserve.length ? (
+            <View style={styles.section}>
+              <AppText variant="heading">{t('magic.spellbook')}</AppText>
+              <AppText variant="secondary">{t('magic.spellbookHint')}</AppText>
+              {reserve.map((id) => spellRow(id, false))}
             </View>
           ) : null}
         </>

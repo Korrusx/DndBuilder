@@ -1,4 +1,4 @@
-import { magicInitiateSlots, spellLimits, spellOptions } from '@/entities/character';
+import { CHOICE_KEYS, hasSpellbook, magicInitiateSlots, preparableSpells, setSpellbook, spellbook, spellbookMinimum, spellLimits, spellOptions } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { content, nameOf, spellName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
@@ -31,9 +31,20 @@ export function CreateEquipmentPage() {
               onChange={(cantrips) => update((d) => ({ ...d, cantrips }))}
             />
           </Section>
+          {hasSpellbook(c) ? (
+            <Section title={t('equipmentStep.spellbook')} hint={t('equipmentStep.spellbookHint')} picked={spellbook(c).length} need={spellbookMinimum(c)}>
+              <MultiPick
+                options={spellOptions('wizard', 1, content)}
+                selected={c.choices[CHOICE_KEYS.spellbook] ?? []}
+                max={spellbookMinimum(c)}
+                label={spellName}
+                onChange={(ids) => update((d) => setSpellbook(d, ids))}
+              />
+            </Section>
+          ) : null}
           <Section title={t('equipmentStep.spells')} picked={c.preparedSpells.length} need={limits.prepared}>
             <MultiPick
-              options={spellOptions(limits.classId, 1, content)}
+              options={preparableSpells(c, content, limits.classId, 1)}
               selected={c.preparedSpells}
               max={limits.prepared}
               label={spellName}

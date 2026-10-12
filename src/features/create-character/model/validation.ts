@@ -9,6 +9,9 @@ import {
   equipmentPicks,
   expertiseCount,
   FEAT_FEATURES,
+  hasSpellbook,
+  spellbook,
+  spellbookMinimum,
   featFeatureIds,
   featureLanguageSlots,
   featureName,
@@ -121,6 +124,11 @@ export function draftIssues(c: Character, content: Content): Issue[] {
   if (limits) {
     need(5, c.cantrips.length === limits.cantrips, t('issues.cantrips', { count: limits.cantrips }));
     need(5, c.preparedSpells.length === limits.prepared, t('issues.spells', { count: limits.prepared }));
+    if (hasSpellbook(c)) {
+      const book = spellbook(c);
+      need(5, !!c.choices[CHOICE_KEYS.spellbook] && book.length === spellbookMinimum(c), t('issues.spellbook', { count: spellbookMinimum(c) }));
+      need(5, c.preparedSpells.every((id) => book.includes(id)), t('issues.preparedNotInBook'));
+    }
   }
   for (const { slot, fixedList } of magicInitiateSlots(c, content)) {
     const ok =

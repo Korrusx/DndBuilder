@@ -7,6 +7,9 @@ import {
   classOptionProblemTexts,
   computeSheet,
   FEAT_FEATURES,
+  hasSpellbook,
+  SPELLBOOK_PER_LEVEL,
+  spellbook,
   finalAbilityScores,
   originFeatIds,
   proficientSkills,
@@ -162,6 +165,10 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
   if (limits) {
     const more = limits.cantrips - next.cantrips.length + (limits.prepared - next.preparedSpells.length);
     need(more <= 0, t('levelUp.issues.moreSpells', { count: more }), false, 'spells');
+  }
+  if (hasSpellbook(next)) {
+    const missing = spellbook(prev).length + SPELLBOOK_PER_LEVEL - spellbook(next).length;
+    need(missing <= 0, t('levelUp.issues.spellbook', { count: missing }), false, 'spells');
   }
   const masteries = weaponMasteryCount(next, content);
   if (masteries > next.weaponMasteries.length) {

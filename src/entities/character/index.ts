@@ -8,6 +8,8 @@ export {
   FEAT_FEATURES,
   MAGIC_INITIATE_ABILITIES,
   SPECIES_SPELL_ABILITIES,
+  SPELLBOOK_PER_LEVEL,
+  SPELLBOOK_START,
   MAGIC_INITIATE_LISTS,
   POINT_BUY_BUDGET,
   POINT_BUY_MAX,
@@ -93,6 +95,7 @@ export {
   tomeSlots,
   unmetClassOptions,
 } from './model/classOptions';
+export { hasSpellbook, preparableSpells, setSpellbook, spellbook, spellbookMinimum, spellbookOptions } from './model/spellbook';
 export type { SpeciesSpell, SpeciesSpellcasting } from './model/speciesSpells';
 export { needsSpeciesSpellAbility, speciesSpellcasting } from './model/speciesSpells';
 export { hpLevel } from './model/summary';

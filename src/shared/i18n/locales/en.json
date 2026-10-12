@@ -133,7 +133,9 @@
     "speciesSpellAbility": "Species spellcasting ability is not chosen",
     "metamagic": "Choose Metamagic options: {{count}}",
     "unmetOptions": "Prerequisites not met: {{list}}",
-    "tome": "Book of Shadows: choose 3 cantrips and 2 rituals"
+    "tome": "Book of Shadows: choose 3 cantrips and 2 rituals",
+    "spellbook": "Spellbook: choose {{count}} level 1 spells",
+    "preparedNotInBook": "You can prepare only spells from your spellbook"
   },
   "roll": {
     "exhaustion": "Exhaustion {{level}}",
@@ -200,7 +202,8 @@
       "skills": "Choose skills: {{count}}",
       "languages": "Choose languages: {{count}}",
       "moreSpells": "You can choose more spells: {{count}}",
-      "moreMasteries": "You can choose more Weapon Masteries: {{count}}"
+      "moreMasteries": "You can choose more Weapon Masteries: {{count}}",
+      "spellbook": "Add {{count}} more spells to your spellbook"
     },
     "asiTwo": "+2 to one",
     "asiSplit": "+1 to two"
@@ -218,7 +221,9 @@
     "title": "Spells",
     "cantrips": "Cantrips",
     "prepared": "Prepared",
-    "editHint": "You can change prepared spells after a Long Rest (a wizard — from the spellbook; a bard, sorcerer or warlock — when gaining a level)."
+    "editHint": "You can change prepared spells after a Long Rest (a wizard — from the spellbook; a bard, sorcerer or warlock — when gaining a level).",
+    "spellbook": "Spellbook",
+    "spellbookHint": "The spells your wizard knows. You can prepare only these; spells found on adventures can be copied into the book."
   },
   "files": {
     "cantShare": "Sharing files isn't available on this device.",
@@ -337,7 +342,8 @@
     "appearance": "Appearance",
     "personality": "Personality & Backstory",
     "footer": "Sheet made with the D&D Character Builder. Rules — System Reference Document 5.2, CC BY 4.0.",
-    "untitled": "Character"
+    "untitled": "Character",
+    "spellbook": "spellbook"
   },
   "nav": {
     "characters": "My Characters",
@@ -491,7 +497,9 @@
     "option": "Option {{letter}}",
     "pick": "Item of your choice",
     "cantrips": "Cantrips",
-    "spells": "Prepared level 1 spells"
+    "spells": "Prepared level 1 spells",
+    "spellbook": "Spellbook",
+    "spellbookHint": "Six level 1 spells. You prepare four of them; the rest are in reserve: you can change prepared spells after a Long Rest."
   },
   "magicInitiate": {
     "fromBackground": "background",
@@ -599,7 +607,9 @@
     "swapCantripHint": "After a Long Rest you can replace this cantrip with another Wizard cantrip.",
     "atWill": "No slot",
     "invocationsHint": "Tap an invocation to read it. “No slot” invocation spells can be cast any number of times; Book of Shadows spells are prepared Warlock spells.",
-    "metamagicHint": "Track Sorcery Points in Resources on the Sheet tab. Tap an option to read it."
+    "metamagicHint": "Track Sorcery Points in Resources on the Sheet tab. Tap an option to read it.",
+    "spellbook": "Spellbook: not prepared",
+    "spellbookHint": "You can cast rituals from your book as Rituals without preparing them. Change prepared spells after a Long Rest via “Edit spells”."
   },
   "edit": {
     "saveFailed": "Couldn't save the file",

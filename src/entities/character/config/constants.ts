@@ -47,6 +47,8 @@ export const CHOICE_KEYS = {
   /** «Договор гримуара»: три заговора и два ритуала 1-го круга из любых списков. */
   tomeCantrips: 'class.warlock.tome.cantrips',
   tomeRituals: 'class.warlock.tome.rituals',
+  /** Книга заклинаний волшебника: заклинания 1+ круга (подготовить можно только из неё). */
+  spellbook: 'class.wizard.spellbook',
   /** Стартовое снаряжение: номер варианта (A = 0) и выбор предмета внутри набора. */
   equipment: (source: 'class' | 'background') => `equip.${source}`,
   equipmentPick: (source: 'class' | 'background', i: number) => `equip.${source}.pick.${i}`,
@@ -109,6 +111,10 @@ export const METAMAGIC_COUNT: [level: number, count: number][] = [
   [10, 4],
   [17, 6],
 ];
+
+/** Книга заклинаний волшебника (SRD 5.2): 6 заклинаний 1-го круга при создании и по 2 за каждый следующий уровень. */
+export const SPELLBOOK_START = 6;
+export const SPELLBOOK_PER_LEVEL = 2;
 
 /** «Договор гримуара»: сколько заговоров и ритуалов 1-го круга в Книге теней. */
 export const TOME_CANTRIPS = 3;

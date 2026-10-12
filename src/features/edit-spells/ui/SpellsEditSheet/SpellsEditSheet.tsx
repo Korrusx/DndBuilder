@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 
-import { spellLimits, spellOptions } from '@/entities/character';
+import { hasSpellbook, preparableSpells, setSpellbook, spellbook, spellbookMinimum, spellbookOptions, spellLimits, spellOptions } from '@/entities/character';
 import { content, spellName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
@@ -18,6 +18,7 @@ export function SpellsEditSheet({
   const limits = spellLimits(c, content);
   if (!limits) return null;
   const circles = Array.from({ length: limits.maxSpellLevel }, (_, i) => i + 1);
+  const book = spellbook(c);
 
   return (
     <BottomSheet visible={visible} title={t('spells.title')} onClose={onClose}>
@@ -35,10 +36,35 @@ export function SpellsEditSheet({
           />
         </Section>
       ) : null}
+      {hasSpellbook(c) ? (
+        <Section title={t('spells.spellbook')} hint={t('spells.spellbookHint')} picked={book.length} need={spellbookMinimum(c)}>
+          <View style={styles.gapMd}>
+            {circles.map((circle) => {
+              const options = spellbookOptions(c, content, circle);
+              const inOptions = new Set(options);
+              return (
+                <View key={circle} style={styles.gapSm}>
+                  <AppText variant="secondary">{t('spell.circle', { level: circle })}</AppText>
+                  <MultiPick
+                    options={options}
+                    selected={book.filter((id) => inOptions.has(id))}
+                    max={options.length}
+                    label={spellName}
+                    onChange={(ids) => {
+                      const next = setSpellbook(c, [...book.filter((id) => !inOptions.has(id)), ...ids]);
+                      onChange({ cantrips: c.cantrips, preparedSpells: next.preparedSpells, choices: next.choices });
+                    }}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        </Section>
+      ) : null}
       <Section title={t('spells.prepared')} picked={c.preparedSpells.length} need={limits.prepared}>
         <View style={styles.gapMd}>
           {circles.map((circle) => {
-            const options = spellOptions(limits.classId, circle, content);
+            const options = preparableSpells(c, content, limits.classId, circle);
             const inOptions = new Set(options);
             const inCircle = c.preparedSpells.filter((id) => inOptions.has(id));
             const others = c.preparedSpells.length - inCircle.length;

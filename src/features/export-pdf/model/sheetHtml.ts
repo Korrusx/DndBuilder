@@ -17,6 +17,7 @@ import {
   magicInitiateSlots,
   proficiencyGroups,
   speciesSpellcasting,
+  spellbook,
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import {
@@ -61,6 +62,7 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
   };
   c.cantrips.forEach((id) => add(id));
   c.preparedSpells.forEach((id) => add(id));
+  spellbook(c).forEach((id) => add(id, t('pdf.spellbook')));
   for (const { slot } of magicInitiateSlots(c, content)) {
     for (const id of [...(c.choices[CHOICE_KEYS.featCantrips(slot)] ?? []), ...(c.choices[CHOICE_KEYS.featSpell(slot)] ?? [])]) {
       add(id, t('pdf.feat'));
