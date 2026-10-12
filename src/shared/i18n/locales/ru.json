@@ -414,7 +414,8 @@
     "attribution": "Атрибуция",
     "srd": "Это приложение использует материалы System Reference Document 5.2 («SRD 5.2») от Wizards of the Coast LLC, доступные по адресу https://www.dndbeyond.com/srd. SRD 5.2 распространяется по лицензии Creative Commons Attribution 4.0 International (CC BY 4.0): https://creativecommons.org/licenses/by/4.0/legalcode.",
     "ownTranslation": "Тексты SRD приведены в собственном переводе и могут быть изменены по сравнению с оригиналом. Приложение не является официальным продуктом Wizards of the Coast.",
-    "extra": "Кроме SRD, в справочник добавлена игровая механика {{backgrounds}} предысторий и {{feats}} черт происхождения, а также {{subclasses}} подклассов из Player's Handbook 2024 и {{species}} видов из Player's Handbook 2024 и других книг. Тексты книг не используются: описания написаны заново, кратко, своими словами."
+    "extra": "Кроме SRD, в справочник добавлена игровая механика {{backgrounds}} предысторий и {{feats}} черт происхождения, а также {{subclasses}} подклассов из Player's Handbook 2024 и {{species}} видов из Player's Handbook 2024 и других книг. Тексты книг не используются: описания написаны заново, кратко, своими словами.",
+    "icons": "Иконки классов и видов — game-icons.net (авторы: Lorc, Delapouite, Cathelineau, Caro Asercion, Sbed), лицензия Creative Commons Attribution 3.0 (CC BY 3.0): https://creativecommons.org/licenses/by/3.0/. Цвет и размер иконок изменены."
   },
   "createClass": {
     "chosen": "Выбран:",

@@ -16,6 +16,8 @@ export { LText } from './LText/LText';
 export type { LTextProps } from './LText/LText.types';
 export { MultiPick } from './MultiPick/MultiPick';
 export { OptionCard } from './OptionCard/OptionCard';
+export { GameIcon } from './GameIcon/GameIcon';
+export type { GameIconName } from './GameIcon/GameIcon.types';
 export { Placeholder } from './Placeholder/Placeholder';
 export { Screen } from './Screen/Screen';
 export type { ScreenProps } from './Screen/Screen.types';

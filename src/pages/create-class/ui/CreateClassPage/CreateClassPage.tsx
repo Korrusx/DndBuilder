@@ -7,6 +7,7 @@ import { useTranslation } from '@/shared/i18n';
 import { formatDie } from '@/shared/lib/dice';
 import { AppText, OptionCard } from '@/shared/ui';
 
+import { CLASS_ICONS, DEFAULT_CLASS_ICON } from '../../config/icons';
 import { styles } from './CreateClassPage.styles';
 
 export function CreateClassPage() {
@@ -40,6 +41,7 @@ export function CreateClassPage() {
               compact
               selected={c.id === selected}
               onPress={() => update((d) => setClass(d, c.id))}
+              icon={CLASS_ICONS[c.id] ?? DEFAULT_CLASS_ICON}
               title={
                 <AppText style={styles.name} numberOfLines={1} adjustsFontSizeToFit>
                   {nameOf('classes', c.id)}

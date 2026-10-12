@@ -12,5 +12,7 @@ export const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   cardCompact: { padding: spacing.md, borderRadius: 16, flex: 1 },
+  title: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  titleText: { flex: 1 },
   cardSelected: { borderColor: colors.accent, backgroundColor: colors.accentBg },
 });

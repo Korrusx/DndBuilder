@@ -1,6 +1,10 @@
 import { Pressable, View } from 'react-native';
 
+import { colors } from '@/shared/config';
+
+
 import { AppText } from '../AppText/AppText';
+import { GameIcon } from '../GameIcon/GameIcon';
 import { styles } from './OptionCard.styles';
 import type { OptionCardProps } from './OptionCard.types';
 
@@ -11,10 +15,19 @@ export function OptionCard({
   selected,
   onPress,
   compact,
+  icon,
 }: OptionCardProps) {
+  const heading = typeof title === 'string' ? <AppText variant="heading">{title}</AppText> : title;
   const body = (
     <>
-      {typeof title === 'string' ? <AppText variant="heading">{title}</AppText> : title}
+      {icon ? (
+        <View style={styles.title}>
+          <GameIcon name={icon} size={26} color={selected ? colors.accent : colors.textSecondary} />
+          <View style={styles.titleText}>{heading}</View>
+        </View>
+      ) : (
+        heading
+      )}
       {lines?.map((line, i) =>
         typeof line === 'string' ? (
           <AppText key={i} variant="secondary">

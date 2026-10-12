@@ -55,6 +55,7 @@ export function AboutPage() {
           species: content.species.filter((x) => x.extra).length,
         })}
       </AppText>
+      <AppText variant="secondary">{t('about.icons')}</AppText>
     </Screen>
   );
 }

@@ -1,9 +1,14 @@
+import { View } from 'react-native';
+
 import { CHOICE_KEYS, originFeats, setBackground, setSpecies } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { abilityAbbr, byId, content, nameOf, proficiencyName, sizeName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet } from '@/shared/lib/dice';
-import { Chip, ChipRow, OptionCard, Section } from '@/shared/ui';
+import { AppText, Chip, ChipRow, OptionCard, Section } from '@/shared/ui';
+
+import { DEFAULT_SPECIES_ICON, SPECIES_ICONS } from '../../config/icons';
+import { styles } from './CreateOriginPage.styles';
 
 export function CreateOriginPage() {
   const { character: c, update, issues: allIssues } = useDraft();
@@ -12,6 +17,8 @@ export function CreateOriginPage() {
   const background = byId.backgrounds.get(c.backgroundId);
   const versatile = originFeats(c, content).find((f) => f.slot === 'versatile');
   const issues = allIssues.filter((i) => i.step === 2);
+  const speciesRows: (typeof content.species)[] = [];
+  for (let i = 0; i < content.species.length; i += 2) speciesRows.push(content.species.slice(i, i + 2));
 
   return (
     <WizardScreen
@@ -45,16 +52,27 @@ export function CreateOriginPage() {
       ) : null}
 
       <Section title={t('origin.species')}>
-        <ChipRow>
-          {content.species.map((s) => (
-            <Chip
-              key={s.id}
-              label={nameOf('species', s.id)}
-              selected={s.id === c.speciesId}
-              onPress={() => update((d) => setSpecies(d, s.id, content))}
-            />
+        <View style={styles.grid}>
+          {speciesRows.map((row) => (
+            <View key={row[0].id} style={styles.row}>
+              {row.map((s) => (
+                <OptionCard
+                  key={s.id}
+                  compact
+                  icon={SPECIES_ICONS[s.id] ?? DEFAULT_SPECIES_ICON}
+                  selected={s.id === c.speciesId}
+                  onPress={() => update((d) => setSpecies(d, s.id, content))}
+                  title={
+                    <AppText style={styles.name} numberOfLines={1} adjustsFontSizeToFit>
+                      {nameOf('species', s.id)}
+                    </AppText>
+                  }
+                  lines={[formatFeet(s.speed)]}
+                />
+              ))}
+            </View>
           ))}
-        </ChipRow>
+        </View>
       </Section>
 
       {species ? (
