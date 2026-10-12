@@ -1,6 +1,7 @@
 // Сборка всех производных чисел персонажа из его выборов и справочника.
 
 import type { Content, Equipment } from '@/shared/content';
+import { indexOf } from '@/shared/content';
 
 import { ABILITY_IDS, CHOICE_KEYS } from '../config/constants';
 import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';
@@ -10,31 +11,9 @@ import { chosenProficiencyIds, featureOptionProficiencies } from './choices';
 import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack } from './combat';
 import { effectsOf } from './effects';
 import { characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
-import type { AbilityScores, Character, CharacterSheet, ContentIndex, SourcedId, WeaponAttack } from './types';
+import type { AbilityScores, Character, CharacterSheet, SourcedId, WeaponAttack } from './types';
 
-const indexCache = new WeakMap<Content, ContentIndex>();
-
-function indexOf(content: Content): ContentIndex {
-  let idx = indexCache.get(content);
-  if (!idx) {
-    const by = <T extends { id: string }>(xs: T[]) => new Map(xs.map((x) => [x.id, x]));
-    idx = {
-      classes: by(content.classes),
-      equipment: by(content.equipment),
-      subclasses: by(content.subclasses),
-      features: by(content.features),
-      species: by(content.species),
-      subspecies: by(content.subspecies),
-      traits: by(content.traits),
-      backgrounds: by(content.backgrounds),
-      proficiencies: by(content.proficiencies),
-    };
-    indexCache.set(content, idx);
-  }
-  return idx;
-}
-
-function need<T>(map: Map<string, T>, id: string, what: string): T {
+function need<T>(map: ReadonlyMap<string, T>, id: string, what: string): T {
   const x = map.get(id);
   if (!x) throw new Error(`Неизвестный ${what}: ${id}`);
   return x;
@@ -162,8 +141,10 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
 
   // --- Скорость ---
   let speed = species.speed;
-  const traitIds = new Set(features.filter((f) => f.source === 'species').map((f) => f.id));
-  for (const t of content.traits) if (t.speed && traitIds.has(t.id)) speed = Math.max(speed, t.speed);
+  for (const f of features) {
+    const traitSpeed = f.source === 'species' ? idx.traits.get(f.id)?.speed : undefined;
+    if (traitSpeed) speed = Math.max(speed, traitSpeed);
+  }
   const classSpecific: CharacterSheet['classSpecific'] = {};
   for (const { entry, cls } of classes) {
     const row = cls.levels[entry.level - 1];

@@ -26,7 +26,7 @@ import {
   weaponMasteryCount,
 } from '@/entities/character';
 import type { Content } from '@/shared/content';
-import { findById } from '@/shared/lib/collections';
+import { indexOf } from '@/shared/content';
 
 import type { Issue } from './types';
 
@@ -45,8 +45,9 @@ export function draftIssues(c: Character, content: Content): Issue[] {
   need(1, !!cls, 'Не выбран класс');
 
   // 2. Предыстория и вид
-  const background = findById(content.backgrounds, c.backgroundId);
-  const species = findById(content.species, c.speciesId);
+  const idx = indexOf(content);
+  const background = idx.backgrounds.get(c.backgroundId);
+  const species = idx.species.get(c.speciesId);
   need(2, !!background, 'Не выбрана предыстория');
   need(2, !!species, 'Не выбран вид');
   if (species) {
@@ -89,7 +90,7 @@ export function draftIssues(c: Character, content: Content): Issue[] {
     need(4, !!choice1(c, CHOICE_KEYS.featureOption(featureId)), 'Не выбран вариант умения класса');
   }
   for (const featureId of featFeatureIds(c, content)) {
-    need(4, c.feats.some((f) => f.source === 'class' && findById(content.feats, f.featId)?.type === FEAT_FEATURES[featureId]), 'Не выбран боевой стиль');
+    need(4, c.feats.some((f) => f.source === 'class' && idx.feats.get(f.featId)?.type === FEAT_FEATURES[featureId]), 'Не выбран боевой стиль');
   }
   need(4, c.languages.filter((l) => l !== 'common').length === STANDARD_LANGUAGE_COUNT, `Выберите языки: ${STANDARD_LANGUAGE_COUNT}`);
   if (cls?.levels[0]?.features.includes('warlock-eldritch-invocations')) {

@@ -1,6 +1,7 @@
 // Режим игры: спасброски от смерти, истощение, ячейки, сотворение заклинаний, броски урона, вещи.
 
 import type { Content } from '@/shared/content';
+import { indexOf } from '@/shared/content';
 import { parseDice, rollDie } from '@/shared/lib/dice';
 
 import { CUSTOM_ITEM_PREFIX, EXHAUSTION_MAX } from '../config/constants';
@@ -114,8 +115,9 @@ export function unarmedStrike(strMod: number, profBonus: number): { toHit: numbe
  * при надевании другой доспех (щит) снимается.
  */
 export function toggleEquipped(items: InventoryItem[], index: number, content: Content): InventoryItem[] {
+  const equipment = indexOf(content).equipment;
   const kind = (i: InventoryItem) => {
-    const armor = content.equipment.find((e) => e.id === i.itemId)?.armor;
+    const armor = equipment.get(i.itemId)?.armor;
     return armor ? (armor.category === 'shield' ? 'shield' : 'armor') : 'other';
   };
   const target = items[index];

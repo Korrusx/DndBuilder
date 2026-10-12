@@ -1,18 +1,20 @@
 // Краткая сводка персонажа для карточки в списке «Мои персонажи».
 
 import type { Content } from '@/shared/content';
+import { indexOf } from '@/shared/content';
 
 import { totalLevel } from './character';
 import { computeSheet } from './sheet';
 import type { Character, CharacterSummary } from './types';
 
 export function characterSummary(c: Character, content: Content): CharacterSummary {
+  const idx = indexOf(content);
   const summary: CharacterSummary = {
     letter: (c.name.trim()[0] ?? '?').toUpperCase(),
     level: totalLevel(c.classes),
-    classNames: c.classes.flatMap((e) => content.classes.find((x) => x.id === e.classId)?.name ?? []),
-    species: content.species.find((x) => x.id === c.speciesId)?.name,
-    background: content.backgrounds.find((x) => x.id === c.backgroundId)?.name,
+    classNames: c.classes.flatMap((e) => idx.classes.get(e.classId)?.name ?? []),
+    species: idx.species.get(c.speciesId)?.name,
+    background: idx.backgrounds.get(c.backgroundId)?.name,
   };
   if (c.status.kind !== 'ready') return summary;
   try {

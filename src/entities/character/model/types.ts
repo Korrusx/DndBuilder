@@ -1,4 +1,4 @@
-import type { AbilityId, ArmorInfo, CharacterClass, Coin, Equipment, LocalizedText } from '@/shared/content';
+import type { AbilityId, ArmorInfo, Coin, LocalizedText } from '@/shared/content';
 
 export type AbilityRoll = { dice: number[]; droppedIndex: number; total: number };
 
@@ -225,12 +225,6 @@ export type CharacterSheet = {
   features: SourcedId[];
   /** id владений (proficiencies). */
   proficiencies: string[];
-};
-
-export type ContentIndex = {
-  classes: Map<string, CharacterClass>;
-  equipment: Map<string, Equipment>;
-  [key: string]: Map<string, any>;
 };
 
 export type CharacterSummary = {

@@ -13,6 +13,7 @@ import {
   weaponMasteryCount,
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
+import { indexOf } from '@/shared/content';
 
 import { EXPERTISE_GRANTS, FEAT_ABILITY, LANGUAGE_GRANTS, SKILL_GRANTS } from '../config/constants';
 import type { FeatSlotKind, LevelUpIssue, LevelUpPlan } from './types';
@@ -27,15 +28,16 @@ export function startLevelUp(c: Character): Character {
 
 /** Что появляется на текущем уровне персонажа `next` (уже повышенного). */
 export function levelUpPlan(next: Character, content: Content): LevelUpPlan {
+  const idx = indexOf(content);
   const entry = next.classes[0];
-  const cls = content.classes.find((x) => x.id === entry.classId)!;
+  const cls = idx.classes.get(entry.classId)!;
   const toLevel = entry.level;
   const row = cls.levels[toLevel - 1];
   const classFeatures = row?.features ?? [];
 
   const firstSubclassLevel = cls.levels.findIndex((r) => r.features.some((id) => id.endsWith('-subclass'))) + 1;
   const subclassFeatures = entry.subclassId
-    ? content.features.filter((f) => f.subclassId === entry.subclassId && f.level === toLevel).map((f) => f.id)
+    ? (idx.subclasses.get(entry.subclassId)?.features ?? []).filter((id) => idx.features.get(id)?.level === toLevel)
     : [];
   // Строки «Подкласс» в таблице класса — заглушки под умения подкласса, их не показываем.
   const features = [
@@ -75,7 +77,7 @@ export function levelUpPlan(next: Character, content: Content): LevelUpPlan {
 /** Черта, взятая на этом уровне за «Увеличение характеристик» / «Эпический дар». */
 export function levelFeat(c: Character, content: Content, level: number): FeatChoice | undefined {
   return c.feats.find(
-    (f) => f.source === 'class' && f.level === level && content.feats.find((x) => x.id === f.featId)?.type !== 'fighting-style',
+    (f) => f.source === 'class' && f.level === level && indexOf(content).feats.get(f.featId)?.type !== 'fighting-style',
   );
 }
 
@@ -122,7 +124,7 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
       const total = inc.reduce((a, b) => a + b, 0);
       if (rule?.mode === 'asi') need(total === 2 && inc.every((v) => v <= 2), 'Распределите +2 к характеристикам');
       if (rule?.mode === 'one') need(total === 1 && inc.length === 1, 'Выберите характеристику для +1');
-      const featData = content.feats.find((f) => f.id === feat.featId);
+      const featData = indexOf(content).feats.get(feat.featId);
       const slots = feat.featId === 'skilled' ? [3] : (featData?.proficiencyChoices ?? []).map((ch) => ch.choose);
       slots.forEach((n, i) => {
         const key = levelFeatProfKey(plan.toLevel, feat.featId, i);
@@ -141,7 +143,7 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
 
   if (plan.fightingStyles) {
     const count = (c: Character) =>
-      c.feats.filter((f) => f.source === 'class' && content.feats.find((x) => x.id === f.featId)?.type === 'fighting-style').length;
+      c.feats.filter((f) => f.source === 'class' && indexOf(content).feats.get(f.featId)?.type === 'fighting-style').length;
     need(count(next) === count(prev) + plan.fightingStyles, 'Выберите боевой стиль');
   }
 

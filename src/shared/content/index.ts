@@ -1,5 +1,5 @@
 export { COIN_ABBR, COIN_NAMES, COIN_ORDER, SIZE_NAMES } from './constants';
-export { byId, content, tr, translationProgress } from './content';
+export { byId, content, indexOf, tr, translationProgress } from './content';
 export {
   abilityAbbr,
   abilityName,
@@ -22,6 +22,7 @@ export type {
   ClassResource,
   Coin,
   Content,
+  ContentIndex,
   Equipment,
   LocalizedText,
   ResourceFormula,

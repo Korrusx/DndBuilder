@@ -1,11 +1,8 @@
 // Названия записей справочника для подписей на экранах (русский, иначе английский).
 
 import { COIN_ABBR, COIN_ORDER } from './constants';
-import { byId, content, tr } from './content';
+import { byId, tr } from './content';
 import type { AbilityId, Choice, ChoiceOption, Coin } from './types';
-
-const proficiencyById = new Map(content.proficiencies.map((p) => [p.id, p]));
-const spellById = new Map(content.spells.map((s) => [s.id, s]));
 
 type Table = 'classes' | 'species' | 'subspecies' | 'backgrounds' | 'feats' | 'equipment' | 'languages' | 'skills' | 'features' | 'traits';
 
@@ -16,7 +13,7 @@ export function nameOf(table: Table, id: string | undefined): string {
 }
 
 export function proficiencyName(id: string): string {
-  const p = proficiencyById.get(id);
+  const p = byId.proficiencies.get(id);
   if (!p) return id;
   // Для навыков берём переведённое название навыка.
   if (p.type === 'skill' && p.refId) return nameOf('skills', p.refId);
@@ -24,7 +21,7 @@ export function proficiencyName(id: string): string {
 }
 
 export function spellName(id: string): string {
-  const s = spellById.get(id);
+  const s = byId.spells.get(id);
   return s ? tr(s.name).text : id;
 }
 
@@ -80,13 +77,11 @@ export function groupSkillsByAbility<T extends { id: string; ability: AbilityId 
   }));
 }
 
-const magicItemById = new Map(content.magicItems.map((m) => [m.id, m]));
-
 /** Название предмета инвентаря: снаряжение, магический предмет или свой предмет. */
 export function itemName(item: { itemId: string; name?: string }): string {
   if (item.name) return item.name;
   const eq = byId.equipment.get(item.itemId);
   if (eq) return tr(eq.name).text;
-  const magic = magicItemById.get(item.itemId);
+  const magic = byId.magicItems.get(item.itemId);
   return magic ? tr(magic.name).text : item.itemId;
 }

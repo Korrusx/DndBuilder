@@ -1,12 +1,12 @@
 import { CHOICE_KEYS, originFeats, setBackground, setSpecies } from '@/entities/character';
 import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import { abilityAbbr, content, nameOf, proficiencyName, SIZE_NAMES } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, proficiencyName, SIZE_NAMES } from '@/shared/content';
 import { Chip, ChipRow, OptionCard, Section } from '@/shared/ui';
 
 export function CreateOriginPage() {
   const { character: c, update } = useDraft();
-  const species = content.species.find((s) => s.id === c.speciesId);
-  const background = content.backgrounds.find((b) => b.id === c.backgroundId);
+  const species = byId.species.get(c.speciesId);
+  const background = byId.backgrounds.get(c.backgroundId);
   const versatile = originFeats(c, content).find((f) => f.slot === 'versatile');
   const issues = draftIssues(c, content).filter((i) => i.step === 2);
 

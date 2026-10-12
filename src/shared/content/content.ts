@@ -1,38 +1,27 @@
 // Доступ к справочнику. Файл assets/content/content.json собирается командой `npm run data:build`.
 
 import data from '../../../assets/content/content.json';
-import type { Content, LocalizedText } from './types';
+import type { Content, ContentIndex, LocalizedText } from './types';
 
 export type * from './types';
 
 export const content = data as unknown as Content;
 
-/** Быстрый поиск записи по id. */
-function indexById<T extends { id: string }>(items: T[]): ReadonlyMap<string, T> {
-  return new Map(items.map((x) => [x.id, x]));
+const indexCache = new WeakMap<Content, ContentIndex>();
+
+/** Таблицы для быстрого поиска по id. Строятся один раз на каждый справочник (в тестах их бывает несколько). */
+export function indexOf(c: Content): ContentIndex {
+  let idx = indexCache.get(c);
+  if (!idx) {
+    const entries = Object.entries(c).filter(([, v]) => Array.isArray(v)) as [string, { id: string }[]][];
+    idx = Object.fromEntries(entries.map(([key, items]) => [key, new Map(items.map((x) => [x.id, x]))])) as unknown as ContentIndex;
+    indexCache.set(c, idx);
+  }
+  return idx;
 }
 
-export const byId = {
-  abilities: indexById(content.abilities),
-  skills: indexById(content.skills),
-  proficiencies: indexById(content.proficiencies),
-  classes: indexById(content.classes),
-  features: indexById(content.features),
-  weaponMasteries: indexById(content.weaponMasteries),
-  damageTypes: indexById(content.damageTypes),
-  subclasses: indexById(content.subclasses),
-  species: indexById(content.species),
-  subspecies: indexById(content.subspecies),
-  traits: indexById(content.traits),
-  backgrounds: indexById(content.backgrounds),
-  feats: indexById(content.feats),
-  equipment: indexById(content.equipment),
-  equipmentCategories: indexById(content.equipmentCategories),
-  spells: indexById(content.spells),
-  magicItems: indexById(content.magicItems),
-  conditions: indexById(content.conditions),
-  languages: indexById(content.languages),
-};
+/** Таблицы поиска по id для справочника приложения. */
+export const byId = indexOf(content);
 
 /** Текст для показа: русский, а если перевода нет — английский с флагом `translated: false`. */
 export function tr(text: LocalizedText | undefined): { text: string; translated: boolean } {

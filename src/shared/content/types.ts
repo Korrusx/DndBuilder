@@ -334,3 +334,9 @@ export type Content = {
   magicItems: MagicItem[];
   resources: ClassResource[];
 };
+
+/** Списки справочника, у записей которых есть id. */
+type IndexedKey = { [K in keyof Content]: Content[K] extends { id: string }[] ? K : never }[keyof Content];
+
+/** Таблицы справочника для поиска по id: для каждого списка — id → запись. */
+export type ContentIndex = { [K in IndexedKey]: ReadonlyMap<string, Content[K][number]> };

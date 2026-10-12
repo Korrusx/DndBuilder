@@ -15,7 +15,7 @@ import {
   weaponMasteryOptions,
 } from '@/entities/character';
 import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import { content, nameOf, proficiencyName, tr } from '@/shared/content';
+import { byId, content, nameOf, proficiencyName, tr } from '@/shared/content';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
 
 import { SOURCE_TITLE } from '../../config/constants';
@@ -108,7 +108,7 @@ export function CreateSkillsPage() {
 
       {featFeatureIds(c, content).map((featureId) => {
         const type = FEAT_FEATURES[featureId];
-        const chosen = c.feats.find((f) => f.source === 'class' && content.feats.find((x) => x.id === f.featId)?.type === type);
+        const chosen = c.feats.find((f) => f.source === 'class' && byId.feats.get(f.featId)?.type === type);
         return (
           <Section key={featureId} title={nameOf('features', featureId)} picked={chosen ? 1 : 0} need={1}>
             <MultiPick
@@ -120,7 +120,7 @@ export function CreateSkillsPage() {
                 update((d) => ({
                   ...d,
                   feats: [
-                    ...d.feats.filter((f) => !(f.source === 'class' && content.feats.find((x) => x.id === f.featId)?.type === type)),
+                    ...d.feats.filter((f) => !(f.source === 'class' && byId.feats.get(f.featId)?.type === type)),
                     ...(featId ? [{ featId, source: 'class' as const, level: 1 }] : []),
                   ],
                 }))

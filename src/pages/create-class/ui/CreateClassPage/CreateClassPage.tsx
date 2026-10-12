@@ -2,7 +2,7 @@ import { View } from 'react-native';
 
 import { setClass } from '@/entities/character';
 import { useDraft, WizardScreen } from '@/features/create-character';
-import { abilityAbbr, content, nameOf } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf } from '@/shared/content';
 import { AppText, OptionCard } from '@/shared/ui';
 
 import { styles } from './CreateClassPage.styles';
@@ -10,7 +10,7 @@ import { styles } from './CreateClassPage.styles';
 export function CreateClassPage() {
   const { character, update } = useDraft();
   const selected = character.classes[0]?.classId;
-  const cls = content.classes.find((c) => c.id === selected);
+  const cls = selected ? byId.classes.get(selected) : undefined;
 
   const rows: (typeof content.classes)[] = [];
   for (let i = 0; i < content.classes.length; i += 2) rows.push(content.classes.slice(i, i + 2));

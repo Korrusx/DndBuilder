@@ -17,7 +17,7 @@ import {
 import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { colors } from '@/shared/config';
 import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, abilityName, content } from '@/shared/content';
+import { abilityAbbr, abilityName, byId, content } from '@/shared/content';
 import { formatModifier } from '@/shared/lib/dice';
 import { AppText, Button, Chip, ChipRow, Section, Segmented } from '@/shared/ui';
 
@@ -31,7 +31,7 @@ export function CreateAbilitiesPage() {
   const { character: c, update } = useDraft();
   const [picked, setPicked] = useState<number | null>(null);
   const [lastRolls, setLastRolls] = useState<AbilityRoll[] | null>(null);
-  const background = content.backgrounds.find((b) => b.id === c.backgroundId);
+  const background = byId.backgrounds.get(c.backgroundId);
   const issues = draftIssues(c, content).filter((i) => i.step === 3);
 
   const pool: number[] = c.abilityMethod === 'standard' ? [...STANDARD_ARRAY] : c.abilityMethod === 'roll' ? (c.abilityRolls ?? []) : [];

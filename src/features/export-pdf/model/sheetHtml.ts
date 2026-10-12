@@ -93,7 +93,7 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const cls = c.classes.map((x) => `${nameOf('classes', x.classId)} ${x.level}`).join(' / ');
   const sub = c.classes.map((x) => (x.subclassId ? tr(byId.subclasses.get(x.subclassId)?.name).text : '')).filter(Boolean).join(', ');
   const species = [nameOf('species', c.speciesId), c.subspeciesId ? nameOf('subspecies', c.subspeciesId) : ''].filter(Boolean).join(': ');
-  const alignment = c.alignment ? tr(content.alignments.find((a) => a.id === c.alignment)?.name).text : '';
+  const alignment = c.alignment ? tr(byId.alignments.get(c.alignment)?.name).text : '';
   const size = c.size ?? byId.species.get(c.speciesId)?.sizes[0] ?? '';
 
   const header = `
@@ -170,10 +170,10 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const masteryOf = (itemId: string) => {
     if (!c.weaponMasteries.includes(itemId)) return '';
     const m = byId.equipment.get(itemId)?.weapon?.mastery;
-    return m ? tr(content.weaponMasteries.find((w) => w.id === m)?.name).text : '';
+    return m ? tr(byId.weaponMasteries.get(m)?.name).text : '';
   };
   const attackRows = sheet.attacks.map((a) => {
-    const type = a.damageType ? tr(content.damageTypes.find((d) => d.id === a.damageType)?.name).text : '';
+    const type = a.damageType ? tr(byId.damageTypes.get(a.damageType)?.name).text : '';
     const mastery = masteryOf(a.itemId);
     return `<tr><td class="d">${e(nameOf('equipment', a.itemId))}</td><td class="d c">${formatModifier(a.toHit)}</td><td class="d">${e(
       `${formatDamage(a.damageDice, a.damageBonus)} ${type}`.trim(),
