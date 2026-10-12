@@ -4,7 +4,7 @@
 import type { DraftApi } from "./types";
 import { router, useGlobalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import type { Character } from '@/entities/character';
 import { newDraftCharacter } from '@/entities/character';
@@ -12,7 +12,7 @@ import { getCharacter, newId, saveCharacter } from '@/entities/character/api';
 import { content } from '@/shared/content';
 
 import { CREATE_STEPS } from '../config/steps';
-import { finishCharacter } from './validation';
+import { draftIssues, finishCharacter } from './validation';
 
 const DraftContext = createContext<DraftApi | null>(null);
 
@@ -33,11 +33,13 @@ export function DraftProvider({ children }: { children: ReactNode }) {
   }, [db, id]);
 
   const update = useCallback((fn: (c: Character) => Character) => setCharacter((c) => (c ? fn(c) : c)), []);
+  const issues = useMemo(() => (character ? draftIssues(character, content) : []), [character]);
 
   if (!character) return null;
 
   const api: DraftApi = {
     character,
+    issues,
     update,
     next: async (step, prepare) => {
       const current = prepare ? prepare(character) : character;

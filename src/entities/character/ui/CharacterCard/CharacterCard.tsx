@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { colors } from '@/shared/config';
@@ -11,7 +12,8 @@ import type { CharacterCardProps } from './CharacterCard.types';
 
 export function CharacterCard({ character: c, onPress, onLongPress, selected, draftSteps }: CharacterCardProps) {
   const selecting = selected !== undefined;
-  const s = characterSummary(c, content);
+  // Сводка считает лист персонажа — пересчитываем, только когда изменился сам персонаж.
+  const s = useMemo(() => characterSummary(c, content), [c]);
   const draft = c.status.kind === 'draft' ? c.status : null;
   const subtitle = [s.classNames.map((n) => tr(n).text).join(' / '), tr(s.species).text, tr(s.background).text]
     .filter(Boolean)

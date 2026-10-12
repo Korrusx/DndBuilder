@@ -14,10 +14,10 @@ import {
   roll4d6DropLowest,
   STANDARD_ARRAY,
 } from '@/entities/character';
-import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
+import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { colors } from '@/shared/config';
 import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, abilityName, byId, content } from '@/shared/content';
+import { abilityAbbr, abilityName, byId } from '@/shared/content';
 import { formatModifier } from '@/shared/lib/dice';
 import { AppText, Button, Chip, ChipRow, Section, Segmented } from '@/shared/ui';
 
@@ -28,11 +28,11 @@ import { StepButton } from '../StepButton/StepButton';
 import { styles } from './CreateAbilitiesPage.styles';
 
 export function CreateAbilitiesPage() {
-  const { character: c, update } = useDraft();
+  const { character: c, update, issues: allIssues } = useDraft();
   const [picked, setPicked] = useState<number | null>(null);
   const [lastRolls, setLastRolls] = useState<AbilityRoll[] | null>(null);
   const background = byId.backgrounds.get(c.backgroundId);
-  const issues = draftIssues(c, content).filter((i) => i.step === 3);
+  const issues = allIssues.filter((i) => i.step === 3);
 
   const pool: number[] = c.abilityMethod === 'standard' ? [...STANDARD_ARRAY] : c.abilityMethod === 'roll' ? (c.abilityRolls ?? []) : [];
   const free = freeValues(pool, c.baseAbilities);

@@ -1,7 +1,7 @@
 import { Pressable, TextInput, View } from 'react-native';
 
 import { safeSheet } from '@/entities/character';
-import { draftIssues, useDraft, WizardScreen } from '@/features/create-character';
+import { useDraft, WizardScreen } from '@/features/create-character';
 import { usePdfExport } from '@/features/export-pdf';
 import { colors } from '@/shared/config';
 import { content, nameOf, tr } from '@/shared/content';
@@ -11,9 +11,8 @@ import { SheetPreview } from '@/widgets/sheet-preview';
 import { styles } from './CreateReviewPage.styles';
 
 export function CreateReviewPage() {
-  const { character: c, update, goTo, finish } = useDraft();
+  const { character: c, issues, update, goTo, finish } = useDraft();
   const pdf = usePdfExport();
-  const issues = draftIssues(c, content);
   const blocking = issues.filter((i) => i.blocking);
   const sheet = issues.some((i) => i.blocking && i.step <= 2) ? null : safeSheet(c);
   const subtitle = [

@@ -11,6 +11,8 @@ export type Issue = {
 
 export type DraftApi = {
   character: Character;
+  /** Чего не хватает в черновике (draftIssues), пересчитывается только при изменении черновика. */
+  issues: Issue[];
   /** Изменить черновик (в памяти). */
   update: (fn: (c: Character) => Character) => void;
   /** Сохранить и перейти к следующему шагу. `prepare` — последнее изменение перед сохранением. */

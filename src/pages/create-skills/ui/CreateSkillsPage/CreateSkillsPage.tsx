@@ -14,15 +14,15 @@ import {
   weaponMasteryCount,
   weaponMasteryOptions,
 } from '@/entities/character';
-import { draftIssues, StepStatus, useDraft, WizardScreen } from '@/features/create-character';
+import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { byId, content, nameOf, proficiencyName, tr } from '@/shared/content';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
 
 import { SOURCE_TITLE } from '../../config/constants';
 
 export function CreateSkillsPage() {
-  const { character: c, update } = useDraft();
-  const issues = draftIssues(c, content).filter((i) => i.step === 4);
+  const { character: c, update, issues: allIssues } = useDraft();
+  const issues = allIssues.filter((i) => i.step === 4);
   const setChoice = (key: string, ids: string[]) => update((d) => ({ ...d, choices: { ...d.choices, [key]: ids } }));
 
   const fixed = fixedProficiencies(c, content);
