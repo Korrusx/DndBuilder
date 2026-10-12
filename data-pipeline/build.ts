@@ -637,13 +637,19 @@ async function build(): Promise<Omit<Content, 'version'>> {
     traits: (s.traits ?? []).map((t: Raw) => ({ id: t.index, level: t.level ?? 1 })),
   }));
 
+  // Заклинания, которых нет в данных API, хотя они названы в тексте особенности SRD 5.2.
+  const TRAIT_SPELLS: Record<string, string[]> = { 'otherworldly-presence': ['thaumaturgy'] };
   const traits: Trait[] = (await raw('traits')).map((t) => ({
     id: t.index,
     name: tx(`trait.${t.index}.name`, t.name),
     description: tx(`trait.${t.index}.description`, t.description ?? ''),
     species: ids(t.species),
     subspecies: ids(t.subspecies),
-    ...(t.spells?.length ? { spells: t.spells.map((x: Raw) => x.spell.index) } : {}),
+    ...(t.spells?.length
+      ? { spells: t.spells.map((x: Raw) => x.spell.index) }
+      : TRAIT_SPELLS[t.index]
+        ? { spells: TRAIT_SPELLS[t.index] }
+        : {}),
     ...(t.proficiency_choices
       ? {
           proficiencyChoices: [t.proficiency_choices]

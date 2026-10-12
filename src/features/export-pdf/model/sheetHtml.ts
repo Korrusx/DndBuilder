@@ -6,7 +6,7 @@ import { attackName, featureName } from '@/entities/character';
 // Бланк чёрный с бордовым акцентом, данные тёмно-синие. Текущие и временные хиты пустые — для карандаша.
 
 import type { Character, CharacterSheet, SourcedId } from '@/entities/character';
-import { ABILITY_IDS, characterResources, CHOICE_KEYS, computeSheet, knownLanguages, magicInitiateSlots } from '@/entities/character';
+import { ABILITY_IDS, characterResources, CHOICE_KEYS, computeSheet, knownLanguages, magicInitiateSlots, speciesSpellcasting } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import {
   abilityAbbr,
@@ -55,6 +55,9 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
       add(id, t('pdf.feat'));
     }
   }
+  const species = speciesSpellcasting(c, content);
+  const speciesNote = [t('pdf.species'), species?.ability ? abilityAbbr(species.ability) : ''].filter(Boolean).join(', ');
+  species?.spells.forEach((s) => add(s.spellId, speciesNote));
   return [...out.values()].sort(
     (a, b) => a.spell.level - b.spell.level || tr(a.spell.name).text.localeCompare(tr(b.spell.name).text, currentLanguage()),
   );

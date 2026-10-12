@@ -129,7 +129,8 @@
       "species": "species",
       "feat": "feat"
     },
-    "featureLanguages": "{{feature}}: choose a language ({{count}} more)"
+    "featureLanguages": "{{feature}}: choose a language ({{count}} more)",
+    "speciesSpellAbility": "Species spellcasting ability is not chosen"
   },
   "roll": {
     "exhaustion": "Exhaustion {{level}}",
@@ -268,7 +269,7 @@
     "classLevel": "Class & Level",
     "subclass": "Subclass",
     "background": "Background",
-    "species": "Species",
+    "species": "species",
     "alignment": "Alignment",
     "player": "Player",
     "save": "Saving Throw",
@@ -434,7 +435,9 @@
     "subspeciesHint": "Lineage, ancestry or legacy — choose one.",
     "size": "Size",
     "versatile": "Versatile",
-    "versatileHint": "A human gains one more origin feat. Skilled is recommended."
+    "versatileHint": "A human gains one more origin feat. Skilled is recommended.",
+    "spellAbility": "Species spellcasting ability",
+    "spellAbilityHint": "It sets the save DC and attack bonus of the spells your species grants."
   },
   "abilities": {
     "standard": "Standard Array",
@@ -580,7 +583,14 @@
     "prepared": "Prepared",
     "initiateStats": "List: {{list}} · {{ability}} · DC {{dc}} · attack {{attack}}",
     "initiateHint": "You can cast the level 1 spell once a day without a slot (track it yourself for now).",
-    "legend": "C — Concentration, R — Ritual."
+    "legend": "C — Concentration, R — Ritual.",
+    "species": "Species spells",
+    "speciesStats": "{{ability}} · DC {{dc}} · attack {{attack}}",
+    "speciesHint": "Always prepared. Once per Long Rest without a slot (Forest Gnome: as many times as your Proficiency Bonus); you can also use a slot.",
+    "free": "No slot: {{left}}",
+    "freeCast": "{{name}}: cast without a slot",
+    "swapCantrip": "Change",
+    "swapCantripHint": "After a Long Rest you can replace this cantrip with another Wizard cantrip."
   },
   "edit": {
     "saveFailed": "Couldn't save the file",

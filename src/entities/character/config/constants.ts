@@ -38,6 +38,10 @@ export const CHOICE_KEYS = {
   featureOption: (featureId: string) => `feature.${featureId}`,
   /** Языки на выбор от умения класса (плут: «Воровской жаргон»). */
   featureLanguages: (featureId: string) => `feature.${featureId}.languages`,
+  /** Заклинательная характеристика для заклинаний вида (сбрасывается при смене вида, как все `trait.`). */
+  speciesSpellAbility: 'trait.spellAbility',
+  /** Заговор вместо заданного особенностью (высший эльф: вместо «Фокусов»). */
+  speciesCantrip: (traitId: string) => `trait.${traitId}.cantrip`,
   /** Стартовое снаряжение: номер варианта (A = 0) и выбор предмета внутри набора. */
   equipment: (source: 'class' | 'background') => `equip.${source}`,
   equipmentPick: (source: 'class' | 'background', i: number) => `equip.${source}.pick.${i}`,
@@ -91,6 +95,25 @@ export const FEAT_FEATURES: Record<string, 'fighting-style'> = {
 export const MAGIC_INITIATE_LISTS = ['cleric', 'druid', 'wizard'] as const;
 
 export const MAGIC_INITIATE_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
+
+// ---------- Заклинания вида (SRD 5.2) ----------
+
+/** Особенности вида, для которых игрок выбирает заклинательную характеристику: ИНТ, МДР или ХАР. */
+export const SPECIES_SPELL_ABILITY_TRAITS = ['elven-lineage', 'fiendish-legacy', 'gnomish-lineage'];
+
+export const SPECIES_SPELL_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
+
+/** Особенности с заданной характеристикой (Аасимар, «Несущий свет»: Харизма). */
+export const SPECIES_SPELL_FIXED_ABILITY: Record<string, AbilityId> = { 'light-bearer': 'cha' };
+
+/**
+ * Сколько раз заклинание вида творится без ячейки до долгого отдыха. По умолчанию — 1
+ * (родословные эльфа и наследие тифлинга); лесной гном: «Разговор с животными» — столько, каков БМ.
+ */
+export const SPECIES_SPELL_FREE_USES: Record<string, 'pb'> = { 'gnomish-lineage-forest-gnome': 'pb' };
+
+/** Заговор вида, который после долгого отдыха можно заменить другим заговором списка класса (высший эльф). */
+export const SPECIES_CANTRIP_SWAP: Record<string, string> = { 'high-elf-cantrip-versatility': 'wizard' };
 
 /** Сколько стандартных языков выбирается при создании (кроме Общего). */
 export const STANDARD_LANGUAGE_COUNT = 2;

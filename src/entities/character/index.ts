@@ -7,6 +7,7 @@ export {
   FEATURE_OPTIONS,
   FEAT_FEATURES,
   MAGIC_INITIATE_ABILITIES,
+  SPECIES_SPELL_ABILITIES,
   MAGIC_INITIATE_LISTS,
   POINT_BUY_BUDGET,
   POINT_BUY_MAX,
@@ -79,6 +80,8 @@ export { adjustResource, characterResources, shortRestResources } from './model/
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
 export { computeSheet, finalAbilityScores, originFeatIds } from './model/sheet';
 export { spellAttackBonus, spellSaveDC } from './model/spells';
+export type { SpeciesSpell, SpeciesSpellcasting } from './model/speciesSpells';
+export { needsSpeciesSpellAbility, speciesSpellcasting } from './model/speciesSpells';
 export { hpLevel } from './model/summary';
 export type {
   AbilityMethod,

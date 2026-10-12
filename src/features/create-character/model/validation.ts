@@ -14,6 +14,7 @@ import {
   featureOptionIds,
   isStandardArray,
   magicInitiateSlots,
+  needsSpeciesSpellAbility,
   originFeats,
   POINT_BUY_BUDGET,
   POINT_BUY_MAX,
@@ -60,6 +61,7 @@ export function draftIssues(c: Character, content: Content): Issue[] {
   for (const f of originFeats(c, content)) {
     if (f.slot === 'versatile') need(2, !!f.featId, t('issues.noVersatileFeat'));
   }
+  if (needsSpeciesSpellAbility(c, content)) need(2, !!choice1(c, CHOICE_KEYS.speciesSpellAbility), t('issues.speciesSpellAbility'));
 
   // 3. Характеристики
   const base = c.baseAbilities;

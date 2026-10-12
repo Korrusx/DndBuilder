@@ -1,8 +1,8 @@
 import { View } from 'react-native';
 
-import { CHOICE_KEYS, originFeats, setBackground, setSpecies } from '@/entities/character';
+import { choice1, CHOICE_KEYS, needsSpeciesSpellAbility, originFeats, setBackground, setSpecies, SPECIES_SPELL_ABILITIES } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import { abilityAbbr, byId, content, nameOf, proficiencyName, sizeName } from '@/shared/content';
+import { abilityAbbr, abilityName, byId, content, nameOf, proficiencyName, sizeName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet } from '@/shared/lib/dice';
 import { AppText, Chip, ChipRow, OptionCard, Section } from '@/shared/ui';
@@ -94,6 +94,21 @@ export function CreateOriginPage() {
                 label={nameOf('subspecies', id)}
                 selected={id === c.subspeciesId}
                 onPress={() => update((d) => ({ ...d, subspeciesId: id }))}
+              />
+            ))}
+          </ChipRow>
+        </Section>
+      ) : null}
+
+      {needsSpeciesSpellAbility(c, content) ? (
+        <Section title={t('origin.spellAbility')} hint={t('origin.spellAbilityHint')}>
+          <ChipRow>
+            {SPECIES_SPELL_ABILITIES.map((ability) => (
+              <Chip
+                key={ability}
+                label={abilityName(ability)}
+                selected={choice1(c, CHOICE_KEYS.speciesSpellAbility) === ability}
+                onPress={() => update((d) => ({ ...d, choices: { ...d.choices, [CHOICE_KEYS.speciesSpellAbility]: [ability] } }))}
               />
             ))}
           </ChipRow>

@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Alert, TextInput } from 'react-native';
 
 import type { Character } from '@/entities/character';
+import { choice1, CHOICE_KEYS, knownLanguages, needsSpeciesSpellAbility, SPECIES_SPELL_ABILITIES } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { shareCharacters } from '@/features/transfer-characters';
 import { colors } from '@/shared/config';
-import { content, nameOf, tr } from '@/shared/content';
+import { abilityName, content, nameOf, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { Chip, ChipRow, Screen, Section, SmallButton } from '@/shared/ui';
 
@@ -40,6 +41,8 @@ export function PlayEditPage() {
     />
   );
 
+  // Языки от умений класса (воровской жаргон и т.п.) отмечены, но снять их нельзя.
+  const known = new Set(knownLanguages(c, content));
   const toggleLanguage = (id: string) =>
     set({ languages: c.languages.includes(id) ? c.languages.filter((l) => l !== id) : [...c.languages, id] });
 
@@ -65,10 +68,31 @@ export function PlayEditPage() {
       <Section title={t('edit.languages')} hint={t('edit.languagesHint')}>
         <ChipRow>
           {content.languages.map((l) => (
-            <Chip key={l.id} label={nameOf('languages', l.id)} selected={c.languages.includes(l.id)} onPress={() => toggleLanguage(l.id)} />
+            <Chip
+              key={l.id}
+              label={nameOf('languages', l.id)}
+              selected={known.has(l.id)}
+              disabled={known.has(l.id) && !c.languages.includes(l.id)}
+              onPress={() => toggleLanguage(l.id)}
+            />
           ))}
         </ChipRow>
       </Section>
+
+      {needsSpeciesSpellAbility(c, content) ? (
+        <Section title={t('origin.spellAbility')} hint={t('origin.spellAbilityHint')}>
+          <ChipRow>
+            {SPECIES_SPELL_ABILITIES.map((ability) => (
+              <Chip
+                key={ability}
+                label={abilityName(ability)}
+                selected={choice1(c, CHOICE_KEYS.speciesSpellAbility) === ability}
+                onPress={() => set({ choices: { ...c.choices, [CHOICE_KEYS.speciesSpellAbility]: [ability] } })}
+              />
+            ))}
+          </ChipRow>
+        </Section>
+      ) : null}
 
       <Section title={t('edit.notes')}>{field('notes', t('edit.notesPlaceholder'), true)}</Section>
 

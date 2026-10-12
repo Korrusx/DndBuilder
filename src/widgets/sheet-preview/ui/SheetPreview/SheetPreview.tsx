@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 
-import { ABILITY_IDS, attackName, featureName, featureSourceLabel, knownLanguages } from '@/entities/character';
+import { ABILITY_IDS, attackName, featureName, featureSourceLabel, knownLanguages, speciesSpellcasting } from '@/entities/character';
 import { colors } from '@/shared/config';
 import {
   abilityAbbr,
@@ -23,6 +23,7 @@ import type { SheetPreviewProps } from './SheetPreview.types';
 
 export function SheetPreview({ c, sheet }: SheetPreviewProps) {
   const { t } = useTranslation();
+  const speciesSpells = speciesSpellcasting(c, content, sheet);
   const main = [
     { label: t('stats.hp'), value: String(sheet.maxHp) },
     { label: t('stats.ac'), value: String(sheet.armorClass) },
@@ -94,6 +95,17 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
             </AppText>
           ) : null}
           <AppText>{[...c.cantrips, ...c.preparedSpells].map(spellName).join(', ')}</AppText>
+        </Section>
+      ) : null}
+
+      {speciesSpells ? (
+        <Section title={t('magic.species')}>
+          {speciesSpells.ability ? (
+            <AppText variant="secondary">
+              {t('magic.speciesStats', { ability: abilityAbbr(speciesSpells.ability), dc: speciesSpells.saveDC, attack: formatModifier(speciesSpells.attackBonus ?? 0) })}
+            </AppText>
+          ) : null}
+          <AppText>{speciesSpells.spells.map((s) => spellName(s.spellId)).join(', ')}</AppText>
         </Section>
       ) : null}
 

@@ -1,13 +1,18 @@
+import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { Alert, Pressable, View } from 'react-native';
 
+import type { SpeciesSpell } from '@/entities/character';
 import {
+  adjustResource,
   adjustSlot,
   castSpell,
   choice1,
   CHOICE_KEYS,
   magicInitiateSlots,
+  speciesSpellcasting,
   spellAttackBonus,
+  spellOptions,
   spellSaveDC,
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
@@ -15,11 +20,11 @@ import { SpellsEditSheet } from '@/features/edit-spells';
 import type { D20Request } from '@/features/roll-dice';
 import { d20Parts, D20Sheet } from '@/features/roll-dice';
 import type { AbilityId, Spell } from '@/shared/content';
-import { abilityAbbr, byId, content, nameOf, plain, spellMeta, tr } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, plain, spellMeta, spellName, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
-import { AppText, Badge, Card, Dots, InfoSheet, Placeholder, Screen, SmallButton, StatBox } from '@/shared/ui';
+import { AppText, Badge, BottomSheet, Card, Chip, ChipRow, Dots, InfoSheet, Placeholder, Screen, SmallButton, StatBox } from '@/shared/ui';
 
 import { styles } from './PlayMagicPage.styles';
 
@@ -30,6 +35,7 @@ export function PlayMagicPage() {
   const [info, setInfo] = useState<InfoContent | null>(null);
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [swapping, setSwapping] = useState<SpeciesSpell | null>(null);
   const sc = sheet.spellcasting;
   const ex = c.state.exhaustion;
 
@@ -46,7 +52,9 @@ export function PlayMagicPage() {
     };
   });
 
-  if (!sc && initiates.length === 0) {
+  const species = speciesSpellcasting(c, content, sheet);
+
+  if (!sc && initiates.length === 0 && !species) {
     return (
       <Screen>
         <Placeholder title={t('magic.none')} note={t('magic.noneHint')} />
@@ -69,7 +77,7 @@ export function PlayMagicPage() {
     );
   };
 
-  const spellRow = (id: string, canCast: boolean) => {
+  const spellRow = (id: string, canCast: boolean, extra?: ReactNode) => {
     const s = byId.spells.get(id);
     if (!s) return null;
     return (
@@ -90,6 +98,7 @@ export function PlayMagicPage() {
           </AppText>
         </View>
         {canCast && s.level > 0 ? <SmallButton title={t('magic.cast')} tone="accent" onPress={() => cast(s)} /> : null}
+        {extra}
       </Pressable>
     );
   };
@@ -155,7 +164,59 @@ export function PlayMagicPage() {
         </View>
       ))}
 
+      {species ? (
+        <View style={styles.section}>
+          <AppText variant="heading">{t('magic.species')}</AppText>
+          <AppText variant="secondary">
+            {species.ability
+              ? t('magic.speciesStats', { ability: abilityAbbr(species.ability), dc: species.saveDC, attack: formatModifier(species.attackBonus ?? 0) })
+              : t('issues.speciesSpellAbility')}
+            {'\n'}
+            {t('magic.speciesHint')}
+          </AppText>
+          {species.spells.map((s) => {
+            const left = s.freeUses - Math.min(s.freeUses, c.state.resourcesSpent[s.resourceKey] ?? 0);
+            return spellRow(
+              s.spellId,
+              !!sc,
+              s.freeUses ? (
+                <SmallButton
+                  title={t('magic.free', { left })}
+                  disabled={left === 0}
+                  onPress={() => {
+                    updateState((st) => adjustResource(st, s.resourceKey, 1, s.freeUses));
+                    setMessage(t('magic.freeCast', { name: spellName(s.spellId) }));
+                  }}
+                />
+              ) : s.swapList ? (
+                <SmallButton title={t('magic.swapCantrip')} onPress={() => setSwapping(s)} />
+              ) : null,
+            );
+          })}
+          {!sc && message ? <AppText style={styles.textAccent}>{message}</AppText> : null}
+        </View>
+      ) : null}
+
       <AppText variant="secondary">{t('magic.legend')}</AppText>
+
+      <BottomSheet visible={!!swapping} title={t('magic.swapCantrip')} onClose={() => setSwapping(null)}>
+        <AppText variant="secondary">{t('magic.swapCantripHint')}</AppText>
+        {swapping?.swapList ? (
+          <ChipRow>
+            {spellOptions(swapping.swapList, 0, content).map((id) => (
+              <Chip
+                key={id}
+                label={spellName(id)}
+                selected={id === swapping.spellId}
+                onPress={() => {
+                  update((d) => ({ ...d, choices: { ...d.choices, [CHOICE_KEYS.speciesCantrip(swapping.traitId)]: [id] } }));
+                  setSwapping({ ...swapping, spellId: id });
+                }}
+              />
+            ))}
+          </ChipRow>
+        ) : null}
+      </BottomSheet>
 
       <InfoSheet info={info} onClose={() => setInfo(null)} />
       <SpellsEditSheet
