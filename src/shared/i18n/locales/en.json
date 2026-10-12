@@ -8,6 +8,7 @@
     "cancel": "Cancel",
     "done": "Done",
     "next": "Next",
+    "back": "Back",
     "delete": "Delete",
     "rollAgain": "Roll again",
     "noDescription": "No description yet.",
@@ -90,7 +91,8 @@
       "review": "Review"
     },
     "stepOf": "Step {{step}} of {{total}}",
-    "moreIssues": " (and {{count}} more)"
+    "moreIssues": " (and {{count}} more)",
+    "goToStep": "Go to step {{step}}: {{title}}"
   },
   "issues": {
     "noClass": "No class chosen",

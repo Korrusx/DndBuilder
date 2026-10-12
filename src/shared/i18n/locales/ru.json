@@ -8,6 +8,7 @@
     "cancel": "Отмена",
     "done": "Готово",
     "next": "Далее",
+    "back": "Назад",
     "delete": "Удалить",
     "rollAgain": "Бросить ещё",
     "noDescription": "Описание пока не переведено.",
@@ -90,7 +91,8 @@
       "review": "Проверка"
     },
     "stepOf": "Шаг {{step}} из {{total}}",
-    "moreIssues": " (и ещё {{count}})"
+    "moreIssues": " (и ещё {{count}})",
+    "goToStep": "Перейти к шагу {{step}}: {{title}}"
   },
   "issues": {
     "noClass": "Не выбран класс",

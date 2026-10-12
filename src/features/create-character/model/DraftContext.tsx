@@ -40,6 +40,8 @@ export function DraftProvider({ children }: { children: ReactNode }) {
 
   if (!character) return null;
 
+  const reached = character.status.kind === 'draft' ? character.status.step : CREATE_STEPS.length;
+
   const api: DraftApi = {
     character,
     issues,
@@ -52,7 +54,15 @@ export function DraftProvider({ children }: { children: ReactNode }) {
       const target = CREATE_STEPS[step];
       if (target) router.push({ pathname: target.route, params: { id } });
     },
-    goTo: (step) => router.push({ pathname: CREATE_STEPS[step - 1].route, params: { id } }),
+    reached,
+    canOpen: (step) => step <= reached && !issues.some((i) => i.blocking && i.step < step),
+    goTo: (step, from) => {
+      const href = { pathname: CREATE_STEPS[step - 1].route, params: { id } };
+      // Назад: снимаем экраны до нужного шага; если черновик открыт сразу на позднем шаге
+      // (из списка «Продолжить»), нужного экрана в истории нет — dismissTo заменит текущий.
+      if (step < from) router.dismissTo(href);
+      else if (step > from) router.push(href);
+    },
     finish: async () => {
       await saveCharacter(db, finishCharacter(character, content));
       router.dismissTo('/');
