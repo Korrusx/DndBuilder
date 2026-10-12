@@ -183,6 +183,10 @@ export type WeaponAttack = {
   damageType?: string;
   proficient: boolean;
   magicBonus: number;
+  /** Лёгкое оружие: урон дополнительной атаки бонусным действием (без модификатора, если он не отрицательный). */
+  offhandDamageBonus?: number;
+  /** Ярость и фехтовальное оружие, которое по умолчанию бьёт Ловкостью: та же атака Силой (с бонусом ярости). */
+  strengthAlt?: { toHit: number; damageBonus: number };
 };
 
 /** Что меняет атаки оружием помимо характеристики и владения. */
@@ -194,6 +198,8 @@ export type WeaponAttackOptions = {
   strengthDamageBonus?: number;
   /** Стиль «Сражение большим оружием»: минимальное значение кости урона. */
   greatWeaponMinDie?: number;
+  /** Стиль «Сражение двумя оружиями»: модификатор прибавляется к урону дополнительной атаки лёгким оружием. */
+  twoWeaponFighting?: boolean;
 };
 
 export type Effect =
@@ -215,6 +221,8 @@ export type Effect =
   | { type: 'rangedAttackBonus'; value: number }
   /** Урон двуручным или универсальным (двумя руками) рукопашным оружием: 1 и 2 на кости считаются за N. */
   | { type: 'greatWeaponMinDie'; value: number }
+  /** Дополнительная атака лёгким оружием получает модификатор к урону (стиль «Сражение двумя оружиями»). */
+  | { type: 'lightExtraAttackModifier' }
   /** Бонус к проверкам навыков, равный модификатору характеристики (не меньше `min`). */
   | { type: 'skillBonusFromAbility'; skills: string[]; ability: AbilityId; min: number };
 

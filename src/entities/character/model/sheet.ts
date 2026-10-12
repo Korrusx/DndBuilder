@@ -131,6 +131,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     rangedAttackBonus: sumEffects(effects, 'rangedAttackBonus'),
     strengthDamageBonus: rageDamage,
     greatWeaponMinDie: effects.find((e) => e.type === 'greatWeaponMinDie')?.value,
+    twoWeaponFighting: effects.some((e) => e.type === 'lightExtraAttackModifier'),
   };
   const attacks: WeaponAttack[] = [];
   const seen = new Set<string>();

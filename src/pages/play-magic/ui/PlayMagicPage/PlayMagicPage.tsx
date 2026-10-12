@@ -15,18 +15,20 @@ import {
   magicInitiateSlots,
   speciesSpellcasting,
   spellAttackBonus,
+  spellDamage,
+  spellDamageLevels,
   spellbook,
   spellOptions,
   spellSaveDC,
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
-import type { D20Request } from '@/features/roll-dice';
-import { d20Parts, D20Sheet } from '@/features/roll-dice';
+import type { D20Request, DamageRequest } from '@/features/roll-dice';
+import { d20Parts, D20Sheet, DamageSheet } from '@/features/roll-dice';
 import type { AbilityId, Spell } from '@/shared/content';
 import { abilityAbbr, byId, content, nameOf, plain, spellMeta, spellName, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { formatModifier } from '@/shared/lib/dice';
+import { formatDamage, formatModifier } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
 import { AppText, Badge, BottomSheet, Card, Chip, ChipRow, Dots, InfoSheet, Placeholder, Screen, SmallButton, StatBox } from '@/shared/ui';
 
@@ -38,6 +40,7 @@ export function PlayMagicPage() {
   const [editing, setEditing] = useState(false);
   const [info, setInfo] = useState<InfoContent | null>(null);
   const [roll, setRoll] = useState<D20Request | null>(null);
+  const [damage, setDamage] = useState<DamageRequest | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [swapping, setSwapping] = useState<SpeciesSpell | null>(null);
   const sc = sheet.spellcasting;
@@ -83,7 +86,58 @@ export function PlayMagicPage() {
     );
   };
 
-  const spellRow = (id: string, canCast: boolean, extra?: ReactNode) => {
+  // «Мучительный взрыв»: + мод. ХАР к урону заговора; считаем, что выбран «Мистический заряд».
+  const agonizing = chosenClassOptions(c, 'invocation').includes('agonizing-blast') ? sheet.abilities.cha.mod : 0;
+  const maxSlot = sc ? sc.slots.reduce((m, n, i) => (n > 0 ? i + 1 : m), 0) : 0;
+  const damageTypeName = (id?: string) => (id ? tr(byId.damageTypes.get(id)?.name).text || id : undefined);
+
+  /** Кнопки «Атака» и «Урон» заклинания; `attackBonus` — от характеристики источника (класс, черта, вид). */
+  const spellActions = (s: Spell, attackBonus: number | undefined) => {
+    const name = tr(s.name).text;
+    const base = spellDamage(s, sheet.level);
+    const bonus = s.id === 'eldritch-blast' ? agonizing : 0;
+    const beams = base?.beams ?? 1;
+    const variants = spellDamageLevels(s, maxSlot).map((level) => ({
+      label: t('spell.circle', { level }),
+      dice: spellDamage(s, sheet.level, level)?.dice ?? '',
+    }));
+    if (!s.attackType && !base) return null;
+    return (
+      <View style={styles.row}>
+        {s.attackType && attackBonus !== undefined ? (
+          <SmallButton
+            title={t('combat.attack', { value: formatModifier(attackBonus) })}
+            tone="accent"
+            flex={1}
+            onPress={() => setRoll({ title: t('combat.attackOf', { name }), parts: d20Parts([{ label: t('magic.attack'), value: attackBonus }], ex) })}
+          />
+        ) : null}
+        {base ? (
+          <SmallButton
+            title={
+              beams > 1
+                ? t('magic.beams', { count: beams, dice: formatDamage(base.dice, bonus) })
+                : t('combat.damage', { value: formatDamage(base.dice, bonus) })
+            }
+            tone="damage"
+            flex={1}
+            onPress={() =>
+              setDamage({
+                title: t('combat.damageOf', { name }),
+                dice: base.dice,
+                bonus,
+                damageType: damageTypeName(s.damage?.type),
+                ...(variants.length > 1 ? { variants } : {}),
+                ...(beams > 1 ? { note: t('magic.beamsNote', { count: beams }) } : {}),
+              })
+            }
+          />
+        ) : null}
+      </View>
+    );
+  };
+
+  const spellRow = (id: string, canCast: boolean, extra?: ReactNode, attackBonus = sc?.attackBonus) => {
     const s = byId.spells.get(id);
     if (!s) return null;
     return (
@@ -93,18 +147,21 @@ export function PlayMagicPage() {
         onPress={() => setInfo({ title: tr(s.name).text, subtitle: spellMeta(s), text: [plain(s.description), plain(s.higherLevel)].filter(Boolean).join('\n\n') })}
         style={({ pressed }) => [styles.spell, pressed && { opacity: 0.85 }]}
       >
-        <View style={styles.fillGap2}>
-          <View style={styles.row}>
-            <AppText style={styles.spellName}>{tr(s.name).text}</AppText>
-            {s.concentration ? <Badge label={t('magic.concentrationBadge')} /> : null}
-            {s.ritual ? <Badge label={t('magic.ritualBadge')} /> : null}
+        <View style={styles.row}>
+          <View style={styles.fillGap2}>
+            <View style={styles.row}>
+              <AppText style={styles.spellName}>{tr(s.name).text}</AppText>
+              {s.concentration ? <Badge label={t('magic.concentrationBadge')} /> : null}
+              {s.ritual ? <Badge label={t('magic.ritualBadge')} /> : null}
+            </View>
+            <AppText variant="secondary" style={styles.size13} numberOfLines={2}>
+              {spellMeta(s)}
+            </AppText>
           </View>
-          <AppText variant="secondary" style={styles.size13} numberOfLines={2}>
-            {spellMeta(s)}
-          </AppText>
+          {canCast && s.level > 0 ? <SmallButton title={t('magic.cast')} tone="accent" onPress={() => cast(s)} /> : null}
+          {extra}
         </View>
-        {canCast && s.level > 0 ? <SmallButton title={t('magic.cast')} tone="accent" onPress={() => cast(s)} /> : null}
-        {extra}
+        {spellActions(s, attackBonus)}
       </Pressable>
     );
   };
@@ -173,7 +230,7 @@ export function PlayMagicPage() {
             {'\n'}
             {t('magic.initiateHint')}
           </AppText>
-          {mi.spells.map((id) => spellRow(id, !!sc))}
+          {mi.spells.map((id) => spellRow(id, !!sc, undefined, mi.ability ? mi.attack : undefined))}
         </View>
       ))}
 
@@ -248,6 +305,7 @@ export function PlayMagicPage() {
               ) : s.swapList ? (
                 <SmallButton title={t('magic.swapCantrip')} onPress={() => setSwapping(s)} />
               ) : null,
+              species.attackBonus,
             );
           })}
           {!sc && message ? <AppText style={styles.textAccent}>{message}</AppText> : null}
@@ -283,6 +341,7 @@ export function PlayMagicPage() {
         onClose={() => setEditing(false)}
       />
       <D20Sheet request={roll} onClose={() => setRoll(null)} />
+      <DamageSheet request={damage} onClose={() => setDamage(null)} />
     </Screen>
   );
 }

@@ -4,8 +4,6 @@ import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   spell: {
-    flexDirection: 'row',
-    alignItems: 'center',
     gap: spacing.sm,
     minHeight: sizes.touchMin + 12,
     backgroundColor: colors.surface,

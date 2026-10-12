@@ -258,6 +258,8 @@ export type Spell = {
     /** Урон по кругу ячейки (ключ — круг) или по уровню персонажа (заговоры). */
     bySlotLevel?: Record<string, string>;
     byCharacterLevel?: Record<string, string>;
+    /** «Мистический заряд»: на 5/11/17 уровне не больше костей, а больше лучей (у каждого свой бросок атаки). */
+    beams?: boolean;
   };
   description: LocalizedText;
   higherLevel?: LocalizedText;

@@ -85,18 +85,27 @@ export function weaponAttack(
   const mod = mods[ability];
   const magic = opts.magicBonus ?? 0;
   const minDie = !ranged ? opts.greatWeaponMinDie : undefined;
+  const rage = opts.strengthDamageBonus ?? 0;
+  const damageBonus = mod + magic + (ability === 'str' ? rage : 0);
   return {
     key: magic ? `${item.id}+${magic}` : item.id,
     itemId: item.id,
     ability,
     toHit: mod + (proficient ? profBonus : 0) + magic + (ranged ? (opts.rangedAttackBonus ?? 0) : 0),
     damageDice: w.damage.dice,
-    damageBonus: mod + magic + (ability === 'str' ? (opts.strengthDamageBonus ?? 0) : 0),
+    damageBonus,
     damageMinDie: w.properties.includes('two-handed') ? minDie : undefined,
     twoHanded: w.twoHandedDamage ? { dice: w.twoHandedDamage.dice, minDie } : undefined,
     damageType: w.damage.type,
     proficient,
     magicBonus: magic,
+    // Свойство «Лёгкое» (SRD 5.2): в дополнительную атаку модификатор не прибавляется, если он не отрицательный.
+    ...(w.properties.includes('light')
+      ? { offhandDamageBonus: damageBonus - mod + (opts.twoWeaponFighting ? mod : Math.min(0, mod)) }
+      : {}),
+    ...(rage && ability === 'dex' && w.properties.includes('finesse')
+      ? { strengthAlt: { toHit: mods.str + (proficient ? profBonus : 0) + magic, damageBonus: mods.str + magic + rage } }
+      : {}),
   };
 }
 

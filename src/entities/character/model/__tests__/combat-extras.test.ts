@@ -97,3 +97,34 @@ describe('«Божественная кара»', () => {
     expect(divineSmiteDice(3, true)).toBe('5d8');
   });
 });
+
+describe('дополнительная атака лёгким оружием', () => {
+  test('без стиля модификатор не прибавляется; со «Сражением двумя оружиями» — прибавляется', () => {
+    const plain = computeSheet(irmaLevel1(), content);
+    expect(attackOf(plain, 'dagger').offhandDamageBonus).toBe(0); // ЛОВ +3 не прибавляется
+    expect(attackOf(plain, 'shortsword').offhandDamageBonus).toBe(0);
+    expect(attackOf(plain, 'shortbow').offhandDamageBonus).toBeUndefined(); // не лёгкое
+    const twf = computeSheet({ ...irmaLevel1(), feats: [{ featId: 'two-weapon-fighting', source: 'class' as const, level: 1 }] }, content);
+    expect(attackOf(twf, 'dagger').offhandDamageBonus).toBe(3);
+  });
+
+  test('отрицательный модификатор прибавляется всегда', () => {
+    const weak = { str: -1, dex: -1, con: 0, int: 0, wis: 0, cha: 0 };
+    expect(weaponAttack(item('dagger'), weak, 2, true)?.offhandDamageBonus).toBe(-1);
+  });
+});
+
+describe('ярость и фехтовальное оружие', () => {
+  test('в ярости у рапиры (бьёт Ловкостью) есть вариант Силой с бонусом ярости', () => {
+    const irmaBarbarian = (raging: boolean) => ({
+      ...irmaLevel1(),
+      classes: [{ classId: 'barbarian', level: 1 }],
+      equipment: [{ itemId: 'rapier', quantity: 1 }],
+      state: { ...emptyGameState(), raging },
+    });
+    expect(attackOf(computeSheet(irmaBarbarian(false), content), 'rapier').strengthAlt).toBeUndefined();
+    const rapier = attackOf(computeSheet(irmaBarbarian(true), content), 'rapier');
+    expect(rapier.ability).toBe('dex');
+    expect(rapier.strengthAlt).toEqual({ toHit: 1, damageBonus: 1 }); // СИЛ −1 + БМ 2; урон −1 + ярость 2
+  });
+});

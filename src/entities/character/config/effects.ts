@@ -10,6 +10,9 @@ export const EFFECTS: Record<string, Effect[]> = {
   // Черта стиля боя «Сражение большим оружием» (Great Weapon Fighting): урон рукопашным оружием,
   // которое держите двумя руками (свойство «двуручное» или «универсальное»), — 1 и 2 на кости считаются за 3.
   'great-weapon-fighting': [{ type: 'greatWeaponMinDie', value: 3 }],
+  // Черта стиля боя «Сражение двумя оружиями» (Two-Weapon Fighting): к урону дополнительной атаки
+  // от свойства «лёгкое» прибавляется модификатор характеристики.
+  'two-weapon-fighting': [{ type: 'lightExtraAttackModifier' }],
   // Черта «Крепкий» (Tough, не SRD): +2 хита за каждый уровень.
   tough: [{ type: 'hpPerLevel', value: 2 }],
   // Дварф, «Дварфийская стойкость»: +1 хит за каждый уровень.

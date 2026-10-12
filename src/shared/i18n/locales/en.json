@@ -572,10 +572,15 @@
     "rageEnd": "End",
     "smiteHint": "Bonus Action right after you hit with a Melee weapon or an Unarmed Strike.",
     "smiteFree": "No slot",
-    "smiteFreeHint": "Paladin’s Smite: once per Long Rest you can cast it without a slot — track that yourself.",
+    "smiteFreeHint": "Paladin’s Smite: once per Long Rest without a slot. Left: {{left}}.",
     "smiteFiend": "Fiend or Undead",
     "smiteCast": "Cast {{dice}}",
-    "smiteNoSlot": "No free level {{level}} slots."
+    "smiteNoSlot": "No free level {{level}} slots.",
+    "smiteFreeUsed": "The free Smite is already used. It returns after a Long Rest.",
+    "strengthAttack": "With STR {{value}}",
+    "offhand": "Extra attack: damage {{value}}",
+    "offhandOf": "Extra attack: {{name}}",
+    "offhandNote": "A Bonus Action after attacking with a Light weapon, using a different Light weapon. Don’t add your ability modifier to the damage unless it is negative (with Two-Weapon Fighting you do)."
   },
   "magic": {
     "none": "No spells",
@@ -609,7 +614,9 @@
     "invocationsHint": "Tap an invocation to read it. “No slot” invocation spells can be cast any number of times; Book of Shadows spells are prepared Warlock spells.",
     "metamagicHint": "Track Sorcery Points in Resources on the Sheet tab. Tap an option to read it.",
     "spellbook": "Spellbook: not prepared",
-    "spellbookHint": "You can cast rituals from your book as Rituals without preparing them. Change prepared spells after a Long Rest via “Edit spells”."
+    "spellbookHint": "You can cast rituals from your book as Rituals without preparing them. Change prepared spells after a Long Rest via “Edit spells”.",
+    "beams": "{{count}} × {{dice}}",
+    "beamsNote": "Beams: {{count}}. Each has its own attack roll; roll damage for each beam that hits."
   },
   "edit": {
     "saveFailed": "Couldn't save the file",

@@ -1,4 +1,4 @@
-import type { CharacterClass } from '@/shared/content';
+import type { CharacterClass, Spell } from '@/shared/content';
 
 import type { ClassEntry } from './types';
 
@@ -32,4 +32,35 @@ export function characterSpellSlots(entries: ClassEntry[], classes: ReadonlyMap<
 export function spellsKnown(cls: CharacterClass, level: number): { cantrips: number; prepared: number } {
   const sc = cls.levels[level - 1]?.spellcasting;
   return { cantrips: sc?.cantrips ?? 0, prepared: sc?.prepared ?? 0 };
+}
+
+/** Пороги уровня персонажа, на которых растёт урон заговоров (SRD 5.2: «Cantrip Upgrade»). */
+const CANTRIP_TIERS = [1, 5, 11, 17];
+
+/**
+ * Урон заклинания: кости для круга ячейки (заговор — для уровня персонажа).
+ * `beams` — сколько лучей у «Мистического заряда» (каждый — отдельная атака с этими костями).
+ * null — у заклинания нет урона в справочнике или нет данных для этого круга.
+ */
+export function spellDamage(spell: Spell, characterLevel: number, slotLevel = spell.level): { dice: string; beams?: number } | null {
+  const d = spell.damage;
+  if (!d) return null;
+  if (spell.level === 0) {
+    const tier = CANTRIP_TIERS.filter((l) => l <= characterLevel).length;
+    if (d.beams) return d.bySlotLevel?.['0'] ? { dice: d.bySlotLevel['0'], beams: tier } : null;
+    const key = String(CANTRIP_TIERS[tier - 1]);
+    const dice = d.byCharacterLevel?.[key] ?? d.bySlotLevel?.['0'];
+    return dice ? { dice } : null;
+  }
+  const dice = d.bySlotLevel?.[String(slotLevel)];
+  return dice ? { dice } : null;
+}
+
+/** Круги, для которых известен урон заклинания: от его круга до `maxSlot`. */
+export function spellDamageLevels(spell: Spell, maxSlot: number): number[] {
+  if (!spell.damage?.bySlotLevel || spell.level === 0) return [];
+  return Object.keys(spell.damage.bySlotLevel)
+    .map(Number)
+    .filter((l) => l >= spell.level && l <= Math.max(spell.level, maxSlot))
+    .sort((a, b) => a - b);
 }

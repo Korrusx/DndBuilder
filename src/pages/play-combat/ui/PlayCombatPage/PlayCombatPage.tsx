@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Alert, View } from 'react-native';
 
 import {
+  adjustResource,
   attackName,
   castSpell,
   characterResources,
@@ -22,6 +23,9 @@ import { formatDamage, formatDice, formatFeet, formatModifier } from '@/shared/l
 import { AppText, BottomSheet, Card, Chip, ChipRow, InfoSheet, MultiPick, Screen, Segmented, SmallButton, StatBox } from '@/shared/ui';
 
 import { styles } from './PlayCombatPage.styles';
+
+/** Ключ в `state.resourcesSpent`: бесплатная «Божественная кара» уже использована. */
+const FREE_SMITE = 'paladins-smite.free';
 
 export function PlayCombatPage() {
   const { character: c, sheet, update, updateState } = usePlay();
@@ -47,9 +51,17 @@ export function PlayCombatPage() {
   const [smiteLevel, setSmiteLevel] = useState<string>('1');
   const [smiteFiend, setSmiteFiend] = useState(false);
   const smiteSlot = smiteLevel === 'free' ? 1 : Number(smiteLevel);
+  // «Кара паладина»: раз до долгого отдыха без ячейки (долгий отдых обнуляет все ресурсы).
+  const freeSmiteLeft = (c.state.resourcesSpent[FREE_SMITE] ?? 0) > 0 ? 0 : 1;
   const castSmite = () => {
     const dice = divineSmiteDice(smiteSlot, smiteFiend);
-    if (smiteLevel !== 'free') {
+    if (smiteLevel === 'free') {
+      if (!freeSmiteLeft) {
+        Alert.alert(t('combat.smiteFree'), t('combat.smiteFreeUsed'));
+        return;
+      }
+      updateState((s) => adjustResource(s, FREE_SMITE, 1, 1));
+    } else {
       const result = castSpell(c.state, 1, slots, smiteSlot);
       if (!result) {
         Alert.alert(t('magic.noSlots'), t('combat.smiteNoSlot', { level: smiteSlot }));
@@ -141,6 +153,41 @@ export function PlayCombatPage() {
                 }
               />
             </View>
+            {a.strengthAlt ? (
+              <View style={styles.row}>
+                <SmallButton
+                  title={t('combat.strengthAttack', { value: formatModifier(a.strengthAlt.toHit) })}
+                  tone="accent"
+                  flex={1}
+                  onPress={() =>
+                    setRoll({ title: t('combat.attackOf', { name }), parts: d20Parts([{ label: t('combat.hit'), value: a.strengthAlt!.toHit }], ex) })
+                  }
+                />
+                <SmallButton
+                  title={t('combat.damage', { value: formatDamage(a.damageDice, a.strengthAlt.damageBonus) })}
+                  tone="damage"
+                  flex={1}
+                  onPress={() =>
+                    setDamage({ title: t('combat.damageOf', { name }), dice: a.damageDice, bonus: a.strengthAlt!.damageBonus, damageType: damageType(a.damageType) })
+                  }
+                />
+              </View>
+            ) : null}
+            {a.offhandDamageBonus !== undefined ? (
+              <SmallButton
+                title={t('combat.offhand', { value: formatDamage(a.damageDice, a.offhandDamageBonus) })}
+                tone="damage"
+                onPress={() =>
+                  setDamage({
+                    title: t('combat.offhandOf', { name }),
+                    dice: a.damageDice,
+                    bonus: a.offhandDamageBonus!,
+                    damageType: damageType(a.damageType),
+                    note: t('combat.offhandNote'),
+                  })
+                }
+              />
+            ) : null}
             {a.twoHanded ? (
               <SmallButton
                 title={t('combat.twoHanded', { value: formatDamage(a.twoHanded.dice, a.damageBonus) })}
@@ -217,7 +264,7 @@ export function PlayCombatPage() {
               ...(sheet.features.some((f) => f.id === 'paladin-paladins-smite') ? [{ value: 'free', label: t('combat.smiteFree') }] : []),
             ]}
           />
-          {smiteLevel === 'free' ? <AppText variant="secondary">{t('combat.smiteFreeHint')}</AppText> : null}
+          {smiteLevel === 'free' ? <AppText variant="secondary">{t('combat.smiteFreeHint', { left: freeSmiteLeft })}</AppText> : null}
           <ChipRow>
             <Chip label={t('combat.smiteFiend')} selected={smiteFiend} onPress={() => setSmiteFiend((v) => !v)} />
           </ChipRow>

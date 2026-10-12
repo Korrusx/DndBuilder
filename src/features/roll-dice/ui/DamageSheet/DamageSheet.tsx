@@ -5,7 +5,7 @@ import type { DamageRoll } from '@/entities/character';
 import { rollDamage } from '@/entities/character';
 import { useTranslation } from '@/shared/i18n';
 import { formatDice, formatModifier } from '@/shared/lib/dice';
-import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
+import { AppText, BottomSheet, Button, Chip, ChipRow, Segmented } from '@/shared/ui';
 
 import { Die } from '../Die/Die';
 import { styles } from './DamageSheet.styles';
@@ -15,13 +15,16 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
   const { t } = useTranslation();
   const [critical, setCritical] = useState(false);
   const [roll, setRoll] = useState<DamageRoll | null>(null);
+  const [variant, setVariant] = useState(0);
+  const dice = request?.variants?.[variant]?.dice ?? request?.dice ?? '';
 
-  const doRoll = (crit: boolean) => request && setRoll(rollDamage(request.dice, request.bonus, crit, Math.random, request.minDie));
+  const doRoll = (crit: boolean, d = dice) => request && setRoll(rollDamage(d, request.bonus, crit, Math.random, request.minDie));
 
   useEffect(() => {
     if (!request) return;
     setCritical(false);
-    doRoll(false);
+    setVariant(0);
+    doRoll(false, request.variants?.[0]?.dice ?? request.dice);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request]);
 
@@ -29,12 +32,28 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
     <BottomSheet visible={!!request} title={request?.title} onClose={onClose}>
       {request ? (
         <AppText variant="secondary">
-          {formatDice(request.dice)}
+          {formatDice(dice)}
           {request.bonus ? ` ${formatModifier(request.bonus)}` : ''}
           {request.damageType ? ` · ${request.damageType}` : ''}
         </AppText>
       ) : null}
       {request?.minDie ? <AppText variant="secondary">{t('roll.greatWeapon', { min: request.minDie })}</AppText> : null}
+      {request?.note ? <AppText variant="secondary">{request.note}</AppText> : null}
+      {request?.variants && request.variants.length > 1 ? (
+        <ChipRow>
+          {request.variants.map((v, i) => (
+            <Chip
+              key={v.label}
+              label={v.label}
+              selected={i === variant}
+              onPress={() => {
+                setVariant(i);
+                doRoll(critical, v.dice);
+              }}
+            />
+          ))}
+        </ChipRow>
+      ) : null}
       <Segmented<'normal' | 'crit'>
         value={critical ? 'crit' : 'normal'}
         onChange={(v) => {

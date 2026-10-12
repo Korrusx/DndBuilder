@@ -434,6 +434,32 @@ async function readExtra(
 }
 
 /** Текст из extra: английский — для ключа, русский — сразу в перевод. */
+/**
+ * Полные таблицы урона заклинания. В API — только урон базового круга, а рост описан текстом SRD:
+ * «The damage increases by 1d6 for each spell slot level above 3» (заклинания) и
+ * «Cantrip Upgrade… levels 5 (2d10), 11 (3d10), and 17 (4d10)» (заговоры; у «Мистического заряда» — лучи).
+ */
+function spellScaling(s: Raw, d: Raw): { bySlotLevel?: Record<string, string>; byCharacterLevel?: Record<string, string>; beams?: boolean } {
+  const text = `${s.description ?? ''} ${s.higher_level ?? ''}`;
+  const bySlotLevel: Record<string, string> | undefined = d.damage_at_slot_level ? { ...d.damage_at_slot_level } : undefined;
+  let byCharacterLevel: Record<string, string> | undefined = d.damage_at_character_level;
+  const out: { bySlotLevel?: Record<string, string>; byCharacterLevel?: Record<string, string>; beams?: boolean } = {};
+
+  const perSlot = text.match(/increases? by (\d+)d(\d+) for each spell slot level above (\d+)/);
+  const base = bySlotLevel?.[String(s.level)]?.match(/^(\d+)d(\d+)$/);
+  if (bySlotLevel && perSlot && base && base[2] === perSlot[2] && Number(perSlot[3]) === s.level) {
+    for (let lvl = s.level + 1; lvl <= 9; lvl++) bySlotLevel[String(lvl)] = `${Number(base[1]) + Number(perSlot[1]) * (lvl - s.level)}d${base[2]}`;
+  }
+  if (s.level === 0 && bySlotLevel?.['0']) {
+    const upgrade = text.match(/levels 5 \((\d+d\d+)\), 11 \((\d+d\d+)\), and 17 \((\d+d\d+)\)/);
+    if (upgrade) byCharacterLevel = { '1': bySlotLevel['0'], '5': upgrade[1], '11': upgrade[2], '17': upgrade[3] };
+    if (/creates two beams at level 5/.test(text)) out.beams = true;
+  }
+  if (bySlotLevel) out.bySlotLevel = bySlotLevel;
+  if (byCharacterLevel) out.byCharacterLevel = byCharacterLevel;
+  return out;
+}
+
 /** Воззвания колдуна и метамагия чародея из SRD 5.2 (в API их нет): srd/class-options.json, перевод — наш. */
 async function readClassOptions(): Promise<ClassOption[]> {
   const data = JSON.parse(await readFile(join(SRD_DIR, 'class-options.json'), 'utf8'));
@@ -826,8 +852,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
         ? {
             damage: {
               ...(d.damage_type ? { type: d.damage_type.index } : {}),
-              ...(d.damage_at_slot_level ? { bySlotLevel: d.damage_at_slot_level } : {}),
-              ...(d.damage_at_character_level ? { byCharacterLevel: d.damage_at_character_level } : {}),
+              ...spellScaling(s, d),
             },
           }
         : {}),
