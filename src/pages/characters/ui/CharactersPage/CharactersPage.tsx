@@ -9,7 +9,7 @@ import { CharacterCard } from '@/entities/character/ui';
 import { CREATE_STEPS } from '@/features/create-character';
 import { ImportError, pickCharactersFile, shareCharacters } from '@/features/transfer-characters';
 import { colors } from '@/shared/config';
-import { content } from '@/shared/content';
+import { contentFor } from '@/shared/content';
 import { setMeta } from '@/shared/db';
 import { useTranslation } from '@/shared/i18n';
 import { formatDate } from '@/shared/lib/date';
@@ -127,7 +127,7 @@ export function CharactersPage() {
   const addSamples = async () => {
     const now = new Date().toISOString();
     const irma = { ...irmaLevel1(), id: newId(), campaign: 'Пробная кампания', createdAt: now };
-    irma.state = { ...irma.state, currentHp: computeSheet(irma, content).maxHp - 3 };
+    irma.state = { ...irma.state, currentHp: computeSheet(irma, contentFor(irma.edition)).maxHp - 3 };
     await saveCharacter(db, irma);
     await saveCharacter(db, {
       ...irmaLevel1(),

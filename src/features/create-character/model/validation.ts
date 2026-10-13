@@ -5,8 +5,13 @@ import {
   CHOICE_KEYS,
   classOptionProblemTexts,
   computeSheet,
-  equipmentChoice,
+  chosenEquipmentOption,
+  equipmentChoices,
   equipmentPicks,
+  featureChoices,
+  languageChoiceCount,
+  originTraitIds,
+  subclassLevel,
   expertiseCount,
   FEAT_FEATURES,
   hasSpellbook,
@@ -27,14 +32,13 @@ import {
   proficiencySlots,
   proficientSkills,
   spellLimits,
-  STANDARD_LANGUAGE_COUNT,
   startingClass,
   validateBackgroundBonuses,
   weaponMasteryCount,
 } from '@/entities/character';
 import type { Content } from '@/shared/content';
 import { t } from '@/shared/i18n/model';
-import { indexOf } from '@/shared/content';
+import { indexOf, tr } from '@/shared/content';
 
 import type { Issue } from './types';
 
@@ -52,6 +56,8 @@ export function draftIssues(c: Character, content: Content): Issue[] {
   // 1. Класс
   const cls = startingClass(c, content);
   need(1, !!cls, t('issues.noClass'));
+  // 2014: жрец, чародей, колдун выбирают подкласс на 1-м уровне.
+  if (cls && subclassLevel(cls.id, content) <= 1) need(1, !!c.classes[0]?.subclassId, t('issues.noSubclass'));
 
   // 2. Предыстория и вид
   const idx = indexOf(content);
@@ -67,6 +73,14 @@ export function draftIssues(c: Character, content: Content): Issue[] {
     if (f.slot === 'versatile') need(2, !!f.featId, t('issues.noVersatileFeat'));
   }
   if (needsSpeciesSpellAbility(c, content)) need(2, !!choice1(c, CHOICE_KEYS.speciesSpellAbility), t('issues.speciesSpellAbility'));
+  // 2014: прибавки расы на выбор (полуэльф), вариант особенности (наследие драконов), заговор высшего эльфа.
+  const bonusChoice = species?.abilityBonusChoice;
+  if (bonusChoice) need(2, count(c.choices[CHOICE_KEYS.speciesAbilityBonus]) === bonusChoice.choose, t('issues.raceBonus', { count: bonusChoice.choose }));
+  for (const traitId of originTraitIds(c, content)) {
+    const trait = idx.traits.get(traitId);
+    if (trait?.subtraits) need(2, !!choice1(c, CHOICE_KEYS.traitOption(traitId)), t('issues.traitOption', { name: tr(trait.name).text }));
+    if (trait?.spellChoice) need(2, count(c.choices[CHOICE_KEYS.traitSpell(traitId)]) === trait.spellChoice.choose, t('issues.traitSpell', { name: tr(trait.name).text }));
+  }
 
   // 3. Характеристики
   const base = c.baseAbilities;
@@ -81,7 +95,7 @@ export function draftIssues(c: Character, content: Content): Issue[] {
     const rolls = [...(c.abilityRolls ?? [])].sort().join(',');
     need(3, rolls === [...values].sort().join(','), t('issues.rollsMismatch'));
   }
-  if (background) {
+  if (background?.abilities.length) {
     need(3, validateBackgroundBonuses(c.backgroundBonuses, background.abilities).length === 0, t('issues.backgroundBonuses'));
   }
 
@@ -99,10 +113,14 @@ export function draftIssues(c: Character, content: Content): Issue[] {
   for (const featureId of featureOptionIds(c, content)) {
     need(4, !!choice1(c, CHOICE_KEYS.featureOption(featureId)), t('issues.featureOption'));
   }
+  for (const f of featureChoices(c, content)) {
+    need(4, count(c.choices[CHOICE_KEYS.featureOption(f.featureId)]) === f.choose, t('issues.featureOption'));
+  }
   for (const featureId of featFeatureIds(c, content)) {
     need(4, c.feats.some((f) => f.source === 'class' && idx.feats.get(f.featId)?.type === FEAT_FEATURES[featureId]), t('issues.fightingStyle'));
   }
-  need(4, c.languages.filter((l) => l !== 'common').length === STANDARD_LANGUAGE_COUNT, t('issues.languages', { count: STANDARD_LANGUAGE_COUNT }));
+  const languageCount = languageChoiceCount(c, content);
+  need(4, c.languages.filter((l) => l !== 'common').length === languageCount, t('issues.languages', { count: languageCount }));
   for (const slot of featureLanguageSlots(c, content)) {
     const left = slot.choose - count(c.choices[slot.key]);
     need(4, left === 0, t('issues.featureLanguages', { feature: featureName({ id: slot.featureId, source: 'class' }), count: left }));
@@ -111,14 +129,13 @@ export function draftIssues(c: Character, content: Content): Issue[] {
 
   // 5. Снаряжение и заклинания
   for (const source of ['class', 'background'] as const) {
-    const choice = equipmentChoice(c, content, source);
-    if (!choice) continue;
-    const chosen = choice1(c, CHOICE_KEYS.equipment(source));
-    const option = chosen === undefined ? undefined : choice.options?.[Number(chosen)];
-    need(5, !!option, source === 'class' ? t('issues.classEquipment') : t('issues.backgroundEquipment'));
-    for (const pick of equipmentPicks(option, content)) {
-      need(5, !!choice1(c, CHOICE_KEYS.equipmentPick(source, pick.index)), t('issues.equipmentPick'));
-    }
+    equipmentChoices(c, content, source).forEach((choice, step) => {
+      const option = chosenEquipmentOption(c, choice, source, step);
+      need(5, !!option, source === 'class' ? t('issues.classEquipment') : t('issues.backgroundEquipment'));
+      for (const pick of equipmentPicks(option, content)) {
+        need(5, count(c.choices[CHOICE_KEYS.equipmentPick(source, pick.index, step)]) === pick.choose, t('issues.equipmentPick'));
+      }
+    });
   }
   const limits = spellLimits(c, content);
   if (limits) {

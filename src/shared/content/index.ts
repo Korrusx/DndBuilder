@@ -1,5 +1,6 @@
 export { COIN_ORDER } from './constants';
-export { byId, content, contentFor, indexOf, tr, translationProgress } from './content';
+export { activeEdition, byId, content, contentFor, indexOf, setActiveEdition, tr, translationProgress } from './content';
+export { useActiveEdition } from './useActiveEdition';
 export {
   abilityAbbr,
   abilityName,
@@ -17,6 +18,7 @@ export {
 export { plain } from './plain';
 export { spellMeta } from './spellMeta';
 export type {
+  AbilityBonuses,
   AbilityId,
   ArmorInfo,
   Background,

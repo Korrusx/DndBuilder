@@ -9,7 +9,7 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, 
 import type { Character } from '@/entities/character';
 import { newDraftCharacter } from '@/entities/character';
 import { getCharacter, newId, saveCharacter } from '@/entities/character/api';
-import { content } from '@/shared/content';
+import { content, useActiveEdition } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 
 import { CREATE_STEPS } from '../config/steps';
@@ -32,6 +32,9 @@ export function DraftProvider({ children }: { children: ReactNode }) {
       alive = false;
     };
   }, [db, id]);
+
+  // Шаги мастера берут справочник редакции персонажа (content / byId).
+  useActiveEdition(character?.edition ?? '2024');
 
   const update = useCallback((fn: (c: Character) => Character) => setCharacter((c) => (c ? fn(c) : c)), []);
   // Сообщения о проблемах — на текущем языке: при смене языка пересчитываем.

@@ -53,9 +53,15 @@ export const CHOICE_KEYS = {
   tomeRituals: 'class.warlock.tome.rituals',
   /** Книга заклинаний волшебника: заклинания 1+ круга (подготовить можно только из неё). */
   spellbook: 'class.wizard.spellbook',
-  /** Стартовое снаряжение: номер варианта (A = 0) и выбор предмета внутри набора. */
-  equipment: (source: 'class' | 'background') => `equip.${source}`,
-  equipmentPick: (source: 'class' | 'background', i: number) => `equip.${source}.pick.${i}`,
+  /**
+   * Стартовое снаряжение: номер варианта (A = 0) и выбор предмета внутри набора. `step` — номер выбора
+   * (в 2024 выбор один; в 2014 их несколько: «(а) рапира или (б) короткий меч», «(а) короткий лук или…»).
+   */
+  equipment: (source: 'class' | 'background', step = 0) => (step ? `equip.${source}.${step}` : `equip.${source}`),
+  equipmentPick: (source: 'class' | 'background', i: number, step = 0) =>
+    step ? `equip.${source}.${step}.pick.${i}` : `equip.${source}.pick.${i}`,
+  /** 2014: заклинание на выбор от особенности расы (заговор высшего эльфа). */
+  traitSpell: (traitId: string) => `trait.${traitId}.spell`,
 } as const;
 
 /** Умения 1-го уровня с выбором одного из вариантов. */
@@ -152,7 +158,8 @@ export const SPECIES_SPELL_ABILITY_TRAITS = ['elven-lineage', 'fiendish-legacy',
 export const SPECIES_SPELL_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
 
 /** Особенности с заданной характеристикой (Аасимар, «Несущий свет»: Харизма). */
-export const SPECIES_SPELL_FIXED_ABILITY: Record<string, AbilityId> = { 'light-bearer': 'cha' };
+// 2014 (SRD 5.1): заговор высшего эльфа творится Интеллектом.
+export const SPECIES_SPELL_FIXED_ABILITY: Record<string, AbilityId> = { 'light-bearer': 'cha', 'high-elf-cantrip': 'int' };
 
 /**
  * Сколько раз заклинание вида творится без ячейки до долгого отдыха. По умолчанию — 1

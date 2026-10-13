@@ -1,9 +1,10 @@
 // Мастер создания персонажа 1-го уровня: какие выборы нужно сделать, что из них следует,
 // и чего не хватает, чтобы персонаж был готов. Чистые функции, без React и базы.
 
-import type { AbilityId, Choice, ChoiceOption, Coin, Content } from '@/shared/content';
+import type { AbilityId, Choice, ChoiceOption, Coin, Content, Edition } from '@/shared/content';
 import { indexOf } from '@/shared/content';
-import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_LANGUAGES, FEATURE_OPTIONS, SPELLCASTER_PROGRESSION } from '../config/constants';
+import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_LANGUAGES, FEATURE_OPTIONS, SPELLCASTER_PROGRESSION, STANDARD_LANGUAGE_COUNT } from '../config/constants';
+import { newDraftCharacter } from './character';
 import { choice1 } from './choices';
 import { abilityModifier } from './abilities';
 import { finalAbilityScores, makeProficiencyCheck, proficiencyIds } from './sheet';
@@ -26,6 +27,31 @@ export function choiceOptionIds(choice: Choice, content: Content): string[] {
     return [];
   });
   return [...new Set([...fromCategory, ...fromOptions])];
+}
+
+// ---------- Редакция ----------
+
+/** Смена редакции: выборы другой редакции не подходят (другие id и правила) — черновик начинается заново, имя остаётся. */
+export function setEdition(c: Character, edition: Edition): Character {
+  if (c.edition === edition) return c;
+  const fresh = newDraftCharacter(c.id, c.createdAt, edition);
+  return { ...fresh, name: c.name, player: c.player, notes: c.notes, campaign: c.campaign, updatedAt: c.updatedAt };
+}
+
+/** С какого уровня класса выбирается подкласс (2024 — с 3-го у всех; 2014 — жрец, чародей, колдун с 1-го). */
+export function subclassLevel(classId: string, content: Content): number {
+  const idx = indexOf(content);
+  const levels = (idx.classes.get(classId)?.subclasses ?? []).flatMap((id) =>
+    (idx.subclasses.get(id)?.features ?? []).map((f) => idx.features.get(f)?.level ?? 99),
+  );
+  return levels.length ? Math.min(...levels) : 3;
+}
+
+export function setSubclass(c: Character, subclassId: string): Character {
+  const [first, ...rest] = c.classes;
+  if (!first || first.subclassId === subclassId) return c;
+  // Варианты умений прежнего подкласса (драконий предок) больше не нужны.
+  return { ...c, classes: [{ ...first, subclassId }, ...rest], choices: dropChoices(c.choices, ['feature.']) };
 }
 
 // ---------- Смена класса, предыстории, вида ----------
@@ -126,14 +152,55 @@ function speciesTraitIds(c: Character, content: Content): string[] {
   return [...(species?.traits ?? []), ...(sub?.traits.filter((t) => t.level <= 1).map((t) => t.id) ?? [])];
 }
 
-/** Владения, которые даются без выбора (класс и предыстория). Их нельзя выбрать ещё раз. */
-export function fixedProficiencies(c: Character, content: Content): { id: string; source: 'class' | 'background' }[] {
+/** Владения, которые даются без выбора (класс, предыстория, особенности расы 2014). Их нельзя выбрать ещё раз. */
+export function fixedProficiencies(c: Character, content: Content): { id: string; source: 'class' | 'background' | 'species' }[] {
   const cls = startingClass(c, content);
-  const background = indexOf(content).backgrounds.get(c.backgroundId);
+  const idx = indexOf(content);
+  const background = idx.backgrounds.get(c.backgroundId);
   return [
     ...(cls?.proficiencies ?? []).map((id) => ({ id, source: 'class' as const })),
     ...(background?.proficiencies ?? []).map((id) => ({ id, source: 'background' as const })),
+    ...speciesTraitIds(c, content).flatMap((t) => (idx.traits.get(t)?.proficiencies ?? []).map((id) => ({ id, source: 'species' as const }))),
   ];
+}
+
+/** Особенности расы / вида 1-го уровня (с подрасой / подвидом). */
+export function originTraitIds(c: Character, content: Content): string[] {
+  return speciesTraitIds(c, content);
+}
+
+/**
+ * 2014: варианты умений 1-го уровня (класс и подкласс 1-го уровня): боевой стиль, драконий предок.
+ * Ключ выбора — CHOICE_KEYS.featureOption(featureId), значения — id умений-вариантов.
+ */
+export function featureChoices(c: Character, content: Content): { featureId: string; choose: number; options: string[] }[] {
+  const idx = indexOf(content);
+  const first = c.classes[0];
+  const cls = first && idx.classes.get(first.classId);
+  if (!cls) return [];
+  const sub = first.subclassId ? idx.subclasses.get(first.subclassId) : undefined;
+  const ids = [...(cls.levels[0]?.features ?? []), ...(sub?.features ?? []).filter((id) => idx.features.get(id)?.level === 1)];
+  return ids.flatMap((featureId) => {
+    const choice = idx.features.get(featureId)?.optionChoice;
+    return choice ? [{ featureId, choose: choice.choose, options: choiceOptionIds(choice, content) }] : [];
+  });
+}
+
+/** Сколько языков выбирает игрок: 2024 — два стандартных; 2014 — сколько дают раса, её особенности и предыстория. */
+export function languageChoiceCount(c: Character, content: Content): number {
+  if (content.edition !== '2014') return STANDARD_LANGUAGE_COUNT;
+  const idx = indexOf(content);
+  const species = idx.species.get(c.speciesId);
+  const background = idx.backgrounds.get(c.backgroundId);
+  const traits = speciesTraitIds(c, content).map((id) => idx.traits.get(id)?.languageChoice?.choose ?? 0);
+  return (species?.languageChoice?.choose ?? 0) + (background?.languageChoice?.choose ?? 0) + traits.reduce((a, b) => a + b, 0);
+}
+
+/** Из каких языков выбирать: 2024 — стандартные; 2014 — любые, кроме уже известных от расы. */
+export function languageChoiceOptions(c: Character, content: Content): string[] {
+  if (content.edition !== '2014') return languageOptions(content);
+  const own = new Set(['common', ...(indexOf(content).species.get(c.speciesId)?.languages ?? [])]);
+  return content.languages.map((l) => l.id).filter((id) => !own.has(id));
 }
 
 /** Навыки (id навыков), которыми персонаж владеет — для выбора компетентности. */
@@ -241,15 +308,31 @@ export function knownLanguages(c: Character, content: Content): string[] {
 // ---------- Шаг 5: снаряжение ----------
 
 export function equipmentChoice(c: Character, content: Content, source: EquipmentSource): Choice | undefined {
-  if (source === 'class') return startingClass(c, content)?.startingEquipment[0];
-  return indexOf(content).backgrounds.get(c.backgroundId)?.equipment[0];
+  return equipmentChoices(c, content, source)[0];
 }
 
-/** Вложенные выборы внутри варианта набора («священный символ на выбор»): индекс → варианты. */
-export function equipmentPicks(option: ChoiceOption | undefined, content: Content): { index: number; options: string[] }[] {
+/**
+ * Все выборы стартового снаряжения класса или предыстории. В 2024 он один (набор A или B), в 2014 — несколько.
+ * «Любой предмет из категории» без вариантов превращается в выбор из одного варианта с выбором предмета.
+ */
+export function equipmentChoices(c: Character, content: Content, source: EquipmentSource): Choice[] {
+  const list = source === 'class' ? startingClass(c, content)?.startingEquipment : indexOf(content).backgrounds.get(c.backgroundId)?.equipment;
+  return (list ?? []).map((ch) => (ch.options ? ch : { choose: 1, options: [{ kind: 'choice', choice: ch }] }));
+}
+
+/** Выбранный вариант: номер из выборов игрока; если вариант один — он и выбран. */
+export function chosenEquipmentOption(c: Character, choice: Choice, source: EquipmentSource, step: number): ChoiceOption | undefined {
+  if (choice.options?.length === 1) return choice.options[0];
+  const chosen = choice1(c, CHOICE_KEYS.equipment(source, step));
+  return chosen === undefined ? undefined : choice.options?.[Number(chosen)];
+}
+
+/** Вложенные выборы внутри варианта набора («священный символ на выбор»): индекс → варианты и сколько выбрать. */
+export function equipmentPicks(option: ChoiceOption | undefined, content: Content): { index: number; options: string[]; choose: number }[] {
+  if (option?.kind === 'choice') return [{ index: 0, options: choiceOptionIds(option.choice, content), choose: option.choice.choose }];
   if (option?.kind !== 'all') return [];
   return option.items.flatMap((item, index) =>
-    item.kind === 'choice' ? [{ index, options: choiceOptionIds(item.choice, content) }] : [],
+    item.kind === 'choice' ? [{ index, options: choiceOptionIds(item.choice, content), choose: item.choice.choose }] : [],
   );
 }
 
@@ -260,18 +343,15 @@ export function startingKit(c: Character, content: Content): { items: InventoryI
   const add = (id: string, n: number) => counts.set(id, (counts.get(id) ?? 0) + n);
 
   for (const source of ['class', 'background'] as const) {
-    const choice = equipmentChoice(c, content, source);
-    const chosen = choice1(c, CHOICE_KEYS.equipment(source));
-    const option = chosen === undefined ? undefined : choice?.options?.[Number(chosen)];
-    if (!option) continue;
-    const items = option.kind === 'all' ? option.items : [option];
-    items.forEach((item, i) => {
-      if (item.kind === 'item') add(item.id, item.count);
-      else if (item.kind === 'money') coins[item.unit] = (coins[item.unit] ?? 0) + item.amount;
-      else if (item.kind === 'choice') {
-        const pick = choice1(c, CHOICE_KEYS.equipmentPick(source, i));
-        if (pick) add(pick, 1);
-      }
+    equipmentChoices(c, content, source).forEach((choice, step) => {
+      const option = chosenEquipmentOption(c, choice, source, step);
+      if (!option) return;
+      const items = option.kind === 'all' ? option.items : [option];
+      items.forEach((item, i) => {
+        if (item.kind === 'item') add(item.id, item.count);
+        else if (item.kind === 'money') coins[item.unit] = (coins[item.unit] ?? 0) + item.amount;
+        else if (item.kind === 'choice') for (const pick of c.choices[CHOICE_KEYS.equipmentPick(source, i, step)] ?? []) add(pick, 1);
+      });
     });
   }
 

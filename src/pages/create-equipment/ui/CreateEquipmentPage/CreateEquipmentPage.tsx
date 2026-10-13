@@ -1,8 +1,8 @@
-import { CHOICE_KEYS, hasSpellbook, magicInitiateSlots, preparableSpells, setSpellbook, spellbook, spellbookMinimum, spellLimits, spellOptions } from '@/entities/character';
+import { CHOICE_KEYS, hasSpellbook, magicInitiateSlots, preparableSpells, setSpellbook, spellbook, spellbookMinimum, spellLimits, spellOptions, subclassSpellIds } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import { content, nameOf, spellName } from '@/shared/content';
+import { byId, content, nameOf, spellName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { MultiPick, Section } from '@/shared/ui';
+import { Hint, MultiPick, Section } from '@/shared/ui';
 
 import { applyKit } from '../../lib/applyKit';
 import { EquipmentSection } from '../EquipmentSection/EquipmentSection';
@@ -14,6 +14,9 @@ export function CreateEquipmentPage() {
   const issues = allIssues.filter((i) => i.step === 5);
   const setChoice = (key: string, ids: string[]) => update((d) => ({ ...d, choices: { ...d.choices, [key]: ids } }));
   const limits = spellLimits(c, content);
+  // 2014: бард, следопыт, чародей, колдун знают заклинания, а не готовят их.
+  const known = limits ? byId.classes.get(limits.classId)?.spellcasting?.preparation === 'known' : false;
+  const alwaysPrepared = subclassSpellIds(c, content);
 
   return (
     <WizardScreen step={5} canContinue={issues.length === 0} summary={<StepStatus issues={issues} />} prepare={applyKit}>
@@ -42,7 +45,8 @@ export function CreateEquipmentPage() {
               />
             </Section>
           ) : null}
-          <Section title={t('equipmentStep.spells')} picked={c.preparedSpells.length} need={limits.prepared}>
+          <Section title={known ? t('equipmentStep.knownSpells') : t('equipmentStep.spells')} picked={c.preparedSpells.length} need={limits.prepared}>
+            {alwaysPrepared.length ? <Hint>{t('equipmentStep.subclassSpells', { list: alwaysPrepared.map(spellName).join(', ') })}</Hint> : null}
             <MultiPick
               options={preparableSpells(c, content, limits.classId, 1)}
               selected={c.preparedSpells}

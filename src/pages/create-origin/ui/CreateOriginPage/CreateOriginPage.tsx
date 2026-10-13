@@ -1,14 +1,31 @@
 import { View } from 'react-native';
 
-import { choice1, CHOICE_KEYS, needsSpeciesSpellAbility, originFeats, setBackground, setSpecies, SPECIES_SPELL_ABILITIES } from '@/entities/character';
+import {
+  choice1,
+  CHOICE_KEYS,
+  choiceOptionIds,
+  needsSpeciesSpellAbility,
+  originFeats,
+  originTraitIds,
+  setBackground,
+  setSpecies,
+  SPECIES_SPELL_ABILITIES,
+} from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import { abilityAbbr, abilityName, byId, content, nameOf, proficiencyName, sizeName } from '@/shared/content';
+import type { AbilityBonuses, AbilityId } from '@/shared/content';
+import { abilityAbbr, abilityName, byId, content, nameOf, proficiencyName, sizeName, spellName, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet } from '@/shared/lib/dice';
-import { AppText, Chip, ChipRow, OptionCard, Section } from '@/shared/ui';
+import { AppText, Chip, ChipRow, MultiPick, OptionCard, Section } from '@/shared/ui';
 
 import { DEFAULT_SPECIES_ICON, SPECIES_ICONS } from '../../config/icons';
 import { styles } from './CreateOriginPage.styles';
+
+/** «ЛОВ +2, ХАР +1». */
+const bonusText = (b: AbilityBonuses | undefined) =>
+  Object.entries(b ?? {})
+    .map(([id, v]) => `${abilityAbbr(id as AbilityId)} +${v}`)
+    .join(', ');
 
 export function CreateOriginPage() {
   const { character: c, update, issues: allIssues } = useDraft();
@@ -17,6 +34,10 @@ export function CreateOriginPage() {
   const background = byId.backgrounds.get(c.backgroundId);
   const versatile = originFeats(c, content).find((f) => f.slot === 'versatile');
   const issues = allIssues.filter((i) => i.step === 2);
+  const is2014 = c.edition === '2014';
+  const setChoice = (key: string, ids: string[]) => update((d) => ({ ...d, choices: { ...d.choices, [key]: ids } }));
+  const traits = originTraitIds(c, content).flatMap((id) => byId.traits.get(id) ?? []);
+  const bonusChoice = species?.abilityBonusChoice;
   const speciesRows: (typeof content.species)[] = [];
   for (let i = 0; i < content.species.length; i += 2) speciesRows.push(content.species.slice(i, i + 2));
 
@@ -26,7 +47,7 @@ export function CreateOriginPage() {
       canContinue={issues.length === 0}
       summary={<StepStatus issues={issues} />}
     >
-      <Section title={t('origin.background')} hint={t('origin.backgroundHint')}>
+      <Section title={t('origin.background')} hint={is2014 ? t('origin.backgroundHint2014') : t('origin.backgroundHint')}>
         <ChipRow>
           {content.backgrounds.map((b) => (
             <Chip
@@ -43,15 +64,19 @@ export function CreateOriginPage() {
         <OptionCard
           title={nameOf('backgrounds', background.id)}
           lines={[
-            t('origin.abilities', { list: background.abilities.map(abilityAbbr).join(', ') }),
-            t('origin.feat', { name: `${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}` }),
+            ...(background.abilities.length ? [t('origin.abilities', { list: background.abilities.map(abilityAbbr).join(', ') })] : []),
+            ...(background.featId
+              ? [t('origin.feat', { name: `${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}` })]
+              : []),
+            ...(background.feature ? [t('origin.feature', { name: tr(background.feature.name).text })] : []),
             `${t('origin.proficiencies', { list: background.proficiencies.map(proficiencyName).join(', ') })}${background.proficiencyChoices.length ? t('origin.plusChoice') : ''}`,
+            ...(background.languageChoice ? [t('origin.languagesChoice', { count: background.languageChoice.choose })] : []),
             ...(background.extra ? [t('common.fromPhb')] : []),
           ]}
         />
       ) : null}
 
-      <Section title={t('origin.species')}>
+      <Section title={is2014 ? t('origin.race') : t('origin.species')}>
         <View style={styles.grid}>
           {speciesRows.map((row) => (
             <View key={row[0].id} style={styles.row}>
@@ -80,18 +105,21 @@ export function CreateOriginPage() {
           title={nameOf('species', species.id)}
           lines={[
             t('origin.speedSize', { speed: formatFeet(species.speed), sizes: species.sizes.map(sizeName).join(` ${t('common.or')} `) }),
+            ...(species.abilityBonuses ? [t('origin.raceBonuses', { list: bonusText(species.abilityBonuses) })] : []),
+            ...(species.languages ? [t('origin.languages', { list: species.languages.map((id) => nameOf('languages', id)).join(', ') })] : []),
             t('origin.traits', { list: species.traits.map((id) => nameOf('traits', id)).join(', ') }),
           ]}
         />
       ) : null}
 
       {species && species.subspecies.length > 0 ? (
-        <Section title={t('origin.subspecies')} hint={t('origin.subspeciesHint')}>
+        <Section title={is2014 ? t('origin.subrace') : t('origin.subspecies')} hint={is2014 ? t('origin.subraceHint') : t('origin.subspeciesHint')}>
           <ChipRow>
             {species.subspecies.map((id) => (
               <Chip
                 key={id}
                 label={nameOf('subspecies', id)}
+                note={bonusText(byId.subspecies.get(id)?.abilityBonuses) || undefined}
                 selected={id === c.subspeciesId}
                 onPress={() => update((d) => ({ ...d, subspeciesId: id }))}
               />
@@ -99,6 +127,56 @@ export function CreateOriginPage() {
           </ChipRow>
         </Section>
       ) : null}
+
+      {bonusChoice ? (
+        <Section
+          title={t('origin.bonusChoice')}
+          hint={t('origin.bonusChoiceHint', { bonus: bonusChoice.bonus, count: bonusChoice.choose })}
+          picked={(c.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []).length}
+          need={bonusChoice.choose}
+        >
+          <MultiPick
+            options={bonusChoice.options}
+            selected={c.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []}
+            max={bonusChoice.choose}
+            label={(id) => abilityName(id as AbilityId)}
+            onChange={(ids) => setChoice(CHOICE_KEYS.speciesAbilityBonus, ids)}
+          />
+        </Section>
+      ) : null}
+
+      {traits
+        .filter((trait) => trait.subtraits)
+        .map((trait) => (
+          <Section key={trait.id} title={tr(trait.name).text} picked={choice1(c, CHOICE_KEYS.traitOption(trait.id)) ? 1 : 0} need={1}>
+            <MultiPick
+              options={trait.subtraits!}
+              selected={c.choices[CHOICE_KEYS.traitOption(trait.id)] ?? []}
+              max={1}
+              label={(id) => nameOf('traits', id)}
+              onChange={(ids) => setChoice(CHOICE_KEYS.traitOption(trait.id), ids)}
+            />
+          </Section>
+        ))}
+
+      {traits
+        .filter((trait) => trait.spellChoice)
+        .map((trait) => (
+          <Section
+            key={trait.id}
+            title={t('origin.traitSpell', { name: tr(trait.name).text })}
+            picked={(c.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []).length}
+            need={trait.spellChoice!.choose}
+          >
+            <MultiPick
+              options={choiceOptionIds(trait.spellChoice!, content)}
+              selected={c.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []}
+              max={trait.spellChoice!.choose}
+              label={spellName}
+              onChange={(ids) => setChoice(CHOICE_KEYS.traitSpell(trait.id), ids)}
+            />
+          </Section>
+        ))}
 
       {needsSpeciesSpellAbility(c, content) ? (
         <Section title={t('origin.spellAbility')} hint={t('origin.spellAbilityHint')}>

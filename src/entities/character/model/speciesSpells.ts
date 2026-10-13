@@ -55,9 +55,11 @@ export function speciesSpellcasting(
   for (const f of sheet.features) {
     if (f.source !== 'species') continue;
     const trait = idx.traits.get(f.id);
-    if (!trait?.spells) continue;
+    // 2014: заклинание на выбор (заговор высшего эльфа) — из выборов игрока.
+    const traitSpells = trait?.spells ?? (trait?.spellChoice ? (c.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []) : undefined);
+    if (!trait || !traitSpells?.length) continue;
     fixedAbility ??= SPECIES_SPELL_FIXED_ABILITY[trait.id];
-    for (const original of trait.spells) {
+    for (const original of traitSpells) {
       const swapList = SPECIES_CANTRIP_SWAP[trait.id];
       const spellId = (swapList && choice1(c, CHOICE_KEYS.speciesCantrip(trait.id))) || original;
       const level = idx.spells.get(spellId)?.level ?? 0;

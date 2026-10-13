@@ -6,15 +6,16 @@ import {
   featFeatureIds,
   FEATURE_LANGUAGES,
   FEATURE_OPTIONS,
+  featureChoices,
   featureLanguageSlots,
   featureName,
   featureOptionIds,
   fixedProficiencies,
   knownLanguages,
-  languageOptions,
+  languageChoiceCount,
+  languageChoiceOptions,
   proficiencySlots,
   proficientSkills,
-  STANDARD_LANGUAGE_COUNT,
   weaponMasteryCount,
   weaponMasteryOptions,
 } from '@/entities/character';
@@ -38,7 +39,8 @@ export function CreateSkillsPage() {
   // Что уже есть: выдано без выбора или выбрано в другом разделе — второй раз не выбирается.
   const blockedFor = (key: string) => {
     const m = new Map<string, string>();
-    for (const f of fixed) m.set(f.id, f.source === 'class' ? t('skillsStep.fromClass') : t('skillsStep.fromBackground'));
+    const from = { class: t('skillsStep.fromClass'), background: t('skillsStep.fromBackground'), species: t('skillsStep.fromSpecies') };
+    for (const f of fixed) m.set(f.id, from[f.source]);
     for (const s of slots) if (s.key !== key) for (const id of c.choices[s.key] ?? []) m.set(id, t('skillsStep.alreadyChosen'));
     return m;
   };
@@ -50,6 +52,7 @@ export function CreateSkillsPage() {
   const languageSlots = featureLanguageSlots(c, content);
   const slotLanguages = new Set(languageSlots.flatMap((s) => c.choices[s.key] ?? []));
   const classLanguages = knownLanguages(c, content).filter((id) => id !== 'common' && !c.languages.includes(id) && !slotLanguages.has(id));
+  const languageCount = languageChoiceCount(c, content);
 
   return (
     <WizardScreen step={4} canContinue={issues.every((i) => !i.blocking)} summary={<StepStatus issues={issues.filter((i) => i.blocking)} />}>
@@ -117,6 +120,23 @@ export function CreateSkillsPage() {
         );
       })}
 
+      {featureChoices(c, content).map((f) => (
+        <Section
+          key={f.featureId}
+          title={nameOf('features', f.featureId)}
+          picked={(c.choices[CHOICE_KEYS.featureOption(f.featureId)] ?? []).length}
+          need={f.choose}
+        >
+          <MultiPick
+            options={f.options}
+            selected={c.choices[CHOICE_KEYS.featureOption(f.featureId)] ?? []}
+            max={f.choose}
+            label={(id) => nameOf('features', id)}
+            onChange={(ids) => setChoice(CHOICE_KEYS.featureOption(f.featureId), ids)}
+          />
+        </Section>
+      ))}
+
       <ClassOptionsPicker character={c} onChoice={setChoice} />
 
       {featFeatureIds(c, content).map((featureId) => {
@@ -162,14 +182,18 @@ export function CreateSkillsPage() {
 
       <Section
         title={t('skillsStep.languages')}
-        hint={t('skillsStep.languagesHint', { count: STANDARD_LANGUAGE_COUNT })}
+        hint={
+          c.edition === '2014'
+            ? t('skillsStep.languagesHint2014', { count: languageCount })
+            : t('skillsStep.languagesHint', { count: languageCount })
+        }
         picked={languages.length}
-        need={STANDARD_LANGUAGE_COUNT}
+        need={languageCount}
       >
         <MultiPick
-          options={languageOptions(content).filter((id) => !slotLanguages.has(id) && !classLanguages.includes(id))}
+          options={languageChoiceOptions(c, content).filter((id) => !slotLanguages.has(id) && !classLanguages.includes(id))}
           selected={languages}
-          max={STANDARD_LANGUAGE_COUNT}
+          max={languageCount}
           label={(id) => nameOf('languages', id)}
           onChange={(ids) => update((d) => ({ ...d, languages: ['common', ...ids] }))}
         />

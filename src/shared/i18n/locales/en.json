@@ -135,7 +135,11 @@
     "unmetOptions": "Prerequisites not met: {{list}}",
     "tome": "Book of Shadows: choose 3 cantrips and 2 rituals",
     "spellbook": "Spellbook: choose {{count}} level 1 spells",
-    "preparedNotInBook": "You can prepare only spells from your spellbook"
+    "preparedNotInBook": "You can prepare only spells from your spellbook",
+    "noSubclass": "No subclass chosen",
+    "raceBonus": "Choose race increases: {{count}}",
+    "traitOption": "No option chosen: {{name}}",
+    "traitSpell": "No spell chosen: {{name}}"
   },
   "roll": {
     "exhaustion": "Exhaustion {{level}}",
@@ -431,7 +435,9 @@
   "createClass": {
     "chosen": "Chosen:",
     "choose": "Choose a class",
-    "hitDie": "Hit Die {{die}}"
+    "hitDie": "Hit Die {{die}}",
+    "subclass": "Subclass",
+    "subclassHint": "Under the 2014 rules this class chooses its subclass at level 1."
   },
   "origin": {
     "background": "Background",
@@ -449,7 +455,18 @@
     "versatile": "Versatile",
     "versatileHint": "A human gains one more origin feat. Skilled is recommended.",
     "spellAbility": "Species spellcasting ability",
-    "spellAbilityHint": "It sets the save DC and attack bonus of the spells your species grants."
+    "spellAbilityHint": "It sets the save DC and attack bonus of the spells your species grants.",
+    "race": "Race",
+    "subrace": "Subrace",
+    "subraceHint": "Choose one.",
+    "backgroundHint2014": "Gives skills, tools or languages, equipment and a special feature.",
+    "raceBonuses": "Increases: {{list}}",
+    "languages": "Languages: {{list}}",
+    "languagesChoice": "Languages of your choice: {{count}}",
+    "feature": "Feature: {{name}}",
+    "bonusChoice": "Increases of your choice",
+    "bonusChoiceHint": "+{{bonus}} to {{count}} different abilities.",
+    "traitSpell": "Spell: {{name}}"
   },
   "abilities": {
     "standard": "Standard Array",
@@ -469,7 +486,9 @@
     "bgBonuses": "Background bonuses",
     "bgHint": "The {{background}} background raises {{abilities}}: +2 to one and +1 to another, or +1 to all three. No score above 20.",
     "twoOne": "+2 and +1",
-    "oneOneOne": "+1 to three"
+    "oneOneOne": "+1 to three",
+    "raceHint": "Ability increases come from your race: {{list}}. No score above 20.",
+    "raceHintNone": "Ability increases come from your race — choose it in step 2."
   },
   "skillsStep": {
     "fromClass": "from class",
@@ -493,7 +512,9 @@
     "languagesHint": "Everyone knows Common. Choose {{count}} more standard languages.",
     "fixed": "Fixed proficiencies",
     "featureLanguagesHint": "You know: {{known}}. Choose {{count}} more — any language, rare ones included.",
-    "classLanguages": "From your class: {{list}}"
+    "classLanguages": "From your class: {{list}}",
+    "fromSpecies": "from race",
+    "languagesHint2014": "Your race and background give languages of your choice: {{count}}. Any, exotic ones included."
   },
   "equipmentStep": {
     "kit": "Equipment: {{name}}",
@@ -502,7 +523,11 @@
     "cantrips": "Cantrips",
     "spells": "Prepared level 1 spells",
     "spellbook": "Spellbook",
-    "spellbookHint": "Six level 1 spells. You prepare four of them; the rest are in reserve: you can change prepared spells after a Long Rest."
+    "spellbookHint": "Six level 1 spells. You prepare four of them; the rest are in reserve: you can change prepared spells after a Long Rest.",
+    "more": "Another choice",
+    "fixedKit": "No choice",
+    "knownSpells": "Known level 1 spells",
+    "subclassSpells": "Always prepared (subclass): {{list}}"
   },
   "magicInitiate": {
     "fromBackground": "background",
@@ -700,5 +725,14 @@
     "tomeCantrips": "Book of Shadows: cantrips",
     "tomeRituals": "Book of Shadows: level 1 rituals",
     "tomeHint": "From any class’s spell list. While the book is on you, they are prepared and count as Warlock spells."
+  },
+  "edition": {
+    "title": "Rules edition",
+    "v2024": "D&D 2024",
+    "v2014": "D&D 2014",
+    "hint2024": "2024 rules (SRD 5.2): ability bonuses and a feat come from your background.",
+    "hint2014": "2014 rules (SRD 5.1): ability increases come from your race; the background has its own feature.",
+    "changeWarning": "Changing the edition restarts the draft (the name is kept).",
+    "badge2014": "2014 rules"
   }
 }

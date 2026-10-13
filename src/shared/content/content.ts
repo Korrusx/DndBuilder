@@ -7,9 +7,7 @@ import type { Content, ContentIndex, Edition, LocalizedText } from './types';
 
 export type * from './types';
 
-/** Справочник 2024 (SRD 5.2) — основной. */
-export const content = data as unknown as Content;
-
+const content2024 = data as unknown as Content;
 let content2014: Content | undefined;
 
 /**
@@ -17,7 +15,7 @@ let content2014: Content | undefined;
  * загружается при первом обращении, чтобы не замедлять запуск тем, кто играет только по 2024.
  */
 export function contentFor(edition: Edition): Content {
-  if (edition === '2024') return content;
+  if (edition === '2024') return content2024;
   content2014 ??= require('../../../assets/content/content-2014.json') as Content;
   return content2014;
 }
@@ -35,8 +33,35 @@ export function indexOf(c: Content): ContentIndex {
   return idx;
 }
 
-/** Таблицы поиска по id для справочника приложения. */
-export const byId = indexOf(content);
+// ---------- Активная редакция ----------
+// Экраны одного персонажа (мастер создания, режим игры) берут справочник его редакции через `content` и `byId`.
+// Провайдер персонажа переключает их (useActiveEdition); вне персонажа — 2024. Экраны, где персонажей несколько
+// (список), берут справочник каждого явно: contentFor(c.edition).
+
+/** Справочник активной редакции (по умолчанию 2024). Значение меняется при переключении редакции. */
+export let content: Content = content2024;
+
+/** Таблицы поиска по id для активного справочника. */
+export let byId: ContentIndex = indexOf(content2024);
+
+let active: { edition: Edition; owner: symbol | null } = { edition: '2024', owner: null };
+
+export function activeEdition(): Edition {
+  return active.edition;
+}
+
+/** Переключает активную редакцию. `owner` — кто переключил: вернуть 2024 может только он (releaseEdition). */
+export function setActiveEdition(edition: Edition, owner: symbol | null = null) {
+  active = { edition, owner };
+  if (content.edition === edition) return;
+  content = contentFor(edition);
+  byId = indexOf(content);
+}
+
+/** Возвращает 2024, если редакцию последним переключал `owner` (провайдер закрылся, а другой ещё не открылся). */
+export function releaseEdition(owner: symbol) {
+  if (active.owner === owner) setActiveEdition('2024');
+}
 
 /**
  * Текст для показа на текущем языке. Если текста на этом языке нет — текст на другом языке

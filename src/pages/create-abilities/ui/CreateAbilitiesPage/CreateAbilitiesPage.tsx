@@ -17,10 +17,10 @@ import {
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { colors } from '@/shared/config';
 import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, abilityName, byId, contentFor } from '@/shared/content';
+import { abilityAbbr, abilityName, byId, content } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
-import { AppText, Button, Chip, ChipRow, Section, Segmented } from '@/shared/ui';
+import { AppText, Button, Chip, ChipRow, Hint, Section, Segmented } from '@/shared/ui';
 
 import { ALL_EIGHT, EMPTY } from '../../config/constants';
 import { freeValues } from '../../lib/freeValues';
@@ -38,7 +38,10 @@ export function CreateAbilitiesPage() {
 
   const pool: number[] = c.abilityMethod === 'standard' ? [...STANDARD_ARRAY] : c.abilityMethod === 'roll' ? (c.abilityRolls ?? []) : [];
   const free = freeValues(pool, c.baseAbilities);
-  const totals = finalAbilityScores({ ...c, feats: [] }, contentFor(c.edition));
+  const totals = finalAbilityScores({ ...c, feats: [] }, content);
+  // Прибавки происхождения: 2024 — бонусы предыстории, 2014 — прибавки расы (итог при нулевой базе).
+  const bonuses = finalAbilityScores({ ...c, feats: [], baseAbilities: EMPTY }, content);
+  const raceBonusList = ABILITY_IDS.filter((id) => bonuses[id] > 0).map((id) => `${abilityAbbr(id)} +${bonuses[id]}`);
   const spent = c.abilityMethod === 'pointBuy' ? pointBuySpent(c.baseAbilities) : undefined;
 
   const setBase = (fn: (b: AbilityScores) => AbilityScores) => update((d) => ({ ...d, baseAbilities: fn(d.baseAbilities) }));
@@ -123,7 +126,7 @@ export function CreateAbilitiesPage() {
         </View>
         {ABILITY_IDS.map((id) => {
           const base = c.baseAbilities[id];
-          const bonus = c.backgroundBonuses[id] ?? 0;
+          const bonus = bonuses[id];
           return (
             <Pressable key={id} onPress={() => tapAbility(id)} style={({ pressed }) => [styles.row, styles.dataRow, pressed && { opacity: 0.8 }]}>
               <View style={styles.fill}>
@@ -155,7 +158,10 @@ export function CreateAbilitiesPage() {
         })}
       </View>
 
-      {background ? <BackgroundBonuses c={c} allowed={background.abilities} /> : null}
+      {background?.abilities.length ? <BackgroundBonuses c={c} allowed={background.abilities} /> : null}
+      {c.edition === '2014' ? (
+        <Hint>{raceBonusList.length ? t('abilities.raceHint', { list: raceBonusList.join(', ') }) : t('abilities.raceHintNone')}</Hint>
+      ) : null}
     </WizardScreen>
   );
 }

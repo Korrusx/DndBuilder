@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { colors } from '@/shared/config';
-import { content, tr } from '@/shared/content';
+import { contentFor, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Button } from '@/shared/ui';
 
@@ -15,11 +15,11 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
   const { t } = useTranslation();
   const selecting = selected !== undefined;
   // Сводка считает лист персонажа — пересчитываем, только когда изменился сам персонаж.
-  const s = useMemo(() => characterSummary(c, content), [c]);
+  const s = useMemo(() => characterSummary(c, contentFor(c.edition)), [c]);
   const draft = c.status.kind === 'draft' ? c.status : null;
   // Один класс — просто название; мультикласс — с уровнями: «Плут 3 / Волшебник 2».
   const classes = s.classNames.map((n, i) => (s.classNames.length > 1 ? `${tr(n).text} ${s.classLevels[i]}` : tr(n).text)).join(' / ');
-  const subtitle = [classes, tr(s.species).text, tr(s.background).text]
+  const subtitle = [classes, tr(s.species).text, tr(s.background).text, c.edition === '2014' ? t('edition.badge2014') : '']
     .filter(Boolean)
     .join(' · ');
 

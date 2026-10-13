@@ -5,7 +5,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { content } from '@/shared/content';
+import { contentFor, useActiveEdition } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Screen } from '@/shared/ui';
 
@@ -45,10 +45,13 @@ export function CharacterProvider({ children }: CharacterProviderProps) {
 
   const updateState = useCallback((fn: (s: GameState) => GameState) => update((c) => ({ ...c, state: fn(c.state) })), [update]);
 
+  // Экраны режима игры берут справочник редакции персонажа (content / byId).
+  useActiveEdition(character?.edition ?? '2024');
+
   const sheet = useMemo(() => {
     if (!character) return null;
     try {
-      return computeSheet(character, content);
+      return computeSheet(character, contentFor(character.edition));
     } catch {
       return null;
     }
