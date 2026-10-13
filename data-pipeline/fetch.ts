@@ -1,5 +1,6 @@
-// Скачивает справочник SRD 5.2 из dnd5eapi (раздел 2024) в data-pipeline/raw/*.json.
-// Запуск: npm run data:fetch
+// Скачивает справочник из dnd5eapi в data-pipeline/raw/*.json (SRD 5.2, раздел 2024)
+// или в data-pipeline/raw-2014/*.json (SRD 5.1, раздел 2014).
+// Запуск: npm run data:fetch (2024) или npm run data:fetch:2014
 // Запускается один раз (или когда нужно обновить сырые данные). Приложение к API не обращается.
 
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -7,10 +8,11 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const API = 'https://www.dnd5eapi.co';
-const RAW_DIR = join(dirname(fileURLToPath(import.meta.url)), 'raw');
+const EDITION = process.argv[2] === '2014' ? '2014' : '2024';
+const RAW_DIR = join(dirname(fileURLToPath(import.meta.url)), EDITION === '2014' ? 'raw-2014' : 'raw');
 const CONCURRENCY = 4;
 
-const RESOURCES = [
+const RESOURCES_2024 = [
   'ability-scores',
   'alignments',
   'backgrounds',
@@ -35,12 +37,47 @@ const RESOURCES = [
   'magic-items',
 ];
 
+// В разделе 2014 виды называются «расы» (races, subraces), приёмов оружия нет.
+const RESOURCES_2014 = [
+  'ability-scores',
+  'alignments',
+  'backgrounds',
+  'classes',
+  'subclasses',
+  'races',
+  'subraces',
+  'traits',
+  'feats',
+  'features',
+  'skills',
+  'proficiencies',
+  'languages',
+  'conditions',
+  'damage-types',
+  'equipment',
+  'equipment-categories',
+  'weapon-properties',
+  'magic-schools',
+  'spells',
+  'magic-items',
+];
+
+const RESOURCES = EDITION === '2014' ? RESOURCES_2014 : RESOURCES_2024;
+
 type ApiRef = { index: string; name: string; url: string };
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function getJson(path: string, attempt = 1): Promise<any> {
-  const res = await fetch(API + path);
+  let res: Response;
+  try {
+    res = await fetch(API + path);
+  } catch (err) {
+    // Сетевая ошибка (таймаут соединения) — повторяем, как и при 429/5xx.
+    if (attempt > 6) throw err;
+    await sleep(1000 * 2 ** attempt);
+    return getJson(path, attempt + 1);
+  }
   if (res.status === 429 || res.status >= 500) {
     if (attempt > 6) throw new Error(`${res.status} ${path}`);
     await sleep(1000 * 2 ** attempt);
@@ -85,7 +122,7 @@ async function save(name: string, data: unknown) {
 }
 
 async function fetchResource(resource: string) {
-  const list: { results: ApiRef[] } = await getJson(`/api/2024/${resource}`);
+  const list: { results: ApiRef[] } = await getJson(`/api/${EDITION}/${resource}`);
   const missing: string[] = [];
   const items = await mapLimited(list.results, (ref) =>
     getJson(ref.url).catch((err: Error) => {
@@ -105,11 +142,11 @@ async function fetchResource(resource: string) {
 }
 
 async function main() {
-  console.log(`Скачиваю справочник из ${API}/api/2024 …`);
+  console.log(`Скачиваю справочник из ${API}/api/${EDITION} …`);
   for (const resource of RESOURCES) {
     const items = await fetchResource(resource);
     if (resource === 'classes') {
-      const levels = await mapLimited(items, (c: any) => getJson(`/api/2024/classes/${c.index}/levels`));
+      const levels = await mapLimited(items, (c: any) => getJson(`/api/${EDITION}/classes/${c.index}/levels`));
       await save('class-levels', levels.flat());
       console.log(`  class-levels: ${levels.flat().length}`);
     }

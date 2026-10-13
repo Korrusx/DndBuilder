@@ -25,4 +25,16 @@ describe('сохранение персонажа', () => {
     expect(c.state.heroicInspiration).toBe(false);
     expect(c.name).toBe('Ирма Вейл');
   });
+
+  test('персонаж, сохранённый до появления редакций, — по 2024', () => {
+    const row = characterToRow(irmaLevel1());
+    const old = JSON.parse(row.data);
+    delete old.edition;
+    expect(rowToCharacter({ ...row, data: JSON.stringify(old) }).edition).toBe('2024');
+  });
+
+  test('редакция 2014 сохраняется', () => {
+    const row = characterToRow({ ...irmaLevel1(), edition: '2014' });
+    expect(rowToCharacter(row).edition).toBe('2014');
+  });
 });

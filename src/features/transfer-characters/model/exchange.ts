@@ -3,7 +3,7 @@
 
 import type { Character } from '@/entities/character';
 import { ABILITY_IDS, computeSheet, withDefaults } from '@/entities/character';
-import type { Content } from '@/shared/content';
+import type { Content, Edition } from '@/shared/content';
 import { t } from '@/shared/i18n/model';
 
 import { EXCHANGE_FORMAT, EXCHANGE_MAX_BYTES, EXCHANGE_VERSION } from '../config/constants';
@@ -35,6 +35,8 @@ function shapeProblem(x: unknown): string | null {
     }
   }
   if (typeof x.speciesId !== 'string' || typeof x.backgroundId !== 'string') return t('import.shape.noOrigin');
+  // Поля нет у персонажей, сохранённых до появления редакции 2014: они по 2024.
+  if (x.edition !== undefined && x.edition !== '2014' && x.edition !== '2024') return t('import.shape.badEdition');
   if (!isObject(x.baseAbilities) || !ABILITY_IDS.every((a) => typeof (x.baseAbilities as Record<string, unknown>)[a] === 'number')) {
     return t('import.shape.badAbilities');
   }
@@ -75,8 +77,9 @@ export function describeStart(text: string): string {
 /**
  * Читает файл обмена. Каждый персонаж получает новый id (существующие не затираются).
  * Персонажи, которых нельзя открыть (неизвестный класс, вид или предыстория), пропускаются с предупреждением.
+ * Каждый персонаж проверяется по справочнику своей редакции (`contentOf`).
  */
-export function parseExchange(text: string, content: Content, makeId: () => string, now: string): ImportResult {
+export function parseExchange(text: string, contentOf: (edition: Edition) => Content, makeId: () => string, now: string): ImportResult {
   if (text.length > EXCHANGE_MAX_BYTES) throw new ImportError(t('import.tooBig'));
   // Невидимая метка порядка байтов (BOM) и пробелы по краям появляются, если файл пересохранили другим приложением.
   const body = text.replace(/^\uFEFF/, '').trim();
@@ -99,12 +102,12 @@ export function parseExchange(text: string, content: Content, makeId: () => stri
 
   const characters: Character[] = [];
   const warnings: string[] = [];
-  const known = {
+  const knownIds = (content: Content) => ({
     classes: new Set(content.classes.map((x) => x.id)),
     subclasses: new Set(content.subclasses.map((x) => x.id)),
     species: new Set(content.species.map((x) => x.id)),
     backgrounds: new Set(content.backgrounds.map((x) => x.id)),
-  };
+  });
 
   data.characters.forEach((raw: unknown, i: number) => {
     const label = isObject(raw) && typeof raw.name === 'string' && raw.name.trim() ? `«${raw.name.trim()}»` : t('import.number', { n: i + 1 });
@@ -116,6 +119,8 @@ export function parseExchange(text: string, content: Content, makeId: () => stri
     const saved = raw as Partial<Character>;
     const createdAt = typeof saved.createdAt === 'string' ? saved.createdAt : now;
     const c = withDefaults(saved, { id: makeId(), createdAt, updatedAt: now });
+    const content = contentOf(c.edition);
+    const known = knownIds(content);
 
     const missing = [
       ...c.classes.filter((e) => !known.classes.has(e.classId)).map((e) => t('import.missingClass', { id: e.classId })),

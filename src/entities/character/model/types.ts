@@ -1,4 +1,4 @@
-import type { AbilityId, ArmorInfo, Coin, LocalizedText } from '@/shared/content';
+import type { AbilityId, ArmorInfo, Coin, Edition, LocalizedText } from '@/shared/content';
 
 export type AbilityRoll = { dice: number[]; droppedIndex: number; total: number };
 
@@ -105,6 +105,9 @@ export type Character = {
   /** Название кампании (показывается на карточке). */
   campaign?: string;
   notes?: string;
+
+  /** Редакция правил. Выбирается при создании и потом не меняется; у персонажей до её появления — 2024. */
+  edition: Edition;
 
   classes: ClassEntry[];
   speciesId: string;

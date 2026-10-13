@@ -5,6 +5,12 @@
 /** Текст на двух языках. `ru` нет, если перевод ещё не сделан — тогда показываем `en` с пометкой. */
 export type LocalizedText = { en: string; ru?: string };
 
+/** Редакция правил: 2024 (SRD 5.2) или 2014 (SRD 5.1). У каждой свой справочник. */
+export type Edition = '2014' | '2024';
+
+/** Прибавки к характеристикам (раса и подраса 2014). */
+export type AbilityBonuses = Partial<Record<AbilityId, number>>;
+
 export type AbilityId = 'str' | 'dex' | 'con' | 'int' | 'wis' | 'cha';
 export type Coin = 'cp' | 'sp' | 'ep' | 'gp' | 'pp';
 
@@ -74,6 +80,8 @@ export type SpellcastingProgression = {
   prepared: number;
   /** Ячейки по кругам 1–9. */
   slots: number[];
+  /** 2014: сколько заклинаний известно (бард, следопыт, чародей, колдун). */
+  known?: number;
 };
 
 export type ClassLevel = {
@@ -99,7 +107,11 @@ export type CharacterClass = {
   proficiencyChoices: Choice[];
   startingEquipment: Choice[];
   multiclass: { prerequisites: Choice[]; proficiencies: string[]; proficiencyChoices: Choice[] };
-  spellcasting?: { ability: AbilityId; fromLevel: number };
+  /**
+   * `preparation` (2014): `known` — заклинания известны (число по таблице, `known`), `prepared` — готовятся
+   * каждый день из всего списка класса. В 2024 поля нет: у всех число подготовленных по таблице.
+   */
+  spellcasting?: { ability: AbilityId; fromLevel: number; preparation?: 'known' | 'prepared' };
   subclasses: string[];
   levels: ClassLevel[];
 };
@@ -111,6 +123,12 @@ export type Feature = {
   level: number;
   name: LocalizedText;
   description: LocalizedText;
+  /** 2014: умение-вариант другого умения (воззвание, стиль боя, метамагия) — id «родителя». */
+  parent?: string;
+  /** 2014: выбор вариантов умения (id умений-вариантов): стиль боя, договор, метамагия, воззвания. */
+  optionChoice?: Choice;
+  /** 2014: выбор компетентности (id владений). */
+  expertiseChoice?: Choice;
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -123,6 +141,11 @@ export type Subclass = {
   description: LocalizedText;
   /** id умений подкласса (сами умения лежат в `features`). */
   features: string[];
+  /**
+   * 2014: заклинания подкласса (домен жреца, клятва паладина и т.п.) с уровня класса `level`, всегда подготовлены.
+   * `feature` — только при этом умении-варианте (Круг земли: местность).
+   */
+  spells?: { id: string; level: number; feature?: string }[];
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -136,6 +159,13 @@ export type Species = {
   speed: number;
   traits: string[];
   subspecies: string[];
+  /** 2014: прибавки к характеристикам от расы. */
+  abilityBonuses?: AbilityBonuses;
+  /** 2014: прибавки на выбор (полуэльф: +1 к двум другим характеристикам). */
+  abilityBonusChoice?: { choose: number; bonus: number; options: AbilityId[] };
+  /** 2014: языки расы (id языков) и язык на выбор. */
+  languages?: string[];
+  languageChoice?: Choice;
   /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -146,6 +176,8 @@ export type Subspecies = {
   name: LocalizedText;
   damageType?: string;
   traits: { id: string; level: number }[];
+  /** 2014: прибавки к характеристикам от подрасы. */
+  abilityBonuses?: AbilityBonuses;
   /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -159,6 +191,18 @@ export type Trait = {
   spells?: string[];
   proficiencyChoices?: Choice[];
   speed?: number;
+  /** 2014: владения без выбора (id владений): «Острые чувства» — Восприятие. */
+  proficiencies?: string[];
+  /** 2014: язык на выбор («Дополнительный язык»). */
+  languageChoice?: Choice;
+  /** 2014: заклинание на выбор (заговор высшего эльфа; id заклинаний). */
+  spellChoice?: Choice;
+  /** 2014: варианты особенности на выбор (id особенностей): «Наследие драконов». */
+  subtraits?: string[];
+  /** 2014: вариант какой особенности это («Наследие драконов (Красный)» → draconic-ancestry). */
+  parent?: string;
+  /** 2014: вид урона варианта («Наследие драконов (Красный)» — огонь). */
+  damageType?: string;
   /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -166,14 +210,19 @@ export type Trait = {
 export type Background = {
   id: string;
   name: LocalizedText;
-  /** Три характеристики, к которым распределяются +2/+1 или +1/+1/+1. */
+  /** Три характеристики, к которым распределяются +2/+1 или +1/+1/+1. В 2014 — пусто: прибавки даёт раса. */
   abilities: AbilityId[];
-  featId: string;
+  /** Черта происхождения. В 2014 предыстория черты не даёт. */
+  featId?: string;
   /** Список заклинаний черты «Посвящённый в магию», если предыстория его задаёт (Прислужник — cleric). */
   featSpellList?: string;
   proficiencies: string[];
   proficiencyChoices: Choice[];
   equipment: Choice[];
+  /** 2014: языки на выбор. */
+  languageChoice?: Choice;
+  /** 2014: умение предыстории («Приют для верующих»). */
+  feature?: { name: LocalizedText; description: LocalizedText };
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -347,6 +396,7 @@ export type ClassResource = {
 export type Content = {
   /** Версия формата файла. Меняется, когда меняется структура. */
   schemaVersion: number;
+  edition: Edition;
   /** Версия содержимого (хэш). Меняется при любом изменении данных или перевода. */
   version: string;
   source: string;

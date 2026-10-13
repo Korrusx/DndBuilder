@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 
 import type { Character } from '@/entities/character';
 import { newId } from '@/entities/character/api';
-import { content } from '@/shared/content';
+import { content, contentFor } from '@/shared/content';
 import { t } from '@/shared/i18n/model';
 
 import { buildExchange, exchangeFileName, parseExchange } from '../model/exchange';
@@ -32,5 +32,5 @@ export async function pickCharactersFile(): Promise<ImportResult | null> {
   const res = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: Platform.OS !== 'android', multiple: false });
   if (res.canceled || !res.assets?.length) return null;
   const text = await new File(res.assets[0].uri).text();
-  return parseExchange(text, content, newId, new Date().toISOString());
+  return parseExchange(text, contentFor, newId, new Date().toISOString());
 }

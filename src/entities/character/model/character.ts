@@ -1,6 +1,8 @@
 // Модель персонажа: только выборы игрока и текущее состояние игры.
 // Все производные числа (модификаторы, навыки, КЗ, хиты…) считаются функциями из src/entities/character/model.
 
+import type { Edition } from '@/shared/content';
+
 import type { Character, ClassEntry, GameState } from './types';
 
 export function emptyGameState(): GameState {
@@ -23,10 +25,11 @@ export function totalLevel(classes: ClassEntry[]): number {
 }
 
 /** Пустой черновик: игрок ещё ничего не выбрал. Мастер создания заполняет его шаг за шагом. */
-export function newDraftCharacter(id: string, now: string): Character {
+export function newDraftCharacter(id: string, now: string, edition: Edition = '2024'): Character {
   return {
     id,
     name: '',
+    edition,
     classes: [],
     speciesId: '',
     backgroundId: '',

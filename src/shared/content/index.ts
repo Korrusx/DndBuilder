@@ -1,5 +1,5 @@
 export { COIN_ORDER } from './constants';
-export { byId, content, indexOf, tr, translationProgress } from './content';
+export { byId, content, contentFor, indexOf, tr, translationProgress } from './content';
 export {
   abilityAbbr,
   abilityName,
@@ -27,6 +27,7 @@ export type {
   Coin,
   Content,
   ContentIndex,
+  Edition,
   Equipment,
   LocalizedText,
   ResourceFormula,

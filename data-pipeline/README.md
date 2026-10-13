@@ -3,7 +3,12 @@
 ```
 npm run data:fetch   # скачать сырые данные из dnd5eapi в raw/ (нужен интернет, ~2 минуты)
 npm run data:build   # собрать assets/content/content.json и обновить translations/*.csv
+
+npm run data:fetch:2014   # то же для редакции 2014 (SRD 5.1): raw-2014/
+npm run data:build:2014   # assets/content/content-2014.json и translations-2014/*.csv
 ```
+
+Общие части сборки — `common.ts`, редакция 2024 — `build.ts`, 2014 — `build-2014.ts` (подробно — `docs/edition-2014.md`).
 
 ## Как переводить
 

@@ -3,11 +3,24 @@
 import { currentLanguage } from '@/shared/i18n/model';
 
 import data from '../../../assets/content/content.json';
-import type { Content, ContentIndex, LocalizedText } from './types';
+import type { Content, ContentIndex, Edition, LocalizedText } from './types';
 
 export type * from './types';
 
+/** Справочник 2024 (SRD 5.2) — основной. */
 export const content = data as unknown as Content;
+
+let content2014: Content | undefined;
+
+/**
+ * Справочник редакции. 2014 (SRD 5.1, assets/content/content-2014.json, `npm run data:build:2014`)
+ * загружается при первом обращении, чтобы не замедлять запуск тем, кто играет только по 2024.
+ */
+export function contentFor(edition: Edition): Content {
+  if (edition === '2024') return content;
+  content2014 ??= require('../../../assets/content/content-2014.json') as Content;
+  return content2014;
+}
 
 const indexCache = new WeakMap<Content, ContentIndex>();
 

@@ -1,6 +1,6 @@
 import { i18n } from '@/shared/i18n/model';
 
-import { content, tr } from '../content';
+import { content, contentFor, tr } from '../content';
 
 describe('tr: текст справочника на текущем языке', () => {
   afterEach(() => i18n.changeLanguage('ru'));
@@ -35,6 +35,7 @@ describe('tr: текст справочника на текущем языке',
       }
     };
     walk(content, 'content');
+    walk(contentFor('2014'), 'content2014');
     expect(bad).toEqual([]);
   });
 

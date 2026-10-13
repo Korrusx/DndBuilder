@@ -42,3 +42,4 @@ yarn-error.*
 
 # data pipeline
 data-pipeline/missing-translations.txt
+data-pipeline/missing-translations-2014.txt

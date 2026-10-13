@@ -7,6 +7,7 @@ export function irmaLevel1(): Character {
   return {
     id: 'irma',
     name: 'Ирма Вейл',
+    edition: '2024',
     classes: [{ classId: 'rogue', level: 1 }],
     speciesId: 'halfling',
     backgroundId: 'criminal',

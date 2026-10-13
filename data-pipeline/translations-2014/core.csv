@@ -1,0 +1,333 @@
+﻿key,en,ru,status
+ability.cha.abbr,CHA,ХАР,done
+ability.cha.name,Charisma,Харизма,done
+ability.cha.description,"Charisma measures your ability to interact effectively with others. It includes such factors as confidence and eloquence, and it can represent a charming or commanding personality.
+A Charisma check might arise when you try to influence or entertain others, when you try to make an impression or tell a convincing lie, or when you are navigating a tricky social situation. The Deception, Intimidation, Performance, and Persuasion skills reflect aptitude in certain kinds of Charisma checks.",,todo
+ability.con.abbr,CON,ТЕЛ,done
+ability.con.name,Constitution,Телосложение,done
+ability.con.description,"Constitution measures health, stamina, and vital force.
+Constitution checks are uncommon, and no skills apply to Constitution checks, because the endurance this ability represents is largely passive rather than involving a specific effort on the part of a character or monster.",,todo
+ability.dex.abbr,DEX,ЛОВ,done
+ability.dex.name,Dexterity,Ловкость,done
+ability.dex.description,"Dexterity measures agility, reflexes, and balance.
+A Dexterity check can model any attempt to move nimbly, quickly, or quietly, or to keep from falling on tricky footing. The Acrobatics, Sleight of Hand, and Stealth skills reflect aptitude in certain kinds of Dexterity checks.",,todo
+ability.int.abbr,INT,ИНТ,done
+ability.int.name,Intelligence,Интеллект,done
+ability.int.description,"Intelligence measures mental acuity, accuracy of recall, and the ability to reason.
+An Intelligence check comes into play when you need to draw on logic, education, memory, or deductive reasoning. The Arcana, History, Investigation, Nature, and Religion skills reflect aptitude in certain kinds of Intelligence checks.",,todo
+ability.str.abbr,STR,СИЛ,done
+ability.str.name,Strength,Сила,done
+ability.str.description,"Strength measures bodily power, athletic training, and the extent to which you can exert raw physical force.
+A Strength check can model any attempt to lift, push, pull, or break something, to force your body through a space, or to otherwise apply brute force to a situation. The Athletics skill reflects aptitude in certain kinds of Strength checks.",,todo
+ability.wis.abbr,WIS,МДР,done
+ability.wis.name,Wisdom,Мудрость,done
+ability.wis.description,"Wisdom reflects how attuned you are to the world around you and represents perceptiveness and intuition.
+A Wisdom check might reflect an effort to read body language, understand someone's feelings, notice things about the environment, or care for an injured person. The Animal Handling, Insight, Medicine, Perception, and Survival skills reflect aptitude in certain kinds of Wisdom checks.",,todo
+skill.acrobatics.name,Acrobatics,Акробатика,done
+skill.acrobatics.description,"Your Dexterity (Acrobatics) check covers your attempt to stay on your feet in a tricky situation, such as when you're trying to run across a sheet of ice, balance on a tightrope, or stay upright on a rocking ship's deck. The GM might also call for a Dexterity (Acrobatics) check to see if you can perform acrobatic stunts, including dives, rolls, somersaults, and flips.",,todo
+skill.animal-handling.name,Animal Handling,Уход за животными,done
+skill.animal-handling.description,"When there is any question whether you can calm down a domesticated animal, keep a mount from getting spooked, or intuit an animal's intentions, the GM might call for a Wisdom (Animal Handling) check. You also make a Wisdom (Animal Handling) check to control your mount when you attempt a risky maneuver.",,todo
+skill.arcana.name,Arcana,Магия,done
+skill.arcana.description,"Your Intelligence (Arcana) check measures your ability to recall lore about spells, magic items, eldritch symbols, magical traditions, the planes of existence, and the inhabitants of those planes.",,todo
+skill.athletics.name,Athletics,Атлетика,done
+skill.athletics.description,"Your Strength (Athletics) check covers difficult situations you encounter while climbing, jumping, or swimming.",,todo
+skill.deception.name,Deception,Обман,done
+skill.deception.description,"Your Charisma (Deception) check determines whether you can convincingly hide the truth, either verbally or through your actions. This deception can encompass everything from misleading others through ambiguity to telling outright lies. Typical situations include trying to fasttalk a guard, con a merchant, earn money through gambling, pass yourself off in a disguise, dull someone's suspicions with false assurances, or maintain a straight face while telling a blatant lie.",,todo
+skill.history.name,History,История,done
+skill.history.description,"Your Intelligence (History) check measures your ability to recall lore about historical events, legendary people, ancient kingdoms, past disputes, recent wars, and lost civilizations.",,todo
+skill.insight.name,Insight,Проницательность,done
+skill.insight.description,"Your Wisdom (Insight) check decides whether you can determine the true intentions of a creature, such as when searching out a lie or predicting someone's next move. Doing so involves gleaning clues from body language, speech habits, and changes in mannerisms.",,todo
+skill.intimidation.name,Intimidation,Запугивание,done
+skill.intimidation.description,"When you attempt to influence someone through overt threats, hostile actions, and physical violence, the GM might ask you to make a Charisma (Intimidation) check. Examples include trying to pry information out of a prisoner, convincing street thugs to back down from a confrontation, or using the edge of a broken bottle to convince a sneering vizier to reconsider a decision.",,todo
+skill.investigation.name,Investigation,Анализ,done
+skill.investigation.description,"When you look around for clues and make deductions based on those clues, you make an Intelligence (Investigation) check. You might deduce the location of a hidden object, discern from the appearance of a wound what kind of weapon dealt it, or determine the weakest point in a tunnel that could cause it to collapse. Poring through ancient scrolls in search of a hidden fragment of knowledge might also call for an Intelligence (Investigation) check.",,todo
+skill.medicine.name,Medicine,Медицина,done
+skill.medicine.description,A Wisdom (Medicine) check lets you try to stabilize a dying companion or diagnose an illness.,,todo
+skill.nature.name,Nature,Природа,done
+skill.nature.description,"Your Intelligence (Nature) check measures your ability to recall lore about terrain, plants and animals, the weather, and natural cycles.",,todo
+skill.perception.name,Perception,Восприятие,done
+skill.perception.description,"Your Wisdom (Perception) check lets you spot, hear, or otherwise detect the presence of something. It measures your general awareness of your surroundings and the keenness of your senses. For example, you might try to hear a conversation through a closed door, eavesdrop under an open window, or hear monsters moving stealthily in the forest. Or you might try to spot things that are obscured or easy to miss, whether they are orcs lying in ambush on a road, thugs hiding in the shadows of an alley, or candlelight under a closed secret door.",,todo
+skill.performance.name,Performance,Выступление,done
+skill.performance.description,"Your Charisma (Performance) check determines how well you can delight an audience with music, dance, acting, storytelling, or some other form of entertainment.",,todo
+skill.persuasion.name,Persuasion,Убеждение,done
+skill.persuasion.description,"When you attempt to influence someone or a group of people with tact, social graces, or good nature, the GM might ask you to make a Charisma (Persuasion) check. Typically, you use persuasion when acting in good faith, to foster friendships, make cordial requests, or exhibit proper etiquette. Examples of persuading others include convincing a chamberlain to let your party see the king, negotiating peace between warring tribes, or inspiring a crowd of townsfolk.",,todo
+skill.religion.name,Religion,Религия,done
+skill.religion.description,"Your Intelligence (Religion) check measures your ability to recall lore about deities, rites and prayers, religious hierarchies, holy symbols, and the practices of secret cults.",,todo
+skill.sleight-of-hand.name,Sleight of Hand,Ловкость рук,done
+skill.sleight-of-hand.description,"Whenever you attempt an act of legerdemain or manual trickery, such as planting something on someone else or concealing an object on your person, make a Dexterity (Sleight of Hand) check. The GM might also call for a Dexterity (Sleight of Hand) check to determine whether you can lift a coin purse off another person or slip something out of another person's pocket.",,todo
+skill.stealth.name,Stealth,Скрытность,done
+skill.stealth.description,"Make a Dexterity (Stealth) check when you attempt to conceal yourself from enemies, slink past guards, slip away without being noticed, or sneak up on someone without being seen or heard.",,todo
+skill.survival.name,Survival,Выживание,done
+skill.survival.description,"The GM might ask you to make a Wisdom (Survival) check to follow tracks, hunt wild game, guide your group through frozen wastelands, identify signs that owlbears live nearby, predict the weather, or avoid quicksand and other natural hazards.",,todo
+alignment.chaotic-evil.abbr,CE,ХЗ,draft
+alignment.chaotic-evil.name,Chaotic Evil,Хаотично-злое,draft
+alignment.chaotic-evil.description,"Chaotic evil (CE) creatures act with arbitrary violence, spurred by their greed, hatred, or bloodlust. Demons, red dragons, and orcs are chaotic evil.",,todo
+alignment.chaotic-good.abbr,CG,ХД,draft
+alignment.chaotic-good.name,Chaotic Good,Хаотично-доброе,draft
+alignment.chaotic-good.description,"Chaotic good (CG) creatures act as their conscience directs, with little regard for what others expect. Copper dragons, many elves, and unicorns are chaotic good.",,todo
+alignment.chaotic-neutral.abbr,CN,ХН,draft
+alignment.chaotic-neutral.name,Chaotic Neutral,Хаотично-нейтральное,draft
+alignment.chaotic-neutral.description,"Chaotic neutral (CN) creatures follow their whims, holding their personal freedom above all else. Many barbarians and rogues, and some bards, are chaotic neutral.",,todo
+alignment.lawful-evil.abbr,LE,ЗЗ,draft
+alignment.lawful-evil.name,Lawful Evil,Законно-злое,draft
+alignment.lawful-evil.description,"Lawful evil (LE) creatures methodically take what they want, within the limits of a code of tradition, loyalty, or order. Devils, blue dragons, and hobgoblins are lawful evil.",,todo
+alignment.lawful-good.abbr,LG,ЗД,draft
+alignment.lawful-good.name,Lawful Good,Законно-доброе,draft
+alignment.lawful-good.description,"Lawful good (LG) creatures can be counted on to do the right thing as expected by society. Gold dragons, paladins, and most dwarves are lawful good.",,todo
+alignment.lawful-neutral.abbr,LN,ЗН,draft
+alignment.lawful-neutral.name,Lawful Neutral,Законно-нейтральное,draft
+alignment.lawful-neutral.description,"Lawful neutral (LN) individuals act in accordance with law, tradition, or personal codes. Many monks and some wizards are lawful neutral.",,todo
+alignment.neutral.abbr,N,Н,draft
+alignment.neutral.name,Neutral,Нейтральное,draft
+alignment.neutral.description,"Neutral (N) is the alignment of those who prefer to steer clear of moral questions and don't take sides, doing what seems best at the time. Lizardfolk, most druids, and many humans are neutral.",,todo
+alignment.neutral-evil.abbr,NE,НЗ,draft
+alignment.neutral-evil.name,Neutral Evil,Нейтрально-злое,draft
+alignment.neutral-evil.description,"Neutral evil (NE) is the alignment of those who do whatever they can get away with, without compassion or qualms. Many drow, some cloud giants, and goblins are neutral evil.",,todo
+alignment.neutral-good.abbr,NG,НД,draft
+alignment.neutral-good.name,Neutral Good,Нейтрально-доброе,draft
+alignment.neutral-good.description,"Neutral good (NG) folk do the best they can to help others according to their needs. Many celestials, some cloud giants, and most gnomes are neutral good.",,todo
+language.abyssal.name,Abyssal,Язык Бездны,draft
+language.celestial.name,Celestial,Небесный,draft
+language.common.name,Common,Общий,draft
+language.deep-speech.name,Deep Speech,Глубинная речь,draft
+language.draconic.name,Draconic,Драконий,draft
+language.draconic.note,Draconic is thought to be one of the oldest languages and is often used in the study of magic. The language sounds harsh to most other creatures and includes numerous hard consonants and sibilants.,,todo
+language.dwarvish.name,Dwarvish,Дварфийский,draft
+language.dwarvish.note,Dwarvish is full of hard consonants and guttural sounds.,,todo
+language.elvish.name,Elvish,Эльфийский,draft
+language.elvish.note,"Elvish is fluid, with subtle intonations and intricate grammar. Elven literature is rich and varied, and their songs and poems are famous among other races. Many bards learn their language so they can add Elvish ballads to their repertoires.",,todo
+language.giant.name,Giant,Великаний,draft
+language.gnomish.name,Gnomish,Гномий,draft
+language.gnomish.note,"The Gnomish language, which uses the Dwarvish script, is renowned for its technical treatises and its catalogs of knowledge about the natural world.",,todo
+language.goblin.name,Goblin,Гоблинский,draft
+language.halfling.name,Halfling,Язык полуросликов,draft
+language.halfling.note,"The Halfling language isn't secret, but halflings are loath to share it with others. They write very little, so they don't have a rich body of literature. Their oral tradition, however, is very strong.",,todo
+language.infernal.name,Infernal,Инфернальный,draft
+language.orc.name,Orc,Орочий,draft
+language.orc.note,"Orc is a harsh, grating language with hard consonants. It has no script of its own but is written in the Dwarvish script.",,todo
+language.primordial.name,Primordial,Первичный,draft
+language.sylvan.name,Sylvan,Сильван,draft
+language.undercommon.name,Undercommon,Подземный общий,draft
+condition.blinded.name,Blinded,Ослеплённый,draft
+condition.blinded.description,"- A blinded creature can't see and automatically fails any ability check that requires sight.
+- Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage.",,todo
+condition.charmed.name,Charmed,Очарованный,draft
+condition.charmed.description,"- A charmed creature can't attack the charmer or target the charmer with harmful abilities or magical effects.
+- The charmer has advantage on any ability check to interact socially with the creature.",,todo
+condition.deafened.name,Deafened,Оглохший,draft
+condition.deafened.description,- A deafened creature can't hear and automatically fails any ability check that requires hearing.,,todo
+condition.exhaustion.name,Exhaustion,Истощение,draft
+condition.exhaustion.description,"Some special abilities and environmental hazards, such as starvation and the long-term effects of freezing or scorching temperatures, can lead to a special condition called exhaustion. Exhaustion is measured in six levels. An effect can give a creature one or more levels of exhaustion, as specified in the effect's description.
+1 - Disadvantage on ability checks
+2 - Speed halved
+3 - Disadvantage on attack rolls and saving throws
+4 - Hit point maximum halved
+5 - Speed reduced to 0
+6 - Death
+If an already exhausted creature suffers another effect that causes exhaustion, its current level of exhaustion increases by the amount specified in the effect's description.
+A creature suffers the effect of its current level of exhaustion as well as all lower levels. For example, a creature suffering level 2 exhaustion has its speed halved and has disadvantage on ability checks.
+An effect that removes exhaustion reduces its level as specified in the effect's description, with all exhaustion effects ending if a creature's exhaustion level is reduced below 1.
+Finishing a long rest reduces a creature's exhaustion level by 1, provided that the creature has also ingested some food and drink.",,todo
+condition.frightened.name,Frightened,Испуганный,draft
+condition.frightened.description,"- A frightened creature has disadvantage on ability checks and attack rolls while the source of its fear is within line of sight.
+- The creature can't willingly move closer to the source of its fear.",,todo
+condition.grappled.name,Grappled,Схваченный,draft
+condition.grappled.description,"- A grappled creature's speed becomes 0, and it can't benefit from any bonus to its speed.
+- The condition ends if the grappler is incapacitated (see the condition).
+- The condition also ends if an effect removes the grappled creature from the reach of the grappler or grappling effect, such as when a creature is hurled away by the thunderwave spell.",,todo
+condition.incapacitated.name,Incapacitated,Недееспособный,draft
+condition.incapacitated.description,- An incapacitated creature can't take actions or reactions.,,todo
+condition.invisible.name,Invisible,Невидимый,draft
+condition.invisible.description,"- An invisible creature is impossible to see without the aid of magic or a special sense. For the purpose of hiding, the creature is heavily obscured. The creature's location can be detected by any noise it makes or any tracks it leaves.
+- Attack rolls against the creature have disadvantage, and the creature's attack rolls have advantage.",,todo
+condition.paralyzed.name,Paralyzed,Парализованный,draft
+condition.paralyzed.description,"- A paralyzed creature is incapacitated (see the condition) and can't move or speak.
+- The creature automatically fails Strength and Dexterity saving throws.
+- Attack rolls against the creature have advantage.
+- Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.",,todo
+condition.petrified.name,Petrified,Окаменевший,draft
+condition.petrified.description,"- A petrified creature is transformed, along with any nonmagical object it is wearing or carrying, into a solid inanimate substance (usually stone). Its weight increases by a factor of ten, and it ceases aging.
+- The creature is incapacitated (see the condition), can't move or speak, and is unaware of its surroundings.
+- Attack rolls against the creature have advantage.
+- The creature automatically fails Strength and Dexterity saving throws.
+- The creature has resistance to all damage.
+- The creature is immune to poison and disease, although a poison or disease already in its system is suspended, not neutralized.",,todo
+condition.poisoned.name,Poisoned,Отравленный,draft
+condition.poisoned.description,- A poisoned creature has disadvantage on attack rolls and ability checks.,,todo
+condition.prone.name,Prone,Лежащий ничком,draft
+condition.prone.description,"- A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition.
+- The creature has disadvantage on attack rolls.
+- An attack roll against the creature has advantage if the attacker is within 5 feet of the creature. Otherwise, the attack roll has disadvantage.",,todo
+condition.restrained.name,Restrained,Опутанный,draft
+condition.restrained.description,"- A restrained creature's speed becomes 0, and it can't benefit from any bonus to its speed.
+- Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage.
+- The creature has disadvantage on Dexterity saving throws.",,todo
+condition.stunned.name,Stunned,Ошеломлённый,draft
+condition.stunned.description,"- A stunned creature is incapacitated (see the condition), can't move, and can speak only falteringly.
+- The creature automatically fails Strength and Dexterity saving throws.
+- Attack rolls against the creature have advantage.",,todo
+condition.unconscious.name,Unconscious,Без сознания,draft
+condition.unconscious.description,"- An unconscious creature is incapacitated (see the condition), can't move or speak, and is unaware of its surroundings.
+- The creature drops whatever it's holding and falls prone.
+- The creature automatically fails Strength and Dexterity saving throws.
+- Attack rolls against the creature have advantage.
+- Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.",,todo
+damageType.acid.name,Acid,кислота,draft
+damageType.acid.description,The corrosive spray of a black dragon's breath and the dissolving enzymes secreted by a black pudding deal acid damage.,,todo
+damageType.bludgeoning.name,Bludgeoning,дробящий,draft
+damageType.bludgeoning.description,"Blunt force attacks, falling, constriction, and the like deal bludgeoning damage.",,todo
+damageType.cold.name,Cold,холод,draft
+damageType.cold.description,The infernal chill radiating from an ice devil's spear and the frigid blast of a white dragon's breath deal cold damage.,,todo
+damageType.fire.name,Fire,огонь,draft
+damageType.fire.description,"Red dragons breathe fire, and many spells conjure flames to deal fire damage.",,todo
+damageType.force.name,Force,силовое поле,draft
+damageType.force.description,"Force is pure magical energy focused into a damaging form. Most effects that deal force damage are spells, including magic missile and spiritual weapon.",,todo
+damageType.lightning.name,Lightning,электричество,draft
+damageType.lightning.description,A lightning bolt spell and a blue dragon's breath deal lightning damage.,,todo
+damageType.necrotic.name,Necrotic,некротический,draft
+damageType.necrotic.description,"Necrotic damage, dealt by certain undead and a spell such as chill touch, withers matter and even the soul.",,todo
+damageType.piercing.name,Piercing,колющий,draft
+damageType.piercing.description,"Puncturing and impaling attacks, including spears and monsters' bites, deal piercing damage.",,todo
+damageType.poison.name,Poison,яд,draft
+damageType.poison.description,Venomous stings and the toxic gas of a green dragon's breath deal poison damage.,,todo
+damageType.psychic.name,Psychic,психический,draft
+damageType.psychic.description,Mental abilities such as a psionic blast deal psychic damage.,,todo
+damageType.radiant.name,Radiant,излучение,draft
+damageType.radiant.description,"Radiant damage, dealt by a cleric's flame strike spell or an angel's smiting weapon, sears the flesh like fire and overloads the spirit with power.",,todo
+damageType.slashing.name,Slashing,рубящий,draft
+damageType.slashing.description,"Swords, axes, and monsters' claws deal slashing damage.",,todo
+damageType.thunder.name,Thunder,звук,draft
+damageType.thunder.description,"A concussive burst of sound, such as the effect of the thunderwave spell, deals thunder damage.",,todo
+magicSchool.abjuration.name,Abjuration,Ограждение,draft
+magicSchool.abjuration.description,"Abjuration spells are protective in nature, though some of them have aggressive uses. They create magical barriers, negate harmful effects, harm trespassers, or banish creatures to other planes of existence.",,todo
+magicSchool.conjuration.name,Conjuration,Вызов,draft
+magicSchool.conjuration.description,"Conjuration spells involve the transportation of objects and creatures from one location to another. Some spells summon creatures or objects to the caster's side, whereas others allow the caster to teleport to another location. Some conjurations create objects or effects out of nothing.",,todo
+magicSchool.divination.name,Divination,Прорицание,draft
+magicSchool.divination.description,"Divination spells reveal information, whether in the form of secrets long forgotten, glimpses of the future, the locations of hidden things, the truth behind illusions, or visions of distant people or places.",,todo
+magicSchool.enchantment.name,Enchantment,Очарование,draft
+magicSchool.enchantment.description,"Enchantment spells affect the minds of others, influencing or controlling their behavior. Such spells can make enemies see the caster as a friend, force creatures to take a course of action, or even control another creature like a puppet.",,todo
+magicSchool.evocation.name,Evocation,Воплощение,draft
+magicSchool.evocation.description,Evocation spells manipulate magical energy to produce a desired effect. Some call up blasts of fire or lightning. Others channel positive energy to heal wounds.,,todo
+magicSchool.illusion.name,Illusion,Иллюзия,draft
+magicSchool.illusion.description,"Illusion spells deceive the senses or minds of others. They cause people to see things that are not there, to miss things that are there, to hear phantom noises, or to remember things that never happened. Some illusions create phantom images that any creature can see, but the most insidious illusions plant an image directly in the mind of a creature.",,todo
+magicSchool.necromancy.name,Necromancy,Некромантия,draft
+magicSchool.necromancy.description,"Necromancy spells manipulate the energies of life and death. Such spells can grant an extra reserve of life force, drain the life energy from another creature, create the undead, or even bring the dead back to life.",,todo
+magicSchool.transmutation.name,Transmutation,Преобразование,draft
+magicSchool.transmutation.description,"Transmutation spells change the properties of a creature, object, or environment. They might turn an enemy into a harmless creature, bolster the strength of an ally, make an object move at the caster's command, or enhance a creature's innate healing abilities to rapidly recover from injury.",,todo
+proficiency.alchemists-supplies.name,Alchemist's Supplies,Инструменты алхимика,draft
+proficiency.all-armor.name,All armor,Все доспехи,draft
+proficiency.bagpipes.name,Bagpipes,Волынка,draft
+proficiency.battleaxes.name,Battleaxes,,todo
+proficiency.blowguns.name,Blowguns,,todo
+proficiency.breastplate.name,Breastplate,,todo
+proficiency.brewers-supplies.name,Brewer's Supplies,Инструменты пивовара,draft
+proficiency.tool-calligraphers-supplies.name,Calligrapher's Supplies,,todo
+proficiency.tool-carpenters-tools.name,Carpenter's Tools,Инструменты плотника,draft
+proficiency.tool-cartographers-tools.name,Cartographer's Tools,Инструменты картографа,draft
+proficiency.chain-mail.name,Chain Mail,,todo
+proficiency.chain-shirt.name,Chain Shirt,,todo
+proficiency.clubs.name,Clubs,,todo
+proficiency.tool-cobblers-tools.name,Cobbler's Tools,Инструменты сапожника,draft
+proficiency.tool-cooks-utensils.name,Cook's utensils,,todo
+proficiency.crossbows-heavy.name,"Crossbows, heavy",,todo
+proficiency.crossbows-light.name,"Crossbows, light",,todo
+proficiency.daggers.name,Daggers,,todo
+proficiency.darts.name,Darts,,todo
+proficiency.tool-dice.name,Dice Set,,todo
+proficiency.tool-disguise-kit.name,Disguise Kit,Набор для грима,draft
+proficiency.drum.name,Drum,Барабан,draft
+proficiency.dulcimer.name,Dulcimer,Цимбалы,draft
+proficiency.flails.name,Flails,,todo
+proficiency.flute.name,Flute,Флейта,draft
+proficiency.tool-forgery-kit.name,Forgery Kit,Набор фальсификатора,draft
+proficiency.glaives.name,Glaives,,todo
+proficiency.tool-glassblowers-tools.name,Glassblower's Tools,Инструменты стеклодува,draft
+proficiency.greataxes.name,Greataxes,,todo
+proficiency.greatclubs.name,Greatclubs,,todo
+proficiency.greatswords.name,Greatswords,,todo
+proficiency.halberds.name,Halberds,,todo
+proficiency.half-plate-armor.name,Half Plate Armor,,todo
+proficiency.hand-crossbows.name,Hand crossbows,Ручные арбалеты,draft
+proficiency.handaxes.name,Handaxes,,todo
+proficiency.heavy-armor.name,Heavy Armor,Тяжёлые доспехи,draft
+proficiency.herbalism-kit.name,Herbalism Kit,Набор травника,draft
+proficiency.hide-armor.name,Hide Armor,,todo
+proficiency.horn.name,Horn,Рожок,draft
+proficiency.javelins.name,Javelins,,todo
+proficiency.tool-jewelers-tools.name,Jeweler's Tools,Инструменты ювелира,draft
+proficiency.lances.name,Lances,,todo
+proficiency.land-vehicles.name,Land Vehicles,,todo
+proficiency.leather-armor.name,Leather Armor,,todo
+proficiency.tool-leatherworkers-tools.name,Leatherworker's Tools,Инструменты кожевника,draft
+proficiency.light-armor.name,Light Armor,Лёгкие доспехи,draft
+proficiency.light-hammers.name,Light hammers,,todo
+proficiency.longbows.name,Longbows,,todo
+proficiency.longswords.name,Longswords,Длинные мечи,draft
+proficiency.lute.name,Lute,Лютня,draft
+proficiency.lyre.name,Lyre,Лира,draft
+proficiency.maces.name,Maces,,todo
+proficiency.martial-weapons.name,Martial Weapons,Воинское оружие,draft
+proficiency.tool-masons-tools.name,Mason's Tools,Инструменты каменщика,draft
+proficiency.mauls.name,Mauls,,todo
+proficiency.medium-armor.name,Medium Armor,Средние доспехи,draft
+proficiency.morningstars.name,Morningstars,,todo
+proficiency.tool-navigators-tools.name,Navigator's Tools,,todo
+proficiency.nets.name,Nets,,todo
+proficiency.padded-armor.name,Padded Armor,,todo
+proficiency.tool-painters-supplies.name,Painter's Supplies,Инструменты художника,draft
+proficiency.pan-flute.name,Pan flute,Свирель,draft
+proficiency.pikes.name,Pikes,,todo
+proficiency.plate-armor.name,Plate Armor,,todo
+proficiency.tool-playing-cards.name,Playing Card Set,,todo
+proficiency.tool-poisoners-kit.name,Poisoner's Kit,,todo
+proficiency.tool-potters-tools.name,Potter's Tools,Инструменты гончара,draft
+proficiency.quarterstaffs.name,Quarterstaffs,,todo
+proficiency.rapiers.name,Rapiers,Рапиры,draft
+proficiency.ring-mail.name,Ring Mail,,todo
+proficiency.saving-throw-cha.name,Saving Throw: CHA,Спасбросок: ХАР,draft
+proficiency.saving-throw-con.name,Saving Throw: CON,Спасбросок: ТЕЛ,draft
+proficiency.saving-throw-dex.name,Saving Throw: DEX,Спасбросок: ЛОВ,draft
+proficiency.saving-throw-int.name,Saving Throw: INT,Спасбросок: ИНТ,draft
+proficiency.saving-throw-str.name,Saving Throw: STR,Спасбросок: СИЛ,draft
+proficiency.saving-throw-wis.name,Saving Throw: WIS,Спасбросок: МДР,draft
+proficiency.scale-mail.name,Scale Mail,,todo
+proficiency.scimitars.name,Scimitars,Скимитары,draft
+proficiency.shawm.name,Shawm,Шалмей,draft
+proficiency.shields.name,Shields,Щиты,draft
+proficiency.shortbows.name,Shortbows,,todo
+proficiency.shortswords.name,Shortswords,Короткие мечи,draft
+proficiency.sickles.name,Sickles,,todo
+proficiency.simple-weapons.name,Simple Weapons,Простое оружие,draft
+proficiency.skill-acrobatics.name,Skill: Acrobatics,Навык: Акробатика,draft
+proficiency.skill-animal-handling.name,Skill: Animal Handling,Навык: Уход за животными,draft
+proficiency.skill-arcana.name,Skill: Arcana,Навык: Магия,draft
+proficiency.skill-athletics.name,Skill: Athletics,Навык: Атлетика,draft
+proficiency.skill-deception.name,Skill: Deception,Навык: Обман,draft
+proficiency.skill-history.name,Skill: History,Навык: История,draft
+proficiency.skill-insight.name,Skill: Insight,Навык: Проницательность,draft
+proficiency.skill-intimidation.name,Skill: Intimidation,Навык: Запугивание,draft
+proficiency.skill-investigation.name,Skill: Investigation,Навык: Анализ,draft
+proficiency.skill-medicine.name,Skill: Medicine,Навык: Медицина,draft
+proficiency.skill-nature.name,Skill: Nature,Навык: Природа,draft
+proficiency.skill-perception.name,Skill: Perception,Навык: Восприятие,draft
+proficiency.skill-performance.name,Skill: Performance,Навык: Выступление,draft
+proficiency.skill-persuasion.name,Skill: Persuasion,Навык: Убеждение,draft
+proficiency.skill-religion.name,Skill: Religion,Навык: Религия,draft
+proficiency.skill-sleight-of-hand.name,Skill: Sleight of Hand,Навык: Ловкость рук,draft
+proficiency.skill-stealth.name,Skill: Stealth,Навык: Скрытность,draft
+proficiency.skill-survival.name,Skill: Survival,Навык: Выживание,draft
+proficiency.slings.name,Slings,,todo
+proficiency.tool-smiths-tools.name,Smith's Tools,Инструменты кузнеца,draft
+proficiency.spears.name,Spears,,todo
+proficiency.splint-armor.name,Splint Armor,,todo
+proficiency.studded-leather-armor.name,Studded Leather Armor,,todo
+proficiency.tool-thieves-tools.name,Thieves' Tools,,todo
+proficiency.tool-tinkers-tools.name,Tinker's Tools,Инструменты ремонтника,draft
+proficiency.tridents.name,Tridents,,todo
+proficiency.viol.name,Viol,Виола,draft
+proficiency.war-picks.name,War picks,,todo
+proficiency.warhammers.name,Warhammers,,todo
+proficiency.water-vehicles.name,Water Vehicles,,todo
+proficiency.tool-weavers-tools.name,Weaver's Tools,Инструменты ткача,draft
+proficiency.whips.name,Whips,Кнуты,draft
+proficiency.tool-woodcarvers-tools.name,Woodcarver's Tools,Инструменты резчика по дереву,draft

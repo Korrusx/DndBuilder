@@ -243,6 +243,7 @@
       "badLevels": "invalid class levels",
       "noOrigin": "no species or background",
       "badAbilities": "invalid ability scores",
+      "badEdition": "unknown rules edition",
       "badField": "invalid field {{key}}",
       "badEquipment": "invalid equipment",
       "badFeats": "invalid feats",

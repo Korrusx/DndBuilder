@@ -42,7 +42,9 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit && tsc --noEmit -p data-pipeline",
     "data:fetch": "node data-pipeline/fetch.ts",
+    "data:fetch:2014": "node data-pipeline/fetch.ts 2014",
     "data:build": "node data-pipeline/build.ts",
+    "data:build:2014": "node data-pipeline/build-2014.ts",
     "pdf:fonts": "node data-pipeline/pdf-fonts.ts",
     "test": "jest"
   },
