@@ -38,7 +38,7 @@ export function CreateEquipmentPage() {
                 selected={c.choices[CHOICE_KEYS.spellbook] ?? []}
                 max={spellbookMinimum(c)}
                 label={spellName}
-                onChange={(ids) => update((d) => setSpellbook(d, ids))}
+                onChange={(ids) => update((d) => setSpellbook(d, ids, content))}
               />
             </Section>
           ) : null}

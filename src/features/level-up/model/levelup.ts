@@ -3,13 +3,19 @@
 
 import type { Character, FeatChoice } from '@/entities/character';
 import {
+  CHOICE_KEYS,
   choiceOptionIds,
   classOptionProblemTexts,
+  classSpellLists,
+  FEATURE_OPTIONS,
+  featureLanguageSlots,
   computeSheet,
   FEAT_FEATURES,
   hasSpellbook,
   SPELLBOOK_PER_LEVEL,
   spellbook,
+  spellbookMinimum,
+  totalLevel,
   finalAbilityScores,
   originFeatIds,
   proficientSkills,
@@ -17,7 +23,7 @@ import {
   weaponMasteryCount,
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
-import { indexOf } from '@/shared/content';
+import { abilityAbbr, indexOf, nameOf } from '@/shared/content';
 import { t } from '@/shared/i18n/model';
 
 import { EXPERTISE_GRANTS, FEAT_ABILITY, LANGUAGE_GRANTS, SKILL_GRANTS } from '../config/constants';
@@ -25,18 +31,58 @@ import type { FeatSlotKind, LevelUpIssue, LevelUpPlan } from './types';
 
 export const levelKey = (level: number) => `lvl${level}`;
 
-/** Персонаж на следующем уровне (без новых выборов). */
-export function startLevelUp(c: Character): Character {
-  const [first, ...rest] = c.classes;
-  return { ...c, classes: [{ ...first, level: first.level + 1 }, ...rest] };
+/**
+ * Персонаж на следующем уровне (без новых выборов): уровень класса `classId` +1;
+ * если такого класса ещё нет — он добавляется 1-м уровнем (мультикласс).
+ */
+export function startLevelUp(c: Character, classId = c.classes[0].classId): Character {
+  if (c.classes.some((e) => e.classId === classId)) {
+    return { ...c, classes: c.classes.map((e) => (e.classId === classId ? { ...e, level: e.level + 1 } : e)) };
+  }
+  return { ...c, classes: [...c.classes, { classId, level: 1 }] };
 }
 
-/** Что появляется на текущем уровне персонажа `next` (уже повышенного). */
-export function levelUpPlan(next: Character, content: Content): LevelUpPlan {
+/** Какой класс повышен: уровень вырос или класс новый. */
+export function leveledClassId(next: Character, prev: Character): string {
+  const before = new Map(prev.classes.map((e) => [e.classId, e.level]));
+  return (next.classes.find((e) => e.level > (before.get(e.classId) ?? 0)) ?? next.classes[0]).classId;
+}
+
+/** Требования для мультикласса текстом: «СИЛ 13 и ХАР 13», «СИЛ или ЛОВ 13». */
+export function multiclassRequirementText(classId: string, content: Content): string {
+  const groups = indexOf(content).classes.get(classId)?.multiclass.prerequisites ?? [];
+  return groups
+    .map((g) => {
+      const opts = (g.options ?? []).filter((o) => o.kind === 'minScore');
+      const min = opts[0]?.kind === 'minScore' ? opts[0].min : 13;
+      return `${opts.map((o) => (o.kind === 'minScore' ? abilityAbbr(o.ability) : '')).join(` ${t('common.or')} `)} ${min}`;
+    })
+    .join(` ${t('common.and')} `);
+}
+
+/**
+ * Можно ли взять новый класс (SRD 5.2): 13+ в основной характеристике нового класса и всех текущих.
+ * Значения — итоговые (с бонусами предыстории и черт).
+ */
+export function canMulticlassInto(c: Character, content: Content, classId: string): boolean {
+  const classes = indexOf(content).classes;
+  const scores = finalAbilityScores(c);
+  const meets = (id: string) =>
+    (classes.get(id)?.multiclass.prerequisites ?? []).every((g) =>
+      (g.options ?? []).some((o) => o.kind === 'minScore' && scores[o.ability] >= o.min),
+    );
+  return meets(classId) && c.classes.every((e) => meets(e.classId));
+}
+
+/** Что появляется на текущем уровне класса `classId` персонажа `next` (уже повышенного). */
+export function levelUpPlan(next: Character, content: Content, classId = next.classes[0].classId): LevelUpPlan {
   const idx = indexOf(content);
-  const entry = next.classes[0];
+  const entry = next.classes.find((e) => e.classId === classId) ?? next.classes[0];
   const cls = idx.classes.get(entry.classId)!;
   const toLevel = entry.level;
+  // Выборы уровня (черта, навыки) помечаются общим уровнем персонажа: у двух классов уровни могут совпадать.
+  const charLevel = totalLevel(next.classes);
+  const isNewClass = toLevel === 1 && next.classes[0].classId !== cls.id;
   const row = cls.levels[toLevel - 1];
   const classFeatures = row?.features ?? [];
 
@@ -58,6 +104,17 @@ export function levelUpPlan(next: Character, content: Content): LevelUpPlan {
   return {
     classId: cls.id,
     toLevel,
+    charLevel,
+    isNewClass,
+    multiclassChoices: isNewClass
+      ? cls.multiclass.proficiencyChoices.map((ch, i) => ({
+          key: multiclassProfKey(cls.id, i),
+          choose: ch.choose,
+          desc: ch.desc,
+          options: choiceOptionIds(ch, content),
+        }))
+      : [],
+    featureOptions: ids.filter((id) => FEATURE_OPTIONS[id]),
     features,
     needsSubclass: toLevel === firstSubclassLevel,
     featSlot: ids.some((id) => id.endsWith('-epic-boon'))
@@ -70,7 +127,7 @@ export function levelUpPlan(next: Character, content: Content): LevelUpPlan {
     skillChoices: ids
       .filter((id) => SKILL_GRANTS[id])
       .map((id) => ({
-        key: `${levelKey(toLevel)}.${id}.prof`,
+        key: `${levelKey(charLevel)}.${id}.prof`,
         featureId: id,
         choose: SKILL_GRANTS[id].choose,
         options: SKILL_GRANTS[id].from === 'class' ? classSkillOptions : allSkills,
@@ -88,7 +145,8 @@ export function levelFeat(c: Character, content: Content, level: number): FeatCh
 
 /** Черты, которые можно взять в слот уровня. */
 export function levelFeatOptions(c: Character, content: Content, kind: FeatSlotKind): string[] {
-  const level = c.classes[0].level;
+  // Условия черт («4-й уровень+») — по общему уровню; черта этого уровня помечена им же.
+  const level = totalLevel(c.classes);
   const scores = finalAbilityScores(c);
   const taken = new Set([...originFeatIds(c, content), ...c.feats.filter((f) => f.level !== level).map((f) => f.featId)]);
   return content.feats
@@ -112,16 +170,30 @@ export function featAbilityRule(featId: string): { mode: 'asi' } | { mode: 'one'
 
 /** Чего не хватает, чтобы закончить повышение уровня (`prev` — до повышения, `next` — после). */
 export function levelUpIssues(next: Character, prev: Character, content: Content): LevelUpIssue[] {
-  const plan = levelUpPlan(next, content);
+  const plan = levelUpPlan(next, content, leveledClassId(next, prev));
+  const entry = next.classes.find((e) => e.classId === plan.classId)!;
   const issues: LevelUpIssue[] = [];
   const need = (ok: boolean, message: string, blocking = true, action?: LevelUpIssue['action']) => {
     if (!ok) issues.push({ message, blocking, ...(action ? { action } : {}) });
   };
 
-  if (plan.needsSubclass) need(!!next.classes[0].subclassId, t('levelUp.issues.subclass'));
+  if (plan.needsSubclass) need(!!entry.subclassId, t('levelUp.issues.subclass'));
+
+  for (const mc of plan.multiclassChoices) {
+    need((next.choices[mc.key]?.length ?? 0) === mc.choose, t('levelUp.issues.multiclassProficiencies', { count: mc.choose }));
+  }
+  for (const featureId of plan.featureOptions) {
+    need(!!next.choices[CHOICE_KEYS.featureOption(featureId)]?.length, t('issues.featureOption'));
+  }
+  // Языки от умения, полученного на этом уровне (плут-мультикласс: «Воровской жаргон»).
+  const newFeatures = new Set(plan.features.map((f) => f.id));
+  for (const slot of featureLanguageSlots(next, content).filter((s) => newFeatures.has(s.featureId))) {
+    const left = slot.choose - (next.choices[slot.key]?.length ?? 0);
+    need(left <= 0, t('issues.featureLanguages', { feature: nameOf('features', slot.featureId), count: left }));
+  }
 
   if (plan.featSlot) {
-    const feat = levelFeat(next, content, plan.toLevel);
+    const feat = levelFeat(next, content, plan.charLevel);
     need(!!feat, plan.featSlot === 'asi' ? t('levelUp.issues.asi') : t('levelUp.issues.epicBoon'));
     if (feat) {
       const rule = featAbilityRule(feat.featId);
@@ -132,7 +204,7 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
       const featData = indexOf(content).feats.get(feat.featId);
       const slots = feat.featId === 'skilled' ? [3] : (featData?.proficiencyChoices ?? []).map((ch) => ch.choose);
       slots.forEach((n, i) => {
-        const key = levelFeatProfKey(plan.toLevel, feat.featId, i);
+        const key = levelFeatProfKey(plan.charLevel, feat.featId, i);
         need((next.choices[key]?.length ?? 0) === n, t('levelUp.issues.featProficiencies', { count: n }));
       });
     }
@@ -161,13 +233,15 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
   }
 
   // Необязательное: новые заклинания и приёмы оружия можно добрать и позже.
-  const limits = spellLimits(next, content);
+  const limits = spellLimits(next, content, plan.classId);
   if (limits) {
-    const more = limits.cantrips - next.cantrips.length + (limits.prepared - next.preparedSpells.length);
+    const lists = classSpellLists(next, content, plan.classId);
+    const more = limits.cantrips - lists.cantrips.length + (limits.prepared - lists.preparedSpells.length);
     need(more <= 0, t('levelUp.issues.moreSpells', { count: more }), false, 'spells');
   }
-  if (hasSpellbook(next)) {
-    const missing = spellbook(prev).length + SPELLBOOK_PER_LEVEL - spellbook(next).length;
+  if (plan.classId === 'wizard') {
+    // Новый волшебник — 6 заклинаний в книге, дальше по 2 за уровень.
+    const missing = (hasSpellbook(prev) ? spellbook(prev).length + SPELLBOOK_PER_LEVEL : spellbookMinimum(next)) - spellbook(next).length;
     need(missing <= 0, t('levelUp.issues.spellbook', { count: missing }), false, 'spells');
   }
   const masteries = weaponMasteryCount(next, content);
@@ -201,3 +275,8 @@ export function clearLevelFeatChoices(c: Character, level: number): Character {
   return { ...c, choices: Object.fromEntries(Object.entries(c.choices).filter(([k]) => !k.startsWith(prefix))) };
 }
 
+
+/** Ключ выбора владений, которые даёт новый класс при мультиклассе (навык плута, инструмент барда…). */
+export function multiclassProfKey(classId: string, index: number): string {
+  return `mc.${classId}.prof.${index}`;
+}

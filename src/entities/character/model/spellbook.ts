@@ -5,7 +5,7 @@ import type { Content } from '@/shared/content';
 import { indexOf } from '@/shared/content';
 
 import { CHOICE_KEYS, SPELLBOOK_PER_LEVEL, SPELLBOOK_START } from '../config/constants';
-import { spellLimits, spellOptions } from './build';
+import { classSpellLists, setClassSpellLists, spellLimits, spellOptions } from './build';
 import type { Character } from './types';
 
 const wizardLevel = (c: Character) => c.classes.find((e) => e.classId === 'wizard')?.level ?? 0;
@@ -16,12 +16,15 @@ export function hasSpellbook(c: Character): boolean {
 }
 
 /**
- * Заклинания в книге. Если книги ещё нет (персонаж создан до её появления в приложении),
- * в ней считаются подготовленные заклинания.
+ * Заклинания в книге. Если книги ещё нет (волшебник создан до её появления в приложении),
+ * в ней считаются его подготовленные заклинания.
  */
 export function spellbook(c: Character): string[] {
   if (!hasSpellbook(c)) return [];
-  return c.choices[CHOICE_KEYS.spellbook] ?? c.preparedSpells;
+  const book = c.choices[CHOICE_KEYS.spellbook];
+  if (book) return book;
+  // Тогда мультикласса ещё не было: волшебник был единственным классом.
+  return c.classes[0]?.classId === 'wizard' ? c.preparedSpells : [];
 }
 
 /** Сколько заклинаний должно быть в книге как минимум: 6 на 1-м уровне и по 2 за каждый следующий. */
@@ -43,12 +46,10 @@ export function preparableSpells(c: Character, content: Content, classId: string
   return spellbook(c).filter((id) => spells.get(id)?.level === circle);
 }
 
-/** Записать книгу; подготовленные заклинания, которых в ней больше нет, снимаются. */
-export function setSpellbook(c: Character, ids: string[]): Character {
+/** Записать книгу; подготовленные заклинания волшебника, которых в ней больше нет, снимаются. */
+export function setSpellbook(c: Character, ids: string[], content: Content): Character {
   const book = new Set(ids);
-  return {
-    ...c,
-    choices: { ...c.choices, [CHOICE_KEYS.spellbook]: ids },
-    preparedSpells: c.preparedSpells.filter((id) => book.has(id)),
-  };
+  const withBook = { ...c, choices: { ...c.choices, [CHOICE_KEYS.spellbook]: ids } };
+  const prepared = classSpellLists(c, content, 'wizard').preparedSpells.filter((id) => book.has(id));
+  return setClassSpellLists(withBook, content, 'wizard', { preparedSpells: prepared });
 }

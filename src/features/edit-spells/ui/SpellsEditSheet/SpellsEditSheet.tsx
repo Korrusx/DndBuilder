@@ -1,6 +1,17 @@
 import { View } from 'react-native';
 
-import { hasSpellbook, preparableSpells, setSpellbook, spellbook, spellbookMinimum, spellbookOptions, spellLimits, spellOptions } from '@/entities/character';
+import {
+  classSpellLists,
+  hasSpellbook,
+  preparableSpells,
+  setClassSpellLists,
+  setSpellbook,
+  spellbook,
+  spellbookMinimum,
+  spellbookOptions,
+  spellLimits,
+  spellOptions,
+} from '@/entities/character';
 import { content, spellName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
@@ -11,12 +22,15 @@ import type { SpellsEditSheetProps } from './SpellsEditSheet.types';
 export function SpellsEditSheet({
   visible,
   character: c,
+  classId,
   onChange,
   onClose,
 }: SpellsEditSheetProps) {
   const { t } = useTranslation();
-  const limits = spellLimits(c, content);
+  const limits = spellLimits(c, content, classId);
   if (!limits) return null;
+  const { cantrips, preparedSpells } = classSpellLists(c, content, limits.classId);
+  const setLists = (patch: Parameters<typeof setClassSpellLists>[3]) => onChange((d) => setClassSpellLists(d, content, limits.classId, patch));
   const circles = Array.from({ length: limits.maxSpellLevel }, (_, i) => i + 1);
   const book = spellbook(c);
 
@@ -26,17 +40,17 @@ export function SpellsEditSheet({
         {t('spells.editHint')}
       </AppText>
       {limits.cantrips > 0 ? (
-        <Section title={t('spells.cantrips')} picked={c.cantrips.length} need={limits.cantrips}>
+        <Section title={t('spells.cantrips')} picked={cantrips.length} need={limits.cantrips}>
           <MultiPick
             options={spellOptions(limits.classId, 0, content)}
-            selected={c.cantrips}
+            selected={cantrips}
             max={limits.cantrips}
             label={spellName}
-            onChange={(cantrips) => onChange({ cantrips, preparedSpells: c.preparedSpells })}
+            onChange={(ids) => setLists({ cantrips: ids })}
           />
         </Section>
       ) : null}
-      {hasSpellbook(c) ? (
+      {limits.classId === 'wizard' && hasSpellbook(c) ? (
         <Section title={t('spells.spellbook')} hint={t('spells.spellbookHint')} picked={book.length} need={spellbookMinimum(c)}>
           <View style={styles.gapMd}>
             {circles.map((circle) => {
@@ -50,10 +64,7 @@ export function SpellsEditSheet({
                     selected={book.filter((id) => inOptions.has(id))}
                     max={options.length}
                     label={spellName}
-                    onChange={(ids) => {
-                      const next = setSpellbook(c, [...book.filter((id) => !inOptions.has(id)), ...ids]);
-                      onChange({ cantrips: c.cantrips, preparedSpells: next.preparedSpells, choices: next.choices });
-                    }}
+                    onChange={(ids) => onChange((d) => setSpellbook(d, [...book.filter((id) => !inOptions.has(id)), ...ids], content))}
                   />
                 </View>
               );
@@ -61,13 +72,13 @@ export function SpellsEditSheet({
           </View>
         </Section>
       ) : null}
-      <Section title={t('spells.prepared')} picked={c.preparedSpells.length} need={limits.prepared}>
+      <Section title={t('spells.prepared')} picked={preparedSpells.length} need={limits.prepared}>
         <View style={styles.gapMd}>
           {circles.map((circle) => {
             const options = preparableSpells(c, content, limits.classId, circle);
             const inOptions = new Set(options);
-            const inCircle = c.preparedSpells.filter((id) => inOptions.has(id));
-            const others = c.preparedSpells.length - inCircle.length;
+            const inCircle = preparedSpells.filter((id) => inOptions.has(id));
+            const others = preparedSpells.length - inCircle.length;
             return (
               <View key={circle} style={styles.gapSm}>
                 <AppText variant="secondary">{t('spell.circle', { level: circle })}</AppText>
@@ -77,12 +88,7 @@ export function SpellsEditSheet({
                   // Общий лимит на все круги: здесь можно выбрать столько, сколько осталось после других кругов.
                   max={Math.max(inCircle.length, limits.prepared - others)}
                   label={spellName}
-                  onChange={(ids) =>
-                    onChange({
-                      cantrips: c.cantrips,
-                      preparedSpells: [...c.preparedSpells.filter((id) => !inOptions.has(id)), ...ids],
-                    })
-                  }
+                  onChange={(ids) => setLists({ preparedSpells: [...preparedSpells.filter((id) => !inOptions.has(id)), ...ids] })}
                 />
               </View>
             );

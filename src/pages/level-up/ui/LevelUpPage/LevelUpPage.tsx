@@ -4,9 +4,13 @@ import { View } from 'react-native';
 
 import type { Character } from '@/entities/character';
 import {
+  CHOICE_KEYS,
   choiceOptionIds,
+  FEATURE_OPTIONS,
+  featureLanguageSlots,
   finalAbilityScores,
   knownLanguages,
+  totalLevel,
   proficientSkills,
   weaponMasteryCount,
   weaponMasteryOptions,
@@ -16,6 +20,7 @@ import { SpellsEditSheet } from '@/features/edit-spells';
 import { ClassOptionsPicker } from '@/features/pick-class-options';
 import {
   AsiPicker,
+  canMulticlassInto,
   clearLevelFeatChoices,
   featAbilityRule,
   finishLevelUp,
@@ -25,6 +30,8 @@ import {
   levelUpHpGain,
   levelUpIssues,
   levelUpPlan,
+  MAX_LEVEL,
+  multiclassRequirementText,
   startLevelUp,
 } from '@/features/level-up';
 import type { AbilityId } from '@/shared/content';
@@ -50,23 +57,34 @@ import { styles } from './LevelUpPage.styles';
 export function LevelUpPage() {
   const { character: prev, update } = usePlay();
   const { t } = useTranslation();
-  const [next, setNext] = useState<Character>(() => startLevelUp(prev));
+  // Какой класс повышаем: один из своих или новый (мультикласс).
+  const [classId, setClassId] = useState(prev.classes[0].classId);
+  const [next, setNext] = useState<Character>(() => startLevelUp(prev, classId));
   const [info, setInfo] = useState<InfoContent | null>(null);
   const [spells, setSpells] = useState(false);
 
   // Каждый раз при открытии экрана начинаем с текущего персонажа.
   useFocusEffect(
     useCallback(() => {
+      setClassId(prev.classes[0].classId);
       setNext(startLevelUp(prev));
     }, [prev]),
   );
+  const pickClass = (id: string) => {
+    setClassId(id);
+    setNext(startLevelUp(prev, id));
+  };
 
   const set = (fn: (c: Character) => Character) => setNext((c) => fn(c));
-  const plan = levelUpPlan(next, content);
+  const plan = levelUpPlan(next, content, classId);
+  const entry = next.classes.find((e) => e.classId === classId)!;
+  const setEntry = (patch: Partial<typeof entry>) =>
+    set((c) => ({ ...c, classes: c.classes.map((e) => (e.classId === classId ? { ...e, ...patch } : e)) }));
   const issues = levelUpIssues(next, prev, content);
   const blocking = issues.filter((i) => i.blocking);
   const hpGain = levelUpHpGain(next, prev, content);
-  const level = plan.toLevel;
+  // Выборы уровня (черта, стиль боя) помечаются общим уровнем персонажа.
+  const level = plan.charLevel;
 
   const finish = () => {
     update(() => finishLevelUp(next, prev, content));
@@ -132,8 +150,91 @@ export function LevelUpPage() {
       }
     >
       <AppText variant="title">
-        {nameOf('classes', plan.classId)}: {level - 1} → {level}
+        {nameOf('classes', plan.classId)}: {plan.toLevel - 1} → {plan.toLevel}
       </AppText>
+      {prev.classes.length > 1 || plan.isNewClass ? (
+        <AppText variant="secondary">{t('levelUpPage.totalLevel', { level: plan.charLevel })}</AppText>
+      ) : null}
+
+      <Section title={t('levelUpPage.whichClass')} hint={t('levelUpPage.whichClassHint')}>
+        <ChipRow>
+          {prev.classes.map((e) => (
+            <Chip
+              key={e.classId}
+              label={`${nameOf('classes', e.classId)} ${e.level} → ${e.level + 1}`}
+              selected={classId === e.classId}
+              disabled={e.level >= MAX_LEVEL}
+              onPress={() => pickClass(e.classId)}
+            />
+          ))}
+        </ChipRow>
+        <AppText variant="secondary">{t('levelUpPage.newClass')}</AppText>
+        <ChipRow>
+          {content.classes
+            .filter((cls) => !prev.classes.some((e) => e.classId === cls.id))
+            .map((cls) => {
+              const ok = canMulticlassInto(prev, content, cls.id);
+              return (
+                <Chip
+                  key={cls.id}
+                  label={nameOf('classes', cls.id)}
+                  note={ok ? undefined : multiclassRequirementText(cls.id, content)}
+                  selected={classId === cls.id}
+                  disabled={!ok}
+                  onPress={() => pickClass(cls.id)}
+                />
+              );
+            })}
+        </ChipRow>
+        {plan.isNewClass ? (
+          <AppText variant="secondary">
+            {t('levelUpPage.multiclassHint', {
+              list: (byId.classes.get(classId)?.multiclass.proficiencies ?? []).map(proficiencyName).join(', ') || '—',
+            })}
+          </AppText>
+        ) : null}
+      </Section>
+
+      {plan.multiclassChoices.map((mc) => (
+        <Section key={mc.key} title={t('levelUpPage.multiclassChoice', { what: tr(mc.desc).text || (mc.options.every((id) => id.startsWith('skill-')) ? t('levelUpPage.skill') : t('levelUpPage.proficiency')) })} picked={next.choices[mc.key]?.length ?? 0} need={mc.choose}>
+          <MultiPick
+            options={mc.options}
+            selected={next.choices[mc.key] ?? []}
+            max={mc.choose}
+            label={proficiencyName}
+            blocked={blocked}
+            onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [mc.key]: ids } }))}
+          />
+        </Section>
+      ))}
+
+      {plan.featureOptions.map((featureId) => (
+        <Section key={featureId} title={nameOf('features', featureId)} picked={next.choices[CHOICE_KEYS.featureOption(featureId)]?.length ?? 0} need={1}>
+          {FEATURE_OPTIONS[featureId].map((o) => (
+            <OptionCard
+              key={o.id}
+              title={tr(o.name).text}
+              lines={[tr(o.description).text]}
+              selected={next.choices[CHOICE_KEYS.featureOption(featureId)]?.[0] === o.id}
+              onPress={() => set((c) => ({ ...c, choices: { ...c.choices, [CHOICE_KEYS.featureOption(featureId)]: [o.id] } }))}
+            />
+          ))}
+        </Section>
+      ))}
+
+      {featureLanguageSlots(next, content)
+        .filter((slot) => plan.features.some((f) => f.id === slot.featureId))
+        .map((slot) => (
+          <Section key={slot.key} title={nameOf('features', slot.featureId)} picked={next.choices[slot.key]?.length ?? 0} need={slot.choose}>
+            <MultiPick
+              options={slot.options}
+              selected={next.choices[slot.key] ?? []}
+              max={slot.choose}
+              label={(id) => nameOf('languages', id)}
+              onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [slot.key]: ids } }))}
+            />
+          </Section>
+        ))}
 
       <Card style={styles.gapSm}>
         <AppText variant="heading">{t('levelUpPage.hp', { value: hpGain })}</AppText>
@@ -159,7 +260,7 @@ export function LevelUpPage() {
       ) : null}
 
       {plan.needsSubclass ? (
-        <Section title={t('levelUpPage.subclass')} picked={next.classes[0].subclassId ? 1 : 0} need={1}>
+        <Section title={t('levelUpPage.subclass')} picked={entry.subclassId ? 1 : 0} need={1}>
           {content.subclasses
             .filter((s) => s.classId === plan.classId)
             .map((s) => (
@@ -167,8 +268,8 @@ export function LevelUpPage() {
                 key={s.id}
                 title={tr(s.name).text}
                 lines={[tr(s.summary).text, ...(s.extra ? [t('common.fromPhb')] : [])]}
-                selected={next.classes[0].subclassId === s.id}
-                onPress={() => set((c) => ({ ...c, classes: [{ ...c.classes[0], subclassId: s.id }, ...c.classes.slice(1)] }))}
+                selected={entry.subclassId === s.id}
+                onPress={() => setEntry({ subclassId: s.id })}
               />
             ))}
         </Section>
@@ -307,7 +408,8 @@ export function LevelUpPage() {
       <SpellsEditSheet
         visible={spells}
         character={next}
-        onChange={(patch) => set((c) => ({ ...c, ...patch }))}
+        classId={plan.classId}
+        onChange={set}
         onClose={() => setSpells(false)}
       />
     </Screen>

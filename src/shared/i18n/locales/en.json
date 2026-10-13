@@ -203,7 +203,8 @@
       "languages": "Choose languages: {{count}}",
       "moreSpells": "You can choose more spells: {{count}}",
       "moreMasteries": "You can choose more Weapon Masteries: {{count}}",
-      "spellbook": "Add {{count}} more spells to your spellbook"
+      "spellbook": "Add {{count}} more spells to your spellbook",
+      "multiclassProficiencies": "Choose proficiencies from the new class: {{count}}"
     },
     "asiTwo": "+2 to one",
     "asiSplit": "+1 to two"
@@ -672,7 +673,15 @@
     "skills": "Skills: {{feature}}",
     "languages": "Languages",
     "masteries": "Weapon Mastery",
-    "pickSpells": "Choose spells"
+    "pickSpells": "Choose spells",
+    "totalLevel": "Character level: {{level}}",
+    "whichClass": "Which class to advance",
+    "whichClassHint": "Your class or a new one (multiclassing). A new class needs 13+ in the primary ability of the new class and all of yours.",
+    "newClass": "New class:",
+    "multiclassHint": "When multiclassing, the new class grants only some proficiencies: {{list}}. Hit points per level are average; saving throws don’t change.",
+    "multiclassChoice": "New class: {{what}}",
+    "proficiency": "proficiency",
+    "skill": "skill"
   },
   "classOptions": {
     "invocation": "Eldritch Invocations",

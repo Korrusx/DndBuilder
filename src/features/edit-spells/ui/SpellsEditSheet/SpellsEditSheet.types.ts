@@ -3,7 +3,9 @@ import type { Character } from '@/entities/character';
 export type SpellsEditSheetProps = {
   visible: boolean;
   character: Character;
-  /** Изменения: заговоры, подготовленные, а у волшебника ещё и книга (в `choices`). */
-  onChange: (patch: Pick<Character, 'cantrips' | 'preparedSpells'> & Partial<Pick<Character, 'choices'>>) => void;
+  /** Класс, чьи заклинания меняем; по умолчанию — основной заклинатель. */
+  classId?: string;
+  /** Изменение персонажа (заговоры, подготовленные, книга волшебника). */
+  onChange: (fn: (c: Character) => Character) => void;
   onClose: () => void;
 };

@@ -352,7 +352,7 @@ export function PlayMagicPage() {
       <SpellsEditSheet
         visible={editing}
         character={c}
-        onChange={(patch) => update((d) => ({ ...d, ...patch }))}
+        onChange={update}
         onClose={() => setEditing(false)}
       />
       <D20Sheet request={roll} onClose={() => setRoll(null)} />

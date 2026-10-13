@@ -61,7 +61,7 @@ export {
   weaponMasteryCount,
   weaponMasteryOptions,
 } from './model/build';
-export { newDraftCharacter } from './model/character';
+export { newDraftCharacter, totalLevel } from './model/character';
 export { choice1 } from './model/choices';
 export { withDefaults } from './model/normalize';
 export {

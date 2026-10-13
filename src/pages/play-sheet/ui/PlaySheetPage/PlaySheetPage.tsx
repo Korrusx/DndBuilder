@@ -12,6 +12,7 @@ import {
   setExhaustion,
   speedWithExhaustion,
   toggleCondition,
+  totalLevel,
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { MAX_LEVEL } from '@/features/level-up';
@@ -170,9 +171,9 @@ export function PlaySheetPage() {
         </ChipRow>
       </Card>
 
-      {c.classes[0].level < MAX_LEVEL ? (
+      {totalLevel(c.classes) < MAX_LEVEL ? (
         <SmallButton
-          title={t('sheet.levelUp', { from: c.classes[0].level, to: c.classes[0].level + 1 })}
+          title={t('sheet.levelUp', { from: totalLevel(c.classes), to: totalLevel(c.classes) + 1 })}
           tone="accent"
           onPress={() => router.navigate({ pathname: '/character/[id]/level-up', params: { id: c.id } })}
         />

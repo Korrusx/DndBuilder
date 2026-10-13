@@ -35,7 +35,7 @@ describe('книга заклинаний волшебника', () => {
 
   test('если убрать заклинание из книги, оно перестаёт быть подготовленным', () => {
     const c = wizard(1, book6, book6.slice(0, 4));
-    const next = setSpellbook(c, book6.slice(1));
+    const next = setSpellbook(c, book6.slice(1), content);
     expect(next.preparedSpells).toEqual(book6.slice(1, 4));
     expect(spellbook(next)).toEqual(book6.slice(1));
   });
