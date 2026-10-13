@@ -17,7 +17,7 @@ import {
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { colors } from '@/shared/config';
 import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, abilityName, byId } from '@/shared/content';
+import { abilityAbbr, abilityName, byId, contentFor } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
 import { AppText, Button, Chip, ChipRow, Section, Segmented } from '@/shared/ui';
@@ -38,7 +38,7 @@ export function CreateAbilitiesPage() {
 
   const pool: number[] = c.abilityMethod === 'standard' ? [...STANDARD_ARRAY] : c.abilityMethod === 'roll' ? (c.abilityRolls ?? []) : [];
   const free = freeValues(pool, c.baseAbilities);
-  const totals = finalAbilityScores({ ...c, feats: [] });
+  const totals = finalAbilityScores({ ...c, feats: [] }, contentFor(c.edition));
   const spent = c.abilityMethod === 'pointBuy' ? pointBuySpent(c.baseAbilities) : undefined;
 
   const setBase = (fn: (b: AbilityScores) => AbilityScores) => update((d) => ({ ...d, baseAbilities: fn(d.baseAbilities) }));

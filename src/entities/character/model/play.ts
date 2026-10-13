@@ -1,22 +1,39 @@
 // Режим игры: спасброски от смерти, истощение, ячейки, сотворение заклинаний, броски урона, вещи.
 
-import type { Content } from '@/shared/content';
+import type { Content, Edition } from '@/shared/content';
 import { indexOf } from '@/shared/content';
 import { parseDice, rollDie } from '@/shared/lib/dice';
 
 import { CUSTOM_ITEM_PREFIX, EXHAUSTION_MAX } from '../config/constants';
 import type { DamageRoll, DeathStatus, GameState, InventoryItem } from './types';
 
-// ---------- Истощение (SRD 5.2) ----------
+// ---------- Истощение ----------
 
-/** Каждый уровень истощения: −2 к броскам к20 (проверки, атаки, спасброски). */
-export function exhaustionPenalty(exhaustion: number): number {
-  return -2 * exhaustion;
+/**
+ * Штраф к броскам к20 (проверки, атаки, спасброски). SRD 5.2: −2 за каждый уровень.
+ * SRD 5.1 (2014): штрафа нет — вместо него помеха (см. exhaustionEffects2014).
+ */
+export function exhaustionPenalty(exhaustion: number, edition: Edition = '2024'): number {
+  return edition === '2014' ? 0 : -2 * exhaustion;
 }
 
-/** Каждый уровень истощения: скорость −5 фт. */
-export function speedWithExhaustion(speed: number, exhaustion: number): number {
+/** Скорость. SRD 5.2: −5 фт за каждый уровень. SRD 5.1: со 2-го уровня вдвое меньше, с 5-го — 0. */
+export function speedWithExhaustion(speed: number, exhaustion: number, edition: Edition = '2024'): number {
+  if (edition === '2014') return exhaustion >= 5 ? 0 : exhaustion >= 2 ? Math.floor(speed / 2) : speed;
   return Math.max(0, speed - 5 * exhaustion);
+}
+
+/** Максимум хитов. SRD 5.1: с 4-го уровня истощения вдвое меньше. В SRD 5.2 не меняется. */
+export function maxHpWithExhaustion(maxHp: number, exhaustion: number, edition: Edition = '2024'): number {
+  return edition === '2014' && exhaustion >= 4 ? Math.floor(maxHp / 2) : maxHp;
+}
+
+/**
+ * Эффекты истощения SRD 5.1 (2014), накапливаются: 1 — помеха на проверки характеристик;
+ * 2 — скорость вдвое меньше; 3 — помеха на атаки и спасброски; 4 — максимум хитов вдвое меньше; 5 — скорость 0; 6 — смерть.
+ */
+export function exhaustionEffects2014(exhaustion: number): { checkDisadvantage: boolean; attackSaveDisadvantage: boolean; dead: boolean } {
+  return { checkDisadvantage: exhaustion >= 1, attackSaveDisadvantage: exhaustion >= 3, dead: exhaustion >= 6 };
 }
 
 export function setExhaustion(state: GameState, level: number): GameState {

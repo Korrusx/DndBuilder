@@ -50,3 +50,34 @@ export function irmaLevel5(): Character {
     feats: [{ featId: 'ability-score-improvement', source: 'class', level: 4, abilityIncreases: { dex: 1, con: 1 } }],
   };
 }
+
+/**
+ * Ирма по правилам 2014 (SRD 5.1): плут 1, легконогий полурослик, «Преступник» (PHB 2014).
+ * Прибавки даёт раса: ЛОВ +2 (полурослик), ХАР +1 (легконогий). Навыки «Преступника» — Обман и Скрытность,
+ * плут выбирает ещё четыре. Черты происхождения в 2014 нет.
+ */
+export function irma2014Level1(): Character {
+  const c = irmaLevel1();
+  return {
+    ...c,
+    edition: '2014',
+    subspeciesId: 'lightfoot-halfling',
+    backgroundBonuses: {},
+    choices: {
+      'class.rogue.prof.0': ['skill-acrobatics', 'skill-investigation', 'skill-perception', 'skill-sleight-of-hand'],
+    },
+    languages: [],
+    weaponMasteries: [],
+    equipment: c.equipment.map((i) => (i.itemId === 'arrows' ? { ...i, itemId: 'arrow' } : i)),
+  };
+}
+
+/** Ирма 2014 на 5-м уровне: архетип «Вор», на 4-м уровне «Увеличение характеристик» ЛОВ +1, ТЕЛ +1. */
+export function irma2014Level5(): Character {
+  const c = irma2014Level1();
+  return {
+    ...c,
+    classes: [{ classId: 'rogue', subclassId: 'thief', level: 5 }],
+    feats: [{ featId: 'ability-score-improvement', source: 'class', level: 4, abilityIncreases: { dex: 1, con: 1 } }],
+  };
+}

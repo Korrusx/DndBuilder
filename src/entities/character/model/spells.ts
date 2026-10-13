@@ -1,4 +1,4 @@
-import type { CharacterClass, Spell } from '@/shared/content';
+import type { CharacterClass, Edition, Spell } from '@/shared/content';
 
 import { MULTICLASS_SLOTS_CLASS, SPELLCASTER_PROGRESSION } from '../config/constants';
 import type { ClassEntry } from './types';
@@ -28,17 +28,19 @@ function activeCasters(entries: ClassEntry[], classes: ReadonlyMap<string, Chara
 }
 
 /**
- * Общие ячейки персонажа (SRD 5.2, «Multiclassing → Spell Slots»).
+ * Общие ячейки персонажа (SRD 5.2 и SRD 5.1, «Multiclassing → Spell Slots»).
  * Один заклинатель — по таблице своего класса. Несколько — по таблице мультикласса: все уровни полных
- * заклинателей + половина уровней паладина и следопыта (вверх). Колдун в сумму не входит: его ячейки отдельно
- * (см. characterPactSlots); если колдун — единственный заклинатель, его ячейки и есть общие.
+ * заклинателей + половина уровней паладина и следопыта (2024 — вверх, 2014 — вниз). Колдун в сумму не входит:
+ * его ячейки отдельно (см. characterPactSlots); если колдун — единственный заклинатель, его ячейки и есть общие.
  */
-export function characterSpellSlots(entries: ClassEntry[], classes: ReadonlyMap<string, CharacterClass>): number[] {
+export function characterSpellSlots(entries: ClassEntry[], classes: ReadonlyMap<string, CharacterClass>, edition: Edition = '2024'): number[] {
   const casters = activeCasters(entries, classes);
   const regular = casters.filter(({ cls }) => SPELLCASTER_PROGRESSION[cls.id] !== 'pact');
   if (regular.length === 0) return casters[0] ? spellSlots(casters[0].cls, casters[0].e.level) : NO_SLOTS;
   if (regular.length === 1) return spellSlots(regular[0].cls, regular[0].e.level);
-  const total = regular.reduce((sum, { e, cls }) => sum + (SPELLCASTER_PROGRESSION[cls.id] === 'half' ? Math.ceil(e.level / 2) : e.level), 0);
+  const half = edition === '2014' ? Math.floor : Math.ceil;
+  const total = regular.reduce((sum, { e, cls }) => sum + (SPELLCASTER_PROGRESSION[cls.id] === 'half' ? half(e.level / 2) : e.level), 0);
+  if (total === 0) return NO_SLOTS;
   const table = classes.get(MULTICLASS_SLOTS_CLASS);
   return table ? spellSlots(table, Math.min(20, total)) : NO_SLOTS;
 }
@@ -92,7 +94,11 @@ export function spellDamage(spell: Spell, characterLevel: number, slotLevel = sp
   let bonus = d.bonusBySlotLevel?.[key] ?? 0;
   if (spell.level === 0) {
     const tier = CANTRIP_TIERS.filter((l) => l <= characterLevel).length;
-    if (d.beams) return dice ? { dice, bonus, beams: tier, ...common } : null;
+    // Кость луча: в данных 2024 — ячейка «0», в 2014 — таблица по уровню персонажа (кость не растёт).
+    if (d.beams) {
+      dice ??= d.byCharacterLevel?.['1'];
+      return dice ? { dice, bonus, beams: tier, ...common } : null;
+    }
     dice = d.byCharacterLevel?.[String(CANTRIP_TIERS[tier - 1])] ?? dice;
   }
   if (!dice) return null;

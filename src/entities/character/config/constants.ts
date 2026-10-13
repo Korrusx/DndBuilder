@@ -40,6 +40,10 @@ export const CHOICE_KEYS = {
   featureLanguages: (featureId: string) => `feature.${featureId}.languages`,
   /** Заклинательная характеристика для заклинаний вида (сбрасывается при смене вида, как все `trait.`). */
   speciesSpellAbility: 'trait.spellAbility',
+  /** 2014: прибавки расы на выбор (полуэльф: две характеристики по +1; значения — id характеристик). */
+  speciesAbilityBonus: 'trait.abilityBonus',
+  /** 2014: вариант особенности расы («Наследие драконов»: id особенности-варианта). */
+  traitOption: (traitId: string) => `trait.${traitId}.option`,
   /** Заговор вместо заданного особенностью (высший эльф: вместо «Фокусов»). */
   speciesCantrip: (traitId: string) => `trait.${traitId}.cantrip`,
   /** Варианты умений класса: воззвания колдуна, метамагия чародея (id из `content.classOptions`). */

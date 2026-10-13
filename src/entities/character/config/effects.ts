@@ -1,5 +1,6 @@
 import type { Effect } from '../model/types';
 
+/** Эффекты по id умения, особенности или черты (редакция 2024 и общие для обеих редакций). */
 export const EFFECTS: Record<string, Effect[]> = {
   // Черта «Бдительность» (Alert): Initiative Proficiency.
   alert: [{ type: 'initiativeAddsProficiency' }],
@@ -32,5 +33,31 @@ export const EFFECTS: Record<string, Effect[]> = {
   'draconic-sorcery-draconic-resilience': [
     { type: 'hpPerClassLevel', classId: 'sorcerer', fromLevel: 3 },
     { type: 'unarmoredDefense', abilities: ['dex', 'cha'], shieldAllowed: true },
+  ],
+};
+
+/**
+ * Редакция 2014 (SRD 5.1, механика PHB 2014). Если id есть здесь, для персонажа 2014 берутся эти эффекты
+ * вместо EFFECTS; остальные id (дварфийская стойкость, «Защита без доспехов» варвара и монаха) — общие.
+ */
+export const EFFECTS_2014: Record<string, Effect[]> = {
+  // Черта «Бдительность» (PHB 2014): +5 к инициативе.
+  alert: [{ type: 'initiativeBonus', value: 5 }],
+  // Боевые стили (SRD 5.1) — варианты умения «Боевой стиль» воина, паладина и следопыта.
+  // «Сражение большим оружием» 2014 — переброс 1 и 2 на костях урона; приложение его не считает.
+  'fighter-fighting-style-archery': [{ type: 'rangedAttackBonus', value: 2 }],
+  'ranger-fighting-style-archery': [{ type: 'rangedAttackBonus', value: 2 }],
+  'fighter-fighting-style-defense': [{ type: 'armoredAcBonus', value: 1 }],
+  'fighting-style-defense': [{ type: 'armoredAcBonus', value: 1 }],
+  'ranger-fighting-style-defense': [{ type: 'armoredAcBonus', value: 1 }],
+  'fighter-fighting-style-two-weapon-fighting': [{ type: 'lightExtraAttackModifier' }],
+  'ranger-fighting-style-two-weapon-fighting': [{ type: 'lightExtraAttackModifier' }],
+  // Монах, «Движение без доспехов» (SRD 5.1): бонус скорости из таблицы класса.
+  'unarmored-movement-1': [{ type: 'unarmoredSpeedFromClassTable', classId: 'monk', column: 'unarmored_movement' }],
+  // Чародей (Происхождение драконьей крови), «Драконья устойчивость» (SRD 5.1): +1 хит за каждый уровень чародея;
+  // без доспеха КЗ 13 + ЛОВ.
+  'draconic-resilience': [
+    { type: 'hpPerClassLevel', classId: 'sorcerer', fromLevel: 1 },
+    { type: 'unarmoredDefense', abilities: ['dex'], shieldAllowed: true, base: 13 },
   ],
 };

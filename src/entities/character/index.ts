@@ -74,7 +74,9 @@ export {
   deathStatus,
   divineSmiteDice,
   endRage,
+  exhaustionEffects2014,
   exhaustionPenalty,
+  maxHpWithExhaustion,
   finishShortRest,
   rollDamage,
   setExhaustion,
@@ -86,7 +88,7 @@ export {
 } from './model/play';
 export { adjustResource, characterResources, shortRestResources } from './model/resources';
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
-export { computeSheet, finalAbilityScores, originFeatIds } from './model/sheet';
+export { computeSheet, finalAbilityScores, originFeatIds, subclassSpellIds } from './model/sheet';
 export type { SpellDamage } from './model/spells';
 export { spellAttackBonus, spellDamage, spellDamageLevels, spellSaveDC } from './model/spells';
 export type { ClassOptionSlot, ClassOptionSpell } from './model/classOptions';

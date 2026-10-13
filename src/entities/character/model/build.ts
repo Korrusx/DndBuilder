@@ -3,9 +3,10 @@
 
 import type { AbilityId, Choice, ChoiceOption, Coin, Content } from '@/shared/content';
 import { indexOf } from '@/shared/content';
-import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_LANGUAGES, FEATURE_OPTIONS } from '../config/constants';
+import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_LANGUAGES, FEATURE_OPTIONS, SPELLCASTER_PROGRESSION } from '../config/constants';
 import { choice1 } from './choices';
-import { makeProficiencyCheck, proficiencyIds } from './sheet';
+import { abilityModifier } from './abilities';
+import { finalAbilityScores, makeProficiencyCheck, proficiencyIds } from './sheet';
 import type { Character, EquipmentSource, InventoryItem, OriginFeat, OriginFeatSlot, ProficiencySlot, SpellLimits } from './types';
 
 // ---------- Справочник ----------
@@ -149,7 +150,9 @@ export function proficientSkills(c: Character, content: Content): string[] {
 /** Сколько навыков с компетентностью даёт класс на 1-м уровне (плут: 2). */
 export function expertiseCount(c: Character, content: Content): number {
   const cls = startingClass(c, content);
-  return cls?.levels[0]?.features.filter((id) => id.endsWith('-expertise')).length ? 2 : 0;
+  const features = indexOf(content).features;
+  // 2024: умение «…-expertise»; 2014: умение с выбором компетентности («rogue-expertise-1»).
+  return cls?.levels[0]?.features.some((id) => id.endsWith('-expertise') || features.get(id)?.expertiseChoice) ? 2 : 0;
 }
 
 /** Сколько видов оружия с приёмами (из таблицы класса; если столбца нет — 2). */
@@ -223,9 +226,9 @@ export function featureLanguageSlots(c: Character, content: Content): { featureI
     });
 }
 
-/** Все языки персонажа: Общий, выбранные, от умений класса (даны и выбраны). */
+/** Все языки персонажа: Общий, выбранные, от расы (2014), от умений класса (даны и выбраны). */
 export function knownLanguages(c: Character, content: Content): string[] {
-  const ids = new Set(['common', ...c.languages]);
+  const ids = new Set(['common', ...c.languages, ...(indexOf(content).species.get(c.speciesId)?.languages ?? [])]);
   for (const featureId of languageFeatureIds(c, content)) {
     for (const id of FEATURE_LANGUAGES[featureId].known) ids.add(id);
     for (const id of c.choices[CHOICE_KEYS.featureLanguages(featureId)] ?? []) ids.add(id);
@@ -314,6 +317,9 @@ export function setClassSpellLists(
 /**
  * Сколько заговоров и подготовленных заклинаний у класса на его уровне — как у одноклассового (SRD 5.2:
  * «Spells Prepared»). По умолчанию — основной заклинатель. null — у класса пока нет заклинаний.
+ * 2014 (SRD 5.1): у бардов, следопытов, чародеев и колдунов — число известных заклинаний по таблице
+ * (они лежат в тех же списках, что подготовленные); у жреца, друида и волшебника — мод. характеристики + уровень
+ * класса, у паладина — мод. + половина уровня (вниз); не меньше 1.
  */
 export function spellLimits(c: Character, content: Content, classId = primaryCasterId(c, content)): SpellLimits | null {
   const entry = c.classes.find((e) => e.classId === classId);
@@ -329,7 +335,17 @@ export function spellLimits(c: Character, content: Content, classId = primaryCas
     cantrips += options.find((o) => o.id === chosen)?.extraCantrips ?? 0;
   }
   const maxSpellLevel = sc.slots.reduce((max, n, i) => (n > 0 ? i + 1 : max), 0);
-  return { classId: cls.id, cantrips, prepared: sc.prepared, maxSpellLevel };
+  return { classId: cls.id, cantrips, prepared: preparedCount(c, content, cls.id, entry.level), maxSpellLevel };
+}
+
+function preparedCount(c: Character, content: Content, classId: string, level: number): number {
+  const cls = indexOf(content).classes.get(classId)!;
+  const sc = cls.levels[level - 1]?.spellcasting;
+  const preparation = cls.spellcasting?.preparation;
+  if (!preparation) return sc?.prepared ?? 0;
+  if (preparation === 'known') return sc?.known ?? 0;
+  const mod = abilityModifier(finalAbilityScores(c, content)[cls.spellcasting!.ability]);
+  return Math.max(1, mod + (SPELLCASTER_PROGRESSION[classId] === 'half' ? Math.floor(level / 2) : level));
 }
 
 /** Заклинания списка класса указанного круга (0 — заговоры). */

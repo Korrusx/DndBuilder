@@ -19,6 +19,7 @@ export { spellMeta } from './spellMeta';
 export type {
   AbilityId,
   ArmorInfo,
+  Background,
   CharacterClass,
   Choice,
   ChoiceOption,

@@ -224,8 +224,10 @@ export type Effect =
   | { type: 'hpPerLevel'; value: number }
   /** Прибавка к максимуму хитов, равная уровню класса, начиная с указанного уровня. */
   | { type: 'hpPerClassLevel'; classId: string; fromLevel: number }
-  /** Защита без доспехов: 10 + модификаторы указанных характеристик. */
-  | { type: 'unarmoredDefense'; abilities: AbilityId[]; shieldAllowed: boolean }
+  /** Защита без доспехов: `base` (по умолчанию 10) + модификаторы указанных характеристик. */
+  | { type: 'unarmoredDefense'; abilities: AbilityId[]; shieldAllowed: boolean; base?: number }
+  /** +N к инициативе (2014, черта «Бдительность»: +5). */
+  | { type: 'initiativeBonus'; value: number }
   /** +N к КЗ всегда (Кованый: «Встроенная защита»). */
   | { type: 'acBonus'; value: number }
   /** +N к КЗ, пока надет доспех (лёгкий, средний или тяжёлый). */
@@ -296,6 +298,8 @@ export type CharacterSheet = {
   features: SourcedId[];
   /** id владений (proficiencies). */
   proficiencies: string[];
+  /** 2014: заклинания подкласса (домен, клятва) на текущем уровне — всегда подготовлены, в лимит не входят. */
+  subclassSpells: string[];
 };
 
 export type CharacterSummary = {

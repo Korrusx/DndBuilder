@@ -106,7 +106,7 @@ export function LevelUpPage() {
   const setIncreases = (abilityIncreases: Partial<Record<AbilityId, number>>) =>
     set((c) => ({ ...c, feats: c.feats.map((f) => (f === levelFeat(c, content, level) ? { ...f, abilityIncreases } : f)) }));
 
-  const scores = finalAbilityScores(prev);
+  const scores = finalAbilityScores(prev, content);
   const featProfSlots: { key: string; choose: number; options: string[] }[] = !feat
     ? []
     : feat.featId === 'skilled'

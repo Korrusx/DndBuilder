@@ -20,9 +20,45 @@ function need<T>(map: ReadonlyMap<string, T>, id: string, what: 'background' | '
   return x;
 }
 
-export function finalAbilityScores(c: Character): AbilityScores {
-  const withBackground = applyIncreases(c.baseAbilities, c.backgroundBonuses);
-  return c.feats.reduce((scores, f) => addIncrease(scores, f.abilityIncreases ?? {}, f.abilityCap), withBackground);
+/**
+ * Итоговые характеристики: база + прибавки происхождения + прибавки черт («Увеличение характеристик»).
+ * Происхождение: в 2024 — бонусы предыстории (+2/+1 или +1/+1/+1), в 2014 — прибавки расы и подрасы.
+ */
+export function finalAbilityScores(c: Character, content: Content): AbilityScores {
+  const withOrigin = applyIncreases(c.baseAbilities, ...originIncreases(c, content));
+  return c.feats.reduce((scores, f) => addIncrease(scores, f.abilityIncreases ?? {}, f.abilityCap), withOrigin);
+}
+
+function originIncreases(c: Character, content: Content): Partial<AbilityScores>[] {
+  if (content.edition !== '2014') return [c.backgroundBonuses];
+  const idx = indexOf(content);
+  const species = idx.species.get(c.speciesId);
+  const sub = c.subspeciesId ? idx.subspecies.get(c.subspeciesId) : undefined;
+  // Прибавки на выбор (полуэльф): не больше `choose`, только из разрешённых.
+  const opt = species?.abilityBonusChoice;
+  const picked = opt ? (c.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []).filter((a) => (opt.options as string[]).includes(a)).slice(0, opt.choose) : [];
+  const chosen = Object.fromEntries(picked.map((a) => [a, opt!.bonus])) as Partial<AbilityScores>;
+  return [species?.abilityBonuses ?? {}, sub?.abilityBonuses ?? {}, chosen];
+}
+
+/** Особенности расы / вида и подрасы / подвида на уровне персонажа. */
+function speciesTraitIdsAt(c: Character, content: Content, level: number): string[] {
+  const idx = indexOf(content);
+  const species = idx.species.get(c.speciesId);
+  const sub = c.subspeciesId ? idx.subspecies.get(c.subspeciesId) : undefined;
+  return [...(species?.traits ?? []), ...(sub?.traits.filter((t) => t.level <= level).map((t) => t.id) ?? [])];
+}
+
+/** 2014: выбранные варианты умений класса (боевой стиль, договор) и особенностей расы (наследие драконов). */
+function chosenSubfeatures(c: Character, content: Content, ids: string[], kind: 'feature' | 'trait'): string[] {
+  const idx = indexOf(content);
+  return ids.flatMap((id) => {
+    if (kind === 'feature') {
+      const f = idx.features.get(id);
+      return f?.optionChoice ? (c.choices[CHOICE_KEYS.featureOption(id)] ?? []) : [];
+    }
+    return idx.traits.get(id)?.subtraits ? (c.choices[CHOICE_KEYS.traitOption(id)] ?? []) : [];
+  });
 }
 
 /** id всех владений персонажа: класс, предыстория, выборы мастера, варианты умений. */
@@ -36,6 +72,8 @@ export function proficiencyIds(c: Character, content: Content): Set<string> {
       return (i === 0 ? cls?.proficiencies : cls?.multiclass.proficiencies) ?? [];
     }),
     ...(background?.proficiencies ?? []),
+    // 2014: владения от особенностей расы («Острые чувства» — Восприятие, «Обучение эльфийскому оружию»).
+    ...speciesTraitIdsAt(c, content, totalLevel(c.classes)).flatMap((id) => idx.traits.get(id)?.proficiencies ?? []),
     ...c.toolProficiencies,
     ...chosenProficiencyIds(c),
     ...featureOptionProficiencies(c),
@@ -85,11 +123,16 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   }
   for (const id of species.traits) features.push({ id, source: 'species' });
   for (const t of subspecies?.traits ?? []) if (t.level <= level) features.push({ id: t.id, source: 'species' });
+  // 2014: выбранные варианты умений и особенностей — отдельными умениями (у них свои эффекты).
+  const classFeatureIds = features.filter((f) => f.source !== 'species').map((f) => f.id);
+  for (const id of chosenSubfeatures(c, content, classFeatureIds, 'feature')) features.push({ id, source: 'class' });
+  const traitIds = features.filter((f) => f.source === 'species').map((f) => f.id);
+  for (const id of chosenSubfeatures(c, content, traitIds, 'trait')) features.push({ id, source: 'species' });
   for (const id of [...originFeatIds(c, content), ...c.feats.map((f) => f.featId)]) features.push({ id, source: 'feat' });
-  const effects = [...effectsOf(features.map((f) => f.id)), ...featureOptionEffects(c)];
+  const effects = [...effectsOf(features.map((f) => f.id), content.edition), ...featureOptionEffects(c)];
 
   // --- Характеристики и спасброски ---
-  const scores = finalAbilityScores(c);
+  const scores = finalAbilityScores(c, content);
   const mods = modifiers(scores);
   const saveProfs = new Set(classes[0]?.cls.savingThrows ?? []);
   const abilities = {} as CharacterSheet['abilities'];
@@ -182,7 +225,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   const pactSlots = characterPactSlots(c.classes, idx.classes);
   const spellcasting: CharacterSheet['spellcasting'] = spellcastingClasses[0] && {
     ...spellcastingClasses[0],
-    slots: characterSpellSlots(c.classes, idx.classes),
+    slots: characterSpellSlots(c.classes, idx.classes, content.edition),
     slotsFromPact: spellcastingClasses.every((s) => SPELLCASTER_PROGRESSION[s.classId] === 'pact'),
   };
 
@@ -205,7 +248,21 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     classSpecific,
     features,
     proficiencies: [...profIds],
+    subclassSpells: subclassSpellIds(c, content),
   };
+}
+
+/**
+ * 2014: заклинания подкласса (домен жреца, клятва паладина, круг земли друида) на уровне класса — всегда подготовлены.
+ * Заклинания круга земли зависят от выбранной местности (вариант умения `circle-of-the-land`).
+ */
+export function subclassSpellIds(c: Character, content: Content): string[] {
+  const idx = indexOf(content);
+  const chosen = new Set(Object.values(c.choices).flat());
+  return c.classes.flatMap((e) => {
+    const sub = e.subclassId ? idx.subclasses.get(e.subclassId) : undefined;
+    return (sub?.spells ?? []).filter((s) => s.level <= e.level && (!s.feature || chosen.has(s.feature))).map((s) => s.id);
+  });
 }
 
 function sumEffects(effects: Effect[], type: 'rangedAttackBonus'): number {

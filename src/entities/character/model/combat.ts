@@ -49,7 +49,7 @@ export function armorClass({ armor, shield, mods, effects }: AcInput): number {
     ac = 10 + mods.dex;
     for (const e of effects) {
       if (e.type !== 'unarmoredDefense' || (shield && !e.shieldAllowed)) continue;
-      ac = Math.max(ac, 10 + e.abilities.reduce((s, id) => s + mods[id], 0));
+      ac = Math.max(ac, (e.base ?? 10) + e.abilities.reduce((s, id) => s + mods[id], 0));
     }
   }
   if (shield) ac += shield.base;
@@ -61,7 +61,9 @@ export function armorClass({ armor, shield, mods, effects }: AcInput): number {
 
 export function initiative(dexMod: number, profBonus: number, effects: Effect[]): number {
   const addsPb = effects.some((e) => e.type === 'initiativeAddsProficiency');
-  return dexMod + (addsPb ? profBonus : 0);
+  let bonus = 0;
+  for (const e of effects) if (e.type === 'initiativeBonus') bonus += e.value;
+  return dexMod + (addsPb ? profBonus : 0) + bonus;
 }
 
 // --- Атаки оружием ---

@@ -66,7 +66,7 @@ export function multiclassRequirementText(classId: string, content: Content): st
  */
 export function canMulticlassInto(c: Character, content: Content, classId: string): boolean {
   const classes = indexOf(content).classes;
-  const scores = finalAbilityScores(c);
+  const scores = finalAbilityScores(c, content);
   const meets = (id: string) =>
     (classes.get(id)?.multiclass.prerequisites ?? []).every((g) =>
       (g.options ?? []).some((o) => o.kind === 'minScore' && scores[o.ability] >= o.min),
@@ -147,7 +147,7 @@ export function levelFeat(c: Character, content: Content, level: number): FeatCh
 export function levelFeatOptions(c: Character, content: Content, kind: FeatSlotKind): string[] {
   // Условия черт («4-й уровень+») — по общему уровню; черта этого уровня помечена им же.
   const level = totalLevel(c.classes);
-  const scores = finalAbilityScores(c);
+  const scores = finalAbilityScores(c, content);
   const taken = new Set([...originFeatIds(c, content), ...c.feats.filter((f) => f.level !== level).map((f) => f.featId)]);
   return content.feats
     .filter((f) => (kind === 'epic-boon' ? f.type === 'epic-boon' : f.type === 'general' || f.type === 'origin'))

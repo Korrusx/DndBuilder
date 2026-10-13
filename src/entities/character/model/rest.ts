@@ -1,5 +1,7 @@
 // Состояние игры: урон, лечение, временные хиты, отдых.
 
+import type { Edition } from '@/shared/content';
+
 import type { GameState } from './types';
 
 /**
@@ -52,13 +54,22 @@ export function spendHitDie(
   return { ...healed, hitDiceSpent: { ...state.hitDiceSpent, [classId]: spent + 1 } };
 }
 
-/** Долгий отдых (SRD 5.2): все хиты, все кости хитов, все ячейки и ресурсы умений, −1 уровень истощения. */
-export function longRest(state: GameState, maxHp: number): GameState {
+/**
+ * Долгий отдых: все хиты, все ячейки и ресурсы умений, −1 уровень истощения.
+ * Кости хитов: SRD 5.2 — все; SRD 5.1 (2014) — половина общего числа (не меньше одной). Какие кости вернуть,
+ * выбирает игрок; приложение возвращает сначала самые крупные (`hitDice` — кости по классам, как в листе).
+ */
+export function longRest(
+  state: GameState,
+  maxHp: number,
+  edition: Edition = '2024',
+  hitDice: { classId: string; die: number; total: number }[] = [],
+): GameState {
   return {
     ...state,
     currentHp: maxHp,
     tempHp: 0,
-    hitDiceSpent: {},
+    hitDiceSpent: edition === '2014' ? recoverHalfHitDice(state.hitDiceSpent, hitDice) : {},
     slotsSpent: state.slotsSpent.map(() => 0),
     resourcesSpent: {},
     deathSaves: { successes: 0, failures: 0 },
@@ -66,4 +77,20 @@ export function longRest(state: GameState, maxHp: number): GameState {
     raging: false,
     pactSlotsSpent: undefined,
   };
+}
+
+/** 2014: вернуть половину костей хитов (от общего числа, не меньше одной), начиная с самых крупных. */
+function recoverHalfHitDice(
+  spent: Record<string, number>,
+  hitDice: { classId: string; die: number; total: number }[],
+): Record<string, number> {
+  const total = hitDice.reduce((s, h) => s + h.total, 0);
+  let left = Math.max(1, Math.floor(total / 2));
+  const out = { ...spent };
+  for (const h of [...hitDice].sort((a, b) => b.die - a.die)) {
+    const back = Math.min(left, out[h.classId] ?? 0);
+    out[h.classId] = (out[h.classId] ?? 0) - back;
+    left -= back;
+  }
+  return Object.fromEntries(Object.entries(out).filter(([, n]) => n > 0));
 }
