@@ -1,0 +1,149 @@
+{
+  "_comment": "Предыстории Player's Handbook 2014, которых нет в SRD 5.1 (там только «Прислужник»). Только механика; умение предыстории описано коротко своими словами (по памяти) — сверить с книгой. Формат — data-pipeline/README.md, раздел «extra-2014».",
+  "backgrounds": [
+    {
+      "id": "charlatan",
+      "name": { "en": "Charlatan", "ru": "Шарлатан" },
+      "proficiencies": ["skill-deception", "skill-sleight-of-hand", "tool-disguise-kit", "tool-forgery-kit"],
+      "equipment": { "items": [["clothes-fine", 1], ["disguise-kit", 1], ["pouch", 1]], "gp": 15 },
+      "feature": {
+        "name": { "en": "False Identity", "ru": "Фальшивая личность" },
+        "text": "У вас есть вторая личность с документами и знакомыми. Вы умеете подделывать документы и почерк, если видели образец.",
+        "textEn": "You have a second identity with documents and acquaintances. You can forge documents and handwriting if you have seen an example."
+      }
+    },
+    {
+      "id": "criminal",
+      "name": { "en": "Criminal", "ru": "Преступник" },
+      "proficiencies": ["skill-deception", "skill-stealth", "tool-thieves-tools"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "gamingSet", "desc": "Игровой набор", "descEn": "Gaming set" }],
+      "equipment": { "items": [["crowbar", 1], ["clothes-common", 1], ["pouch", 1]], "gp": 15 },
+      "feature": {
+        "name": { "en": "Criminal Contact", "ru": "Связи в преступном мире" },
+        "text": "У вас есть надёжный связной в преступном мире: через него можно передавать сообщения, даже на большие расстояния.",
+        "textEn": "You have a reliable contact in the criminal underworld who can pass messages for you, even over great distances."
+      }
+    },
+    {
+      "id": "entertainer",
+      "name": { "en": "Entertainer", "ru": "Артист" },
+      "proficiencies": ["skill-acrobatics", "skill-performance", "tool-disguise-kit"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "instrument", "desc": "Музыкальный инструмент", "descEn": "Musical instrument" }],
+      "equipment": { "items": [["clothes-costume", 1], ["pouch", 1]], "pickFromCategory": ["musical-instruments"], "gp": 15 },
+      "feature": {
+        "name": { "en": "By Popular Demand", "ru": "Любимец публики" },
+        "text": "Там, где можно выступать, вы найдёте бесплатный ночлег и еду скромного уровня, пока выступаете каждый вечер. Местные вас узнают и относятся к вам дружелюбно.",
+        "textEn": "Wherever you can perform, you get free modest lodging and food as long as you perform each night. Locals recognize you and are usually friendly."
+      }
+    },
+    {
+      "id": "folk-hero",
+      "name": { "en": "Folk Hero", "ru": "Народный герой" },
+      "proficiencies": ["skill-animal-handling", "skill-survival", "land-vehicles"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "artisanTool", "desc": "Инструменты ремесленника", "descEn": "Artisan's tools" }],
+      "equipment": { "items": [["shovel", 1], ["pot-iron", 1], ["clothes-common", 1], ["pouch", 1]], "pickFromCategory": ["artisans-tools"], "gp": 10 },
+      "feature": {
+        "name": { "en": "Rustic Hospitality", "ru": "Деревенское гостеприимство" },
+        "text": "Простые люди укроют и накормят вас, спрячут от закона или погони — если вы не подвергаете их жизнь опасности.",
+        "textEn": "Common folk will shelter and feed you and hide you from the law or pursuers, as long as you don't put their lives at risk."
+      }
+    },
+    {
+      "id": "guild-artisan",
+      "name": { "en": "Guild Artisan", "ru": "Гильдейский ремесленник" },
+      "proficiencies": ["skill-insight", "skill-persuasion"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "artisanTool", "desc": "Инструменты ремесленника", "descEn": "Artisan's tools" }],
+      "languages": 1,
+      "equipment": { "items": [["clothes-travelers", 1], ["pouch", 1]], "pickFromCategory": ["artisans-tools"], "gp": 15 },
+      "feature": {
+        "name": { "en": "Guild Membership", "ru": "Членство в гильдии" },
+        "text": "Гильдия даёт кров и пропитание, помогает в суде и сводит с нужными людьми. Взнос — 5 зм в месяц.",
+        "textEn": "Your guild provides lodging and food if needed, legal help and useful contacts. Dues are 5 gp a month."
+      }
+    },
+    {
+      "id": "hermit",
+      "name": { "en": "Hermit", "ru": "Отшельник" },
+      "proficiencies": ["skill-medicine", "skill-religion", "herbalism-kit"],
+      "languages": 1,
+      "equipment": { "items": [["case-map-or-scroll", 1], ["blanket", 1], ["clothes-common", 1], ["herbalism-kit", 1]], "gp": 5 },
+      "feature": {
+        "name": { "en": "Discovery", "ru": "Открытие" },
+        "text": "В уединении вы узнали важную тайну — какую, решите вместе с мастером.",
+        "textEn": "In your seclusion you discovered an important secret — decide with the GM what it is."
+      }
+    },
+    {
+      "id": "noble",
+      "name": { "en": "Noble", "ru": "Благородный" },
+      "proficiencies": ["skill-history", "skill-persuasion"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "gamingSet", "desc": "Игровой набор", "descEn": "Gaming set" }],
+      "languages": 1,
+      "equipment": { "items": [["clothes-fine", 1], ["signet-ring", 1], ["pouch", 1]], "gp": 25 },
+      "feature": {
+        "name": { "en": "Position of Privilege", "ru": "Привилегированное положение" },
+        "text": "Вас принимают в высшем обществе, простой люд старается вам угодить, а знать считает своим.",
+        "textEn": "You are welcome in high society, common folk try to accommodate you, and nobles treat you as one of their own."
+      }
+    },
+    {
+      "id": "outlander",
+      "name": { "en": "Outlander", "ru": "Чужеземец" },
+      "proficiencies": ["skill-athletics", "skill-survival"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "instrument", "desc": "Музыкальный инструмент", "descEn": "Musical instrument" }],
+      "languages": 1,
+      "equipment": { "items": [["quarterstaff", 1], ["hunting-trap", 1], ["clothes-travelers", 1], ["pouch", 1]], "gp": 10 },
+      "feature": {
+        "name": { "en": "Wanderer", "ru": "Странник" },
+        "text": "Вы отлично запоминаете местность и всегда найдёте в дикой местности еду и воду для себя и ещё пяти спутников.",
+        "textEn": "You have an excellent memory for terrain, and in the wild you can always find food and water for yourself and up to five companions."
+      }
+    },
+    {
+      "id": "sage",
+      "name": { "en": "Sage", "ru": "Мудрец" },
+      "proficiencies": ["skill-arcana", "skill-history"],
+      "languages": 2,
+      "equipment": { "items": [["ink-1-ounce-bottle", 1], ["ink-pen", 1], ["dagger", 1], ["clothes-common", 1], ["pouch", 1]], "gp": 10 },
+      "feature": {
+        "name": { "en": "Researcher", "ru": "Исследователь" },
+        "text": "Если вы чего-то не знаете, то обычно знаете, где и у кого это выяснить.",
+        "textEn": "When you don't know something, you usually know where and from whom to learn it."
+      }
+    },
+    {
+      "id": "sailor",
+      "name": { "en": "Sailor", "ru": "Моряк" },
+      "proficiencies": ["skill-athletics", "skill-perception", "tool-navigators-tools", "water-vehicles"],
+      "equipment": { "items": [["club", 1], ["rope-silk-50-feet", 1], ["clothes-common", 1], ["pouch", 1]], "gp": 10 },
+      "feature": {
+        "name": { "en": "Ship's Passage", "ru": "Место на корабле" },
+        "text": "Вы можете бесплатно добраться на корабле для себя и спутников, отрабатывая проезд в команде.",
+        "textEn": "You can secure free passage on a ship for yourself and your companions, working as crew during the voyage."
+      }
+    },
+    {
+      "id": "soldier",
+      "name": { "en": "Soldier", "ru": "Солдат" },
+      "proficiencies": ["skill-athletics", "skill-intimidation", "land-vehicles"],
+      "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "gamingSet", "desc": "Игровой набор", "descEn": "Gaming set" }],
+      "equipment": { "items": [["clothes-common", 1], ["pouch", 1]], "pickFromCategory": ["gaming-sets"], "gp": 10 },
+      "feature": {
+        "name": { "en": "Military Rank", "ru": "Воинское звание" },
+        "text": "Солдаты вашей бывшей армии признают ваше звание: вы можете отдавать им простые приказы и пользоваться военными лагерями и снаряжением.",
+        "textEn": "Soldiers of your former army recognize your rank: you can give them simple orders and use military camps and equipment."
+      }
+    },
+    {
+      "id": "urchin",
+      "name": { "en": "Urchin", "ru": "Беспризорник" },
+      "proficiencies": ["skill-sleight-of-hand", "skill-stealth", "tool-disguise-kit", "tool-thieves-tools"],
+      "equipment": { "items": [["dagger", 1], ["clothes-common", 1], ["pouch", 1]], "gp": 10 },
+      "feature": {
+        "name": { "en": "City Secrets", "ru": "Городские тайны" },
+        "text": "Вы знаете проулки и проходы города: вне боя вы со спутниками перемещаетесь по городу вдвое быстрее.",
+        "textEn": "You know a city's back alleys and passages: outside combat you and your companions travel through a city twice as fast."
+      }
+    }
+  ]
+}

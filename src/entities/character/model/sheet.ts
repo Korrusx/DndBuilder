@@ -1,6 +1,6 @@
 // Сборка всех производных чисел персонажа из его выборов и справочника.
 
-import type { Content, Equipment } from '@/shared/content';
+import type { AbilityId, Content, Equipment } from '@/shared/content';
 import { indexOf } from '@/shared/content';
 import { t } from '@/shared/i18n/model';
 
@@ -39,7 +39,14 @@ function originIncreases(c: Character, content: Content): Partial<AbilityScores>
   const opt = species?.abilityBonusChoice;
   const picked = opt ? (c.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []).filter((a) => (opt.options as string[]).includes(a)).slice(0, opt.choose) : [];
   const chosen = Object.fromEntries(picked.map((a) => [a, opt!.bonus])) as Partial<AbilityScores>;
-  return [species?.abilityBonuses ?? {}, sub?.abilityBonuses ?? {}, chosen];
+  return [species?.abilityBonuses ?? {}, sub?.abilityBonuses ?? {}, chosen, originFeatIncrease(c, content)];
+}
+
+/** 2014: +1 от черты человека-варианта, если черта даёт прибавку (Feat.abilityIncrease). */
+function originFeatIncrease(c: Character, content: Content): Partial<AbilityScores> {
+  const feat = indexOf(content).feats.get(c.choices[CHOICE_KEYS.versatileFeat]?.[0] ?? '');
+  const ability = c.choices[CHOICE_KEYS.versatileAbility]?.[0] as AbilityId | undefined;
+  return feat?.abilityIncrease && ability && feat.abilityIncrease.abilities.includes(ability) ? { [ability]: 1 } : {};
 }
 
 /** Особенности расы / вида и подрасы / подвида на уровне персонажа. */

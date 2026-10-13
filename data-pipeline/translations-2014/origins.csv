@@ -102,5 +102,79 @@ feat.grappler.name,Grappler,Борец,draft
 feat.grappler.description,"You’ve developed the Skills necessary to hold your own in close--quarters Grappling. You gain the following benefits:
 - You have advantage on Attack Rolls against a creature you are Grappling.
 - You can use your action to try to pin a creature Grappled by you. To do so, make another grapple check. If you succeed, you and the creature are both Restrained until the grapple ends.",,todo
+background.charlatan.name,Charlatan,Шарлатан,draft
+background.charlatan.feature.name,False Identity,Фальшивая личность,draft
+background.charlatan.feature.description,You have a second identity with documents and acquaintances. You can forge documents and handwriting if you have seen an example.,"У вас есть вторая личность с документами и знакомыми. Вы умеете подделывать документы и почерк, если видели образец.",draft
+background.criminal.name,Criminal,Преступник,draft
+background.criminal.proficiencyChoice.0.desc,Gaming set,Игровой набор,draft
+background.criminal.feature.name,Criminal Contact,Связи в преступном мире,draft
+background.criminal.feature.description,"You have a reliable contact in the criminal underworld who can pass messages for you, even over great distances.","У вас есть надёжный связной в преступном мире: через него можно передавать сообщения, даже на большие расстояния.",draft
+background.entertainer.name,Entertainer,Артист,draft
+background.entertainer.proficiencyChoice.0.desc,Musical instrument,Музыкальный инструмент,draft
+background.entertainer.feature.name,By Popular Demand,Любимец публики,draft
+background.entertainer.feature.description,"Wherever you can perform, you get free modest lodging and food as long as you perform each night. Locals recognize you and are usually friendly.","Там, где можно выступать, вы найдёте бесплатный ночлег и еду скромного уровня, пока выступаете каждый вечер. Местные вас узнают и относятся к вам дружелюбно.",draft
+background.folk-hero.name,Folk Hero,Народный герой,draft
+background.folk-hero.proficiencyChoice.0.desc,Artisan's tools,Инструменты ремесленника,draft
+background.folk-hero.feature.name,Rustic Hospitality,Деревенское гостеприимство,draft
+background.folk-hero.feature.description,"Common folk will shelter and feed you and hide you from the law or pursuers, as long as you don't put their lives at risk.","Простые люди укроют и накормят вас, спрячут от закона или погони — если вы не подвергаете их жизнь опасности.",draft
+background.guild-artisan.name,Guild Artisan,Гильдейский ремесленник,draft
+background.guild-artisan.proficiencyChoice.0.desc,Artisan's tools,Инструменты ремесленника,draft
+background.guild-artisan.feature.name,Guild Membership,Членство в гильдии,draft
+background.guild-artisan.feature.description,"Your guild provides lodging and food if needed, legal help and useful contacts. Dues are 5 gp a month.","Гильдия даёт кров и пропитание, помогает в суде и сводит с нужными людьми. Взнос — 5 зм в месяц.",draft
+background.hermit.name,Hermit,Отшельник,draft
+background.hermit.feature.name,Discovery,Открытие,draft
+background.hermit.feature.description,In your seclusion you discovered an important secret — decide with the GM what it is.,"В уединении вы узнали важную тайну — какую, решите вместе с мастером.",draft
+background.noble.name,Noble,Дворянин,draft
+background.noble.proficiencyChoice.0.desc,Gaming set,Игровой набор,draft
+background.noble.feature.name,Position of Privilege,Привилегированное положение,draft
+background.noble.feature.description,"You are welcome in high society, common folk try to accommodate you, and nobles treat you as one of their own.","Вас принимают в высшем обществе, простой люд старается вам угодить, а знать считает своим.",draft
+background.outlander.name,Outlander,Чужеземец,draft
+background.outlander.proficiencyChoice.0.desc,Musical instrument,Музыкальный инструмент,draft
+background.outlander.feature.name,Wanderer,Странник,draft
+background.outlander.feature.description,"You have an excellent memory for terrain, and in the wild you can always find food and water for yourself and up to five companions.",Вы отлично запоминаете местность и всегда найдёте в дикой местности еду и воду для себя и ещё пяти спутников.,draft
+background.sage.name,Sage,Мудрец,draft
+background.sage.feature.name,Researcher,Исследователь,draft
+background.sage.feature.description,"When you don't know something, you usually know where and from whom to learn it.","Если вы чего-то не знаете, то обычно знаете, где и у кого это выяснить.",draft
+background.sailor.name,Sailor,Моряк,draft
+background.sailor.feature.name,Ship's Passage,Место на корабле,draft
+background.sailor.feature.description,"You can secure free passage on a ship for yourself and your companions, working as crew during the voyage.","Вы можете бесплатно добраться на корабле для себя и спутников, отрабатывая проезд в команде.",draft
+background.soldier.name,Soldier,Солдат,draft
+background.soldier.proficiencyChoice.0.desc,Gaming set,Игровой набор,draft
+background.soldier.feature.name,Military Rank,Воинское звание,draft
+background.soldier.feature.description,Soldiers of your former army recognize your rank: you can give them simple orders and use military camps and equipment.,Солдаты вашей бывшей армии признают ваше звание: вы можете отдавать им простые приказы и пользоваться военными лагерями и снаряжением.,draft
+background.urchin.name,Urchin,Беспризорник,draft
+background.urchin.feature.name,City Secrets,Городские тайны,draft
+background.urchin.feature.description,You know a city's back alleys and passages: outside combat you and your companions travel through a city twice as fast.,Вы знаете проулки и проходы города: вне боя вы со спутниками перемещаетесь по городу вдвое быстрее.,draft
+subspecies.mountain-dwarf.name,Mountain Dwarf,Горный дварф,draft
+trait.dwarven-armor-training.name,Dwarven Armor Training,Владение дварфийскими доспехами,draft
+trait.dwarven-armor-training.description,You have proficiency with light and medium armor.,Вы владеете лёгкими и средними доспехами.,draft
+subspecies.wood-elf.name,Wood Elf,Лесной эльф,draft
+trait.fleet-of-foot.name,Fleet of Foot,Быстрые ноги,draft
+trait.fleet-of-foot.description,Your base walking speed is 35 feet.,Ваша базовая скорость — 35 фт.,draft
+trait.mask-of-the-wild.name,Mask of the Wild,Маскировка в дикой природе,draft
+trait.mask-of-the-wild.description,"You can try to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist and other natural phenomena.","Вы можете пытаться спрятаться, даже если вас лишь слегка заслоняет листва, сильный дождь, снегопад, туман и другие природные явления.",draft
+subspecies.dark-elf.name,Dark Elf (Drow),Тёмный эльф (дроу),draft
+trait.superior-darkvision.name,Superior Darkvision,Превосходное тёмное зрение,draft
+trait.superior-darkvision.description,Your darkvision has a radius of 120 feet instead of 60 feet.,Тёмное зрение на 120 фт вместо 60 фт.,draft
+trait.sunlight-sensitivity.name,Sunlight Sensitivity,Чувствительность к солнцу,draft
+trait.sunlight-sensitivity.description,"Disadvantage on attack rolls and on sight-based Wisdom (Perception) checks when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.","Помеха на броски атаки и проверки Мудрости (Восприятие), основанные на зрении, если вы, цель атаки или то, что вы пытаетесь заметить, на прямом солнечном свету.",draft
+trait.drow-magic.name,Drow Magic,Магия дроу,draft
+trait.drow-magic.description,"You know the Dancing Lights cantrip. From level 3 you can cast Faerie Fire, and from level 5 Darkness, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Пляшущие огоньки». С 3-го уровня — «Огонь фей», с 5-го — «Тьма», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+trait.drow-weapon-training.name,Drow Weapon Training,Владение оружием дроу,draft
+trait.drow-weapon-training.description,"You have proficiency with rapiers, shortswords and hand crossbows.","Вы владеете рапирами, короткими мечами и ручными арбалетами.",draft
+subspecies.stout-halfling.name,Stout Halfling,Коренастый полурослик,draft
+trait.stout-resilience.name,Stout Resilience,Устойчивость коренастых,draft
+trait.stout-resilience.description,Advantage on saving throws against poison and resistance to poison damage.,Преимущество на спасброски от яда и сопротивление урону ядом.,draft
+subspecies.forest-gnome.name,Forest Gnome,Лесной гном,draft
+trait.natural-illusionist.name,Natural Illusionist,Природный иллюзионист,draft
+trait.natural-illusionist.description,You know the Minor Illusion cantrip. Intelligence is your spellcasting ability for it.,Вы знаете заговор «Малая иллюзия». Заклинательная характеристика — Интеллект.,draft
+trait.speak-with-small-beasts.name,Speak with Small Beasts,Разговор с маленькими зверями,draft
+trait.speak-with-small-beasts.description,Through sounds and gestures you can communicate simple ideas with Small or smaller beasts.,Звуками и жестами вы можете передавать простые мысли маленьким и мелким зверям.,draft
+species.human-variant.name,Human (Variant),Человек (вариант),draft
+trait.variant-human-skill.name,Skills,Навык,draft
+trait.variant-human-skill.description,You gain proficiency in one skill of your choice.,Вы владеете одним навыком на выбор.,draft
+trait.variant-human-skill.proficiencyChoice.0.desc,Any skill,Любой навык,draft
+trait.variant-human-feat.name,Feat,Черта,draft
+trait.variant-human-feat.description,You gain one feat of your choice.,Вы получаете одну черту на выбор.,draft
 feat.ability-score-improvement.name,Ability Score Improvement,Увеличение характеристик,draft
 feat.ability-score-improvement.description,"When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",,todo

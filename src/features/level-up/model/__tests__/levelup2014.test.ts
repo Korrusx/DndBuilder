@@ -1,21 +1,10 @@
 import type { Character } from '@/entities/character';
 import { irma2014Level1, newDraftCharacter } from '@/entities/character';
-import type { Background, Content } from '@/shared/content';
 import { contentFor } from '@/shared/content';
 
 import { levelFeatOptions, levelUpIssues, levelUpPlan, startLevelUp } from '../levelup';
 
-// «Преступник» (PHB 2014) — как в irma2014.test.ts, до этапа А2.
-const criminal: Background = {
-  id: 'criminal',
-  name: { en: 'Criminal' },
-  abilities: [],
-  proficiencies: ['skill-deception', 'skill-stealth', 'tool-thieves-tools'],
-  proficiencyChoices: [],
-  equipment: [],
-};
-const base = contentFor('2014');
-const content: Content = { ...base, backgrounds: [...base.backgrounds, criminal] };
+const content = contentFor('2014');
 
 const at = (c: Character, level: number): Character => ({ ...c, classes: [{ ...c.classes[0], level }] });
 const make = (classId: string, level: number, subclassId?: string): Character => ({

@@ -60,6 +60,8 @@ export function speciesSpellcasting(
     if (!trait || !traitSpells?.length) continue;
     fixedAbility ??= SPECIES_SPELL_FIXED_ABILITY[trait.id];
     for (const original of traitSpells) {
+      // Заклинание с более высокого уровня персонажа («Наследие Ада»: «Адское возмездие» с 3-го).
+      if ((trait.spellLevels?.[original] ?? 1) > sheet.level) continue;
       const swapList = SPECIES_CANTRIP_SWAP[trait.id];
       const spellId = (swapList && choice1(c, CHOICE_KEYS.speciesCantrip(trait.id))) || original;
       const level = idx.spells.get(spellId)?.level ?? 0;

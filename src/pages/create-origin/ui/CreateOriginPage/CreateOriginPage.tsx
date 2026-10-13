@@ -38,6 +38,7 @@ export function CreateOriginPage() {
   const setChoice = (key: string, ids: string[]) => update((d) => ({ ...d, choices: { ...d.choices, [key]: ids } }));
   const traits = originTraitIds(c, content).flatMap((id) => byId.traits.get(id) ?? []);
   const bonusChoice = species?.abilityBonusChoice;
+  const versatileFeat = versatile?.featId ? byId.feats.get(versatile.featId) : undefined;
   const speciesRows: (typeof content.species)[] = [];
   for (let i = 0; i < content.species.length; i += 2) speciesRows.push(content.species.slice(i, i + 2));
 
@@ -178,6 +179,21 @@ export function CreateOriginPage() {
           </Section>
         ))}
 
+      {versatileFeat?.abilityIncrease ? (
+        <Section title={t('origin.featAbility')} picked={choice1(c, CHOICE_KEYS.versatileAbility) ? 1 : 0} need={1}>
+          <ChipRow>
+            {versatileFeat.abilityIncrease.abilities.map((ability) => (
+              <Chip
+                key={ability}
+                label={`${abilityName(ability)} +1`}
+                selected={choice1(c, CHOICE_KEYS.versatileAbility) === ability}
+                onPress={() => setChoice(CHOICE_KEYS.versatileAbility, [ability])}
+              />
+            ))}
+          </ChipRow>
+        </Section>
+      ) : null}
+
       {needsSpeciesSpellAbility(c, content) ? (
         <Section title={t('origin.spellAbility')} hint={t('origin.spellAbilityHint')}>
           <ChipRow>
@@ -209,10 +225,11 @@ export function CreateOriginPage() {
       ) : null}
 
       {versatile ? (
-        <Section title={t('origin.versatile')} hint={t('origin.versatileHint')}>
+        <Section title={is2014 ? t('origin.variantFeat') : t('origin.versatile')} hint={is2014 ? t('origin.variantFeatHint') : t('origin.versatileHint')}>
           <ChipRow>
             {content.feats
-              .filter((f) => f.type === 'origin')
+              // 2014: любая черта (кроме «Увеличения характеристик»); 2024 — черта происхождения.
+              .filter((f) => (is2014 ? f.type === 'general' && f.id !== 'ability-score-improvement' : f.type === 'origin'))
               .map((f) => (
                 <Chip
                   key={f.id}

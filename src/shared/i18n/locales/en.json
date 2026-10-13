@@ -139,7 +139,8 @@
     "noSubclass": "No subclass chosen",
     "raceBonus": "Choose race increases: {{count}}",
     "traitOption": "No option chosen: {{name}}",
-    "traitSpell": "No spell chosen: {{name}}"
+    "traitSpell": "No spell chosen: {{name}}",
+    "featAbility": "Choose the ability the feat increases"
   },
   "roll": {
     "exhaustion": "Exhaustion {{level}}",
@@ -470,7 +471,10 @@
     "feature": "Feature: {{name}}",
     "bonusChoice": "Increases of your choice",
     "bonusChoiceHint": "+{{bonus}} to {{count}} different abilities.",
-    "traitSpell": "Spell: {{name}}"
+    "traitSpell": "Spell: {{name}}",
+    "variantFeat": "Feat",
+    "variantFeatHint": "A variant human gains one feat of your choice. Check feat prerequisites (ability 13+, armor proficiency) yourself.",
+    "featAbility": "Feat increase"
   },
   "abilities": {
     "standard": "Standard Array",

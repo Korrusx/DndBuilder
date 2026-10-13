@@ -105,9 +105,11 @@ export function setSpecies(c: Character, speciesId: string, content: Content): C
 export function originFeats(c: Character, content: Content): OriginFeat[] {
   const out: OriginFeat[] = [];
   const background = indexOf(content).backgrounds.get(c.backgroundId);
-  if (background) out.push({ slot: 'bgfeat', featId: background.featId, source: 'background' });
+  // В 2014 предыстория черты не даёт.
+  if (background?.featId) out.push({ slot: 'bgfeat', featId: background.featId, source: 'background' });
   const species = indexOf(content).species.get(c.speciesId);
-  if (species?.traits.includes('versatile')) {
+  // 2024: человек, «Универсальность»; 2014: человек-вариант — черта на 1-м уровне.
+  if (species?.traits.some((id) => id === 'versatile' || id === 'variant-human-feat')) {
     out.push({ slot: 'versatile', featId: choice1(c, CHOICE_KEYS.versatileFeat), source: 'species' });
   }
   return out;

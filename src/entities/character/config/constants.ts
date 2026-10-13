@@ -27,8 +27,10 @@ export const CHOICE_KEYS = {
   traitProf: (traitId: string, i: number) => `trait.${traitId}.prof.${i}`,
   /** Черта «Одарённый»: три навыка или инструмента. */
   featProf: (slot: OriginFeatSlot) => `${slot}.prof`,
-  /** Черта происхождения, выбранная по «Универсальности». */
+  /** Черта происхождения, выбранная по «Универсальности» (2014 — черта человека-варианта). */
   versatileFeat: 'versatile.feat',
+  /** 2014: характеристика +1 от этой черты, если черта её даёт (`Feat.abilityIncrease`). */
+  versatileAbility: 'versatile.ability',
   /** «Посвящённый в магию»: список заклинаний класса, характеристика, заговоры, заклинание 1-го круга. */
   featSpellList: (slot: OriginFeatSlot) => `${slot}.list`,
   featAbility: (slot: OriginFeatSlot) => `${slot}.ability`,
@@ -159,7 +161,14 @@ export const SPECIES_SPELL_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
 
 /** Особенности с заданной характеристикой (Аасимар, «Несущий свет»: Харизма). */
 // 2014 (SRD 5.1): заговор высшего эльфа творится Интеллектом.
-export const SPECIES_SPELL_FIXED_ABILITY: Record<string, AbilityId> = { 'light-bearer': 'cha', 'high-elf-cantrip': 'int' };
+export const SPECIES_SPELL_FIXED_ABILITY: Record<string, AbilityId> = {
+  'light-bearer': 'cha',
+  'high-elf-cantrip': 'int',
+  // 2014 (PHB): магия дроу и «Наследие Ада» тифлинга — Харизма, природный иллюзионист (лесной гном) — Интеллект.
+  'drow-magic': 'cha',
+  'infernal-legacy': 'cha',
+  'natural-illusionist': 'int',
+};
 
 /**
  * Сколько раз заклинание вида творится без ячейки до долгого отдыха. По умолчанию — 1

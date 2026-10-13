@@ -203,6 +203,8 @@ export type Trait = {
   parent?: string;
   /** 2014: вид урона варианта («Наследие драконов (Красный)» — огонь). */
   damageType?: string;
+  /** С какого уровня персонажа доступно заклинание из `spells` (нет записи — с 1-го): «Наследие Ада» тифлинга. */
+  spellLevels?: Record<string, number>;
   /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -238,6 +240,10 @@ export type Feat = {
   repeatable?: LocalizedText;
   /** Владения на выбор, которые даёт черта (id владений). */
   proficiencyChoices?: Choice[];
+  /** 2014: владения без выбора («Средние доспехи» → medium-armor, shields). */
+  proficiencies?: string[];
+  /** 2014: +1 к одной из этих характеристик (не выше `cap`, по умолчанию 20) — «полуторные» черты. */
+  abilityIncrease?: { abilities: AbilityId[]; cap?: number };
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
 };

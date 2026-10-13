@@ -36,7 +36,7 @@ import {
   validateBackgroundBonuses,
   weaponMasteryCount,
 } from '@/entities/character';
-import type { Content } from '@/shared/content';
+import type { AbilityId, Content } from '@/shared/content';
 import { t } from '@/shared/i18n/model';
 import { indexOf, tr } from '@/shared/content';
 
@@ -71,6 +71,11 @@ export function draftIssues(c: Character, content: Content): Issue[] {
   }
   for (const f of originFeats(c, content)) {
     if (f.slot === 'versatile') need(2, !!f.featId, t('issues.noVersatileFeat'));
+    // 2014: черта человека-варианта с прибавкой +1 — нужна характеристика.
+    const increase = f.featId ? idx.feats.get(f.featId)?.abilityIncrease : undefined;
+    if (f.slot === 'versatile' && increase) {
+      need(2, increase.abilities.includes(choice1(c, CHOICE_KEYS.versatileAbility) as AbilityId), t('issues.featAbility'));
+    }
   }
   if (needsSpeciesSpellAbility(c, content)) need(2, !!choice1(c, CHOICE_KEYS.speciesSpellAbility), t('issues.speciesSpellAbility'));
   // 2014: прибавки расы на выбор (полуэльф), вариант особенности (наследие драконов), заговор высшего эльфа.

@@ -1,0 +1,74 @@
+{
+  "_comment": "Расы и подрасы Player's Handbook 2014, которых нет в SRD 5.1. Механика кратко своими словами (по памяти) — сверить с книгой. Особенность — строка (id особенности SRD 5.1) или объект { id, name, text, textEn, proficiencies?, proficiencyChoices?, spells?, spellLevels?, speed? }. spellLevels — с какого уровня персонажа доступно заклинание. traitSpells — заклинания для особенностей SRD, у которых их нет в данных API.",
+  "subraces": [
+    {
+      "id": "mountain-dwarf",
+      "raceId": "dwarf",
+      "name": { "en": "Mountain Dwarf", "ru": "Горный дварф" },
+      "abilityBonuses": { "str": 2 },
+      "traits": [
+        { "id": "dwarven-armor-training", "name": { "en": "Dwarven Armor Training", "ru": "Владение дварфийскими доспехами" }, "text": "Вы владеете лёгкими и средними доспехами.", "textEn": "You have proficiency with light and medium armor.", "proficiencies": ["light-armor", "medium-armor"] }
+      ]
+    },
+    {
+      "id": "wood-elf",
+      "raceId": "elf",
+      "name": { "en": "Wood Elf", "ru": "Лесной эльф" },
+      "abilityBonuses": { "wis": 1 },
+      "traits": [
+        "elf-weapon-training",
+        { "id": "fleet-of-foot", "name": { "en": "Fleet of Foot", "ru": "Быстрые ноги" }, "text": "Ваша базовая скорость — 35 фт.", "textEn": "Your base walking speed is 35 feet.", "speed": 35 },
+        { "id": "mask-of-the-wild", "name": { "en": "Mask of the Wild", "ru": "Маскировка в дикой природе" }, "text": "Вы можете пытаться спрятаться, даже если вас лишь слегка заслоняет листва, сильный дождь, снегопад, туман и другие природные явления.", "textEn": "You can try to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist and other natural phenomena." }
+      ]
+    },
+    {
+      "id": "dark-elf",
+      "raceId": "elf",
+      "name": { "en": "Dark Elf (Drow)", "ru": "Тёмный эльф (дроу)" },
+      "abilityBonuses": { "cha": 1 },
+      "traits": [
+        { "id": "superior-darkvision", "name": { "en": "Superior Darkvision", "ru": "Превосходное тёмное зрение" }, "text": "Тёмное зрение на 120 фт вместо 60 фт.", "textEn": "Your darkvision has a radius of 120 feet instead of 60 feet." },
+        { "id": "sunlight-sensitivity", "name": { "en": "Sunlight Sensitivity", "ru": "Чувствительность к солнцу" }, "text": "Помеха на броски атаки и проверки Мудрости (Восприятие), основанные на зрении, если вы, цель атаки или то, что вы пытаетесь заметить, на прямом солнечном свету.", "textEn": "Disadvantage on attack rolls and on sight-based Wisdom (Perception) checks when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight." },
+        { "id": "drow-magic", "name": { "en": "Drow Magic", "ru": "Магия дроу" }, "text": "Вы знаете заговор «Пляшущие огоньки». С 3-го уровня — «Огонь фей», с 5-го — «Тьма», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.", "textEn": "You know the Dancing Lights cantrip. From level 3 you can cast Faerie Fire, and from level 5 Darkness, each once per long rest. Charisma is your spellcasting ability for them.", "spells": ["dancing-lights", "faerie-fire", "darkness"], "spellLevels": { "faerie-fire": 3, "darkness": 5 } },
+        { "id": "drow-weapon-training", "name": { "en": "Drow Weapon Training", "ru": "Владение оружием дроу" }, "text": "Вы владеете рапирами, короткими мечами и ручными арбалетами.", "textEn": "You have proficiency with rapiers, shortswords and hand crossbows.", "proficiencies": ["rapiers", "shortswords", "hand-crossbows"] }
+      ]
+    },
+    {
+      "id": "stout-halfling",
+      "raceId": "halfling",
+      "name": { "en": "Stout Halfling", "ru": "Коренастый полурослик" },
+      "abilityBonuses": { "con": 1 },
+      "traits": [
+        { "id": "stout-resilience", "name": { "en": "Stout Resilience", "ru": "Устойчивость коренастых" }, "text": "Преимущество на спасброски от яда и сопротивление урону ядом.", "textEn": "Advantage on saving throws against poison and resistance to poison damage." }
+      ]
+    },
+    {
+      "id": "forest-gnome",
+      "raceId": "gnome",
+      "name": { "en": "Forest Gnome", "ru": "Лесной гном" },
+      "abilityBonuses": { "dex": 1 },
+      "traits": [
+        { "id": "natural-illusionist", "name": { "en": "Natural Illusionist", "ru": "Природный иллюзионист" }, "text": "Вы знаете заговор «Малая иллюзия». Заклинательная характеристика — Интеллект.", "textEn": "You know the Minor Illusion cantrip. Intelligence is your spellcasting ability for it.", "spells": ["minor-illusion"] },
+        { "id": "speak-with-small-beasts", "name": { "en": "Speak with Small Beasts", "ru": "Разговор с маленькими зверями" }, "text": "Звуками и жестами вы можете передавать простые мысли маленьким и мелким зверям.", "textEn": "Through sounds and gestures you can communicate simple ideas with Small or smaller beasts." }
+      ]
+    }
+  ],
+  "species": [
+    {
+      "id": "human-variant",
+      "name": { "en": "Human (Variant)", "ru": "Человек (вариант)" },
+      "sizes": ["Medium"],
+      "speed": 30,
+      "abilityBonusChoice": { "choose": 2, "bonus": 1, "options": ["str", "dex", "con", "int", "wis", "cha"] },
+      "languages": ["common"],
+      "languageChoice": 1,
+      "traits": [
+        { "id": "variant-human-skill", "name": { "en": "Skills", "ru": "Навык" }, "text": "Вы владеете одним навыком на выбор.", "textEn": "You gain proficiency in one skill of your choice.", "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "skill", "desc": "Любой навык", "descEn": "Any skill" }] },
+        { "id": "variant-human-feat", "name": { "en": "Feat", "ru": "Черта" }, "text": "Вы получаете одну черту на выбор.", "textEn": "You gain one feat of your choice." }
+      ]
+    }
+  ],
+  "traitSpells": {
+    "infernal-legacy": { "spells": ["thaumaturgy", "hellish-rebuke", "darkness"], "spellLevels": { "hellish-rebuke": 3, "darkness": 5 } }
+  }
+}

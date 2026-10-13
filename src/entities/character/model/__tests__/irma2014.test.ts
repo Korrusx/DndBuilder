@@ -1,4 +1,3 @@
-import type { Background, Content } from '@/shared/content';
 import { contentFor } from '@/shared/content';
 import { formatDamage, formatModifier } from '@/shared/lib/dice';
 
@@ -6,18 +5,7 @@ import { irma2014Level1, irma2014Level5 } from '../../lib/samples';
 import { expertiseCount, knownLanguages } from '../build';
 import { computeSheet } from '../sheet';
 
-// «Преступник» — предыстория PHB 2014, её нет в SRD 5.1 (появится в extra-2014 на этапе А2).
-// Механика: Обман и Скрытность, воровские инструменты и игровой набор, ломик, тёмная одежда, 15 зм.
-const criminal: Background = {
-  id: 'criminal',
-  name: { en: 'Criminal', ru: 'Преступник' },
-  abilities: [],
-  proficiencies: ['skill-deception', 'skill-stealth', 'tool-thieves-tools'],
-  proficiencyChoices: [],
-  equipment: [],
-};
-const base = contentFor('2014');
-const content: Content = { ...base, backgrounds: [...base.backgrounds, criminal] };
+const content = contentFor('2014');
 
 const skill = (sheet: ReturnType<typeof computeSheet>, id: string) => sheet.skills.find((s) => s.id === id)!;
 const attack = (sheet: ReturnType<typeof computeSheet>, id: string) => {

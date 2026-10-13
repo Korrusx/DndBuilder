@@ -10,6 +10,7 @@
 import type {
   AbilityId,
   Choice,
+  Background,
   ChoiceOption,
   ClassResource,
   Content,
@@ -328,7 +329,8 @@ async function build(): Promise<Omit<Content, 'version'>> {
     };
   });
 
-  const backgrounds = (await raw('backgrounds')).map((b) => {
+  const equipmentCategoriesRaw = await raw('equipment-categories');
+  const backgrounds: Background[] = (await raw('backgrounds')).map((b) => {
     const key = `background.${b.index}`;
     const fixed: ChoiceOption[] = [
       ...(b.starting_equipment ?? []).map((e: Raw): ChoiceOption => ({ kind: 'item', id: e.equipment.index, count: e.quantity })),
@@ -373,6 +375,25 @@ async function build(): Promise<Omit<Content, 'version'>> {
         : {}),
     };
   });
+
+  // --- Механика PHB 2014 (data-pipeline/extra-2014) ---
+  const extra = await readExtra(proficiencies, equipmentCategoriesRaw, languages.map((l) => l.id));
+  backgrounds.push(...extra.backgrounds);
+  species.push(...extra.species);
+  for (const sub of extra.subspecies) {
+    subspecies.push(sub);
+    species.find((s) => s.id === sub.speciesId)?.subspecies.push(sub.id);
+  }
+  traits.push(...extra.traits);
+  for (const [id, patch] of extra.traitPatches) {
+    const t = traits.find((x) => x.id === id);
+    if (!t) warn(`extra-2014: нет особенности ${id}`);
+    else {
+      t.species.push(...patch.species);
+      t.subspecies.push(...patch.subspecies);
+      if (patch.spells) Object.assign(t, { spells: patch.spells, ...(patch.spellLevels ? { spellLevels: patch.spellLevels } : {}) });
+    }
+  }
 
   // «Увеличение характеристик» — в SRD 5.1 умение класса (+2 к одной или +1 к двум). Приложение хранит его как черту
   // (FeatChoice с прибавками), как и в 2024; текст — из умения варвара (у всех классов одинаковый).
@@ -431,7 +452,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
     return item;
   });
 
-  const equipmentCategories = (await raw('equipment-categories')).map((c) => ({
+  const equipmentCategories = equipmentCategoriesRaw.map((c) => ({
     id: c.index,
     name: tx(`equipmentCategory.${c.index}.name`, c.name),
     equipment: ids(c.equipment),
@@ -540,6 +561,129 @@ async function build(): Promise<Omit<Content, 'version'>> {
     // Воззвания и метамагия 2014 — умения-варианты (Feature.parent / optionChoice), а не classOptions.
     classOptions: [],
   } as Omit<Content, 'version'>;
+}
+
+// ---------------------------------------------------------------------------
+// Механика Player's Handbook 2014: data-pipeline/extra-2014/*.json (формат — data-pipeline/README.md).
+// ---------------------------------------------------------------------------
+
+const EXTRA_DIR = join(ROOT, 'extra-2014');
+
+type ExtraProfChoice = {
+  choose: number;
+  options?: string[];
+  fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' | 'skill';
+  desc?: string;
+  descEn?: string;
+};
+
+async function readExtra(proficiencies: { id: string; type: ProficiencyType; refId?: string }[], categories: Raw[], languageIds: string[]) {
+  const read = async (name: string) => JSON.parse(await readFile(join(EXTRA_DIR, `${name}.json`), 'utf8'));
+  const gamingSets = new Set(ids(categories.find((c) => c.index === 'gaming-sets')?.equipment));
+  const anyLanguage = (choose: number): Choice => ({ choose, options: languageIds.map((id) => ({ kind: 'ref', id })) });
+
+  const profChoice = (c: ExtraProfChoice, where: string, key: string): Choice => {
+    let options = c.options ?? [];
+    if (c.fromProficiencyType === 'gamingSet') options = proficiencies.filter((p) => p.refId && gamingSets.has(p.refId)).map((p) => p.id);
+    else if (c.fromProficiencyType) options = proficiencies.filter((p) => p.type === c.fromProficiencyType).map((p) => p.id);
+    if (!options.length) warn(`${where}: пустой выбор владений`);
+    return {
+      choose: c.choose,
+      ...(c.desc ? { desc: seeded(`${key}.desc`, c.descEn ?? c.desc, c.desc) } : {}),
+      options: options.map((id) => ({ kind: 'ref', id })),
+    };
+  };
+
+  const backgrounds: Background[] = (await read('backgrounds')).backgrounds.map((b: Raw) => ({
+    id: b.id,
+    name: seeded(`background.${b.id}.name`, b.name.en, b.name.ru),
+    abilities: [],
+    proficiencies: b.proficiencies,
+    proficiencyChoices: (b.proficiencyChoices ?? []).map((c: ExtraProfChoice, i: number) =>
+      profChoice(c, `предыстория ${b.id}`, `background.${b.id}.proficiencyChoice.${i}`),
+    ),
+    equipment: [
+      {
+        choose: 1,
+        options: [
+          {
+            kind: 'all',
+            items: [
+              ...b.equipment.items.map(([id, count]: [string, number]): ChoiceOption => ({ kind: 'item', id, count })),
+              ...(b.equipment.pickFromCategory ?? []).map((cat: string): ChoiceOption => ({ kind: 'choice', choice: { choose: 1, fromCategory: cat } })),
+              { kind: 'money', amount: b.equipment.gp, unit: 'gp' },
+            ],
+          },
+        ],
+      },
+    ],
+    ...(b.languages ? { languageChoice: anyLanguage(b.languages) } : {}),
+    feature: {
+      name: seeded(`background.${b.id}.feature.name`, b.feature.name.en, b.feature.name.ru),
+      description: seeded(`background.${b.id}.feature.description`, b.feature.textEn, b.feature.text),
+    },
+    extra: true,
+  }));
+
+  const data = await read('species');
+  const traits: Trait[] = [];
+  /** Особенности SRD, которые получают новые расы и подрасы, и заклинания для особенностей SRD. */
+  const traitPatches = new Map<string, { species: string[]; subspecies: string[]; spells?: string[]; spellLevels?: Record<string, number> }>();
+  const patch = (id: string) => {
+    if (!traitPatches.has(id)) traitPatches.set(id, { species: [], subspecies: [] });
+    return traitPatches.get(id)!;
+  };
+  const trait = (t: Raw, speciesId: string, subspeciesId?: string): string => {
+    if (typeof t === 'string') {
+      if (subspeciesId) patch(t).subspecies.push(subspeciesId);
+      else patch(t).species.push(speciesId);
+      return t;
+    }
+    traits.push({
+      id: t.id,
+      name: seeded(`trait.${t.id}.name`, t.name.en, t.name.ru),
+      description: seeded(`trait.${t.id}.description`, t.textEn, t.text),
+      species: subspeciesId ? [] : [speciesId],
+      subspecies: subspeciesId ? [subspeciesId] : [],
+      ...(t.proficiencies ? { proficiencies: t.proficiencies } : {}),
+      ...(t.proficiencyChoices
+        ? { proficiencyChoices: t.proficiencyChoices.map((c: ExtraProfChoice, i: number) => profChoice(c, `особенность ${t.id}`, `trait.${t.id}.proficiencyChoice.${i}`)) }
+        : {}),
+      ...(t.spells ? { spells: t.spells } : {}),
+      ...(t.spellLevels ? { spellLevels: t.spellLevels } : {}),
+      ...(t.speed ? { speed: t.speed } : {}),
+      extra: true,
+    });
+    return t.id;
+  };
+
+  const subspecies: Subspecies[] = (data.subraces as Raw[]).map((s) => ({
+    id: s.id,
+    speciesId: s.raceId,
+    name: seeded(`subspecies.${s.id}.name`, s.name.en, s.name.ru),
+    abilityBonuses: s.abilityBonuses,
+    traits: (s.traits as Raw[]).map((t) => ({ id: trait(t, s.raceId, s.id), level: 1 })),
+    extra: true,
+  }));
+
+  const species: Species[] = (data.species as Raw[]).map((s) => ({
+    id: s.id,
+    name: seeded(`species.${s.id}.name`, s.name.en, s.name.ru),
+    creatureType: 'humanoid',
+    sizes: s.sizes,
+    speed: s.speed,
+    traits: (s.traits as Raw[]).map((t) => trait(t, s.id)),
+    subspecies: [],
+    ...(s.abilityBonuses ? { abilityBonuses: s.abilityBonuses } : {}),
+    ...(s.abilityBonusChoice ? { abilityBonusChoice: s.abilityBonusChoice } : {}),
+    languages: s.languages ?? [],
+    ...(s.languageChoice ? { languageChoice: anyLanguage(s.languageChoice) } : {}),
+    extra: true,
+  }));
+
+  for (const [id, sp] of Object.entries(data.traitSpells ?? {}) as [string, Raw][]) Object.assign(patch(id), sp);
+
+  return { backgrounds, species, subspecies, traits, traitPatches };
 }
 
 /** Ресурсы умений (ярость, ки, вдохновение…): srd-2014/resources.json. */

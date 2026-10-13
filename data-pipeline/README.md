@@ -65,3 +65,21 @@ npm run data:build:2014   # assets/content/content-2014.json и translations-201
 Он показывается, когда в приложении выбран английский язык. Если английского поля нет, сборка предупредит
 («Нет английского текста»), а тест `tr.test.ts` упадёт.
 Механические эффекты (например, «Крепкий» +2 хита за уровень) задаются в `src/entities/character/config/effects.ts`.
+
+## Механика PHB 2014 (`extra-2014/`) и SRD 5.1 вне API (`srd-2014/`)
+
+Собирается `build-2014.ts` (`npm run data:build:2014`), перевод — `translations-2014/*.csv`. Только механика,
+описания своими словами (по памяти — сверить с книгой); английский текст — в `textEn` / `descEn`.
+
+`extra-2014/backgrounds.json` — предыстория: `proficiencies`, `proficiencyChoices` (`fromProficiencyType`:
+`artisanTool | instrument | gamingSet | skill`), `languages` (сколько языков на выбор), `equipment`
+(`items`, `pickFromCategory`, `gp`), `feature` (`name`, `text`, `textEn`).
+
+`extra-2014/species.json`:
+- `subraces` — подраса существующей расы SRD (`raceId`, `abilityBonuses`, `traits`);
+- `species` — новая раса (`sizes`, `speed`, `abilityBonuses` / `abilityBonusChoice`, `languages`, `languageChoice` — число);
+- `traitSpells` — заклинания особенностям SRD, у которых их нет в данных API («Наследие Ада»).
+Особенность — строка (id особенности SRD) или объект `{ id, name, text, textEn, proficiencies?, proficiencyChoices?,
+spells?, spellLevels?, speed? }`; `spellLevels` — с какого уровня персонажа доступно заклинание.
+
+`srd-2014/resources.json` — ресурсы умений (формат как у `extra/resources.json`).
