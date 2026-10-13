@@ -126,7 +126,7 @@
         { "level": 2, "name": { "en": "Circle Forms", "ru": "Облики круга" }, "text": "Зверь с ПО до 1 (со 2-го уровня), с 6-го — ПО до трети уровня друида.", "textEn": "Beasts of CR up to 1 (from level 2), from level 6 up to one third of your druid level." },
         { "level": 6, "name": { "en": "Primal Strike", "ru": "Первобытный удар" }, "text": "Атаки в облике зверя считаются магическими.", "textEn": "Your attacks in beast form count as magical." },
         { "level": 10, "name": { "en": "Elemental Wild Shape", "ru": "Стихийный дикий облик" }, "text": "За два использования дикого облика — облик элементаля.", "textEn": "Spend two uses of Wild Shape to become an elemental." },
-        { "level": 14, "name": { "en": "Thousand Forms", "ru": "Тысяча обликов" }, "text": "«Смена обличья» — без ячейки, сколько угодно.", "textEn": "You can cast Alter Self at will." }
+        { "level": 14, "name": { "en": "Thousand Forms", "ru": "Тысяча обликов" }, "text": "«Изменение себя» — без ячейки, сколько угодно.", "textEn": "You can cast Alter Self at will." }
       ]
     },
     {

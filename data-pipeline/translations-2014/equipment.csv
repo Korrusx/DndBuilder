@@ -23,377 +23,399 @@ weaponProperty.two-handed.name,Two-Handed,Двуручное,draft
 weaponProperty.two-handed.description,This weapon requires two hands when you attack with it.,Для атаки этим оружием нужны две руки.,draft
 weaponProperty.versatile.name,Versatile,Универсальное,draft
 weaponProperty.versatile.description,This weapon can be used with one or two hands. A damage value in parentheses appears with the property--the damage when the weapon is used with two hands to make a melee attack.,"Это оружие можно держать одной или двумя руками. В скобках у свойства указан урон, если атаковать им в ближнем бою двумя руками.",draft
-equipment.abacus.name,Abacus,,todo
-equipment.acid-vial.name,Acid (vial),,todo
+equipment.abacus.name,Abacus,Счёты,draft
+equipment.acid-vial.name,Acid (vial),Кислота (флакон),draft
 equipment.acid-vial.description,"As an action, you can splash the contents of this vial onto a creature within 5 feet of you or throw the vial up to 20 feet, shattering it on impact. In either case, make a ranged attack against a creature or object, treating the acid as an improvised weapon.
-On a hit, the target takes 2d6 acid damage.",,todo
-equipment.alchemists-fire-flask.name,Alchemist's fire (flask),,todo
+On a hit, the target takes 2d6 acid damage.","Действием вы выплёскиваете содержимое флакона на существо в пределах 5 фт или бросаете флакон на расстояние до 20 фт — он разбивается при ударе. В обоих случаях совершите дальнобойную атаку по существу или предмету, используя кислоту как импровизированное оружие.
+При попадании цель получает 2к6 урона кислотой.",draft
+equipment.alchemists-fire-flask.name,Alchemist's fire (flask),Алхимический огонь (флакон),draft
 equipment.alchemists-fire-flask.description,"This sticky, adhesive fluid ignites when exposed to air.
 As an action, you can throw this flask up to 20 feet, shattering it on impact. Make a ranged attack against a creature or object, treating the alchemist's fire as an improvised weapon.
-On a hit, the target takes 1d4 fire damage at the start of each of its turns. A creature can end this damage by using its action to make a DC 10 Dexterity check to extinguish the flames.",,todo
+On a hit, the target takes 1d4 fire damage at the start of each of its turns. A creature can end this damage by using its action to make a DC 10 Dexterity check to extinguish the flames.","Эта липкая жидкость вспыхивает на воздухе.
+Действием вы бросаете флакон на расстояние до 20 фт — он разбивается при ударе. Совершите дальнобойную атаку по существу или предмету, используя алхимический огонь как импровизированное оружие.
+При попадании цель получает 1к4 урона огнём в начале каждого своего хода. Существо может прекратить урон, потушив пламя действием и успешной проверкой Ловкости СЛ 10.",draft
 equipment.alchemists-supplies.name,Alchemist's Supplies,Инструменты алхимика,draft
-equipment.alchemists-supplies.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.alms-box.name,Alms box,,todo
-equipment.alms-box.description,"A small box for alms, typically found in a priest's pack.",,todo
+equipment.alchemists-supplies.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.alms-box.name,Alms box,Ящик для подаяний,draft
+equipment.alms-box.description,"A small box for alms, typically found in a priest's pack.","Небольшой ящик для подаяний, обычно входит в набор священника.",draft
 equipment.amulet.name,Amulet,Амулет,draft
 equipment.amulet.description,"A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.
-Appendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.",,todo
-equipment.animal-feed-1-day.name,Animal Feed (1 day),,todo
-equipment.antitoxin-vial.name,Antitoxin (vial),,todo
-equipment.antitoxin-vial.description,A creature that drinks this vial of liquid gains advantage on saving throws against poison for 1 hour. It confers no benefit to undead or constructs.,,todo
-equipment.arrow.name,Arrow,,todo
+Appendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.","Священный символ — образ бога или пантеона: амулет с символом божества, тот же символ, вырезанный или выложенный на щите, или крошечный ковчежец с частицей святыни.
+Жрец или паладин может использовать священный символ как фокусировку для заклинаний. Для этого его нужно держать в руке, носить на виду или на щите.",draft
+equipment.animal-feed-1-day.name,Animal Feed (1 day),Корм для животных (1 день),draft
+equipment.antitoxin-vial.name,Antitoxin (vial),Противоядие (флакон),draft
+equipment.antitoxin-vial.description,A creature that drinks this vial of liquid gains advantage on saving throws against poison for 1 hour. It confers no benefit to undead or constructs.,Выпивший флакон совершает спасброски от яда с преимуществом в течение 1 часа. На нежить и конструктов не действует.,draft
+equipment.arrow.name,Arrow,Стрела,draft
 equipment.backpack.name,Backpack,Рюкзак,draft
 equipment.bagpipes.name,Bagpipes,Волынка,draft
-equipment.bagpipes.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
-equipment.ball-bearings-bag-of-1000.name,"Ball bearings (bag of 1,000)",,todo
+equipment.bagpipes.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
+equipment.ball-bearings-bag-of-1000.name,"Ball bearings (bag of 1,000)","Шарики (мешочек, 1000 шт.)",draft
 equipment.ball-bearings-bag-of-1000.description,"As an action, you can spill these tiny metal balls from their pouch to cover a level, square area that is 10 feet on a side.
 A creature moving across the covered area must succeed on a DC 10 Dexterity saving throw or fall prone.
-A creature moving through the area at half speed doesn't need to make the save.",,todo
-equipment.barding-breastplate.name,Barding: Breastplate,,todo
-equipment.barding-breastplate.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-chain-mail.name,Barding: Chain mail,,todo
-equipment.barding-chain-mail.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-chain-shirt.name,Barding: Chain shirt,,todo
-equipment.barding-chain-shirt.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-half-plate.name,Barding: Half plate,,todo
-equipment.barding-half-plate.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-hide.name,Barding: Hide,,todo
-equipment.barding-hide.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-leather.name,Barding: Leather,,todo
-equipment.barding-leather.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-padded.name,Barding: Padded,,todo
-equipment.barding-padded.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-plate.name,Barding: Plate,,todo
-equipment.barding-plate.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-ring-mail.name,Barding: Ring mail,,todo
-equipment.barding-ring-mail.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-scale-mail.name,Barding: Scale mail,,todo
-equipment.barding-scale-mail.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-splint.name,Barding: Splint,,todo
-equipment.barding-splint.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
-equipment.barding-studded-leather.name,Barding: Studded Leather,,todo
-equipment.barding-studded-leather.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.",,todo
+A creature moving through the area at half speed doesn't need to make the save.","Действием вы рассыпаете крошечные металлические шарики, покрывая ровную квадратную площадку со стороной 10 фт.
+Существо, перемещающееся по ней, проходит спасбросок Ловкости СЛ 10 или падает.
+Существо, проходящее площадку с половинной скоростью, спасбросок не совершает.",draft
+equipment.barding-breastplate.name,Barding: Breastplate,Доспех для скакуна: кираса,draft
+equipment.barding-breastplate.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-chain-mail.name,Barding: Chain mail,Доспех для скакуна: кольчуга,draft
+equipment.barding-chain-mail.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-chain-shirt.name,Barding: Chain shirt,Доспех для скакуна: кольчужная рубаха,draft
+equipment.barding-chain-shirt.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-half-plate.name,Barding: Half plate,Доспех для скакуна: полулаты,draft
+equipment.barding-half-plate.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-hide.name,Barding: Hide,Доспех для скакуна: шкурный,draft
+equipment.barding-hide.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-leather.name,Barding: Leather,Доспех для скакуна: кожаный,draft
+equipment.barding-leather.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-padded.name,Barding: Padded,Доспех для скакуна: стёганый,draft
+equipment.barding-padded.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-plate.name,Barding: Plate,Доспех для скакуна: латы,draft
+equipment.barding-plate.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-ring-mail.name,Barding: Ring mail,Доспех для скакуна: колечный,draft
+equipment.barding-ring-mail.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-scale-mail.name,Barding: Scale mail,Доспех для скакуна: чешуйчатый,draft
+equipment.barding-scale-mail.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-splint.name,Barding: Splint,Доспех для скакуна: наборный,draft
+equipment.barding-splint.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
+equipment.barding-studded-leather.name,Barding: Studded Leather,Доспех для скакуна: проклёпанный кожаный,draft
+equipment.barding-studded-leather.description,"Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.","Доспех для животного защищает голову, шею, грудь и туловище. Любой доспех из таблицы доспехов можно купить для скакуна — вчетверо дороже и вдвое тяжелее обычного.",draft
 equipment.barrel.name,Barrel,Бочка,draft
 equipment.basket.name,Basket,Корзина,draft
 equipment.battleaxe.name,Battleaxe,Боевой топор,draft
 equipment.bedroll.name,Bedroll,Спальник,draft
 equipment.bell.name,Bell,Колокольчик,draft
-equipment.bit-and-bridle.name,Bit and bridle,,todo
+equipment.bit-and-bridle.name,Bit and bridle,Удила и уздечка,draft
 equipment.blanket.name,Blanket,Одеяло,draft
 equipment.block-and-tackle.name,Block and tackle,Блок и тали,draft
-equipment.block-and-tackle.description,"A set of pulleys with a cable threaded through them and a hook to attach to objects, a block and tackle allows you to hoist up to four times the weight you can normally lift.",,todo
-equipment.block-of-incense.name,Block of incense,,todo
-equipment.block-of-incense.description,"A block of incense, typically found in a priest's pack.",,todo
+equipment.block-and-tackle.description,"A set of pulleys with a cable threaded through them and a hook to attach to objects, a block and tackle allows you to hoist up to four times the weight you can normally lift.","Набор блоков с продетым тросом и крюком для груза. С ним вы поднимаете вчетверо больший вес, чем обычно.",draft
+equipment.block-of-incense.name,Block of incense,Брусок благовоний,draft
+equipment.block-of-incense.description,"A block of incense, typically found in a priest's pack.","Брусок благовоний, обычно входит в набор священника.",draft
 equipment.blowgun.name,Blowgun,Духовая трубка,draft
-equipment.blowgun-needle.name,Blowgun needle,,todo
+equipment.blowgun-needle.name,Blowgun needle,Игла для духовой трубки,draft
 equipment.book.name,Book,Книга,draft
-equipment.book.description,"A book might contain poetry, historical accounts, information pertaining to a particular field of lore, diagrams and notes on gnomish contraptions, or just about anything else that can be represented using text or pictures. A book of spells is a spellbook (described later in this section).",,todo
-equipment.bottle-glass.name,"Bottle, glass",,todo
+equipment.book.description,"A book might contain poetry, historical accounts, information pertaining to a particular field of lore, diagrams and notes on gnomish contraptions, or just about anything else that can be represented using text or pictures. A book of spells is a spellbook (described later in this section).","В книге могут быть стихи, хроники, сведения из какой-то области знаний, чертежи гномьих механизмов — что угодно, что можно записать или нарисовать. Книга заклинаний описана отдельно.",draft
+equipment.bottle-glass.name,"Bottle, glass","Бутылка, стеклянная",draft
 equipment.breastplate.name,Breastplate,Кираса,draft
 equipment.brewers-supplies.name,Brewer's Supplies,Инструменты пивовара,draft
-equipment.brewers-supplies.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
+equipment.brewers-supplies.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
 equipment.bucket.name,Bucket,Ведро,draft
 equipment.burglars-pack.name,Burglar's Pack,Набор взломщика,draft
 equipment.calligraphers-supplies.name,Calligrapher's Supplies,Инструменты каллиграфа,draft
-equipment.calligraphers-supplies.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
+equipment.calligraphers-supplies.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
 equipment.caltrops.name,Caltrops,Шипы,draft
 equipment.caltrops.description,"As an action, you can spread a bag of caltrops to cover a square area that is 5 feet on a side.
 Any creature that enters the area must succeed on a DC 15 Dexterity saving throw or stop moving this turn and take 1 piercing damage.
 Taking this damage reduces the creature's walking speed by 10 feet until the creature regains at least 1 hit point.
-A creature moving through the area at half speed doesn't need to make the save.",,todo
-equipment.camel.name,Camel,,todo
+A creature moving through the area at half speed doesn't need to make the save.","Действием вы рассыпаете мешочек шипов, покрывая квадратную площадку со стороной 5 фт.
+Существо, входящее на неё, проходит спасбросок Ловкости СЛ 15; при провале оно останавливается в этот ход и получает 1 колющий урон.
+Получив этот урон, существо теряет 10 фт скорости ходьбы, пока не восстановит хотя бы 1 хит.
+Существо, проходящее площадку с половинной скоростью, спасбросок не совершает.",draft
+equipment.camel.name,Camel,Верблюд,draft
 equipment.candle.name,Candle,Свеча,draft
-equipment.candle.description,"For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet.",,todo
+equipment.candle.description,"For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet.",Свеча 1 час даёт яркий свет в радиусе 5 фт и тусклый ещё на 5 фт.,draft
 equipment.carpenters-tools.name,Carpenter's Tools,Инструменты плотника,draft
-equipment.carpenters-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.carriage.name,Carriage,,todo
-equipment.cart.name,Cart,,todo
+equipment.carpenters-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.carriage.name,Carriage,Карета,draft
+equipment.cart.name,Cart,Телега,draft
 equipment.cartographers-tools.name,Cartographer's Tools,Инструменты картографа,draft
-equipment.cartographers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.case-crossbow-bolt.name,"Case, crossbow bolt",,todo
-equipment.case-crossbow-bolt.description,This wooden case can hold up to twenty crossbow bolts.,,todo
-equipment.case-map-or-scroll.name,"Case, map or scroll",,todo
-equipment.case-map-or-scroll.description,This cylindrical leather case can hold up to ten rolled-up sheets of paper or five rolled-up sheets of parchment.,,todo
-equipment.censer.name,Censer,,todo
-equipment.censer.description,"A censer, typically found in a priest's pack.",,todo
-equipment.chain-10-feet.name,Chain (10 feet),,todo
-equipment.chain-10-feet.description,A chain has 10 hit points. It can be burst with a successful DC 20 Strength check.,,todo
+equipment.cartographers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.case-crossbow-bolt.name,"Case, crossbow bolt",Футляр для арбалетных болтов,draft
+equipment.case-crossbow-bolt.description,This wooden case can hold up to twenty crossbow bolts.,В этом деревянном футляре помещается до двадцати арбалетных болтов.,draft
+equipment.case-map-or-scroll.name,"Case, map or scroll",Футляр для карт и свитков,draft
+equipment.case-map-or-scroll.description,This cylindrical leather case can hold up to ten rolled-up sheets of paper or five rolled-up sheets of parchment.,В этом цилиндрическом кожаном футляре помещается до десяти свёрнутых листов бумаги или пяти листов пергамента.,draft
+equipment.censer.name,Censer,Кадило,draft
+equipment.censer.description,"A censer, typically found in a priest's pack.","Кадило, обычно входит в набор священника.",draft
+equipment.chain-10-feet.name,Chain (10 feet),Цепь (10 фт),draft
+equipment.chain-10-feet.description,A chain has 10 hit points. It can be burst with a successful DC 20 Strength check.,У цепи 10 хитов. Её можно разорвать успешной проверкой Силы СЛ 20.,draft
 equipment.chain-mail.name,Chain Mail,Кольчуга,draft
 equipment.chain-shirt.name,Chain Shirt,Кольчужная рубаха,draft
-equipment.chalk-1-piece.name,Chalk (1 piece),,todo
-equipment.chariot.name,Chariot,,todo
+equipment.chalk-1-piece.name,Chalk (1 piece),Мел (1 кусок),draft
+equipment.chariot.name,Chariot,Колесница,draft
 equipment.chest.name,Chest,Сундук,draft
 equipment.climbers-kit.name,Climber's Kit,Набор альпиниста,draft
-equipment.climbers-kit.description,"A climber's kit includes special pitons, boot tips, gloves, and a harness. You can use the climber's kit as an action to anchor yourself; when you do, you can't fall more than 25 feet from the point where you anchored yourself, and you can't climb more than 25 feet away from that point without undoing the anchor.",,todo
-equipment.clothes-common.name,"Clothes, common",,todo
-equipment.clothes-costume.name,"Clothes, costume",,todo
-equipment.clothes-fine.name,"Clothes, fine",,todo
-equipment.clothes-travelers.name,"Clothes, traveler's",,todo
+equipment.climbers-kit.description,"A climber's kit includes special pitons, boot tips, gloves, and a harness. You can use the climber's kit as an action to anchor yourself; when you do, you can't fall more than 25 feet from the point where you anchored yourself, and you can't climb more than 25 feet away from that point without undoing the anchor.","В набор скалолаза входят особые крючья, накладки на сапоги, перчатки и страховочная обвязка. Действием вы закрепляетесь с его помощью: после этого вы не можете упасть дальше чем на 25 фт от точки крепления и не можете подняться дальше чем на 25 фт от неё, не сняв крепление.",draft
+equipment.clothes-common.name,"Clothes, common","Одежда, обычная",draft
+equipment.clothes-costume.name,"Clothes, costume","Одежда, костюм",draft
+equipment.clothes-fine.name,"Clothes, fine","Одежда, богатая",draft
+equipment.clothes-travelers.name,"Clothes, traveler's","Одежда, дорожная",draft
 equipment.club.name,Club,Дубинка,draft
 equipment.cobblers-tools.name,Cobbler's Tools,Инструменты сапожника,draft
-equipment.cobblers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.component-pouch.name,Component pouch,,todo
-equipment.component-pouch.description,"A component pouch is a small, watertight leather belt pouch that has compartments to hold all the material components and other special items you need to cast your spells, except for those components that have a specific cost (as indicated in a spell's description).",,todo
-equipment.cooks-utensils.name,Cook's utensils,,todo
-equipment.cooks-utensils.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.crossbow-bolt.name,Crossbow bolt,,todo
-equipment.crossbow-hand.name,"Crossbow, hand",,todo
-equipment.crossbow-heavy.name,"Crossbow, heavy",,todo
-equipment.crossbow-light.name,"Crossbow, light",,todo
+equipment.cobblers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.component-pouch.name,Component pouch,Мешочек с компонентами,draft
+equipment.component-pouch.description,"A component pouch is a small, watertight leather belt pouch that has compartments to hold all the material components and other special items you need to cast your spells, except for those components that have a specific cost (as indicated in a spell's description).","Небольшой непромокаемый поясной кошель с отделениями для всех материальных компонентов и других особых предметов, нужных для заклинаний, кроме компонентов с указанной стоимостью.",draft
+equipment.cooks-utensils.name,Cook's utensils,Инструменты повара,draft
+equipment.cooks-utensils.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.crossbow-bolt.name,Crossbow bolt,Арбалетный болт,draft
+equipment.crossbow-hand.name,"Crossbow, hand",Ручной арбалет,draft
+equipment.crossbow-heavy.name,"Crossbow, heavy",Тяжёлый арбалет,draft
+equipment.crossbow-light.name,"Crossbow, light",Лёгкий арбалет,draft
 equipment.crowbar.name,Crowbar,Ломик,draft
-equipment.crowbar.description,Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied.,,todo
+equipment.crowbar.description,Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied.,"Ломик даёт преимущество на проверки Силы, где можно использовать рычаг.",draft
 equipment.crystal.name,Crystal,Кристалл,draft
-equipment.crystal.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",,todo
+equipment.crystal.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.","Магическая фокусировка — особый предмет (шар, кристалл, жезл, посох особой работы, палочка или что-то подобное), направляющий силу тайных заклинаний. Чародей, колдун или волшебник может использовать её как фокусировку для заклинаний.",draft
 equipment.dagger.name,Dagger,Кинжал,draft
 equipment.dart.name,Dart,Дротик,draft
-equipment.dice-set.name,Dice Set,,todo
-equipment.dice-set.description,"This item encompasses a wide range of game pieces, including dice and decks of cards (for games such as Three-Dragon Ante). A few common examples appear on the Tools table, but other kinds of gaming sets exist. If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency.",,todo
+equipment.dice-set.name,Dice Set,Игральные кости,draft
+equipment.dice-set.description,"This item encompasses a wide range of game pieces, including dice and decks of cards (for games such as Three-Dragon Ante). A few common examples appear on the Tools table, but other kinds of gaming sets exist. If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency.","Игровые наборы — это игральные кости, колоды карт и другие принадлежности для игр. Владея игровым набором, вы прибавляете бонус мастерства к проверкам характеристик, когда играете с ним. Для каждого вида игрового набора нужно отдельное владение.",draft
 equipment.diplomats-pack.name,Diplomat's Pack,Набор дипломата,draft
 equipment.disguise-kit.name,Disguise Kit,Набор для грима,draft
-equipment.disguise-kit.description,"This pouch of cosmetics, hair dye, and small props lets you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.",,todo
-equipment.donkey.name,Donkey,,todo
+equipment.disguise-kit.description,"This pouch of cosmetics, hair dye, and small props lets you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise.","Мешочек с гримом, краской для волос и мелким реквизитом, позволяющий изменить внешность. Владея им, вы прибавляете бонус мастерства к проверкам характеристик при создании маскировки.",draft
+equipment.donkey.name,Donkey,Осёл,draft
 equipment.drum.name,Drum,Барабан,draft
-equipment.drum.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
+equipment.drum.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
 equipment.dulcimer.name,Dulcimer,Цимбалы,draft
-equipment.dulcimer.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
+equipment.dulcimer.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
 equipment.dungeoneers-pack.name,Dungeoneer's Pack,Набор исследователя подземелий,draft
-equipment.elephant.name,Elephant,,todo
+equipment.elephant.name,Elephant,Слон,draft
 equipment.emblem.name,Emblem,Эмблема,draft
 equipment.emblem.description,"A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.
-Appendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.",,todo
+Appendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.","Священный символ — образ бога или пантеона: амулет с символом божества, тот же символ, вырезанный или выложенный на щите, или крошечный ковчежец с частицей святыни.
+Жрец или паладин может использовать священный символ как фокусировку для заклинаний. Для этого его нужно держать в руке, носить на виду или на щите.",draft
 equipment.entertainers-pack.name,Entertainer's Pack,Набор артиста,draft
 equipment.explorers-pack.name,Explorer's Pack,Набор путешественника,draft
-equipment.fishing-tackle.name,Fishing tackle,,todo
-equipment.fishing-tackle.description,"This kit includes a wooden rod, silken line, corkwood bobbers, steel hooks, lead sinkers, velvet lures, and narrow netting.",,todo
+equipment.fishing-tackle.name,Fishing tackle,Рыболовные снасти,draft
+equipment.fishing-tackle.description,"This kit includes a wooden rod, silken line, corkwood bobbers, steel hooks, lead sinkers, velvet lures, and narrow netting.","В набор входят деревянное удилище, шёлковая леска, поплавки из пробки, стальные крючки, свинцовые грузила, бархатные приманки и небольшая сеть.",draft
 equipment.flail.name,Flail,Цеп,draft
-equipment.flask-or-tankard.name,Flask or tankard,,todo
+equipment.flask-or-tankard.name,Flask or tankard,Фляга или кружка,draft
 equipment.flute.name,Flute,Флейта,draft
-equipment.flute.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
+equipment.flute.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
 equipment.forgery-kit.name,Forgery Kit,Набор фальсификатора,draft
-equipment.forgery-kit.description,"This small box contains a variety of papers and parchments, pens and inks, seals and sealing wax, gold and silver leaf, and other supplies necessary to create convincing forgeries of physical documents. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a physical forgery of a document.",,todo
-equipment.galley.name,Galley,,todo
+equipment.forgery-kit.description,"This small box contains a variety of papers and parchments, pens and inks, seals and sealing wax, gold and silver leaf, and other supplies necessary to create convincing forgeries of physical documents. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a physical forgery of a document.","Шкатулка с разной бумагой и пергаментом, перьями и чернилами, печатями и сургучом, золотой и серебряной фольгой и всем, что нужно для убедительных подделок документов. Владея им, вы прибавляете бонус мастерства к проверкам характеристик при подделке документа.",draft
+equipment.galley.name,Galley,Галера,draft
 equipment.glaive.name,Glaive,Глефа,draft
 equipment.glassblowers-tools.name,Glassblower's Tools,Инструменты стеклодува,draft
-equipment.glassblowers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.grappling-hook.name,Grappling hook,,todo
+equipment.glassblowers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.grappling-hook.name,Grappling hook,Кошка (абордажный крюк),draft
 equipment.greataxe.name,Greataxe,Секира,draft
 equipment.greatclub.name,Greatclub,Палица,draft
 equipment.greatsword.name,Greatsword,Двуручный меч,draft
 equipment.halberd.name,Halberd,Алебарда,draft
-equipment.half-plate-armor.name,Half Plate Armor,,todo
-equipment.hammer.name,Hammer,,todo
-equipment.hammer-sledge.name,"Hammer, sledge",,todo
+equipment.half-plate-armor.name,Half Plate Armor,Полулаты,draft
+equipment.hammer.name,Hammer,Молоток,draft
+equipment.hammer-sledge.name,"Hammer, sledge",Кувалда,draft
 equipment.handaxe.name,Handaxe,Ручной топор,draft
 equipment.healers-kit.name,Healer's Kit,Набор целителя,draft
-equipment.healers-kit.description,"This kit is a leather pouch containing bandages, salves, and splints. The kit has ten uses. As an action, you can expend one use of the kit to stabilize a creature that has 0 hit points, without needing to make a Wisdom (Medicine) check.",,todo
+equipment.healers-kit.description,"This kit is a leather pouch containing bandages, salves, and splints. The kit has ten uses. As an action, you can expend one use of the kit to stabilize a creature that has 0 hit points, without needing to make a Wisdom (Medicine) check.","Кожаная сумка с бинтами, мазями и шинами. У набора десять использований. Действием, потратив одно использование, вы стабилизируете существо с 0 хитов без проверки Мудрости (Медицина).",draft
 equipment.herbalism-kit.name,Herbalism Kit,Набор травника,draft
-equipment.herbalism-kit.description,"This kit contains a variety of instruments such as clippers, mortar and pestle, and pouches and vials used by herbalists to create remedies and potions. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to identify or apply herbs. Also, proficiency with this kit is required to create antitoxin and potions of healing.",,todo
+equipment.herbalism-kit.description,"This kit contains a variety of instruments such as clippers, mortar and pestle, and pouches and vials used by herbalists to create remedies and potions. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to identify or apply herbs. Also, proficiency with this kit is required to create antitoxin and potions of healing.","В набор входят разные инструменты травника: ножницы, ступка с пестиком, мешочки и флаконы для снадобий и зелий. Владея им, вы прибавляете бонус мастерства к проверкам характеристик, чтобы распознать или применить травы. Владение этим набором нужно, чтобы изготовить противоядие и зелья лечения.",draft
 equipment.hide-armor.name,Hide Armor,Шкурный доспех,draft
-equipment.holy-water-flask.name,Holy water (flask),,todo
+equipment.holy-water-flask.name,Holy water (flask),Святая вода (флакон),draft
 equipment.holy-water-flask.description,"As an action, you can splash the contents of this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. In either case, make a ranged attack against a target creature, treating the holy water as an improvised weapon.
 If the target is a fiend or undead, it takes 2d6 radiant damage.
 A cleric or paladin may create holy water by performing a special ritual.
-The ritual takes 1 hour to perform, uses 25 gp worth of powdered silver, and requires the caster to expend a 1st-level spell slot.",,todo
+The ritual takes 1 hour to perform, uses 25 gp worth of powdered silver, and requires the caster to expend a 1st-level spell slot.","Действием вы выплёскиваете содержимое флакона на существо в пределах 5 фт или бросаете флакон на расстояние до 20 фт — он разбивается при ударе. В обоих случаях совершите дальнобойную атаку по существу, используя святую воду как импровизированное оружие.
+Если цель — исчадие или нежить, она получает 2к6 урона излучением.
+Жрец или паладин может создать святую воду особым ритуалом: он длится 1 час, требует серебряного порошка на 25 зм и траты ячейки 1-го круга.",draft
 equipment.horn.name,Horn,Рожок,draft
-equipment.horn.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
-equipment.horse-draft.name,"Horse, draft",,todo
-equipment.horse-riding.name,"Horse, riding",,todo
-equipment.hourglass.name,Hourglass,,todo
-equipment.hunting-trap.name,Hunting trap,,todo
+equipment.horn.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
+equipment.horse-draft.name,"Horse, draft","Лошадь, тягловая",draft
+equipment.horse-riding.name,"Horse, riding","Лошадь, верховая",draft
+equipment.hourglass.name,Hourglass,Песочные часы,draft
+equipment.hunting-trap.name,Hunting trap,Капкан,draft
 equipment.hunting-trap.description,"When you use your action to set it, this trap forms a saw-toothed steel ring that snaps shut when a creature steps on a pressure plate in the center. The trap is affixed by a heavy chain to an immobile object, such as a tree or a spike driven into the ground.
 A creature that steps on the plate must succeed on a DC 13 Dexterity saving throw or take 1d4 piercing damage and stop moving. Thereafter, until the creature breaks free of the trap, its movement is limited by the length of the chain (typically 3 feet long).
-A creature can use its action to make a DC 13 Strength check, freeing itself or another creature within its reach on a success. Each failed check deals 1 piercing damage to the trapped creature.",,todo
-equipment.ink-1-ounce-bottle.name,Ink (1 ounce bottle),,todo
-equipment.ink-pen.name,Ink pen,,todo
+A creature can use its action to make a DC 13 Strength check, freeing itself or another creature within its reach on a success. Each failed check deals 1 piercing damage to the trapped creature.","Взведённый действием капкан — стальное кольцо с зубьями, которое захлопывается, когда существо наступает на пластину в центре. Капкан крепится тяжёлой цепью к неподвижному предмету, например дереву или вбитому в землю колу.
+Наступившее на пластину существо проходит спасбросок Ловкости СЛ 13; при провале оно получает 1к4 колющего урона и останавливается. Пока оно не освободится, его перемещение ограничено длиной цепи (обычно 3 фт).
+Действием можно совершить проверку Силы СЛ 13 и при успехе освободить себя или существо в пределах досягаемости. Каждый провал наносит пойманному существу 1 колющий урон.",draft
+equipment.ink-1-ounce-bottle.name,Ink (1 ounce bottle),"Чернила (бутылочка, 1 унция)",draft
+equipment.ink-pen.name,Ink pen,Перо для письма,draft
 equipment.javelin.name,Javelin,Метательное копьё,draft
 equipment.jewelers-tools.name,Jeweler's Tools,Инструменты ювелира,draft
-equipment.jewelers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.jug-or-pitcher.name,Jug or pitcher,,todo
-equipment.keelboat.name,Keelboat,,todo
-equipment.keelboat.description,"Keelboats and rowboats are used on lakes and rivers. If going downstream, add the speed of the current (typically 3 miles per hour) to the speed of the vehicle. These vehicles can't be rowed against any significant current, but they can be pulled upstream by draft animals on the shores. A rowboat weighs 100 pounds, in case adventurers carry it over land.",,todo
-equipment.ladder-10-foot.name,Ladder (10-foot),,todo
+equipment.jewelers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.jug-or-pitcher.name,Jug or pitcher,Кувшин,draft
+equipment.keelboat.name,Keelboat,Килевая лодка,draft
+equipment.keelboat.description,"Keelboats and rowboats are used on lakes and rivers. If going downstream, add the speed of the current (typically 3 miles per hour) to the speed of the vehicle. These vehicles can't be rowed against any significant current, but they can be pulled upstream by draft animals on the shores. A rowboat weighs 100 pounds, in case adventurers carry it over land.","Килевые и гребные лодки ходят по озёрам и рекам. Вниз по течению к скорости лодки прибавляется скорость течения (обычно 3 мили в час). Против заметного течения грести нельзя, но лодку можно тянуть вверх по реке животными с берега. Гребная лодка весит 100 фунтов, если её приходится нести по суше.",draft
+equipment.ladder-10-foot.name,Ladder (10-foot),Лестница (10 фт),draft
 equipment.lamp.name,Lamp,Лампа,draft
-equipment.lamp.description,"A lamp casts bright light in a 15-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil.",,todo
+equipment.lamp.description,"A lamp casts bright light in a 15-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil.","Лампа даёт яркий свет в радиусе 15 фт и тусклый ещё на 30 фт. Зажжённая, она горит 6 часов на одной фляге (1 пинта) масла.",draft
 equipment.lance.name,Lance,Длинное копьё,draft
-equipment.lance.description,"You have disadvantage when you use a lance to attack a target within 5 feet of you. Also, a lance requires two hands to wield when you aren't mounted.",,todo
-equipment.lantern-bullseye.name,"Lantern, bullseye",,todo
-equipment.lantern-bullseye.description,"A bullseye lantern casts bright light in a 60-foot cone and dim light for an additional 60 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil.",,todo
-equipment.lantern-hooded.name,"Lantern, hooded",,todo
-equipment.lantern-hooded.description,"A hooded lantern casts bright light in a 30-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to dim light in a 5-foot radius.",,todo
+equipment.lance.description,"You have disadvantage when you use a lance to attack a target within 5 feet of you. Also, a lance requires two hands to wield when you aren't mounted.","Атакуя кавалерийским копьём цель в пределах 5 фт, вы совершаете бросок с помехой. Кроме того, не верхом его нужно держать двумя руками.",draft
+equipment.lantern-bullseye.name,"Lantern, bullseye",Фонарь направленного света,draft
+equipment.lantern-bullseye.description,"A bullseye lantern casts bright light in a 60-foot cone and dim light for an additional 60 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil.","Фонарь направленного света даёт яркий свет конусом 60 фт и тусклый ещё на 60 фт. Зажжённый, он горит 6 часов на одной фляге (1 пинта) масла.",draft
+equipment.lantern-hooded.name,"Lantern, hooded",Фонарь с заслонкой,draft
+equipment.lantern-hooded.description,"A hooded lantern casts bright light in a 30-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to dim light in a 5-foot radius.","Фонарь с заслонкой даёт яркий свет в радиусе 30 фт и тусклый ещё на 30 фт. Зажжённый, он горит 6 часов на одной фляге (1 пинта) масла. Действием можно опустить заслонку — тогда остаётся тусклый свет в радиусе 5 фт.",draft
 equipment.leather-armor.name,Leather Armor,Кожаный доспех,draft
 equipment.leatherworkers-tools.name,Leatherworker's Tools,Инструменты кожевника,draft
-equipment.leatherworkers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.light-hammer.name,Light hammer,,todo
-equipment.little-bag-of-sand.name,Little bag of sand,,todo
-equipment.little-bag-of-sand.description,"A small bag of sand, typically found in a scholar's pack.",,todo
+equipment.leatherworkers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.light-hammer.name,Light hammer,Лёгкий молот,draft
+equipment.little-bag-of-sand.name,Little bag of sand,Мешочек с песком,draft
+equipment.little-bag-of-sand.description,"A small bag of sand, typically found in a scholar's pack.","Небольшой мешочек с песком, обычно входит в набор учёного.",draft
 equipment.lock.name,Lock,Замок,draft
-equipment.lock.description,"A key is provided with the lock. Without the key, a creature proficient with thieves' tools can pick this lock with a successful DC 15 Dexterity check. Your GM may decide that better locks are available for higher prices.",,todo
+equipment.lock.description,"A key is provided with the lock. Without the key, a creature proficient with thieves' tools can pick this lock with a successful DC 15 Dexterity check. Your GM may decide that better locks are available for higher prices.","К замку прилагается ключ. Без ключа владеющее воровскими инструментами существо может вскрыть замок успешной проверкой Ловкости СЛ 15. Мастер может решить, что за большую цену бывают и замки получше.",draft
 equipment.longbow.name,Longbow,Длинный лук,draft
-equipment.longship.name,Longship,,todo
+equipment.longship.name,Longship,Ладья,draft
 equipment.longsword.name,Longsword,Длинный меч,draft
 equipment.lute.name,Lute,Лютня,draft
-equipment.lute.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
+equipment.lute.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
 equipment.lyre.name,Lyre,Лира,draft
-equipment.lyre.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
+equipment.lyre.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
 equipment.mace.name,Mace,Булава,draft
-equipment.magnifying-glass.name,Magnifying glass,,todo
+equipment.magnifying-glass.name,Magnifying glass,Увеличительное стекло,draft
 equipment.magnifying-glass.description,"This lens allows a closer look at small objects. It is also useful as a substitute for flint and steel when starting fires. Lighting a fire with a magnifying glass requires light as bright as sunlight to focus, tinder to ignite, and about 5 minutes for the fire to ignite.
-A magnifying glass grants advantage on any ability check made to appraise or inspect an item that is small or highly detailed.",,todo
+A magnifying glass grants advantage on any ability check made to appraise or inspect an item that is small or highly detailed.","Линза позволяет рассмотреть мелкие предметы. Ею можно и разжечь огонь вместо кремня и огнива: нужен свет яркий, как солнечный, растопка и около 5 минут.
+Увеличительное стекло даёт преимущество на проверки характеристик, чтобы оценить или осмотреть маленький или очень тонкой работы предмет.",draft
 equipment.manacles.name,Manacles,Кандалы,draft
 equipment.manacles.description,"These metal restraints can bind a Small or Medium creature. Escaping the manacles requires a successful DC 20 Dexterity check. Breaking them requires a successful DC 20 Strength check.
-Each set of manacles comes with one key. Without the key, a creature proficient with thieves' tools can pick the manacles' lock with a successful DC 15 Dexterity check. Manacles have 15 hit points.",,todo
+Each set of manacles comes with one key. Without the key, a creature proficient with thieves' tools can pick the manacles' lock with a successful DC 15 Dexterity check. Manacles have 15 hit points.","Эти металлические оковы сковывают Маленькое или Среднее существо. Освободиться можно успешной проверкой Ловкости СЛ 20, разорвать их — проверкой Силы СЛ 20.
+К каждым оковам прилагается ключ. Без ключа владеющее воровскими инструментами существо может вскрыть замок оков успешной проверкой Ловкости СЛ 15. У оков 15 хитов.",draft
 equipment.masons-tools.name,Mason's Tools,Инструменты каменщика,draft
-equipment.masons-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.mastiff.name,Mastiff,,todo
+equipment.masons-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.mastiff.name,Mastiff,Мастиф,draft
 equipment.maul.name,Maul,Молот,draft
-equipment.mess-kit.name,Mess Kit,,todo
-equipment.mess-kit.description,"This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or shallow bowl.",,todo
-equipment.mirror-steel.name,"Mirror, steel",,todo
+equipment.mess-kit.name,Mess Kit,Походная посуда,draft
+equipment.mess-kit.description,"This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or shallow bowl.","Жестяная коробка с кружкой и простыми столовыми приборами. Половинки коробки сцепляются: одну можно использовать как сковороду, другую — как тарелку или миску.",draft
+equipment.mirror-steel.name,"Mirror, steel","Зеркало, стальное",draft
 equipment.morningstar.name,Morningstar,Моргенштерн,draft
-equipment.mule.name,Mule,,todo
+equipment.mule.name,Mule,Мул,draft
 equipment.navigators-tools.name,Navigator's Tools,Инструменты навигатора,draft
-equipment.navigators-tools.description,"This set of instruments is used for navigation at sea. Proficiency with navigator's tools lets you chart a ship's course and follow navigation charts. In addition, these tools allow you to add your proficiency bonus to any ability check you make to avoid getting lost at sea.",,todo
+equipment.navigators-tools.description,"This set of instruments is used for navigation at sea. Proficiency with navigator's tools lets you chart a ship's course and follow navigation charts. In addition, these tools allow you to add your proficiency bonus to any ability check you make to avoid getting lost at sea.","Набор приборов для морской навигации. Владея им, вы прокладываете курс корабля и читаете навигационные карты, а также прибавляете бонус мастерства к проверкам характеристик, чтобы не сбиться с пути в море.",draft
 equipment.net.name,Net,Сеть,draft
-equipment.net.description,"A Large or smaller creature hit by a net is restrained until it is freed. A net has no effect on creatures that are formless, or creatures that are Huge or larger. A creature can use its action to make a DC 10 Strength check, freeing itself or another creature within its reach on a success. Dealing 5 slashing damage to the net (AC 10) also frees the creature without harming it, ending the effect and destroying the net. When you use an action, bonus action, or reaction to attack with a net, you can make only one attack regardless of the number of attacks you can normally make.",,todo
-equipment.oil-flask.name,Oil (flask),,todo
+equipment.net.description,"A Large or smaller creature hit by a net is restrained until it is freed. A net has no effect on creatures that are formless, or creatures that are Huge or larger. A creature can use its action to make a DC 10 Strength check, freeing itself or another creature within its reach on a success. Dealing 5 slashing damage to the net (AC 10) also frees the creature without harming it, ending the effect and destroying the net. When you use an action, bonus action, or reaction to attack with a net, you can make only one attack regardless of the number of attacks you can normally make.","Существо размером Большое или меньше, по которому попала сеть, опутано, пока его не освободят. Сеть не действует на бесформенных существ и существ размером Огромное и больше. Действием существо может совершить проверку Силы СЛ 10 и при успехе освободить себя или существо в пределах досягаемости. 5 рубящего урона по сети (КЗ 10) тоже освобождают существо, не раня его, и уничтожают сеть. Атакуя сетью действием, бонусным действием или реакцией, вы совершаете только одну атаку, сколько бы атак ни могли совершить обычно.",draft
+equipment.oil-flask.name,Oil (flask),Масло (фляга),draft
 equipment.oil-flask.description,"Oil usually comes in a clay flask that holds 1 pint.
 As an action, you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon.
 On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (after 1 minute), the target takes an additional 5 fire damage from the burning oil.
 You can also pour a flask of oil on the ground to cover a 5-foot-square area, provided that the surface is level.
-If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters the area or ends its turn in the area. A creature can take this damage only once per turn.",,todo
+If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters the area or ends its turn in the area. A creature can take this damage only once per turn.","Масло обычно продают в глиняной фляге на 1 пинту.
+Действием вы выплёскиваете масло на существо в пределах 5 фт или бросаете флягу на расстояние до 20 фт — она разбивается при ударе. Совершите дальнобойную атаку по существу или предмету, используя масло как импровизированное оружие.
+При попадании цель покрыта маслом. Если она получит урон огнём до того, как масло высохнет (через 1 минуту), горящее масло нанесёт ей ещё 5 урона огнём.
+Можно также разлить флягу масла на ровной поверхности, покрыв квадрат со стороной 5 фт.
+Подожжённое, масло горит 2 раунда и наносит 5 урона огнём каждому существу, которое входит в эту область или заканчивает в ней ход. Существо получает этот урон не чаще раза в ход.",draft
 equipment.orb.name,Orb,Сфера,draft
-equipment.orb.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",,todo
+equipment.orb.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.","Магическая фокусировка — особый предмет (шар, кристалл, жезл, посох особой работы, палочка или что-то подобное), направляющий силу тайных заклинаний. Чародей, колдун или волшебник может использовать её как фокусировку для заклинаний.",draft
 equipment.padded-armor.name,Padded Armor,Стёганый доспех,draft
 equipment.painters-supplies.name,Painter's Supplies,Инструменты художника,draft
-equipment.painters-supplies.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
+equipment.painters-supplies.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
 equipment.pan-flute.name,Pan flute,Свирель,draft
-equipment.pan-flute.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
-equipment.paper-one-sheet.name,Paper (one sheet),,todo
-equipment.parchment-one-sheet.name,Parchment (one sheet),,todo
-equipment.perfume-vial.name,Perfume (vial),,todo
-equipment.pick-miners.name,"Pick, miner's",,todo
+equipment.pan-flute.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
+equipment.paper-one-sheet.name,Paper (one sheet),Бумага (один лист),draft
+equipment.parchment-one-sheet.name,Parchment (one sheet),Пергамент (один лист),draft
+equipment.perfume-vial.name,Perfume (vial),Духи (флакон),draft
+equipment.pick-miners.name,"Pick, miner's","Кирка, шахтёрская",draft
 equipment.pike.name,Pike,Пика,draft
-equipment.piton.name,Piton,,todo
+equipment.piton.name,Piton,Крюк для скалолазания,draft
 equipment.plate-armor.name,Plate Armor,Латы,draft
-equipment.playing-card-set.name,Playing Card Set,,todo
-equipment.playing-card-set.description,"This item encompasses a wide range of game pieces, including dice and decks of cards (for games such as Three-Dragon Ante). A few common examples appear on the Tools table, but other kinds of gaming sets exist. If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency.",,todo
-equipment.poison-basic-vial.name,"Poison, basic (vial)",,todo
-equipment.poison-basic-vial.description,"You can use the poison in this vial to coat one slashing or piercing weapon or up to three pieces of ammunition. Applying the poison takes an action. A creature hit by the poisoned weapon or ammunition must make a DC 10 Constitution saving throw or take 1d4 poison damage. Once applied, the poison retains potency for 1 minute before drying.",,todo
+equipment.playing-card-set.name,Playing Card Set,Игральные карты,draft
+equipment.playing-card-set.description,"This item encompasses a wide range of game pieces, including dice and decks of cards (for games such as Three-Dragon Ante). A few common examples appear on the Tools table, but other kinds of gaming sets exist. If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency.","Игровые наборы — это игральные кости, колоды карт и другие принадлежности для игр. Владея игровым набором, вы прибавляете бонус мастерства к проверкам характеристик, когда играете с ним. Для каждого вида игрового набора нужно отдельное владение.",draft
+equipment.poison-basic-vial.name,"Poison, basic (vial)","Яд, простой (флакон)",draft
+equipment.poison-basic-vial.description,"You can use the poison in this vial to coat one slashing or piercing weapon or up to three pieces of ammunition. Applying the poison takes an action. A creature hit by the poisoned weapon or ammunition must make a DC 10 Constitution saving throw or take 1d4 poison damage. Once applied, the poison retains potency for 1 minute before drying.","Ядом из флакона можно покрыть одно рубящее или колющее оружие или до трёх боеприпасов; это занимает действие. Существо, по которому попало отравленное оружие или боеприпас, проходит спасбросок Телосложения СЛ 10 или получает 1к4 урона ядом. Нанесённый яд действует 1 минуту, потом высыхает.",draft
 equipment.poisoners-kit.name,Poisoner's Kit,Набор отравителя,draft
-equipment.poisoners-kit.description,"A poisoner's kit includes the vials, chemicals, and other equipment necessary for the creation of poisons. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to craft or use poisons.",,todo
-equipment.pole-10-foot.name,Pole (10-foot),,todo
-equipment.pony.name,Pony,,todo
-equipment.pot-iron.name,"Pot, iron",,todo
+equipment.poisoners-kit.description,"A poisoner's kit includes the vials, chemicals, and other equipment necessary for the creation of poisons. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to craft or use poisons.","В набор отравителя входят флаконы, вещества и всё прочее, что нужно для изготовления ядов. Владея им, вы прибавляете бонус мастерства к проверкам характеристик, чтобы изготовить или применить яд.",draft
+equipment.pole-10-foot.name,Pole (10-foot),Шест (10 фт),draft
+equipment.pony.name,Pony,Пони,draft
+equipment.pot-iron.name,"Pot, iron","Котелок, железный",draft
 equipment.potters-tools.name,Potter's Tools,Инструменты гончара,draft
-equipment.potters-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
+equipment.potters-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
 equipment.pouch.name,Pouch,Поясная сумка,draft
-equipment.pouch.description,"A cloth or leather pouch can hold up to 20 sling bullets or 50 blowgun needles, among other things. A compartmentalized pouch for holding spell components is called a component pouch (described earlier in this section).",,todo
+equipment.pouch.description,"A cloth or leather pouch can hold up to 20 sling bullets or 50 blowgun needles, among other things. A compartmentalized pouch for holding spell components is called a component pouch (described earlier in this section).","В матерчатом или кожаном кошеле помещается, например, до 20 снарядов для пращи или 50 игл для духовой трубки. Кошель с отделениями для компонентов заклинаний называется мешочком с компонентами.",draft
 equipment.priests-pack.name,Priest's Pack,Набор священника,draft
 equipment.quarterstaff.name,Quarterstaff,Боевой посох,draft
 equipment.quiver.name,Quiver,Колчан,draft
-equipment.quiver.description,A quiver can hold up to 20 arrows.,,todo
-equipment.ram-portable.name,"Ram, portable",,todo
-equipment.ram-portable.description,"You can use a portable ram to break down doors. When doing so, you gain a +4 bonus on the Strength check. One other character can help you use the ram, giving you advantage on this check.",,todo
+equipment.quiver.description,A quiver can hold up to 20 arrows.,В колчане помещается до 20 стрел.,draft
+equipment.ram-portable.name,"Ram, portable","Таран, переносной",draft
+equipment.ram-portable.description,"You can use a portable ram to break down doors. When doing so, you gain a +4 bonus on the Strength check. One other character can help you use the ram, giving you advantage on this check.","Переносным тараном можно выбивать двери: вы получаете +4 к проверке Силы. Ещё один персонаж может помочь, давая вам преимущество на эту проверку.",draft
 equipment.rapier.name,Rapier,Рапира,draft
-equipment.rations-1-day.name,Rations (1 day),,todo
-equipment.rations-1-day.description,"Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",,todo
+equipment.rations-1-day.name,Rations (1 day),Рацион (1 день),draft
+equipment.rations-1-day.description,"Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.","Рацион — сухая еда для долгих путешествий: вяленое мясо, сушёные фрукты, сухари и орехи.",draft
 equipment.reliquary.name,Reliquary,Реликварий,draft
 equipment.reliquary.description,"A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.
-Appendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.",,todo
+Appendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.","Священный символ — образ бога или пантеона: амулет с символом божества, тот же символ, вырезанный или выложенный на щите, или крошечный ковчежец с частицей святыни.
+Жрец или паладин может использовать священный символ как фокусировку для заклинаний. Для этого его нужно держать в руке, носить на виду или на щите.",draft
 equipment.ring-mail.name,Ring Mail,Колечный доспех,draft
-equipment.robes.name,Robes,,todo
+equipment.robes.name,Robes,Ряса,draft
 equipment.rod.name,Rod,Жезл,draft
-equipment.rod.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",,todo
-equipment.rope-hempen-50-feet.name,"Rope, hempen (50 feet)",,todo
-equipment.rope-hempen-50-feet.description,"Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.",,todo
-equipment.rope-silk-50-feet.name,"Rope, silk (50 feet)",,todo
-equipment.rope-silk-50-feet.description,"Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.",,todo
-equipment.rowboat.name,Rowboat,,todo
-equipment.rowboat.description,"Keelboats and rowboats are used on lakes and rivers. If going downstream, add the speed of the current (typically 3 miles per hour) to the speed of the vehicle. These vehicles can't be rowed against any significant current, but they can be pulled upstream by draft animals on the shores. A rowboat weighs 100 pounds, in case adventurers carry it over land.",,todo
+equipment.rod.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.","Магическая фокусировка — особый предмет (шар, кристалл, жезл, посох особой работы, палочка или что-то подобное), направляющий силу тайных заклинаний. Чародей, колдун или волшебник может использовать её как фокусировку для заклинаний.",draft
+equipment.rope-hempen-50-feet.name,"Rope, hempen (50 feet)","Верёвка, пеньковая (50 фт)",draft
+equipment.rope-hempen-50-feet.description,"Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.","У верёвки, пеньковой или шёлковой, 2 хита; её можно разорвать проверкой Силы СЛ 17.",draft
+equipment.rope-silk-50-feet.name,"Rope, silk (50 feet)","Верёвка, шёлковая (50 фт)",draft
+equipment.rope-silk-50-feet.description,"Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.","У верёвки, пеньковой или шёлковой, 2 хита; её можно разорвать проверкой Силы СЛ 17.",draft
+equipment.rowboat.name,Rowboat,Гребная лодка,draft
+equipment.rowboat.description,"Keelboats and rowboats are used on lakes and rivers. If going downstream, add the speed of the current (typically 3 miles per hour) to the speed of the vehicle. These vehicles can't be rowed against any significant current, but they can be pulled upstream by draft animals on the shores. A rowboat weighs 100 pounds, in case adventurers carry it over land.","Килевые и гребные лодки ходят по озёрам и рекам. Вниз по течению к скорости лодки прибавляется скорость течения (обычно 3 мили в час). Против заметного течения грести нельзя, но лодку можно тянуть вверх по реке животными с берега. Гребная лодка весит 100 фунтов, если её приходится нести по суше.",draft
 equipment.sack.name,Sack,Мешок,draft
-equipment.saddle-exotic.name,"Saddle, Exotic",,todo
-equipment.saddle-exotic.description,An exotic saddle is required for riding any aquatic or flying mount.,,todo
-equipment.saddle-military.name,"Saddle, Military",,todo
-equipment.saddle-military.description,"A military saddle braces the rider, helping you keep your seat on an active mount in battle. It gives you advantage on any check you make to remain mounted.",,todo
-equipment.saddle-pack.name,"Saddle, Pack",,todo
-equipment.saddle-riding.name,"Saddle, Riding",,todo
-equipment.saddlebags.name,Saddlebags,,todo
-equipment.sailing-ship.name,Sailing ship,,todo
+equipment.saddle-exotic.name,"Saddle, Exotic","Седло, особое",draft
+equipment.saddle-exotic.description,An exotic saddle is required for riding any aquatic or flying mount.,"Особое седло нужно, чтобы ездить на водных или летающих скакунах.",draft
+equipment.saddle-military.name,"Saddle, Military","Седло, боевое",draft
+equipment.saddle-military.description,"A military saddle braces the rider, helping you keep your seat on an active mount in battle. It gives you advantage on any check you make to remain mounted.","Боевое седло помогает удержаться на скакуне в бою и даёт преимущество на проверки, чтобы не упасть с него.",draft
+equipment.saddle-pack.name,"Saddle, Pack","Седло, вьючное",draft
+equipment.saddle-riding.name,"Saddle, Riding","Седло, верховое",draft
+equipment.saddlebags.name,Saddlebags,Седельные сумки,draft
+equipment.sailing-ship.name,Sailing ship,Парусник,draft
 equipment.scale-mail.name,Scale Mail,Чешуйчатый доспех,draft
-equipment.scale-merchants.name,"Scale, merchant's",,todo
-equipment.scale-merchants.description,"A scale includes a small balance, pans, and a suitable assortment of weights up to 2 pounds. With it, you can measure the exact weight of small objects, such as raw precious metals or trade goods, to help determine their worth.",,todo
+equipment.scale-merchants.name,"Scale, merchant's","Весы, торговые",draft
+equipment.scale-merchants.description,"A scale includes a small balance, pans, and a suitable assortment of weights up to 2 pounds. With it, you can measure the exact weight of small objects, such as raw precious metals or trade goods, to help determine their worth.","Небольшие весы с чашами и набором гирь до 2 фунтов. Ими можно точно взвесить мелкие предметы — драгоценные металлы или товары, — чтобы оценить их стоимость.",draft
 equipment.scholars-pack.name,Scholar's Pack,Набор учёного,draft
 equipment.scimitar.name,Scimitar,Скимитар,draft
-equipment.sealing-wax.name,Sealing wax,,todo
+equipment.sealing-wax.name,Sealing wax,Сургуч,draft
 equipment.shawm.name,Shawm,Шалмей,draft
-equipment.shawm.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
+equipment.shawm.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
 equipment.shield.name,Shield,Щит,draft
 equipment.shortbow.name,Shortbow,Короткий лук,draft
 equipment.shortsword.name,Shortsword,Короткий меч,draft
 equipment.shovel.name,Shovel,Лопата,draft
 equipment.sickle.name,Sickle,Серп,draft
-equipment.signal-whistle.name,Signal whistle,,todo
-equipment.signet-ring.name,Signet ring,,todo
-equipment.sled.name,Sled,,todo
+equipment.signal-whistle.name,Signal whistle,Сигнальный свисток,draft
+equipment.signet-ring.name,Signet ring,Кольцо-печатка,draft
+equipment.sled.name,Sled,Сани,draft
 equipment.sling.name,Sling,Праща,draft
-equipment.sling-bullet.name,Sling bullet,,todo
-equipment.small-knife.name,Small knife,,todo
-equipment.small-knife.description,"A small knife, typically found in a scholar's pack.",,todo
+equipment.sling-bullet.name,Sling bullet,Снаряд для пращи,draft
+equipment.small-knife.name,Small knife,Ножик,draft
+equipment.small-knife.description,"A small knife, typically found in a scholar's pack.","Маленький нож, обычно входит в набор учёного.",draft
 equipment.smiths-tools.name,Smith's Tools,Инструменты кузнеца,draft
-equipment.smiths-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.soap.name,Soap,,todo
+equipment.smiths-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.soap.name,Soap,Мыло,draft
 equipment.spear.name,Spear,Копьё,draft
 equipment.spellbook.name,Spellbook,Книга заклинаний,draft
-equipment.spellbook.description,"Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells.",,todo
-equipment.spike-iron.name,"Spike, iron",,todo
+equipment.spellbook.description,"Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells.",Необходимая волшебнику книга заклинаний — фолиант в кожаном переплёте со 100 чистыми листами пергамента для записи заклинаний.,draft
+equipment.spike-iron.name,"Spike, iron","Шип, железный",draft
 equipment.splint-armor.name,Splint Armor,Наборный доспех,draft
-equipment.sprig-of-mistletoe.name,Sprig of mistletoe,,todo
-equipment.sprig-of-mistletoe.description,"A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.",,todo
+equipment.sprig-of-mistletoe.name,Sprig of mistletoe,Веточка омелы,draft
+equipment.sprig-of-mistletoe.description,"A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.","Друидической фокусировкой может быть веточка омелы или остролиста, палочка или скипетр из тиса или другого особого дерева, посох, целиком вынутый из живого дерева, или тотем из перьев, меха, костей и зубов священных животных. Друид может использовать такой предмет как фокусировку для заклинаний.",draft
 equipment.spyglass.name,Spyglass,Подзорная труба,draft
-equipment.spyglass.description,Objects viewed through a spyglass are magnified to twice their size.,,todo
-equipment.stabling-1-day.name,Stabling (1 day),,todo
+equipment.spyglass.description,Objects viewed through a spyglass are magnified to twice their size.,Предметы в подзорную трубу кажутся вдвое больше.,draft
+equipment.stabling-1-day.name,Stabling (1 day),Стойло (1 день),draft
 equipment.staff.name,Staff,Посох,draft
-equipment.staff.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",,todo
-equipment.string-10-feet.name,String (10 feet),,todo
-equipment.string-10-feet.description,"A 10-foot length of string, typically found in a burglar's pack.",,todo
+equipment.staff.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.","Магическая фокусировка — особый предмет (шар, кристалл, жезл, посох особой работы, палочка или что-то подобное), направляющий силу тайных заклинаний. Чародей, колдун или волшебник может использовать её как фокусировку для заклинаний.",draft
+equipment.string-10-feet.name,String (10 feet),Бечёвка (10 фт),draft
+equipment.string-10-feet.description,"A 10-foot length of string, typically found in a burglar's pack.","Бечёвка длиной 10 фт, обычно входит в набор взломщика.",draft
 equipment.studded-leather-armor.name,Studded Leather Armor,Проклёпанный кожаный доспех,draft
-equipment.tent-two-person.name,"Tent, two-person",,todo
-equipment.tent-two-person.description,"A simple and portable canvas shelter, a tent sleeps two.",,todo
+equipment.tent-two-person.name,"Tent, two-person","Палатка, двухместная",draft
+equipment.tent-two-person.description,"A simple and portable canvas shelter, a tent sleeps two.",Простое переносное парусиновое укрытие на двоих.,draft
 equipment.thieves-tools.name,Thieves' Tools,Воровские инструменты,draft
-equipment.thieves-tools.description,"This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks.",,todo
+equipment.thieves-tools.description,"This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks.","В набор входят напильник, отмычки, маленькое зеркальце на металлической ручке, ножницы с узкими лезвиями и щипцы. Владея этими инструментами, вы прибавляете бонус мастерства к проверкам характеристик, чтобы обезвредить ловушку или вскрыть замок.",draft
 equipment.tinderbox.name,Tinderbox,Трутница,draft
 equipment.tinderbox.description,"This small container holds flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a torch--or anything else with abundant, exposed fuel--takes an action.
-Lighting any other fire takes 1 minute.",,todo
+Lighting any other fire takes 1 minute.","В коробочке лежат кремень, огниво и трут (обычно сухая ткань, пропитанная маслом). Зажечь ими факел или что-то другое с открытым горючим — действие.
+Развести любой другой огонь — 1 минута.",draft
 equipment.tinkers-tools.name,Tinker's Tools,Инструменты ремонтника,draft
-equipment.tinkers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
+equipment.tinkers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
 equipment.torch.name,Torch,Факел,draft
-equipment.torch.description,"A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",,todo
-equipment.totem.name,Totem,,todo
-equipment.totem.description,"A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.",,todo
+equipment.torch.description,"A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.","Факел горит 1 час, давая яркий свет в радиусе 20 фт и тусклый ещё на 20 фт. Попав горящим факелом рукопашной атакой, вы наносите 1 урон огнём.",draft
+equipment.totem.name,Totem,Тотем,draft
+equipment.totem.description,"A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.","Друидической фокусировкой может быть веточка омелы или остролиста, палочка или скипетр из тиса или другого особого дерева, посох, целиком вынутый из живого дерева, или тотем из перьев, меха, костей и зубов священных животных. Друид может использовать такой предмет как фокусировку для заклинаний.",draft
 equipment.trident.name,Trident,Трезубец,draft
-equipment.vestments.name,Vestments,,todo
-equipment.vestments.description,"Religious clothing, typically found in a priest's pack.",,todo
+equipment.vestments.name,Vestments,Облачение,draft
+equipment.vestments.description,"Religious clothing, typically found in a priest's pack.","Церковное облачение, обычно входит в набор священника.",draft
 equipment.vial.name,Vial,Флакон,draft
 equipment.viol.name,Viol,Виола,draft
-equipment.viol.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",,todo
-equipment.wagon.name,Wagon,,todo
+equipment.viol.description,"Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.","Владея музыкальным инструментом, вы прибавляете бонус мастерства к проверкам характеристик, когда играете на нём. Бард может использовать музыкальный инструмент как фокусировку для заклинаний. Для каждого инструмента нужно отдельное владение.",draft
+equipment.wagon.name,Wagon,Фургон,draft
 equipment.wand.name,Wand,Волшебная палочка,draft
-equipment.wand.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.",,todo
-equipment.war-pick.name,War pick,,todo
+equipment.wand.description,"An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus.","Магическая фокусировка — особый предмет (шар, кристалл, жезл, посох особой работы, палочка или что-то подобное), направляющий силу тайных заклинаний. Чародей, колдун или волшебник может использовать её как фокусировку для заклинаний.",draft
+equipment.war-pick.name,War pick,Боевая кирка,draft
 equipment.warhammer.name,Warhammer,Боевой молот,draft
-equipment.warhorse.name,Warhorse,,todo
-equipment.warship.name,Warship,,todo
+equipment.warhorse.name,Warhorse,Боевой конь,draft
+equipment.warship.name,Warship,Военный корабль,draft
 equipment.waterskin.name,Waterskin,Бурдюк,draft
 equipment.weavers-tools.name,Weaver's Tools,Инструменты ткача,draft
-equipment.weavers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.whetstone.name,Whetstone,,todo
+equipment.weavers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.whetstone.name,Whetstone,Точильный камень,draft
 equipment.whip.name,Whip,Кнут,draft
 equipment.woodcarvers-tools.name,Woodcarver's Tools,Инструменты резчика по дереву,draft
-equipment.woodcarvers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",,todo
-equipment.wooden-staff.name,Wooden staff,,todo
-equipment.wooden-staff.description,"A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.",,todo
-equipment.yew-wand.name,Yew wand,,todo
-equipment.yew-wand.description,"A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.",,todo
+equipment.woodcarvers-tools.description,"These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.","Особые инструменты для занятия ремеслом. Каждый вид инструментов ремесленника относится к одному ремеслу. Владея ими, вы прибавляете бонус мастерства к проверкам характеристик, когда пользуетесь ими в своём ремесле. Для каждого вида инструментов нужно отдельное владение.",draft
+equipment.wooden-staff.name,Wooden staff,Деревянный посох,draft
+equipment.wooden-staff.description,"A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.","Друидической фокусировкой может быть веточка омелы или остролиста, палочка или скипетр из тиса или другого особого дерева, посох, целиком вынутый из живого дерева, или тотем из перьев, меха, костей и зубов священных животных. Друид может использовать такой предмет как фокусировку для заклинаний.",draft
+equipment.yew-wand.name,Yew wand,Тисовая палочка,draft
+equipment.yew-wand.description,"A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus.","Друидической фокусировкой может быть веточка омелы или остролиста, палочка или скипетр из тиса или другого особого дерева, посох, целиком вынутый из живого дерева, или тотем из перьев, меха, костей и зубов священных животных. Друид может использовать такой предмет как фокусировку для заклинаний.",draft
 equipmentCategory.adventuring-gear.name,Adventuring Gear,Снаряжение искателя приключений,draft
 equipmentCategory.ammunition.name,Ammunition,Боеприпасы,draft
 equipmentCategory.arcane-foci.name,Arcane Foci,Магические фокусировки,draft
