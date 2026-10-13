@@ -135,14 +135,25 @@ export function levelUpPlan(next: Character, content: Content, classId = next.cl
     // 2014: умения с выбором компетентности («rogue-expertise-2», «bard-expertise-1») — по два навыка.
     expertise: sum(EXPERTISE_GRANTS) + ids.filter((id) => idx.features.get(id)?.expertiseChoice).length * 2,
     fightingStyles: ids2024.filter((id) => FEAT_FEATURES[id]).length,
-    skillChoices: ids2024
-      .filter((id) => SKILL_GRANTS[id])
-      .map((id) => ({
-        key: `${levelKey(charLevel)}.${id}.prof`,
-        featureId: id,
-        choose: SKILL_GRANTS[id].choose,
-        options: SKILL_GRANTS[id].from === 'class' ? classSkillOptions : allSkills,
-      })),
+    skillChoices: [
+      ...ids2024
+        .filter((id) => SKILL_GRANTS[id])
+        .map((id) => ({
+          key: `${levelKey(charLevel)}.${id}.prof`,
+          featureId: id,
+          choose: SKILL_GRANTS[id].choose,
+          options: SKILL_GRANTS[id].from === 'class' ? classSkillOptions : allSkills,
+        })),
+      // 2014: владения на выбор от умения нового уровня (коллегия знаний — три навыка).
+      ...ids.flatMap((id) =>
+        (idx.features.get(id)?.proficiencyChoices ?? []).map((ch, i) => ({
+          key: `${levelKey(charLevel)}.${id}.prof.${i}`,
+          featureId: id,
+          choose: ch.choose,
+          options: choiceOptionIds(ch, content),
+        })),
+      ),
+    ],
     languages: sum(LANGUAGE_GRANTS),
   };
 }

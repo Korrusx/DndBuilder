@@ -1,0 +1,160 @@
+{
+  "_comment": "Подклассы Player's Handbook 2014, которых нет в SRD 5.1: варвар, бард, жрец, друид, воин. Механика кратко своими словами (по памяти) — сверить с книгой. id умения — `<подкласс>-<название по-английски>`. spells — [id, уровень класса] (всегда подготовлены); заклинаний, которых нет в SRD 5.1, в списке нет. proficiencies / proficiencyChoices у умения — владения, которые оно даёт.",
+  "subclasses": [
+    {
+      "id": "totem-warrior",
+      "classId": "barbarian",
+      "name": { "en": "Path of the Totem Warrior", "ru": "Путь тотемного воина" },
+      "summary": "Ярость, которую питает дух зверя-тотема", "summaryEn": "A rage fuelled by a totem animal spirit",
+      "features": [
+        { "level": 3, "name": { "en": "Spirit Seeker", "ru": "Искатель духов" }, "text": "Вы можете творить «Чувство зверя» и «Разговор с животными» только как ритуалы.", "textEn": "You can cast Beast Sense and Speak with Animals, but only as rituals." },
+        { "level": 3, "name": { "en": "Totem Spirit", "ru": "Дух тотема" }, "text": "Выберите тотем. Медведь: в ярости сопротивление всему урону, кроме психического. Орёл: в ярости без тяжёлого доспеха атаки по возможности против вас с помехой, рывок — бонусным действием. Волк: в ярости союзники получают преимущество на рукопашные атаки по врагам рядом с вами.", "textEn": "Choose a totem. Bear: while raging, resistance to all damage except psychic. Eagle: while raging without heavy armor, opportunity attacks against you have disadvantage and you can Dash as a bonus action. Wolf: while raging, allies have advantage on melee attacks against enemies within 5 feet of you." },
+        { "level": 6, "name": { "en": "Aspect of the Beast", "ru": "Облик зверя" }, "text": "Медведь: грузоподъёмность вдвое больше, преимущество на проверки СИЛ толкания и поднятия. Орёл: видите на милю, тусклый свет не мешает Восприятию. Волк: выслеживаете на быстром темпе, крадётесь на обычном.", "textEn": "Bear: double carrying capacity, advantage on STR checks to push, pull, lift or break. Eagle: you see up to a mile, dim light doesn't hinder Perception. Wolf: track at a fast pace and move stealthily at a normal pace." },
+        { "level": 10, "name": { "en": "Spirit Walker", "ru": "Странник духов" }, "text": "Вы можете творить «Общение с природой» как ритуал.", "textEn": "You can cast Commune with Nature as a ritual." },
+        { "level": 14, "name": { "en": "Totemic Attunement", "ru": "Тотемная настройка" }, "text": "Медведь: в ярости враги рядом с помехой атакуют не вас. Орёл: в ярости летаете со скоростью ходьбы. Волк: в ярости, попав рукопашной атакой, бонусным действием сбиваете Большое или меньшее существо с ног.", "textEn": "Bear: while raging, nearby enemies have disadvantage attacking anyone but you. Eagle: while raging you fly at your walking speed. Wolf: while raging, after a melee hit you can knock a Large or smaller creature prone as a bonus action." }
+      ]
+    },
+    {
+      "id": "valor",
+      "classId": "bard",
+      "name": { "en": "College of Valor", "ru": "Коллегия доблести" },
+      "summary": "Скальды, вдохновляющие героев в бою", "summaryEn": "Skalds who inspire heroes in battle",
+      "features": [
+        { "level": 3, "name": { "en": "Bonus Proficiencies", "ru": "Дополнительные владения" }, "text": "Владение средними доспехами, щитами и воинским оружием.", "textEn": "Proficiency with medium armor, shields and martial weapons.", "proficiencies": ["medium-armor", "shields", "martial-weapons"] },
+        { "level": 3, "name": { "en": "Combat Inspiration", "ru": "Боевое вдохновение" }, "text": "Кость вашего вдохновения можно прибавить к урону оружием или реакцией — к КЗ против одной атаки.", "textEn": "A creature with your inspiration die can add it to weapon damage, or use its reaction to add it to AC against one attack." },
+        { "level": 6, "name": { "en": "Extra Attack", "ru": "Дополнительная атака" }, "text": "Действием «Атака» вы атакуете дважды.", "textEn": "You attack twice when you take the Attack action." },
+        { "level": 14, "name": { "en": "Battle Magic", "ru": "Боевая магия" }, "text": "Сотворив заклинание действием, бонусным действием можете атаковать оружием.", "textEn": "When you use your action to cast a spell, you can make one weapon attack as a bonus action." }
+      ]
+    },
+    {
+      "id": "knowledge",
+      "classId": "cleric",
+      "name": { "en": "Knowledge Domain", "ru": "Домен знаний" },
+      "summary": "Жрецы богов знания и тайн", "summaryEn": "Priests of gods of knowledge and secrets",
+      "spells": [["command", 1], ["identify", 1], ["augury", 3], ["suggestion", 3], ["nondetection", 5], ["speak-with-dead", 5], ["arcane-eye", 7], ["confusion", 7], ["legend-lore", 9], ["scrying", 9]],
+      "features": [
+        { "level": 1, "name": { "en": "Blessings of Knowledge", "ru": "Благословения знаний" }, "text": "Два языка на выбор (добавьте в «Изменить») и владение двумя навыками из Магии, Истории, Природы и Религии с компетентностью в них.", "textEn": "Two languages of your choice (add them via Edit) and proficiency in two of Arcana, History, Nature and Religion, with expertise in them.",
+          "proficiencyChoices": [{ "choose": 2, "options": ["skill-arcana", "skill-history", "skill-nature", "skill-religion"], "desc": "Два навыка (с компетентностью)", "descEn": "Two skills (with expertise)" }] },
+        { "level": 2, "name": { "en": "Channel Divinity: Knowledge of the Ages", "ru": "Божественный канал: знание веков" }, "text": "На 10 минут владение одним навыком или инструментом на выбор.", "textEn": "For 10 minutes you gain proficiency with one skill or tool of your choice." },
+        { "level": 6, "name": { "en": "Channel Divinity: Read Thoughts", "ru": "Божественный канал: чтение мыслей" }, "text": "Существо в пределах 60 фт проходит спасбросок МДР; при провале вы читаете его поверхностные мысли и можете сотворить на него «Внушение» без ячейки.", "textEn": "A creature within 60 feet makes a WIS save; on a failure you read its surface thoughts and can cast Suggestion on it without a slot." },
+        { "level": 8, "name": { "en": "Potent Spellcasting", "ru": "Мощное колдовство" }, "text": "К урону заговоров жреца прибавляется мод. МДР.", "textEn": "Add your WIS modifier to the damage of your cleric cantrips." },
+        { "level": 17, "name": { "en": "Visions of the Past", "ru": "Видения прошлого" }, "text": "Медитируя, вы видите прошлое предмета или места.", "textEn": "Through meditation you see visions of an object's or area's past." }
+      ]
+    },
+    {
+      "id": "light",
+      "classId": "cleric",
+      "name": { "en": "Light Domain", "ru": "Домен света" },
+      "summary": "Жрецы солнца и огня, разгоняющие тьму", "summaryEn": "Priests of sun and fire who drive back darkness",
+      "spells": [["light", 1], ["burning-hands", 1], ["faerie-fire", 1], ["flaming-sphere", 3], ["scorching-ray", 3], ["daylight", 5], ["fireball", 5], ["guardian-of-faith", 7], ["wall-of-fire", 7], ["flame-strike", 9], ["scrying", 9]],
+      "features": [
+        { "level": 1, "name": { "en": "Bonus Cantrip", "ru": "Дополнительный заговор" }, "text": "Вы знаете заговор «Свет».", "textEn": "You know the Light cantrip." },
+        { "level": 1, "name": { "en": "Warding Flare", "ru": "Защитная вспышка" }, "text": "Реакцией дайте помеху на атаку видимого вами существа в пределах 30 фт. Число раз — мод. МДР (минимум 1) до долгого отдыха.", "textEn": "As a reaction, impose disadvantage on an attack by a creature you can see within 30 feet. WIS modifier times (minimum 1) per long rest." },
+        { "level": 2, "name": { "en": "Channel Divinity: Radiance of the Dawn", "ru": "Божественный канал: сияние рассвета" }, "text": "Магическая тьма в пределах 30 фт рассеивается; враги там проходят спасбросок ТЕЛ: 2к10 + уровень жреца урона излучением, при успехе половина.", "textEn": "Magical darkness within 30 feet is dispelled; hostile creatures there make a CON save: 2d10 + cleric level radiant damage, half on a success." },
+        { "level": 6, "name": { "en": "Improved Flare", "ru": "Улучшенная вспышка" }, "text": "«Защитную вспышку» можно использовать и для союзников.", "textEn": "You can use Warding Flare to protect other creatures too." },
+        { "level": 8, "name": { "en": "Potent Spellcasting", "ru": "Мощное колдовство" }, "text": "К урону заговоров жреца прибавляется мод. МДР.", "textEn": "Add your WIS modifier to the damage of your cleric cantrips." },
+        { "level": 17, "name": { "en": "Corona of Light", "ru": "Корона света" }, "text": "Действием — аура яркого света на минуту; враги в ней с помехой на спасброски от огня и излучения.", "textEn": "As an action, an aura of sunlight for a minute; enemies in it have disadvantage on saves against fire and radiant." }
+      ]
+    },
+    {
+      "id": "nature",
+      "classId": "cleric",
+      "name": { "en": "Nature Domain", "ru": "Домен природы" },
+      "summary": "Жрецы богов природы, зверей и растений", "summaryEn": "Priests of gods of nature, beasts and plants",
+      "spells": [["animal-friendship", 1], ["speak-with-animals", 1], ["barkskin", 3], ["spike-growth", 3], ["plant-growth", 5], ["wind-wall", 5], ["dominate-beast", 7], ["insect-plague", 9], ["tree-stride", 9]],
+      "features": [
+        { "level": 1, "name": { "en": "Acolyte of Nature", "ru": "Послушник природы" }, "text": "Один заговор друида (добавьте в «Изменить заклинания») и владение Уходом за животными, Природой или Выживанием.", "textEn": "One druid cantrip (add it via Edit spells) and proficiency in Animal Handling, Nature or Survival.",
+          "proficiencyChoices": [{ "choose": 1, "options": ["skill-animal-handling", "skill-nature", "skill-survival"], "desc": "Навык", "descEn": "Skill" }] },
+        { "level": 1, "name": { "en": "Bonus Proficiency", "ru": "Дополнительное владение" }, "text": "Владение тяжёлыми доспехами.", "textEn": "Proficiency with heavy armor.", "proficiencies": ["heavy-armor"] },
+        { "level": 2, "name": { "en": "Channel Divinity: Charm Animals and Plants", "ru": "Божественный канал: очарование зверей и растений" }, "text": "Звери и растения в пределах 30 фт проходят спасбросок МДР; при провале очарованы вами на минуту.", "textEn": "Beasts and plants within 30 feet make a WIS save or are charmed by you for a minute." },
+        { "level": 6, "name": { "en": "Dampen Elements", "ru": "Смягчение стихий" }, "text": "Реакцией дайте сопротивление урону кислотой, холодом, огнём, электричеством или звуком себе или существу в пределах 30 фт.", "textEn": "As a reaction, grant resistance to acid, cold, fire, lightning or thunder damage to yourself or a creature within 30 feet." },
+        { "level": 8, "name": { "en": "Divine Strike", "ru": "Божественный удар" }, "text": "Раз в ход попадание оружием наносит дополнительно 1к8 урона холодом, огнём или электричеством (2к8 с 14-го уровня).", "textEn": "Once per turn a weapon hit deals an extra 1d8 cold, fire or lightning damage (2d8 from level 14)." },
+        { "level": 17, "name": { "en": "Master of Nature", "ru": "Повелитель природы" }, "text": "Бонусным действием командуйте очарованными зверями и растениями.", "textEn": "You can command charmed beasts and plants as a bonus action." }
+      ]
+    },
+    {
+      "id": "tempest",
+      "classId": "cleric",
+      "name": { "en": "Tempest Domain", "ru": "Домен бури" },
+      "summary": "Жрецы богов грома, моря и неба", "summaryEn": "Priests of gods of thunder, sea and sky",
+      "spells": [["fog-cloud", 1], ["thunderwave", 1], ["gust-of-wind", 3], ["shatter", 3], ["call-lightning", 5], ["sleet-storm", 5], ["control-water", 7], ["ice-storm", 7], ["insect-plague", 9]],
+      "features": [
+        { "level": 1, "name": { "en": "Bonus Proficiencies", "ru": "Дополнительные владения" }, "text": "Владение воинским оружием и тяжёлыми доспехами.", "textEn": "Proficiency with martial weapons and heavy armor.", "proficiencies": ["martial-weapons", "heavy-armor"] },
+        { "level": 1, "name": { "en": "Wrath of the Storm", "ru": "Гнев бури" }, "text": "Когда существо в пределах 5 фт попадает по вам, реакцией: спасбросок ЛОВ, 2к8 урона звуком или электричеством, при успехе половина. Мод. МДР раз (минимум 1) до долгого отдыха.", "textEn": "When a creature within 5 feet hits you, as a reaction it makes a DEX save: 2d8 thunder or lightning damage, half on a success. WIS modifier times (minimum 1) per long rest." },
+        { "level": 2, "name": { "en": "Channel Divinity: Destructive Wrath", "ru": "Божественный канал: разрушительный гнев" }, "text": "Бросая урон звуком или электричеством, используйте максимум вместо броска.", "textEn": "When you roll lightning or thunder damage, deal maximum damage instead." },
+        { "level": 6, "name": { "en": "Thunderbolt Strike", "ru": "Удар грома" }, "text": "Нанося урон электричеством существу Большому или меньше, можете оттолкнуть его на 10 фт.", "textEn": "When you deal lightning damage to a Large or smaller creature, you can push it up to 10 feet." },
+        { "level": 8, "name": { "en": "Divine Strike", "ru": "Божественный удар" }, "text": "Раз в ход попадание оружием наносит дополнительно 1к8 урона звуком (2к8 с 14-го уровня).", "textEn": "Once per turn a weapon hit deals an extra 1d8 thunder damage (2d8 from level 14)." },
+        { "level": 17, "name": { "en": "Stormborn", "ru": "Рождённый бурей" }, "text": "Вне помещений вы летаете со скоростью ходьбы.", "textEn": "You have a flying speed equal to your walking speed when outdoors." }
+      ]
+    },
+    {
+      "id": "trickery",
+      "classId": "cleric",
+      "name": { "en": "Trickery Domain", "ru": "Домен обмана" },
+      "summary": "Жрецы богов-плутов и обманщиков", "summaryEn": "Priests of trickster gods",
+      "spells": [["charm-person", 1], ["disguise-self", 1], ["mirror-image", 3], ["pass-without-trace", 3], ["blink", 5], ["dispel-magic", 5], ["dimension-door", 7], ["polymorph", 7], ["dominate-person", 9], ["modify-memory", 9]],
+      "features": [
+        { "level": 1, "name": { "en": "Blessing of the Trickster", "ru": "Благословение обманщика" }, "text": "Действием дайте другому существу преимущество на проверки Скрытности на час.", "textEn": "As an action, give another creature advantage on Stealth checks for an hour." },
+        { "level": 2, "name": { "en": "Channel Divinity: Invoke Duplicity", "ru": "Божественный канал: двойник" }, "text": "Иллюзорный двойник на минуту (концентрация): можете творить заклинания из его места, преимущество на атаки по существам рядом с ним.", "textEn": "An illusory duplicate for a minute (concentration): you can cast spells from its space and have advantage on attacks against creatures near it." },
+        { "level": 6, "name": { "en": "Channel Divinity: Cloak of Shadows", "ru": "Божественный канал: покров теней" }, "text": "Вы становитесь невидимым до конца следующего хода.", "textEn": "You become invisible until the end of your next turn." },
+        { "level": 8, "name": { "en": "Divine Strike", "ru": "Божественный удар" }, "text": "Раз в ход попадание оружием наносит дополнительно 1к8 урона ядом (2к8 с 14-го уровня).", "textEn": "Once per turn a weapon hit deals an extra 1d8 poison damage (2d8 from level 14)." },
+        { "level": 17, "name": { "en": "Improved Duplicity", "ru": "Улучшенный двойник" }, "text": "«Двойник» создаёт до четырёх копий.", "textEn": "Invoke Duplicity creates up to four duplicates." }
+      ]
+    },
+    {
+      "id": "war",
+      "classId": "cleric",
+      "name": { "en": "War Domain", "ru": "Домен войны" },
+      "summary": "Жрецы богов войны и доблести", "summaryEn": "Priests of gods of war and valor",
+      "spells": [["divine-favor", 1], ["shield-of-faith", 1], ["magic-weapon", 3], ["spiritual-weapon", 3], ["spirit-guardians", 5], ["freedom-of-movement", 7], ["stoneskin", 7], ["flame-strike", 9], ["hold-monster", 9]],
+      "features": [
+        { "level": 1, "name": { "en": "Bonus Proficiencies", "ru": "Дополнительные владения" }, "text": "Владение воинским оружием и тяжёлыми доспехами.", "textEn": "Proficiency with martial weapons and heavy armor.", "proficiencies": ["martial-weapons", "heavy-armor"] },
+        { "level": 1, "name": { "en": "War Priest", "ru": "Боевой жрец" }, "text": "Совершив действие «Атака», бонусным действием атакуйте оружием ещё раз. Мод. МДР раз (минимум 1) до долгого отдыха.", "textEn": "When you take the Attack action, you can make one weapon attack as a bonus action. WIS modifier times (minimum 1) per long rest." },
+        { "level": 2, "name": { "en": "Channel Divinity: Guided Strike", "ru": "Божественный канал: направленный удар" }, "text": "+10 к одному броску атаки.", "textEn": "+10 to one attack roll." },
+        { "level": 6, "name": { "en": "Channel Divinity: War God's Blessing", "ru": "Божественный канал: благословение бога войны" }, "text": "Реакцией дайте +10 к броску атаки существа в пределах 30 фт.", "textEn": "As a reaction, give +10 to an attack roll of a creature within 30 feet." },
+        { "level": 8, "name": { "en": "Divine Strike", "ru": "Божественный удар" }, "text": "Раз в ход попадание оружием наносит дополнительно 1к8 урона того же вида (2к8 с 14-го уровня).", "textEn": "Once per turn a weapon hit deals an extra 1d8 damage of the weapon's type (2d8 from level 14)." },
+        { "level": 17, "name": { "en": "Avatar of Battle", "ru": "Воплощение битвы" }, "text": "Сопротивление дробящему, колющему и рубящему урону от немагического оружия.", "textEn": "Resistance to bludgeoning, piercing and slashing damage from nonmagical weapons." }
+      ]
+    },
+    {
+      "id": "moon",
+      "classId": "druid",
+      "name": { "en": "Circle of the Moon", "ru": "Круг луны" },
+      "summary": "Друиды-оборотни, сражающиеся в облике зверей", "summaryEn": "Shapeshifting druids who fight in beast form",
+      "features": [
+        { "level": 2, "name": { "en": "Combat Wild Shape", "ru": "Боевой дикий облик" }, "text": "Дикий облик — бонусным действием. В облике бонусным действием потратьте ячейку: 1к8 хитов за круг ячейки.", "textEn": "Wild Shape as a bonus action. While transformed, spend a spell slot as a bonus action to regain 1d8 hit points per slot level." },
+        { "level": 2, "name": { "en": "Circle Forms", "ru": "Облики круга" }, "text": "Зверь с ПО до 1 (со 2-го уровня), с 6-го — ПО до трети уровня друида.", "textEn": "Beasts of CR up to 1 (from level 2), from level 6 up to one third of your druid level." },
+        { "level": 6, "name": { "en": "Primal Strike", "ru": "Первобытный удар" }, "text": "Атаки в облике зверя считаются магическими.", "textEn": "Your attacks in beast form count as magical." },
+        { "level": 10, "name": { "en": "Elemental Wild Shape", "ru": "Стихийный дикий облик" }, "text": "За два использования дикого облика — облик элементаля.", "textEn": "Spend two uses of Wild Shape to become an elemental." },
+        { "level": 14, "name": { "en": "Thousand Forms", "ru": "Тысяча обликов" }, "text": "«Смена обличья» — без ячейки, сколько угодно.", "textEn": "You can cast Alter Self at will." }
+      ]
+    },
+    {
+      "id": "battle-master",
+      "classId": "fighter",
+      "name": { "en": "Battle Master", "ru": "Мастер боевых искусств" },
+      "summary": "Тактик, владеющий боевыми приёмами", "summaryEn": "A tactician who uses combat maneuvers",
+      "features": [
+        { "level": 3, "name": { "en": "Combat Superiority", "ru": "Боевое превосходство" }, "text": "Три приёма; четыре кости превосходства к8 (ещё одна на 7-м и 15-м уровнях), восстанавливаются коротким отдыхом. СЛ приёмов — 8 + БМ + мод. СИЛ или ЛОВ. Новые приёмы на 7, 10 и 15 уровнях.", "textEn": "Three maneuvers; four d8 superiority dice (one more at levels 7 and 15), regained on a short rest. Maneuver DC = 8 + PB + STR or DEX modifier. More maneuvers at levels 7, 10 and 15." },
+        { "level": 3, "name": { "en": "Student of War", "ru": "Знаток войны" }, "text": "Владение одним видом инструментов ремесленника (добавьте в «Изменить»).", "textEn": "Proficiency with one type of artisan's tools (add it via Edit)." },
+        { "level": 7, "name": { "en": "Know Your Enemy", "ru": "Знай своего врага" }, "text": "Наблюдая минуту за существом, узнаёте, равно ли оно вам по двум характеристикам на выбор.", "textEn": "Observing a creature for a minute, you learn whether it is your equal in two characteristics of your choice." },
+        { "level": 10, "name": { "en": "Improved Combat Superiority", "ru": "Улучшенное превосходство" }, "text": "Кости превосходства — к10 (к12 с 18-го уровня).", "textEn": "Your superiority dice become d10s (d12s at level 18)." },
+        { "level": 15, "name": { "en": "Relentless", "ru": "Неумолимый" }, "text": "Если при броске инициативы костей превосходства нет, получаете одну.", "textEn": "If you have no superiority dice when you roll initiative, you regain one." }
+      ]
+    },
+    {
+      "id": "eldritch-knight",
+      "classId": "fighter",
+      "name": { "en": "Eldritch Knight", "ru": "Мистический рыцарь" },
+      "summary": "Воин, сочетающий оружие и магию волшебника", "summaryEn": "A warrior who combines weapons with wizard magic",
+      "features": [
+        { "level": 3, "name": { "en": "Spellcasting", "ru": "Использование заклинаний" }, "text": "Заклинания волшебника (в основном ограждение и воплощение), ИНТ. Приложение пока не считает ячейки и заклинания мистического рыцаря — ведите их вручную.", "textEn": "Wizard spells (mostly abjuration and evocation), INT. The app doesn't track Eldritch Knight slots and spells yet — keep them manually." },
+        { "level": 3, "name": { "en": "Weapon Bond", "ru": "Связь с оружием" }, "text": "Ритуалом свяжите до двух видов оружия: их нельзя выбить из рук, а бонусным действием можно призвать в руку.", "textEn": "Bond with up to two weapons by ritual: you can't be disarmed of them and can summon them to your hand as a bonus action." },
+        { "level": 7, "name": { "en": "War Magic", "ru": "Боевая магия" }, "text": "Сотворив заговор действием, бонусным действием атакуйте оружием.", "textEn": "When you cast a cantrip with your action, you can make a weapon attack as a bonus action." },
+        { "level": 10, "name": { "en": "Eldritch Strike", "ru": "Мистический удар" }, "text": "Попав оружием, даёте цели помеху на следующий спасбросок от вашего заклинания до конца следующего хода.", "textEn": "A weapon hit gives the target disadvantage on its next save against your spell before the end of your next turn." },
+        { "level": 15, "name": { "en": "Arcane Charge", "ru": "Мистический рывок" }, "text": "Используя «Всплеск действий», можете телепортироваться на 30 фт.", "textEn": "When you use Action Surge, you can teleport up to 30 feet." },
+        { "level": 18, "name": { "en": "Improved War Magic", "ru": "Улучшенная боевая магия" }, "text": "Сотворив заклинание действием, бонусным действием атакуйте оружием.", "textEn": "When you cast a spell with your action, you can make a weapon attack as a bonus action." }
+      ]
+    }
+  ]
+}

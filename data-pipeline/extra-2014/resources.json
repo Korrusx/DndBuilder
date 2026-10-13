@@ -1,7 +1,244 @@
 {
   "_comment": "Ресурсы черт и умений Player's Handbook 2014 (формат — extra/resources.json). По памяти — сверить с книгой.",
   "resources": [
-    { "id": "lucky", "name": { "en": "Luck Points", "ru": "Очки удачи" }, "features": "lucky", "max": { "fixed": 3 } },
-    { "id": "martial-adept-die", "name": { "en": "Superiority Die (Martial Adept)", "ru": "Кость превосходства (Мастер боевых искусств)" }, "features": "martial-adept", "max": { "fixed": 1 }, "die": { "fixed": 6 }, "short": "all" }
+    {
+      "id": "lucky",
+      "name": {
+        "en": "Luck Points",
+        "ru": "Очки удачи"
+      },
+      "features": "lucky",
+      "max": {
+        "fixed": 3
+      }
+    },
+    {
+      "id": "martial-adept-die",
+      "name": {
+        "en": "Superiority Die (Martial Adept)",
+        "ru": "Кость превосходства (Мастер боевых искусств)"
+      },
+      "features": "martial-adept",
+      "max": {
+        "fixed": 1
+      },
+      "die": {
+        "fixed": 6
+      },
+      "short": "all"
+    },
+    {
+      "id": "superiority-dice",
+      "name": {
+        "en": "Superiority Dice",
+        "ru": "Кости превосходства"
+      },
+      "features": "battle-master-combat-superiority",
+      "max": {
+        "byLevel": {
+          "3": 4,
+          "7": 5,
+          "15": 6
+        }
+      },
+      "classId": "fighter",
+      "die": {
+        "byLevel": {
+          "3": 8,
+          "10": 10,
+          "18": 12
+        }
+      },
+      "short": "all"
+    },
+    {
+      "id": "light-warding-flare",
+      "name": {
+        "en": "Warding Flare",
+        "ru": "Защитная вспышка"
+      },
+      "features": "light-warding-flare",
+      "max": {
+        "ability": "wis",
+        "min": 1
+      }
+    },
+    {
+      "id": "tempest-wrath-of-the-storm",
+      "name": {
+        "en": "Wrath of the Storm",
+        "ru": "Гнев бури"
+      },
+      "features": "tempest-wrath-of-the-storm",
+      "max": {
+        "ability": "wis",
+        "min": 1
+      }
+    },
+    {
+      "id": "war-war-priest",
+      "name": {
+        "en": "War Priest",
+        "ru": "Боевой жрец"
+      },
+      "features": "war-war-priest",
+      "max": {
+        "ability": "wis",
+        "min": 1
+      }
+    },
+    {
+      "id": "divination-portent",
+      "name": {
+        "en": "Portent",
+        "ru": "Знамение"
+      },
+      "features": "divination-portent",
+      "max": {
+        "byLevel": {
+          "2": 2,
+          "14": 3
+        }
+      },
+      "classId": "wizard"
+    },
+    {
+      "id": "archfey-fey-presence",
+      "name": {
+        "en": "Fey Presence",
+        "ru": "Фейское присутствие"
+      },
+      "features": "archfey-fey-presence",
+      "max": {
+        "fixed": 1
+      },
+      "short": "all"
+    },
+    {
+      "id": "archfey-misty-escape",
+      "name": {
+        "en": "Misty Escape",
+        "ru": "Туманное бегство"
+      },
+      "features": "archfey-misty-escape",
+      "max": {
+        "fixed": 1
+      },
+      "short": "all"
+    },
+    {
+      "id": "archfey-dark-delirium",
+      "name": {
+        "en": "Dark Delirium",
+        "ru": "Тёмный бред"
+      },
+      "features": "archfey-dark-delirium",
+      "max": {
+        "fixed": 1
+      },
+      "short": "all"
+    },
+    {
+      "id": "great-old-one-entropic-ward",
+      "name": {
+        "en": "Entropic Ward",
+        "ru": "Энтропийная защита"
+      },
+      "features": "great-old-one-entropic-ward",
+      "max": {
+        "fixed": 1
+      },
+      "short": "all"
+    },
+    {
+      "id": "conjuration-benign-transposition",
+      "name": {
+        "en": "Benign Transposition",
+        "ru": "Благоприятное перемещение"
+      },
+      "features": "conjuration-benign-transposition",
+      "max": {
+        "fixed": 1
+      }
+    },
+    {
+      "id": "illusion-illusory-self",
+      "name": {
+        "en": "Illusory Self",
+        "ru": "Иллюзорный двойник"
+      },
+      "features": "illusion-illusory-self",
+      "max": {
+        "fixed": 1
+      },
+      "short": "all"
+    },
+    {
+      "id": "transmutation-shapechanger",
+      "name": {
+        "en": "Shapechanger",
+        "ru": "Перевёртыш"
+      },
+      "features": "transmutation-shapechanger",
+      "max": {
+        "fixed": 1
+      },
+      "short": "all"
+    },
+    {
+      "id": "ancients-undying-sentinel",
+      "name": {
+        "en": "Undying Sentinel",
+        "ru": "Бессмертный страж"
+      },
+      "features": "ancients-undying-sentinel",
+      "max": {
+        "fixed": 1
+      }
+    },
+    {
+      "id": "ancients-elder-champion",
+      "name": {
+        "en": "Elder Champion",
+        "ru": "Древний защитник"
+      },
+      "features": "ancients-elder-champion",
+      "max": {
+        "fixed": 1
+      }
+    },
+    {
+      "id": "vengeance-avenging-angel",
+      "name": {
+        "en": "Avenging Angel",
+        "ru": "Ангел мщения"
+      },
+      "features": "vengeance-avenging-angel",
+      "max": {
+        "fixed": 1
+      }
+    },
+    {
+      "id": "wild-magic-tides-of-chaos",
+      "name": {
+        "en": "Tides of Chaos",
+        "ru": "Волны хаоса"
+      },
+      "features": "wild-magic-tides-of-chaos",
+      "max": {
+        "fixed": 1
+      }
+    },
+    {
+      "id": "arcane-trickster-spell-thief",
+      "name": {
+        "en": "Spell Thief",
+        "ru": "Похититель заклинаний"
+      },
+      "features": "arcane-trickster-spell-thief",
+      "max": {
+        "fixed": 1
+      }
+    }
   ]
 }

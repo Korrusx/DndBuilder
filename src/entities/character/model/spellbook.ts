@@ -41,7 +41,13 @@ export function spellbookOptions(c: Character, content: Content, circle: number)
 
 /** Из чего можно готовить заклинания этого круга: у волшебника — из книги, у других — весь список класса. */
 export function preparableSpells(c: Character, content: Content, classId: string, circle: number): string[] {
-  if (classId !== 'wizard') return spellOptions(classId, circle, content);
+  if (classId !== 'wizard') {
+    // 2014: расширенный список покровителя колдуна — к заклинаниям класса.
+    const idx = indexOf(content);
+    const sub = idx.subclasses.get(c.classes.find((e) => e.classId === classId)?.subclassId ?? '');
+    const expanded = (sub?.expandedSpells ?? []).filter((id) => idx.spells.get(id)?.level === circle);
+    return [...new Set([...spellOptions(classId, circle, content), ...expanded])];
+  }
   const spells = indexOf(content).spells;
   return spellbook(c).filter((id) => spells.get(id)?.level === circle);
 }

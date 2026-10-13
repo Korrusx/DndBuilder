@@ -19,10 +19,11 @@ import type {
   ProficiencyType,
   Species,
   Spell,
+  Subclass,
   Subspecies,
   Trait,
 } from '../src/shared/content/types.ts';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 import {
@@ -247,7 +248,18 @@ async function build(): Promise<Omit<Content, 'version'>> {
     };
   });
 
-  const subclasses = (await raw('subclasses')).map((s) => {
+  // Механика SRD 5.1, которой нет в данных API: владения от умений подклассов.
+  const FEATURE_PATCHES: Record<string, Partial<Feature>> = {
+    // Домен жизни: «Дополнительное владение» — тяжёлые доспехи.
+    'bonus-proficiency': { proficiencies: ['heavy-armor'] },
+    // Коллегия знаний: «Дополнительные владения» — три любых навыка.
+    'bonus-proficiencies': {
+      proficiencyChoices: [{ choose: 3, options: proficiencies.filter((p) => p.type === 'skill').map((p) => ({ kind: 'ref', id: p.id })) }],
+    },
+  };
+  for (const f of features) Object.assign(f, FEATURE_PATCHES[f.id] ?? {});
+
+  const subclasses: Subclass[] = (await raw('subclasses')).map((s) => {
     const key = `subclass.${s.index}`;
     const own = features.filter((f) => f.subclassId === s.index).sort((a, b) => a.level - b.level);
     const description = paragraphs(s.desc);
@@ -264,7 +276,8 @@ async function build(): Promise<Omit<Content, 'version'>> {
       summary: tx(`${key}.summary`, description.split(/(?<=\.)\s/)[0] ?? ''),
       description: tx(`${key}.description`, description),
       features: own.map((f) => f.id),
-      ...(spells.length ? { spells } : {}),
+      // У колдуна «заклинания» подкласса — расширенный список, а не всегда подготовленные.
+      ...(spells.length ? (s.class.index === 'warlock' ? { expandedSpells: spells.map((x: { id: string }) => x.id) } : { spells }) : {}),
     };
   });
 
@@ -378,7 +391,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
   });
 
   // --- Механика PHB 2014 (data-pipeline/extra-2014) ---
-  const extra = await readExtra(proficiencies, equipmentCategoriesRaw, languages.map((l) => l.id));
+  const extra = await readExtra(proficiencies, equipmentCategoriesRaw, languages.map((l) => l.id), (await raw('spells')).map((s) => s.index));
   backgrounds.push(...extra.backgrounds);
   feats.push(...extra.feats);
   species.push(...extra.species);
@@ -387,6 +400,11 @@ async function build(): Promise<Omit<Content, 'version'>> {
     species.find((s) => s.id === sub.speciesId)?.subspecies.push(sub.id);
   }
   traits.push(...extra.traits);
+  features.push(...extra.features);
+  for (const sc of extra.subclasses) {
+    subclasses.push(sc);
+    classes.find((c) => c.id === sc.classId)?.subclasses.push(sc.id);
+  }
   for (const [id, patch] of extra.traitPatches) {
     const t = traits.find((x) => x.id === id);
     if (!t) warn(`extra-2014: нет особенности ${id}`);
@@ -579,7 +597,12 @@ type ExtraProfChoice = {
   descEn?: string;
 };
 
-async function readExtra(proficiencies: { id: string; type: ProficiencyType; refId?: string }[], categories: Raw[], languageIds: string[]) {
+async function readExtra(
+  proficiencies: { id: string; type: ProficiencyType; refId?: string }[],
+  categories: Raw[],
+  languageIds: string[],
+  spellList: string[],
+) {
   const read = async (name: string) => JSON.parse(await readFile(join(EXTRA_DIR, `${name}.json`), 'utf8'));
   const gamingSets = new Set(ids(categories.find((c) => c.index === 'gaming-sets')?.equipment));
   const anyLanguage = (choose: number): Choice => ({ choose, options: languageIds.map((id) => ({ kind: 'ref', id })) });
@@ -718,7 +741,46 @@ async function readExtra(proficiencies: { id: string; type: ProficiencyType; ref
     };
   });
 
-  return { backgrounds, species, subspecies, traits, traitPatches, feats };
+  // Подклассы: extra-2014/subclasses-*.json; id умения — `<подкласс>-<название по-английски>`.
+  const spellIds = new Set(spellList);
+  const subclasses: Subclass[] = [];
+  const features: Feature[] = [];
+  for (const file of (await readdir(EXTRA_DIR)).filter((f) => /^subclasses.*\.json$/.test(f)).sort()) {
+    for (const sc of JSON.parse(await readFile(join(EXTRA_DIR, file), 'utf8')).subclasses as Raw[]) {
+      const featureIds: string[] = [];
+      for (const f of sc.features as Raw[]) {
+        const id = `${sc.id}-${slug(f.name.en)}`;
+        featureIds.push(id);
+        features.push({
+          id,
+          classId: sc.classId,
+          subclassId: sc.id,
+          level: f.level,
+          name: seeded(`feature.${id}.name`, f.name.en, f.name.ru),
+          description: seeded(`feature.${id}.description`, f.textEn, f.text),
+          ...(f.proficiencies ? { proficiencies: f.proficiencies } : {}),
+          ...(f.proficiencyChoices
+            ? { proficiencyChoices: f.proficiencyChoices.map((c: ExtraProfChoice, i: number) => profChoice(c, `умение ${id}`, `feature.${id}.proficiencyChoice.${i}`)) }
+            : {}),
+          extra: true,
+        });
+      }
+      const known = (id: string) => spellIds.has(id) || (warn(`${sc.id}: нет заклинания ${id}`), false);
+      subclasses.push({
+        id: sc.id,
+        classId: sc.classId,
+        name: seeded(`subclass.${sc.id}.name`, sc.name.en, sc.name.ru),
+        summary: seeded(`subclass.${sc.id}.summary`, sc.summaryEn, sc.summary),
+        description: seeded(`subclass.${sc.id}.description`, sc.summaryEn, sc.summary),
+        features: featureIds,
+        ...(sc.spells ? { spells: (sc.spells as [string, number][]).filter(([id]) => known(id)).map(([id, level]) => ({ id, level })) } : {}),
+        ...(sc.expandedSpells ? { expandedSpells: (sc.expandedSpells as string[]).filter(known) } : {}),
+        extra: true,
+      });
+    }
+  }
+
+  return { backgrounds, species, subspecies, traits, traitPatches, feats, subclasses, features };
 }
 
 /** Ресурсы умений (ярость, ки, вдохновение…): srd-2014/resources.json. */

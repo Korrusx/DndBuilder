@@ -7,7 +7,7 @@ import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_LANGUAGES, FEATURE_OPTIONS, SPELLCA
 import { newDraftCharacter } from './character';
 import { choice1 } from './choices';
 import { abilityModifier } from './abilities';
-import { finalAbilityScores, makeProficiencyCheck, proficiencyIds } from './sheet';
+import { classFeatureIdsAt, finalAbilityScores, makeProficiencyCheck, proficiencyIds } from './sheet';
 import type { Character, EquipmentSource, InventoryItem, OriginFeat, OriginFeatSlot, ProficiencySlot, SpellLimits } from './types';
 
 // ---------- Справочник ----------
@@ -128,6 +128,13 @@ export function proficiencySlots(c: Character, content: Content): ProficiencySlo
   background?.proficiencyChoices.forEach((ch, i) =>
     slots.push({ key: CHOICE_KEYS.backgroundProf(background.id, i), source: 'background', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
   );
+  // 2014: умения 1-го уровня класса и подкласса с владениями на выбор (домен знаний, домен природы).
+  const first = c.classes[0];
+  for (const featureId of first ? classFeatureIdsAt({ ...first, level: 1 }, content) : []) {
+    indexOf(content).features.get(featureId)?.proficiencyChoices?.forEach((ch, i) =>
+      slots.push({ key: `feature.${featureId}.prof.${i}`, source: 'class', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
+    );
+  }
   for (const traitId of speciesTraitIds(c, content)) {
     indexOf(content).traits.get(traitId)?.proficiencyChoices?.forEach((ch, i) =>
       slots.push({ key: CHOICE_KEYS.traitProf(traitId, i), source: 'species', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),

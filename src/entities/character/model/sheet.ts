@@ -13,7 +13,7 @@ import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack 
 import { effectsOf } from './effects';
 import { maxHpWithExhaustion } from './play';
 import { characterPactSlots, characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
-import type { AbilityScores, Character, CharacterSheet, Effect, SourcedId, WeaponAttack } from './types';
+import type { AbilityScores, Character, CharacterSheet, ClassEntry, Effect, SourcedId, WeaponAttack } from './types';
 
 function need<T>(map: ReadonlyMap<string, T>, id: string, what: 'background' | 'species' | 'subspecies' | 'class' | 'subclass'): T {
   const x = map.get(id);
@@ -47,6 +47,14 @@ function originFeatIncrease(c: Character, content: Content): Partial<AbilityScor
   const feat = indexOf(content).feats.get(c.choices[CHOICE_KEYS.versatileFeat]?.[0] ?? '');
   const ability = c.choices[CHOICE_KEYS.versatileAbility]?.[0] as AbilityId | undefined;
   return feat?.abilityIncrease && ability && feat.abilityIncrease.abilities.includes(ability) ? { [ability]: 1 } : {};
+}
+
+/** Умения класса и его подкласса на уровне этого класса. */
+export function classFeatureIdsAt(e: ClassEntry, content: Content): string[] {
+  const idx = indexOf(content);
+  const own = idx.classes.get(e.classId)?.levels.slice(0, e.level).flatMap((r) => r.features) ?? [];
+  const sub = e.subclassId ? (idx.subclasses.get(e.subclassId)?.features ?? []).filter((id) => (idx.features.get(id)?.level ?? 99) <= e.level) : [];
+  return [...own, ...sub];
 }
 
 /** 2014: спасброски от черт («Устойчивый» — характеристика, к которой прибавка). */
@@ -93,6 +101,8 @@ export function proficiencyIds(c: Character, content: Content): Set<string> {
       return (i === 0 ? cls?.proficiencies : cls?.multiclass.proficiencies) ?? [];
     }),
     ...(background?.proficiencies ?? []),
+    // 2014: владения от умений классов и подклассов («Дополнительное владение» домена жизни).
+    ...c.classes.flatMap((e) => classFeatureIdsAt(e, content)).flatMap((id) => idx.features.get(id)?.proficiencies ?? []),
     // 2014: владения от особенностей расы («Острые чувства» — Восприятие, «Обучение эльфийскому оружию»).
     ...speciesTraitIdsAt(c, content, totalLevel(c.classes)).flatMap((id) => idx.traits.get(id)?.proficiencies ?? []),
     ...c.toolProficiencies,

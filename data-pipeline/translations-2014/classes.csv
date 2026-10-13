@@ -1174,6 +1174,364 @@ subclass.open-hand.description,"Monks of the Way of the Open Hand are the ultima
 subclass.thief.name,Thief,Вор,draft
 subclass.thief.summary,You hone your skills in the larcenous arts.,,todo
 subclass.thief.description,"You hone your skills in the larcenous arts. Burglars, bandits, cutpurses, and other criminals typically follow this archetype, but so do rogues who prefer to think of themselves as professional treasure seekers, explorers, delvers, and investigators. In addition to improving your agility and stealth, you learn skills useful for delving into ancient ruins, reading unfamiliar languages, and using magic items you normally couldn't employ.",,todo
+feature.totem-warrior-spirit-seeker.name,Spirit Seeker,Искатель духов,draft
+feature.totem-warrior-spirit-seeker.description,"You can cast Beast Sense and Speak with Animals, but only as rituals.",Вы можете творить «Чувство зверя» и «Разговор с животными» только как ритуалы.,draft
+feature.totem-warrior-totem-spirit.name,Totem Spirit,Дух тотема,draft
+feature.totem-warrior-totem-spirit.description,"Choose a totem. Bear: while raging, resistance to all damage except psychic. Eagle: while raging without heavy armor, opportunity attacks against you have disadvantage and you can Dash as a bonus action. Wolf: while raging, allies have advantage on melee attacks against enemies within 5 feet of you.","Выберите тотем. Медведь: в ярости сопротивление всему урону, кроме психического. Орёл: в ярости без тяжёлого доспеха атаки по возможности против вас с помехой, рывок — бонусным действием. Волк: в ярости союзники получают преимущество на рукопашные атаки по врагам рядом с вами.",draft
+feature.totem-warrior-aspect-of-the-beast.name,Aspect of the Beast,Облик зверя,draft
+feature.totem-warrior-aspect-of-the-beast.description,"Bear: double carrying capacity, advantage on STR checks to push, pull, lift or break. Eagle: you see up to a mile, dim light doesn't hinder Perception. Wolf: track at a fast pace and move stealthily at a normal pace.","Медведь: грузоподъёмность вдвое больше, преимущество на проверки СИЛ толкания и поднятия. Орёл: видите на милю, тусклый свет не мешает Восприятию. Волк: выслеживаете на быстром темпе, крадётесь на обычном.",draft
+feature.totem-warrior-spirit-walker.name,Spirit Walker,Странник духов,draft
+feature.totem-warrior-spirit-walker.description,You can cast Commune with Nature as a ritual.,Вы можете творить «Общение с природой» как ритуал.,draft
+feature.totem-warrior-totemic-attunement.name,Totemic Attunement,Тотемная настройка,draft
+feature.totem-warrior-totemic-attunement.description,"Bear: while raging, nearby enemies have disadvantage attacking anyone but you. Eagle: while raging you fly at your walking speed. Wolf: while raging, after a melee hit you can knock a Large or smaller creature prone as a bonus action.","Медведь: в ярости враги рядом с помехой атакуют не вас. Орёл: в ярости летаете со скоростью ходьбы. Волк: в ярости, попав рукопашной атакой, бонусным действием сбиваете Большое или меньшее существо с ног.",draft
+subclass.totem-warrior.name,Path of the Totem Warrior,Путь тотемного воина,draft
+subclass.totem-warrior.summary,A rage fuelled by a totem animal spirit,"Ярость, которую питает дух зверя-тотема",draft
+subclass.totem-warrior.description,A rage fuelled by a totem animal spirit,"Ярость, которую питает дух зверя-тотема",draft
+feature.valor-bonus-proficiencies.name,Bonus Proficiencies,Дополнительные владения,draft
+feature.valor-bonus-proficiencies.description,"Proficiency with medium armor, shields and martial weapons.","Владение средними доспехами, щитами и воинским оружием.",draft
+feature.valor-combat-inspiration.name,Combat Inspiration,Боевое вдохновение,draft
+feature.valor-combat-inspiration.description,"A creature with your inspiration die can add it to weapon damage, or use its reaction to add it to AC against one attack.",Кость вашего вдохновения можно прибавить к урону оружием или реакцией — к КЗ против одной атаки.,draft
+feature.valor-extra-attack.name,Extra Attack,Дополнительная атака,draft
+feature.valor-extra-attack.description,You attack twice when you take the Attack action.,Действием «Атака» вы атакуете дважды.,draft
+feature.valor-battle-magic.name,Battle Magic,Боевая магия,draft
+feature.valor-battle-magic.description,"When you use your action to cast a spell, you can make one weapon attack as a bonus action.","Сотворив заклинание действием, бонусным действием можете атаковать оружием.",draft
+subclass.valor.name,College of Valor,Коллегия доблести,draft
+subclass.valor.summary,Skalds who inspire heroes in battle,"Скальды, вдохновляющие героев в бою",draft
+subclass.valor.description,Skalds who inspire heroes in battle,"Скальды, вдохновляющие героев в бою",draft
+feature.knowledge-blessings-of-knowledge.name,Blessings of Knowledge,Благословения знаний,draft
+feature.knowledge-blessings-of-knowledge.description,"Two languages of your choice (add them via Edit) and proficiency in two of Arcana, History, Nature and Religion, with expertise in them.","Два языка на выбор (добавьте в «Изменить») и владение двумя навыками из Магии, Истории, Природы и Религии с компетентностью в них.",draft
+feature.knowledge-blessings-of-knowledge.proficiencyChoice.0.desc,Two skills (with expertise),Два навыка (с компетентностью),draft
+feature.knowledge-channel-divinity-knowledge-of-the-ages.name,Channel Divinity: Knowledge of the Ages,Божественный канал: знание веков,draft
+feature.knowledge-channel-divinity-knowledge-of-the-ages.description,For 10 minutes you gain proficiency with one skill or tool of your choice.,На 10 минут владение одним навыком или инструментом на выбор.,draft
+feature.knowledge-channel-divinity-read-thoughts.name,Channel Divinity: Read Thoughts,Божественный канал: чтение мыслей,draft
+feature.knowledge-channel-divinity-read-thoughts.description,A creature within 60 feet makes a WIS save; on a failure you read its surface thoughts and can cast Suggestion on it without a slot.,Существо в пределах 60 фт проходит спасбросок МДР; при провале вы читаете его поверхностные мысли и можете сотворить на него «Внушение» без ячейки.,draft
+feature.knowledge-potent-spellcasting.name,Potent Spellcasting,Мощное колдовство,draft
+feature.knowledge-potent-spellcasting.description,Add your WIS modifier to the damage of your cleric cantrips.,К урону заговоров жреца прибавляется мод. МДР.,draft
+feature.knowledge-visions-of-the-past.name,Visions of the Past,Видения прошлого,draft
+feature.knowledge-visions-of-the-past.description,Through meditation you see visions of an object's or area's past.,"Медитируя, вы видите прошлое предмета или места.",draft
+subclass.knowledge.name,Knowledge Domain,Домен знаний,draft
+subclass.knowledge.summary,Priests of gods of knowledge and secrets,Жрецы богов знания и тайн,draft
+subclass.knowledge.description,Priests of gods of knowledge and secrets,Жрецы богов знания и тайн,draft
+feature.light-bonus-cantrip.name,Bonus Cantrip,Дополнительный заговор,draft
+feature.light-bonus-cantrip.description,You know the Light cantrip.,Вы знаете заговор «Свет».,draft
+feature.light-warding-flare.name,Warding Flare,Защитная вспышка,draft
+feature.light-warding-flare.description,"As a reaction, impose disadvantage on an attack by a creature you can see within 30 feet. WIS modifier times (minimum 1) per long rest.",Реакцией дайте помеху на атаку видимого вами существа в пределах 30 фт. Число раз — мод. МДР (минимум 1) до долгого отдыха.,draft
+feature.light-channel-divinity-radiance-of-the-dawn.name,Channel Divinity: Radiance of the Dawn,Божественный канал: сияние рассвета,draft
+feature.light-channel-divinity-radiance-of-the-dawn.description,"Magical darkness within 30 feet is dispelled; hostile creatures there make a CON save: 2d10 + cleric level radiant damage, half on a success.","Магическая тьма в пределах 30 фт рассеивается; враги там проходят спасбросок ТЕЛ: 2к10 + уровень жреца урона излучением, при успехе половина.",draft
+feature.light-improved-flare.name,Improved Flare,Улучшенная вспышка,draft
+feature.light-improved-flare.description,You can use Warding Flare to protect other creatures too.,«Защитную вспышку» можно использовать и для союзников.,draft
+feature.light-potent-spellcasting.name,Potent Spellcasting,Мощное колдовство,draft
+feature.light-potent-spellcasting.description,Add your WIS modifier to the damage of your cleric cantrips.,К урону заговоров жреца прибавляется мод. МДР.,draft
+feature.light-corona-of-light.name,Corona of Light,Корона света,draft
+feature.light-corona-of-light.description,"As an action, an aura of sunlight for a minute; enemies in it have disadvantage on saves against fire and radiant.",Действием — аура яркого света на минуту; враги в ней с помехой на спасброски от огня и излучения.,draft
+subclass.light.name,Light Domain,Домен света,draft
+subclass.light.summary,Priests of sun and fire who drive back darkness,"Жрецы солнца и огня, разгоняющие тьму",draft
+subclass.light.description,Priests of sun and fire who drive back darkness,"Жрецы солнца и огня, разгоняющие тьму",draft
+feature.nature-acolyte-of-nature.name,Acolyte of Nature,Послушник природы,draft
+feature.nature-acolyte-of-nature.description,"One druid cantrip (add it via Edit spells) and proficiency in Animal Handling, Nature or Survival.","Один заговор друида (добавьте в «Изменить заклинания») и владение Уходом за животными, Природой или Выживанием.",draft
+feature.nature-acolyte-of-nature.proficiencyChoice.0.desc,Skill,Навык,draft
+feature.nature-bonus-proficiency.name,Bonus Proficiency,Дополнительное владение,draft
+feature.nature-bonus-proficiency.description,Proficiency with heavy armor.,Владение тяжёлыми доспехами.,draft
+feature.nature-channel-divinity-charm-animals-and-plants.name,Channel Divinity: Charm Animals and Plants,Божественный канал: очарование зверей и растений,draft
+feature.nature-channel-divinity-charm-animals-and-plants.description,Beasts and plants within 30 feet make a WIS save or are charmed by you for a minute.,Звери и растения в пределах 30 фт проходят спасбросок МДР; при провале очарованы вами на минуту.,draft
+feature.nature-dampen-elements.name,Dampen Elements,Смягчение стихий,draft
+feature.nature-dampen-elements.description,"As a reaction, grant resistance to acid, cold, fire, lightning or thunder damage to yourself or a creature within 30 feet.","Реакцией дайте сопротивление урону кислотой, холодом, огнём, электричеством или звуком себе или существу в пределах 30 фт.",draft
+feature.nature-divine-strike.name,Divine Strike,Божественный удар,draft
+feature.nature-divine-strike.description,"Once per turn a weapon hit deals an extra 1d8 cold, fire or lightning damage (2d8 from level 14).","Раз в ход попадание оружием наносит дополнительно 1к8 урона холодом, огнём или электричеством (2к8 с 14-го уровня).",draft
+feature.nature-master-of-nature.name,Master of Nature,Повелитель природы,draft
+feature.nature-master-of-nature.description,You can command charmed beasts and plants as a bonus action.,Бонусным действием командуйте очарованными зверями и растениями.,draft
+subclass.nature.name,Nature Domain,Домен природы,draft
+subclass.nature.summary,"Priests of gods of nature, beasts and plants","Жрецы богов природы, зверей и растений",draft
+subclass.nature.description,"Priests of gods of nature, beasts and plants","Жрецы богов природы, зверей и растений",draft
+feature.tempest-bonus-proficiencies.name,Bonus Proficiencies,Дополнительные владения,draft
+feature.tempest-bonus-proficiencies.description,Proficiency with martial weapons and heavy armor.,Владение воинским оружием и тяжёлыми доспехами.,draft
+feature.tempest-wrath-of-the-storm.name,Wrath of the Storm,Гнев бури,draft
+feature.tempest-wrath-of-the-storm.description,"When a creature within 5 feet hits you, as a reaction it makes a DEX save: 2d8 thunder or lightning damage, half on a success. WIS modifier times (minimum 1) per long rest.","Когда существо в пределах 5 фт попадает по вам, реакцией: спасбросок ЛОВ, 2к8 урона звуком или электричеством, при успехе половина. Мод. МДР раз (минимум 1) до долгого отдыха.",draft
+feature.tempest-channel-divinity-destructive-wrath.name,Channel Divinity: Destructive Wrath,Божественный канал: разрушительный гнев,draft
+feature.tempest-channel-divinity-destructive-wrath.description,"When you roll lightning or thunder damage, deal maximum damage instead.","Бросая урон звуком или электричеством, используйте максимум вместо броска.",draft
+feature.tempest-thunderbolt-strike.name,Thunderbolt Strike,Удар грома,draft
+feature.tempest-thunderbolt-strike.description,"When you deal lightning damage to a Large or smaller creature, you can push it up to 10 feet.","Нанося урон электричеством существу Большому или меньше, можете оттолкнуть его на 10 фт.",draft
+feature.tempest-divine-strike.name,Divine Strike,Божественный удар,draft
+feature.tempest-divine-strike.description,Once per turn a weapon hit deals an extra 1d8 thunder damage (2d8 from level 14).,Раз в ход попадание оружием наносит дополнительно 1к8 урона звуком (2к8 с 14-го уровня).,draft
+feature.tempest-stormborn.name,Stormborn,Рождённый бурей,draft
+feature.tempest-stormborn.description,You have a flying speed equal to your walking speed when outdoors.,Вне помещений вы летаете со скоростью ходьбы.,draft
+subclass.tempest.name,Tempest Domain,Домен бури,draft
+subclass.tempest.summary,"Priests of gods of thunder, sea and sky","Жрецы богов грома, моря и неба",draft
+subclass.tempest.description,"Priests of gods of thunder, sea and sky","Жрецы богов грома, моря и неба",draft
+feature.trickery-blessing-of-the-trickster.name,Blessing of the Trickster,Благословение обманщика,draft
+feature.trickery-blessing-of-the-trickster.description,"As an action, give another creature advantage on Stealth checks for an hour.",Действием дайте другому существу преимущество на проверки Скрытности на час.,draft
+feature.trickery-channel-divinity-invoke-duplicity.name,Channel Divinity: Invoke Duplicity,Божественный канал: двойник,draft
+feature.trickery-channel-divinity-invoke-duplicity.description,An illusory duplicate for a minute (concentration): you can cast spells from its space and have advantage on attacks against creatures near it.,"Иллюзорный двойник на минуту (концентрация): можете творить заклинания из его места, преимущество на атаки по существам рядом с ним.",draft
+feature.trickery-channel-divinity-cloak-of-shadows.name,Channel Divinity: Cloak of Shadows,Божественный канал: покров теней,draft
+feature.trickery-channel-divinity-cloak-of-shadows.description,You become invisible until the end of your next turn.,Вы становитесь невидимым до конца следующего хода.,draft
+feature.trickery-divine-strike.name,Divine Strike,Божественный удар,draft
+feature.trickery-divine-strike.description,Once per turn a weapon hit deals an extra 1d8 poison damage (2d8 from level 14).,Раз в ход попадание оружием наносит дополнительно 1к8 урона ядом (2к8 с 14-го уровня).,draft
+feature.trickery-improved-duplicity.name,Improved Duplicity,Улучшенный двойник,draft
+feature.trickery-improved-duplicity.description,Invoke Duplicity creates up to four duplicates.,«Двойник» создаёт до четырёх копий.,draft
+subclass.trickery.name,Trickery Domain,Домен обмана,draft
+subclass.trickery.summary,Priests of trickster gods,Жрецы богов-плутов и обманщиков,draft
+subclass.trickery.description,Priests of trickster gods,Жрецы богов-плутов и обманщиков,draft
+feature.war-bonus-proficiencies.name,Bonus Proficiencies,Дополнительные владения,draft
+feature.war-bonus-proficiencies.description,Proficiency with martial weapons and heavy armor.,Владение воинским оружием и тяжёлыми доспехами.,draft
+feature.war-war-priest.name,War Priest,Боевой жрец,draft
+feature.war-war-priest.description,"When you take the Attack action, you can make one weapon attack as a bonus action. WIS modifier times (minimum 1) per long rest.","Совершив действие «Атака», бонусным действием атакуйте оружием ещё раз. Мод. МДР раз (минимум 1) до долгого отдыха.",draft
+feature.war-channel-divinity-guided-strike.name,Channel Divinity: Guided Strike,Божественный канал: направленный удар,draft
+feature.war-channel-divinity-guided-strike.description,+10 to one attack roll.,+10 к одному броску атаки.,draft
+feature.war-channel-divinity-war-god-s-blessing.name,Channel Divinity: War God's Blessing,Божественный канал: благословение бога войны,draft
+feature.war-channel-divinity-war-god-s-blessing.description,"As a reaction, give +10 to an attack roll of a creature within 30 feet.",Реакцией дайте +10 к броску атаки существа в пределах 30 фт.,draft
+feature.war-divine-strike.name,Divine Strike,Божественный удар,draft
+feature.war-divine-strike.description,Once per turn a weapon hit deals an extra 1d8 damage of the weapon's type (2d8 from level 14).,Раз в ход попадание оружием наносит дополнительно 1к8 урона того же вида (2к8 с 14-го уровня).,draft
+feature.war-avatar-of-battle.name,Avatar of Battle,Аватар битвы,draft
+feature.war-avatar-of-battle.description,"Resistance to bludgeoning, piercing and slashing damage from nonmagical weapons.","Сопротивление дробящему, колющему и рубящему урону от немагического оружия.",draft
+subclass.war.name,War Domain,Домен войны,draft
+subclass.war.summary,Priests of gods of war and valor,Жрецы богов войны и доблести,draft
+subclass.war.description,Priests of gods of war and valor,Жрецы богов войны и доблести,draft
+feature.moon-combat-wild-shape.name,Combat Wild Shape,Боевой дикий облик,draft
+feature.moon-combat-wild-shape.description,"Wild Shape as a bonus action. While transformed, spend a spell slot as a bonus action to regain 1d8 hit points per slot level.",Дикий облик — бонусным действием. В облике бонусным действием потратьте ячейку: 1к8 хитов за круг ячейки.,draft
+feature.moon-circle-forms.name,Circle Forms,Облики круга,draft
+feature.moon-circle-forms.description,"Beasts of CR up to 1 (from level 2), from level 6 up to one third of your druid level.","Зверь с ПО до 1 (со 2-го уровня), с 6-го — ПО до трети уровня друида.",draft
+feature.moon-primal-strike.name,Primal Strike,Первобытный удар,draft
+feature.moon-primal-strike.description,Your attacks in beast form count as magical.,Атаки в облике зверя считаются магическими.,draft
+feature.moon-elemental-wild-shape.name,Elemental Wild Shape,Стихийный дикий облик,draft
+feature.moon-elemental-wild-shape.description,Spend two uses of Wild Shape to become an elemental.,За два использования дикого облика — облик элементаля.,draft
+feature.moon-thousand-forms.name,Thousand Forms,Тысяча обликов,draft
+feature.moon-thousand-forms.description,You can cast Alter Self at will.,"«Смена обличья» — без ячейки, сколько угодно.",draft
+subclass.moon.name,Circle of the Moon,Круг луны,draft
+subclass.moon.summary,Shapeshifting druids who fight in beast form,"Друиды-оборотни, сражающиеся в облике зверей",draft
+subclass.moon.description,Shapeshifting druids who fight in beast form,"Друиды-оборотни, сражающиеся в облике зверей",draft
+feature.battle-master-combat-superiority.name,Combat Superiority,Боевое превосходство,draft
+feature.battle-master-combat-superiority.description,"Three maneuvers; four d8 superiority dice (one more at levels 7 and 15), regained on a short rest. Maneuver DC = 8 + PB + STR or DEX modifier. More maneuvers at levels 7, 10 and 15.","Три приёма; четыре кости превосходства к8 (ещё одна на 7-м и 15-м уровнях), восстанавливаются коротким отдыхом. СЛ приёмов — 8 + БМ + мод. СИЛ или ЛОВ. Новые приёмы на 7, 10 и 15 уровнях.",draft
+feature.battle-master-student-of-war.name,Student of War,Ученик войны,draft
+feature.battle-master-student-of-war.description,Proficiency with one type of artisan's tools (add it via Edit).,Владение одним видом инструментов ремесленника (добавьте в «Изменить»).,draft
+feature.battle-master-know-your-enemy.name,Know Your Enemy,Знай своего врага,draft
+feature.battle-master-know-your-enemy.description,"Observing a creature for a minute, you learn whether it is your equal in two characteristics of your choice.","Наблюдая минуту за существом, узнаёте, равно ли оно вам по двум характеристикам на выбор.",draft
+feature.battle-master-improved-combat-superiority.name,Improved Combat Superiority,Улучшенное боевое превосходство,draft
+feature.battle-master-improved-combat-superiority.description,Your superiority dice become d10s (d12s at level 18).,Кости превосходства — к10 (к12 с 18-го уровня).,draft
+feature.battle-master-relentless.name,Relentless,Неумолимость,draft
+feature.battle-master-relentless.description,"If you have no superiority dice when you roll initiative, you regain one.","Если при броске инициативы костей превосходства нет, получаете одну.",draft
+subclass.battle-master.name,Battle Master,Мастер боевых искусств,draft
+subclass.battle-master.summary,A tactician who uses combat maneuvers,"Тактик, владеющий боевыми приёмами",draft
+subclass.battle-master.description,A tactician who uses combat maneuvers,"Тактик, владеющий боевыми приёмами",draft
+feature.eldritch-knight-spellcasting.name,Spellcasting,Использование заклинаний,draft
+feature.eldritch-knight-spellcasting.description,"Wizard spells (mostly abjuration and evocation), INT. The app doesn't track Eldritch Knight slots and spells yet — keep them manually.","Заклинания волшебника (в основном ограждение и воплощение), ИНТ. Приложение пока не считает ячейки и заклинания мистического рыцаря — ведите их вручную.",draft
+feature.eldritch-knight-weapon-bond.name,Weapon Bond,Связь с оружием,draft
+feature.eldritch-knight-weapon-bond.description,Bond with up to two weapons by ritual: you can't be disarmed of them and can summon them to your hand as a bonus action.,"Ритуалом свяжите до двух видов оружия: их нельзя выбить из рук, а бонусным действием можно призвать в руку.",draft
+feature.eldritch-knight-war-magic.name,War Magic,Боевая магия,draft
+feature.eldritch-knight-war-magic.description,"When you cast a cantrip with your action, you can make a weapon attack as a bonus action.","Сотворив заговор действием, бонусным действием атакуйте оружием.",draft
+feature.eldritch-knight-eldritch-strike.name,Eldritch Strike,Мистический удар,draft
+feature.eldritch-knight-eldritch-strike.description,A weapon hit gives the target disadvantage on its next save against your spell before the end of your next turn.,"Попав оружием, даёте цели помеху на следующий спасбросок от вашего заклинания до конца следующего хода.",draft
+feature.eldritch-knight-arcane-charge.name,Arcane Charge,Магический рывок,draft
+feature.eldritch-knight-arcane-charge.description,"When you use Action Surge, you can teleport up to 30 feet.","Используя «Всплеск действий», можете телепортироваться на 30 фт.",draft
+feature.eldritch-knight-improved-war-magic.name,Improved War Magic,Улучшенная боевая магия,draft
+feature.eldritch-knight-improved-war-magic.description,"When you cast a spell with your action, you can make a weapon attack as a bonus action.","Сотворив заклинание действием, бонусным действием атакуйте оружием.",draft
+subclass.eldritch-knight.name,Eldritch Knight,Мистический рыцарь,draft
+subclass.eldritch-knight.summary,A warrior who combines weapons with wizard magic,"Воин, сочетающий оружие и магию волшебника",draft
+subclass.eldritch-knight.description,A warrior who combines weapons with wizard magic,"Воин, сочетающий оружие и магию волшебника",draft
+feature.shadow-shadow-arts.name,Shadow Arts,Искусство теней,draft
+feature.shadow-shadow-arts.description,"Spend 2 ki to cast Darkness, Darkvision, Pass without Trace or Silence without material components. You know the Minor Illusion cantrip.","За 2 ки — «Тьма», «Тёмное зрение», «Бесследное передвижение» или «Тишина» без материальных компонентов. Вы знаете заговор «Малая иллюзия».",draft
+feature.shadow-shadow-step.name,Shadow Step,Теневой шаг,draft
+feature.shadow-shadow-step.description,"As a bonus action, teleport up to 60 feet from dim light or darkness to another such space; your first melee attack this turn has advantage.",Бонусным действием телепортируйтесь из тусклого света или тьмы на 60 фт в другое такое место; первая рукопашная атака в этот ход — с преимуществом.,draft
+feature.shadow-cloak-of-shadows.name,Cloak of Shadows,Плащ теней,draft
+feature.shadow-cloak-of-shadows.description,"In dim light or darkness, become invisible as an action until you attack or cast a spell.","В тусклом свете или тьме действием станьте невидимым, пока не атакуете или не сотворите заклинание.",draft
+feature.shadow-opportunist.name,Opportunist,Оппортунист,draft
+feature.shadow-opportunist.description,"When a creature within 5 feet is hit by someone else, you can make a melee attack against it as a reaction.","Когда по существу рядом с вами попадает кто-то другой, реакцией атакуйте его в ближнем бою.",draft
+subclass.shadow.name,Way of Shadow,Путь тени,draft
+subclass.shadow.summary,Infiltrator monks who command shadows,"Монахи-лазутчики, повелевающие тенями",draft
+subclass.shadow.description,Infiltrator monks who command shadows,"Монахи-лазутчики, повелевающие тенями",draft
+feature.four-elements-disciple-of-the-elements.name,Disciple of the Elements,Ученик стихий,draft
+feature.four-elements-disciple-of-the-elements.description,"Elemental disciplines powered by ki (more at levels 6, 11 and 17). DC as for ki. Spells are cast without material components; extra ki raise the slot level.","Стихийные дисциплины за ки (новые на 6, 11 и 17 уровнях). СЛ — как у ки. Сотворяемые заклинания — без материальных компонентов, круг повышается за дополнительные ки.",draft
+subclass.four-elements.name,Way of the Four Elements,Путь четырёх стихий,draft
+subclass.four-elements.summary,Monks who channel ki into elemental power,"Монахи, направляющие ки в силу стихий",draft
+subclass.four-elements.description,Monks who channel ki into elemental power,"Монахи, направляющие ки в силу стихий",draft
+feature.ancients-channel-divinity-nature-s-wrath.name,Channel Divinity: Nature's Wrath,Божественный канал: гнев природы,draft
+feature.ancients-channel-divinity-nature-s-wrath.description,Spectral vines: a creature within 10 feet makes a STR or DEX save or is restrained.,Призрачные лозы: существо в пределах 10 фт проходит спасбросок СИЛ или ЛОВ или опутано.,draft
+feature.ancients-channel-divinity-turn-the-faithless.name,Channel Divinity: Turn the Faithless,Божественный канал: изгнание неверных,draft
+feature.ancients-channel-divinity-turn-the-faithless.description,Fey and fiends within 30 feet make a WIS save or are turned for a minute.,Феи и исчадия в пределах 30 фт проходят спасбросок МДР или изгнаны на минуту.,draft
+feature.ancients-aura-of-warding.name,Aura of Warding,Аура оберега,draft
+feature.ancients-aura-of-warding.description,You and allies within 10 feet (30 feet at level 18) have resistance to damage from spells.,Вы и союзники в пределах 10 фт (30 фт с 18-го уровня) получаете сопротивление урону от заклинаний.,draft
+feature.ancients-undying-sentinel.name,Undying Sentinel,Бессмертный страж,draft
+feature.ancients-undying-sentinel.description,"Once per long rest, when reduced to 0 hit points you drop to 1 instead. You don't age.","Раз до долгого отдыха, упав до 0 хитов, остаётесь с 1 хитом. Не стареете.",draft
+feature.ancients-elder-champion.name,Elder Champion,Древний защитник,draft
+feature.ancients-elder-champion.description,"As an action, for a minute: regain 10 hit points at the start of each turn, cast one-action paladin spells as a bonus action, nearby enemies have disadvantage on saves against your spells and Channel Divinity. Once per long rest.","Действием на минуту: восстанавливаете 10 хитов в начале хода, заклинания паладина в одно действие — бонусным действием, враги рядом с помехой на спасброски от ваших заклинаний и канала. Раз до долгого отдыха.",draft
+subclass.ancients.name,Oath of the Ancients,Клятва древних,draft
+subclass.ancients.summary,"Paladins who guard light, life and beauty","Паладины, хранящие свет, жизнь и красоту",draft
+subclass.ancients.description,"Paladins who guard light, life and beauty","Паладины, хранящие свет, жизнь и красоту",draft
+feature.vengeance-channel-divinity-abjure-enemy.name,Channel Divinity: Abjure Enemy,Божественный канал: отречение от врага,draft
+feature.vengeance-channel-divinity-abjure-enemy.description,"A creature within 60 feet makes a WIS save: on a failure it is frightened with speed 0 for a minute, on a success its speed is halved.","Существо в пределах 60 фт проходит спасбросок МДР: при провале испугано и скорость 0 на минуту, при успехе скорость вдвое меньше.",draft
+feature.vengeance-channel-divinity-vow-of-enmity.name,Channel Divinity: Vow of Enmity,Божественный канал: клятва вражды,draft
+feature.vengeance-channel-divinity-vow-of-enmity.description,"As a bonus action, advantage on attacks against a creature within 10 feet for a minute.",Бонусным действием: преимущество на атаки по существу в пределах 10 фт на минуту.,draft
+feature.vengeance-relentless-avenger.name,Relentless Avenger,Неумолимый мститель,draft
+feature.vengeance-relentless-avenger.description,"When you hit with an opportunity attack, you can move up to half your speed without provoking opportunity attacks.","Попав атакой по возможности, переместитесь на половину скорости без атак по возможности.",draft
+feature.vengeance-soul-of-vengeance.name,Soul of Vengeance,Душа мести,draft
+feature.vengeance-soul-of-vengeance.description,"When the target of your Vow of Enmity attacks, you can make a melee attack against it as a reaction.","Когда цель клятвы вражды атакует, реакцией атакуйте её в ближнем бою.",draft
+feature.vengeance-avenging-angel.name,Avenging Angel,Ангел мщения,draft
+feature.vengeance-avenging-angel.description,"As an action, for an hour: wings (fly 60 feet) and a frightening 30-foot aura. Once per long rest.",Действием на час: крылья (полёт 60 фт) и пугающая аура 30 фт. Раз до долгого отдыха.,draft
+subclass.vengeance.name,Oath of Vengeance,Клятва мести,draft
+subclass.vengeance.summary,Paladins who punish grievous wrongs,"Паладины, карающие тяжкие злодеяния",draft
+subclass.vengeance.description,Paladins who punish grievous wrongs,"Паладины, карающие тяжкие злодеяния",draft
+feature.beast-master-ranger-s-companion.name,Ranger's Companion,Спутник следопыта,draft
+feature.beast-master-ranger-s-companion.description,"A Medium or smaller beast of CR 1/4 or lower. It adds your PB to AC, attacks, damage, saves and skills; its hit points are 4 × your ranger level if higher. It obeys your commands.","Зверь Средний или меньше с ПО до 1/4. Прибавляет ваш БМ к КЗ, атакам, урону, спасброскам и навыкам; хиты — 4 × уровень следопыта, если это больше. Действует по вашим командам.",draft
+feature.beast-master-exceptional-training.name,Exceptional Training,Особая выучка,draft
+feature.beast-master-exceptional-training.description,"Your companion can Dash, Disengage, Dodge or Help as a bonus action; its attacks count as magical.","Бонусным действием спутник может совершить рывок, отход, уклонение или помощь; его атаки считаются магическими.",draft
+feature.beast-master-bestial-fury.name,Bestial Fury,Звериная ярость,draft
+feature.beast-master-bestial-fury.description,Your companion attacks twice.,Спутник атакует дважды.,draft
+feature.beast-master-share-spells.name,Share Spells,Общие заклинания,draft
+feature.beast-master-share-spells.description,A spell targeting yourself also affects your companion within 30 feet.,Заклинание на себя действует и на спутника в пределах 30 фт.,draft
+subclass.beast-master.name,Beast Master,Повелитель зверей,draft
+subclass.beast-master.summary,A ranger with a beast companion,Следопыт со зверем-спутником,draft
+subclass.beast-master.description,A ranger with a beast companion,Следопыт со зверем-спутником,draft
+feature.assassin-bonus-proficiencies.name,Bonus Proficiencies,Дополнительные владения,draft
+feature.assassin-bonus-proficiencies.description,Proficiency with the disguise kit and the poisoner's kit.,Владение набором для грима и набором отравителя.,draft
+feature.assassin-assassinate.name,Assassinate,Убийство,draft
+feature.assassin-assassinate.description,Advantage on attacks against creatures that haven't taken a turn yet; hits against surprised creatures are critical.,"Преимущество на атаки по существам, которые ещё не ходили; попадание по застигнутому врасплох — критическое.",draft
+feature.assassin-infiltration-expertise.name,Infiltration Expertise,Мастер проникновения,draft
+feature.assassin-infiltration-expertise.description,With a week and 25 gp you create a reliable false identity.,За неделю и 25 зм создаёте надёжную ложную личность.,draft
+feature.assassin-impostor.name,Impostor,Самозванец,draft
+feature.assassin-impostor.description,"You flawlessly mimic another person's speech, writing and behavior.","Безупречно подражаете речи, письму и поведению другого человека.",draft
+feature.assassin-death-strike.name,Death Strike,Смертельный удар,draft
+feature.assassin-death-strike.description,"When you hit a surprised creature, it makes a CON save (DC 8 + DEX + PB) or takes double damage.","Попав по застигнутому врасплох, заставьте его пройти спасбросок ТЕЛ (СЛ 8 + ЛОВ + БМ): при провале урон удваивается.",draft
+subclass.assassin.name,Assassin,Убийца,draft
+subclass.assassin.summary,A master of deadly strikes and disguise,Мастер смертельных ударов и маскировки,draft
+subclass.assassin.description,A master of deadly strikes and disguise,Мастер смертельных ударов и маскировки,draft
+feature.arcane-trickster-spellcasting.name,Spellcasting,Использование заклинаний,draft
+feature.arcane-trickster-spellcasting.description,"Wizard spells (mostly illusion and enchantment), INT. The app doesn't track Arcane Trickster slots and spells yet — keep them manually.","Заклинания волшебника (в основном иллюзия и очарование), ИНТ. Приложение пока не считает ячейки и заклинания мистического ловкача — ведите их вручную.",draft
+feature.arcane-trickster-mage-hand-legerdemain.name,Mage Hand Legerdemain,Ловкость волшебной руки,draft
+feature.arcane-trickster-mage-hand-legerdemain.description,Your Mage Hand is invisible and can stow or retrieve items from others' containers and pick locks; you control it as a bonus action.,"«Волшебная рука» невидима и может класть и доставать предметы из чужих карманов, открывать замки; управление — бонусным действием.",draft
+feature.arcane-trickster-magical-ambush.name,Magical Ambush,Магическая засада,draft
+feature.arcane-trickster-magical-ambush.description,"If you are hidden, targets of your spells have disadvantage on saves this turn.","Если вы спрятаны, цели ваших заклинаний с помехой на спасброски в этот ход.",draft
+feature.arcane-trickster-versatile-trickster.name,Versatile Trickster,Разносторонний ловкач,draft
+feature.arcane-trickster-versatile-trickster.description,"As a bonus action, distract a creature with your Mage Hand to gain advantage on attacks against it.",Бонусным действием волшебной рукой отвлеките существо: преимущество на атаки по нему.,draft
+feature.arcane-trickster-spell-thief.name,Spell Thief,Похититель заклинаний,draft
+feature.arcane-trickster-spell-thief.description,"As a reaction to a spell targeting you, the caster saves or the spell fails and you can cast it for 8 hours. Once per long rest.","Реакцией на заклинание против вас: спасбросок заклинателя — при провале заклинание не действует, и вы можете сотворять его 8 часов. Раз до долгого отдыха.",draft
+subclass.arcane-trickster.name,Arcane Trickster,Мистический ловкач,draft
+subclass.arcane-trickster.summary,A rogue who enhances their tricks with illusion and enchantment magic,"Плут, усиливающий ловкость магией иллюзий и очарования",draft
+subclass.arcane-trickster.description,A rogue who enhances their tricks with illusion and enchantment magic,"Плут, усиливающий ловкость магией иллюзий и очарования",draft
+feature.wild-magic-wild-magic-surge.name,Wild Magic Surge,Всплеск дикой магии,draft
+feature.wild-magic-wild-magic-surge.description,"After you cast a 1st-level or higher spell, the GM can have you roll a d20: on a 1 you roll on the Wild Magic Surge table.","Сотворив заклинание 1+ круга, мастер может попросить бросить к20: на 1 — бросок по таблице всплеска.",draft
+feature.wild-magic-tides-of-chaos.name,Tides of Chaos,Волны хаоса,draft
+feature.wild-magic-tides-of-chaos.description,"Gain advantage on one attack, check or save. Once per long rest (or after a surge).","Преимущество на одну атаку, проверку или спасбросок. Раз до долгого отдыха (или после всплеска).",draft
+feature.wild-magic-bend-luck.name,Bend Luck,Изменение удачи,draft
+feature.wild-magic-bend-luck.description,"As a reaction, spend 2 sorcery points to add or subtract 1d4 from another creature's roll.",Реакцией за 2 единицы чародейства прибавьте или вычтите 1к4 из броска другого существа.,draft
+feature.wild-magic-controlled-chaos.name,Controlled Chaos,Управляемый хаос,draft
+feature.wild-magic-controlled-chaos.description,"When you roll on the surge table, roll twice and choose.","Бросая по таблице всплеска, бросайте дважды и выбирайте.",draft
+feature.wild-magic-spell-bombardment.name,Spell Bombardment,Бомбардировка заклинаниями,draft
+feature.wild-magic-spell-bombardment.description,"Once per turn, when a spell damage die rolls its maximum, roll it again and add it.","Раз в ход, если на кости урона заклинания выпал максимум, бросьте её ещё раз и прибавьте.",draft
+subclass.wild-magic.name,Wild Magic,Дикая магия,draft
+subclass.wild-magic.summary,Sorcery of unpredictable chaos,Чародейство непредсказуемого хаоса,draft
+subclass.wild-magic.description,Sorcery of unpredictable chaos,Чародейство непредсказуемого хаоса,draft
+feature.archfey-fey-presence.name,Fey Presence,Фейское присутствие,draft
+feature.archfey-fey-presence.description,"As an action, creatures in a 10-foot cube make a WIS save or are charmed or frightened until the end of your next turn. Once per short rest.",Действием существа в кубе 10 фт проходят спасбросок МДР или очарованы либо испуганы до конца вашего следующего хода. Раз до короткого отдыха.,draft
+feature.archfey-misty-escape.name,Misty Escape,Туманное бегство,draft
+feature.archfey-misty-escape.description,"When you take damage, use your reaction to turn invisible and teleport up to 60 feet. Once per short rest.","Получив урон, реакцией станьте невидимым и телепортируйтесь на 60 фт. Раз до короткого отдыха.",draft
+feature.archfey-beguiling-defenses.name,Beguiling Defenses,Обворожительная защита,draft
+feature.archfey-beguiling-defenses.description,Immunity to being charmed; you can turn a charm attempt back on its source.,Иммунитет к очарованию; попытку очаровать вас можно обратить на очаровывающего.,draft
+feature.archfey-dark-delirium.name,Dark Delirium,Тёмный бред,draft
+feature.archfey-dark-delirium.description,A creature within 60 feet makes a WIS save or is charmed or frightened for a minute in an illusory realm. Once per short rest.,Существо в пределах 60 фт проходит спасбросок МДР или очаровано либо испугано на минуту в иллюзорном мире. Раз до короткого отдыха.,draft
+subclass.archfey.name,The Archfey,Архифея,draft
+subclass.archfey.summary,A pact with a lord of the fey,Договор с владыкой фей,draft
+subclass.archfey.description,A pact with a lord of the fey,Договор с владыкой фей,draft
+feature.great-old-one-awakened-mind.name,Awakened Mind,Пробуждённый разум,draft
+feature.great-old-one-awakened-mind.description,You can speak telepathically to a creature within 30 feet that knows at least one language.,"Телепатически говорите с существом в пределах 30 фт, если оно знает хоть один язык.",draft
+feature.great-old-one-entropic-ward.name,Entropic Ward,Энтропийная защита,draft
+feature.great-old-one-entropic-ward.description,"As a reaction, impose disadvantage on an attack against you; if it misses, you have advantage on your next attack against the attacker. Once per short rest.",Реакцией дайте помеху на атаку по вам; при промахе — преимущество на вашу следующую атаку по нему. Раз до короткого отдыха.,draft
+feature.great-old-one-thought-shield.name,Thought Shield,Щит мыслей,draft
+feature.great-old-one-thought-shield.description,"Your thoughts can't be read; resistance to psychic damage, and the attacker takes the same damage.","Ваши мысли нельзя прочитать; сопротивление психическому урону, обидчик получает столько же.",draft
+feature.great-old-one-create-thrall.name,Create Thrall,Создание раба,draft
+feature.great-old-one-create-thrall.description,Touch an incapacitated humanoid to charm it until Remove Curse; you communicate telepathically.,Касанием очаруйте недееспособного гуманоида до «Снятия проклятия»; связь с ним телепатическая.,draft
+subclass.great-old-one.name,The Great Old One,Великий Древний,draft
+subclass.great-old-one.summary,A pact with an unfathomable entity from beyond,Договор с непостижимой сущностью из-за пределов мира,draft
+subclass.great-old-one.description,A pact with an unfathomable entity from beyond,Договор с непостижимой сущностью из-за пределов мира,draft
+feature.abjuration-abjuration-savant.name,Abjuration Savant,Знаток ограждения,draft
+feature.abjuration-abjuration-savant.description,Copying abjuration spells takes half the time and gold.,Переписывать заклинания ограждения вдвое быстрее и дешевле.,draft
+feature.abjuration-arcane-ward.name,Arcane Ward,Магический оберег,draft
+feature.abjuration-arcane-ward.description,Casting a 1st-level or higher abjuration spell creates a ward with hit points of 2 × wizard level + INT modifier that absorbs damage. Later abjurations restore 2 × the spell level.,"Сотворив ограждение 1+ круга, создаёте защиту: хиты 2 × уровень волшебника + мод. ИНТ, принимает урон вместо вас. Последующие ограждения восстанавливают её на 2 × круг.",draft
+feature.abjuration-projected-ward.name,Projected Ward,Проецируемый оберег,draft
+feature.abjuration-projected-ward.description,"As a reaction, your ward absorbs damage for a creature within 30 feet.",Реакцией защита принимает урон вместо существа в пределах 30 фт.,draft
+feature.abjuration-improved-abjuration.name,Improved Abjuration,Улучшенное ограждение,draft
+feature.abjuration-improved-abjuration.description,Add your PB to ability checks made as part of abjuration spells.,К проверкам характеристик в заклинаниях ограждения прибавляется БМ.,draft
+feature.abjuration-spell-resistance.name,Spell Resistance,Сопротивление магии,draft
+feature.abjuration-spell-resistance.description,Advantage on saves against spells and resistance to spell damage.,Преимущество на спасброски от заклинаний и сопротивление их урону.,draft
+subclass.abjuration.name,School of Abjuration,Школа ограждения,draft
+subclass.abjuration.summary,Wizards of protective magic,Волшебники защитной магии,draft
+subclass.abjuration.description,Wizards of protective magic,Волшебники защитной магии,draft
+feature.conjuration-conjuration-savant.name,Conjuration Savant,Знаток вызова,draft
+feature.conjuration-conjuration-savant.description,Copying conjuration spells takes half the time and gold.,Переписывать заклинания вызова вдвое быстрее и дешевле.,draft
+feature.conjuration-minor-conjuration.name,Minor Conjuration,Малый вызов,draft
+feature.conjuration-minor-conjuration.description,"As an action, create a nonmagical object up to 3 feet and 10 pounds for an hour.",Действием создайте немагический предмет до 3 фт и 10 фунтов на час.,draft
+feature.conjuration-benign-transposition.name,Benign Transposition,Благоприятное перемещение,draft
+feature.conjuration-benign-transposition.description,"As an action, teleport up to 30 feet or swap places with an ally. Once per long rest (or after casting a conjuration spell).",Действием телепортируйтесь на 30 фт или поменяйтесь местами с союзником. Раз до долгого отдыха (или после заклинания вызова).,draft
+feature.conjuration-focused-conjuration.name,Focused Conjuration,Сосредоточенный вызов,draft
+feature.conjuration-focused-conjuration.description,Damage can't break your concentration on conjuration spells.,Урон не прерывает концентрацию на заклинаниях вызова.,draft
+feature.conjuration-durable-summons.name,Durable Summons,Стойкие призванные,draft
+feature.conjuration-durable-summons.description,Creatures you summon gain 30 temporary hit points.,Призванные вами существа получают 30 временных хитов.,draft
+subclass.conjuration.name,School of Conjuration,Школа вызова,draft
+subclass.conjuration.summary,Wizards of summoning and teleportation,Волшебники призыва и перемещения,draft
+subclass.conjuration.description,Wizards of summoning and teleportation,Волшебники призыва и перемещения,draft
+feature.divination-divination-savant.name,Divination Savant,Знаток прорицания,draft
+feature.divination-divination-savant.description,Copying divination spells takes half the time and gold.,Переписывать заклинания прорицания вдвое быстрее и дешевле.,draft
+feature.divination-portent.name,Portent,Знамение,draft
+feature.divination-portent.description,"After a long rest, roll two d20s (three from level 14) and use them to replace any creature's rolls.",После долгого отдыха бросьте две к20 (три с 14-го уровня) и замените ими броски любых существ.,draft
+feature.divination-expert-divination.name,Expert Divination,Искусное прорицание,draft
+feature.divination-expert-divination.description,Casting a divination spell of 2nd level or higher regains a slot of a lower level (up to 5th).,"Сотворив прорицание 2+ круга, восстанавливаете ячейку ниже его круга (не выше 5-го).",draft
+feature.divination-the-third-eye.name,The Third Eye,Третий глаз,draft
+feature.divination-the-third-eye.description,"As an action until a rest: darkvision 60 feet, ethereal sight, reading any language, or seeing invisibility.","Действием до отдыха: тёмное зрение 60 фт, вид Эфирного плана, чтение любых языков или видение невидимого.",draft
+feature.divination-greater-portent.name,Greater Portent,Великое знамение,draft
+feature.divination-greater-portent.description,Portent uses three d20s.,Знамение — три к20.,draft
+subclass.divination.name,School of Divination,Школа прорицания,draft
+subclass.divination.summary,Wizards who see the future,"Волшебники, видящие будущее",draft
+subclass.divination.description,Wizards who see the future,"Волшебники, видящие будущее",draft
+feature.enchantment-enchantment-savant.name,Enchantment Savant,Знаток очарования,draft
+feature.enchantment-enchantment-savant.description,Copying enchantment spells takes half the time and gold.,Переписывать заклинания очарования вдвое быстрее и дешевле.,draft
+feature.enchantment-hypnotic-gaze.name,Hypnotic Gaze,Гипнотический взгляд,draft
+feature.enchantment-hypnotic-gaze.description,"As an action, a creature within 5 feet makes a WIS save or is charmed (speed 0, incapacitated) while you maintain your gaze.","Действием существо в пределах 5 фт проходит спасбросок МДР или очаровано (скорость 0, недееспособно), пока вы поддерживаете взгляд.",draft
+feature.enchantment-instinctive-charm.name,Instinctive Charm,Инстинктивное очарование,draft
+feature.enchantment-instinctive-charm.description,"As a reaction, redirect an attack against you to another creature (WIS save).",Реакцией перенаправьте атаку по вам на другое существо (спасбросок МДР). Раз до долгого отдыха для одного существа при успехе.,draft
+feature.enchantment-split-enchantment.name,Split Enchantment,Раздвоенное очарование,draft
+feature.enchantment-split-enchantment.description,An enchantment spell targeting one creature can target a second one.,Очарование на одну цель может действовать на две.,draft
+feature.enchantment-alter-memories.name,Alter Memories,Изменение памяти,draft
+feature.enchantment-alter-memories.description,A creature you charm can be made to forget being charmed and some hours of events.,"Очарованное вами существо может забыть, что было очаровано, и часы событий.",draft
+subclass.enchantment.name,School of Enchantment,Школа очарования,draft
+subclass.enchantment.summary,Wizards who beguile minds,"Волшебники, подчиняющие разум",draft
+subclass.enchantment.description,Wizards who beguile minds,"Волшебники, подчиняющие разум",draft
+feature.illusion-illusion-savant.name,Illusion Savant,Знаток иллюзий,draft
+feature.illusion-illusion-savant.description,Copying illusion spells takes half the time and gold.,Переписывать заклинания иллюзии вдвое быстрее и дешевле.,draft
+feature.illusion-improved-minor-illusion.name,Improved Minor Illusion,Улучшенная малая иллюзия,draft
+feature.illusion-improved-minor-illusion.description,You know Minor Illusion; it can create both a sound and an image.,"Вы знаете «Малую иллюзию»; она создаёт и звук, и образ одновременно.",draft
+feature.illusion-malleable-illusions.name,Malleable Illusions,Податливые иллюзии,draft
+feature.illusion-malleable-illusions.description,"As an action, you can change an ongoing illusion of yours.",Действием меняете свою длящуюся иллюзию.,draft
+feature.illusion-illusory-self.name,Illusory Self,Иллюзорный двойник,draft
+feature.illusion-illusory-self.description,"As a reaction, an illusion makes an attack against you miss. Once per short rest.",Реакцией иллюзия принимает атаку — она промахивается. Раз до короткого отдыха.,draft
+feature.illusion-illusory-reality.name,Illusory Reality,Иллюзорная реальность,draft
+feature.illusion-illusory-reality.description,An inanimate object in your illusion becomes real for a minute.,Неодушевлённый предмет из вашей иллюзии на минуту становится настоящим.,draft
+subclass.illusion.name,School of Illusion,Школа иллюзии,draft
+subclass.illusion.summary,Wizards who deceive the senses,Волшебники обмана чувств,draft
+subclass.illusion.description,Wizards who deceive the senses,Волшебники обмана чувств,draft
+feature.necromancy-necromancy-savant.name,Necromancy Savant,Знаток некромантии,draft
+feature.necromancy-necromancy-savant.description,Copying necromancy spells takes half the time and gold.,Переписывать заклинания некромантии вдвое быстрее и дешевле.,draft
+feature.necromancy-grim-harvest.name,Grim Harvest,Мрачная жатва,draft
+feature.necromancy-grim-harvest.description,"When you kill with a 1st-level or higher spell, regain 2 × the spell level hit points (3 × for necromancy).","Убив заклинанием 1+ круга, восстанавливаете хиты: 2 × круг (3 × круг для некромантии).",draft
+feature.necromancy-undead-thralls.name,Undead Thralls,Рабы-нежить,draft
+feature.necromancy-undead-thralls.description,Animate Dead raises one extra creature; your undead gain extra hit points equal to your level and add your PB to damage.,«Восставший труп» поднимает ещё одного; ваша нежить получает хиты за ваш уровень и БМ к урону.,draft
+feature.necromancy-inured-to-undeath.name,Inured to Undeath,Привычка к нежизни,draft
+feature.necromancy-inured-to-undeath.description,Resistance to necrotic damage; your hit point maximum can't be reduced.,Сопротивление некротическому урону; максимум хитов нельзя уменьшить.,draft
+feature.necromancy-command-undead.name,Command Undead,Повеление нежитью,draft
+feature.necromancy-command-undead.description,"As an action, bring an undead under your control (CHA save).",Действием подчините нежить (спасбросок ХАР).,draft
+subclass.necromancy.name,School of Necromancy,Школа некромантии,draft
+subclass.necromancy.summary,Wizards of death and undeath,Волшебники смерти и нежити,draft
+subclass.necromancy.description,Wizards of death and undeath,Волшебники смерти и нежити,draft
+feature.transmutation-transmutation-savant.name,Transmutation Savant,Знаток преобразования,draft
+feature.transmutation-transmutation-savant.description,Copying transmutation spells takes half the time and gold.,Переписывать заклинания преобразования вдвое быстрее и дешевле.,draft
+feature.transmutation-minor-alchemy.name,Minor Alchemy,Малая алхимия,draft
+feature.transmutation-minor-alchemy.description,"Over 10 minutes, change an object's material (wood, stone, iron, copper, silver) for an hour.","За 10 минут меняете материал предмета (дерево, камень, железо, медь, серебро) на час.",draft
+feature.transmutation-transmuter-s-stone.name,Transmuter's Stone,Камень преобразователя,draft
+feature.transmutation-transmuter-s-stone.description,"The stone grants its bearer one benefit: darkvision 60 feet, +10 feet speed, CON save proficiency, or resistance to an elemental damage type.","Камень даёт владельцу одно на выбор: тёмное зрение 60 фт, +10 фт скорости, владение спасбросками ТЕЛ или сопротивление стихийному урону.",draft
+feature.transmutation-shapechanger.name,Shapechanger,Перевёртыш,draft
+feature.transmutation-shapechanger.description,"Cast Polymorph on yourself into a beast of CR 1 or lower without a slot, once per short rest.","«Превращение» в зверя ПО до 1 на себя — без ячейки, раз до короткого отдыха.",draft
+feature.transmutation-master-transmuter.name,Master Transmuter,Мастер преобразования,draft
+feature.transmutation-master-transmuter.description,"Destroy the stone to perform a major transmutation: transform matter, cure ailments, restore youth or cast Raise Dead.","Разрушив камень, совершите великое преобразование: превращение материала, исцеление болезней, омоложение или «Воскрешение».",draft
+subclass.transmutation.name,School of Transmutation,Школа преобразования,draft
+subclass.transmutation.summary,Wizards who reshape matter,"Волшебники, изменяющие материю",draft
+subclass.transmutation.description,Wizards who reshape matter,"Волшебники, изменяющие материю",draft
 resource.rage.name,Rage,Ярость,draft
 resource.bardic-inspiration.name,Bardic Inspiration,Бардовское вдохновение,draft
 resource.cleric-channel-divinity.name,Channel Divinity,Божественный канал,draft
@@ -1202,3 +1560,20 @@ resource.relentless-endurance.name,Relentless Endurance,Неутомимая с�
 resource.breath-weapon.name,Breath Weapon,Оружие дыхания,draft
 resource.lucky.name,Luck Points,Очки удачи,draft
 resource.martial-adept-die.name,Superiority Die (Martial Adept),Кость превосходства (Мастер боевых искусств),draft
+resource.superiority-dice.name,Superiority Dice,Кости превосходства,draft
+resource.light-warding-flare.name,Warding Flare,Защитная вспышка,draft
+resource.tempest-wrath-of-the-storm.name,Wrath of the Storm,Гнев бури,draft
+resource.war-war-priest.name,War Priest,Боевой жрец,draft
+resource.divination-portent.name,Portent,Знамение,draft
+resource.archfey-fey-presence.name,Fey Presence,Фейское присутствие,draft
+resource.archfey-misty-escape.name,Misty Escape,Туманное бегство,draft
+resource.archfey-dark-delirium.name,Dark Delirium,Тёмный бред,draft
+resource.great-old-one-entropic-ward.name,Entropic Ward,Энтропийная защита,draft
+resource.conjuration-benign-transposition.name,Benign Transposition,Благоприятное перемещение,draft
+resource.illusion-illusory-self.name,Illusory Self,Иллюзорный двойник,draft
+resource.transmutation-shapechanger.name,Shapechanger,Перевёртыш,draft
+resource.ancients-undying-sentinel.name,Undying Sentinel,Бессмертный страж,draft
+resource.ancients-elder-champion.name,Elder Champion,Древний защитник,draft
+resource.vengeance-avenging-angel.name,Avenging Angel,Ангел мщения,draft
+resource.wild-magic-tides-of-chaos.name,Tides of Chaos,Волны хаоса,draft
+resource.arcane-trickster-spell-thief.name,Spell Thief,Похититель заклинаний,draft

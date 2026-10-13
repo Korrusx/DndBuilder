@@ -58,4 +58,10 @@ describe('повышение уровня 2014', () => {
     const chosen = { ...next, choices: { 'feature.paladin-fighting-style': ['fighting-style-defense'] } };
     expect(levelUpIssues(chosen, prev, content).filter((i) => i.blocking).map((i) => i.message)).toEqual([]);
   });
+
+  test('коллегия знаний на 3-м уровне: три навыка на выбор', () => {
+    const next = startLevelUp(make('bard', 2));
+    const withLore = { ...next, classes: [{ ...next.classes[0], subclassId: 'lore' }] };
+    expect(levelUpPlan(withLore, content).skillChoices).toEqual([expect.objectContaining({ featureId: 'bonus-proficiencies', choose: 3 })]);
+  });
 });

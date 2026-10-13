@@ -1,0 +1,222 @@
+{
+  "_comment": "Подклассы Player's Handbook 2014, которых нет в SRD 5.1: монах, паладин, следопыт, плут, чародей, колдун, волшебник. Механика кратко своими словами (по памяти) — сверить с книгой. expandedSpells — расширенный список колдуна (можно выбрать среди известных заклинаний, не всегда подготовлены).",
+  "subclasses": [
+    {
+      "id": "shadow",
+      "classId": "monk",
+      "name": { "en": "Way of Shadow", "ru": "Путь тени" },
+      "summary": "Монахи-лазутчики, повелевающие тенями", "summaryEn": "Infiltrator monks who command shadows",
+      "features": [
+        { "level": 3, "name": { "en": "Shadow Arts", "ru": "Искусство тени" }, "text": "За 2 ки — «Тьма», «Тёмное зрение», «Бесследное передвижение» или «Тишина» без материальных компонентов. Вы знаете заговор «Малая иллюзия».", "textEn": "Spend 2 ki to cast Darkness, Darkvision, Pass without Trace or Silence without material components. You know the Minor Illusion cantrip." },
+        { "level": 6, "name": { "en": "Shadow Step", "ru": "Шаг тени" }, "text": "Бонусным действием телепортируйтесь из тусклого света или тьмы на 60 фт в другое такое место; первая рукопашная атака в этот ход — с преимуществом.", "textEn": "As a bonus action, teleport up to 60 feet from dim light or darkness to another such space; your first melee attack this turn has advantage." },
+        { "level": 11, "name": { "en": "Cloak of Shadows", "ru": "Покров теней" }, "text": "В тусклом свете или тьме действием станьте невидимым, пока не атакуете или не сотворите заклинание.", "textEn": "In dim light or darkness, become invisible as an action until you attack or cast a spell." },
+        { "level": 17, "name": { "en": "Opportunist", "ru": "Оппортунист" }, "text": "Когда по существу рядом с вами попадает кто-то другой, реакцией атакуйте его в ближнем бою.", "textEn": "When a creature within 5 feet is hit by someone else, you can make a melee attack against it as a reaction." }
+      ]
+    },
+    {
+      "id": "four-elements",
+      "classId": "monk",
+      "name": { "en": "Way of the Four Elements", "ru": "Путь четырёх стихий" },
+      "summary": "Монахи, направляющие ки в силу стихий", "summaryEn": "Monks who channel ki into elemental power",
+      "features": [
+        { "level": 3, "name": { "en": "Disciple of the Elements", "ru": "Ученик стихий" }, "text": "Стихийные дисциплины за ки (новые на 6, 11 и 17 уровнях). СЛ — как у ки. Сотворяемые заклинания — без материальных компонентов, круг повышается за дополнительные ки.", "textEn": "Elemental disciplines powered by ki (more at levels 6, 11 and 17). DC as for ki. Spells are cast without material components; extra ki raise the slot level." }
+      ]
+    },
+    {
+      "id": "ancients",
+      "classId": "paladin",
+      "name": { "en": "Oath of the Ancients", "ru": "Клятва древних" },
+      "summary": "Паладины, хранящие свет, жизнь и красоту", "summaryEn": "Paladins who guard light, life and beauty",
+      "spells": [["speak-with-animals", 3], ["moonbeam", 5], ["misty-step", 5], ["plant-growth", 9], ["protection-from-energy", 9], ["ice-storm", 13], ["stoneskin", 13], ["commune-with-nature", 17], ["tree-stride", 17]],
+      "features": [
+        { "level": 3, "name": { "en": "Channel Divinity: Nature's Wrath", "ru": "Божественный канал: гнев природы" }, "text": "Призрачные лозы: существо в пределах 10 фт проходит спасбросок СИЛ или ЛОВ или опутано.", "textEn": "Spectral vines: a creature within 10 feet makes a STR or DEX save or is restrained." },
+        { "level": 3, "name": { "en": "Channel Divinity: Turn the Faithless", "ru": "Божественный канал: изгнание неверных" }, "text": "Феи и исчадия в пределах 30 фт проходят спасбросок МДР или изгнаны на минуту.", "textEn": "Fey and fiends within 30 feet make a WIS save or are turned for a minute." },
+        { "level": 7, "name": { "en": "Aura of Warding", "ru": "Аура защиты" }, "text": "Вы и союзники в пределах 10 фт (30 фт с 18-го уровня) получаете сопротивление урону от заклинаний.", "textEn": "You and allies within 10 feet (30 feet at level 18) have resistance to damage from spells." },
+        { "level": 15, "name": { "en": "Undying Sentinel", "ru": "Бессмертный страж" }, "text": "Раз до долгого отдыха, упав до 0 хитов, остаётесь с 1 хитом. Не стареете.", "textEn": "Once per long rest, when reduced to 0 hit points you drop to 1 instead. You don't age." },
+        { "level": 20, "name": { "en": "Elder Champion", "ru": "Древний защитник" }, "text": "Действием на минуту: восстанавливаете 10 хитов в начале хода, заклинания паладина в одно действие — бонусным действием, враги рядом с помехой на спасброски от ваших заклинаний и канала. Раз до долгого отдыха.", "textEn": "As an action, for a minute: regain 10 hit points at the start of each turn, cast one-action paladin spells as a bonus action, nearby enemies have disadvantage on saves against your spells and Channel Divinity. Once per long rest." }
+      ]
+    },
+    {
+      "id": "vengeance",
+      "classId": "paladin",
+      "name": { "en": "Oath of Vengeance", "ru": "Клятва мести" },
+      "summary": "Паладины, карающие тяжкие злодеяния", "summaryEn": "Paladins who punish grievous wrongs",
+      "spells": [["bane", 3], ["hunters-mark", 3], ["hold-person", 5], ["misty-step", 5], ["haste", 9], ["protection-from-energy", 9], ["banishment", 13], ["dimension-door", 13], ["hold-monster", 17], ["scrying", 17]],
+      "features": [
+        { "level": 3, "name": { "en": "Channel Divinity: Abjure Enemy", "ru": "Божественный канал: отречение от врага" }, "text": "Существо в пределах 60 фт проходит спасбросок МДР: при провале испугано и скорость 0 на минуту, при успехе скорость вдвое меньше.", "textEn": "A creature within 60 feet makes a WIS save: on a failure it is frightened with speed 0 for a minute, on a success its speed is halved." },
+        { "level": 3, "name": { "en": "Channel Divinity: Vow of Enmity", "ru": "Божественный канал: клятва вражды" }, "text": "Бонусным действием: преимущество на атаки по существу в пределах 10 фт на минуту.", "textEn": "As a bonus action, advantage on attacks against a creature within 10 feet for a minute." },
+        { "level": 7, "name": { "en": "Relentless Avenger", "ru": "Неумолимый мститель" }, "text": "Попав атакой по возможности, переместитесь на половину скорости без атак по возможности.", "textEn": "When you hit with an opportunity attack, you can move up to half your speed without provoking opportunity attacks." },
+        { "level": 15, "name": { "en": "Soul of Vengeance", "ru": "Душа мести" }, "text": "Когда цель клятвы вражды атакует, реакцией атакуйте её в ближнем бою.", "textEn": "When the target of your Vow of Enmity attacks, you can make a melee attack against it as a reaction." },
+        { "level": 20, "name": { "en": "Avenging Angel", "ru": "Ангел мщения" }, "text": "Действием на час: крылья (полёт 60 фт) и пугающая аура 30 фт. Раз до долгого отдыха.", "textEn": "As an action, for an hour: wings (fly 60 feet) and a frightening 30-foot aura. Once per long rest." }
+      ]
+    },
+    {
+      "id": "beast-master",
+      "classId": "ranger",
+      "name": { "en": "Beast Master", "ru": "Повелитель зверей" },
+      "summary": "Следопыт со зверем-спутником", "summaryEn": "A ranger with a beast companion",
+      "features": [
+        { "level": 3, "name": { "en": "Ranger's Companion", "ru": "Спутник следопыта" }, "text": "Зверь Средний или меньше с ПО до 1/4. Прибавляет ваш БМ к КЗ, атакам, урону, спасброскам и навыкам; хиты — 4 × уровень следопыта, если это больше. Действует по вашим командам.", "textEn": "A Medium or smaller beast of CR 1/4 or lower. It adds your PB to AC, attacks, damage, saves and skills; its hit points are 4 × your ranger level if higher. It obeys your commands." },
+        { "level": 7, "name": { "en": "Exceptional Training", "ru": "Особая выучка" }, "text": "Бонусным действием спутник может совершить рывок, отход, уклонение или помощь; его атаки считаются магическими.", "textEn": "Your companion can Dash, Disengage, Dodge or Help as a bonus action; its attacks count as magical." },
+        { "level": 11, "name": { "en": "Bestial Fury", "ru": "Звериная ярость" }, "text": "Спутник атакует дважды.", "textEn": "Your companion attacks twice." },
+        { "level": 15, "name": { "en": "Share Spells", "ru": "Общие заклинания" }, "text": "Заклинание на себя действует и на спутника в пределах 30 фт.", "textEn": "A spell targeting yourself also affects your companion within 30 feet." }
+      ]
+    },
+    {
+      "id": "assassin",
+      "classId": "rogue",
+      "name": { "en": "Assassin", "ru": "Убийца" },
+      "summary": "Мастер смертельных ударов и маскировки", "summaryEn": "A master of deadly strikes and disguise",
+      "features": [
+        { "level": 3, "name": { "en": "Bonus Proficiencies", "ru": "Дополнительные владения" }, "text": "Владение набором для грима и набором отравителя.", "textEn": "Proficiency with the disguise kit and the poisoner's kit.", "proficiencies": ["tool-disguise-kit", "tool-poisoners-kit"] },
+        { "level": 3, "name": { "en": "Assassinate", "ru": "Убийство" }, "text": "Преимущество на атаки по существам, которые ещё не ходили; попадание по застигнутому врасплох — критическое.", "textEn": "Advantage on attacks against creatures that haven't taken a turn yet; hits against surprised creatures are critical." },
+        { "level": 9, "name": { "en": "Infiltration Expertise", "ru": "Мастер проникновения" }, "text": "За неделю и 25 зм создаёте надёжную ложную личность.", "textEn": "With a week and 25 gp you create a reliable false identity." },
+        { "level": 13, "name": { "en": "Impostor", "ru": "Самозванец" }, "text": "Безупречно подражаете речи, письму и поведению другого человека.", "textEn": "You flawlessly mimic another person's speech, writing and behavior." },
+        { "level": 17, "name": { "en": "Death Strike", "ru": "Смертельный удар" }, "text": "Попав по застигнутому врасплох, заставьте его пройти спасбросок ТЕЛ (СЛ 8 + ЛОВ + БМ): при провале урон удваивается.", "textEn": "When you hit a surprised creature, it makes a CON save (DC 8 + DEX + PB) or takes double damage." }
+      ]
+    },
+    {
+      "id": "arcane-trickster",
+      "classId": "rogue",
+      "name": { "en": "Arcane Trickster", "ru": "Мистический ловкач" },
+      "summary": "Плут, усиливающий ловкость магией иллюзий и очарования", "summaryEn": "A rogue who enhances their tricks with illusion and enchantment magic",
+      "features": [
+        { "level": 3, "name": { "en": "Spellcasting", "ru": "Использование заклинаний" }, "text": "Заклинания волшебника (в основном иллюзия и очарование), ИНТ. Приложение пока не считает ячейки и заклинания мистического ловкача — ведите их вручную.", "textEn": "Wizard spells (mostly illusion and enchantment), INT. The app doesn't track Arcane Trickster slots and spells yet — keep them manually." },
+        { "level": 3, "name": { "en": "Mage Hand Legerdemain", "ru": "Ловкость волшебной руки" }, "text": "«Волшебная рука» невидима и может класть и доставать предметы из чужих карманов, открывать замки; управление — бонусным действием.", "textEn": "Your Mage Hand is invisible and can stow or retrieve items from others' containers and pick locks; you control it as a bonus action." },
+        { "level": 9, "name": { "en": "Magical Ambush", "ru": "Магическая засада" }, "text": "Если вы спрятаны, цели ваших заклинаний с помехой на спасброски в этот ход.", "textEn": "If you are hidden, targets of your spells have disadvantage on saves this turn." },
+        { "level": 13, "name": { "en": "Versatile Trickster", "ru": "Многогранный ловкач" }, "text": "Бонусным действием волшебной рукой отвлеките существо: преимущество на атаки по нему.", "textEn": "As a bonus action, distract a creature with your Mage Hand to gain advantage on attacks against it." },
+        { "level": 17, "name": { "en": "Spell Thief", "ru": "Похититель заклинаний" }, "text": "Реакцией на заклинание против вас: спасбросок заклинателя — при провале заклинание не действует, и вы можете сотворять его 8 часов. Раз до долгого отдыха.", "textEn": "As a reaction to a spell targeting you, the caster saves or the spell fails and you can cast it for 8 hours. Once per long rest." }
+      ]
+    },
+    {
+      "id": "wild-magic",
+      "classId": "sorcerer",
+      "name": { "en": "Wild Magic", "ru": "Дикая магия" },
+      "summary": "Чародейство непредсказуемого хаоса", "summaryEn": "Sorcery of unpredictable chaos",
+      "features": [
+        { "level": 1, "name": { "en": "Wild Magic Surge", "ru": "Всплеск дикой магии" }, "text": "Сотворив заклинание 1+ круга, мастер может попросить бросить к20: на 1 — бросок по таблице всплеска.", "textEn": "After you cast a 1st-level or higher spell, the GM can have you roll a d20: on a 1 you roll on the Wild Magic Surge table." },
+        { "level": 1, "name": { "en": "Tides of Chaos", "ru": "Волны хаоса" }, "text": "Преимущество на одну атаку, проверку или спасбросок. Раз до долгого отдыха (или после всплеска).", "textEn": "Gain advantage on one attack, check or save. Once per long rest (or after a surge)." },
+        { "level": 6, "name": { "en": "Bend Luck", "ru": "Изгиб удачи" }, "text": "Реакцией за 2 единицы чародейства прибавьте или вычтите 1к4 из броска другого существа.", "textEn": "As a reaction, spend 2 sorcery points to add or subtract 1d4 from another creature's roll." },
+        { "level": 14, "name": { "en": "Controlled Chaos", "ru": "Управляемый хаос" }, "text": "Бросая по таблице всплеска, бросайте дважды и выбирайте.", "textEn": "When you roll on the surge table, roll twice and choose." },
+        { "level": 18, "name": { "en": "Spell Bombardment", "ru": "Бомбардировка заклинаниями" }, "text": "Раз в ход, если на кости урона заклинания выпал максимум, бросьте её ещё раз и прибавьте.", "textEn": "Once per turn, when a spell damage die rolls its maximum, roll it again and add it." }
+      ]
+    },
+    {
+      "id": "archfey",
+      "classId": "warlock",
+      "name": { "en": "The Archfey", "ru": "Архифея" },
+      "summary": "Договор с владыкой фей", "summaryEn": "A pact with a lord of the fey",
+      "expandedSpells": ["faerie-fire", "sleep", "calm-emotions", "blink", "plant-growth", "dominate-beast", "greater-invisibility", "dominate-person", "seeming"],
+      "features": [
+        { "level": 1, "name": { "en": "Fey Presence", "ru": "Фейское присутствие" }, "text": "Действием существа в кубе 10 фт проходят спасбросок МДР или очарованы либо испуганы до конца вашего следующего хода. Раз до короткого отдыха.", "textEn": "As an action, creatures in a 10-foot cube make a WIS save or are charmed or frightened until the end of your next turn. Once per short rest." },
+        { "level": 6, "name": { "en": "Misty Escape", "ru": "Туманное бегство" }, "text": "Получив урон, реакцией станьте невидимым и телепортируйтесь на 60 фт. Раз до короткого отдыха.", "textEn": "When you take damage, use your reaction to turn invisible and teleport up to 60 feet. Once per short rest." },
+        { "level": 10, "name": { "en": "Beguiling Defenses", "ru": "Обворожительная защита" }, "text": "Иммунитет к очарованию; попытку очаровать вас можно обратить на очаровывающего.", "textEn": "Immunity to being charmed; you can turn a charm attempt back on its source." },
+        { "level": 14, "name": { "en": "Dark Delirium", "ru": "Тёмный бред" }, "text": "Существо в пределах 60 фт проходит спасбросок МДР или очаровано либо испугано на минуту в иллюзорном мире. Раз до короткого отдыха.", "textEn": "A creature within 60 feet makes a WIS save or is charmed or frightened for a minute in an illusory realm. Once per short rest." }
+      ]
+    },
+    {
+      "id": "great-old-one",
+      "classId": "warlock",
+      "name": { "en": "The Great Old One", "ru": "Великий Древний" },
+      "summary": "Договор с непостижимой сущностью из-за пределов мира", "summaryEn": "A pact with an unfathomable entity from beyond",
+      "expandedSpells": ["hideous-laughter", "detect-thoughts", "clairvoyance", "sending", "dominate-beast", "black-tentacles", "dominate-person", "telekinesis"],
+      "features": [
+        { "level": 1, "name": { "en": "Awakened Mind", "ru": "Пробуждённый разум" }, "text": "Телепатически говорите с существом в пределах 30 фт, если оно знает хоть один язык.", "textEn": "You can speak telepathically to a creature within 30 feet that knows at least one language." },
+        { "level": 6, "name": { "en": "Entropic Ward", "ru": "Энтропийная защита" }, "text": "Реакцией дайте помеху на атаку по вам; при промахе — преимущество на вашу следующую атаку по нему. Раз до короткого отдыха.", "textEn": "As a reaction, impose disadvantage on an attack against you; if it misses, you have advantage on your next attack against the attacker. Once per short rest." },
+        { "level": 10, "name": { "en": "Thought Shield", "ru": "Щит мыслей" }, "text": "Ваши мысли нельзя прочитать; сопротивление психическому урону, обидчик получает столько же.", "textEn": "Your thoughts can't be read; resistance to psychic damage, and the attacker takes the same damage." },
+        { "level": 14, "name": { "en": "Create Thrall", "ru": "Создание раба" }, "text": "Касанием очаруйте недееспособного гуманоида до «Снятия проклятия»; связь с ним телепатическая.", "textEn": "Touch an incapacitated humanoid to charm it until Remove Curse; you communicate telepathically." }
+      ]
+    },
+    {
+      "id": "abjuration",
+      "classId": "wizard",
+      "name": { "en": "School of Abjuration", "ru": "Школа ограждения" },
+      "summary": "Волшебники защитной магии", "summaryEn": "Wizards of protective magic",
+      "features": [
+        { "level": 2, "name": { "en": "Abjuration Savant", "ru": "Знаток ограждения" }, "text": "Переписывать заклинания ограждения вдвое быстрее и дешевле.", "textEn": "Copying abjuration spells takes half the time and gold." },
+        { "level": 2, "name": { "en": "Arcane Ward", "ru": "Магическая защита" }, "text": "Сотворив ограждение 1+ круга, создаёте защиту: хиты 2 × уровень волшебника + мод. ИНТ, принимает урон вместо вас. Последующие ограждения восстанавливают её на 2 × круг.", "textEn": "Casting a 1st-level or higher abjuration spell creates a ward with hit points of 2 × wizard level + INT modifier that absorbs damage. Later abjurations restore 2 × the spell level." },
+        { "level": 6, "name": { "en": "Projected Ward", "ru": "Проецируемая защита" }, "text": "Реакцией защита принимает урон вместо существа в пределах 30 фт.", "textEn": "As a reaction, your ward absorbs damage for a creature within 30 feet." },
+        { "level": 10, "name": { "en": "Improved Abjuration", "ru": "Улучшенное ограждение" }, "text": "К проверкам характеристик в заклинаниях ограждения прибавляется БМ.", "textEn": "Add your PB to ability checks made as part of abjuration spells." },
+        { "level": 14, "name": { "en": "Spell Resistance", "ru": "Сопротивление заклинаниям" }, "text": "Преимущество на спасброски от заклинаний и сопротивление их урону.", "textEn": "Advantage on saves against spells and resistance to spell damage." }
+      ]
+    },
+    {
+      "id": "conjuration",
+      "classId": "wizard",
+      "name": { "en": "School of Conjuration", "ru": "Школа вызова" },
+      "summary": "Волшебники призыва и перемещения", "summaryEn": "Wizards of summoning and teleportation",
+      "features": [
+        { "level": 2, "name": { "en": "Conjuration Savant", "ru": "Знаток вызова" }, "text": "Переписывать заклинания вызова вдвое быстрее и дешевле.", "textEn": "Copying conjuration spells takes half the time and gold." },
+        { "level": 2, "name": { "en": "Minor Conjuration", "ru": "Малый вызов" }, "text": "Действием создайте немагический предмет до 3 фт и 10 фунтов на час.", "textEn": "As an action, create a nonmagical object up to 3 feet and 10 pounds for an hour." },
+        { "level": 6, "name": { "en": "Benign Transposition", "ru": "Благоприятное перемещение" }, "text": "Действием телепортируйтесь на 30 фт или поменяйтесь местами с союзником. Раз до долгого отдыха (или после заклинания вызова).", "textEn": "As an action, teleport up to 30 feet or swap places with an ally. Once per long rest (or after casting a conjuration spell)." },
+        { "level": 10, "name": { "en": "Focused Conjuration", "ru": "Сосредоточенный вызов" }, "text": "Урон не прерывает концентрацию на заклинаниях вызова.", "textEn": "Damage can't break your concentration on conjuration spells." },
+        { "level": 14, "name": { "en": "Durable Summons", "ru": "Стойкие призванные" }, "text": "Призванные вами существа получают 30 временных хитов.", "textEn": "Creatures you summon gain 30 temporary hit points." }
+      ]
+    },
+    {
+      "id": "divination",
+      "classId": "wizard",
+      "name": { "en": "School of Divination", "ru": "Школа прорицания" },
+      "summary": "Волшебники, видящие будущее", "summaryEn": "Wizards who see the future",
+      "features": [
+        { "level": 2, "name": { "en": "Divination Savant", "ru": "Знаток прорицания" }, "text": "Переписывать заклинания прорицания вдвое быстрее и дешевле.", "textEn": "Copying divination spells takes half the time and gold." },
+        { "level": 2, "name": { "en": "Portent", "ru": "Знамение" }, "text": "После долгого отдыха бросьте две к20 (три с 14-го уровня) и замените ими броски любых существ.", "textEn": "After a long rest, roll two d20s (three from level 14) and use them to replace any creature's rolls." },
+        { "level": 6, "name": { "en": "Expert Divination", "ru": "Опытный прорицатель" }, "text": "Сотворив прорицание 2+ круга, восстанавливаете ячейку ниже его круга (не выше 5-го).", "textEn": "Casting a divination spell of 2nd level or higher regains a slot of a lower level (up to 5th)." },
+        { "level": 10, "name": { "en": "The Third Eye", "ru": "Третий глаз" }, "text": "Действием до отдыха: тёмное зрение 60 фт, вид Эфирного плана, чтение любых языков или видение невидимого.", "textEn": "As an action until a rest: darkvision 60 feet, ethereal sight, reading any language, or seeing invisibility." },
+        { "level": 14, "name": { "en": "Greater Portent", "ru": "Великое знамение" }, "text": "Знамение — три к20.", "textEn": "Portent uses three d20s." }
+      ]
+    },
+    {
+      "id": "enchantment",
+      "classId": "wizard",
+      "name": { "en": "School of Enchantment", "ru": "Школа очарования" },
+      "summary": "Волшебники, подчиняющие разум", "summaryEn": "Wizards who beguile minds",
+      "features": [
+        { "level": 2, "name": { "en": "Enchantment Savant", "ru": "Знаток очарования" }, "text": "Переписывать заклинания очарования вдвое быстрее и дешевле.", "textEn": "Copying enchantment spells takes half the time and gold." },
+        { "level": 2, "name": { "en": "Hypnotic Gaze", "ru": "Гипнотический взгляд" }, "text": "Действием существо в пределах 5 фт проходит спасбросок МДР или очаровано (скорость 0, недееспособно), пока вы поддерживаете взгляд.", "textEn": "As an action, a creature within 5 feet makes a WIS save or is charmed (speed 0, incapacitated) while you maintain your gaze." },
+        { "level": 6, "name": { "en": "Instinctive Charm", "ru": "Инстинктивное очарование" }, "text": "Реакцией перенаправьте атаку по вам на другое существо (спасбросок МДР). Раз до долгого отдыха для одного существа при успехе.", "textEn": "As a reaction, redirect an attack against you to another creature (WIS save)." },
+        { "level": 10, "name": { "en": "Split Enchantment", "ru": "Раздвоенное очарование" }, "text": "Очарование на одну цель может действовать на две.", "textEn": "An enchantment spell targeting one creature can target a second one." },
+        { "level": 14, "name": { "en": "Alter Memories", "ru": "Изменение памяти" }, "text": "Очарованное вами существо может забыть, что было очаровано, и часы событий.", "textEn": "A creature you charm can be made to forget being charmed and some hours of events." }
+      ]
+    },
+    {
+      "id": "illusion",
+      "classId": "wizard",
+      "name": { "en": "School of Illusion", "ru": "Школа иллюзии" },
+      "summary": "Волшебники обмана чувств", "summaryEn": "Wizards who deceive the senses",
+      "features": [
+        { "level": 2, "name": { "en": "Illusion Savant", "ru": "Знаток иллюзии" }, "text": "Переписывать заклинания иллюзии вдвое быстрее и дешевле.", "textEn": "Copying illusion spells takes half the time and gold." },
+        { "level": 2, "name": { "en": "Improved Minor Illusion", "ru": "Улучшенная малая иллюзия" }, "text": "Вы знаете «Малую иллюзию»; она создаёт и звук, и образ одновременно.", "textEn": "You know Minor Illusion; it can create both a sound and an image." },
+        { "level": 6, "name": { "en": "Malleable Illusions", "ru": "Податливые иллюзии" }, "text": "Действием меняете свою длящуюся иллюзию.", "textEn": "As an action, you can change an ongoing illusion of yours." },
+        { "level": 10, "name": { "en": "Illusory Self", "ru": "Иллюзорный двойник" }, "text": "Реакцией иллюзия принимает атаку — она промахивается. Раз до короткого отдыха.", "textEn": "As a reaction, an illusion makes an attack against you miss. Once per short rest." },
+        { "level": 14, "name": { "en": "Illusory Reality", "ru": "Иллюзорная реальность" }, "text": "Неодушевлённый предмет из вашей иллюзии на минуту становится настоящим.", "textEn": "An inanimate object in your illusion becomes real for a minute." }
+      ]
+    },
+    {
+      "id": "necromancy",
+      "classId": "wizard",
+      "name": { "en": "School of Necromancy", "ru": "Школа некромантии" },
+      "summary": "Волшебники смерти и нежити", "summaryEn": "Wizards of death and undeath",
+      "features": [
+        { "level": 2, "name": { "en": "Necromancy Savant", "ru": "Знаток некромантии" }, "text": "Переписывать заклинания некромантии вдвое быстрее и дешевле.", "textEn": "Copying necromancy spells takes half the time and gold." },
+        { "level": 2, "name": { "en": "Grim Harvest", "ru": "Мрачная жатва" }, "text": "Убив заклинанием 1+ круга, восстанавливаете хиты: 2 × круг (3 × круг для некромантии).", "textEn": "When you kill with a 1st-level or higher spell, regain 2 × the spell level hit points (3 × for necromancy)." },
+        { "level": 6, "name": { "en": "Undead Thralls", "ru": "Рабы-нежить" }, "text": "«Восставший труп» поднимает ещё одного; ваша нежить получает хиты за ваш уровень и БМ к урону.", "textEn": "Animate Dead raises one extra creature; your undead gain extra hit points equal to your level and add your PB to damage." },
+        { "level": 10, "name": { "en": "Inured to Undeath", "ru": "Привычка к нежизни" }, "text": "Сопротивление некротическому урону; максимум хитов нельзя уменьшить.", "textEn": "Resistance to necrotic damage; your hit point maximum can't be reduced." },
+        { "level": 14, "name": { "en": "Command Undead", "ru": "Повеление нежитью" }, "text": "Действием подчините нежить (спасбросок ХАР).", "textEn": "As an action, bring an undead under your control (CHA save)." }
+      ]
+    },
+    {
+      "id": "transmutation",
+      "classId": "wizard",
+      "name": { "en": "School of Transmutation", "ru": "Школа преобразования" },
+      "summary": "Волшебники, изменяющие материю", "summaryEn": "Wizards who reshape matter",
+      "features": [
+        { "level": 2, "name": { "en": "Transmutation Savant", "ru": "Знаток преобразования" }, "text": "Переписывать заклинания преобразования вдвое быстрее и дешевле.", "textEn": "Copying transmutation spells takes half the time and gold." },
+        { "level": 2, "name": { "en": "Minor Alchemy", "ru": "Малая алхимия" }, "text": "За 10 минут меняете материал предмета (дерево, камень, железо, медь, серебро) на час.", "textEn": "Over 10 minutes, change an object's material (wood, stone, iron, copper, silver) for an hour." },
+        { "level": 6, "name": { "en": "Transmuter's Stone", "ru": "Камень преобразователя" }, "text": "Камень даёт владельцу одно на выбор: тёмное зрение 60 фт, +10 фт скорости, владение спасбросками ТЕЛ или сопротивление стихийному урону.", "textEn": "The stone grants its bearer one benefit: darkvision 60 feet, +10 feet speed, CON save proficiency, or resistance to an elemental damage type." },
+        { "level": 10, "name": { "en": "Shapechanger", "ru": "Перевёртыш" }, "text": "«Превращение» в зверя ПО до 1 на себя — без ячейки, раз до короткого отдыха.", "textEn": "Cast Polymorph on yourself into a beast of CR 1 or lower without a slot, once per short rest." },
+        { "level": 14, "name": { "en": "Master Transmuter", "ru": "Мастер преобразования" }, "text": "Разрушив камень, совершите великое преобразование: превращение материала, исцеление болезней, омоложение или «Воскрешение».", "textEn": "Destroy the stone to perform a major transmutation: transform matter, cure ailments, restore youth or cast Raise Dead." }
+      ]
+    }
+  ]
+}

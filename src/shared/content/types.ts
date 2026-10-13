@@ -129,6 +129,10 @@ export type Feature = {
   optionChoice?: Choice;
   /** 2014: выбор компетентности (id владений). */
   expertiseChoice?: Choice;
+  /** 2014: владения, которые даёт умение («Дополнительное владение» домена жизни — тяжёлые доспехи). */
+  proficiencies?: string[];
+  /** 2014: владения на выбор от умения (коллегия знаний — три навыка). */
+  proficiencyChoices?: Choice[];
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -146,6 +150,8 @@ export type Subclass = {
    * `feature` — только при этом умении-варианте (Круг земли: местность).
    */
   spells?: { id: string; level: number; feature?: string }[];
+  /** 2014: расширенный список колдуна — эти заклинания можно выбрать среди известных (не всегда подготовлены). */
+  expandedSpells?: string[];
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
