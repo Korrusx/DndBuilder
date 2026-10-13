@@ -41,8 +41,13 @@ export const EFFECTS: Record<string, Effect[]> = {
  * вместо EFFECTS; остальные id (дварфийская стойкость, «Защита без доспехов» варвара и монаха) — общие.
  */
 export const EFFECTS_2014: Record<string, Effect[]> = {
-  // Черта «Бдительность» (PHB 2014): +5 к инициативе.
+  // Черта «Бдительный» (PHB 2014): +5 к инициативе.
   alert: [{ type: 'initiativeBonus', value: 5 }],
+  // Черты PHB 2014: «Подвижный» — скорость +10 фт; «Наблюдательный» — +5 к пассивному Восприятию;
+  // «Мастер средних доспехов» — в среднем доспехе до +3 ЛОВ. «Крепкий» (+2 хита за уровень) — общий с 2024.
+  mobile: [{ type: 'speedBonus', value: 10 }],
+  observant: [{ type: 'passivePerceptionBonus', value: 5 }],
+  'medium-armor-master': [{ type: 'mediumArmorMaxDex', value: 3 }],
   // Боевые стили (SRD 5.1) — варианты умения «Боевой стиль» воина, паладина и следопыта.
   // «Сражение большим оружием» 2014 — переброс 1 и 2 на костях урона; приложение его не считает.
   'fighter-fighting-style-archery': [{ type: 'rangedAttackBonus', value: 2 }],

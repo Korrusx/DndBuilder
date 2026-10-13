@@ -42,7 +42,9 @@ export function bonusHpFromEffects(effects: Effect[], totalLevel: number, classL
 export function armorClass({ armor, shield, mods, effects }: AcInput): number {
   let ac: number;
   if (armor) {
-    const dex = armor.dexBonus ? Math.min(mods.dex, armor.maxDex ?? Infinity) : 0;
+    let maxDex = armor.maxDex ?? Infinity;
+    if (armor.category === 'medium') for (const e of effects) if (e.type === 'mediumArmorMaxDex') maxDex = Math.max(maxDex, e.value);
+    const dex = armor.dexBonus ? Math.min(mods.dex, maxDex) : 0;
     ac = armor.base + dex;
     for (const e of effects) if (e.type === 'armoredAcBonus') ac += e.value;
   } else {

@@ -18,7 +18,9 @@ import {
   totalLevel,
   finalAbilityScores,
   originFeatIds,
+  proficiencyIds,
   proficientSkills,
+  speciesSpellcasting,
   spellLimits,
   subclassLevel,
   weaponMasteryCount,
@@ -181,6 +183,9 @@ export function levelFeatOptions(c: Character, content: Content, kind: FeatSlotK
   // Условия черт («4-й уровень+») — по общему уровню; черта этого уровня помечена им же.
   const level = totalLevel(c.classes);
   const scores = finalAbilityScores(c, content);
+  const profs = proficiencyIds(c, content);
+  const sheet = computeSheet(c, content);
+  const casts = !!sheet.spellcasting || !!speciesSpellcasting(c, content, sheet);
   const taken = new Set([...originFeatIds(c, content), ...c.feats.filter((f) => f.level !== level).map((f) => f.featId)]);
   return content.feats
     .filter((f) => (kind === 'epic-boon' ? f.type === 'epic-boon' : f.type === 'general' || f.type === 'origin'))
@@ -191,11 +196,26 @@ export function levelFeatOptions(c: Character, content: Content, kind: FeatSlotK
       const opts = f.prerequisites?.abilityOptions?.options ?? [];
       return opts.length === 0 || opts.some((o) => o.kind === 'minScore' && scores[o.ability] >= o.min);
     })
+    // 2014: нужное владение («Тяжёлая броня» — средние доспехи) и умение творить заклинания.
+    // «Все доспехи» (воин, паладин 2014) покрывают лёгкие, средние и тяжёлые.
+    .filter((f) => {
+      const need = f.prerequisites?.proficiency;
+      return !need || profs.has(need) || (need.endsWith('-armor') && profs.has('all-armor'));
+    })
+    .filter((f) => !f.prerequisites?.spellcasting || casts)
     .map((f) => f.id);
 }
 
-/** Какие прибавки к характеристикам даёт черта и до какого предела. */
-export function featAbilityRule(featId: string): { mode: 'asi' } | { mode: 'one'; abilities: AbilityId[]; cap: number } | null {
+/**
+ * Какие прибавки к характеристикам даёт черта и до какого предела. 2024 — таблица FEAT_ABILITY;
+ * 2014 — данные черты (`Feat.abilityIncrease`), у части черт те же id, но другие прибавки («Захват»).
+ */
+export function featAbilityRule(featId: string, content: Content): { mode: 'asi' } | { mode: 'one'; abilities: AbilityId[]; cap: number } | null {
+  if (featId === 'ability-score-improvement') return { mode: 'asi' };
+  if (content.edition === '2014') {
+    const inc = indexOf(content).feats.get(featId)?.abilityIncrease;
+    return inc ? { mode: 'one', abilities: inc.abilities, cap: inc.cap ?? 20 } : null;
+  }
   const rule = FEAT_ABILITY[featId];
   if (!rule) return null;
   return rule === 'asi' ? { mode: 'asi' } : { mode: 'one', ...rule };
@@ -232,7 +252,7 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
     const feat = levelFeat(next, content, plan.charLevel);
     need(!!feat, plan.featSlot === 'asi' ? t('levelUp.issues.asi') : t('levelUp.issues.epicBoon'));
     if (feat) {
-      const rule = featAbilityRule(feat.featId);
+      const rule = featAbilityRule(feat.featId, content);
       const inc = Object.values(feat.abilityIncreases ?? {}).filter(Boolean) as number[];
       const total = inc.reduce((a, b) => a + b, 0);
       if (rule?.mode === 'asi') need(total === 2 && inc.every((v) => v <= 2), t('levelUp.issues.asiSpread'));

@@ -3,10 +3,11 @@ import {
   CHOICE_KEYS,
   MAGIC_INITIATE_ABILITIES,
   MAGIC_INITIATE_LISTS,
+  MAGIC_INITIATE_LISTS_2014,
   spellOptions,
 } from '@/entities/character';
 import { useDraft } from '@/features/create-character';
-import { abilityAbbr, content, nameOf, spellName } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, spellName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
 
@@ -24,6 +25,10 @@ export function MagicInitiate({
   const abilityKey = CHOICE_KEYS.featAbility(slot);
   const cantripsKey = CHOICE_KEYS.featCantrips(slot);
   const spellKey = CHOICE_KEYS.featSpell(slot);
+  // 2014: шесть классов на выбор, характеристика — заклинательная характеристика выбранного класса.
+  const is2014 = c.edition === '2014';
+  const lists = is2014 ? MAGIC_INITIATE_LISTS_2014 : MAGIC_INITIATE_LISTS;
+  const classAbility = (id: string) => byId.classes.get(id)?.spellcasting?.ability;
 
   return (
     <Section
@@ -34,24 +39,37 @@ export function MagicInitiate({
         <AppText variant="secondary">{t('magicInitiate.list', { name: nameOf('classes', fixedList) })}</AppText>
       ) : (
         <ChipRow>
-          {MAGIC_INITIATE_LISTS.map((id) => (
+          {lists.map((id) => (
             <Chip
               key={id}
               label={nameOf('classes', id)}
               selected={list === id}
               onPress={() =>
-                update((d) => ({ ...d, choices: { ...d.choices, [listKey]: [id], [cantripsKey]: [], [spellKey]: [] } }))
+                update((d) => ({
+                  ...d,
+                  choices: {
+                    ...d.choices,
+                    [listKey]: [id],
+                    [cantripsKey]: [],
+                    [spellKey]: [],
+                    ...(is2014 && classAbility(id) ? { [abilityKey]: [classAbility(id)!] } : {}),
+                  },
+                }))
               }
             />
           ))}
         </ChipRow>
       )}
-      <AppText variant="secondary">{t('magicInitiate.ability')}</AppText>
-      <ChipRow>
-        {MAGIC_INITIATE_ABILITIES.map((id) => (
-          <Chip key={id} label={abilityAbbr(id)} selected={choice1(c, abilityKey) === id} onPress={() => setChoice(abilityKey, [id])} />
-        ))}
-      </ChipRow>
+      {is2014 ? null : (
+        <>
+          <AppText variant="secondary">{t('magicInitiate.ability')}</AppText>
+          <ChipRow>
+            {MAGIC_INITIATE_ABILITIES.map((id) => (
+              <Chip key={id} label={abilityAbbr(id)} selected={choice1(c, abilityKey) === id} onPress={() => setChoice(abilityKey, [id])} />
+            ))}
+          </ChipRow>
+        </>
+      )}
       {list ? (
         <>
           <Section title={t('magicInitiate.cantrips')} picked={c.choices[cantripsKey]?.length ?? 0} need={2}>

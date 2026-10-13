@@ -1,0 +1,7 @@
+{
+  "_comment": "Ресурсы черт и умений Player's Handbook 2014 (формат — extra/resources.json). По памяти — сверить с книгой.",
+  "resources": [
+    { "id": "lucky", "name": { "en": "Luck Points", "ru": "Очки удачи" }, "features": "lucky", "max": { "fixed": 3 } },
+    { "id": "martial-adept-die", "name": { "en": "Superiority Die (Martial Adept)", "ru": "Кость превосходства (Мастер боевых искусств)" }, "features": "martial-adept", "max": { "fixed": 1 }, "die": { "fixed": 6 }, "short": "all" }
+  ]
+}

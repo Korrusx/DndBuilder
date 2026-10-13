@@ -103,7 +103,7 @@ describe('выборы других классов', () => {
   });
 
   test('эпический дар: +1 к характеристике до 30', () => {
-    expect(featAbilityRule('boon-of-fate')).toMatchObject({ mode: 'one', cap: 30 });
+    expect(featAbilityRule('boon-of-fate', content)).toMatchObject({ mode: 'one', cap: 30 });
     const prev = { ...at('fighter', 18), baseAbilities: { str: 20, dex: 14, con: 14, int: 10, wis: 10, cha: 8 }, backgroundBonuses: {} };
     const next = startLevelUp(prev);
     expect(levelUpPlan(next, content).featSlot).toBe('epic-boon');

@@ -236,7 +236,8 @@ export type Feat = {
   name: LocalizedText;
   type: FeatType;
   description: LocalizedText;
-  prerequisites?: { minLevel?: number; feature?: string; abilityOptions?: Choice };
+  /** `proficiency` (2014) — нужное владение («Тяжёлая броня» — средние доспехи); `spellcasting` — умение творить заклинания. */
+  prerequisites?: { minLevel?: number; feature?: string; abilityOptions?: Choice; proficiency?: string; spellcasting?: boolean };
   repeatable?: LocalizedText;
   /** Владения на выбор, которые даёт черта (id владений). */
   proficiencyChoices?: Choice[];
@@ -244,6 +245,8 @@ export type Feat = {
   proficiencies?: string[];
   /** 2014: +1 к одной из этих характеристик (не выше `cap`, по умолчанию 20) — «полуторные» черты. */
   abilityIncrease?: { abilities: AbilityId[]; cap?: number };
+  /** 2014: владение спасбросками характеристики, к которой прибавка («Устойчивый»). */
+  savingThrowFromIncrease?: boolean;
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
 };

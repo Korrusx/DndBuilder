@@ -49,6 +49,19 @@ function originFeatIncrease(c: Character, content: Content): Partial<AbilityScor
   return feat?.abilityIncrease && ability && feat.abilityIncrease.abilities.includes(ability) ? { [ability]: 1 } : {};
 }
 
+/** 2014: спасброски от черт («Устойчивый» — характеристика, к которой прибавка). */
+function featSavingThrows(c: Character, content: Content): AbilityId[] {
+  const idx = indexOf(content);
+  const fromLevels = c.feats.flatMap((f) =>
+    idx.feats.get(f.featId)?.savingThrowFromIncrease
+      ? (Object.entries(f.abilityIncreases ?? {}).filter(([, v]) => v).map(([a]) => a) as AbilityId[])
+      : [],
+  );
+  const origin = idx.feats.get(c.choices[CHOICE_KEYS.versatileFeat]?.[0] ?? '');
+  const originAbility = c.choices[CHOICE_KEYS.versatileAbility]?.[0] as AbilityId | undefined;
+  return [...fromLevels, ...(origin?.savingThrowFromIncrease && originAbility ? [originAbility] : [])];
+}
+
 /** Особенности расы / вида и подрасы / подвида на уровне персонажа. */
 function speciesTraitIdsAt(c: Character, content: Content, level: number): string[] {
   const idx = indexOf(content);
@@ -83,6 +96,8 @@ export function proficiencyIds(c: Character, content: Content): Set<string> {
     // 2014: владения от особенностей расы («Острые чувства» — Восприятие, «Обучение эльфийскому оружию»).
     ...speciesTraitIdsAt(c, content, totalLevel(c.classes)).flatMap((id) => idx.traits.get(id)?.proficiencies ?? []),
     ...c.toolProficiencies,
+    // 2014: владения от черт («Средняя броня» и т.п.) — черты уровня и черта человека-варианта.
+    ...[...c.feats.map((f) => f.featId), ...originFeatIds(c, content)].flatMap((id) => idx.feats.get(id)?.proficiencies ?? []),
     ...chosenProficiencyIds(c),
     ...featureOptionProficiencies(c),
   ]);
@@ -142,7 +157,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   // --- Характеристики и спасброски ---
   const scores = finalAbilityScores(c, content);
   const mods = modifiers(scores);
-  const saveProfs = new Set(classes[0]?.cls.savingThrows ?? []);
+  const saveProfs = new Set([...(classes[0]?.cls.savingThrows ?? []), ...featSavingThrows(c, content)]);
   const abilities = {} as CharacterSheet['abilities'];
   for (const id of ABILITY_IDS) {
     const proficient = saveProfs.has(id);
@@ -214,6 +229,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     const traitSpeed = f.source === 'species' ? idx.traits.get(f.id)?.speed : undefined;
     if (traitSpeed) speed = Math.max(speed, traitSpeed);
   }
+  for (const e of effects) if (e.type === 'speedBonus') speed += e.value;
   const classSpecific: CharacterSheet['classSpecific'] = {};
   for (const { entry, cls } of classes) {
     const row = cls.levels[entry.level - 1];
@@ -247,7 +263,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     profBonus: pb,
     abilities,
     skills,
-    passivePerception: passiveScore(perception),
+    passivePerception: passiveScore(perception) + effects.reduce((s, e) => s + (e.type === 'passivePerceptionBonus' ? e.value : 0), 0),
     initiative: initiative(mods.dex, pb, effects),
     maxHp,
     armorClass: ac,

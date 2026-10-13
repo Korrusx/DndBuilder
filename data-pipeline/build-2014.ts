@@ -14,6 +14,7 @@ import type {
   ChoiceOption,
   ClassResource,
   Content,
+  Feat,
   Feature,
   ProficiencyType,
   Species,
@@ -356,7 +357,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
     };
   });
 
-  const feats = (await raw('feats')).map((f) => {
+  const feats: Feat[] = (await raw('feats')).map((f) => {
     const prereq = (f.prerequisites ?? []) as Raw[];
     return {
       id: f.index,
@@ -379,6 +380,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
   // --- Механика PHB 2014 (data-pipeline/extra-2014) ---
   const extra = await readExtra(proficiencies, equipmentCategoriesRaw, languages.map((l) => l.id));
   backgrounds.push(...extra.backgrounds);
+  feats.push(...extra.feats);
   species.push(...extra.species);
   for (const sub of extra.subspecies) {
     subspecies.push(sub);
@@ -572,7 +574,7 @@ const EXTRA_DIR = join(ROOT, 'extra-2014');
 type ExtraProfChoice = {
   choose: number;
   options?: string[];
-  fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' | 'skill';
+  fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' | 'skill' | 'weapon';
   desc?: string;
   descEn?: string;
 };
@@ -585,6 +587,9 @@ async function readExtra(proficiencies: { id: string; type: ProficiencyType; ref
   const profChoice = (c: ExtraProfChoice, where: string, key: string): Choice => {
     let options = c.options ?? [];
     if (c.fromProficiencyType === 'gamingSet') options = proficiencies.filter((p) => p.refId && gamingSets.has(p.refId)).map((p) => p.id);
+    // Оружие — отдельные виды (без «простого» и «воинского» целиком).
+    else if (c.fromProficiencyType === 'weapon')
+      options = proficiencies.filter((p) => p.type === 'weapon' && !['simple-weapons', 'martial-weapons'].includes(p.id)).map((p) => p.id);
     else if (c.fromProficiencyType) options = proficiencies.filter((p) => p.type === c.fromProficiencyType).map((p) => p.id);
     if (!options.length) warn(`${where}: пустой выбор владений`);
     return {
@@ -683,13 +688,44 @@ async function readExtra(proficiencies: { id: string; type: ProficiencyType; ref
 
   for (const [id, sp] of Object.entries(data.traitSpells ?? {}) as [string, Raw][]) Object.assign(patch(id), sp);
 
-  return { backgrounds, species, subspecies, traits, traitPatches };
+  const feats: Feat[] = (await read('feats')).feats.map((f: Raw) => {
+    const p = f.prerequisite ?? {};
+    const prerequisites = {
+      ...(p.ability
+        ? {
+            abilityOptions: {
+              choose: 1,
+              options: (p.ability as [AbilityId, number][]).map(([ability, min]): ChoiceOption => ({ kind: 'minScore', ability, min })),
+            },
+          }
+        : {}),
+      ...(p.proficiency ? { proficiency: p.proficiency } : {}),
+      ...(p.spellcasting ? { spellcasting: true } : {}),
+    };
+    return {
+      id: f.id,
+      name: seeded(`feat.${f.id}.name`, f.name.en, f.name.ru),
+      type: 'general' as const,
+      description: seeded(`feat.${f.id}.description`, f.textEn, f.text),
+      ...(Object.keys(prerequisites).length ? { prerequisites } : {}),
+      ...(f.abilityIncrease ? { abilityIncrease: { abilities: f.abilityIncrease } } : {}),
+      ...(f.savingThrowFromIncrease ? { savingThrowFromIncrease: true } : {}),
+      ...(f.proficiencies ? { proficiencies: f.proficiencies } : {}),
+      ...(f.proficiencyChoices
+        ? { proficiencyChoices: f.proficiencyChoices.map((c: ExtraProfChoice, i: number) => profChoice(c, `черта ${f.id}`, `feat.${f.id}.proficiencyChoice.${i}`)) }
+        : {}),
+      extra: true,
+    };
+  });
+
+  return { backgrounds, species, subspecies, traits, traitPatches, feats };
 }
 
 /** Ресурсы умений (ярость, ки, вдохновение…): srd-2014/resources.json. */
 async function readResources(): Promise<ClassResource[]> {
-  const data = JSON.parse(await readFile(join(SRD_DIR, 'resources.json'), 'utf8'));
-  return (data.resources as Raw[]).map((r) => ({
+  const srd = JSON.parse(await readFile(join(SRD_DIR, 'resources.json'), 'utf8'));
+  const phb = JSON.parse(await readFile(join(EXTRA_DIR, 'resources.json'), 'utf8'));
+  return ([...srd.resources, ...phb.resources] as Raw[]).map((r) => ({
     ...r,
     name: seeded(`resource.${r.id}.name`, r.name.en, r.name.ru),
     features: Array.isArray(r.features) ? r.features : [r.features],

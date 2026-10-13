@@ -11,6 +11,7 @@ export {
   SPELLBOOK_PER_LEVEL,
   SPELLBOOK_START,
   MAGIC_INITIATE_LISTS,
+  MAGIC_INITIATE_LISTS_2014,
   POINT_BUY_BUDGET,
   POINT_BUY_MAX,
   POINT_BUY_MIN,
@@ -97,7 +98,7 @@ export {
 } from './model/play';
 export { adjustResource, characterResources, shortRestResources } from './model/resources';
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
-export { computeSheet, finalAbilityScores, originFeatIds, subclassSpellIds } from './model/sheet';
+export { computeSheet, finalAbilityScores, originFeatIds, proficiencyIds, subclassSpellIds } from './model/sheet';
 export type { SpellDamage } from './model/spells';
 export { spellAttackBonus, spellDamage, spellDamageLevels, spellSaveDC } from './model/spells';
 export type { ClassOptionSlot, ClassOptionSpell } from './model/classOptions';

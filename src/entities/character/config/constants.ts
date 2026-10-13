@@ -113,6 +113,9 @@ export const FEAT_FEATURES: Record<string, 'fighting-style'> = {
 /** Списки заклинаний для «Посвящённого в магию». */
 export const MAGIC_INITIATE_LISTS = ['cleric', 'druid', 'wizard'] as const;
 
+/** 2014 (PHB): список любого из шести классов, характеристика — заклинательная характеристика этого класса. */
+export const MAGIC_INITIATE_LISTS_2014 = ['bard', 'cleric', 'druid', 'sorcerer', 'warlock', 'wizard'] as const;
+
 export const MAGIC_INITIATE_ABILITIES: AbilityId[] = ['int', 'wis', 'cha'];
 
 // ---------- Мультикласс (SRD 5.2) ----------

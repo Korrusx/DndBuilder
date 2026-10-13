@@ -93,11 +93,11 @@ export function LevelUpPage() {
 
   // --- Черта уровня ---
   const feat = levelFeat(next, content, level);
-  const featRule = feat ? featAbilityRule(feat.featId) : null;
+  const featRule = feat ? featAbilityRule(feat.featId, content) : null;
   const setFeat = (featId: string | undefined) =>
     set((c) => {
       const others = c.feats.filter((f) => f !== levelFeat(c, content, level));
-      const rule = featId ? featAbilityRule(featId) : null;
+      const rule = featId ? featAbilityRule(featId, content) : null;
       const added = featId
         ? [{ featId, source: 'class' as const, level, abilityIncreases: {}, ...(rule?.mode === 'one' && rule.cap !== 20 ? { abilityCap: rule.cap } : {}) }]
         : [];

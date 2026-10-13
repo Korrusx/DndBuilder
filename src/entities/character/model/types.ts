@@ -228,6 +228,12 @@ export type Effect =
   | { type: 'unarmoredDefense'; abilities: AbilityId[]; shieldAllowed: boolean; base?: number }
   /** +N к инициативе (2014, черта «Бдительность»: +5). */
   | { type: 'initiativeBonus'; value: number }
+  /** +N фт к скорости (2014, черта «Подвижный»). */
+  | { type: 'speedBonus'; value: number }
+  /** +N к пассивному Восприятию (2014, черта «Наблюдательный»). */
+  | { type: 'passivePerceptionBonus'; value: number }
+  /** Предел ЛОВ в среднем доспехе (2014, «Мастер средних доспехов»: +3). */
+  | { type: 'mediumArmorMaxDex'; value: number }
   /** +N к КЗ всегда (Кованый: «Встроенная защита»). */
   | { type: 'acBonus'; value: number }
   /** +N к КЗ, пока надет доспех (лёгкий, средний или тяжёлый). */
