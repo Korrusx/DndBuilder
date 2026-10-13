@@ -11,6 +11,7 @@ import {
   characterResources,
   CHOICE_KEYS,
   chosenClassOptions,
+  classSpellLists,
   classOptionSpells,
   computeSheet,
   knownLanguages,
@@ -60,8 +61,13 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
     const spell = byId.spells.get(id);
     if (spell && !out.has(id)) out.set(id, { spell, note });
   };
-  c.cantrips.forEach((id) => add(id));
-  c.preparedSpells.forEach((id) => add(id));
+  // Заклинания каждого класса; при нескольких заклинателях — с пометкой класса.
+  const casters = c.classes.filter((e) => byId.classes.get(e.classId)?.spellcasting).map((e) => e.classId);
+  for (const classId of casters) {
+    const lists = classSpellLists(c, content, classId);
+    const note = casters.length > 1 ? nameOf('classes', classId) : undefined;
+    [...lists.cantrips, ...lists.preparedSpells].forEach((id) => add(id, note));
+  }
   spellbook(c).forEach((id) => add(id, t('pdf.spellbook')));
   for (const { slot } of magicInitiateSlots(c, content)) {
     for (const id of [...(c.choices[CHOICE_KEYS.featCantrips(slot)] ?? []), ...(c.choices[CHOICE_KEYS.featSpell(slot)] ?? [])]) {
@@ -257,23 +263,30 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
   const slots = sc?.slots ?? [];
   const pact = !!sc?.slotsFromPact;
 
-  const castRow = `
+  // По строке на каждого заклинателя (мультикласс); без заклинаний — пустая строка для карандаша.
+  const casterRow = (x?: { classId: string; ability: AbilityId; saveDC: number; attackBonus: number }) => `
     <div class="stats">
-      ${stat(sc ? nameOf('classes', sc.classId) : '', t('pdf.casterClass'))}
-      ${stat(sc ? abilityAbbr(sc.ability) : '', t('pdf.ability'))}
-      ${stat(sc ? formatModifier(sheet.abilities[sc.ability].mod) : '', t('pdf.modifier'))}
-      ${stat(sc ? String(sc.saveDC) : '', t('pdf.saveDC'))}
-      ${stat(sc ? formatModifier(sc.attackBonus) : '', t('pdf.spellAttack'))}
+      ${stat(x ? nameOf('classes', x.classId) : '', t('pdf.casterClass'))}
+      ${stat(x ? abilityAbbr(x.ability) : '', t('pdf.ability'))}
+      ${stat(x ? formatModifier(sheet.abilities[x.ability].mod) : '', t('pdf.modifier'))}
+      ${stat(x ? String(x.saveDC) : '', t('pdf.saveDC'))}
+      ${stat(x ? formatModifier(x.attackBonus) : '', t('pdf.spellAttack'))}
     </div>`;
+  const castRow = sheet.spellcastingClasses.length ? sheet.spellcastingClasses.map(casterRow).join('') : casterRow();
 
   const slotBoxes = SLOT_FORM.map((n, i) => {
     const have = slots[i] ?? 0;
     const marks = Array.from({ length: Math.max(n, have) }, (_, k) => circle(false, k < have ? ' have' : ' off')).join('');
     return `<div class="box slot"><div class="lbl">${e(t('spell.circle', { level: i + 1 }))}</div><div class="marks">${marks}</div></div>`;
   }).join('');
+  // Отдельные ячейки договора колдуна-мультикласса: круг и кружки.
+  const pactSlots = (sheet.pactSlots ?? [])
+    .map((n, i) => (n > 0 ? `${e(t('pdf.pactSlots', { level: i + 1 }))} ${circles(n)}` : ''))
+    .filter(Boolean)
+    .join(' ');
   const slotsBlock = `<div class="slots">${slotBoxes}</div>${
     pact ? `<div class="hint">${e(t('pdf.pactHint'))}</div>` : ''
-  }`;
+  }${pactSlots ? `<div class="hint">${pactSlots}</div>` : ''}`;
 
   const spells = sheetSpells(c, content);
   const spellRows = spells.map(({ spell: s, note }) => {

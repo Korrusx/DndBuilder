@@ -17,7 +17,9 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
   // Сводка считает лист персонажа — пересчитываем, только когда изменился сам персонаж.
   const s = useMemo(() => characterSummary(c, content), [c]);
   const draft = c.status.kind === 'draft' ? c.status : null;
-  const subtitle = [s.classNames.map((n) => tr(n).text).join(' / '), tr(s.species).text, tr(s.background).text]
+  // Один класс — просто название; мультикласс — с уровнями: «Плут 3 / Волшебник 2».
+  const classes = s.classNames.map((n, i) => (s.classNames.length > 1 ? `${tr(n).text} ${s.classLevels[i]}` : tr(n).text)).join(' / ');
+  const subtitle = [classes, tr(s.species).text, tr(s.background).text]
     .filter(Boolean)
     .join(' · ');
 

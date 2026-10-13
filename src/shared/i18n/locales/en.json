@@ -344,7 +344,8 @@
     "personality": "Personality & Backstory",
     "footer": "Sheet made with the D&D Character Builder. Rules — System Reference Document 5.2, CC BY 4.0.",
     "untitled": "Character",
-    "spellbook": "spellbook"
+    "spellbook": "spellbook",
+    "pactSlots": "Pact slots (level {{level}}, Short Rest):"
   },
   "nav": {
     "characters": "My Characters",
@@ -623,7 +624,11 @@
     "healTitle": "healing",
     "tempHpTitle": "temporary HP",
     "dartsNote": "Darts: {{count}} — total of all darts; split it if they hit different targets.",
-    "chosenType": "You choose the damage type when casting."
+    "chosenType": "You choose the damage type when casting.",
+    "pactSlots": "Pact slots",
+    "pactSlotsHint": "Warlock Pact Magic: separate slots, regained on a Short Rest. They can cast spells of your other classes too.",
+    "classStats": "DC {{dc}} ({{ability}}) · attack {{attack}}",
+    "castPact": "{{name}}: used a level {{level}} pact slot"
   },
   "edit": {
     "saveFailed": "Couldn't save the file",

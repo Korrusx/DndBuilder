@@ -13,6 +13,7 @@ export function characterSummary(c: Character, content: Content): CharacterSumma
     letter: (c.name.trim()[0] ?? '?').toUpperCase(),
     level: totalLevel(c.classes),
     classNames: c.classes.flatMap((e) => idx.classes.get(e.classId)?.name ?? []),
+    classLevels: c.classes.filter((e) => idx.classes.has(e.classId)).map((e) => e.level),
     species: idx.species.get(c.speciesId)?.name,
     background: idx.backgrounds.get(c.backgroundId)?.name,
   };

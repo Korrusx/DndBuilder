@@ -300,6 +300,8 @@ export type CharacterSummary = {
   letter: string;
   level: number;
   classNames: LocalizedText[];
+  /** Уровни классов в том же порядке (для мультикласса: «Плут 3 / Волшебник 2»). */
+  classLevels: number[];
   species?: LocalizedText;
   background?: LocalizedText;
   /** Хиты и КЗ — только для готового персонажа, у черновика их ещё нельзя посчитать. */

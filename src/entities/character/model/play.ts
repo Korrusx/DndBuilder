@@ -98,6 +98,19 @@ export function castSpell(
 }
 
 /**
+ * Сотворить заклинание ячейкой «Магии договора» (отдельные ячейки мультиклассового колдуна):
+ * самый низкий круг ≥ круга заклинания со свободной ячейкой. null — свободных нет.
+ */
+export function castWithPactSlot(state: GameState, spellLevel: number, pactSlots: number[]): { state: GameState; slotLevel: number } | null {
+  for (let level = Math.max(1, spellLevel); level <= pactSlots.length; level++) {
+    if ((state.pactSlotsSpent?.[level - 1] ?? 0) < (pactSlots[level - 1] ?? 0)) {
+      return { state: adjustPactSlot(state, level, 1, pactSlots), slotLevel: level };
+    }
+  }
+  return null;
+}
+
+/**
  * Короткий отдых завершён: колдун восстанавливает ячейки «Магии договора» — отдельные (`pactSlotsSpent`)
  * всегда, а общие — если они только от договора (`pactMagic`, колдун без других заклинателей).
  */

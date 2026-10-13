@@ -3,7 +3,7 @@ import { content } from '@/shared/content';
 import { irmaLevel1 } from '../../lib/samples';
 import { classSpellLists, primaryCasterId, setClassSpellLists, spellLimits, weaponMasteryCount, weaponMasteryOptions } from '../build';
 import { emptyGameState } from '../character';
-import { adjustPactSlot, finishShortRest } from '../play';
+import { adjustPactSlot, castWithPactSlot, finishShortRest } from '../play';
 import { longRest } from '../rest';
 import { computeSheet } from '../sheet';
 import type { ClassEntry } from '../types';
@@ -93,6 +93,14 @@ describe('мультикласс: ячейки заклинаний', () => {
     expect(rested.pactSlotsSpent).toBeUndefined();
     expect(rested.slotsSpent[0]).toBe(1); // общие ячейки короткий отдых не возвращает
     expect(longRest(spent, 10).pactSlotsSpent).toBeUndefined();
+  });
+
+  test('заклинание 1-го круга ячейкой договора 2-го круга', () => {
+    const pact = slots(0, 2);
+    const first = castWithPactSlot(emptyGameState(), 1, pact)!;
+    expect(first.slotLevel).toBe(2);
+    const second = castWithPactSlot(first.state, 1, pact)!;
+    expect(castWithPactSlot(second.state, 1, pact)).toBeNull();
   });
 });
 

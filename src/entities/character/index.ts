@@ -69,6 +69,7 @@ export {
   adjustPactSlot,
   adjustSlot,
   castSpell,
+  castWithPactSlot,
   deathSave,
   deathStatus,
   divineSmiteDice,

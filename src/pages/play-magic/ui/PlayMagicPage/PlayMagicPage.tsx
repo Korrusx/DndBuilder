@@ -4,11 +4,14 @@ import { Alert, Pressable, View } from 'react-native';
 
 import type { SpeciesSpell, SpellDamage } from '@/entities/character';
 import {
+  adjustPactSlot,
   adjustResource,
   adjustSlot,
   castSpell,
+  castWithPactSlot,
   chosenClassOptions,
   classOptionSpells,
+  classSpellLists,
   hasSpellbook,
   choice1,
   CHOICE_KEYS,
@@ -37,13 +40,17 @@ import { styles } from './PlayMagicPage.styles';
 export function PlayMagicPage() {
   const { character: c, sheet, update, updateState } = usePlay();
   const { t } = useTranslation();
-  const [editing, setEditing] = useState(false);
+  // Класс, чьи заклинания меняем в окне «Изменить заклинания»; null — окно закрыто.
+  const [editing, setEditing] = useState<string | null>(null);
   const [info, setInfo] = useState<InfoContent | null>(null);
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [damage, setDamage] = useState<DamageRequest | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [swapping, setSwapping] = useState<SpeciesSpell | null>(null);
   const sc = sheet.spellcasting;
+  const pact = sheet.pactSlots;
+  // Несколько заклинателей: у каждого свой раздел со своей СЛ и атакой.
+  const multi = sheet.spellcastingClasses.length > 1;
   const ex = c.state.exhaustion;
 
   const initiates = magicInitiateSlots(c, content).map(({ slot, fixedList }) => {
@@ -60,8 +67,6 @@ export function PlayMagicPage() {
   });
 
   const species = speciesSpellcasting(c, content, sheet);
-  // Волшебник: заклинания книги, которые сейчас не подготовлены.
-  const reserve = hasSpellbook(c) ? spellbook(c).filter((id) => !c.preparedSpells.includes(id)) : [];
 
   if (!sc && initiates.length === 0 && !species) {
     return (
@@ -71,24 +76,43 @@ export function PlayMagicPage() {
     );
   }
 
-  const cast = (spell: Spell) => {
+  /**
+   * Сотворить: заговор — без ячейки; иначе ячейка общих или (у колдуна-мультикласса) ячеек договора.
+   * Заклинание колдуна сначала берёт ячейку договора, остальные — общую; если нет — из другого запаса (SRD 5.2).
+   */
+  const cast = (spell: Spell, classId?: string) => {
     if (!sc) return;
-    const result = castSpell(c.state, spell.level, sc.slots);
+    const fromPact = () => (pact ? castWithPactSlot(c.state, spell.level, pact) : null);
+    const fromMain = () => castSpell(c.state, spell.level, sc.slots);
+    const pactFirst = classId === 'warlock' && !!pact;
+    let result = pactFirst ? fromPact() : fromMain();
+    let usedPact = pactFirst && !!result;
+    if (!result) {
+      result = pactFirst ? fromMain() : fromPact();
+      usedPact = !pactFirst && !!result;
+    }
     if (!result) {
       Alert.alert(t('magic.noSlots'), t('magic.noSlotsHint', { level: spell.level }));
       return;
     }
-    updateState(() => result.state);
+    const done = result;
+    updateState(() => done.state);
+    const name = tr(spell.name).text;
     setMessage(
-      result.slotLevel === 0
-        ? t('magic.castCantrip', { name: tr(spell.name).text })
-        : t('magic.castSlot', { name: tr(spell.name).text, level: result.slotLevel }),
+      done.slotLevel === 0
+        ? t('magic.castCantrip', { name })
+        : usedPact && spell.level > 0
+          ? t('magic.castPact', { name, level: done.slotLevel })
+          : t('magic.castSlot', { name, level: done.slotLevel }),
     );
   };
 
   // «Мучительный взрыв»: + мод. ХАР к урону заговора; считаем, что выбран «Мистический заряд».
   const agonizing = chosenClassOptions(c, 'invocation').includes('agonizing-blast') ? sheet.abilities.cha.mod : 0;
-  const maxSlot = sc ? sc.slots.reduce((m, n, i) => (n > 0 ? i + 1 : m), 0) : 0;
+  // Заклинания воззваний и Книги теней — заклинания колдуна: его характеристика и ячейки договора.
+  const warlockAttack = sheet.spellcastingClasses.find((x) => x.classId === 'warlock')?.attackBonus ?? sc?.attackBonus;
+  const topCircle = (xs: number[] = []) => xs.reduce((m, n, i) => (n > 0 ? i + 1 : m), 0);
+  const maxSlot = Math.max(topCircle(sc?.slots), topCircle(pact));
   const damageTypeName = (id?: string) => (id ? tr(byId.damageTypes.get(id)?.name).text || id : undefined);
 
   /** Кнопки «Атака» и «Урон» заклинания; `attackBonus` — от характеристики источника (класс, черта, вид). */
@@ -152,7 +176,7 @@ export function PlayMagicPage() {
     );
   };
 
-  const spellRow = (id: string, canCast: boolean, extra?: ReactNode, attackBonus = sc?.attackBonus) => {
+  const spellRow = (id: string, canCast: boolean, extra?: ReactNode, attackBonus = sc?.attackBonus, classId?: string) => {
     const s = byId.spells.get(id);
     if (!s) return null;
     return (
@@ -173,7 +197,7 @@ export function PlayMagicPage() {
               {spellMeta(s)}
             </AppText>
           </View>
-          {canCast && s.level > 0 ? <SmallButton title={t('magic.cast')} tone="accent" onPress={() => cast(s)} /> : null}
+          {canCast && s.level > 0 ? <SmallButton title={t('magic.cast')} tone="accent" onPress={() => cast(s, classId)} /> : null}
           {extra}
         </View>
         {spellActions(s, attackBonus)}
@@ -185,15 +209,17 @@ export function PlayMagicPage() {
     <Screen>
       {sc ? (
         <>
-          <View style={styles.row}>
-            <StatBox label={t('magic.saveDC', { ability: abilityAbbr(sc.ability) })} value={String(sc.saveDC)} />
-            <StatBox
-              label={t('magic.spellAttack')}
-              value={formatModifier(sc.attackBonus)}
-              accent
-              onPress={() => setRoll({ title: t('magic.spellAttack'), parts: d20Parts([{ label: t('magic.attack'), value: sc.attackBonus }], ex) })}
-            />
-          </View>
+          {multi ? null : (
+            <View style={styles.row}>
+              <StatBox label={t('magic.saveDC', { ability: abilityAbbr(sc.ability) })} value={String(sc.saveDC)} />
+              <StatBox
+                label={t('magic.spellAttack')}
+                value={formatModifier(sc.attackBonus)}
+                accent
+                onPress={() => setRoll({ title: t('magic.spellAttack'), parts: d20Parts([{ label: t('magic.attack'), value: sc.attackBonus }], ex) })}
+              />
+            </View>
+          )}
 
           <Card>
             <AppText variant="heading">{t('magic.slots')}</AppText>
@@ -210,30 +236,74 @@ export function PlayMagicPage() {
                 </View>
               ) : null,
             )}
+            {pact ? (
+              <>
+                <AppText variant="heading">{t('magic.pactSlots')}</AppText>
+                <AppText variant="secondary">{t('magic.pactSlotsHint')}</AppText>
+                {pact.map((max, i) =>
+                  max > 0 ? (
+                    <View key={`pact-${i}`} style={styles.row}>
+                      <AppText style={styles.width70}>{t('spell.circle', { level: i + 1 })}</AppText>
+                      <Dots
+                        total={max}
+                        filled={c.state.pactSlotsSpent?.[i] ?? 0}
+                        onPress={(dot) => updateState((s) => adjustPactSlot(s, i + 1, dot < (s.pactSlotsSpent?.[i] ?? 0) ? -1 : 1, pact))}
+                      />
+                    </View>
+                  ) : null,
+                )}
+              </>
+            ) : null}
           </Card>
 
-          <SmallButton title={t('magic.editSpells')} onPress={() => setEditing(true)} />
           {message ? <AppText style={styles.textAccent}>{message}</AppText> : null}
 
-          {c.cantrips.length ? (
-            <View style={styles.section}>
-              <AppText variant="heading">{t('magic.cantrips')}</AppText>
-              {c.cantrips.map((id) => spellRow(id, true))}
-            </View>
-          ) : null}
-          {c.preparedSpells.length ? (
-            <View style={styles.section}>
-              <AppText variant="heading">{t('magic.prepared')}</AppText>
-              {c.preparedSpells.map((id) => spellRow(id, true))}
-            </View>
-          ) : null}
-          {reserve.length ? (
-            <View style={styles.section}>
-              <AppText variant="heading">{t('magic.spellbook')}</AppText>
-              <AppText variant="secondary">{t('magic.spellbookHint')}</AppText>
-              {reserve.map((id) => spellRow(id, false))}
-            </View>
-          ) : null}
+          {sheet.spellcastingClasses.map((cl) => {
+            const lists = classSpellLists(c, content, cl.classId);
+            // Волшебник: заклинания книги, которые сейчас не подготовлены.
+            const reserve = cl.classId === 'wizard' && hasSpellbook(c) ? spellbook(c).filter((id) => !lists.preparedSpells.includes(id)) : [];
+            return (
+              <View key={cl.classId} style={styles.section}>
+                {multi ? (
+                  <View style={styles.row}>
+                    <View style={styles.fillGap2}>
+                      <AppText variant="heading">{nameOf('classes', cl.classId)}</AppText>
+                      <AppText variant="secondary">
+                        {t('magic.classStats', { ability: abilityAbbr(cl.ability), dc: cl.saveDC, attack: formatModifier(cl.attackBonus) })}
+                      </AppText>
+                    </View>
+                    <SmallButton
+                      title={t('combat.attack', { value: formatModifier(cl.attackBonus) })}
+                      tone="accent"
+                      onPress={() =>
+                        setRoll({ title: `${t('magic.spellAttack')}: ${nameOf('classes', cl.classId)}`, parts: d20Parts([{ label: t('magic.attack'), value: cl.attackBonus }], ex) })
+                      }
+                    />
+                  </View>
+                ) : null}
+                <SmallButton title={t('magic.editSpells')} onPress={() => setEditing(cl.classId)} />
+                {lists.cantrips.length ? (
+                  <View style={styles.section}>
+                    <AppText variant={multi ? 'secondary' : 'heading'}>{t('magic.cantrips')}</AppText>
+                    {lists.cantrips.map((id) => spellRow(id, true, undefined, cl.attackBonus, cl.classId))}
+                  </View>
+                ) : null}
+                {lists.preparedSpells.length ? (
+                  <View style={styles.section}>
+                    <AppText variant={multi ? 'secondary' : 'heading'}>{t('magic.prepared')}</AppText>
+                    {lists.preparedSpells.map((id) => spellRow(id, true, undefined, cl.attackBonus, cl.classId))}
+                  </View>
+                ) : null}
+                {reserve.length ? (
+                  <View style={styles.section}>
+                    <AppText variant={multi ? 'secondary' : 'heading'}>{t('magic.spellbook')}</AppText>
+                    <AppText variant="secondary">{t('magic.spellbookHint')}</AppText>
+                    {reserve.map((id) => spellRow(id, false, undefined, cl.attackBonus, cl.classId))}
+                  </View>
+                ) : null}
+              </View>
+            );
+          })}
         </>
       ) : null}
 
@@ -285,6 +355,8 @@ export function PlayMagicPage() {
                         }}
                       />
                     ) : null,
+                    warlockAttack,
+                    'warlock',
                   )}
                 </View>
               );
@@ -350,10 +422,11 @@ export function PlayMagicPage() {
 
       <InfoSheet info={info} onClose={() => setInfo(null)} />
       <SpellsEditSheet
-        visible={editing}
+        visible={!!editing}
+        classId={editing ?? undefined}
         character={c}
         onChange={update}
-        onClose={() => setEditing(false)}
+        onClose={() => setEditing(null)}
       />
       <D20Sheet request={roll} onClose={() => setRoll(null)} />
       <DamageSheet request={damage} onClose={() => setDamage(null)} />
