@@ -751,7 +751,6 @@
     "v2014": "D&D 2014",
     "hint2024": "2024 rules (SRD 5.2): ability bonuses and a feat come from your background.",
     "hint2014": "2014 rules (SRD 5.1): ability increases come from your race; the background has its own feature.",
-    "changeWarning": "Changing the edition restarts the draft (the name is kept).",
-    "badge2014": "2014 rules"
+    "changeWarning": "Changing the edition restarts the draft (the name is kept)."
   }
 }

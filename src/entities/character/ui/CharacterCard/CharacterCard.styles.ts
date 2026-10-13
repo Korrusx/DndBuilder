@@ -35,6 +35,8 @@ export const styles = StyleSheet.create({
   avatarDraft: { backgroundColor: colors.surface2 },
   avatarLetter: { fontFamily: fonts.displayBold, fontSize: 22, color: colors.accent },
   info: { flex: 1, gap: 2 },
+  nameRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  name: { flexShrink: 1 },
   level: { alignItems: 'center', minWidth: 40 },
   levelNumber: { fontFamily: fonts.displayBold, fontSize: 22, color: colors.text },
   levelLabel: { fontFamily: fonts.text, fontSize: 12, color: colors.textSecondary },

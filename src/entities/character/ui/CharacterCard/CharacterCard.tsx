@@ -4,7 +4,7 @@ import { Pressable, View } from 'react-native';
 import { colors } from '@/shared/config';
 import { contentFor, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, Button } from '@/shared/ui';
+import { AppText, Badge, Button } from '@/shared/ui';
 
 import { HP_COLORS } from '../../config/hpColors';
 import { characterSummary, hpLevel } from '../../model/summary';
@@ -19,7 +19,7 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
   const draft = c.status.kind === 'draft' ? c.status : null;
   // Один класс — просто название; мультикласс — с уровнями: «Плут 3 / Волшебник 2».
   const classes = s.classNames.map((n, i) => (s.classNames.length > 1 ? `${tr(n).text} ${s.classLevels[i]}` : tr(n).text)).join(' / ');
-  const subtitle = [classes, tr(s.species).text, tr(s.background).text, c.edition === '2014' ? t('edition.badge2014') : '']
+  const subtitle = [classes, tr(s.species).text, tr(s.background).text]
     .filter(Boolean)
     .join(' · ');
 
@@ -46,9 +46,13 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
           </View>
         )}
         <View style={styles.info}>
-          <AppText variant="heading" numberOfLines={1}>
-            {c.name || t('common.unnamed')}
-          </AppText>
+          {/* Редакция правил — рядом с именем, чтобы её было видно и при длинной строке класса. */}
+          <View style={styles.nameRow}>
+            <AppText variant="heading" numberOfLines={1} style={styles.name}>
+              {c.name || t('common.unnamed')}
+            </AppText>
+            <Badge label={c.edition} />
+          </View>
           {subtitle ? (
             <AppText variant="secondary" numberOfLines={1}>
               {subtitle}
