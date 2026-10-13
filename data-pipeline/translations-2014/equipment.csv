@@ -1,27 +1,28 @@
 ﻿key,en,ru,status
 weaponProperty.ammunition.name,Ammunition,Боеприпасы,draft
 weaponProperty.ammunition.description,"You can use a weapon that has the ammunition property to make a ranged attack only if you have ammunition to fire from the weapon. Each time you attack with the weapon, you expend one piece of ammunition. Drawing the ammunition from a quiver, case, or other container is part of the attack (you need a free hand to load a one-handed weapon).
-At the end of the battle, you can recover half your expended ammunition by taking a minute to search the battlefield. If you use a weapon that has the ammunition property to make a melee attack, you treat the weapon as an improvised weapon (see ""Improvised Weapons"" later in the section). A sling must be loaded to deal any damage when used in this way.",,todo
+At the end of the battle, you can recover half your expended ammunition by taking a minute to search the battlefield. If you use a weapon that has the ammunition property to make a melee attack, you treat the weapon as an improvised weapon (see ""Improvised Weapons"" later in the section). A sling must be loaded to deal any damage when used in this way.","Оружием со свойством «боеприпас» можно совершить дальнобойную атаку, только если у вас есть чем стрелять. Каждая атака тратит один боеприпас. Достать его из колчана, футляра или другой ёмкости — часть атаки (чтобы зарядить одноручное оружие, нужна свободная рука).
+После боя, потратив минуту на поиски, можно подобрать половину израсходованных боеприпасов. Атакуя таким оружием в ближнем бою, вы используете его как импровизированное (см. «Импровизированное оружие»). Праща в этом случае наносит урон, только если заряжена.",draft
 weaponProperty.finesse.name,Finesse,Фехтовальное,draft
-weaponProperty.finesse.description,"When making an attack with a finesse weapon, you use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.",,todo
+weaponProperty.finesse.description,"When making an attack with a finesse weapon, you use your choice of your Strength or Dexterity modifier for the attack and damage rolls. You must use the same modifier for both rolls.","Атакуя фехтовальным оружием, вы выбираете, какой модификатор использовать для бросков атаки и урона: Силы или Ловкости. Для обоих бросков модификатор должен быть одинаковым.",draft
 weaponProperty.heavy.name,Heavy,Тяжёлое,draft
-weaponProperty.heavy.description,Small creatures have disadvantage on attack rolls with heavy weapons. A heavy weapon's size and bulk make it too large for a Small creature to use effectively.,,todo
+weaponProperty.heavy.description,Small creatures have disadvantage on attack rolls with heavy weapons. A heavy weapon's size and bulk make it too large for a Small creature to use effectively.,Маленькие существа совершают атаки тяжёлым оружием с помехой: оно слишком велико и громоздко для них.,draft
 weaponProperty.light.name,Light,Лёгкое,draft
-weaponProperty.light.description,"A light weapon is small and easy to handle, making it ideal for use when fighting with two weapons.",,todo
+weaponProperty.light.description,"A light weapon is small and easy to handle, making it ideal for use when fighting with two weapons.",Лёгкое оружие небольшое и удобное — оно хорошо подходит для боя двумя оружиями.,draft
 weaponProperty.loading.name,Loading,Перезарядка,draft
-weaponProperty.loading.description,"Because of the time required to load this weapon, you can fire only one piece of ammunition from it when you use an action, bonus action, or reaction to fire it, regardless of the number of attacks you can normally make.",,todo
-weaponProperty.monk.name,Monk,,todo
-weaponProperty.monk.description,Monks gain several benefits while unarmed or wielding only monk weapons while they aren't wearing armor or wielding shields.,,todo
+weaponProperty.loading.description,"Because of the time required to load this weapon, you can fire only one piece of ammunition from it when you use an action, bonus action, or reaction to fire it, regardless of the number of attacks you can normally make.","Перезарядка этого оружия требует времени, поэтому действием, бонусным действием или реакцией вы делаете из него только один выстрел, сколько бы атак вы ни могли совершить.",draft
+weaponProperty.monk.name,Monk,Монах,draft
+weaponProperty.monk.description,Monks gain several benefits while unarmed or wielding only monk weapons while they aren't wearing armor or wielding shields.,"Монах получает ряд преимуществ, когда сражается без оружия или только монашеским оружием, без доспехов и щита.",draft
 weaponProperty.reach.name,Reach,Досягаемость,draft
-weaponProperty.reach.description,"This weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for opportunity attacks with it.",,todo
-weaponProperty.special.name,Special,,todo
-weaponProperty.special.description,"A weapon with the special property has unusual rules governing its use, explained in the weapon's description (see ""Special Weapons"" later in this section).",,todo
+weaponProperty.reach.description,"This weapon adds 5 feet to your reach when you attack with it, as well as when determining your reach for opportunity attacks with it.","Это оружие увеличивает вашу досягаемость на 5 фт — и при атаке им, и для атак по возможности.",draft
+weaponProperty.special.name,Special,Особое,draft
+weaponProperty.special.description,"A weapon with the special property has unusual rules governing its use, explained in the weapon's description (see ""Special Weapons"" later in this section).",У оружия с особым свойством необычные правила использования — они приведены в описании оружия (см. «Особое оружие»).,draft
 weaponProperty.thrown.name,Thrown,Метательное,draft
-weaponProperty.thrown.description,"If a weapon has the thrown property, you can throw the weapon to make a ranged attack. If the weapon is a melee weapon, you use the same ability modifier for that attack roll and damage roll that you would use for a melee attack with the weapon. For example, if you throw a handaxe, you use your Strength, but if you throw a dagger, you can use either your Strength or your Dexterity, since the dagger has the finesse property.",,todo
+weaponProperty.thrown.description,"If a weapon has the thrown property, you can throw the weapon to make a ranged attack. If the weapon is a melee weapon, you use the same ability modifier for that attack roll and damage roll that you would use for a melee attack with the weapon. For example, if you throw a handaxe, you use your Strength, but if you throw a dagger, you can use either your Strength or your Dexterity, since the dagger has the finesse property.","Оружие с этим свойством можно метнуть, совершив дальнобойную атаку. Если это рукопашное оружие, для броска атаки и урона используется тот же модификатор, что и в ближнем бою: метая ручной топор, вы используете Силу, а метая кинжал — Силу или Ловкость, потому что кинжал фехтовальный.",draft
 weaponProperty.two-handed.name,Two-Handed,Двуручное,draft
-weaponProperty.two-handed.description,This weapon requires two hands when you attack with it.,,todo
+weaponProperty.two-handed.description,This weapon requires two hands when you attack with it.,Для атаки этим оружием нужны две руки.,draft
 weaponProperty.versatile.name,Versatile,Универсальное,draft
-weaponProperty.versatile.description,This weapon can be used with one or two hands. A damage value in parentheses appears with the property--the damage when the weapon is used with two hands to make a melee attack.,,todo
+weaponProperty.versatile.description,This weapon can be used with one or two hands. A damage value in parentheses appears with the property--the damage when the weapon is used with two hands to make a melee attack.,"Это оружие можно держать одной или двумя руками. В скобках у свойства указан урон, если атаковать им в ближнем бою двумя руками.",draft
 equipment.abacus.name,Abacus,,todo
 equipment.acid-vial.name,Acid (vial),,todo
 equipment.acid-vial.description,"As an action, you can splash the contents of this vial onto a creature within 5 feet of you or throw the vial up to 20 feet, shattering it on impact. In either case, make a ranged attack against a creature or object, treating the acid as an improvised weapon.
@@ -403,32 +404,32 @@ equipmentCategory.equipment-packs.name,Equipment Packs,Наборы снаряж
 equipmentCategory.gaming-sets.name,Gaming Sets,Игровой набор,draft
 equipmentCategory.heavy-armor.name,Heavy Armor,Тяжёлые доспехи,draft
 equipmentCategory.holy-symbols.name,Holy Symbols,Священный символ,draft
-equipmentCategory.kits.name,Kits,,todo
-equipmentCategory.land-vehicles.name,Land Vehicles,,todo
+equipmentCategory.kits.name,Kits,Наборы,draft
+equipmentCategory.land-vehicles.name,Land Vehicles,Наземный транспорт,draft
 equipmentCategory.light-armor.name,Light Armor,Лёгкие доспехи,draft
 equipmentCategory.martial-melee-weapons.name,Martial Melee Weapons,Воинское рукопашное оружие,draft
 equipmentCategory.martial-ranged-weapons.name,Martial Ranged Weapons,Воинское дальнобойное оружие,draft
 equipmentCategory.martial-weapons.name,Martial Weapons,Воинское оружие,draft
 equipmentCategory.medium-armor.name,Medium Armor,Средние доспехи,draft
 equipmentCategory.melee-weapons.name,Melee Weapons,Рукопашное оружие,draft
-equipmentCategory.mounts-and-other-animals.name,Mounts and Other Animals,,todo
-equipmentCategory.mounts-and-vehicles.name,Mounts and Vehicles,,todo
+equipmentCategory.mounts-and-other-animals.name,Mounts and Other Animals,Скакуны и другие животные,draft
+equipmentCategory.mounts-and-vehicles.name,Mounts and Vehicles,Скакуны и транспорт,draft
 equipmentCategory.musical-instruments.name,Musical Instruments,Музыкальный инструмент,draft
 equipmentCategory.other-tools.name,Other Tools,Прочие инструменты,draft
-equipmentCategory.potion.name,Potion,,todo
+equipmentCategory.potion.name,Potion,Зелье,draft
 equipmentCategory.ranged-weapons.name,Ranged Weapons,Дальнобойное оружие,draft
-equipmentCategory.ring.name,Ring,,todo
+equipmentCategory.ring.name,Ring,Кольцо,draft
 equipmentCategory.rod.name,Rod,Жезл,draft
-equipmentCategory.scroll.name,Scroll,,todo
+equipmentCategory.scroll.name,Scroll,Свиток,draft
 equipmentCategory.shields.name,Shields,Щиты,draft
 equipmentCategory.simple-melee-weapons.name,Simple Melee Weapons,Простое рукопашное оружие,draft
 equipmentCategory.simple-ranged-weapons.name,Simple Ranged Weapons,Простое дальнобойное оружие,draft
 equipmentCategory.simple-weapons.name,Simple Weapons,Простое оружие,draft
 equipmentCategory.staff.name,Staff,Посох,draft
-equipmentCategory.standard-gear.name,Standard Gear,,todo
-equipmentCategory.tack-harness-and-drawn-vehicles.name,"Tack, Harness, and Drawn Vehicles",,todo
+equipmentCategory.standard-gear.name,Standard Gear,Обычное снаряжение,draft
+equipmentCategory.tack-harness-and-drawn-vehicles.name,"Tack, Harness, and Drawn Vehicles",Упряжь и повозки,draft
 equipmentCategory.tools.name,Tools,Инструменты,draft
 equipmentCategory.wand.name,Wand,Волшебная палочка,draft
-equipmentCategory.waterborne-vehicles.name,Waterborne Vehicles,,todo
-equipmentCategory.weapon.name,Weapon,,todo
+equipmentCategory.waterborne-vehicles.name,Waterborne Vehicles,Водный транспорт,draft
+equipmentCategory.weapon.name,Weapon,Оружие,draft
 equipmentCategory.wondrous-items.name,Wondrous Items,Чудесные предметы,draft

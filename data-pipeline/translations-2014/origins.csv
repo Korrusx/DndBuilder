@@ -3,105 +3,114 @@ species.dragonborn.name,Dragonborn,Драконорождённый,draft
 species.dwarf.name,Dwarf,Дварф,draft
 species.elf.name,Elf,Эльф,draft
 species.gnome.name,Gnome,Гном,draft
-species.half-elf.name,Half-Elf,,todo
-species.half-orc.name,Half-Orc,,todo
+species.half-elf.name,Half-Elf,Полуэльф,draft
+species.half-orc.name,Half-Orc,Полуорк,draft
 species.halfling.name,Halfling,Полурослик,draft
 species.human.name,Human,Человек,draft
 species.tiefling.name,Tiefling,Тифлинг,draft
-subspecies.high-elf.name,High Elf,,todo
-subspecies.hill-dwarf.name,Hill Dwarf,,todo
-subspecies.lightfoot-halfling.name,Lightfoot Halfling,,todo
-subspecies.rock-gnome.name,Rock Gnome,,todo
-trait.artificers-lore.name,Artificer's Lore,,todo
-trait.artificers-lore.description,"Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply.",,todo
+subspecies.high-elf.name,High Elf,Высший эльф,draft
+subspecies.hill-dwarf.name,Hill Dwarf,Холмовой дварф,draft
+subspecies.lightfoot-halfling.name,Lightfoot Halfling,Легконогий полурослик,draft
+subspecies.rock-gnome.name,Rock Gnome,Скальный гном,draft
+trait.artificers-lore.name,Artificer's Lore,Знания ремесленника,draft
+trait.artificers-lore.description,"Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply.","Совершая проверку Интеллекта (История), связанную с магическими предметами, алхимическими веществами или техническими устройствами, вы прибавляете удвоенный бонус мастерства вместо обычного.",draft
 trait.brave.name,Brave,Храбрость,draft
-trait.brave.description,You have advantage on saving throw against being frightened.,,todo
-trait.breath-weapon.name,Breath Weapon,,todo
+trait.brave.description,You have advantage on saving throw against being frightened.,Вы совершаете с преимуществом спасброски от испуга.,draft
+trait.breath-weapon.name,Breath Weapon,Оружие дыхания,draft
 trait.breath-weapon.description,"You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation.
 When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level.
-After you use your breath weapon, you cannot use it again until you complete a short or long rest.",,todo
-trait.damage-resistance.name,Damage Resistance,,todo
-trait.damage-resistance.description,You have resistance to the damage type associated with your draconic ancestry.,,todo
-trait.darkvision.name,Darkvision,,todo
-trait.darkvision.description,"You have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You cannot discern color in darkness, only shades of gray.",,todo
+After you use your breath weapon, you cannot use it again until you complete a short or long rest.","Действием вы выдыхаете разрушительную энергию. Размер, форма и вид урона выдоха зависят от вашего драконьего предка.
+Каждое существо в области выдоха проходит спасбросок, вид которого тоже определяет драконий предок. СЛ = 8 + мод. ТЕЛ + бонус мастерства. При провале существо получает 2к6 урона, при успехе — половину. Урон растёт до 3к6 на 6-м уровне, 4к6 на 11-м и 5к6 на 16-м.
+Использовав оружие дыхания, вы не можете применить его снова, пока не закончите короткий или долгий отдых.",draft
+trait.damage-resistance.name,Damage Resistance,Сопротивление урону,draft
+trait.damage-resistance.description,You have resistance to the damage type associated with your draconic ancestry.,Вы получаете сопротивление виду урона вашего драконьего предка.,draft
+trait.darkvision.name,Darkvision,Тёмное зрение,draft
+trait.darkvision.description,"You have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You cannot discern color in darkness, only shades of gray.","Вы хорошо видите в темноте и при тусклом свете. В пределах 60 фт тусклый свет для вас — как яркий, а темнота — как тусклый свет. В темноте вы не различаете цвета, только оттенки серого.",draft
 trait.draconic-ancestry.name,Draconic Ancestry,Драконий предок,draft
-trait.draconic-ancestry.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-black.name,Draconic Ancestry (Black),,todo
-trait.draconic-ancestry-black.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-blue.name,Draconic Ancestry (Blue),,todo
-trait.draconic-ancestry-blue.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-brass.name,Draconic Ancestry (Brass),,todo
-trait.draconic-ancestry-brass.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-bronze.name,Draconic Ancestry (Bronze),,todo
-trait.draconic-ancestry-bronze.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-copper.name,Draconic Ancestry (Copper),,todo
-trait.draconic-ancestry-copper.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-gold.name,Draconic Ancestry (Gold),,todo
-trait.draconic-ancestry-gold.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-green.name,Draconic Ancestry (Green),,todo
-trait.draconic-ancestry-green.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-red.name,Draconic Ancestry (Red),,todo
-trait.draconic-ancestry-red.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-silver.name,Draconic Ancestry (Silver),,todo
-trait.draconic-ancestry-silver.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.draconic-ancestry-white.name,Draconic Ancestry (White),,todo
-trait.draconic-ancestry-white.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",,todo
-trait.dwarven-combat-training.name,Dwarven Combat Training,,todo
-trait.dwarven-combat-training.description,"You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.",,todo
+trait.draconic-ancestry.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.",Среди ваших предков были драконы. Выберите вид дракона: от него зависят ваше оружие дыхания и сопротивление урону.,draft
+trait.draconic-ancestry-black.name,Draconic Ancestry (Black),Драконий предок (чёрный),draft
+trait.draconic-ancestry-black.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Чёрный дракон: урон кислотой. Оружие дыхания — линия 5 × 30 фт, спасбросок Ловкости.",draft
+trait.draconic-ancestry-blue.name,Draconic Ancestry (Blue),Драконий предок (синий),draft
+trait.draconic-ancestry-blue.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Синий дракон: урон электричеством. Оружие дыхания — линия 5 × 30 фт, спасбросок Ловкости.",draft
+trait.draconic-ancestry-brass.name,Draconic Ancestry (Brass),Драконий предок (латунный),draft
+trait.draconic-ancestry-brass.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Латунный дракон: урон огнём. Оружие дыхания — линия 5 × 30 фт, спасбросок Ловкости.",draft
+trait.draconic-ancestry-bronze.name,Draconic Ancestry (Bronze),Драконий предок (бронзовый),draft
+trait.draconic-ancestry-bronze.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Бронзовый дракон: урон электричеством. Оружие дыхания — линия 5 × 30 фт, спасбросок Ловкости.",draft
+trait.draconic-ancestry-copper.name,Draconic Ancestry (Copper),Драконий предок (медный),draft
+trait.draconic-ancestry-copper.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Медный дракон: урон кислотой. Оружие дыхания — линия 5 × 30 фт, спасбросок Ловкости.",draft
+trait.draconic-ancestry-gold.name,Draconic Ancestry (Gold),Драконий предок (золотой),draft
+trait.draconic-ancestry-gold.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Золотой дракон: урон огнём. Оружие дыхания — конус 15 фт, спасбросок Ловкости.",draft
+trait.draconic-ancestry-green.name,Draconic Ancestry (Green),Драконий предок (зелёный),draft
+trait.draconic-ancestry-green.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Зелёный дракон: урон ядом. Оружие дыхания — конус 15 фт, спасбросок Телосложения.",draft
+trait.draconic-ancestry-red.name,Draconic Ancestry (Red),Драконий предок (красный),draft
+trait.draconic-ancestry-red.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Красный дракон: урон огнём. Оружие дыхания — конус 15 фт, спасбросок Ловкости.",draft
+trait.draconic-ancestry-silver.name,Draconic Ancestry (Silver),Драконий предок (серебряный),draft
+trait.draconic-ancestry-silver.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Серебряный дракон: урон холодом. Оружие дыхания — конус 15 фт, спасбросок Телосложения.",draft
+trait.draconic-ancestry-white.name,Draconic Ancestry (White),Драконий предок (белый),draft
+trait.draconic-ancestry-white.description,"You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.","Белый дракон: урон холодом. Оружие дыхания — конус 15 фт, спасбросок Телосложения.",draft
+trait.dwarven-combat-training.name,Dwarven Combat Training,Дварфийская боевая подготовка,draft
+trait.dwarven-combat-training.description,"You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.","Вы владеете боевым топором, ручным топором, лёгким молотом и боевым молотом.",draft
 trait.dwarven-resilience.name,Dwarven Resilience,Дварфийская устойчивость,draft
-trait.dwarven-resilience.description,"You have advantage on saving throws against poison, and you have resistance against poison damage.",,todo
+trait.dwarven-resilience.description,"You have advantage on saving throws against poison, and you have resistance against poison damage.",Вы совершаете с преимуществом спасброски от яда и получаете сопротивление урону ядом.,draft
 trait.dwarven-toughness.name,Dwarven Toughness,Дварфийская выносливость,draft
-trait.dwarven-toughness.description,"Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",,todo
-trait.elf-weapon-training.name,Elf Weapon Training,,todo
-trait.elf-weapon-training.description,"You have proficiency with the longsword, shortsword, shortbow, and longbow.",,todo
-trait.extra-language.name,Extra Language,,todo
-trait.extra-language.description,"You can speak, read, and write one extra language of your choice.",,todo
+trait.dwarven-toughness.description,"Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",Ваш максимум хитов увеличивается на 1 и растёт ещё на 1 с каждым новым уровнем.,draft
+trait.elf-weapon-training.name,Elf Weapon Training,Эльфийская боевая подготовка,draft
+trait.elf-weapon-training.description,"You have proficiency with the longsword, shortsword, shortbow, and longbow.","Вы владеете длинным мечом, коротким мечом, коротким луком и длинным луком.",draft
+trait.extra-language.name,Extra Language,Дополнительный язык,draft
+trait.extra-language.description,"You can speak, read, and write one extra language of your choice.","Вы говорите, читаете и пишете ещё на одном языке на выбор.",draft
 trait.fey-ancestry.name,Fey Ancestry,Наследие фей,draft
-trait.fey-ancestry.description,"You have advantage on saving throws against being charmed, and magic cannot put you to sleep.",,todo
-trait.gnome-cunning.name,Gnome Cunning,,todo
-trait.gnome-cunning.description,"You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.",,todo
+trait.fey-ancestry.description,"You have advantage on saving throws against being charmed, and magic cannot put you to sleep.","Вы совершаете с преимуществом спасброски от очарования, и магия не может вас усыпить.",draft
+trait.gnome-cunning.name,Gnome Cunning,Гномья хитрость,draft
+trait.gnome-cunning.description,"You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.","Вы совершаете с преимуществом все спасброски Интеллекта, Мудрости и Харизмы от магии.",draft
 trait.halfling-nimbleness.name,Halfling Nimbleness,Проворство полурослика,draft
-trait.halfling-nimbleness.description,You can move through the space of any creature that is of a size larger than yours.,,todo
-trait.hellish-resistance.name,Hellish Resistance,,todo
-trait.hellish-resistance.description,You have resistance to fire damage.,,todo
-trait.high-elf-cantrip.name,High Elf Cantrip,,todo
-trait.high-elf-cantrip.description,You know one cantrip of your choice form the wizard spell list. Intelligence is your spellcasting ability for it.,,todo
-trait.infernal-legacy.name,Infernal Legacy,,todo
-trait.infernal-legacy.description,"You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the hellish rebuke spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",,todo
+trait.halfling-nimbleness.description,You can move through the space of any creature that is of a size larger than yours.,"Вы можете проходить сквозь пространство существ, которые крупнее вас.",draft
+trait.hellish-resistance.name,Hellish Resistance,Адское сопротивление,draft
+trait.hellish-resistance.description,You have resistance to fire damage.,Вы получаете сопротивление урону огнём.,draft
+trait.high-elf-cantrip.name,High Elf Cantrip,Заговор высшего эльфа,draft
+trait.high-elf-cantrip.description,You know one cantrip of your choice form the wizard spell list. Intelligence is your spellcasting ability for it.,Вы знаете один заговор на выбор из списка волшебника. Заклинательная характеристика для него — Интеллект.,draft
+trait.infernal-legacy.name,Infernal Legacy,Наследие Ада,draft
+trait.infernal-legacy.description,"You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the hellish rebuke spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.","Вы знаете заговор «Чудотворство». С 3-го уровня вы можете раз до долгого отдыха сотворить этой особенностью «Адское возмездие» как заклинание 2-го круга, а с 5-го уровня — так же раз до долгого отдыха «Тьму». Заклинательная характеристика для них — Харизма.",draft
 trait.keen-senses.name,Keen Senses,Острые чувства,draft
-trait.keen-senses.description,You have proficiency in the Perception skill.,,todo
+trait.keen-senses.description,You have proficiency in the Perception skill.,Вы владеете навыком Восприятие.,draft
 trait.lucky.name,Lucky,Везунчик,draft
-trait.lucky.description,"When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.",,todo
-trait.menacing.name,Menacing,,todo
-trait.menacing.description,You gain proficiency in the Intimidation skill.,,todo
+trait.lucky.description,"When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.","Если при броске атаки, проверке характеристики или спасброске на к20 выпадает 1, вы можете перебросить кость и должны использовать новый результат.",draft
+trait.menacing.name,Menacing,Угрожающий вид,draft
+trait.menacing.description,You gain proficiency in the Intimidation skill.,Вы владеете навыком Запугивание.,draft
 trait.naturally-stealthy.name,Naturally Stealthy,Природная скрытность,draft
-trait.naturally-stealthy.description,You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.,,todo
+trait.naturally-stealthy.description,You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.,"Вы можете пытаться спрятаться, даже если вас заслоняет только существо хотя бы на один размер крупнее вас.",draft
 trait.relentless-endurance.name,Relentless Endurance,Неутомимая стойкость,draft
-trait.relentless-endurance.description,"When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. you cannot use this feature again until you finish a long rest.",,todo
-trait.savage-attacks.name,Savage Attacks,,todo
-trait.savage-attacks.description,"When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit.",,todo
-trait.skill-versatility.name,Skill Versatility,,todo
-trait.skill-versatility.description,You gain proficiency in two skills of your choice.,,todo
+trait.relentless-endurance.description,"When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. you cannot use this feature again until you finish a long rest.","Если ваши хиты опускаются до 0, но вы не погибаете сразу, вы можете вместо этого остаться с 1 хитом. Снова использовать эту особенность можно только после долгого отдыха.",draft
+trait.savage-attacks.name,Savage Attacks,Свирепые атаки,draft
+trait.savage-attacks.description,"When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit.","Нанося критическое попадание рукопашным оружием, вы можете бросить одну из костей урона оружия ещё раз и прибавить её к дополнительному урону критического попадания.",draft
+trait.skill-versatility.name,Skill Versatility,Разносторонность,draft
+trait.skill-versatility.description,You gain proficiency in two skills of your choice.,Вы владеете двумя навыками на выбор.,draft
 trait.stonecunning.name,Stonecunning,Знание камня,draft
-trait.stonecunning.description,"Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.",,todo
-trait.tinker.name,Tinker,,todo
+trait.stonecunning.description,"Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.","Совершая проверку Интеллекта (История), связанную с происхождением каменной кладки, вы считаетесь владеющим Историей и прибавляете удвоенный бонус мастерства вместо обычного.",draft
+trait.tinker.name,Tinker,Изобретатель,draft
 trait.tinker.description,"You have proficiency with artisan's tools (tinker's tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.
 When you create a device, choose one of the following options:
 Clockwork Toy: This toy is a clockwork animal, monster, or person, such as a frog, mouse, bird, dragon, or soldier. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to the creature it represents.
 Fire Starter: The device produces a miniature flame, which you can use to light a candle, torch, or campfire. Using the device requires your action.
-Music Box: When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the song's end or when it is closed.",,todo
-trait.tool-proficiency.name,Tool Proficiency,,todo
-trait.tool-proficiency.description,"You gain proficiency with the artisan's tools of your choice: smith's tools, brewer's supplies, or mason's tools.",,todo
+Music Box: When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the song's end or when it is closed.","Вы владеете инструментами ремесленника (инструментами жестянщика). С их помощью за 1 час и материалы на 10 зм вы собираете крошечное заводное устройство (КЗ 5, 1 хит). Через 24 часа оно перестаёт работать (если не потратить час на починку) или когда вы действием его разбираете — тогда материалы можно вернуть. Одновременно может работать до трёх устройств.
+Создавая устройство, выберите одно:
+Заводная игрушка — заводной зверёк, чудовище или человечек (лягушка, мышь, птица, дракон, солдатик). Поставленная на землю, она каждый ваш ход проходит 5 фт в случайном направлении и издаёт подходящие звуки.
+Огниво — устройство даёт крошечный огонёк, чтобы зажечь свечу, факел или костёр. Использовать его — действие.
+Музыкальная шкатулка — открытая, она негромко играет одну мелодию и замолкает, когда мелодия кончается или шкатулку закрывают.",draft
+trait.tool-proficiency.name,Tool Proficiency,Владение инструментами,draft
+trait.tool-proficiency.description,"You gain proficiency with the artisan's tools of your choice: smith's tools, brewer's supplies, or mason's tools.","Вы владеете инструментами ремесленника на выбор: инструментами кузнеца, инструментами пивовара или инструментами каменщика.",draft
 trait.trance.name,Trance,Транс,draft
-trait.trance.description,"Elves do not need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is ""trance."") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting this way, you gain the same benefit that a human does from 8 hours of sleep.",,todo
+trait.trance.description,"Elves do not need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is ""trance."") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting this way, you gain the same benefit that a human does from 8 hours of sleep.","Эльфам не нужен сон. Вместо этого они 4 часа в день погружаются в глубокую медитацию, оставаясь в полусознании (на Общем это называют «трансом»). Во время медитации вы словно видите сны — на деле это умственные упражнения, ставшие рефлексом за годы практики. Такой отдых даёт вам то же, что человеку 8 часов сна.",draft
 background.acolyte.name,Acolyte,Прислужник,draft
-background.acolyte.feature.name,Shelter of the Faithful,,todo
+background.acolyte.feature.name,Shelter of the Faithful,Приют для верующих,draft
 background.acolyte.feature.description,"As an acolyte, you command the respect of those who share your faith, and you can perform the religious ceremonies of your deity. You and your adventuring companions can expect to receive free healing and care at a temple, shrine, or other established presence of your faith, though you must provide any material components needed for spells. Those who share your religion will support you (but only you) at a modest lifestyle.
-You might also have ties to a specific temple dedicated to your chosen deity or pantheon, and you have a residence there. This could be the temple where you used to serve, if you remain on good terms with it, or a temple where you have found a new home. While near your temple, you can call upon the priests for assistance, provided the assistance you ask for is not hazardous and you remain in good standing with your temple.",,todo
+You might also have ties to a specific temple dedicated to your chosen deity or pantheon, and you have a residence there. This could be the temple where you used to serve, if you remain on good terms with it, or a temple where you have found a new home. While near your temple, you can call upon the priests for assistance, provided the assistance you ask for is not hazardous and you remain in good standing with your temple.","Как прислужник, вы пользуетесь уважением единоверцев и можете проводить обряды своего божества. Вы и ваши спутники можете рассчитывать на бесплатное лечение и уход в храме, святилище или другом месте вашей веры, если сами предоставите материальные компоненты заклинаний. Единоверцы поддержат вас (но только вас) на уровне скромной жизни.
+Возможно, вы связаны с определённым храмом своего божества или пантеона и живёте при нём — в храме, где прежде служили, если сохранили с ним хорошие отношения, или там, где обрели новый дом. Находясь рядом с храмом, вы можете обратиться к жрецам за помощью, если она не опасна, а вы на хорошем счету.",draft
 feat.grappler.name,Grappler,Борец,draft
 feat.grappler.description,"You’ve developed the Skills necessary to hold your own in close--quarters Grappling. You gain the following benefits:
 - You have advantage on Attack Rolls against a creature you are Grappling.
-- You can use your action to try to pin a creature Grappled by you. To do so, make another grapple check. If you succeed, you and the creature are both Restrained until the grapple ends.",,todo
+- You can use your action to try to pin a creature Grappled by you. To do so, make another grapple check. If you succeed, you and the creature are both Restrained until the grapple ends.","Вы научились держать противника в ближнем бою. Вы получаете следующие преимущества:
+- Вы совершаете с преимуществом броски атаки по существу, которое схватили.
+- Действием вы можете попытаться прижать схваченное существо: совершите ещё одну проверку захвата. При успехе и вы, и существо опутаны, пока захват не окончится.",draft
 background.charlatan.name,Charlatan,Шарлатан,draft
 background.charlatan.feature.name,False Identity,Фальшивая личность,draft
 background.charlatan.feature.description,You have a second identity with documents and acquaintances. You can forge documents and handwriting if you have seen an example.,"У вас есть вторая личность с документами и знакомыми. Вы умеете подделывать документы и почерк, если видели образец.",draft
@@ -260,4 +269,4 @@ feat.weapon-master.name,Weapon Master,Мастер оружия,draft
 feat.weapon-master.description,+1 STR or DEX. You gain proficiency with four weapons of your choice.,+1 СИЛ или ЛОВ. Владение четырьмя видами оружия на выбор.,draft
 feat.weapon-master.proficiencyChoice.0.desc,Four weapons,Четыре вида оружия,draft
 feat.ability-score-improvement.name,Ability Score Improvement,Увеличение характеристик,draft
-feat.ability-score-improvement.description,"When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",,todo
+feat.ability-score-improvement.description,"When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.","На 4-м, 8-м, 12-м, 16-м и 19-м уровнях вы можете увеличить одну характеристику на 2 или две — на 1. Как обычно, это умение не поднимает характеристику выше 20.",draft

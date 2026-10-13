@@ -1,6 +1,6 @@
 ﻿key,en,ru,status
 spell.acid-arrow.name,Acid Arrow,Кислотная стрела,draft
-spellText.1-action,1 action,,todo
+spellText.1-action,1 action,1 действие,draft
 spellText.90-feet,90 feet,90 фт,draft
 spellText.instantaneous,Instantaneous,Мгновенная,draft
 spell.acid-arrow.material,Powdered rhubarb leaf and an adder's stomach.,,todo
@@ -39,7 +39,7 @@ spell.animal-messenger.description,"By means of this spell, you use an animal to
 When the messenger arrives, it delivers your message to the creature that you described, replicating the sound of your voice. The messenger speaks only to a creature matching the description you gave. If the messenger doesn't reach its destination before the spell ends, the message is lost, and the beast makes its way back to where you cast this spell.",,todo
 spell.animal-messenger.higherLevel,"If you cast this spell using a spell slot of 3nd level or higher, the duration of the spell increases by 48 hours for each slot level above 2nd.",,todo
 spell.animal-shapes.name,Animal Shapes,Звериные облики,draft
-spellText.up-to-24-hours,Up to 24 hours,,todo
+spellText.up-to-24-hours,Up to 24 hours,Вплоть до 24 часов,draft
 spell.animal-shapes.description,"Your magic turns others into beasts. Choose any number of willing creatures that you can see within range. You transform each target into the form of a Large or smaller beast with a challenge rating of 4 or lower. On subsequent turns, you can use your action to transform affected creatures into new forms.
 The transformation lasts for the duration for each target, or until the target drops to 0 hit points or dies. You can choose a different form for each target. A target's game statistics are replaced by the statistics of the chosen beast, though the target retains its alignment and Intelligence, Wisdom, and Charisma scores. The target assumes the hit points of its new form, and when it reverts to its normal form, it returns to the number of hit points it had before it transformed. If it reverts as a result of dropping to 0 hit points, any excess damage carries over to its normal form. As long as the excess damage doesn't reduce the creature's normal form to 0 hit points, it isn't knocked unconscious. The creature is limited in the actions it can perform by the nature of its new form, and it can't speak or cast spells.
 The target's gear melds into the new form. The target can't activate, wield, or otherwise benefit from any of its equipment.",,todo
@@ -195,7 +195,7 @@ While on the Ethereal Plane, you can see and hear the plane you originated from,
 spell.blur.name,Blur,Размытый образ,draft
 spell.blur.description,"Your body becomes blurred, shifting and wavering to all who can see you. For the duration, any creature has disadvantage on attack rolls against you. An attacker is immune to this effect if it doesn't rely on sight, as with blindsight, or can see through illusions, as with truesight.",,todo
 spell.branding-smite.name,Branding Smite,,todo
-spellText.1-bonus-action,1 bonus action,,todo
+spellText.1-bonus-action,1 bonus action,1 бонусное действие,draft
 spell.branding-smite.description,"The next time you hit a creature with a weapon attack before this spell ends, the weapon gleams with astral radiance as you strike. The attack deals an extra 2d6 radiant damage to the target, which becomes visible if it's invisible, and the target sheds dim light in a 5-foot radius and can't become invisible until the spell ends.",,todo
 spell.branding-smite.higherLevel,"When you cast this spell using a spell slot of 3rd level or higher, the extra damage increases by 1d6 for each slot level above 2nd.",,todo
 spell.burning-hands.name,Burning Hands,Огненные ладони,draft
@@ -411,7 +411,7 @@ When you change the weather conditions, find a current condition on the followin
 | 4 | Gale |
 | 5 | Storm |",,todo
 spell.counterspell.name,Counterspell,Контрзаклинание,draft
-spellText.1-reaction,1 reaction,,todo
+spellText.1-reaction,1 reaction,1 реакция,draft
 spell.counterspell.description,"You attempt to interrupt a creature in the process of casting a spell. If the creature is casting a spell of 3rd level or lower, its spell fails and has no effect. If it is casting a spell of 4th level or higher, make an ability check using your spellcasting ability. The DC equals 10 + the spell's level. On a success, the creature's spell fails and has no effect.",,todo
 spell.counterspell.higherLevel,"When you cast this spell using a spell slot of 4th level or higher, the interrupted spell has no effect if its level is less than or equal to the level of the spell slot you used.",,todo
 spell.create-food-and-water.name,Create Food and Water,Сотворение пищи и воды,draft
@@ -1600,7 +1600,7 @@ spell.true-seeing.name,True Seeing,Истинное зрение,draft
 spell.true-seeing.material,"An ointment for the eyes that costs 25gp; is made from mushroom powder, saffron, and fat; and is consumed by the spell.",,todo
 spell.true-seeing.description,"This spell gives the willing creature you touch the ability to see things as they actually are. For the duration, the creature has truesight, notices secret doors hidden by magic, and can see into the Ethereal Plane, all out to a range of 120 feet.",,todo
 spell.true-strike.name,True Strike,Верный удар,draft
-spellText.up-to-1-round,Up to 1 round,,todo
+spellText.up-to-1-round,Up to 1 round,Вплоть до 1 раунда,draft
 spell.true-strike.description,"You extend your hand and point a finger at a target in range. Your magic grants you a brief insight into the target's defenses. On your next turn, you gain advantage on your first attack roll against the target, provided that this spell hasn't ended.",,todo
 spell.unseen-servant.name,Unseen Servant,Невидимый слуга,draft
 spell.unseen-servant.material,A piece of string and a bit of wood.,,todo
