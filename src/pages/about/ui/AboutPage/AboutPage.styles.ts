@@ -11,4 +11,8 @@ export const styles = StyleSheet.create({
     padding: spacing.lg,
     gap: spacing.xs,
   },
+  build: {
+    fontSize: 12,
+    lineHeight: 16,
+  },
 });

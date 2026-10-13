@@ -73,8 +73,8 @@ export function tr(text: LocalizedText | undefined): { text: string; translated:
   return text.ru ? { text: text.ru, translated: true } : { text: text.en, translated: false };
 }
 
-/** Доля переведённых текстов (для страницы «О приложении»). */
-export function translationProgress(): { done: number; total: number } {
+/** Доля переведённых текстов справочника (для страницы «О приложении»). */
+export function translationProgress(c: Content): { done: number; total: number } {
   let done = 0;
   let total = 0;
   const walk = (v: unknown) => {
@@ -86,6 +86,6 @@ export function translationProgress(): { done: number; total: number } {
       } else Object.values(v).forEach(walk);
     }
   };
-  walk(content);
+  walk(c);
   return { done, total };
 }
