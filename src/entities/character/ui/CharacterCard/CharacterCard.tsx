@@ -46,12 +46,12 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
           </View>
         )}
         <View style={styles.info}>
-          {/* Редакция правил — рядом с именем, чтобы её было видно и при длинной строке класса. */}
+          {/* Редакция правил (5e24 / 5e14) — рядом с именем, чтобы её было видно и при длинной строке класса. */}
           <View style={styles.nameRow}>
             <AppText variant="heading" numberOfLines={1} style={styles.name}>
               {c.name || t('common.unnamed')}
             </AppText>
-            <Badge label={c.edition} />
+            <Badge label={`5e${c.edition.slice(2)}`} />
           </View>
           {subtitle ? (
             <AppText variant="secondary" numberOfLines={1}>
