@@ -1,6 +1,7 @@
 import { contentFor, indexOf } from '@/shared/content';
 
 import { knownLanguages, spellLimits } from '../build';
+import { characterResources } from '../resources';
 import { emptyGameState, newDraftCharacter } from '../character';
 import { exhaustionEffects2014, exhaustionPenalty, maxHpWithExhaustion, speedWithExhaustion } from '../play';
 import { longRest } from '../rest';
@@ -172,5 +173,47 @@ describe('2014: отдых и истощение', () => {
     expect(maxHpWithExhaustion(38, 4)).toBe(38);
     expect(exhaustionEffects2014(1)).toEqual({ checkDisadvantage: true, attackSaveDisadvantage: false, dead: false });
     expect(exhaustionEffects2014(6)).toEqual({ checkDisadvantage: true, attackSaveDisadvantage: true, dead: true });
+  });
+});
+
+describe('2014: ресурсы умений', () => {
+  const res = (classId: string, level: number, scores: Partial<Character['baseAbilities']> = {}) =>
+    characterResources(
+      make({ classes: [{ classId, level }], baseAbilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10, ...scores } }),
+      content,
+    ).map((r) => ({ id: r.id, max: r.max, recovery: r.recovery, ...(r.die ? { die: r.die } : {}) }));
+
+  test('ярость — только долгим отдыхом', () => {
+    expect(res('barbarian', 1)).toEqual([{ id: 'rage', max: 2, recovery: 'long' }]);
+  });
+
+  test('ки монаха и второе дыхание воина — коротким отдыхом', () => {
+    expect(res('monk', 2)).toEqual([{ id: 'ki', max: 2, recovery: 'short' }]);
+    expect(res('fighter', 2)).toEqual([
+      { id: 'second-wind', max: 1, recovery: 'short' },
+      { id: 'action-surge', max: 1, recovery: 'short' },
+    ]);
+  });
+
+  test('божественное чувство: 1 + ХАР; наложение рук: 5 × уровень', () => {
+    // ХАР 15 + 1 (человек) = 16 → +3
+    expect(res('paladin', 1, { cha: 15 })).toEqual([
+      { id: 'divine-sense', max: 4, recovery: 'long' },
+      { id: 'lay-on-hands', max: 5, recovery: 'long' },
+    ]);
+  });
+
+  test('бардовское вдохновение: к6, с 5-го уровня — к8 и короткий отдых', () => {
+    expect(res('bard', 1, { cha: 15 })).toEqual([{ id: 'bardic-inspiration', max: 3, recovery: 'long', die: 6 }]);
+    expect(res('bard', 5, { cha: 15 })).toEqual([{ id: 'bardic-inspiration', max: 3, recovery: 'short', die: 8 }]);
+  });
+});
+
+describe('2014: истощение в листе', () => {
+  test('с 4-го уровня максимум хитов вдвое меньше', () => {
+    const c = make({ classes: [{ classId: 'fighter', level: 1 }] });
+    // к10 + ТЕЛ 11 (+0)
+    expect(computeSheet(c, content).maxHp).toBe(10);
+    expect(computeSheet({ ...c, state: { ...c.state, exhaustion: 4 } }, content).maxHp).toBe(5);
   });
 });

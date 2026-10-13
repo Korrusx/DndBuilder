@@ -1,5 +1,5 @@
 import { irmaLevel1 } from '@/entities/character';
-import { content } from '@/shared/content';
+import { content, contentFor, setActiveEdition } from '@/shared/content';
 
 import { characterSheetHtml, escapeHtml, sheetSpells } from '../sheetHtml';
 
@@ -45,5 +45,21 @@ describe('лист персонажа для PDF', () => {
   test('имя экранируется', () => {
     expect(escapeHtml('<b>&"')).toBe('&lt;b&gt;&amp;&quot;');
     expect(characterSheetHtml({ ...irmaLevel1(), name: '<script>' }, content)).not.toContain('<script>');
+  });
+});
+
+describe('лист персонажа 2014 для PDF', () => {
+  test('раса вместо вида, умение предыстории, заклинания домена', () => {
+    const c = { ...irmaLevel1(), edition: '2014' as const, speciesId: 'dwarf', subspeciesId: 'hill-dwarf', backgroundId: 'acolyte', classes: [{ classId: 'cleric', subclassId: 'life', level: 1 }], weaponMasteries: [], equipment: [], choices: {} };
+    setActiveEdition('2014');
+    try {
+      const text = characterSheetHtml(c, contentFor('2014')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+      expect(text).toContain('Раса');
+      expect(text).toContain('Особенности расы');
+      expect(text).toMatch(/Shelter of the Faithful|Приют/);
+      expect(sheetSpells(c, contentFor('2014')).map((s) => s.spell.id)).toEqual(expect.arrayContaining(['bless', 'cure-wounds']));
+    } finally {
+      setActiveEdition('2024');
+    }
   });
 });

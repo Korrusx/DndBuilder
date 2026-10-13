@@ -12,7 +12,7 @@ import {
   spellLimits,
   spellOptions,
 } from '@/entities/character';
-import { content, spellName } from '@/shared/content';
+import { byId, content, spellName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
 
@@ -72,7 +72,7 @@ export function SpellsEditSheet({
           </View>
         </Section>
       ) : null}
-      <Section title={t('spells.prepared')} picked={preparedSpells.length} need={limits.prepared}>
+      <Section title={byId.classes.get(limits.classId)?.spellcasting?.preparation === 'known' ? t('spells.known') : t('spells.prepared')} picked={preparedSpells.length} need={limits.prepared}>
         <View style={styles.gapMd}>
           {circles.map((circle) => {
             const options = preparableSpells(c, content, limits.classId, circle);

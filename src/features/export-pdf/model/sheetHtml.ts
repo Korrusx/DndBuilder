@@ -19,6 +19,7 @@ import {
   proficiencyGroups,
   speciesSpellcasting,
   spellbook,
+  subclassSpellIds,
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import {
@@ -69,6 +70,8 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
     [...lists.cantrips, ...lists.preparedSpells].forEach((id) => add(id, note));
   }
   spellbook(c).forEach((id) => add(id, t('pdf.spellbook')));
+  // 2014: заклинания подкласса (домен, клятва) — всегда подготовлены.
+  subclassSpellIds(c, content).forEach((id) => add(id, t('pdf.subclassMark')));
   for (const { slot } of magicInitiateSlots(c, content)) {
     for (const id of [...(c.choices[CHOICE_KEYS.featCantrips(slot)] ?? []), ...(c.choices[CHOICE_KEYS.featSpell(slot)] ?? [])]) {
       add(id, t('pdf.feat'));
@@ -128,7 +131,7 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
       <div class="namebox">${field(c.name, t('pdf.name'), 'name')}</div>
       <div class="fields">
         ${field(cls, t('pdf.classLevel'))}${field(sub, t('pdf.subclass'))}${field(nameOf('backgrounds', c.backgroundId), t('pdf.background'))}
-        ${field(species, t('pdf.species'))}${field(alignment, t('pdf.alignment'))}${field(c.player ?? '', t('pdf.player'))}
+        ${field(species, content.edition === '2014' ? t('pdf.race') : t('pdf.species'))}${field(alignment, t('pdf.alignment'))}${field(c.player ?? '', t('pdf.player'))}
       </div>
     </header>`;
 
@@ -227,6 +230,9 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
     : '';
 
   const fg = featureGroups(sheet);
+  // 2014: умение предыстории («Приют для верующих») — в блоке черт с пометкой.
+  const bgFeature = byId.backgrounds.get(c.backgroundId)?.feature;
+  const backgroundFeature = bgFeature ? [`${e(tr(bgFeature.name).text)} <span class="muted">${e(t('pdf.backgroundMark'))}</span>`] : [];
   const featureList = (items: string[], cols = 2) =>
     items.length ? `<ul class="flist d" style="column-count:${cols}">${items.map((x) => `<li>${x}</li>`).join('')}</ul>` : lines(2);
   // Воззвания и метамагия — в том же списке, что и умения класса.
@@ -237,8 +243,8 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const features = `
     ${box(t('pdf.classFeatures'), featureList(classItems, classItems.length > 24 ? 3 : 2), 'grow')}
     <div class="pair">
-      ${box(t('pdf.speciesTraits'), featureList(fg.species, 1))}
-      ${box(t('pdf.feats'), featureList(fg.feats, 1))}
+      ${box(content.edition === '2014' ? t('pdf.raceTraits') : t('pdf.speciesTraits'), featureList(fg.species, 1))}
+      ${box(t('pdf.feats'), featureList([...fg.feats, ...backgroundFeature], 1))}
     </div>`;
 
   const profs = box(

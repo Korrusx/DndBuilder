@@ -70,7 +70,7 @@ export function PlaySheetPage() {
   const confirmLongRest = () =>
     Alert.alert(t('rest.long'), t('sheet.longRestConfirm'), [
       { text: t('common.cancel'), style: 'cancel' },
-      { text: t('sheet.rest'), onPress: () => updateState((s) => longRest(s, sheet.maxHp)) },
+      { text: t('sheet.rest'), onPress: () => updateState((s) => longRest(s, sheet.maxHp, c.edition, sheet.hitDice)) },
     ]);
 
   return (
@@ -91,7 +91,7 @@ export function PlaySheetPage() {
       <View style={styles.row}>
         <StatBox label={t('stats.ac')} value={String(sheet.armorClass)} />
         <StatBox label={t('stats.initiative')} value={formatModifier(sheet.initiative)} onPress={rollInitiative} accent />
-        <StatBox label={t('stats.speed')} value={`${speedWithExhaustion(sheet.speed, ex)}`} />
+        <StatBox label={t('stats.speed')} value={`${speedWithExhaustion(sheet.speed, ex, c.edition)}`} />
         <StatBox label={t('stats.pb')} value={formatModifier(sheet.profBonus)} />
         <StatBox
           label={t('stats.passivePerception')}
@@ -153,7 +153,9 @@ export function PlaySheetPage() {
             {t('sheet.exhaustion', { level: ex, max: EXHAUSTION_MAX })}
             {ex ? (
               <AppText variant="secondary">
-                {t('sheet.exhaustionEffect', { d20: t('roll.d20'), penalty: formatModifier(-2 * ex), speed: formatFeet(5 * ex) })}
+                {c.edition === '2014'
+                  ? `  (${t(`sheet.exhaustion2014.${ex}` as 'sheet.exhaustion2014.1')})`
+                  : t('sheet.exhaustionEffect', { d20: t('roll.d20'), penalty: formatModifier(-2 * ex), speed: formatFeet(5 * ex) })}
               </AppText>
             ) : null}
           </AppText>

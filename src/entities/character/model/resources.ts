@@ -18,7 +18,7 @@ function evalFormula(f: ResourceFormula, { level, sheet, classId }: ResourceCont
     for (const [from, v] of Object.entries(f.byLevel)) if (level >= Number(from)) value = Math.max(value, v);
     return value;
   }
-  if ('ability' in f) return Math.max(f.min ?? 0, sheet.abilities[f.ability].mod);
+  if ('ability' in f) return Math.max(f.min ?? 0, sheet.abilities[f.ability].mod + (f.plus ?? 0));
   if ('profBonus' in f) return sheet.profBonus;
   return level * f.perLevel + (f.plus ?? 0);
 }

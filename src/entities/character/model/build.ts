@@ -254,12 +254,16 @@ export function weaponMasteryOptions(c: Character, content: Content): string[] {
 /** Умения 1-го уровня, где нужно выбрать вариант. */
 export function featureOptionIds(c: Character, content: Content): string[] {
   const cls = startingClass(c, content);
+  // Таблицы умений 2024; в 2014 варианты умений — featureChoices.
+  if (content.edition === '2014') return [];
   return (cls?.levels[0]?.features ?? []).filter((id) => FEATURE_OPTIONS[id]);
 }
 
 /** Умения 1-го уровня, которые дают черту (воин: «Боевой стиль»). */
 export function featFeatureIds(c: Character, content: Content): string[] {
   const cls = startingClass(c, content);
+  // 2014: боевой стиль — вариант умения (featureChoices), а не черта.
+  if (content.edition === '2014') return [];
   return (cls?.levels[0]?.features ?? []).filter((id) => FEAT_FEATURES[id]);
 }
 
@@ -271,6 +275,7 @@ export function languageOptions(content: Content): string[] {
 /** Умения классов персонажа, которые дают языки (плут: «Воровской жаргон»; друид: «Друидический»). */
 function languageFeatureIds(c: Character, content: Content): string[] {
   const classes = indexOf(content).classes;
+  if (content.edition === '2014') return [];
   return c.classes.flatMap((e) =>
     (classes.get(e.classId)?.levels.slice(0, e.level) ?? []).flatMap((row) => row.features.filter((id) => FEATURE_LANGUAGES[id])),
   );

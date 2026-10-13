@@ -23,7 +23,7 @@ export { attackName } from './lib/attacks';
 export { featureInfo, featureName } from './lib/features';
 export { proficiencyGroups } from './lib/proficiencies';
 export { safeSheet } from './lib/safeSheet';
-export { irmaLevel1 } from './lib/samples';
+export { irma2014Level1, irmaLevel1 } from './lib/samples';
 export {
   abilityModifier,
   isStandardArray,

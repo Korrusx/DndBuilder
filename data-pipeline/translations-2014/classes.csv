@@ -1174,3 +1174,29 @@ subclass.open-hand.description,"Monks of the Way of the Open Hand are the ultima
 subclass.thief.name,Thief,Вор,draft
 subclass.thief.summary,You hone your skills in the larcenous arts.,,todo
 subclass.thief.description,"You hone your skills in the larcenous arts. Burglars, bandits, cutpurses, and other criminals typically follow this archetype, but so do rogues who prefer to think of themselves as professional treasure seekers, explorers, delvers, and investigators. In addition to improving your agility and stealth, you learn skills useful for delving into ancient ruins, reading unfamiliar languages, and using magic items you normally couldn't employ.",,todo
+resource.rage.name,Rage,Ярость,draft
+resource.bardic-inspiration.name,Bardic Inspiration,Бардовское вдохновение,draft
+resource.cleric-channel-divinity.name,Channel Divinity,Божественный канал,draft
+resource.wild-shape.name,Wild Shape,Дикий облик,draft
+resource.land-natural-recovery.name,Natural Recovery,Естественное восстановление,draft
+resource.second-wind.name,Second Wind,Второе дыхание,draft
+resource.action-surge.name,Action Surge,Всплеск действий,draft
+resource.indomitable.name,Indomitable,Несгибаемость,draft
+resource.ki.name,Ki,Ки,draft
+resource.open-hand-wholeness-of-body.name,Wholeness of Body,Целостность тела,draft
+resource.divine-sense.name,Divine Sense,Божественное чувство,draft
+resource.lay-on-hands.name,Lay on Hands,Наложение рук (хиты),draft
+resource.paladin-channel-divinity.name,Channel Divinity,Божественный канал,draft
+resource.cleansing-touch.name,Cleansing Touch,Очищающее касание,draft
+resource.stroke-of-luck.name,Stroke of Luck,Удачный случай,draft
+resource.sorcery-points.name,Sorcery Points,Единицы чародейства,draft
+resource.dark-ones-own-luck.name,Dark One's Own Luck,Удача Тёмного,draft
+resource.hurl-through-hell.name,Hurl Through Hell,Бросок сквозь ад,draft
+resource.mystic-arcanum-6.name,Mystic Arcanum (6th level),Таинственный арканум (6 круг),draft
+resource.mystic-arcanum-7.name,Mystic Arcanum (7th level),Таинственный арканум (7 круг),draft
+resource.mystic-arcanum-8.name,Mystic Arcanum (8th level),Таинственный арканум (8 круг),draft
+resource.mystic-arcanum-9.name,Mystic Arcanum (9th level),Таинственный арканум (9 круг),draft
+resource.eldritch-master.name,Eldritch Master,Таинственный мастер,draft
+resource.arcane-recovery.name,Arcane Recovery,Магическое восстановление,draft
+resource.relentless-endurance.name,Relentless Endurance,Неутомимая стойкость,draft
+resource.breath-weapon.name,Breath Weapon,Оружие дыхания,draft

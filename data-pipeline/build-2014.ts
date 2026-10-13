@@ -11,6 +11,7 @@ import type {
   AbilityId,
   Choice,
   ChoiceOption,
+  ClassResource,
   Content,
   Feature,
   ProficiencyType,
@@ -19,6 +20,9 @@ import type {
   Subspecies,
   Trait,
 } from '../src/shared/content/types.ts';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+
 import {
   cleanText,
   convChoice,
@@ -28,6 +32,8 @@ import {
   PROFICIENCY_TYPES,
   proficiencyId,
   raw,
+  ROOT,
+  seeded,
   setResourceList,
   slug,
   tx,
@@ -38,16 +44,39 @@ import {
 
 useEdition('2014');
 
+/** Тексты и механика SRD 5.1, которых нет в API (ресурсы умений). */
+const SRD_DIR = join(ROOT, 'srd-2014');
+
 const SCHEMA_VERSION = 3;
 
 /** Заклинатели 2014, у которых заклинания «известны» (число по таблице). Остальные готовят их каждый день. */
 const KNOWN_CASTERS = new Set(['bard', 'ranger', 'sorcerer', 'warlock']);
+
+/**
+ * Ошибки таблиц классов в данных API, исправленные по SRD 5.1 (PDF SRD_CC_v5.1, таблицы классов):
+ * класс → столбец class_specific → {уровень: значение}.
+ */
+const CLASS_TABLE_FIXES: Record<string, Record<string, Record<number, number>>> = {
+  // Таблица колдуна: воззваний 3 с 5-го уровня и 4 с 7-го (в API — с 4-го и 6-го).
+  warlock: { invocations_known: { 4: 2, 6: 3 } },
+  // Таблица чародея: четвёртый вариант метамагии — с 17-го уровня (в API — с 16-го).
+  sorcerer: { metamagic_known: { 16: 3 } },
+  // Варвар 20-го уровня: ярость без ограничения (в API — 9999). 0 — счётчик ярости не показывается.
+  barbarian: { rage_count: { 20: 0 } },
+};
 
 /** Текст из массива абзацев API. */
 const paragraphs = (desc: string[] | string | undefined) => (Array.isArray(desc) ? joinText(desc) : (desc ?? ''));
 
 /** Номер уровня из ссылки на уровень класса: cleric-3 → 3. */
 const levelFromRef = (index: string) => Number(index.split('-').pop());
+
+function fixTable(classId: string, level: number, specific: Record<string, unknown>): Record<string, unknown> {
+  const fixes = CLASS_TABLE_FIXES[classId] ?? {};
+  const out = { ...specific };
+  for (const [column, byLevel] of Object.entries(fixes)) if (byLevel[level] !== undefined) out[column] = byLevel[level];
+  return out;
+}
 
 async function build(): Promise<Omit<Content, 'version'>> {
   const abilities = (await raw('ability-scores')).map((a) => ({
@@ -133,7 +162,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
           level: l.level,
           profBonus: l.prof_bonus,
           features: ids(l.features),
-          ...(l.class_specific ? { classSpecific: l.class_specific } : {}),
+          ...(l.class_specific ? { classSpecific: fixTable(c.index, l.level, l.class_specific) } : {}),
           ...(sc
             ? {
                 spellcasting: {
@@ -345,6 +374,16 @@ async function build(): Promise<Omit<Content, 'version'>> {
     };
   });
 
+  // «Увеличение характеристик» — в SRD 5.1 умение класса (+2 к одной или +1 к двум). Приложение хранит его как черту
+  // (FeatChoice с прибавками), как и в 2024; текст — из умения варвара (у всех классов одинаковый).
+  const asi = rawFeatures.find((f) => f.index === 'barbarian-ability-score-improvement-1');
+  feats.push({
+    id: 'ability-score-improvement',
+    name: tx('feat.ability-score-improvement.name', 'Ability Score Improvement'),
+    type: 'general' as const,
+    description: tx('feat.ability-score-improvement.description', paragraphs(asi?.desc)),
+  });
+
   // --- Снаряжение ---
   const ARMOR_CATEGORIES: Record<string, 'light' | 'medium' | 'heavy' | 'shield'> = {
     Light: 'light',
@@ -497,10 +536,20 @@ async function build(): Promise<Omit<Content, 'version'>> {
     equipmentCategories,
     spells,
     magicItems,
-    // Ресурсы умений и варианты (воззвания, метамагия) для 2014 — на следующих этапах.
-    resources: [],
+    resources: await readResources(),
+    // Воззвания и метамагия 2014 — умения-варианты (Feature.parent / optionChoice), а не classOptions.
     classOptions: [],
   } as Omit<Content, 'version'>;
+}
+
+/** Ресурсы умений (ярость, ки, вдохновение…): srd-2014/resources.json. */
+async function readResources(): Promise<ClassResource[]> {
+  const data = JSON.parse(await readFile(join(SRD_DIR, 'resources.json'), 'utf8'));
+  return (data.resources as Raw[]).map((r) => ({
+    ...r,
+    name: seeded(`resource.${r.id}.name`, r.name.en, r.name.ru),
+    features: Array.isArray(r.features) ? r.features : [r.features],
+  }));
 }
 
 finish(build).catch((err) => {

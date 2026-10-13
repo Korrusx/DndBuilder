@@ -11,6 +11,7 @@ import { passiveScore, savingThrow, skillBonus } from './checks';
 import { chosenProficiencyIds, featureOptionEffects, featureOptionProficiencies } from './choices';
 import { armorClass, bonusHpFromEffects, initiative, maxHitPoints, weaponAttack } from './combat';
 import { effectsOf } from './effects';
+import { maxHpWithExhaustion } from './play';
 import { characterPactSlots, characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
 import type { AbilityScores, Character, CharacterSheet, Effect, SourcedId, WeaponAttack } from './types';
 
@@ -189,10 +190,15 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
 
   // --- Хиты ---
   const hitDice = classes.map(({ entry, cls }) => ({ classId: cls.id, die: cls.hitDie, total: entry.level }));
-  const maxHp = maxHitPoints(
-    hitDice.map((h) => ({ hitDie: h.die, level: h.total })),
-    abilityModifier(scores.con),
-    bonusHpFromEffects(effects, level, classLevels),
+  // 2014: с 4-го уровня истощения максимум хитов вдвое меньше.
+  const maxHp = maxHpWithExhaustion(
+    maxHitPoints(
+      hitDice.map((h) => ({ hitDie: h.die, level: h.total })),
+      abilityModifier(scores.con),
+      bonusHpFromEffects(effects, level, classLevels),
+    ),
+    c.state.exhaustion,
+    content.edition,
   );
 
   // --- Скорость ---

@@ -84,7 +84,7 @@ export function PlayCombatPage() {
           accent
           onPress={() => setRoll({ title: t('stats.initiative'), parts: d20Parts([{ label: t('stats.initiative'), value: sheet.initiative }], ex) })}
         />
-        <StatBox label={t('stats.speed')} value={formatFeet(speedWithExhaustion(sheet.speed, ex))} />
+        <StatBox label={t('stats.speed')} value={formatFeet(speedWithExhaustion(sheet.speed, ex, c.edition))} />
       </View>
 
       {rage ? (

@@ -32,7 +32,7 @@ export function PlaySkillsPage() {
     <Screen>
       <AppText variant="secondary">
         {t('skillsTab.summary', { value: sheet.passivePerception })}
-        {ex ? t('skillsTab.exhaustion', { penalty: formatModifier(exhaustionPenalty(ex)) }) : ''}
+        {ex ? (c.edition === '2014' ? t('skillsTab.exhaustion2014') : t('skillsTab.exhaustion', { penalty: formatModifier(exhaustionPenalty(ex)) })) : ''}
       </AppText>
       {groupSkillsByAbility(sheet.skills).map(({ ability, skills }) => {
         const a = sheet.abilities[ability];
@@ -75,7 +75,7 @@ export function PlaySkillsPage() {
               >
                 <AppText style={styles.mark}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
                 <AppText style={{ flex: 1, color: s.proficient ? colors.text : colors.textSecondary }}>{nameOf('skills', s.id)}</AppText>
-                <AppText style={styles.bonus}>{formatModifier(s.bonus + exhaustionPenalty(ex))}</AppText>
+                <AppText style={styles.bonus}>{formatModifier(s.bonus + exhaustionPenalty(ex, c.edition))}</AppText>
               </Pressable>
             ))}
           </View>

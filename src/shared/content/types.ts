@@ -347,8 +347,8 @@ export type ResourceFormula =
   | { classSpecific: string }
   /** {уровень: значение} — берётся значение для наибольшего уровня, не превышающего текущий. */
   | { byLevel: Record<string, number> }
-  /** Модификатор характеристики, не меньше `min`. */
-  | { ability: AbilityId; min?: number }
+  /** Модификатор характеристики + `plus`, не меньше `min` (2014, «Божественное чувство»: 1 + ХАР). */
+  | { ability: AbilityId; min?: number; plus?: number }
   | { profBonus: true }
   /** уровень × perLevel + plus. */
   | { perLevel: number; plus?: number };

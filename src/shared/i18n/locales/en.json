@@ -228,7 +228,8 @@
     "prepared": "Prepared",
     "editHint": "You can change prepared spells after a Long Rest (a wizard — from the spellbook; a bard, sorcerer or warlock — when gaining a level).",
     "spellbook": "Spellbook",
-    "spellbookHint": "The spells your wizard knows. You can prepare only these; spells found on adventures can be copied into the book."
+    "spellbookHint": "The spells your wizard knows. You can prepare only these; spells found on adventures can be copied into the book.",
+    "known": "Known spells"
   },
   "files": {
     "cantShare": "Sharing files isn't available on this device.",
@@ -350,7 +351,10 @@
     "footer": "Sheet made with the D&D Character Builder. Rules — System Reference Document 5.2, CC BY 4.0.",
     "untitled": "Character",
     "spellbook": "spellbook",
-    "pactSlots": "Pact slots (level {{level}}, Short Rest):"
+    "pactSlots": "Pact slots (level {{level}}, Short Rest):",
+    "race": "Race",
+    "raceTraits": "Racial traits",
+    "backgroundMark": "background"
   },
   "nav": {
     "characters": "My Characters",
@@ -562,7 +566,15 @@
     "levelUp": "Level up ({{from}} → {{to}})",
     "removeCondition": "Remove condition",
     "pickCondition": "Add a condition",
-    "passiveInfo": "10 + your Perception skill bonus ({{bonus}}). The GM compares it with creatures’ Stealth and the DC of traps when you aren’t actively searching: if it is equal or higher, you notice."
+    "passiveInfo": "10 + your Perception skill bonus ({{bonus}}). The GM compares it with creatures’ Stealth and the DC of traps when you aren’t actively searching: if it is equal or higher, you notice.",
+    "exhaustion2014": {
+      "1": "disadvantage on ability checks",
+      "2": "disadvantage on checks, speed halved",
+      "3": "disadvantage on checks, attacks and saves, speed halved",
+      "4": "disadvantage, speed and hit point maximum halved",
+      "5": "disadvantage, speed 0, hit point maximum halved",
+      "6": "death"
+    }
   },
   "skillsTab": {
     "proficiency": "Proficiency",
@@ -572,7 +584,8 @@
     "modScore": "Modifier {{mod}} · score {{score}}",
     "feature": "Class feature",
     "proficiencies": "Proficiencies and languages",
-    "proficienciesHint": "Mark a language learned during play in “Edit”."
+    "proficienciesHint": "Mark a language learned during play in “Edit”.",
+    "exhaustion2014": " · exhaustion: disadvantage on checks"
   },
   "combat": {
     "attacks": "Attacks",
@@ -654,7 +667,9 @@
     "pactSlots": "Pact slots",
     "pactSlotsHint": "Warlock Pact Magic: separate slots, regained on a Short Rest. They can cast spells of your other classes too.",
     "classStats": "DC {{dc}} ({{ability}}) · attack {{attack}}",
-    "castPact": "{{name}}: used a level {{level}} pact slot"
+    "castPact": "{{name}}: used a level {{level}} pact slot",
+    "known": "Known",
+    "alwaysPrepared": "Always prepared (subclass)"
   },
   "edit": {
     "saveFailed": "Couldn't save the file",

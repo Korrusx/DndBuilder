@@ -20,6 +20,7 @@ import {
   originFeatIds,
   proficientSkills,
   spellLimits,
+  subclassLevel,
   weaponMasteryCount,
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
@@ -86,7 +87,9 @@ export function levelUpPlan(next: Character, content: Content, classId = next.cl
   const row = cls.levels[toLevel - 1];
   const classFeatures = row?.features ?? [];
 
-  const firstSubclassLevel = cls.levels.findIndex((r) => r.features.some((id) => id.endsWith('-subclass'))) + 1;
+  // 2024: строка «Подкласс» в таблице класса; 2014: уровень первого умения подкласса (жрец — 1, волшебник — 2…).
+  const firstSubclassLevel =
+    cls.levels.findIndex((r) => r.features.some((id) => id.endsWith('-subclass'))) + 1 || subclassLevel(cls.id, content);
   const subclassFeatures = entry.subclassId
     ? (idx.subclasses.get(entry.subclassId)?.features ?? []).filter((id) => idx.features.get(id)?.level === toLevel)
     : [];
@@ -96,7 +99,10 @@ export function levelUpPlan(next: Character, content: Content, classId = next.cl
     ...subclassFeatures.map((id) => ({ id, source: 'subclass' as const })),
   ];
   const ids = features.map((f) => f.id);
-  const sum = (table: Record<string, number>) => ids.reduce((n, id) => n + (table[id] ?? 0), 0);
+  // Таблицы умений 2024 (стиль боя как черта, «Божественный порядок», навыки и языки от умений) — только для 2024:
+  // у части умений 2014 те же id («paladin-fighting-style»), но выбор устроен иначе (optionChoices).
+  const ids2024 = content.edition === '2014' ? [] : ids;
+  const sum = (table: Record<string, number>) => ids2024.reduce((n, id) => n + (table[id] ?? 0), 0);
 
   const classSkillOptions = choiceOptionIds(cls.proficiencyChoices[0] ?? { choose: 0 }, content);
   const allSkills = content.proficiencies.filter((p) => p.type === 'skill').map((p) => p.id);
@@ -114,17 +120,20 @@ export function levelUpPlan(next: Character, content: Content, classId = next.cl
           options: choiceOptionIds(ch, content),
         }))
       : [],
-    featureOptions: ids.filter((id) => FEATURE_OPTIONS[id]),
+    featureOptions: ids2024.filter((id) => FEATURE_OPTIONS[id]),
     features,
     needsSubclass: toLevel === firstSubclassLevel,
+    optionChoices: optionChoices(next, content, cls.id, toLevel, ids),
     featSlot: ids.some((id) => id.endsWith('-epic-boon'))
       ? 'epic-boon'
-      : ids.some((id) => id.endsWith('-ability-score-improvement'))
+      : // 2014: «barbarian-ability-score-improvement-1» и т.п.
+        ids.some((id) => /-ability-score-improvement(-\d+)?$/.test(id))
         ? 'asi'
         : null,
-    expertise: sum(EXPERTISE_GRANTS),
-    fightingStyles: ids.filter((id) => FEAT_FEATURES[id]).length,
-    skillChoices: ids
+    // 2014: умения с выбором компетентности («rogue-expertise-2», «bard-expertise-1») — по два навыка.
+    expertise: sum(EXPERTISE_GRANTS) + ids.filter((id) => idx.features.get(id)?.expertiseChoice).length * 2,
+    fightingStyles: ids2024.filter((id) => FEAT_FEATURES[id]).length,
+    skillChoices: ids2024
       .filter((id) => SKILL_GRANTS[id])
       .map((id) => ({
         key: `${levelKey(charLevel)}.${id}.prof`,
@@ -134,6 +143,30 @@ export function levelUpPlan(next: Character, content: Content, classId = next.cl
       })),
     languages: sum(LANGUAGE_GRANTS),
   };
+}
+
+/**
+ * 2014: варианты умений нового уровня. Обычное умение (боевой стиль, договор, метамагия) — выбрать `choose`;
+ * воззвания колдуна — всего столько, сколько известно по таблице (столбец invocations_known), если оно выросло.
+ */
+function optionChoices(next: Character, content: Content, classId: string, toLevel: number, ids: string[]): LevelUpPlan['optionChoices'] {
+  const idx = indexOf(content);
+  const out: LevelUpPlan['optionChoices'] = ids.flatMap((featureId) => {
+    const choice = idx.features.get(featureId)?.optionChoice;
+    return choice ? [{ featureId, key: CHOICE_KEYS.featureOption(featureId), total: choice.choose, options: choiceOptionIds(choice, content) }] : [];
+  });
+  const cls = idx.classes.get(classId);
+  const known = (lvl: number) => Number(cls?.levels[lvl - 1]?.classSpecific?.invocations_known ?? 0);
+  const invocations = idx.features.get('eldritch-invocations');
+  if (invocations?.optionChoice && known(toLevel) > known(toLevel - 1) && !out.some((o) => o.featureId === invocations.id)) {
+    out.push({
+      featureId: invocations.id,
+      key: CHOICE_KEYS.featureOption(invocations.id),
+      total: known(toLevel),
+      options: choiceOptionIds(invocations.optionChoice, content),
+    });
+  }
+  return out;
 }
 
 /** Черта, взятая на этом уровне за «Увеличение характеристик» / «Эпический дар». */
@@ -184,6 +217,9 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
   }
   for (const featureId of plan.featureOptions) {
     need(!!next.choices[CHOICE_KEYS.featureOption(featureId)]?.length, t('issues.featureOption'));
+  }
+  for (const o of plan.optionChoices) {
+    need((next.choices[o.key]?.length ?? 0) === o.total, t('issues.featureOption'));
   }
   // Языки от умения, полученного на этом уровне (плут-мультикласс: «Воровской жаргон»).
   const newFeatures = new Set(plan.features.map((f) => f.id));

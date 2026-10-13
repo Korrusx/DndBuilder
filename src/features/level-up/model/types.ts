@@ -14,6 +14,11 @@ export type LevelUpPlan = {
   multiclassChoices: { key: string; choose: number; desc?: LocalizedText; options: string[] }[];
   /** Умения нового уровня с выбором варианта («Божественный порядок»). */
   featureOptions: string[];
+  /**
+   * 2014: умения-варианты нового уровня (боевой стиль, договор, метамагия, воззвания): ключ выбора,
+   * сколько вариантов должно быть выбрано всего (у воззваний — число известных по таблице колдуна) и из чего.
+   */
+  optionChoices: { featureId: string; key: string; total: number; options: string[] }[];
   /** Умения класса и подкласса, получаемые на новом уровне. */
   features: { id: string; source: 'class' | 'subclass' }[];
   needsSubclass: boolean;

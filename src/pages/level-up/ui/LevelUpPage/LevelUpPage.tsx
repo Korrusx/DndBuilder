@@ -222,6 +222,18 @@ export function LevelUpPage() {
         </Section>
       ))}
 
+      {plan.optionChoices.map((o) => (
+        <Section key={o.key} title={nameOf('features', o.featureId)} picked={next.choices[o.key]?.length ?? 0} need={o.total}>
+          <MultiPick
+            options={o.options}
+            selected={next.choices[o.key] ?? []}
+            max={o.total}
+            label={(id) => nameOf('features', id)}
+            onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [o.key]: ids } }))}
+          />
+        </Section>
+      ))}
+
       {featureLanguageSlots(next, content)
         .filter((slot) => plan.features.some((f) => f.id === slot.featureId))
         .map((slot) => (

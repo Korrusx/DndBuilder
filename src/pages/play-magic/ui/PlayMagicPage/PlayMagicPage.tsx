@@ -23,6 +23,7 @@ import {
   spellbook,
   spellOptions,
   spellSaveDC,
+  subclassSpellIds,
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
@@ -262,6 +263,10 @@ export function PlayMagicPage() {
             const lists = classSpellLists(c, content, cl.classId);
             // Волшебник: заклинания книги, которые сейчас не подготовлены.
             const reserve = cl.classId === 'wizard' && hasSpellbook(c) ? spellbook(c).filter((id) => !lists.preparedSpells.includes(id)) : [];
+            // 2014: заклинания подкласса (домен, клятва) — всегда подготовлены, в лимит не входят.
+            const always = subclassSpellIds({ ...c, classes: c.classes.filter((e) => e.classId === cl.classId) }, content).filter(
+              (id) => !lists.preparedSpells.includes(id),
+            );
             return (
               <View key={cl.classId} style={styles.section}>
                 {multi ? (
@@ -290,8 +295,16 @@ export function PlayMagicPage() {
                 ) : null}
                 {lists.preparedSpells.length ? (
                   <View style={styles.section}>
-                    <AppText variant={multi ? 'secondary' : 'heading'}>{t('magic.prepared')}</AppText>
+                    <AppText variant={multi ? 'secondary' : 'heading'}>
+                      {byId.classes.get(cl.classId)?.spellcasting?.preparation === 'known' ? t('magic.known') : t('magic.prepared')}
+                    </AppText>
                     {lists.preparedSpells.map((id) => spellRow(id, true, undefined, cl.attackBonus, cl.classId))}
+                  </View>
+                ) : null}
+                {always.length ? (
+                  <View style={styles.section}>
+                    <AppText variant={multi ? 'secondary' : 'heading'}>{t('magic.alwaysPrepared')}</AppText>
+                    {always.map((id) => spellRow(id, true, undefined, cl.attackBonus, cl.classId))}
                   </View>
                 ) : null}
                 {reserve.length ? (
