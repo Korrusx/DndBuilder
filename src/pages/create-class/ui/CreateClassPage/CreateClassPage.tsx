@@ -55,6 +55,7 @@ export function CreateClassPage() {
             <OptionCard
               key={c.id}
               compact
+              pattern
               selected={c.id === selected}
               onPress={() => update((d) => setClass(d, c.id))}
               icon={CLASS_ICONS[c.id] ?? DEFAULT_CLASS_ICON}

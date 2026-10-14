@@ -34,5 +34,7 @@ export type {
   Equipment,
   LocalizedText,
   ResourceFormula,
+  Species,
   Spell,
+  Subspecies,
 } from './types';

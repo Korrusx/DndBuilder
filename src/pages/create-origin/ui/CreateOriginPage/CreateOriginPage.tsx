@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { View } from 'react-native';
 
 import {
@@ -12,20 +13,16 @@ import {
   SPECIES_SPELL_ABILITIES,
 } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import type { AbilityBonuses, AbilityId } from '@/shared/content';
+import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, abilityName, byId, content, nameOf, proficiencyName, sizeName, spellName, tr } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet } from '@/shared/lib/dice';
 import { AppText, Chip, ChipRow, MultiPick, OptionCard, Section } from '@/shared/ui';
 
 import { DEFAULT_SPECIES_ICON, SPECIES_ICONS } from '../../config/icons';
+import { bonusText } from '../../lib/subspeciesText';
+import { SubspeciesPanel } from '../SubspeciesPanel/SubspeciesPanel';
 import { styles } from './CreateOriginPage.styles';
-
-/** «ЛОВ +2, ХАР +1». */
-const bonusText = (b: AbilityBonuses | undefined) =>
-  Object.entries(b ?? {})
-    .map(([id, v]) => `${abilityAbbr(id as AbilityId)} +${v}`)
-    .join(', ');
 
 export function CreateOriginPage() {
   const { character: c, update, issues: allIssues } = useDraft();
@@ -80,23 +77,39 @@ export function CreateOriginPage() {
       <Section title={is2014 ? t('origin.race') : t('origin.species')}>
         <View style={styles.grid}>
           {speciesRows.map((row) => (
-            <View key={row[0].id} style={styles.row}>
-              {row.map((s) => (
-                <OptionCard
-                  key={s.id}
-                  compact
-                  icon={SPECIES_ICONS[s.id] ?? DEFAULT_SPECIES_ICON}
-                  selected={s.id === c.speciesId}
-                  onPress={() => update((d) => setSpecies(d, s.id, content))}
-                  title={
-                    <AppText style={styles.name} numberOfLines={1} adjustsFontSizeToFit>
-                      {nameOf('species', s.id)}
-                    </AppText>
-                  }
-                  lines={[formatFeet(s.speed)]}
+            <Fragment key={row[0].id}>
+              <View style={styles.row}>
+                {row.map((s) => (
+                  <OptionCard
+                    key={s.id}
+                    compact
+                    pattern
+                    icon={SPECIES_ICONS[s.id] ?? DEFAULT_SPECIES_ICON}
+                    selected={s.id === c.speciesId}
+                    onPress={() => update((d) => setSpecies(d, s.id, content))}
+                    title={
+                      <AppText style={styles.name} numberOfLines={1} adjustsFontSizeToFit>
+                        {nameOf('species', s.id)}
+                      </AppText>
+                    }
+                    lines={[
+                      s.subspecies.length
+                        ? `${formatFeet(s.speed)} · ${t('origin.variants', { count: s.subspecies.length })}`
+                        : formatFeet(s.speed),
+                    ]}
+                  />
+                ))}
+                {row.length === 1 ? <View style={styles.fill} /> : null}
+              </View>
+              {species && species.subspecies.length > 0 && row.some((s) => s.id === species.id) ? (
+                <SubspeciesPanel
+                  species={species}
+                  selectedId={c.subspeciesId}
+                  onSelect={(id) => update((d) => ({ ...d, subspeciesId: id }))}
+                  hint={is2014 ? t('origin.subraceHint') : t('origin.subspeciesHint')}
                 />
-              ))}
-            </View>
+              ) : null}
+            </Fragment>
           ))}
         </View>
       </Section>
@@ -111,22 +124,6 @@ export function CreateOriginPage() {
             t('origin.traits', { list: species.traits.map((id) => nameOf('traits', id)).join(', ') }),
           ]}
         />
-      ) : null}
-
-      {species && species.subspecies.length > 0 ? (
-        <Section title={is2014 ? t('origin.subrace') : t('origin.subspecies')} hint={is2014 ? t('origin.subraceHint') : t('origin.subspeciesHint')}>
-          <ChipRow>
-            {species.subspecies.map((id) => (
-              <Chip
-                key={id}
-                label={nameOf('subspecies', id)}
-                note={bonusText(byId.subspecies.get(id)?.abilityBonuses) || undefined}
-                selected={id === c.subspeciesId}
-                onPress={() => update((d) => ({ ...d, subspeciesId: id }))}
-              />
-            ))}
-          </ChipRow>
-        </Section>
       ) : null}
 
       {bonusChoice ? (

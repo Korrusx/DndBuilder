@@ -11,4 +11,6 @@ export type OptionCardProps = {
   compact?: boolean;
   /** Иконка слева от заголовка (game-icons.net); у выбранной карточки — акцентная. */
   icon?: GameIconName;
+  /** Узор из иконки у правого края невыбранной карточки. */
+  pattern?: boolean;
 };

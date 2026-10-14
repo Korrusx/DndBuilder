@@ -14,5 +14,6 @@ export const styles = StyleSheet.create({
   cardCompact: { padding: spacing.md, borderRadius: 16, flex: 1 },
   title: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   titleText: { flex: 1 },
+  cardPattern: { overflow: 'hidden' },
   cardSelected: { borderColor: colors.accent, backgroundColor: colors.accentBg },
 });
