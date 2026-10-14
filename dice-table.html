@@ -1,0 +1,457 @@
+<title>Стол бросков</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: full-screen 3D table; thin top bar for dice/table looks; bottom sheet for the roll itself. Dark-only, like the app. */
+:root{
+  --bg:#0f1114; --surface:#1a1d22; --surface-2:#232831; --line:#2c323b;
+  --fg:#f1ece2; --muted:#9aa3ae; --accent:#f2b14a; --on-accent:#1a1406; --accent-soft:#2b2416;
+  --scrim:rgba(15,17,20,.78);
+  --display:'Unbounded', ui-sans-serif, system-ui, sans-serif;
+  --body:'Golos Text', ui-sans-serif, system-ui, sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);overflow:hidden}
+#stage{position:fixed;inset:0}
+#stage canvas{display:block;width:100%;height:100%;touch-action:manipulation;cursor:pointer}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{position:fixed;top:0;left:0;right:0;z-index:2;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:calc(env(safe-area-inset-top,0px) + 10px) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));
+  background:var(--scrim)}
+.brand{font:700 15px/1 var(--display);letter-spacing:.01em;margin-right:auto}
+.group{display:flex;gap:6px;align-items:center}
+.swatch{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);padding:0}
+.swatch[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--bg) inset}
+.chip{height:30px;padding:0 12px;border-radius:15px;border:1px solid var(--line);background:var(--surface);font-size:13px;font-weight:500;color:var(--muted)}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:2;max-width:480px;margin:0 auto;background:var(--surface);
+  border:1px solid var(--line);border-bottom:none;border-radius:24px 24px 0 0;
+  padding:14px max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(16px,env(safe-area-inset-left,0px));
+  display:flex;flex-direction:column;gap:12px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:4px}
+.seg button{height:40px;border:none;border-radius:10px;background:transparent;color:#c9c3b8;font-size:13px;font-weight:600}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.row{display:flex;align-items:center;gap:12px}
+.skill{flex:1;min-width:0}
+.skill b{display:block;font-size:16px;font-weight:600}
+.skill span{font-size:12px;color:var(--muted)}
+.stepper{display:flex;align-items:center;background:var(--surface-2);border-radius:14px;height:44px}
+.stepper button{width:40px;height:44px;border:none;background:transparent;color:var(--muted);font-size:20px}
+.stepper output{min-width:40px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.result{display:flex;align-items:center;gap:14px;min-height:72px}
+.total{font:700 52px/1 var(--display);color:var(--accent);font-variant-numeric:tabular-nums;min-width:84px}
+.detail{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.dice{display:flex;gap:6px;flex-wrap:wrap}
+.die{height:28px;min-width:34px;padding:0 8px;border-radius:8px;border:1.5px solid var(--accent);background:var(--accent-soft);
+  font-weight:700;font-variant-numeric:tabular-nums;display:inline-flex;align-items:center;justify-content:center}
+.die.off{border-color:var(--line);background:transparent;color:#6b737d;text-decoration:line-through}
+.note{font-size:13px;color:var(--muted)}
+.note.crit{color:var(--accent);font-weight:600}
+.roll{height:56px;border:none;border-radius:18px;background:var(--accent);color:var(--on-accent);font-size:17px;font-weight:700}
+.roll:disabled{opacity:.6}
+.hint{position:fixed;left:0;right:0;z-index:1;text-align:center;font-size:12px;color:var(--muted);pointer-events:none}
+.err{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.seg button,.chip{transition:none}}
+</style>
+
+<div id="stage" aria-label="Игровой стол с кубиками. Нажмите во время броска, чтобы пропустить анимацию."></div>
+
+<header class="top" id="top">
+  <div class="brand">Стол бросков</div>
+  <div class="group" role="group" aria-label="Кубики">
+    <button class="swatch" id="skin-amber" data-skin="amber" aria-label="Кубики: янтарь" aria-pressed="true" style="background:#f2b14a"></button>
+    <button class="swatch" id="skin-obsidian" data-skin="obsidian" aria-label="Кубики: обсидиан" aria-pressed="false" style="background:#24272e"></button>
+    <button class="swatch" id="skin-bone" data-skin="bone" aria-label="Кубики: кость" aria-pressed="false" style="background:#efe6d2"></button>
+  </div>
+  <div class="group" role="group" aria-label="Стол">
+    <button class="chip" id="table-felt" data-table="felt" aria-pressed="true">Сукно</button>
+    <button class="chip" id="table-stone" data-table="stone" aria-pressed="false">Камень</button>
+  </div>
+</header>
+
+<div class="hint" id="hint" hidden>Нажмите на стол, чтобы пропустить</div>
+
+<section class="sheet" id="sheet" aria-label="Бросок">
+  <div class="seg" role="group" aria-label="Режим броска">
+    <button id="mode-dis" data-mode="dis" aria-pressed="false">Помеха</button>
+    <button id="mode-normal" data-mode="normal" aria-pressed="false">Обычный</button>
+    <button id="mode-adv" data-mode="adv" aria-pressed="true">Преимущество</button>
+  </div>
+  <div class="row">
+    <div class="skill"><b>Скрытность</b><span>Ирма Вейл · Ловкость +4, компетентность +6</span></div>
+    <div class="stepper">
+      <button id="bonus-minus" aria-label="Уменьшить бонус">−</button>
+      <output id="bonus" aria-live="polite">+10</output>
+      <button id="bonus-plus" aria-label="Увеличить бонус">+</button>
+    </div>
+  </div>
+  <div class="result" aria-live="polite">
+    <div class="total" id="total">—</div>
+    <div class="detail">
+      <div class="dice" id="dice"></div>
+      <div class="note" id="note">Кубики катятся…</div>
+    </div>
+  </div>
+  <button class="roll" id="roll">Бросить к20</button>
+</section>
+
+<script type="module">
+const $ = (id) => document.getElementById(id);
+let THREE, CANNON;
+try {
+  THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
+  CANNON = await import('https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js');
+} catch (e) {
+  const d = document.createElement('div');
+  d.className = 'err';
+  d.textContent = 'Не удалось загрузить 3D-библиотеки. Проверьте интернет и обновите страницу.';
+  document.body.appendChild(d);
+  throw e;
+}
+
+/* ---------- helpers ---------- */
+const rnd = (a, b) => a + Math.random() * (b - a);
+function secureD20() {            // честный к20: криптографический генератор без перекоса
+  const a = new Uint32Array(1); let x;
+  do { crypto.getRandomValues(a); x = a[0]; } while (x >= 4294967280);
+  return (x % 20) + 1;
+}
+const fmt = (n) => (n >= 0 ? '+' : '−') + Math.abs(n);
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const SKINS = {
+  amber:    { face: '#f2b14a', edge: '#b57a1f', ink: '#1a1406', rough: 0.38, metal: 0.05 },
+  obsidian: { face: '#24272e', edge: '#0b0c0f', ink: '#f2b14a', rough: 0.22, metal: 0.25 },
+  bone:     { face: '#efe6d2', edge: '#b9ab8c', ink: '#3a2a1a', rough: 0.55, metal: 0.0 },
+};
+const TABLES = { felt: '#1d4538', stone: '#3a3f47' };
+
+/* ---------- renderer & scene ---------- */
+const stage = $('stage');
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+stage.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#0f1114');
+const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 200);
+
+scene.add(new THREE.HemisphereLight(0xfff4e0, 0x1b2430, 0.9));
+const sun = new THREE.DirectionalLight(0xffe2b8, 2.2);
+sun.position.set(5, 16, 7);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024, 1024);
+Object.assign(sun.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 50 });
+sun.shadow.bias = -0.0006;
+scene.add(sun);
+
+function surfaceTexture(base) {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = base; g.fillRect(0, 0, 256, 256);
+  const img = g.getImageData(0, 0, 256, 256);
+  for (let i = 0; i < img.data.length; i += 4) {
+    const n = (Math.random() - 0.5) * 16;
+    img.data[i] += n; img.data[i + 1] += n; img.data[i + 2] += n;
+  }
+  g.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(24, 24);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+const floorMatGfx = new THREE.MeshStandardMaterial({ roughness: 0.95, metalness: 0 });
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), floorMatGfx);
+floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true;
+scene.add(floor);
+function setTable(key) { floorMatGfx.map?.dispose(); floorMatGfx.map = surfaceTexture(TABLES[key]); floorMatGfx.needsUpdate = true; }
+
+/* ---------- physics world ---------- */
+const world = new CANNON.World({ gravity: new CANNON.Vec3(0, -32, 0) });
+world.allowSleep = true;
+world.solver.iterations = 12;
+const diceMat = new CANNON.Material('dice'), floorMat = new CANNON.Material('floor'), wallMat = new CANNON.Material('wall');
+world.addContactMaterial(new CANNON.ContactMaterial(diceMat, floorMat, { friction: 0.28, restitution: 0.32 }));
+world.addContactMaterial(new CANNON.ContactMaterial(diceMat, wallMat, { friction: 0.1, restitution: 0.55 }));
+world.addContactMaterial(new CANNON.ContactMaterial(diceMat, diceMat, { friction: 0.15, restitution: 0.45 }));
+const floorBody = new CANNON.Body({ mass: 0, material: floorMat, shape: new CANNON.Plane() });
+floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+world.addBody(floorBody);
+
+let walls = [];
+function buildWalls(b) {
+  walls.forEach((w) => world.removeBody(w)); walls = [];
+  const T = 1, H = 14;
+  const add = (x, z, hx, hz) => {
+    const body = new CANNON.Body({ mass: 0, material: wallMat, shape: new CANNON.Box(new CANNON.Vec3(hx, H, hz)) });
+    body.position.set(x, H, z); world.addBody(body); walls.push(body);
+  };
+  const cz = (b.zMin + b.zMax) / 2, hz = (b.zMax - b.zMin) / 2 + 2 * T;
+  add(-b.xHalf - T, cz, T, hz); add(b.xHalf + T, cz, T, hz);
+  add(0, b.zMin - T, b.xHalf + 2 * T, T); add(0, b.zMax + T, b.xHalf + 2 * T, T);
+}
+
+/* ---------- d20 geometry, labels, collision shape ---------- */
+const R = 0.95;
+const baseGeo = new THREE.IcosahedronGeometry(R, 0);   // 20 граней, по 3 вершины на грань
+const pos = baseGeo.attributes.position;
+const faceOrder = [], faceNormals = [];
+for (let f = 0; f < 20; f++) {
+  const a = new THREE.Vector3().fromBufferAttribute(pos, 3 * f);
+  const b = new THREE.Vector3().fromBufferAttribute(pos, 3 * f + 1);
+  const c = new THREE.Vector3().fromBufferAttribute(pos, 3 * f + 2);
+  const n = new THREE.Vector3().subVectors(b, a).cross(new THREE.Vector3().subVectors(c, a)).normalize();
+  const cen = a.clone().add(b).add(c).divideScalar(3);
+  let order = [0, 1, 2];
+  if (n.dot(cen) < 0) { n.negate(); order = [0, 2, 1]; }
+  faceOrder.push(order); faceNormals.push(n);
+}
+const opp = faceNormals.map((n, f) => {
+  let best = -1, bestDot = 2;
+  faceNormals.forEach((m, g) => { const d = n.dot(m); if (g !== f && d < bestDot) { bestDot = d; best = g; } });
+  return best;
+});
+const uniq = [], keyIdx = new Map(), cFaces = [];
+for (let f = 0; f < 20; f++) {
+  cFaces.push(faceOrder[f].map((k) => {
+    const v = new THREE.Vector3().fromBufferAttribute(pos, 3 * f + k);
+    const key = [v.x, v.y, v.z].map((x) => Math.round(x * 1e4) + 0).join(',');
+    if (!keyIdx.has(key)) { keyIdx.set(key, uniq.length); uniq.push(new CANNON.Vec3(v.x, v.y, v.z)); }
+    return keyIdx.get(key);
+  }));
+}
+const d20Shape = new CANNON.ConvexPolyhedron({ vertices: uniq, faces: cFaces });
+
+// Атлас цифр: сетка 5×4, в каждой ячейке треугольная грань с числом
+const ATLAS = 1024, COLS = 5, ROWS = 4, CW = ATLAS / COLS, CH = ATLAS / ROWS;
+const TRI = [[0.5, 0.08], [0.06, 0.86], [0.94, 0.86]];
+const atlasCanvas = document.createElement('canvas'); atlasCanvas.width = atlasCanvas.height = ATLAS;
+const atlasTex = new THREE.CanvasTexture(atlasCanvas);
+atlasTex.colorSpace = THREE.SRGBColorSpace;
+atlasTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+function drawAtlas(skin) {
+  const g = atlasCanvas.getContext('2d');
+  g.fillStyle = skin.face; g.fillRect(0, 0, ATLAS, ATLAS);
+  for (let i = 0; i < 20; i++) {
+    const x0 = (i % COLS) * CW, y0 = Math.floor(i / COLS) * CH;
+    g.beginPath();
+    TRI.forEach(([px, py], j) => (j ? g.lineTo : g.moveTo).call(g, x0 + px * CW, y0 + py * CH));
+    g.closePath();
+    g.fillStyle = skin.face; g.fill();
+    g.lineWidth = 16; g.strokeStyle = skin.edge; g.stroke();
+    const num = String(i + 1);
+    g.fillStyle = skin.ink; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = `700 ${Math.round(CH * (num.length > 1 ? 0.24 : 0.28))}px Unbounded, system-ui, sans-serif`;
+    const cx = x0 + CW * 0.5, cy = y0 + CH * 0.6;
+    g.fillText(num, cx, cy);
+    if (num === '6' || num === '9') g.fillRect(cx - CW * 0.06, cy + CH * 0.15, CW * 0.12, CH * 0.022);
+  }
+  atlasTex.needsUpdate = true;
+}
+
+function applyLabels(die) {
+  const uv = die.mesh.geometry.attributes.uv;
+  for (let f = 0; f < 20; f++) {
+    const idx = die.labels[f] - 1, col = idx % COLS, row = Math.floor(idx / COLS);
+    faceOrder[f].forEach((k, j) => uv.setXY(3 * f + k, (col + TRI[j][0]) / COLS, 1 - (row + TRI[j][1]) / ROWS));
+  }
+  uv.needsUpdate = true;
+}
+function defaultLabels() {             // противоположные грани в сумме дают 21, как у настоящего к20
+  const L = new Array(20).fill(0); let n = 1;
+  for (let f = 0; f < 20; f++) { if (L[f]) continue; L[f] = n; L[opp[f]] = 21 - n; n++; }
+  return L;
+}
+// Подгоняем нумерацию так, чтобы вверх смотрела заранее выбранная грань
+function rig(die, upFace, target) {
+  const L = die.labels, u = L[upFace];
+  if (u === target) return;
+  const g = L.indexOf(target), ou = opp[upFace], og = opp[g];
+  L[upFace] = target; L[g] = u;
+  if (g !== ou) { const t = L[ou]; L[ou] = L[og]; L[og] = t; }
+}
+
+const dice = [0, 1].map(() => {
+  const mat = new THREE.MeshStandardMaterial({ map: atlasTex, flatShading: true, roughness: 0.38, metalness: 0.05 });
+  const mesh = new THREE.Mesh(baseGeo.clone(), mat);
+  mesh.castShadow = true; scene.add(mesh);
+  const body = new CANNON.Body({ mass: 1, material: diceMat, shape: d20Shape, linearDamping: 0.1, angularDamping: 0.12 });
+  body.sleepSpeedLimit = 0.2; body.sleepTimeLimit = 0.25;
+  world.addBody(body);
+  const die = { mesh, body, labels: defaultLabels(), inWorld: true };
+  applyLabels(die);
+  return die;
+});
+function setDiceCount(n) {
+  const d = dice[1];
+  if (n === 2 && !d.inWorld) { world.addBody(d.body); d.inWorld = true; }
+  if (n === 1 && d.inWorld) { world.removeBody(d.body); d.inWorld = false; }
+  d.mesh.visible = n === 2;
+}
+function setSkin(key) {
+  const s = SKINS[key];
+  drawAtlas(s);
+  dice.forEach((d) => { d.mesh.material.roughness = s.rough; d.mesh.material.metalness = s.metal; });
+}
+
+/* ---------- camera & table bounds (только видимая часть между панелями) ---------- */
+let bounds = { xHalf: 3, zMin: -4, zMax: 4 };
+function groundPoint(nx, ny) {
+  const v = new THREE.Vector3(nx, ny, 0.5).unproject(camera);
+  const dir = v.sub(camera.position).normalize();
+  return camera.position.clone().add(dir.multiplyScalar(-camera.position.y / dir.y));
+}
+function onResize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  if (camera.aspect < 0.8) camera.position.set(0, 23, 8.5); else camera.position.set(0, 17, 7);
+  camera.lookAt(0, 0, 0.6);
+  camera.updateProjectionMatrix();
+  const topPx = $('top').getBoundingClientRect().bottom;
+  const botPx = $('sheet').getBoundingClientRect().top;
+  const nyTop = 1 - 2 * (topPx / h), nyBot = 1 - 2 * (botPx / h);
+  const far = groundPoint(0, nyTop), nl = groundPoint(-1, nyBot), nr = groundPoint(1, nyBot);
+  bounds = {
+    xHalf: Math.max(2.6, Math.min(Math.abs(nl.x), Math.abs(nr.x)) - 0.35),
+    zMin: far.z + 0.35,
+    zMax: Math.max(far.z + 5.5, nl.z - 0.35),
+  };
+  buildWalls(bounds);
+  const hint = $('hint'); hint.style.top = (botPx - 26) + 'px';
+  requestRender();
+}
+
+/* ---------- roll: simulate first, rig the faces, then replay ---------- */
+let mode = 'adv', bonus = 10, frames = [], playing = false, playStart = 0, rolled = [], raf = 0;
+
+function throwDice(n) {
+  const b = bounds;
+  for (let i = 0; i < n; i++) {
+    const body = dice[i].body;
+    const x = n === 1 ? rnd(-b.xHalf * 0.4, b.xHalf * 0.4) : (i ? 1 : -1) * rnd(1.15, Math.max(1.3, b.xHalf * 0.55));
+    body.position.set(x, rnd(2.6, 4), b.zMax - 1.4);
+    body.quaternion.setFromEuler(rnd(0, 6.28), rnd(0, 6.28), rnd(0, 6.28));
+    body.velocity.set(rnd(-3, 3), rnd(0, 3), -rnd(16, 24));
+    body.angularVelocity.set(rnd(-20, 20), rnd(-20, 20), rnd(-20, 20));
+    body.wakeUp();
+  }
+}
+function simulate(n) {
+  const out = []; let calm = 0;
+  for (let step = 0; step < 480; step++) {
+    world.step(1 / 60);
+    out.push(dice.slice(0, n).map((d) => ({ p: d.body.position.clone(), q: d.body.quaternion.clone() })));
+    const still = dice.slice(0, n).every((d) => d.body.velocity.length() < 0.05 && d.body.angularVelocity.length() < 0.05);
+    calm = still ? calm + 1 : 0;
+    if (step > 40 && (calm > 12 || dice.slice(0, n).every((d) => d.body.sleepState === CANNON.Body.SLEEPING))) break;
+  }
+  return out;
+}
+const tq = new THREE.Quaternion(), tv = new THREE.Vector3();
+function upFace(q) {
+  tq.set(q.x, q.y, q.z, q.w);
+  let best = 0, bestY = -2;
+  faceNormals.forEach((n, f) => { const y = tv.copy(n).applyQuaternion(tq).y; if (y > bestY) { bestY = y; best = f; } });
+  return { face: best, dot: bestY };
+}
+function applyFrame(i) {
+  frames[i].forEach((s, k) => { dice[k].mesh.position.set(s.p.x, s.p.y, s.p.z); dice[k].mesh.quaternion.set(s.q.x, s.q.y, s.q.z, s.q.w); });
+}
+
+function roll(animate = true) {
+  if (playing) return;
+  const n = mode === 'normal' ? 1 : 2;
+  setDiceCount(n);
+  rolled = Array.from({ length: n }, secureD20);       // результат решается здесь, до анимации
+  let ups;
+  for (let attempt = 0; attempt < 6; attempt++) {    // кость легла на ребро или на стенку — бросаем заново
+    throwDice(n);
+    frames = simulate(n);
+    ups = frames[frames.length - 1].map((s) => upFace(s.q));
+    if (ups.every((u) => u.dot > 0.9)) break;
+  }
+  dice.slice(0, n).forEach((d, i) => {
+    d.labels = defaultLabels(); rig(d, ups[i].face, rolled[i]); applyLabels(d);
+    d.mesh.material.color.setScalar(1);
+  });
+  $('total').textContent = '…';
+  $('dice').innerHTML = '';
+  $('note').textContent = 'Кубики катятся…'; $('note').className = 'note';
+  $('roll').disabled = true;
+  playing = true;
+  playStart = animate && !reduceMotion ? performance.now() : -1e9;
+  $('hint').hidden = !(animate && !reduceMotion);
+  requestRender();
+}
+function landed(fresh = false) {
+  playing = false;
+  $('roll').disabled = false; $('hint').hidden = true;
+  const n = rolled.length;
+  let keep = 0;
+  if (n === 2) keep = mode === 'adv' ? (rolled[1] > rolled[0] ? 1 : 0) : (rolled[1] < rolled[0] ? 1 : 0);
+  const kept = rolled[keep];
+  dice.slice(0, n).forEach((d, i) => d.mesh.material.color.setScalar(i === keep ? 1 : 0.38));
+  $('total').textContent = kept + bonus;
+  $('dice').innerHTML = rolled.map((v, i) => `<span class="die${i === keep ? '' : ' off'}">${v}</span>`).join('');
+  const note = $('note');
+  if (kept === 20) { note.textContent = 'Естественная 20!'; note.className = 'note crit'; }
+  else if (kept === 1) { note.textContent = 'Естественная 1'; note.className = 'note crit'; }
+  else {
+    note.className = 'note';
+    note.textContent = n === 1 ? `к20 ${kept} ${fmt(bonus)}` : `${mode === 'adv' ? 'Берётся большее' : 'Берётся меньшее'}: ${kept} ${fmt(bonus)}`;
+  }
+  try { if (fresh && playStart > 0) navigator.vibrate?.(25); } catch (e) {}
+  requestRender();
+}
+
+function requestRender() { if (!raf) raf = requestAnimationFrame(loop); }
+function loop(now) {
+  raf = 0;
+  if (playing && frames.length) {
+    let i = Math.floor((now - playStart) * 0.06 * 1.15);
+    if (i >= frames.length - 1) i = frames.length - 1;
+    applyFrame(Math.max(0, i));
+    if (i === frames.length - 1) landed(true);
+  }
+  renderer.render(scene, camera);
+  if (playing) requestRender();
+}
+
+/* ---------- controls ---------- */
+renderer.domElement.addEventListener('pointerdown', () => { if (playing) playStart = -1e9; });
+$('roll').addEventListener('click', () => roll(true));
+document.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => {
+  if (playing) return;
+  mode = b.dataset.mode;
+  document.querySelectorAll('[data-mode]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  roll(true);
+}));
+const showBonus = () => { $('bonus').textContent = fmt(bonus); };
+$('bonus-minus').addEventListener('click', () => { bonus = Math.max(-5, bonus - 1); showBonus(); if (!playing && rolled.length) landed(); });
+$('bonus-plus').addEventListener('click', () => { bonus = Math.min(20, bonus + 1); showBonus(); if (!playing && rolled.length) landed(); });
+document.querySelectorAll('[data-skin]').forEach((b) => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-skin]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  setSkin(b.dataset.skin); requestRender();
+}));
+document.querySelectorAll('[data-table]').forEach((b) => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-table]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  setTable(b.dataset.table); requestRender();
+}));
+addEventListener('resize', onResize);
+
+/* ---------- start ---------- */
+try { await Promise.race([document.fonts.load('700 80px Unbounded'), new Promise((r) => setTimeout(r, 1500))]); } catch (e) {}
+setTable('felt');
+setSkin('amber');
+onResize();
+roll(false);   // стол открывается уже с брошенными кубиками
+</script>

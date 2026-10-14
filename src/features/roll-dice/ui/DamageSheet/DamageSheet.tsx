@@ -1,3 +1,4 @@
+import * as Haptics from 'expo-haptics';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
@@ -5,21 +6,31 @@ import type { DamageRoll } from '@/entities/character';
 import { rollDamage } from '@/entities/character';
 import { useTranslation } from '@/shared/i18n';
 import { formatDice, formatModifier } from '@/shared/lib/dice';
+import { secureRandom } from '@/shared/lib/random';
 import { AppText, BottomSheet, Button, Chip, ChipRow, Segmented } from '@/shared/ui';
 
+import { DICE_3D_MAX, DICE_3D_SIDES } from '../../config/diceSettings';
+import { useDiceReveal } from '../../model/useDiceReveal';
+import { DiceTable } from '../DiceTable/DiceTable';
 import { Die } from '../Die/Die';
 import { styles } from './DamageSheet.styles';
 import type { DamageSheetProps } from './DamageSheet.types';
 
+const feel = () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => undefined);
+
 export function DamageSheet({ request, onClose }: DamageSheetProps) {
   const { t } = useTranslation();
   const [critical, setCritical] = useState(false);
-  const [roll, setRoll] = useState<DamageRoll | null>(null);
+  const { settings, use3d, roll, landed, show, onLanded, onError } = useDiceReveal<DamageRoll>(feel);
   const [variant, setVariant] = useState(0);
   const dice = request?.variants?.[variant]?.dice ?? request?.dice ?? '';
   const bonus = request?.variants?.[variant]?.bonus ?? request?.bonus ?? 0;
 
-  const doRoll = (crit: boolean, d = dice, b = bonus) => request && setRoll(rollDamage(d, b, crit, Math.random, request.minDie));
+  const doRoll = (crit: boolean, d = dice, b = bonus) => {
+    if (!request) return;
+    const r = rollDamage(d, b, crit, secureRandom, request.minDie);
+    show(r, DICE_3D_SIDES.includes(r.sides) && r.dice.length > 0 && r.dice.length <= DICE_3D_MAX);
+  };
 
   useEffect(() => {
     if (!request) return;
@@ -68,7 +79,15 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
           ]}
         />
       )}
-      {roll ? (
+      {use3d && request && roll?.on3d !== false ? (
+        <DiceTable
+          roll={roll ? { id: roll.id, dice: roll.dice, sides: roll.sides } : null}
+          settings={settings}
+          onLanded={onLanded}
+          onError={onError}
+        />
+      ) : null}
+      {roll && landed ? (
         <View style={styles.result}>
           <View style={styles.diceRow}>
             {roll.dice.map((d, i) => (
@@ -76,6 +95,12 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
             ))}
           </View>
           <AppText style={styles.total}>{roll.total}</AppText>
+        </View>
+      ) : null}
+      {roll && !landed ? (
+        <View style={[styles.result, styles.rolling]}>
+          <AppText variant="secondary">{t('roll.rolling')}</AppText>
+          <AppText variant="secondary">{t('roll.tapToSkip')}</AppText>
         </View>
       ) : null}
       <View style={styles.buttons}>

@@ -152,7 +152,9 @@
     "critical": "Critical",
     "nat20": "Natural 20!",
     "nat1": "Natural 1",
-    "greatWeapon": "1s and 2s on the dice count as {{min}}"
+    "greatWeapon": "1s and 2s on the dice count as {{min}}",
+    "rolling": "Dice are rolling…",
+    "tapToSkip": "Tap the table to skip"
   },
   "rest": {
     "short": "Short Rest",
@@ -439,7 +441,8 @@
     "extra": "Besides the SRD, the rules reference includes the game mechanics of {{backgrounds}} backgrounds and {{feats}} origin feats, {{subclasses}} subclasses from the Player's Handbook 2024, and {{species}} species from the Player's Handbook 2024 and other books. No book text is used: descriptions are written anew, briefly, in our own words.",
     "extra2014": "The 2014 rules reference also includes the game mechanics of {{backgrounds}} backgrounds, {{feats}} feats, {{subclasses}} subclasses and {{species}} race variants from the Player's Handbook 2014. No book text is used: descriptions are written anew, briefly, in our own words.",
     "icons": "Class and species icons: game-icons.net (by Lorc, Delapouite, Cathelineau, Caro Asercion, Sbed), licensed under Creative Commons Attribution 3.0 (CC BY 3.0): https://creativecommons.org/licenses/by/3.0/. Icon colors and sizes were changed.",
-    "appVersion": "App version: {{version}}"
+    "appVersion": "App version: {{version}}",
+    "dice3d": "3D dice: three.js and cannon-es (MIT license)."
   },
   "createClass": {
     "chosen": "Chosen:",
@@ -756,5 +759,23 @@
     "hint2024": "2024 rules (SRD 5.2): ability bonuses and a feat come from your background.",
     "hint2014": "2014 rules (SRD 5.1): ability increases come from your race; the background has its own feature.",
     "changeWarning": "Changing the edition restarts the draft (the name is kept)."
+  },
+  "diceSettings": {
+    "title": "Rolls",
+    "style": "How to roll dice",
+    "style3d": "3D table",
+    "styleSimple": "Simple",
+    "styleHint": "The 3D table shows the dice rolling. A simple roll shows the numbers right away. Either way the result is random and fair.",
+    "animation": "Roll animation",
+    "on": "On",
+    "off": "Off",
+    "animationHint": "Without animation the dice are already lying on the table.",
+    "skin": "Dice",
+    "amber": "Amber",
+    "obsidian": "Obsidian",
+    "bone": "Bone",
+    "table": "Table",
+    "felt": "Felt",
+    "stone": "Stone"
   }
 }

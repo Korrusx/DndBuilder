@@ -8,9 +8,11 @@
     "@expo/vector-icons": "^15.0.2",
     "expo": "~57.0.27",
     "expo-constants": "~57.0.21",
+    "expo-crypto": "~57.0.4",
     "expo-document-picker": "~57.0.3",
     "expo-file-system": "~57.0.7",
     "expo-font": "~57.0.4",
+    "expo-haptics": "~57.0.3",
     "expo-linking": "~57.0.12",
     "expo-print": "~57.0.2",
     "expo-router": "~57.0.25",
@@ -26,13 +28,16 @@
     "react-native": "0.86.3",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
-    "react-native-svg": "15.15.4"
+    "react-native-svg": "15.15.4",
+    "react-native-webview": "13.16.1"
   },
   "devDependencies": {
     "@types/jest": "29.5.14",
     "@types/react": "~19.2.2",
+    "cannon-es": "0.20.0",
     "jest": "~29.7.0",
     "jest-expo": "~57.0.5",
+    "three": "0.160.0",
     "typescript": "~6.0.3"
   },
   "scripts": {
@@ -46,7 +51,8 @@
     "data:build": "node data-pipeline/build.ts",
     "data:build:2014": "node data-pipeline/build-2014.ts",
     "pdf:fonts": "node data-pipeline/pdf-fonts.ts",
-    "test": "jest"
+    "test": "jest",
+    "dice:scene": "node data-pipeline/dice-scene.ts"
   },
   "private": true,
   "jest": {

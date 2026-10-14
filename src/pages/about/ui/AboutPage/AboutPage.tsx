@@ -2,6 +2,7 @@ import Constants from 'expo-constants';
 import { useSQLiteContext } from 'expo-sqlite';
 import { View } from 'react-native';
 
+import { DiceSettingsSection } from '@/features/roll-dice';
 import type { Content, Edition } from '@/shared/content';
 import { contentFor, translationProgress } from '@/shared/content';
 import type { Language } from '@/shared/i18n';
@@ -52,6 +53,8 @@ export function AboutPage() {
       <Segmented<Language> options={LANGUAGES} value={i18n.language as Language} onChange={(lang) => setLanguage(db, lang)} />
       <AppText variant="secondary">{t('language.hint')}</AppText>
 
+      <DiceSettingsSection />
+
       <AppText variant="heading">{t('about.reference')}</AppText>
       <ReferenceCard edition="2024" />
       <ReferenceCard edition="2014" />
@@ -77,6 +80,7 @@ export function AboutPage() {
         })}
       </AppText>
       <AppText variant="secondary">{t('about.icons')}</AppText>
+      <AppText variant="secondary">{t('about.dice3d')}</AppText>
 
       <AppText variant="secondary" style={styles.build}>
         {t('about.appVersion', { version: Constants.expoConfig?.version ?? '—' })}

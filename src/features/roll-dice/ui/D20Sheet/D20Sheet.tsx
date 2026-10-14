@@ -1,3 +1,4 @@
+import * as Haptics from 'expo-haptics';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
@@ -5,26 +6,40 @@ import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import type { D20Mode, D20Roll } from '@/shared/lib/dice';
 import { formatModifier, rollD20 } from '@/shared/lib/dice';
+import { secureRandom } from '@/shared/lib/random';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 
+import { useDiceReveal } from '../../model/useDiceReveal';
+import { DiceTable } from '../DiceTable/DiceTable';
 import { Die } from '../Die/Die';
 import { styles } from './D20Sheet.styles';
 import type { D20SheetProps } from './D20Sheet.types';
 
+/** Отклик телефона на итог: естественные 20 и 1 ощущаются иначе, чем обычный бросок. */
+function feel(natural: number) {
+  const p =
+    natural === 20
+      ? Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+      : natural === 1
+        ? Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+        : Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  p.catch(() => undefined);
+}
+
 export function D20Sheet({ request, onClose }: D20SheetProps) {
   const { t } = useTranslation();
   const [mode, setMode] = useState<D20Mode>('normal');
-  const [roll, setRoll] = useState<D20Roll | null>(null);
+  const { settings, use3d, roll, landed, show, onLanded, onError } = useDiceReveal<D20Roll>((r) => feel(r.natural));
   const modifier = request?.parts.reduce((s, p) => s + p.value, 0) ?? 0;
 
   const fixed = !!request?.roll;
-  const doRoll = (m: D20Mode) => setRoll(rollD20(modifier, m));
+  const doRoll = (m: D20Mode) => show(rollD20(modifier, m, secureRandom));
 
   useEffect(() => {
     if (!request) return;
     const m = request.mode ?? 'normal';
     setMode(m);
-    if (request.roll) setRoll(request.roll);
+    if (request.roll) show(request.roll);
     else doRoll(m);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request]);
@@ -51,7 +66,15 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
           ]}
         />
       )}
-      {roll ? (
+      {use3d && request ? (
+        <DiceTable
+          roll={roll ? { id: roll.id, dice: roll.dice, sides: 20, keep: roll.keptIndex } : null}
+          settings={settings}
+          onLanded={onLanded}
+          onError={onError}
+        />
+      ) : null}
+      {roll && landed ? (
         <View style={styles.result}>
           <View style={styles.diceRow}>
             {roll.dice.map((d, i) => (
@@ -61,6 +84,12 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
           <AppText style={styles.total}>{roll.total}</AppText>
           {roll.natural === 20 ? <AppText style={[styles.nat, { color: colors.heal }]}>{t('roll.nat20')}</AppText> : null}
           {roll.natural === 1 ? <AppText style={[styles.nat, { color: colors.damage }]}>{t('roll.nat1')}</AppText> : null}
+        </View>
+      ) : null}
+      {roll && !landed ? (
+        <View style={[styles.result, styles.rolling]}>
+          <AppText variant="secondary">{t('roll.rolling')}</AppText>
+          <AppText variant="secondary">{t('roll.tapToSkip')}</AppText>
         </View>
       ) : null}
       <View style={styles.buttons}>

@@ -1,0 +1,525 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+/* Стол бросков для WebView (к4–к20). Шаблон: data-pipeline/dice/scene.html, сборка: npm run dice:scene. */
+html,body{margin:0;height:100%;background:#1a1d22;overflow:hidden;-webkit-tap-highlight-color:transparent;user-select:none}
+#stage{position:fixed;inset:0}
+#stage canvas{display:block;width:100%;height:100%;touch-action:none}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>/*THREE*/</script>
+<script>
+// cannon-es (ES-модуль): сборщик заменил его «export { … }» на «return { … }», модуль работает внутри функции.
+window.CANNON = (function () {
+/*CANNON*/
+})();
+</script>
+<script>
+(function () {
+// Связь с приложением: сцена получает уже выпавшие числа (их решает приложение) и сообщает «остановились».
+function send(msg) { try { window.ReactNativeWebView.postMessage(JSON.stringify(msg)); } catch (e) {} }
+window.onerror = function (m) { send({ type: 'error', message: String(m) }); };
+
+var THREE = window.THREE, CANNON = window.CANNON;
+if (!THREE || !CANNON || !CANNON.World) { send({ type: 'error', message: 'libraries' }); return; }
+
+var rnd = function (a, b) { return a + Math.random() * (b - a); };
+var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+var SKINS = {
+  amber:    { face: '#f2b14a', edge: '#b57a1f', ink: '#1a1406', rough: 0.38, metal: 0.05 },
+  obsidian: { face: '#24272e', edge: '#0b0c0f', ink: '#f2b14a', rough: 0.22, metal: 0.25 },
+  bone:     { face: '#efe6d2', edge: '#b9ab8c', ink: '#3a2a1a', rough: 0.55, metal: 0.0 },
+};
+// Поверхность внутри лотка, дерево бортиков и стол вокруг
+var TABLES = {
+  felt:  { surface: '#1d4538', rim: '#6b4426', outside: '#2a1c12' },
+  stone: { surface: '#3a3f47', rim: '#4a3020', outside: '#1f1a16' },
+};
+
+/* ---------- отрисовка и сцена ---------- */
+var stage = document.getElementById('stage');
+var renderer;
+try { renderer = new THREE.WebGLRenderer({ antialias: true }); }
+catch (e) { send({ type: 'error', message: 'webgl' }); return; }
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+stage.appendChild(renderer.domElement);
+
+var scene = new THREE.Scene();
+scene.background = new THREE.Color('#1a1d22');
+var camera = new THREE.PerspectiveCamera(40, 1, 0.1, 200);
+
+scene.add(new THREE.HemisphereLight(0xfff4e0, 0x1b2430, 0.9));
+var sun = new THREE.DirectionalLight(0xffe2b8, 2.2);
+sun.position.set(5, 16, 7);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024, 1024);
+Object.assign(sun.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 50 });
+sun.shadow.bias = -0.0006;
+scene.add(sun);
+
+function canvasTexture(c, repeat) {
+  var t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  if (repeat) t.repeat.set(repeat, repeat);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+function surfaceTexture(base) {          // сукно или камень: цвет с мелким шумом
+  var c = document.createElement('canvas'); c.width = c.height = 256;
+  var g = c.getContext('2d');
+  g.fillStyle = base; g.fillRect(0, 0, 256, 256);
+  var img = g.getImageData(0, 0, 256, 256);
+  for (var i = 0; i < img.data.length; i += 4) {
+    var n = (Math.random() - 0.5) * 16;
+    img.data[i] += n; img.data[i + 1] += n; img.data[i + 2] += n;
+  }
+  g.putImageData(img, 0, 0);
+  return canvasTexture(c);
+}
+function woodTexture(base) {             // дерево бортиков: продольные волокна
+  var c = document.createElement('canvas'); c.width = 512; c.height = 64;
+  var g = c.getContext('2d');
+  g.fillStyle = base; g.fillRect(0, 0, 512, 64);
+  for (var i = 0; i < 70; i++) {
+    var y = Math.random() * 64, dark = Math.random() < 0.6;
+    g.strokeStyle = dark ? 'rgba(0,0,0,' + rnd(0.08, 0.25) + ')' : 'rgba(255,220,170,' + rnd(0.04, 0.12) + ')';
+    g.lineWidth = rnd(0.6, 2.2);
+    g.beginPath(); g.moveTo(0, y);
+    for (var x = 0; x <= 512; x += 32) g.lineTo(x, y + Math.sin(x / rnd(40, 90) + i) * rnd(0.5, 2.5));
+    g.stroke();
+  }
+  return canvasTexture(c);
+}
+
+// Стол вокруг лотка, сукно внутри лотка и деревянные бортики
+var outsideMat = new THREE.MeshStandardMaterial({ roughness: 0.85, metalness: 0 });
+var outside = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), outsideMat);
+outside.rotation.x = -Math.PI / 2; outside.position.y = -0.01; outside.receiveShadow = true;
+scene.add(outside);
+var feltMat = new THREE.MeshStandardMaterial({ roughness: 0.95, metalness: 0 });
+var felt = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), feltMat);
+felt.rotation.x = -Math.PI / 2; felt.receiveShadow = true;
+scene.add(felt);
+var rimMat = new THREE.MeshStandardMaterial({ roughness: 0.6, metalness: 0 });
+var rims = [];
+var RIM_W = 0.45, RIM_H = 0.6;           // толщина и высота бортика
+
+function setTable(key) {
+  var t = TABLES[key] || TABLES.felt;
+  [feltMat, rimMat, outsideMat].forEach(function (m) { if (m.map) m.map.dispose(); });
+  feltMat.map = surfaceTexture(t.surface);
+  rimMat.map = woodTexture(t.rim);
+  outsideMat.map = woodTexture(t.outside); outsideMat.map.repeat.set(4, 30);
+  [feltMat, rimMat, outsideMat].forEach(function (m) { m.needsUpdate = true; });
+  layoutTray();
+}
+
+/* ---------- физика ---------- */
+var world = new CANNON.World({ gravity: new CANNON.Vec3(0, -32, 0) });
+world.allowSleep = true;
+world.solver.iterations = 12;
+var diceMat = new CANNON.Material('dice'), floorMat = new CANNON.Material('floor'), wallMat = new CANNON.Material('wall');
+world.addContactMaterial(new CANNON.ContactMaterial(diceMat, floorMat, { friction: 0.28, restitution: 0.32 }));
+world.addContactMaterial(new CANNON.ContactMaterial(diceMat, wallMat, { friction: 0.1, restitution: 0.55 }));
+world.addContactMaterial(new CANNON.ContactMaterial(diceMat, diceMat, { friction: 0.15, restitution: 0.45 }));
+var floorBody = new CANNON.Body({ mass: 0, material: floorMat, shape: new CANNON.Plane() });
+floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+world.addBody(floorBody);
+
+// Физические стенки высокие (кубик не перелетит), видимые бортики — низкие; внутренние грани совпадают
+var walls = [];
+function buildWalls(b) {
+  walls.forEach(function (w) { world.removeBody(w); }); walls = [];
+  var T = 1, H = 14;
+  function add(x, z, hx, hz) {
+    var body = new CANNON.Body({ mass: 0, material: wallMat, shape: new CANNON.Box(new CANNON.Vec3(hx, H, hz)) });
+    body.position.set(x, H, z); world.addBody(body); walls.push(body);
+  }
+  var cz = (b.zMin + b.zMax) / 2, hz = (b.zMax - b.zMin) / 2 + 2 * T;
+  add(-b.xHalf - T, cz, T, hz); add(b.xHalf + T, cz, T, hz);
+  add(0, b.zMin - T, b.xHalf + 2 * T, T); add(0, b.zMax + T, b.xHalf + 2 * T, T);
+}
+function layoutTray() {
+  var b = bounds, w = 2 * b.xHalf, d = b.zMax - b.zMin, cz = (b.zMin + b.zMax) / 2;
+  felt.scale.set(w, d, 1); felt.position.set(0, 0, cz);
+  if (feltMat.map) feltMat.map.repeat.set(w / 3.75, d / 3.75);
+  rims.forEach(function (m) { scene.remove(m); m.geometry.dispose(); }); rims = [];
+  function add(x, z, sx, sz) {
+    var geo = new THREE.BoxGeometry(sx, RIM_H, sz);
+    if (sz > sx) {                       // волокна вдоль длинной стороны
+      var uv = geo.attributes.uv;
+      for (var i = 0; i < uv.count; i++) uv.setXY(i, uv.getY(i), uv.getX(i));
+    }
+    var m = new THREE.Mesh(geo, rimMat);
+    m.position.set(x, RIM_H / 2, z); m.castShadow = m.receiveShadow = true;
+    scene.add(m); rims.push(m);
+  }
+  add(-b.xHalf - RIM_W / 2, cz, RIM_W, d + 2 * RIM_W);
+  add(b.xHalf + RIM_W / 2, cz, RIM_W, d + 2 * RIM_W);
+  add(0, b.zMin - RIM_W / 2, w, RIM_W);
+  add(0, b.zMax + RIM_W / 2, w, RIM_W);
+}
+
+/* ---------- кости: форма, нумерация граней, тело для физики ---------- */
+var V3 = THREE.Vector3;
+var CELL = 256;                          // ячейка атласа граней, пикселей
+
+// Грани многогранника из геометрии three.js: треугольники с одной нормалью собираем в многоугольник
+function facesFromGeometry(geo) {
+  geo = geo.index ? geo.toNonIndexed() : geo;
+  var p = geo.attributes.position, verts = [], keyIdx = new Map(), groups = [];
+  function vid(v) {
+    var key = [v.x, v.y, v.z].map(function (x) { return Math.round(x * 1e4) + 0; }).join(',');
+    if (!keyIdx.has(key)) { keyIdx.set(key, verts.length); verts.push(v); }
+    return keyIdx.get(key);
+  }
+  for (var t = 0; t < p.count / 3; t++) {
+    var ids = [0, 1, 2].map(function (k) { return vid(new V3().fromBufferAttribute(p, 3 * t + k)); });
+    var a = verts[ids[0]], b = verts[ids[1]], c = verts[ids[2]];
+    var n = new V3().subVectors(b, a).cross(new V3().subVectors(c, a)).normalize();
+    if (n.dot(a.clone().add(b).add(c)) < 0) n.negate();
+    var g = groups.find(function (gr) { return gr.n.dot(n) > 0.999; });
+    if (!g) { g = { n: n, ids: new Set() }; groups.push(g); }
+    ids.forEach(function (i) { g.ids.add(i); });
+  }
+  return {
+    verts: verts,
+    faces: groups.map(function (g) {      // вершины грани по кругу, начиная с первой
+      var ids = Array.from(g.ids), c = new V3();
+      ids.forEach(function (i) { c.add(verts[i]); }); c.divideScalar(ids.length);
+      var u = verts[ids[0]].clone().sub(c).normalize(), w = new V3().crossVectors(g.n, u);
+      function ang(i) { var d = verts[i].clone().sub(c), a = Math.atan2(d.dot(w), d.dot(u)); return a < -1e-6 ? a + 2 * Math.PI : a; }
+      return ids.sort(function (x, y) { return ang(x) - ang(y); });
+    }),
+  };
+}
+
+// к10 — пятиугольный трапецоэдр: два полюса и зигзаг из 10 вершин, грани-«воздушные змеи»
+function d10Poly() {
+  var a = 0.1056, c36 = Math.cos(Math.PI / 5), h = a * (1 + c36) / (1 - c36);   // при таком h грани плоские
+  var verts = [new V3(0, h, 0), new V3(0, -h, 0)], faces = [];
+  for (var i = 0; i < 10; i++) {
+    var t = i * Math.PI / 5;
+    verts.push(new V3(Math.cos(t), i % 2 ? -a : a, Math.sin(t)));
+  }
+  var r = function (i) { return 2 + (i % 10); };
+  for (var k = 0; k < 10; k++) faces.push([k % 2 ? 1 : 0, r(k), r(k + 1), r(k + 2)]);   // вершина-полюс первой
+  return { verts: verts, faces: faces };
+}
+
+var TYPES = {}, skinKey = 'amber';
+var SIZE = { 4: 1.2, 6: 0.95, 8: 1.0, 10: 1.0, 12: 1.0, 20: 0.95 };   // радиус описанной сферы
+function dieType(sides) {
+  if (TYPES[sides]) return TYPES[sides];
+  var poly =
+    sides === 4 ? facesFromGeometry(new THREE.TetrahedronGeometry(1, 0)) :
+    sides === 6 ? facesFromGeometry(new THREE.BoxGeometry(1, 1, 1)) :
+    sides === 8 ? facesFromGeometry(new THREE.OctahedronGeometry(1, 0)) :
+    sides === 10 ? d10Poly() :
+    sides === 12 ? facesFromGeometry(new THREE.DodecahedronGeometry(1, 0)) :
+    sides === 20 ? facesFromGeometry(new THREE.IcosahedronGeometry(1, 0)) : null;
+  if (!poly) return null;
+  var R = SIZE[sides], maxLen = 0;
+  poly.verts.forEach(function (v) { maxLen = Math.max(maxLen, v.length()); });
+  var verts = poly.verts.map(function (v) { return v.clone().multiplyScalar(R / maxLen); });
+
+  // Грани против часовой снаружи (нужно cannon-es), первая вершина остаётся первой
+  var faces = poly.faces.map(function (f) {
+    var a = verts[f[0]], n = new V3().subVectors(verts[f[1]], a).cross(new V3().subVectors(verts[f[2]], a));
+    return n.dot(a) < 0 ? [f[0]].concat(f.slice(1).reverse()) : f.slice();
+  });
+  var normals = faces.map(function (f) {
+    var a = verts[f[0]];
+    return new V3().subVectors(verts[f[1]], a).cross(new V3().subVectors(verts[f[2]], a)).normalize();
+  });
+  var opp = normals.map(function (n, f) {
+    var best = -1, bestDot = 2;
+    normals.forEach(function (m, g) { var d = n.dot(m); if (g !== f && d < bestDot) { bestDot = d; best = g; } });
+    return best;
+  });
+
+  // Форма грани на атласе: все грани одинаковые, первая вершина смотрит вверх
+  var f0 = faces[0], c0 = new V3();
+  f0.forEach(function (i) { c0.add(verts[i]); }); c0.divideScalar(f0.length);
+  var up = verts[f0[0]].clone().sub(c0).normalize(), right = new V3().crossVectors(up, normals[0]);
+  var pts = f0.map(function (i) { var d = verts[i].clone().sub(c0); return [d.dot(right), d.dot(up)]; });
+  var xs = pts.map(function (p) { return p[0]; }), ys = pts.map(function (p) { return p[1]; });
+  var minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs), minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+  var pad = 0.07, k = (1 - 2 * pad) / Math.max(maxX - minX, maxY - minY);
+  var shape = pts.map(function (p) { return [0.5 + (p[0] - (minX + maxX) / 2) * k, 0.5 - (p[1] - (minY + maxY) / 2) * k]; });
+  var cen = [0, 0];
+  shape.forEach(function (p) { cen[0] += p[0] / shape.length; cen[1] += p[1] / shape.length; });
+  var inr = 1;                            // расстояние от центра до ближайшего ребра — от него размер цифр
+  shape.forEach(function (p, j) {
+    var q = shape[(j + 1) % shape.length], ex = q[0] - p[0], ey = q[1] - p[1];
+    inr = Math.min(inr, Math.abs((cen[0] - p[0]) * ey - (cen[1] - p[1]) * ex) / Math.hypot(ex, ey));
+  });
+
+  // Видимая геометрия: веер треугольников по каждой грани; uvMap помнит, какая это грань и вершина
+  var positions = [], uvMap = [];
+  faces.forEach(function (f, fi) {
+    for (var j = 1; j < f.length - 1; j++) {
+      [0, j, j + 1].forEach(function (jj) { var v = verts[f[jj]]; positions.push(v.x, v.y, v.z); uvMap.push([fi, jj]); });
+    }
+  });
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setAttribute('uv', new THREE.Float32BufferAttribute(new Array(uvMap.length * 2).fill(0), 2));
+  geo.computeVertexNormals();
+
+  // У к4 число — вершина сверху: на каждой грани три числа у углов, ячейка — упорядоченная тройка
+  var triples = null, cells = sides;
+  if (sides === 4) {
+    triples = new Map(); cells = 0;
+    for (var p1 = 1; p1 <= 4; p1++) for (var p2 = 1; p2 <= 4; p2++) for (var p3 = 1; p3 <= 4; p3++)
+      if (p1 !== p2 && p2 !== p3 && p1 !== p3) triples.set(p1 + ',' + p2 + ',' + p3, cells++);
+  }
+  var cols = Math.ceil(Math.sqrt(cells)), rows = Math.ceil(cells / cols);
+  var atlas = document.createElement('canvas'); atlas.width = cols * CELL; atlas.height = rows * CELL;
+  var tex = new THREE.CanvasTexture(atlas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+  var T = {
+    sides: sides, verts: verts, faces: faces, normals: normals, opp: opp, shape: shape, cen: cen, inr: inr,
+    uvMap: uvMap, geo: geo, triples: triples, cells: cells, cols: cols, rows: rows, atlas: atlas, tex: tex,
+    shapes: {}, skin: null,
+  };
+  TYPES[sides] = T;
+  return T;
+}
+function physShape(T, s) {
+  if (!T.shapes[s]) T.shapes[s] = new CANNON.ConvexPolyhedron({
+    vertices: T.verts.map(function (v) { return new CANNON.Vec3(v.x * s, v.y * s, v.z * s); }),
+    faces: T.faces,
+  });
+  return T.shapes[s];
+}
+
+function drawAtlas(T) {
+  var skin = SKINS[skinKey] || SKINS.amber, g = T.atlas.getContext('2d');
+  T.skin = skinKey;
+  g.fillStyle = skin.face; g.fillRect(0, 0, T.atlas.width, T.atlas.height);
+  var labels = T.triples ? Array.from(T.triples.keys()).map(function (k) { return k.split(','); }) : null;
+  for (var i = 0; i < T.cells; i++) {
+    var x0 = (i % T.cols) * CELL, y0 = Math.floor(i / T.cols) * CELL;
+    var px = function (p) { return [x0 + p[0] * CELL, y0 + p[1] * CELL]; };
+    g.beginPath();
+    T.shape.forEach(function (p, j) { var q = px(p); if (j) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); });
+    g.closePath();
+    g.fillStyle = skin.face; g.fill();
+    g.lineWidth = CELL * 0.06; g.strokeStyle = skin.edge; g.stroke();
+    g.fillStyle = skin.ink; g.textAlign = 'center'; g.textBaseline = 'middle';
+    var c = px(T.cen);
+    if (labels) {                        // к4: число у каждого угла, верх числа смотрит в угол
+      g.font = '700 ' + Math.round(CELL * T.inr * 0.8) + 'px sans-serif';
+      T.shape.forEach(function (p, j) {
+        var q = px(p), dx = q[0] - c[0], dy = q[1] - c[1];
+        g.save(); g.translate(c[0] + dx * 0.56, c[1] + dy * 0.56); g.rotate(Math.atan2(dx, -dy));
+        g.fillText(labels[i][j], 0, 0); g.restore();
+      });
+      continue;
+    }
+    var num = String(i + 1);
+    g.font = '700 ' + Math.round(CELL * Math.min(0.4, T.inr * (num.length > 1 ? 0.85 : 1.05))) + 'px sans-serif';
+    g.fillText(num, c[0], c[1]);
+    if (num === '6' || num === '9') g.fillRect(c[0] - CELL * 0.06, c[1] + CELL * T.inr * 0.55, CELL * 0.12, CELL * 0.022);
+  }
+  T.tex.needsUpdate = true;
+}
+
+// Нумерация: у к4 — числа вершин, у остальных — числа граней
+function defaultLabels(T) {
+  if (T.triples) return [1, 2, 3, 4];
+  var N = T.sides, L = new Array(N).fill(0), n = 1;      // противоположные грани в сумме дают N+1
+  for (var f = 0; f < N; f++) { if (L[f]) continue; L[f] = n; L[T.opp[f]] = N + 1 - n; n++; }
+  return L;
+}
+function applyLabels(die) {
+  var T = die.type, uv = die.mesh.geometry.attributes.uv, L = die.labels;
+  T.uvMap.forEach(function (m, k) {
+    var f = T.faces[m[0]];
+    var cell = T.triples ? T.triples.get(f.map(function (v) { return L[v]; }).join(',')) : L[m[0]] - 1;
+    var col = cell % T.cols, row = Math.floor(cell / T.cols), p = T.shape[m[1]];
+    uv.setXY(k, (col + p[0]) / T.cols, 1 - (row + p[1]) / T.rows);
+  });
+  uv.needsUpdate = true;
+}
+// Подгоняем нумерацию так, чтобы сверху оказалось число, которое выбросило приложение
+function rig(die, top, target) {
+  var L = die.labels, u = L[top];
+  if (u === target) return;
+  var g = L.indexOf(target);
+  L[top] = target; L[g] = u;
+  if (die.type.triples) return;
+  var ou = die.type.opp[top], og = die.type.opp[g];
+  if (g !== ou) { var t = L[ou]; L[ou] = L[og]; L[og] = t; }
+}
+
+var dice = [];
+function clearDice() {
+  dice.forEach(function (d) { scene.remove(d.mesh); d.mesh.geometry.dispose(); d.mesh.material.dispose(); world.removeBody(d.body); });
+  dice = [];
+}
+function makeDice(sides, n) {
+  clearDice();
+  var T = dieType(sides);
+  if (T.skin !== skinKey) drawAtlas(T);
+  var skin = SKINS[skinKey] || SKINS.amber;
+  var s = n <= 4 ? 1 : n <= 8 ? 0.8 : n <= 14 ? 0.66 : 0.56;   // чем больше кубиков, тем они мельче
+  for (var i = 0; i < n; i++) {
+    var geo = T.geo.clone(); geo.scale(s, s, s);
+    var mat = new THREE.MeshStandardMaterial({ map: T.tex, flatShading: true, roughness: skin.rough, metalness: skin.metal });
+    var mesh = new THREE.Mesh(geo, mat);
+    mesh.castShadow = true; scene.add(mesh);
+    var body = new CANNON.Body({ mass: 1, material: diceMat, shape: physShape(T, s), linearDamping: 0.1, angularDamping: 0.12 });
+    body.sleepSpeedLimit = 0.2; body.sleepTimeLimit = 0.25;
+    world.addBody(body);
+    dice.push({ type: T, mesh: mesh, body: body, scale: s, labels: defaultLabels(T) });
+  }
+}
+function setSkin(key) {
+  skinKey = SKINS[key] ? key : 'amber';
+  var s = SKINS[skinKey];
+  Object.keys(TYPES).forEach(function (k) { if (TYPES[k].skin) drawAtlas(TYPES[k]); });
+  dice.forEach(function (d) { d.mesh.material.roughness = s.rough; d.mesh.material.metalness = s.metal; });
+}
+
+/* ---------- камера и границы стола ---------- */
+var bounds = { xHalf: 3, zMin: -4, zMax: 4 };
+function groundPoint(nx, ny) {
+  var v = new V3(nx, ny, 0.5).unproject(camera);
+  var dir = v.sub(camera.position).normalize();
+  return camera.position.clone().add(dir.multiplyScalar(-camera.position.y / dir.y));
+}
+function onResize() {
+  var w = stage.clientWidth || 1, h = stage.clientHeight || 1;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  // Стол в панели броска невысокий и широкий — камера ближе, чем в полноэкранном прототипе
+  if (camera.aspect < 0.8) camera.position.set(0, 19, 7); else camera.position.set(0, 12, 5);
+  camera.lookAt(0, 0, 0.6);
+  camera.updateProjectionMatrix();
+  camera.updateMatrixWorld();   // без этого unproject ниже возьмёт старое положение камеры
+  var far = groundPoint(0, 1), nl = groundPoint(-1, -1), nr = groundPoint(1, -1);
+  // Бортики должны целиком попасть в кадр: верх бортика на экране чуть дальше его основания
+  var rim = RIM_W * 1.15 + 0.12;
+  bounds = {
+    xHalf: Math.max(2.4, Math.min(Math.abs(nl.x), Math.abs(nr.x)) - rim),
+    zMin: far.z + 0.75 + rim,
+    zMax: Math.max(far.z + 5.5, nl.z - rim),
+  };
+  buildWalls(bounds);
+  layoutTray();
+  requestRender();
+}
+
+/* ---------- бросок: сначала считаем полёт, подгоняем грани, потом проигрываем ---------- */
+var frames = [], playing = false, playStart = 0, rollId = 0, raf = 0, keep = null;
+
+function throwDice() {
+  var b = bounds, n = dice.length, s = dice[0].scale, gap = 2.1 * s;
+  var perRow = Math.max(1, Math.min(n, Math.floor((2 * b.xHalf - 0.6) / gap)));
+  dice.forEach(function (d, i) {
+    var body = d.body, row = Math.floor(i / perRow), inRow = Math.min(perRow, n - row * perRow), col = i % perRow;
+    var x = n === 1 ? rnd(-b.xHalf * 0.4, b.xHalf * 0.4) : (col - (inRow - 1) / 2) * gap + rnd(-0.1, 0.1) * s;
+    body.position.set(x, rnd(2.6, 3.4) + row * gap, b.zMax - 1.2 * s - rnd(0, 0.3));
+    body.quaternion.setFromEuler(rnd(0, 6.28), rnd(0, 6.28), rnd(0, 6.28));
+    body.velocity.set(rnd(-3, 3), rnd(0, 3), -rnd(16, 24));
+    body.angularVelocity.set(rnd(-20, 20), rnd(-20, 20), rnd(-20, 20));
+    body.wakeUp();
+  });
+}
+function simulate() {
+  var out = [], calm = 0;
+  for (var step = 0; step < 480; step++) {
+    world.step(1 / 60);
+    out.push(dice.map(function (d) { return { p: d.body.position.clone(), q: d.body.quaternion.clone() }; }));
+    var still = dice.every(function (d) { return d.body.velocity.length() < 0.05 && d.body.angularVelocity.length() < 0.05; });
+    calm = still ? calm + 1 : 0;
+    if (step > 40 && (calm > 12 || dice.every(function (d) { return d.body.sleepState === CANNON.Body.SLEEPING; }))) break;
+  }
+  return out;
+}
+var tq = new THREE.Quaternion(), tv = new V3();
+// Что сверху у лежащей кости: top — грань (у к4 — вершина), rest — насколько ровно она лежит на грани (1 — ровно)
+function readDie(T, q) {
+  tq.set(q.x, q.y, q.z, q.w);
+  var top = 0, topY = -9, rest = -2;
+  T.normals.forEach(function (n, f) {
+    var y = tv.copy(n).applyQuaternion(tq).y;
+    if (-y > rest) rest = -y;
+    if (!T.triples && y > topY) { topY = y; top = f; }
+  });
+  if (T.triples) T.verts.forEach(function (v, i) { var y = tv.copy(v).applyQuaternion(tq).y; if (y > topY) { topY = y; top = i; } });
+  return { top: top, rest: rest };
+}
+function applyFrame(i) {
+  frames[i].forEach(function (s, k) { dice[k].mesh.position.set(s.p.x, s.p.y, s.p.z); dice[k].mesh.quaternion.set(s.q.x, s.q.y, s.q.z, s.q.w); });
+}
+
+// values — выпавшие числа, sides — какая кость (к4…к20), keep — индекс кости, которая идёт в зачёт (к20 с преимуществом)
+window.diceRoll = function (opts) {
+  var values = opts.values, sides = opts.sides || 20, best = null;
+  if (!dieType(sides)) { send({ type: 'error', message: 'sides ' + sides }); return; }
+  rollId = opts.id;
+  makeDice(sides, values.length);
+  var tries = values.length <= 2 ? 6 : 3;
+  for (var attempt = 0; attempt < tries; attempt++) {   // кость легла на ребро или на другую кость — бросаем заново
+    throwDice();
+    var fr = simulate();
+    var ups = fr[fr.length - 1].map(function (s, i) { return readDie(dice[i].type, s.q); });
+    var score = Math.min.apply(null, ups.map(function (u) { return u.rest; }));
+    if (!best || score > best.score) best = { frames: fr, ups: ups, score: score };
+    if (score > 0.9) break;
+  }
+  frames = best.frames;
+  dice.forEach(function (d, i) { rig(d, best.ups[i].top, values[i]); applyLabels(d); });
+  keep = typeof opts.keep === 'number' && values.length > 1 ? opts.keep : null;
+  playing = true;
+  playStart = opts.animate && !reduceMotion ? performance.now() : -1e9;
+  requestRender();
+};
+function landed() {
+  playing = false;
+  if (keep !== null) dice.forEach(function (d, i) { d.mesh.material.color.setScalar(i === keep ? 1 : 0.38); });
+  send({ type: 'landed', id: rollId });
+  requestRender();
+}
+window.diceSetup = function (opts) {
+  setSkin(opts.skin); setTable(opts.table); requestRender();
+};
+
+function requestRender() { if (!raf) raf = requestAnimationFrame(loop); }
+function loop(now) {
+  raf = 0;
+  if (playing && frames.length) {
+    var i = Math.floor((now - playStart) * 0.06 * 1.15);
+    if (i >= frames.length - 1) i = frames.length - 1;
+    applyFrame(Math.max(0, i));
+    if (i === frames.length - 1) landed();
+  }
+  renderer.render(scene, camera);
+  if (playing) requestRender();
+}
+
+// Нажатие на стол во время броска — пропустить анимацию
+renderer.domElement.addEventListener('pointerdown', function () { if (playing) playStart = -1e9; });
+window.addEventListener('resize', onResize);
+
+onResize();
+setTable('felt');
+setSkin('amber');
+send({ type: 'ready' });
+})();
+</script>
+</body>
+</html>
