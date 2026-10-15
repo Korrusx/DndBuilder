@@ -1,6 +1,12 @@
 import type { DiceSettings } from '../model/types';
 
-export const DEFAULT_DICE_SETTINGS: DiceSettings = { style: '3d', animation: true, skin: 'amber', table: 'felt' };
+export const DEFAULT_DICE_SETTINGS: DiceSettings = {
+  style: '3d',
+  animation: true,
+  skin: 'amber',
+  table: 'felt',
+  sound: true,
+};
 
 export const DICE_STYLES = ['3d', 'simple'] as const;
 export const DICE_SKINS = ['amber', 'obsidian', 'bone'] as const;

@@ -18,5 +18,6 @@ export function parseDiceSettings(raw: string | null): DiceSettings {
     animation: typeof v.animation === 'boolean' ? v.animation : d.animation,
     skin: oneOf(DICE_SKINS, v.skin, d.skin),
     table: oneOf(DICE_TABLES, v.table, d.table),
+    sound: typeof v.sound === 'boolean' ? v.sound : d.sound,
   };
 }

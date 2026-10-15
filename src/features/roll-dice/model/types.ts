@@ -29,7 +29,12 @@ export type DamageRequest = {
 export type DiceStyle = '3d' | 'simple';
 export type DiceSkin = 'amber' | 'obsidian' | 'bone';
 export type DiceTableKind = 'felt' | 'stone';
-export type DiceSettings = { style: DiceStyle; animation: boolean; skin: DiceSkin; table: DiceTableKind };
+export type DiceSettings = { style: DiceStyle; animation: boolean; skin: DiceSkin; table: DiceTableKind; sound: boolean };
+
+/** Звуки бросков в приложении (стук на 3D-столе играет сама сцена). */
+export type DiceSound = 'roll' | 'crit' | 'fumble';
+/** Особый итог броска: естественная 20 или 1. */
+export type DiceOutcome = 'crit' | 'fumble' | null;
 
 /** Что бросить на 3D-столе: числа уже выпали, сцена только кладёт кости нужной гранью вверх. */
 export type TableRoll = {

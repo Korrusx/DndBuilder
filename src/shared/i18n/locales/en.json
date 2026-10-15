@@ -771,6 +771,8 @@
     "on": "On",
     "off": "Off",
     "animationHint": "Without animation the dice are already lying on the table.",
+    "sound": "Sound",
+    "soundHint": "Dice clatter, with special sounds for a natural 20 and 1.",
     "skin": "Dice",
     "amber": "Amber",
     "obsidian": "Obsidian",

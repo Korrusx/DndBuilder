@@ -1,4 +1,4 @@
-// Настройки бросков (3D или простой, анимация, вид кубиков и стола) хранятся в пользовательской базе (meta.diceSettings).
+// Настройки бросков (3D или простой, анимация, вид кубиков и стола, звук) хранятся в пользовательской базе (meta.diceSettings).
 
 import type { SQLiteDatabase } from 'expo-sqlite';
 import { useSQLiteContext } from 'expo-sqlite';

@@ -18,13 +18,13 @@ export function DiceTable({ roll, settings, onLanded, onError }: DiceTableProps)
   const web = useRef<WebView>(null);
   const [ready, setReady] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { skin, table, animation } = settings;
+  const { skin, table, animation, sound } = settings;
 
   const run = (js: string) => web.current?.injectJavaScript(`${js};true;`);
 
   useEffect(() => {
-    if (ready) run(`window.diceSetup(${JSON.stringify({ skin, table })})`);
-  }, [ready, skin, table]);
+    if (ready) run(`window.diceSetup(${JSON.stringify({ skin, table, sound })})`);
+  }, [ready, skin, table, sound]);
 
   useEffect(() => {
     if (!ready || !roll) return;
@@ -56,6 +56,8 @@ export function DiceTable({ roll, settings, onLanded, onError }: DiceTableProps)
         ref={web}
         source={SOURCE}
         originWhitelist={['*']}
+        // Стук костей (Web Audio в сцене) звучит без нажатия на сам стол
+        mediaPlaybackRequiresUserAction={false}
         onMessage={onMessage}
         onError={onError}
         onRenderProcessGone={onError}

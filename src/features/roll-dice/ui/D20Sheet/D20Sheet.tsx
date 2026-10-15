@@ -9,6 +9,7 @@ import { formatModifier, rollD20 } from '@/shared/lib/dice';
 import { secureRandom } from '@/shared/lib/random';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 
+import type { DiceOutcome } from '../../model/types';
 import { useDiceReveal } from '../../model/useDiceReveal';
 import { DiceTable } from '../DiceTable/DiceTable';
 import { Die } from '../Die/Die';
@@ -26,10 +27,12 @@ function feel(natural: number) {
   p.catch(() => undefined);
 }
 
+const outcome = (r: D20Roll): DiceOutcome => (r.natural === 20 ? 'crit' : r.natural === 1 ? 'fumble' : null);
+
 export function D20Sheet({ request, onClose }: D20SheetProps) {
   const { t } = useTranslation();
   const [mode, setMode] = useState<D20Mode>('normal');
-  const { settings, use3d, roll, landed, show, onLanded, onError } = useDiceReveal<D20Roll>((r) => feel(r.natural));
+  const { settings, use3d, roll, landed, show, onLanded, onError } = useDiceReveal<D20Roll>((r) => feel(r.natural), outcome);
   const modifier = request?.parts.reduce((s, p) => s + p.value, 0) ?? 0;
 
   const fixed = !!request?.roll;

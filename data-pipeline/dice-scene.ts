@@ -1,4 +1,5 @@
-// Собирает стол бросков (к4–к20) (data-pipeline/dice/scene.html) вместе с three.js и cannon-es в одну HTML-строку
+// Собирает стол бросков (к4–к20) (data-pipeline/dice/scene.html) вместе с three.js, cannon-es и звуками ударов
+// (assets/sounds/dice, npm run dice:sounds) в одну HTML-строку
 // src/features/roll-dice/config/diceScene.generated.ts — сцена открывается в WebView без интернета.
 // Запуск: npm run dice:scene (нужен только при правке сцены или смене версий библиотек).
 
@@ -24,9 +25,17 @@ const versions = {
   three: JSON.parse(await read('node_modules/three/package.json')).version,
   cannon: JSON.parse(await read('node_modules/cannon-es/package.json')).version,
 };
+// Стук костей: по 3 варианта на каждую поверхность, WAV в base64
+const sounds: Record<string, string> = {};
+for (const kind of ['felt', 'stone', 'wood', 'die']) {
+  for (let v = 1; v <= 3; v++) {
+    sounds[`${kind}${v}`] = (await readFile(join(ROOT, `assets/sounds/dice/${kind}${v}.wav`))).toString('base64');
+  }
+}
 const html = (await read('data-pipeline/dice/scene.html'))
   .replace('/*THREE*/', () => safe(three))
-  .replace('/*CANNON*/', () => safe(cannon));
+  .replace('/*CANNON*/', () => safe(cannon))
+  .replace('/*SOUNDS*/{}', () => JSON.stringify(sounds));
 
 await writeFile(
   join(ROOT, 'src/features/roll-dice/config/diceScene.generated.ts'),

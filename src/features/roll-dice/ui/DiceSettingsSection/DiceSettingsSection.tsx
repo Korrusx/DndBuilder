@@ -6,7 +6,7 @@ import { AppText, Segmented } from '@/shared/ui';
 import { setDiceSettings, useDiceSettings } from '../../model/diceSettings';
 import type { DiceSkin, DiceStyle, DiceTableKind } from '../../model/types';
 
-/** Настройки бросков: 3D-стол или простой бросок, анимация, вид кубиков и стола. */
+/** Настройки бросков: 3D-стол или простой бросок, анимация, вид кубиков и стола, звук. */
 export function DiceSettingsSection() {
   const db = useSQLiteContext();
   const { t } = useTranslation();
@@ -26,6 +26,16 @@ export function DiceSettingsSection() {
         ]}
       />
       <AppText variant="secondary">{t('diceSettings.styleHint')}</AppText>
+      <AppText>{t('diceSettings.sound')}</AppText>
+      <Segmented<'on' | 'off'>
+        value={s.sound ? 'on' : 'off'}
+        onChange={(v) => save({ sound: v === 'on' })}
+        options={[
+          { value: 'on', label: t('diceSettings.on') },
+          { value: 'off', label: t('diceSettings.off') },
+        ]}
+      />
+      <AppText variant="secondary">{t('diceSettings.soundHint')}</AppText>
       {s.style === '3d' ? (
         <>
           <AppText>{t('diceSettings.animation')}</AppText>

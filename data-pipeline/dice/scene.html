@@ -112,8 +112,10 @@ var rimMat = new THREE.MeshStandardMaterial({ roughness: 0.6, metalness: 0 });
 var rims = [];
 var RIM_W = 0.45, RIM_H = 0.6;           // толщина и высота бортика
 
+var tableKey = 'felt';
 function setTable(key) {
-  var t = TABLES[key] || TABLES.felt;
+  tableKey = TABLES[key] ? key : 'felt';
+  var t = TABLES[tableKey];
   [feltMat, rimMat, outsideMat].forEach(function (m) { if (m.map) m.map.dispose(); });
   feltMat.map = surfaceTexture(t.surface);
   rimMat.map = woodTexture(t.rim);
@@ -166,6 +168,38 @@ function layoutTray() {
   add(b.xHalf + RIM_W / 2, cz, RIM_W, d + 2 * RIM_W);
   add(0, b.zMin - RIM_W / 2, w, RIM_W);
   add(0, b.zMax + RIM_W / 2, w, RIM_W);
+}
+
+/* ---------- звук ударов ---------- */
+// Стук синтезирован заранее (npm run dice:sounds): по 3 варианта на сукно, камень, бортик и удар кости о кость.
+var SOUNDS = /*SOUNDS*/{};
+var KIND_GAIN = { felt: 1, stone: 0.9, wood: 0.8, die: 0.55 };
+var soundOn = true, actx = null, buffers = {};
+function audio() {
+  if (!soundOn) return null;
+  if (!actx) {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) { soundOn = false; return null; }
+    actx = new AC();
+    Object.keys(SOUNDS).forEach(function (name) {
+      var bin = atob(SOUNDS[name]), bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      actx.decodeAudioData(bytes.buffer, function (b) { buffers[name] = b; }, function () {});
+    });
+  }
+  if (actx.state === 'suspended' && actx.resume) actx.resume();
+  return actx;
+}
+// kind — обо что ударилась кость, gain — сила удара 0–1, rate — высота (мелкие кости звучат выше)
+function playHit(kind, gain, rate, delay) {
+  var ctx = audio(), buf = buffers[kind + (1 + Math.floor(Math.random() * 3))];
+  if (!ctx || !buf || gain <= 0) return;
+  var src = ctx.createBufferSource(), g = ctx.createGain();
+  src.buffer = buf;
+  src.playbackRate.value = rate * rnd(0.92, 1.08);
+  g.gain.value = Math.min(1, gain * (KIND_GAIN[kind] || 1));
+  src.connect(g); g.connect(ctx.destination);
+  src.start(ctx.currentTime + (delay || 0));
 }
 
 /* ---------- кости: форма, нумерация граней, тело для физики ---------- */
@@ -424,6 +458,7 @@ function onResize() {
 
 /* ---------- бросок: сначала считаем полёт, подгоняем грани, потом проигрываем ---------- */
 var frames = [], playing = false, playStart = 0, rollId = 0, raf = 0, keep = null;
+var hits = [], nextHit = 0, lastFrame = -1;
 
 function throwDice() {
   var b = bounds, n = dice.length, s = dice[0].scale, gap = 2.1 * s;
@@ -438,10 +473,39 @@ function throwDice() {
     body.wakeUp();
   });
 }
+// Удары для звука: резкая смена скорости кости за шаг (без учёта силы тяжести). Партнёра по удару ищем среди контактов.
+var tmpW = new CANNON.Vec3();
+function collectHits(step, pv, pw, last, hits) {
+  dice.forEach(function (d, k) {
+    if (step - last[k] < 4) return;
+    var b = d.body;
+    var dx = b.velocity.x - pv[k].x, dy = b.velocity.y - pv[k].y + 32 / 60, dz = b.velocity.z - pv[k].z;
+    var dv = Math.sqrt(dx * dx + dy * dy + dz * dz) + 0.35 * d.scale * (b.angularVelocity.vsub(pw[k], tmpW), tmpW.length());
+    if (dv < 1.5) return;
+    var kind = null;
+    for (var c = 0; c < world.contacts.length; c++) {
+      var e = world.contacts[c], other = e.bi === b ? e.bj : e.bj === b ? e.bi : null;
+      if (!other) continue;
+      if (other.material === diceMat) {
+        if (dice.findIndex(function (x) { return x.body === other; }) < k) { kind = 'skip'; continue; }   // пара звучит один раз
+        kind = 'die'; break;
+      }
+      if (kind !== 'skip') kind = other.material === wallMat ? 'wood' : tableKey;
+    }
+    last[k] = step;
+    if (!kind || kind === 'skip') return;
+    hits.push({ step: step, kind: kind, gain: Math.min(1, Math.pow((dv - 1.2) / 14, 0.7)), rate: 1 / Math.sqrt(d.scale) });
+  });
+}
 function simulate() {
-  var out = [], calm = 0;
+  var out = [], calm = 0, hits = [];
+  var last = dice.map(function () { return -9; });
+  var pv = dice.map(function () { return new CANNON.Vec3(); }), pw = dice.map(function () { return new CANNON.Vec3(); });
+  out.hits = hits;
   for (var step = 0; step < 480; step++) {
+    dice.forEach(function (d, k) { pv[k].copy(d.body.velocity); pw[k].copy(d.body.angularVelocity); });
     world.step(1 / 60);
+    if (soundOn) collectHits(step, pv, pw, last, hits);
     out.push(dice.map(function (d) { return { p: d.body.position.clone(), q: d.body.quaternion.clone() }; }));
     var still = dice.every(function (d) { return d.body.velocity.length() < 0.05 && d.body.angularVelocity.length() < 0.05; });
     calm = still ? calm + 1 : 0;
@@ -482,12 +546,24 @@ window.diceRoll = function (opts) {
     if (score > 0.9) break;
   }
   frames = best.frames;
+  hits = best.frames.hits; nextHit = 0; lastFrame = -1;
   dice.forEach(function (d, i) { rig(d, best.ups[i].top, values[i]); applyLabels(d); });
   keep = typeof opts.keep === 'number' && values.length > 1 ? opts.keep : null;
   playing = true;
   playStart = opts.animate && !reduceMotion ? performance.now() : -1e9;
+  // Без анимации кости сразу лежат — короткий стук вместо полёта
+  if (playStart < 0 && soundOn) [0.45, 0.25, 0.12].forEach(function (g, j) { playHit(tableKey, g, 1, j * 0.07); });
   requestRender();
 };
+// Звук ударов, до которых дошла анимация. Перескок (нажатие «пропустить») не озвучиваем.
+function soundUpTo(i) {
+  var jump = i - lastFrame > 6, played = 0;
+  while (nextHit < hits.length && hits[nextHit].step <= i) {
+    var h = hits[nextHit++];
+    if (!jump && played++ < 6) playHit(h.kind, h.gain, h.rate);
+  }
+  lastFrame = i;
+}
 function landed() {
   playing = false;
   if (keep !== null) dice.forEach(function (d, i) { d.mesh.material.color.setScalar(i === keep ? 1 : 0.38); });
@@ -495,7 +571,10 @@ function landed() {
   requestRender();
 }
 window.diceSetup = function (opts) {
-  setSkin(opts.skin); setTable(opts.table); requestRender();
+  setSkin(opts.skin); setTable(opts.table);
+  soundOn = opts.sound !== false;
+  if (soundOn) audio();        // звуки раскодируются заранее, к первому броску они готовы
+  requestRender();
 };
 
 function requestRender() { if (!raf) raf = requestAnimationFrame(loop); }
@@ -505,6 +584,7 @@ function loop(now) {
     var i = Math.floor((now - playStart) * 0.06 * 1.15);
     if (i >= frames.length - 1) i = frames.length - 1;
     applyFrame(Math.max(0, i));
+    soundUpTo(i);
     if (i === frames.length - 1) landed();
   }
   renderer.render(scene, camera);
@@ -512,7 +592,7 @@ function loop(now) {
 }
 
 // Нажатие на стол во время броска — пропустить анимацию
-renderer.domElement.addEventListener('pointerdown', function () { if (playing) playStart = -1e9; });
+renderer.domElement.addEventListener('pointerdown', function () { audio(); if (playing) playStart = -1e9; });
 window.addEventListener('resize', onResize);
 
 onResize();
