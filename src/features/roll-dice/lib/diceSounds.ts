@@ -10,8 +10,8 @@ let modeSet = false;
 function player(sound: DiceSound): AudioPlayer {
   if (!modeSet) {
     modeSet = true;
-    // Не перебивать музыку на телефоне и молчать в беззвучном режиме
-    setAudioModeAsync({ playsInSilentMode: false, interruptionMode: 'mixWithOthers' }).catch(() => undefined);
+    // Не перебивать музыку на телефоне. Звучать и в режиме вибрации — как стук на 3D-столе; выключается в настройках бросков
+    setAudioModeAsync({ playsInSilentMode: true, interruptionMode: 'mixWithOthers' }).catch(() => undefined);
   }
   return (players[sound] ??= createAudioPlayer(DICE_SOUND_SOURCES[sound]));
 }

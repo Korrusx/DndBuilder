@@ -5,7 +5,7 @@ import { colors } from '@/shared/config';
 import { styles } from './Button.styles';
 import type { ButtonProps } from './Button.types';
 
-export function Button({ title, onPress, variant = 'primary', disabled }: ButtonProps) {
+export function Button({ title, onPress, variant = 'primary', disabled, style }: ButtonProps) {
   const primary = variant === 'primary';
   return (
     <Pressable
@@ -16,6 +16,7 @@ export function Button({ title, onPress, variant = 'primary', disabled }: Button
         styles.base,
         primary ? styles.primary : variant === 'danger' ? styles.danger : styles.secondary,
         (pressed || disabled) && { opacity: disabled ? 0.4 : 0.8 },
+        style,
       ]}
     >
       <Text style={[styles.label, { color: primary ? colors.onAccent : variant === 'danger' ? colors.damage : colors.text }]}>{title}</Text>

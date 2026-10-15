@@ -18,7 +18,15 @@ export function BottomSheet({
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+    // Android: окно до краёв экрана — панель уходит под полосу навигации, отступ снизу внутри неё
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      statusBarTranslucent
+      navigationBarTranslucent
+      onRequestClose={onClose}
+    >
       <View style={styles.wrap}>
         <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel={t('common.close')} />
         <View style={[styles.sheet, { paddingBottom: insets.bottom + spacing.lg }]}>

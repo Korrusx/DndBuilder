@@ -77,33 +77,33 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
           onError={onError}
         />
       ) : null}
-      {roll && landed ? (
+      {roll ? (
+        // Итог занимает место и во время броска (невидимый) — окно не меняет высоту
         <View style={styles.result}>
-          <View style={styles.diceRow}>
-            {roll.dice.map((d, i) => (
-              <Die key={i} value={d} dropped={i !== roll.keptIndex} />
-            ))}
+          <View style={[styles.resultBody, !landed && styles.hidden]} accessibilityElementsHidden={!landed}>
+            <View style={styles.diceRow}>
+              {roll.dice.map((d, i) => (
+                <Die key={i} value={d} dropped={i !== roll.keptIndex} />
+              ))}
+            </View>
+            <AppText style={styles.total}>{roll.total}</AppText>
+            <AppText style={[styles.nat, { color: roll.natural === 20 ? colors.heal : colors.damage }]}>
+              {roll.natural === 20 ? t('roll.nat20') : roll.natural === 1 ? t('roll.nat1') : ' '}
+            </AppText>
           </View>
-          <AppText style={styles.total}>{roll.total}</AppText>
-          {roll.natural === 20 ? <AppText style={[styles.nat, { color: colors.heal }]}>{t('roll.nat20')}</AppText> : null}
-          {roll.natural === 1 ? <AppText style={[styles.nat, { color: colors.damage }]}>{t('roll.nat1')}</AppText> : null}
-        </View>
-      ) : null}
-      {roll && !landed ? (
-        <View style={[styles.result, styles.rolling]}>
-          <AppText variant="secondary">{t('roll.rolling')}</AppText>
-          <AppText variant="secondary">{t('roll.tapToSkip')}</AppText>
+          {landed ? null : (
+            <View style={styles.rolling}>
+              <AppText variant="secondary">{t('roll.rolling')}</AppText>
+              <AppText variant="secondary">{t('roll.tapToSkip')}</AppText>
+            </View>
+          )}
         </View>
       ) : null}
       <View style={styles.buttons}>
         {fixed ? null : (
-          <View style={styles.fill}>
-            <Button title={t('common.rollAgain')} variant="secondary" onPress={() => doRoll(mode)} />
-          </View>
+          <Button title={t('common.rollAgain')} variant="secondary" onPress={() => doRoll(mode)} style={styles.fill} />
         )}
-        <View style={styles.fill}>
-          <Button title={t('common.done')} onPress={onClose} />
-        </View>
+        <Button title={t('common.done')} onPress={onClose} style={styles.fill} />
       </View>
     </BottomSheet>
   );
