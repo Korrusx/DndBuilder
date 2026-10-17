@@ -80,13 +80,39 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
             <AppText variant="secondary" style={styles.width72}>
               {t('hp.successes')}
             </AppText>
-            <Dots total={3} filled={c.state.deathSaves.successes} color={colors.heal} />
+            <Dots
+              total={3}
+              filled={c.state.deathSaves.successes}
+              color={colors.heal}
+              onPress={(i) =>
+                updateState((s) => ({
+                  ...s,
+                  deathSaves: {
+                    ...s.deathSaves,
+                    successes: i < s.deathSaves.successes ? i : i + 1,
+                  },
+                }))
+              }
+            />
           </View>
           <View style={styles.row}>
             <AppText variant="secondary" style={styles.width72}>
               {t('hp.failures')}
             </AppText>
-            <Dots total={3} filled={c.state.deathSaves.failures} color={colors.damage} />
+            <Dots
+              total={3}
+              filled={c.state.deathSaves.failures}
+              color={colors.damage}
+              onPress={(i) =>
+                updateState((s) => ({
+                  ...s,
+                  deathSaves: {
+                    ...s.deathSaves,
+                    failures: i < s.deathSaves.failures ? i : i + 1,
+                  },
+                }))
+              }
+            />
           </View>
           {status === 'dying' ? <SmallButton title={t('hp.rollDeathSave')} tone="accent" onPress={onDeathSave} /> : null}
           {status === 'dead' ? (

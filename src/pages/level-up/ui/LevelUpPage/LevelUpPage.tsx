@@ -222,17 +222,36 @@ export function LevelUpPage() {
         </Section>
       ))}
 
-      {plan.optionChoices.map((o) => (
-        <Section key={o.key} title={nameOf('features', o.featureId)} picked={next.choices[o.key]?.length ?? 0} need={o.total}>
-          <MultiPick
-            options={o.options}
-            selected={next.choices[o.key] ?? []}
-            max={o.total}
-            label={(id) => nameOf('features', id)}
-            onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [o.key]: ids } }))}
-          />
-        </Section>
-      ))}
+      {plan.optionChoices.map((o) => {
+        const sel = next.choices[o.key] ?? [];
+        const selSet = new Set(sel);
+        const full = sel.length >= o.total;
+        return (
+          <Section key={o.key} title={nameOf('features', o.featureId)} picked={sel.length} need={o.total}>
+            {o.options.map((id) => {
+              const feature = byId.features.get(id);
+              const isOn = selSet.has(id);
+              return (
+                <OptionCard
+                  key={id}
+                  title={nameOf('features', id)}
+                  lines={[plain(feature?.description)].filter(Boolean)}
+                  selected={isOn}
+                  compact
+                  onPress={
+                    !isOn && full
+                      ? undefined
+                      : () => {
+                          const next_sel = isOn ? sel.filter((x) => x !== id) : o.total === 1 ? [id] : [...sel, id];
+                          set((c) => ({ ...c, choices: { ...c.choices, [o.key]: next_sel } }));
+                        }
+                  }
+                />
+              );
+            })}
+          </Section>
+        );
+      })}
 
       {featureLanguageSlots(next, content)
         .filter((slot) => plan.features.some((f) => f.id === slot.featureId))
@@ -348,21 +367,37 @@ export function LevelUpPage() {
 
       {plan.fightingStyles ? (
         <Section title={t('levelUpPage.fightingStyle')} picked={fightingStyleFeats.length} need={plan.fightingStyles}>
-          <MultiPick
-            options={content.feats.filter((f) => f.type === 'fighting-style' && !takenStyles.has(f.id)).map((f) => f.id)}
-            selected={fightingStyleFeats.map((f) => f.featId)}
-            max={plan.fightingStyles}
-            label={(id) => nameOf('feats', id)}
-            onChange={(ids) =>
-              set((c) => ({
-                ...c,
-                feats: [
-                  ...c.feats.filter((f) => !(f.level === level && byId.feats.get(f.featId)?.type === 'fighting-style')),
-                  ...ids.map((featId) => ({ featId, source: 'class' as const, level })),
-                ],
-              }))
-            }
-          />
+          {content.feats
+            .filter((f) => f.type === 'fighting-style' && !takenStyles.has(f.id))
+            .map((f) => {
+              const isOn = fightingStyleFeats.some((fs) => fs.featId === f.id);
+              const full = fightingStyleFeats.length >= plan.fightingStyles;
+              return (
+                <OptionCard
+                  key={f.id}
+                  title={nameOf('feats', f.id)}
+                  lines={[plain(f.description)].filter(Boolean)}
+                  selected={isOn}
+                  compact
+                  onPress={
+                    !isOn && full
+                      ? undefined
+                      : () => {
+                          const nextIds = isOn
+                            ? fightingStyleFeats.filter((fs) => fs.featId !== f.id).map((fs) => fs.featId)
+                            : [...fightingStyleFeats.map((fs) => fs.featId), f.id];
+                          set((c) => ({
+                            ...c,
+                            feats: [
+                              ...c.feats.filter((feat) => !(feat.level === level && byId.feats.get(feat.featId)?.type === 'fighting-style')),
+                              ...nextIds.map((featId) => ({ featId, source: 'class' as const, level })),
+                            ],
+                          }));
+                        }
+                  }
+                />
+              );
+            })}
         </Section>
       ) : null}
 
