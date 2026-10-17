@@ -95,9 +95,11 @@ describe('мастер создания', () => {
     const kit = startingKit(irmaViaWizard(), content);
     expect(kit.coins).toEqual({ gp: 24 });
     expect(kit.items.find((i) => i.itemId === 'dagger')?.quantity).toBe(4);
-    expect(kit.items.find((i) => i.itemId === 'leather-armor')?.equipped).toBe(true);
+    // Кожаный доспех автоматически надевается в слот тела (новая модель equippedSlots).
+    expect(kit.equippedSlots.body).toBe('leather-armor');
     const gold = startingKit({ ...irmaViaWizard(), choices: { 'equip.class': ['1'], 'equip.background': ['1'] } }, content);
-    expect(gold).toEqual({ items: [], coins: { gp: 150 } });
+    expect(gold.items).toEqual([]);
+    expect(gold.coins).toEqual({ gp: 150 });
   });
 
   test('предмет на выбор внутри набора (священный символ жреца)', () => {
@@ -110,7 +112,9 @@ describe('мастер создания', () => {
     const symbol = picks[0].options[0];
     const kit = startingKit({ ...c, choices: { ...c.choices, [`equip.class.pick.${picks[0].index}`]: [symbol] } }, content);
     expect(kit.items.map((i) => i.itemId)).toContain(symbol);
-    expect(kit.items.filter((i) => i.equipped).map((i) => i.itemId).sort()).toEqual(['chain-shirt', 'shield']);
+    // Доспех и щит автоматически надеваются (новая модель equippedSlots).
+    expect(kit.equippedSlots.body).toBe('chain-shirt');
+    expect(kit.equippedSlots.off).toBe('shield');
   });
 
   test('жрец-человек: «Божественный порядок», «Универсальность», «Посвящённый в магию»', () => {

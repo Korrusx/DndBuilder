@@ -1,31 +1,45 @@
-import type { Equipment } from '@/shared/content';
-import type { GameIconName } from '@/shared/ui/GameIcon/GameIcon.types';
+import type { Equipment, MagicItem } from '@/shared/content';
+import type { GameIconName } from '@/shared/ui';
+import type { SlotId } from '@/entities/character';
 
 const AXE_IDS = new Set(['battleaxe', 'greataxe', 'handaxe']);
 const BOW_IDS = new Set(['longbow', 'shortbow', 'hand-crossbow', 'light-crossbow', 'heavy-crossbow']);
 const STAFF_IDS = new Set(['quarterstaff', 'staff']);
 const DAGGER_IDS = new Set(['dagger']);
 
-export function itemIcon(item: Equipment | undefined): GameIconName {
-  if (!item) return 'warlock-eye';
-  if (item.weapon) {
-    if (AXE_IDS.has(item.id)) return 'battle-axe';
-    if (BOW_IDS.has(item.id)) return 'bowman';
-    if (DAGGER_IDS.has(item.id)) return 'cloak-dagger';
-    if (STAFF_IDS.has(item.id)) return 'wizard-staff';
+export function itemIcon(eq: Equipment | MagicItem | undefined): GameIconName {
+  if (!eq) return 'person';
+  const e = eq as Equipment;
+  if (e.weapon) {
+    if (AXE_IDS.has(e.id)) return 'battle-axe';
+    if (BOW_IDS.has(e.id)) return 'bowman';
+    if (DAGGER_IDS.has(e.id)) return 'cloak-dagger';
+    if (STAFF_IDS.has(e.id)) return 'wizard-staff';
     return 'crossed-swords';
   }
-  if (item.armor) {
-    return item.armor.category === 'shield' ? 'templar-shield' : 'person';
-  }
-  return 'person';
+  if (e.armor) return e.armor.category === 'shield' ? 'templar-shield' : 'person';
+  const m = eq as MagicItem;
+  const k = m.kind?.en?.toLowerCase() ?? '';
+  if (k.includes('ring')) return 'holy-symbol';
+  if (k.includes('cloak') || k.includes('cape')) return 'cloak-dagger';
+  if (k.includes('boot') || k.includes('shoe')) return 'person';
+  if (k.includes('amulet') || k.includes('necklace') || k.includes('pendant')) return 'holy-symbol';
+  if (k.includes('wand') || k.includes('staff') || k.includes('rod')) return 'wizard-staff';
+  return 'warlock-eye';
 }
 
-export type ItemCategory = 'weapon' | 'armor' | 'other';
-
-export function itemCategory(item: Equipment | undefined): ItemCategory {
-  if (!item) return 'other';
-  if (item.weapon) return 'weapon';
-  if (item.armor) return 'armor';
-  return 'other';
-}
+export const SLOT_ICONS: Record<SlotId, GameIconName> = {
+  head: 'person',
+  shoulders: 'cloak-dagger',
+  body: 'person',
+  hands: 'person',
+  feet: 'person',
+  neck: 'holy-symbol',
+  wrists: 'person',
+  belt: 'person',
+  ring1: 'holy-symbol',
+  ring2: 'holy-symbol',
+  main: 'crossed-swords',
+  off: 'templar-shield',
+  ranged: 'bowman',
+};

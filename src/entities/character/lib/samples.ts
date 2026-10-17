@@ -25,12 +25,10 @@ export function irmaLevel1(): Character {
     feats: [],
     weaponMasteries: ['shortsword', 'dagger'],
     equipment: [
-      { itemId: 'leather-armor', quantity: 1, equipped: true },
-      { itemId: 'shortsword', quantity: 1, equipped: true },
       { itemId: 'dagger', quantity: 2 },
-      { itemId: 'shortbow', quantity: 1 },
       { itemId: 'arrows', quantity: 20 },
     ],
+    equippedSlots: { body: 'leather-armor', main: 'shortsword', ranged: 'shortbow' },
     coins: { gp: 8 },
     cantrips: [],
     preparedSpells: [],

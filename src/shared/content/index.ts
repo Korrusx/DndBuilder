@@ -33,6 +33,7 @@ export type {
   Edition,
   Equipment,
   LocalizedText,
+  MagicItem,
   ResourceFormula,
   Species,
   Spell,

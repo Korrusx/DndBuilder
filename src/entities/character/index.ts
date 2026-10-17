@@ -86,6 +86,8 @@ export {
   endRage,
   exhaustionEffects2014,
   exhaustionPenalty,
+  equipToSlot,
+  fitsSlot,
   maxHpWithExhaustion,
   finishShortRest,
   rollDamage,
@@ -95,6 +97,7 @@ export {
   toggleCondition,
   toggleEquipped,
   unarmedStrike,
+  unequipSlot,
 } from './model/play';
 export { adjustResource, characterResources, shortRestResources } from './model/resources';
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
@@ -131,5 +134,6 @@ export type {
   ProficiencySlot,
   ResourceRecovery,
   ResourceView,
+  SlotId,
   SourcedId,
 } from './model/types';

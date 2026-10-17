@@ -2,157 +2,339 @@ import { Dimensions, StyleSheet } from 'react-native';
 
 import { colors, fonts, radius, spacing } from '@/shared/config';
 
-const SCREEN_W = Dimensions.get('window').width;
-const COLS = 4;
-const GRID_GAP = 6;
-export const CELL_SIZE = Math.floor((SCREEN_W - 2 * spacing.lg - (COLS - 1) * GRID_GAP) / COLS);
+export const W = Dimensions.get('window').width;
+export const SCALE = W / 390;
+export const DOLL_H = Math.round(470 * SCALE);
+export const SLOT_SIZE = Math.round(54 * SCALE);
 
 export const styles = StyleSheet.create({
-  acRow: {
+  container: {
+    flex: 1,
+    backgroundColor: colors.bg,
+  },
+  // Шапка
+  header: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.sm,
     gap: spacing.sm,
   },
-  acBadge: {
-    backgroundColor: colors.surface2,
-    borderRadius: radius.chip,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
+  headerLeft: { flex: 1, gap: 2 },
+  title: {
+    fontFamily: fonts.displayBold,
+    fontSize: 22,
+    color: colors.text,
+    lineHeight: 28,
   },
-  acText: {
-    fontFamily: fonts.display,
+  summary: {
+    fontFamily: fonts.text,
     fontSize: 13,
-    color: colors.accent,
+    color: colors.textSecondary,
   },
-  // Слоты экипировки
-  slotsRow: {
+  bagBtn: {
     flexDirection: 'row',
-    gap: GRID_GAP,
-  },
-  slot: {
-    flex: 1,
-    borderRadius: radius.card,
+    alignItems: 'center',
+    height: 44,
+    paddingHorizontal: 14,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.surface,
+    gap: 6,
+  },
+  bagBtnText: {
+    fontFamily: fonts.textBold,
+    fontSize: 13,
+    color: colors.text,
+  },
+  // Кукла
+  doll: {
+    width: W,
+    height: DOLL_H,
+    position: 'relative',
+  },
+  halo: {
+    position: 'absolute',
+    left: Math.round(95 * SCALE),
+    top: Math.round(40 * SCALE),
+    width: Math.round(200 * SCALE),
+    height: Math.round(360 * SCALE),
+    borderRadius: Math.round(100 * SCALE),
+    backgroundColor: '#15181c',
+  },
+  slot: {
+    position: 'absolute',
+    width: SLOT_SIZE,
+    height: SLOT_SIZE,
+    borderRadius: Math.round(14 * SCALE),
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    borderColor: colors.border,
+    backgroundColor: colors.bg,
     alignItems: 'center',
-    paddingVertical: spacing.md,
-    gap: spacing.xs,
-    minHeight: 80,
     justifyContent: 'center',
   },
   slotFilled: {
+    borderStyle: 'solid',
+    backgroundColor: colors.surface,
+  },
+  slotSelected: {
+    borderWidth: 2,
     borderColor: colors.accent,
-    backgroundColor: colors.accentBg,
+    borderStyle: 'solid',
   },
-  slotLabel: {
-    fontFamily: fonts.text,
-    fontSize: 10,
-    color: colors.textSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
+  slotAttuned: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    width: 7,
+    height: 7,
+    transform: [{ rotate: '45deg' }],
+    backgroundColor: colors.accent,
   },
-  slotName: {
-    fontFamily: fonts.textMedium,
-    fontSize: 11,
-    color: colors.text,
-    textAlign: 'center',
-    paddingHorizontal: spacing.xs,
-  },
-  slotEmpty: {
-    borderStyle: 'dashed',
-  },
-  // Сетка предметов
-  grid: {
+  // Оружейные слоты
+  weaponsRow: {
+    position: 'absolute',
+    left: Math.round(14 * SCALE),
+    right: Math.round(14 * SCALE),
+    top: Math.round(410 * SCALE),
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: GRID_GAP,
+    gap: Math.round(8 * SCALE),
   },
-  cell: {
-    width: CELL_SIZE,
-    height: CELL_SIZE + 26,
-    borderRadius: radius.card,
+  weaponSlot: {
+    flex: 1,
+    height: Math.round(58 * SCALE),
+    borderRadius: Math.round(14 * SCALE),
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    borderColor: colors.border,
+    backgroundColor: colors.bg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 8,
+  },
+  weaponSlotFilled: {
+    borderStyle: 'solid',
+    borderColor: '#4a525d',
+    backgroundColor: colors.surface,
+  },
+  weaponSlotSelected: {
+    borderStyle: 'solid',
+    borderColor: colors.accent,
+    borderWidth: 2,
+  },
+  weaponSlotText: { flex: 1, gap: 1 },
+  weaponSlotName: {
+    fontFamily: fonts.textBold,
+    fontSize: 12,
+    color: colors.text,
+    lineHeight: 14,
+  },
+  weaponSlotStat: {
+    fontFamily: fonts.display,
+    fontSize: 11,
+    color: colors.accent,
+  },
+  weaponSlotEmpty: {
+    fontFamily: fonts.text,
+    fontSize: 11,
+    color: colors.textSecondary,
+  },
+  // Карточка выбранного слота
+  card: {
+    marginHorizontal: spacing.sm,
+    marginTop: spacing.sm,
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
+    borderRadius: radius.card,
+    padding: spacing.md,
+    gap: spacing.sm,
+    minHeight: 160,
+  },
+  cardTop: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingTop: spacing.sm,
-    paddingHorizontal: spacing.xs,
-    overflow: 'hidden',
+    gap: 10,
   },
-  cellEquipped: {
-    borderColor: colors.accent,
-    backgroundColor: colors.accentBg,
+  cardIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  cellName: {
-    fontFamily: fonts.text,
-    fontSize: 10,
+  cardTitle: {
+    fontFamily: fonts.textBold,
+    fontSize: 16,
     color: colors.text,
-    textAlign: 'center',
-    marginTop: 4,
-    lineHeight: 13,
   },
-  cellQty: {
-    position: 'absolute',
-    bottom: 4,
-    right: 4,
-    backgroundColor: colors.surface2,
-    borderRadius: 6,
-    paddingHorizontal: 3,
-    paddingVertical: 1,
-  },
-  cellQtyText: {
-    fontFamily: fonts.display,
-    fontSize: 9,
+  cardTag: {
+    fontFamily: fonts.text,
+    fontSize: 12,
     color: colors.textSecondary,
   },
-  // Монеты
-  coinRow: {
+  cardAtk: {
+    fontFamily: fonts.textBold,
+    fontSize: 13,
+    color: colors.accent,
+  },
+  cardDesc: {
+    fontFamily: fonts.text,
+    fontSize: 13,
+    lineHeight: 18,
+    color: '#c9c3b8',
+  },
+  cardRow: {
     flexDirection: 'row',
-    alignItems: 'center',
     gap: spacing.sm,
+    marginTop: 'auto',
   },
-  coinInput: {
-    width: 96,
-    minHeight: 44,
-    borderRadius: 12,
-    backgroundColor: colors.surface2,
-    color: colors.text,
-    fontFamily: fonts.display,
-    fontSize: 16,
-    textAlign: 'right',
-    paddingHorizontal: spacing.md,
-  },
-  fill: { flex: 1 },
-  empty: {
-    alignItems: 'center',
-    paddingVertical: spacing.xl,
-    gap: spacing.sm,
-  },
-  filterRow: {
-    flexDirection: 'row',
-    gap: spacing.xs,
-    flexWrap: 'nowrap',
-  },
-  filterChip: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: 6,
-    borderRadius: radius.chip,
-    backgroundColor: colors.surface2,
+  cardBtn: {
+    flex: 1,
+    height: 44,
+    borderRadius: 14,
     borderWidth: 1,
-    borderColor: 'transparent',
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  filterChipActive: {
+  cardBtnPrimary: {
+    borderWidth: 0,
+    backgroundColor: colors.accent,
+  },
+  cardBtnText: {
+    fontFamily: fonts.textBold,
+    fontSize: 14,
+    color: colors.text,
+  },
+  cardBtnTextPrimary: {
+    color: colors.onAccent,
+  },
+  // Шторка выбора
+  sheetOpts: {
+    gap: spacing.sm,
+    maxHeight: 320,
+    overflow: 'hidden',
+  },
+  sheetScrollOpts: {
+    gap: spacing.sm,
+  },
+  opt: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  optSelected: {
+    borderWidth: 2,
     borderColor: colors.accent,
     backgroundColor: colors.accentBg,
   },
-  filterText: {
-    fontFamily: fonts.textMedium,
+  optDisabled: { opacity: 0.45 },
+  optMid: { flex: 1, gap: 3 },
+  optName: {
+    fontFamily: fonts.textBold,
+    fontSize: 15,
+    color: colors.text,
+  },
+  optSub: {
+    fontFamily: fonts.text,
+    fontSize: 12,
+    color: colors.textSecondary,
+  },
+  optWarn: {
+    fontFamily: fonts.text,
+    fontSize: 12,
+    color: colors.damage,
+  },
+  optRight: {
+    alignItems: 'flex-end',
+    gap: 4,
+  },
+  optAcVal: {
+    fontFamily: fonts.display,
+    fontSize: 15,
+    color: colors.text,
+  },
+  delta: {
+    fontFamily: fonts.textBold,
+    fontSize: 11,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  deltaUp: { backgroundColor: colors.healBg, color: colors.heal },
+  deltaDown: { backgroundColor: colors.damageBg, color: colors.damage },
+  deltaEq: { backgroundColor: colors.surface2, color: colors.textSecondary },
+  currentItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: colors.bg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 14,
+    padding: 10,
+  },
+  currentLabel: {
+    fontFamily: fonts.text,
+    fontSize: 11,
+    color: colors.textSecondary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+  },
+  currentName: {
+    flex: 1,
+    fontFamily: fonts.textBold,
+    fontSize: 14,
+    color: colors.text,
+  },
+  currentAc: {
+    fontFamily: fonts.text,
+    fontSize: 13,
+    color: '#c9c3b8',
+  },
+  sheetHint: {
+    fontFamily: fonts.text,
+    fontSize: 12,
+    color: colors.textSecondary,
+  },
+  // Рюкзак
+  bagRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  bagName: {
+    flex: 1,
+    fontFamily: fonts.text,
+    fontSize: 14,
+    color: colors.text,
+  },
+  bagQty: {
+    fontFamily: fonts.text,
     fontSize: 13,
     color: colors.textSecondary,
   },
-  filterTextActive: {
-    color: colors.accent,
+  emptyText: {
+    fontFamily: fonts.text,
+    fontSize: 13,
+    color: colors.textSecondary,
+    paddingVertical: spacing.sm,
   },
 });

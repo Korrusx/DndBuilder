@@ -65,15 +65,23 @@ export type FeatChoice = {
 /**
  * Предмет в инвентаре. `itemId` — id снаряжения или магического предмета из справочника,
  * либо `custom:…` для своего предмета; тогда название хранится в `name`.
+ * `equipped` — устаревшее поле (до v2 модели), заменено на `equippedSlots` в персонаже.
  */
 export type InventoryItem = {
   itemId: string;
   quantity: number;
+  /** @deprecated используй Character.equippedSlots */
   equipped?: boolean;
   name?: string;
   /** Магическое оружие +1/+2/+3: прибавка к попаданию и урону. */
   magicBonus?: number;
 };
+
+/** Слоты экипировки персонажа. */
+export type SlotId =
+  | 'head' | 'shoulders' | 'body' | 'hands' | 'feet'
+  | 'neck' | 'wrists' | 'belt' | 'ring1' | 'ring2'
+  | 'main' | 'off' | 'ranged';
 
 export type GameState = {
   currentHp: number;
@@ -141,7 +149,13 @@ export type Character = {
   /** Оружие, для которого выбраны приёмы (id предметов). */
   weaponMasteries: string[];
 
+  /**
+   * Рюкзак: предметы, не надетые на персонажа. Надетые хранятся в `equippedSlots`.
+   * Устаревшие данные (до v2) могут содержать `equipped: true` — они мигрируются при загрузке.
+   */
   equipment: InventoryItem[];
+  /** Надетые предметы по именованным слотам: { body: 'leather-armor', main: 'shortsword' }. */
+  equippedSlots: Partial<Record<SlotId, string>>;
   coins: Partial<Record<Coin, number>>;
 
   cantrips: string[];

@@ -45,6 +45,7 @@ export function newDraftCharacter(id: string, now: string, edition: Edition = '2
     feats: [],
     weaponMasteries: [],
     equipment: [],
+    equippedSlots: {},
     coins: {},
     cantrips: [],
     preparedSpells: [],

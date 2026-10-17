@@ -94,7 +94,9 @@ describe('мастер создания 2014', () => {
     const c = elfWizard();
     expect(equipmentChoices(c, content, 'class')).toHaveLength(4);
     const kit = startingKit(c, content);
-    expect(kit.items.map((i) => i.itemId)).toEqual(
+    // Квартерстаф автоматически надевается в слот основной руки (новая модель equippedSlots).
+    const allIds = [...kit.items.map((i) => i.itemId), ...Object.values(kit.equippedSlots)];
+    expect(allIds).toEqual(
       expect.arrayContaining(['spellbook', 'quarterstaff', 'component-pouch', 'scholars-pack', 'amulet', 'clothes-common', 'pouch']),
     );
     expect(kit.coins).toEqual({ gp: 15 });
@@ -106,7 +108,9 @@ describe('мастер создания 2014', () => {
   test('два воинских оружия: в выборе два предмета', () => {
     let c = setClass(setEdition(newDraftCharacter('t', 'now'), '2014'), 'fighter');
     c = { ...c, choices: { ...c.choices, [CHOICE_KEYS.equipment('class', 1)]: ['1'], [CHOICE_KEYS.equipmentPick('class', 0, 1)]: ['longsword', 'battleaxe'] } };
-    expect(startingKit(c, content).items.map((i) => i.itemId)).toEqual(expect.arrayContaining(['longsword', 'battleaxe']));
+    const kit2 = startingKit(c, content);
+    const allIds2 = [...kit2.items.map((i) => i.itemId), ...Object.values(kit2.equippedSlots)];
+    expect(allIds2).toEqual(expect.arrayContaining(['longsword', 'battleaxe']));
   });
 
   test('боевой стиль воина — вариант умения на шаге 4', () => {

@@ -194,7 +194,13 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   const perception = skills.find((s) => s.id === 'perception')?.bonus ?? mods.wis;
 
   // --- Снаряжение, КЗ, атаки ---
-  const equipped = c.equipment.filter((i) => i.equipped).map((i) => idx.equipment.get(i.itemId)).filter(Boolean) as Equipment[];
+  // Поддерживаем оба формата: новый (equippedSlots) и старый (equipped: true в equipment).
+  const equippedSlotIds = Object.values(c.equippedSlots ?? {}).filter(Boolean) as string[];
+  const equippedFromSlots = equippedSlotIds.map((id) => idx.equipment.get(id)).filter(Boolean) as Equipment[];
+  const equippedFromLegacy = equippedFromSlots.length === 0
+    ? c.equipment.filter((i) => i.equipped).map((i) => idx.equipment.get(i.itemId)).filter(Boolean) as Equipment[]
+    : [];
+  const equipped = [...equippedFromSlots, ...equippedFromLegacy];
   const armorItem = equipped.find((e) => e.armor && e.armor.category !== 'shield');
   const shieldItem = equipped.find((e) => e.armor?.category === 'shield');
   const ac = armorClass({ armor: armorItem?.armor, shield: shieldItem?.armor, mods, effects });
@@ -215,6 +221,16 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     const item = idx.equipment.get(inv.itemId);
     if (!item?.weapon) continue;
     const attack = weaponAttack(item, mods, pb, isProficient(item), { ...attackOpts, magicBonus: inv.magicBonus });
+    if (!attack || seen.has(attack.key)) continue;
+    seen.add(attack.key);
+    attacks.push(attack);
+  }
+  // Оружие из слотов (новая модель: вооружённые слоты не лежат в рюкзаке c.equipment).
+  for (const itemId of Object.values(c.equippedSlots ?? {})) {
+    if (!itemId) continue;
+    const item = idx.equipment.get(itemId);
+    if (!item?.weapon) continue;
+    const attack = weaponAttack(item, mods, pb, isProficient(item), attackOpts);
     if (!attack || seen.has(attack.key)) continue;
     seen.add(attack.key);
     attacks.push(attack);

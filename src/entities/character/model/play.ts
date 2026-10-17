@@ -1,11 +1,11 @@
 // Режим игры: спасброски от смерти, истощение, ячейки, сотворение заклинаний, броски урона, вещи.
 
-import type { Content, Edition } from '@/shared/content';
+import type { Content, Edition, Equipment, MagicItem } from '@/shared/content';
 import { indexOf } from '@/shared/content';
 import { parseDice, rollDie } from '@/shared/lib/dice';
 
 import { CUSTOM_ITEM_PREFIX, EXHAUSTION_MAX } from '../config/constants';
-import type { DamageRoll, DeathStatus, GameState, InventoryItem } from './types';
+import type { Character, DamageRoll, DeathStatus, GameState, InventoryItem, SlotId } from './types';
 
 // ---------- Истощение ----------
 
@@ -204,4 +204,92 @@ export function addToInventory(items: InventoryItem[], item: InventoryItem): Inv
   );
   if (i < 0) return [...items, item];
   return items.map((x, j) => (j === i ? { ...x, quantity: x.quantity + item.quantity } : x));
+}
+
+// ---------- Слоты экипировки (новая модель) ----------
+
+/** Определяет, подходит ли предмет для данного слота. */
+export function fitsSlot(item: Equipment | MagicItem | undefined, slotId: SlotId): boolean {
+  if (!item) return false;
+  const eq = item as Equipment;
+  const magic = item as MagicItem;
+  switch (slotId) {
+    case 'main':
+      return !!eq.weapon && !eq.weapon.properties?.includes('ammunition');
+    case 'off':
+      return (!!eq.weapon && !!(eq.weapon.properties?.includes('light') || eq.weapon.properties?.includes('thrown')))
+        || eq.armor?.category === 'shield';
+    case 'ranged':
+      return !!eq.weapon && !!eq.weapon.properties?.includes('ammunition');
+    case 'body':
+      return !!eq.armor && eq.armor.category !== 'shield';
+    case 'ring1':
+    case 'ring2': {
+      const k = magic.kind?.en?.toLowerCase() ?? '';
+      return k.includes('ring');
+    }
+    case 'neck': {
+      const k = magic.kind?.en?.toLowerCase() ?? '';
+      return k.includes('amulet') || k.includes('necklace') || k.includes('pendant');
+    }
+    case 'head': {
+      const k = magic.kind?.en?.toLowerCase() ?? '';
+      return k.includes('helm') || k.includes('hat') || k.includes('crown') || k.includes('headband');
+    }
+    case 'shoulders': {
+      const k = magic.kind?.en?.toLowerCase() ?? '';
+      return k.includes('cloak') || k.includes('cape') || k.includes('mantle');
+    }
+    case 'feet': {
+      const k = magic.kind?.en?.toLowerCase() ?? '';
+      return k.includes('boot') || k.includes('shoe') || k.includes('sandal');
+    }
+    case 'hands': {
+      const k = magic.kind?.en?.toLowerCase() ?? '';
+      return k.includes('glove') || k.includes('gauntlet') || k.includes('bracer');
+    }
+    case 'wrists': {
+      const k = magic.kind?.en?.toLowerCase() ?? '';
+      return k.includes('bracer') || k.includes('bracelet') || k.includes('wrist');
+    }
+    case 'belt': {
+      const k = magic.kind?.en?.toLowerCase() ?? '';
+      return k.includes('belt') || k.includes('girdle');
+    }
+    default:
+      return false;
+  }
+}
+
+/**
+ * Надевает предмет в слот. Перемещает его из рюкзака (`c.equipment`) в `c.equippedSlots`.
+ * Если слот уже занят, старый предмет возвращается в рюкзак.
+ */
+export function equipToSlot(c: Character, slotId: SlotId, itemId: string): Character {
+  const old = c.equippedSlots[slotId];
+  // Убираем новый предмет из рюкзака (уменьшаем qty или удаляем)
+  const bagAfterTake = c.equipment
+    .map((x) => x.itemId === itemId ? { ...x, quantity: x.quantity - 1 } : x)
+    .filter((x) => x.quantity > 0);
+  // Возвращаем старый предмет в рюкзак
+  const bag = old ? addToInventory(bagAfterTake, { itemId: old, quantity: 1 }) : bagAfterTake;
+  return {
+    ...c,
+    equipment: bag,
+    equippedSlots: { ...c.equippedSlots, [slotId]: itemId },
+  };
+}
+
+/**
+ * Снимает предмет со слота, возвращает его в рюкзак.
+ */
+export function unequipSlot(c: Character, slotId: SlotId): Character {
+  const itemId = c.equippedSlots[slotId];
+  if (!itemId) return c;
+  const { [slotId]: _removed, ...rest } = c.equippedSlots;
+  return {
+    ...c,
+    equipment: addToInventory(c.equipment, { itemId, quantity: 1 }),
+    equippedSlots: rest,
+  };
 }

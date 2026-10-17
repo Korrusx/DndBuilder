@@ -8,7 +8,7 @@ import { newDraftCharacter } from './character';
 import { choice1 } from './choices';
 import { abilityModifier } from './abilities';
 import { classFeatureIdsAt, finalAbilityScores, makeProficiencyCheck, proficiencyIds } from './sheet';
-import type { Character, EquipmentSource, InventoryItem, OriginFeat, OriginFeatSlot, ProficiencySlot, SpellLimits } from './types';
+import type { Character, EquipmentSource, InventoryItem, OriginFeat, OriginFeatSlot, ProficiencySlot, SlotId, SpellLimits } from './types';
 
 // ---------- Справочник ----------
 
@@ -351,7 +351,10 @@ export function equipmentPicks(option: ChoiceOption | undefined, content: Conten
 }
 
 /** Предметы и монеты из выбранных вариантов стартового снаряжения класса и предыстории. */
-export function startingKit(c: Character, content: Content): { items: InventoryItem[]; coins: Partial<Record<Coin, number>> } {
+export function startingKit(
+  c: Character,
+  content: Content,
+): { items: InventoryItem[]; equippedSlots: Partial<Record<SlotId, string>>; coins: Partial<Record<Coin, number>> } {
   const counts = new Map<string, number>();
   const coins: Partial<Record<Coin, number>> = {};
   const add = (id: string, n: number) => counts.set(id, (counts.get(id) ?? 0) + n);
@@ -369,17 +372,22 @@ export function startingKit(c: Character, content: Content): { items: InventoryI
     });
   }
 
-  // Надеваем первый доспех и щит из набора — от них зависит КЗ.
-  let armorOn = false;
-  let shieldOn = false;
-  const items = [...counts].map(([itemId, quantity]): InventoryItem => {
-    const armor = indexOf(content).equipment.get(itemId)?.armor;
-    let equipped = false;
-    if (armor?.category === 'shield' && !shieldOn) equipped = shieldOn = true;
-    else if (armor && armor.category !== 'shield' && !armorOn) equipped = armorOn = true;
-    return equipped ? { itemId, quantity, equipped } : { itemId, quantity };
-  });
-  return { items, coins };
+  // Надеваем первый доспех и щит — от них зависит начальный КЗ. Оружие оставляем в рюкзаке.
+  const equippedSlots: Partial<Record<SlotId, string>> = {};
+  const items = [...counts].map(([itemId, quantity]): InventoryItem => ({ itemId, quantity }));
+
+  for (const [itemId] of counts) {
+    const eq = indexOf(content).equipment.get(itemId);
+    if (!eq) continue;
+    if (eq.armor?.category === 'shield' && !equippedSlots.off) { equippedSlots.off = itemId; }
+    else if (eq.armor && eq.armor.category !== 'shield' && !equippedSlots.body) { equippedSlots.body = itemId; }
+  }
+
+  // Убираем надетые предметы из рюкзака
+  const equippedIds = new Set(Object.values(equippedSlots));
+  const bag = items.filter((it) => !equippedIds.has(it.itemId));
+
+  return { items: bag, equippedSlots, coins };
 }
 
 // ---------- Шаг 5: заклинания ----------
