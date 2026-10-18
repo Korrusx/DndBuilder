@@ -760,7 +760,9 @@
     "twoHandedBlocked": "Blocked: main hand has a two-handed weapon",
     "willClearOff": "Will free off hand",
     "candidatesHeader": "From bag",
-    "chooseSlot": "Equip to:"
+    "chooseSlot": "Equip to:",
+    "confirmRemove": "Remove «{{name}}» from bag?",
+    "confirmRemoveQty": "Remove 1 «{{name}}» ({{qty}} left)?"
   },
   "levelUpPage": {
     "owned": "already have",

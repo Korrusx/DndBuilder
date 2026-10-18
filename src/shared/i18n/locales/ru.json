@@ -768,7 +768,9 @@
     "twoHandedBlocked": "Заблокировано: в основной руке двуручное оружие",
     "willClearOff": "Освободит вторую руку",
     "candidatesHeader": "Подходит из рюкзака",
-    "chooseSlot": "Надеть в:"
+    "chooseSlot": "Надеть в:",
+    "confirmRemove": "Удалить «{{name}}» из рюкзака?",
+    "confirmRemoveQty": "Убрать 1 шт. «{{name}}» (осталось {{qty}})?"
   },
   "levelUpPage": {
     "owned": "уже есть",

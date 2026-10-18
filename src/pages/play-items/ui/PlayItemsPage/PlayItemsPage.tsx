@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, TextInput, View } from 'react-native';
+import { Alert, Pressable, ScrollView, TextInput, View } from 'react-native';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
 import { addToInventory, computeSheet, equipToSlot, fitsSlot, unequipSlot } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
@@ -129,13 +129,25 @@ export function PlayItemsPage() {
     }
   }
 
-  function removeOneFromBag(itemId: string) {
-    update((c) => ({
-      ...c,
-      equipment: c.equipment
-        .map((x) => x.itemId === itemId ? { ...x, quantity: x.quantity - 1 } : x)
-        .filter((x) => x.quantity > 0),
-    }));
+  function removeOneFromBag(itemId: string, qty: number) {
+    const name = itemName({ itemId });
+    const msg = qty > 1
+      ? t('inventory.confirmRemoveQty', { name, qty })
+      : t('inventory.confirmRemove', { name });
+    Alert.alert(name, msg, [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('inventory.remove'),
+        style: 'destructive',
+        onPress: () =>
+          update((c) => ({
+            ...c,
+            equipment: c.equipment
+              .map((x) => x.itemId === itemId ? { ...x, quantity: x.quantity - 1 } : x)
+              .filter((x) => x.quantity > 0),
+          })),
+      },
+    ]);
   }
 
   function doEquip(slotId: SlotId, itemId: string | null) {
@@ -568,7 +580,7 @@ export function PlayItemsPage() {
                       <AppText style={styles.bagEquipArrow}>→</AppText>
                     )}
                   </Pressable>
-                  <Pressable style={styles.bagDeleteBtn} onPress={() => removeOneFromBag(inv.itemId)}>
+                  <Pressable style={styles.bagDeleteBtn} onPress={() => removeOneFromBag(inv.itemId, inv.quantity)}>
                     <AppText style={styles.bagDeleteBtnText}>−</AppText>
                   </Pressable>
                 </View>
