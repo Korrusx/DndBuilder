@@ -8,7 +8,7 @@ import { AddItemSheet } from '@/features/add-item';
 import { byId, coinAbbr, coinName, COIN_ORDER, contentFor, itemName, plain, tr } from '@/shared/content';
 import type { Equipment, MagicItem } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, BottomSheet, GameIcon, Section } from '@/shared/ui';
+import { AppText, BottomSheet, Card, GameIcon, Section } from '@/shared/ui';
 
 import { itemIcon, SLOT_ICONS } from '../../lib/itemIcon';
 import { DOLL_H, SCALE, SLOT_SIZE, styles, W } from './PlayItemsPage.styles';
@@ -488,25 +488,27 @@ export function PlayItemsPage() {
         {candidatesSection}
 
         {/* Монеты */}
-        <Section title={t('inventory.coins')}>
-          {[...COIN_ORDER].reverse().map((id) => (
-            <View key={id} style={styles.coinRow}>
-              <AppText style={styles.coinLabel}>
-                {t('inventory.coin', { name: coinName(id), abbr: coinAbbr(id) })}
-              </AppText>
-              <TextInput
-                value={String(character.coins[id] ?? 0)}
-                onChangeText={(text) => {
-                  const n = parseInt(text.replace(/[^0-9]/g, ''), 10) || 0;
-                  update((c) => ({ ...c, coins: { ...c.coins, [id]: n } }));
-                }}
-                keyboardType="number-pad"
-                selectTextOnFocus
-                style={styles.coinInput}
-              />
-            </View>
-          ))}
-        </Section>
+        <Card style={{ marginHorizontal: 8, marginTop: 8 }}>
+          <Section title={t('inventory.coins')}>
+            {[...COIN_ORDER].reverse().map((id) => (
+              <View key={id} style={styles.coinRow}>
+                <AppText style={styles.coinLabel}>
+                  {t('inventory.coin', { name: coinName(id), abbr: coinAbbr(id) })}
+                </AppText>
+                <TextInput
+                  value={String(character.coins[id] ?? 0)}
+                  onChangeText={(text) => {
+                    const n = parseInt(text.replace(/[^0-9]/g, ''), 10) || 0;
+                    update((c) => ({ ...c, coins: { ...c.coins, [id]: n } }));
+                  }}
+                  keyboardType="number-pad"
+                  selectTextOnFocus
+                  style={styles.coinInput}
+                />
+              </View>
+            ))}
+          </Section>
+        </Card>
       </ScrollView>
 
       <AddItemSheet
