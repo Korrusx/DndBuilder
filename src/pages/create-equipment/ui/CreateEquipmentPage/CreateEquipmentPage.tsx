@@ -35,7 +35,7 @@ export function CreateEquipmentPage() {
             />
           </Section>
           {hasSpellbook(c) ? (
-            <Section title={t('equipmentStep.spellbook')} hint={t('equipmentStep.spellbookHint')} picked={spellbook(c).length} need={spellbookMinimum(c)}>
+            <Section title={t('equipmentStep.spellbook')} hint={t('equipmentStep.spellbookHint', { count: limits.prepared })} picked={spellbook(c).length} need={spellbookMinimum(c)}>
               <MultiPick
                 options={spellOptions('wizard', 1, content)}
                 selected={c.choices[CHOICE_KEYS.spellbook] ?? []}
@@ -45,16 +45,18 @@ export function CreateEquipmentPage() {
               />
             </Section>
           ) : null}
-          <Section title={known ? t('equipmentStep.knownSpells') : t('equipmentStep.spells')} picked={c.preparedSpells.length} need={limits.prepared}>
-            {alwaysPrepared.length ? <Hint>{t('equipmentStep.subclassSpells', { list: alwaysPrepared.map(spellName).join(', ') })}</Hint> : null}
-            <MultiPick
-              options={preparableSpells(c, content, limits.classId, 1)}
-              selected={c.preparedSpells}
-              max={limits.prepared}
-              label={spellName}
-              onChange={(preparedSpells) => update((d) => ({ ...d, preparedSpells }))}
-            />
-          </Section>
+          {(!hasSpellbook(c) || spellbook(c).length >= spellbookMinimum(c)) && (
+            <Section title={known ? t('equipmentStep.knownSpells') : t('equipmentStep.spells')} picked={c.preparedSpells.length} need={limits.prepared}>
+              {alwaysPrepared.length ? <Hint>{t('equipmentStep.subclassSpells', { list: alwaysPrepared.map(spellName).join(', ') })}</Hint> : null}
+              <MultiPick
+                options={preparableSpells(c, content, limits.classId, 1)}
+                selected={c.preparedSpells}
+                max={limits.prepared}
+                label={spellName}
+                onChange={(preparedSpells) => update((d) => ({ ...d, preparedSpells }))}
+              />
+            </Section>
+          )}
         </>
       ) : null}
 

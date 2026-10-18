@@ -539,7 +539,7 @@
     "cantrips": "Cantrips",
     "spells": "Prepared level 1 spells",
     "spellbook": "Spellbook",
-    "spellbookHint": "Six level 1 spells. You prepare four of them; the rest are in reserve: you can change prepared spells after a Long Rest.",
+    "spellbookHint": "Spells you have learned. You prepare {{count}} of them — prepared spells can be changed after a Long Rest.",
     "more": "Another choice",
     "fixedKit": "No choice",
     "knownSpells": "Known level 1 spells",
