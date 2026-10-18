@@ -361,6 +361,11 @@ export function PlayItemsPage() {
           const willClearOff = selectedSlot === 'main' && isTwoHandedWeapon(id) && !!equippedSlots.off;
           const needsAttune = isMagicItem(item) && item.attunement;
           const attuneFull = needsAttune && attuned >= 3 && equippedSlots[selectedSlot] !== id;
+          const eq = item as Equipment;
+          const isWeapon = !!eq.weapon;
+          const dmgDice = isWeapon && eq.weapon!.damage
+            ? `${eq.weapon!.damage.dice_count}к${eq.weapon!.damage.dice_value}`
+            : null;
 
           return (
             <Pressable
@@ -382,10 +387,16 @@ export function PlayItemsPage() {
                   <AppText style={styles.optWarn}>{t('inventory.noAttunement')}</AppText>
                 )}
               </View>
-              <View style={styles.optRight}>
-                <AppText style={styles.optAcVal}>{newAc}</AppText>
-                <AppText style={[styles.delta, deltaStyle(delta)]}>{fmtDelta(delta)}</AppText>
-              </View>
+              {isWeapon ? (
+                <View style={styles.optRight}>
+                  {dmgDice && <AppText style={styles.optAcVal}>{dmgDice}</AppText>}
+                </View>
+              ) : (
+                <View style={styles.optRight}>
+                  <AppText style={styles.optAcVal}>{newAc}</AppText>
+                  <AppText style={[styles.delta, deltaStyle(delta)]}>{fmtDelta(delta)}</AppText>
+                </View>
+              )}
             </Pressable>
           );
         })}
