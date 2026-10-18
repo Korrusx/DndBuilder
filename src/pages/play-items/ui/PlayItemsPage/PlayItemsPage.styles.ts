@@ -337,4 +337,63 @@ export const styles = StyleSheet.create({
     color: colors.textSecondary,
     paddingVertical: spacing.sm,
   },
+  // Инлайн-кандидаты
+  candidatesSection: {
+    marginHorizontal: spacing.sm,
+    marginTop: spacing.sm,
+    gap: spacing.sm,
+  },
+  candidatesTitle: {
+    fontFamily: fonts.text,
+    fontSize: 11,
+    color: colors.textSecondary,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.8,
+    marginBottom: 2,
+  },
+  twoHandedWarn: {
+    fontFamily: fonts.text,
+    fontSize: 13,
+    color: colors.damage,
+    marginHorizontal: spacing.sm,
+    marginTop: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    backgroundColor: colors.damageBg,
+    borderRadius: 12,
+  },
+  // Рюкзак — кликабельные строки
+  bagRowExpanded: {
+    backgroundColor: colors.surface2,
+    borderRadius: 12,
+    borderBottomWidth: 0,
+  },
+  bagSlotChips: {
+    flexDirection: 'row' as const,
+    flexWrap: 'wrap' as const,
+    gap: 8,
+    paddingHorizontal: 4,
+    paddingBottom: 10,
+    paddingTop: 4,
+  },
+  bagSlotChip: {
+    height: 34,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.accent,
+    backgroundColor: colors.accentBg,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+  },
+  bagSlotChipText: {
+    fontFamily: fonts.textBold,
+    fontSize: 12,
+    color: colors.accent,
+  },
+  bagEquipArrow: {
+    fontFamily: fonts.text,
+    fontSize: 16,
+    color: colors.textSecondary,
+  },
 });

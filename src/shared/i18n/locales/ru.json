@@ -761,7 +761,11 @@
     "slotRing2": "Кольцо",
     "slotMain": "Основная рука",
     "slotOff": "Вторая рука",
-    "slotRanged": "Дальний бой"
+    "slotRanged": "Дальний бой",
+    "twoHandedBlocked": "Заблокировано: в основной руке двуручное оружие",
+    "willClearOff": "Освободит вторую руку",
+    "candidatesHeader": "Подходит из рюкзака",
+    "chooseSlot": "Надеть в:"
   },
   "levelUpPage": {
     "owned": "уже есть",

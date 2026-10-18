@@ -44,6 +44,7 @@ const WEAPON_SLOTS: WeaponSlotDef[] = [
 ];
 
 const ALL_SLOT_DEFS: (SlotDef | WeaponSlotDef)[] = [...BODY_SLOTS, ...WEAPON_SLOTS];
+const ALL_SLOT_IDS = ALL_SLOT_DEFS.map((d) => d.id);
 
 const RARITY_COLORS: Record<string, string> = {
   uncommon: '#6FD69A',
@@ -63,6 +64,15 @@ function lookupItem(itemId: string): Equipment | MagicItem | undefined {
 
 function isMagicItem(item: Equipment | MagicItem): item is MagicItem {
   return 'attunement' in item;
+}
+
+function isTwoHandedWeapon(itemId: string): boolean {
+  const item = lookupItem(itemId) as Equipment | undefined;
+  return !!item?.weapon?.properties?.includes('two-handed');
+}
+
+function allSlotsForItem(item: Equipment | MagicItem): SlotId[] {
+  return ALL_SLOT_IDS.filter((s) => fitsSlot(item, s));
 }
 
 function countAttuned(equippedSlots: Partial<Record<string, string>>): number {
@@ -96,13 +106,17 @@ export function PlayItemsPage() {
   }
 
   const [selectedSlot, setSelectedSlot] = useState<SlotId>('body');
-  const [sheetMode, setSheetMode] = useState<'pick' | 'bag' | null>(null);
-  // undefined = ничего не выбрано; null = «без предмета»; string = id выбранного предмета
-  const [pendingChoice, setPendingChoice] = useState<string | null | undefined>(undefined);
+  const [bagOpen, setBagOpen] = useState(false);
+  const [bagExpandedItem, setBagExpandedItem] = useState<string | null>(null);
 
   const equippedSlots = character.equippedSlots ?? {};
   const bag = character.equipment;
   const attuned = useMemo(() => countAttuned(equippedSlots), [equippedSlots]);
+
+  const mainIsTwoHanded = useMemo(() => {
+    const mid = equippedSlots.main;
+    return mid ? isTwoHandedWeapon(mid) : false;
+  }, [equippedSlots]);
 
   function calcHypoAc(slotId: SlotId, itemId: string | null): number {
     const slots = itemId
@@ -118,36 +132,34 @@ export function PlayItemsPage() {
 
   function doEquip(slotId: SlotId, itemId: string | null) {
     if (itemId) {
-      update((c: Character) => equipToSlot(c, slotId, itemId));
+      update((c: Character) => {
+        let next = equipToSlot(c, slotId, itemId);
+        // Двуручное оружие в основной руке освобождает вторую
+        if (slotId === 'main' && isTwoHandedWeapon(itemId)) {
+          next = unequipSlot(next, 'off');
+        }
+        return next;
+      });
     } else {
       update((c: Character) => unequipSlot(c, slotId));
     }
-    setSheetMode(null);
-    setPendingChoice(undefined);
+    setBagOpen(false);
+    setBagExpandedItem(null);
   }
 
   const candidates: { inv: typeof bag[number]; item: Equipment | MagicItem }[] = useMemo(() => {
+    // Вторая рука недоступна, если в основной — двуручное
+    if (selectedSlot === 'off' && mainIsTwoHanded) return [];
     return bag
       .map((inv) => ({ inv, item: lookupItem(inv.itemId) }))
       .filter((x): x is { inv: typeof bag[number]; item: Equipment | MagicItem } => {
         return !!x.item && fitsSlot(x.item, selectedSlot);
       });
-  }, [bag, selectedSlot]);
+  }, [bag, selectedSlot, mainIsTwoHanded]);
 
   const selectedItemId = equippedSlots[selectedSlot] ?? null;
   const selectedItem = selectedItemId ? lookupItem(selectedItemId) : undefined;
   const currentAc = sheet.armorClass;
-
-  function openPickerFor(slotId: SlotId) {
-    setSelectedSlot(slotId);
-    setPendingChoice(undefined);
-    setSheetMode('pick');
-  }
-
-  function openPicker() {
-    setPendingChoice(undefined);
-    setSheetMode('pick');
-  }
 
   // ---------- Ячейки куклы ----------
 
@@ -170,7 +182,7 @@ export function PlayItemsPage() {
           { left: Math.round(rawLeft * SCALE), top: Math.round(rawTop * SCALE) },
           itemId && rarColor !== '#4A525D' ? { borderColor: rarColor } : null,
         ]}
-        onPress={() => openPickerFor(s.id)}
+        onPress={() => setSelectedSlot(s.id)}
         accessibilityLabel={slotLabel(s)}
         hitSlop={4}
       >
@@ -206,7 +218,7 @@ export function PlayItemsPage() {
           itemId ? styles.weaponSlotFilled : null,
           on ? styles.weaponSlotSelected : null,
         ]}
-        onPress={() => openPickerFor(w.id)}
+        onPress={() => setSelectedSlot(w.id)}
       >
         <GameIcon
           name={item ? itemIcon(item) : SLOT_ICONS[w.id]}
@@ -266,31 +278,16 @@ export function PlayItemsPage() {
   const selDef = ALL_SLOT_DEFS.find((s) => s.id === selectedSlot);
   const selLabel = selDef ? slotLabel(selDef) : selectedSlot;
 
-  let cardView: React.ReactNode;
-
+  let cardContent: React.ReactNode;
   if (!selectedItem || !selectedItemId) {
-    cardView = (
-      <View style={styles.card}>
-        <View style={styles.cardTop}>
-          <View style={styles.cardIcon}>
-            <GameIcon name={SLOT_ICONS[selectedSlot]} size={24} color="#4a525d" />
-          </View>
-          <View style={{ flex: 1 }}>
-            <AppText style={styles.cardTitle}>{t('inventory.slotEmpty')}</AppText>
-            <AppText style={styles.cardTag}>{selLabel}</AppText>
-          </View>
+    cardContent = (
+      <View style={styles.cardTop}>
+        <View style={styles.cardIcon}>
+          <GameIcon name={SLOT_ICONS[selectedSlot]} size={24} color="#4a525d" />
         </View>
-        {candidates.length > 0 && (
-          <AppText style={styles.sheetHint}>
-            {t('inventory.fittingCount', { count: candidates.length })}
-          </AppText>
-        )}
-        <View style={styles.cardRow}>
-          <Pressable style={[styles.cardBtn, styles.cardBtnPrimary]} onPress={openPicker}>
-            <AppText style={[styles.cardBtnText, styles.cardBtnTextPrimary]}>
-              {t('inventory.choose')}
-            </AppText>
-          </Pressable>
+        <View style={{ flex: 1 }}>
+          <AppText style={styles.cardTitle}>{t('inventory.slotEmpty')}</AppText>
+          <AppText style={styles.cardTag}>{selLabel}</AppText>
         </View>
       </View>
     );
@@ -316,12 +313,11 @@ export function PlayItemsPage() {
 
     const atk = sheet.attacks.find((a) => a.itemId === selectedItemId);
     const atkLine = atk ? `${fmtHit(atk.toHit)} · ${atk.damageDice}` : '';
-
     const descSrc = eq2.description ?? (isMagicItem(selectedItem) ? magic.description : undefined);
     const descText = plain(descSrc);
 
-    cardView = (
-      <View style={styles.card}>
+    cardContent = (
+      <>
         <View style={styles.cardTop}>
           <View style={[styles.cardIcon, { borderColor: rarColor }]}>
             <GameIcon name={icon} size={24} color={iconColor} />
@@ -335,100 +331,70 @@ export function PlayItemsPage() {
           {isMagicItem(selectedItem) && magic.attunement ? <View style={styles.slotAttuned} /> : null}
         </View>
         {!!atkLine && <AppText style={styles.cardAtk}>{atkLine}</AppText>}
-        {!!descText && <AppText style={styles.cardDesc} numberOfLines={3}>{descText}</AppText>}
-        <View style={styles.cardRow}>
-          <Pressable style={styles.cardBtn} onPress={() => doEquip(selectedSlot, null)}>
-            <AppText style={styles.cardBtnText}>{t('inventory.unequip')}</AppText>
-          </Pressable>
-          <Pressable style={[styles.cardBtn, styles.cardBtnPrimary]} onPress={openPicker}>
-            <AppText style={[styles.cardBtnText, styles.cardBtnTextPrimary]}>
-              {t('common.change')}
-            </AppText>
-          </Pressable>
-        </View>
-      </View>
+        {!!descText && <AppText style={styles.cardDesc} numberOfLines={2}>{descText}</AppText>}
+        <Pressable style={styles.cardBtn} onPress={() => doEquip(selectedSlot, null)}>
+          <AppText style={styles.cardBtnText}>{t('inventory.unequip')}</AppText>
+        </Pressable>
+      </>
     );
   }
 
-  // ---------- Шторка выбора ----------
+  // ---------- Инлайн-кандидаты ----------
 
-  // «Без предмета» — только если слот занят
-  const noneOption: React.ReactNode = selectedItemId ? (() => {
-    const noneAc = calcHypoAc(selectedSlot, null);
-    const delta = noneAc - currentAc;
-    const isSel = pendingChoice === null;
+  const candidatesSection: React.ReactNode = (() => {
+    if (selectedSlot === 'off' && mainIsTwoHanded) {
+      return (
+        <AppText style={styles.twoHandedWarn}>{t('inventory.twoHandedBlocked')}</AppText>
+      );
+    }
+    if (candidates.length === 0) {
+      return (
+        <View style={styles.candidatesSection}>
+          <AppText style={styles.emptyText}>{t('inventory.noOptions')}</AppText>
+        </View>
+      );
+    }
     return (
-      <Pressable
-        style={[styles.opt, isSel ? styles.optSelected : null]}
-        onPress={() => setPendingChoice(null)}
-      >
-        <GameIcon name={SLOT_ICONS[selectedSlot]} size={32} color="#4a525d" />
-        <View style={styles.optMid}>
-          <AppText style={styles.optName}>{t('inventory.withoutItem')}</AppText>
-        </View>
-        <View style={styles.optRight}>
-          <AppText style={styles.optAcVal}>{noneAc}</AppText>
-          <AppText style={[styles.delta, deltaStyle(delta)]}>{fmtDelta(delta)}</AppText>
-        </View>
-      </Pressable>
-    );
-  })() : null;
+      <View style={styles.candidatesSection}>
+        <AppText style={styles.candidatesTitle}>{t('inventory.candidatesHeader')}</AppText>
+        {candidates.map(({ inv, item }) => {
+          const id = inv.itemId;
+          const newAc = calcHypoAc(selectedSlot, id);
+          const delta = newAc - currentAc;
+          const willClearOff = selectedSlot === 'main' && isTwoHandedWeapon(id) && !!equippedSlots.off;
+          const needsAttune = isMagicItem(item) && item.attunement;
+          const attuneFull = needsAttune && attuned >= 3 && equippedSlots[selectedSlot] !== id;
 
-  const candidateOptions = candidates.map(({ inv, item }) => {
-    const id = inv.itemId;
-    const isSel = pendingChoice === id;
-    const newAc = calcHypoAc(selectedSlot, id);
-    const delta = newAc - currentAc;
-    const needsAttune = isMagicItem(item) && item.attunement;
-    const attuneFull = needsAttune && attuned >= 3 && equippedSlots[selectedSlot] !== id;
-
-    return (
-      <Pressable
-        key={id}
-        style={[
-          styles.opt,
-          isSel ? styles.optSelected : null,
-          attuneFull ? styles.optDisabled : null,
-        ]}
-        onPress={() => { if (!attuneFull) setPendingChoice(id); }}
-        disabled={attuneFull}
-      >
-        <GameIcon
-          name={itemIcon(item)}
-          size={32}
-          color={isSel ? '#f2b14a' : '#c9c3b8'}
-        />
-        <View style={styles.optMid}>
-          <AppText style={styles.optName}>{itemName({ itemId: id })}</AppText>
-          {needsAttune && !attuneFull && (
-            <AppText style={styles.optSub}>{t('inventory.attunement')}</AppText>
-          )}
-          {attuneFull && (
-            <AppText style={styles.optWarn}>{t('inventory.noAttunement')}</AppText>
-          )}
-        </View>
-        <View style={styles.optRight}>
-          <AppText style={styles.optAcVal}>{newAc}</AppText>
-          <AppText style={[styles.delta, deltaStyle(delta)]}>{fmtDelta(delta)}</AppText>
-        </View>
-      </Pressable>
+          return (
+            <Pressable
+              key={id}
+              style={[styles.opt, attuneFull ? styles.optDisabled : null]}
+              onPress={() => { if (!attuneFull) doEquip(selectedSlot, id); }}
+              disabled={attuneFull}
+            >
+              <GameIcon name={itemIcon(item)} size={32} color="#c9c3b8" />
+              <View style={styles.optMid}>
+                <AppText style={styles.optName}>{itemName({ itemId: id })}</AppText>
+                {willClearOff && (
+                  <AppText style={styles.optSub}>{t('inventory.willClearOff')}</AppText>
+                )}
+                {needsAttune && !attuneFull && (
+                  <AppText style={styles.optSub}>{t('inventory.attunement')}</AppText>
+                )}
+                {attuneFull && (
+                  <AppText style={styles.optWarn}>{t('inventory.noAttunement')}</AppText>
+                )}
+              </View>
+              <View style={styles.optRight}>
+                <AppText style={styles.optAcVal}>{newAc}</AppText>
+                <AppText style={[styles.delta, deltaStyle(delta)]}>{fmtDelta(delta)}</AppText>
+              </View>
+            </Pressable>
+          );
+        })}
+      </View>
     );
-  });
-
-  const confirmBtn: React.ReactNode = pendingChoice !== undefined ? (() => {
-    const targetAc = calcHypoAc(selectedSlot, pendingChoice ?? null);
-    const label = pendingChoice
-      ? `${t('inventory.equip')} · КЗ ${currentAc} → ${targetAc}`
-      : `${t('inventory.unequip')} · КЗ ${currentAc} → ${targetAc}`;
-    return (
-      <Pressable
-        style={[styles.cardBtn, styles.cardBtnPrimary]}
-        onPress={() => doEquip(selectedSlot, pendingChoice ?? null)}
-      >
-        <AppText style={[styles.cardBtnText, styles.cardBtnTextPrimary]}>{label}</AppText>
-      </Pressable>
-    );
-  })() : null;
+  })();
 
   // ---------- Рендер ----------
 
@@ -442,7 +408,7 @@ export function PlayItemsPage() {
             КЗ {currentAc} · настройка {attuned}/3
           </AppText>
         </View>
-        <Pressable style={styles.bagBtn} onPress={() => setSheetMode('bag')}>
+        <Pressable style={styles.bagBtn} onPress={() => { setBagExpandedItem(null); setBagOpen(true); }}>
           <GameIcon name="person" size={18} color="#9aa3ae" />
           <AppText style={styles.bagBtnText}>
             {t('inventory.bag')} · {bag.length}
@@ -450,7 +416,7 @@ export function PlayItemsPage() {
         </Pressable>
       </View>
 
-      {/* Кукла + карточка — в скролле */}
+      {/* Кукла + карточка + кандидаты */}
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 8 }} showsVerticalScrollIndicator={false}>
         {/* Кукла */}
         <View style={styles.doll}>
@@ -506,44 +472,74 @@ export function PlayItemsPage() {
         </View>
 
         {/* Карточка выбранного слота */}
-        {cardView}
-      </ScrollView>
+        <View style={styles.card}>
+          {cardContent}
+        </View>
 
-      {/* Шторка выбора предмета */}
-      <BottomSheet visible={sheetMode === 'pick'} title={selLabel} onClose={() => setSheetMode(null)}>
-        {selectedItemId && (
-          <View style={styles.currentItem}>
-            <AppText style={styles.currentLabel}>{t('inventory.currentlyEquipped')}</AppText>
-            <AppText style={styles.currentName} numberOfLines={1}>
-              {itemName({ itemId: selectedItemId })}
-            </AppText>
-            <AppText style={styles.currentAc}>КЗ {currentAc}</AppText>
-          </View>
-        )}
-        {noneOption}
-        {candidates.length === 0 && !selectedItemId && (
-          <AppText style={styles.emptyText}>{t('inventory.noOptions')}</AppText>
-        )}
-        {candidateOptions}
-        {confirmBtn}
-      </BottomSheet>
+        {/* Инлайн-кандидаты из рюкзака */}
+        {candidatesSection}
+      </ScrollView>
 
       {/* Шторка рюкзака */}
       <BottomSheet
-        visible={sheetMode === 'bag'}
+        visible={bagOpen}
         title={`${t('inventory.bag')} · ${bag.length}`}
-        onClose={() => setSheetMode(null)}
+        onClose={() => setBagOpen(false)}
       >
         {bag.length === 0 ? (
           <AppText style={styles.emptyText}>{t('inventory.empty')}</AppText>
         ) : (
-          bag.map((inv) => (
-            <View key={inv.itemId} style={styles.bagRow}>
-              <GameIcon name={itemIcon(lookupItem(inv.itemId))} size={24} color="#9aa3ae" />
-              <AppText style={styles.bagName}>{itemName(inv)}</AppText>
-              {inv.quantity > 1 && <AppText style={styles.bagQty}>×{inv.quantity}</AppText>}
-            </View>
-          ))
+          bag.map((inv) => {
+            const item = lookupItem(inv.itemId);
+            const slots = item ? allSlotsForItem(item) : [];
+            const expanded = bagExpandedItem === inv.itemId;
+            const isBlocked = slots.length === 1 && slots[0] === 'off' && mainIsTwoHanded;
+
+            return (
+              <View key={inv.itemId}>
+                <Pressable
+                  style={[styles.bagRow, expanded ? styles.bagRowExpanded : null]}
+                  onPress={() => {
+                    if (slots.length === 0 || isBlocked) return;
+                    if (slots.length === 1) {
+                      doEquip(slots[0], inv.itemId);
+                    } else {
+                      setBagExpandedItem(expanded ? null : inv.itemId);
+                    }
+                  }}
+                >
+                  <GameIcon name={itemIcon(item)} size={24} color={slots.length > 0 && !isBlocked ? '#9aa3ae' : '#4a525d'} />
+                  <AppText style={styles.bagName}>{itemName(inv)}</AppText>
+                  {inv.quantity > 1 && <AppText style={styles.bagQty}>×{inv.quantity}</AppText>}
+                  {slots.length > 1 && !isBlocked && (
+                    <AppText style={styles.bagEquipArrow}>{expanded ? '▾' : '›'}</AppText>
+                  )}
+                  {slots.length === 1 && !isBlocked && (
+                    <AppText style={styles.bagEquipArrow}>→</AppText>
+                  )}
+                </Pressable>
+                {expanded && (
+                  <View style={styles.bagSlotChips}>
+                    {slots.map((slotId) => {
+                      const def = ALL_SLOT_DEFS.find((d) => d.id === slotId);
+                      const label = def ? slotLabel(def) : slotId;
+                      const blocked = slotId === 'off' && mainIsTwoHanded;
+                      return (
+                        <Pressable
+                          key={slotId}
+                          style={[styles.bagSlotChip, blocked ? styles.optDisabled : null]}
+                          onPress={() => { if (!blocked) doEquip(slotId, inv.itemId); }}
+                          disabled={blocked}
+                        >
+                          <AppText style={styles.bagSlotChipText}>{label}</AppText>
+                        </Pressable>
+                      );
+                    })}
+                  </View>
+                )}
+              </View>
+            );
+          })
         )}
       </BottomSheet>
     </View>

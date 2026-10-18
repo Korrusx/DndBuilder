@@ -753,7 +753,11 @@
     "slotRing2": "Ring",
     "slotMain": "Main Hand",
     "slotOff": "Off Hand",
-    "slotRanged": "Ranged"
+    "slotRanged": "Ranged",
+    "twoHandedBlocked": "Blocked: main hand has a two-handed weapon",
+    "willClearOff": "Will free off hand",
+    "candidatesHeader": "From bag",
+    "chooseSlot": "Equip to:"
   },
   "levelUpPage": {
     "owned": "already have",
