@@ -633,7 +633,10 @@
     "strengthAttack": "With STR {{value}}",
     "offhand": "Extra attack: damage {{value}}",
     "offhandOf": "Extra attack: {{name}}",
-    "offhandNote": "A Bonus Action after attacking with a Light weapon, using a different Light weapon. Don’t add your ability modifier to the damage unless it is negative (with Two-Weapon Fighting you do)."
+    "offhandNote": "A Bonus Action after attacking with a Light weapon, using a different Light weapon. Don’t add your ability modifier to the damage unless it is negative (with Two-Weapon Fighting you do).",
+    "bagWeapons": "In bag",
+    "noEquippedWeapons": "No weapon in hand",
+    "noEquippedHint": "Equip a weapon in the Items tab"
   },
   "magic": {
     "none": "No spells",

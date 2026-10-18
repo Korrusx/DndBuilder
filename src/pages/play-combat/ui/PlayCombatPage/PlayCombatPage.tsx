@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, Pressable, View } from 'react-native';
 
 import {
   adjustResource,
@@ -31,7 +31,11 @@ export function PlayCombatPage() {
   const { character: c, sheet, update, updateState } = usePlay();
   const { t } = useTranslation();
   const [editMastery, setEditMastery] = useState(false);
+  const [bagWeaponsOpen, setBagWeaponsOpen] = useState(false);
   const masteryCount = weaponMasteryCount(c, content);
+  const equippedIds = new Set(Object.values(c.equippedSlots ?? {}).filter(Boolean) as string[]);
+  const equippedAttacks = sheet.attacks.filter((a) => equippedIds.has(a.itemId));
+  const bagAttacks = sheet.attacks.filter((a) => !equippedIds.has(a.itemId));
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [damage, setDamage] = useState<DamageRequest | null>(null);
   const [info, setInfo] = useState<{ title: string; text: string } | null>(null);
@@ -111,7 +115,14 @@ export function PlayCombatPage() {
       ) : null}
 
       <AppText variant="heading">{t('combat.attacks')}</AppText>
-      {sheet.attacks.map((a) => {
+
+      {equippedAttacks.length === 0 && (
+        <AppText style={styles.noWeaponHint}>
+          {t('combat.noEquippedWeapons')} · {t('combat.noEquippedHint')}
+        </AppText>
+      )}
+
+      {equippedAttacks.map((a) => {
         const item = byId.equipment.get(a.itemId);
         const name = attackName(a);
         const mastery = c.weaponMasteries.includes(a.itemId) ? item?.weapon?.mastery : undefined;
@@ -212,6 +223,104 @@ export function PlayCombatPage() {
           </Card>
         );
       })}
+
+      {bagAttacks.length > 0 && (
+        <>
+          <Pressable style={styles.bagHeader} onPress={() => setBagWeaponsOpen((v) => !v)}>
+            <AppText style={styles.bagHeaderText}>
+              {t('combat.bagWeapons')} · {bagAttacks.length}
+            </AppText>
+            <AppText style={styles.bagChevron}>{bagWeaponsOpen ? '▾' : '›'}</AppText>
+          </Pressable>
+
+          {bagWeaponsOpen && bagAttacks.map((a) => {
+            const item = byId.equipment.get(a.itemId);
+            const name = attackName(a);
+            const mastery = c.weaponMasteries.includes(a.itemId) ? item?.weapon?.mastery : undefined;
+            const masteryEntry = mastery ? byId.weaponMasteries.get(mastery) : undefined;
+            return (
+              <Card key={a.key} style={styles.gapSm}>
+                <View style={styles.row}>
+                  <View style={styles.fill}>
+                    <AppText variant="heading">{name}</AppText>
+                    <AppText variant="secondary">
+                      {abilityAbbr(a.ability)}
+                      {a.proficient ? '' : t('combat.notProficient')}
+                      {item?.weapon?.reach.long ? ` · ${formatFeet(item.weapon.reach.normal)}/${formatFeet(item.weapon.reach.long)}` : ''}
+                    </AppText>
+                  </View>
+                  <AppText style={styles.big}>{formatModifier(a.toHit)}</AppText>
+                </View>
+                <View style={styles.row}>
+                  <SmallButton
+                    title={t('combat.attack', { value: formatModifier(a.toHit) })}
+                    tone="accent"
+                    flex={1}
+                    onPress={() =>
+                      setRoll({ title: t('combat.attackOf', { name }), parts: d20Parts([{ label: t('combat.hit'), value: a.toHit }], ex) })
+                    }
+                  />
+                  <SmallButton
+                    title={t('combat.damage', { value: formatDamage(a.damageDice, a.damageBonus) })}
+                    tone="damage"
+                    flex={1}
+                    onPress={() =>
+                      setDamage({
+                        title: t('combat.damageOf', { name }),
+                        dice: a.damageDice,
+                        bonus: a.damageBonus,
+                        damageType: damageType(a.damageType),
+                        minDie: a.damageMinDie,
+                      })
+                    }
+                  />
+                </View>
+                {a.strengthAlt ? (
+                  <View style={styles.row}>
+                    <SmallButton
+                      title={t('combat.strengthAttack', { value: formatModifier(a.strengthAlt.toHit) })}
+                      tone="accent"
+                      flex={1}
+                      onPress={() =>
+                        setRoll({ title: t('combat.attackOf', { name }), parts: d20Parts([{ label: t('combat.hit'), value: a.strengthAlt!.toHit }], ex) })
+                      }
+                    />
+                    <SmallButton
+                      title={t('combat.damage', { value: formatDamage(a.damageDice, a.strengthAlt.damageBonus) })}
+                      tone="damage"
+                      flex={1}
+                      onPress={() =>
+                        setDamage({ title: t('combat.damageOf', { name }), dice: a.damageDice, bonus: a.strengthAlt!.damageBonus, damageType: damageType(a.damageType) })
+                      }
+                    />
+                  </View>
+                ) : null}
+                {a.twoHanded ? (
+                  <SmallButton
+                    title={t('combat.twoHanded', { value: formatDamage(a.twoHanded.dice, a.damageBonus) })}
+                    tone="damage"
+                    onPress={() =>
+                      setDamage({
+                        title: t('combat.damageOf', { name }),
+                        dice: a.twoHanded!.dice,
+                        bonus: a.damageBonus,
+                        damageType: damageType(a.damageType),
+                        minDie: a.twoHanded!.minDie,
+                      })
+                    }
+                  />
+                ) : null}
+                {masteryEntry ? (
+                  <SmallButton
+                    title={t('combat.mastery', { name: tr(masteryEntry.name).text })}
+                    onPress={() => setInfo({ title: tr(masteryEntry.name).text, text: plain(masteryEntry.description) })}
+                  />
+                ) : null}
+              </Card>
+            );
+          })}
+        </>
+      )}
 
       <Card style={styles.gapSm}>
         <View style={styles.row}>
