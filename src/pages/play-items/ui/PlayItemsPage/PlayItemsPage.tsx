@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
 import { computeSheet, equipToSlot, fitsSlot, unequipSlot } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import type { Character, SlotId } from '@/entities/character';
@@ -98,7 +96,6 @@ function fmtDelta(delta: number): string {
 export function PlayItemsPage() {
   const { character, sheet, update } = usePlay();
   const { t, i18n } = useTranslation();
-  const insets = useSafeAreaInsets();
   const isRu = i18n.language === 'ru';
 
   function slotLabel(def: SlotDef | WeaponSlotDef): string {
@@ -399,7 +396,7 @@ export function PlayItemsPage() {
   // ---------- Рендер ----------
 
   return (
-    <View style={[styles.container, { paddingBottom: insets.bottom + 16 }]}>
+    <View style={styles.container}>
       {/* Шапка */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
