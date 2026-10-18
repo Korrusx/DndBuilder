@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -138,6 +138,12 @@ export function PlayItemsPage() {
   const selectedItem = selectedItemId ? lookupItem(selectedItemId) : undefined;
   const currentAc = sheet.armorClass;
 
+  function openPickerFor(slotId: SlotId) {
+    setSelectedSlot(slotId);
+    setPendingChoice(undefined);
+    setSheetMode('pick');
+  }
+
   function openPicker() {
     setPendingChoice(undefined);
     setSheetMode('pick');
@@ -164,7 +170,7 @@ export function PlayItemsPage() {
           { left: Math.round(rawLeft * SCALE), top: Math.round(rawTop * SCALE) },
           itemId && rarColor !== '#4A525D' ? { borderColor: rarColor } : null,
         ]}
-        onPress={() => setSelectedSlot(s.id)}
+        onPress={() => openPickerFor(s.id)}
         accessibilityLabel={slotLabel(s)}
         hitSlop={4}
       >
@@ -200,7 +206,7 @@ export function PlayItemsPage() {
           itemId ? styles.weaponSlotFilled : null,
           on ? styles.weaponSlotSelected : null,
         ]}
-        onPress={() => setSelectedSlot(w.id)}
+        onPress={() => openPickerFor(w.id)}
       >
         <GameIcon
           name={item ? itemIcon(item) : SLOT_ICONS[w.id]}
@@ -445,7 +451,7 @@ export function PlayItemsPage() {
       </View>
 
       {/* Кукла + карточка — в скролле */}
-      <View style={{ flex: 1, overflow: 'scroll' as 'hidden' }}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 8 }} showsVerticalScrollIndicator={false}>
         {/* Кукла */}
         <View style={styles.doll}>
           <View style={styles.halo} />
@@ -501,7 +507,7 @@ export function PlayItemsPage() {
 
         {/* Карточка выбранного слота */}
         {cardView}
-      </View>
+      </ScrollView>
 
       {/* Шторка выбора предмета */}
       <BottomSheet visible={sheetMode === 'pick'} title={selLabel} onClose={() => setSheetMode(null)}>
