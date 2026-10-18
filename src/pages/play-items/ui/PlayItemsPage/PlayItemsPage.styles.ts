@@ -153,7 +153,6 @@ export const styles = StyleSheet.create({
     borderRadius: radius.card,
     padding: spacing.md,
     gap: spacing.sm,
-    minHeight: 160,
   },
   cardTop: {
     flexDirection: 'row',
