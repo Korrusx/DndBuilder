@@ -363,9 +363,7 @@ export function PlayItemsPage() {
           const attuneFull = needsAttune && attuned >= 3 && equippedSlots[selectedSlot] !== id;
           const eq = item as Equipment;
           const isWeapon = !!eq.weapon;
-          const dmgDice = isWeapon && eq.weapon!.damage
-            ? `${eq.weapon!.damage.dice_count}к${eq.weapon!.damage.dice_value}`
-            : null;
+          const dmgDice = isWeapon ? (eq.weapon!.damage?.dice ?? null) : null;
 
           return (
             <Pressable
