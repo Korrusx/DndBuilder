@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
-import { computeSheet, equipToSlot, fitsSlot, unequipSlot } from '@/entities/character';
+import { addToInventory, computeSheet, equipToSlot, fitsSlot, unequipSlot } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import type { Character, SlotId } from '@/entities/character';
-import { byId, contentFor, itemName, plain, tr } from '@/shared/content';
+import { AddItemSheet } from '@/features/add-item';
+import { byId, coinAbbr, coinName, COIN_ORDER, contentFor, itemName, plain, tr } from '@/shared/content';
 import type { Equipment, MagicItem } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, BottomSheet, GameIcon } from '@/shared/ui';
+import { AppText, BottomSheet, GameIcon, Section } from '@/shared/ui';
 
 import { itemIcon, SLOT_ICONS } from '../../lib/itemIcon';
 import { DOLL_H, SCALE, SLOT_SIZE, styles, W } from './PlayItemsPage.styles';
@@ -105,6 +106,7 @@ export function PlayItemsPage() {
   const [selectedSlot, setSelectedSlot] = useState<SlotId>('body');
   const [bagOpen, setBagOpen] = useState(false);
   const [bagExpandedItem, setBagExpandedItem] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
 
   const equippedSlots = character.equippedSlots ?? {};
   const bag = character.equipment;
@@ -484,7 +486,39 @@ export function PlayItemsPage() {
 
         {/* Инлайн-кандидаты из рюкзака */}
         {candidatesSection}
+
+        {/* Монеты */}
+        <Section title={t('inventory.coins')} style={{ marginHorizontal: 8, marginTop: 8 }}>
+          {[...COIN_ORDER].reverse().map((id) => (
+            <View key={id} style={styles.coinRow}>
+              <AppText style={styles.coinLabel}>
+                {t('inventory.coin', { name: coinName(id), abbr: coinAbbr(id) })}
+              </AppText>
+              <TextInput
+                value={String(character.coins[id] ?? 0)}
+                onChangeText={(text) => {
+                  const n = parseInt(text.replace(/[^0-9]/g, ''), 10) || 0;
+                  update((c) => ({ ...c, coins: { ...c.coins, [id]: n } }));
+                }}
+                keyboardType="number-pad"
+                selectTextOnFocus
+                style={styles.coinInput}
+              />
+            </View>
+          ))}
+        </Section>
+
+        {/* Добавить предмет */}
+        <Pressable style={styles.addBtn} onPress={() => setAdding(true)}>
+          <AppText style={styles.addBtnText}>{t('inventory.add')}</AppText>
+        </Pressable>
       </ScrollView>
+
+      <AddItemSheet
+        visible={adding}
+        onClose={() => setAdding(false)}
+        onAdd={(item) => update((c) => ({ ...c, equipment: addToInventory(c.equipment, item) }))}
+      />
 
       {/* Шторка рюкзака */}
       <BottomSheet
