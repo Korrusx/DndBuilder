@@ -488,7 +488,7 @@ export function PlayItemsPage() {
         {candidatesSection}
 
         {/* Монеты */}
-        <Section title={t('inventory.coins')} style={{ marginHorizontal: 8, marginTop: 8 }}>
+        <Section title={t('inventory.coins')}>
           {[...COIN_ORDER].reverse().map((id) => (
             <View key={id} style={styles.coinRow}>
               <AppText style={styles.coinLabel}>
@@ -507,11 +507,6 @@ export function PlayItemsPage() {
             </View>
           ))}
         </Section>
-
-        {/* Добавить предмет */}
-        <Pressable style={styles.addBtn} onPress={() => setAdding(true)}>
-          <AppText style={styles.addBtnText}>{t('inventory.add')}</AppText>
-        </Pressable>
       </ScrollView>
 
       <AddItemSheet
@@ -526,6 +521,9 @@ export function PlayItemsPage() {
         title={`${t('inventory.bag')} · ${bag.length}`}
         onClose={() => setBagOpen(false)}
       >
+        <Pressable style={[styles.cardBtn, styles.cardBtnPrimary, { marginBottom: 8 }]} onPress={() => { setBagOpen(false); setAdding(true); }}>
+          <AppText style={[styles.cardBtnText, styles.cardBtnTextPrimary]}>{t('inventory.add')}</AppText>
+        </Pressable>
         {bag.length === 0 ? (
           <AppText style={styles.emptyText}>{t('inventory.empty')}</AppText>
         ) : (
