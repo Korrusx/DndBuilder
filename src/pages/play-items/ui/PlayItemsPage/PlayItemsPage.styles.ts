@@ -395,6 +395,26 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.textSecondary,
   },
+  bagRowMain: {
+    flex: 1,
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    gap: 12,
+  },
+  bagDeleteBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: colors.surface2,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+  },
+  bagDeleteBtnText: {
+    fontFamily: fonts.textBold,
+    fontSize: 20,
+    color: colors.textSecondary,
+    lineHeight: 22,
+  },
   // Монеты
   coinRow: {
     flexDirection: 'row' as const,

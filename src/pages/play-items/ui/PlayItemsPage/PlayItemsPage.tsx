@@ -129,6 +129,15 @@ export function PlayItemsPage() {
     }
   }
 
+  function removeOneFromBag(itemId: string) {
+    update((c) => ({
+      ...c,
+      equipment: c.equipment
+        .map((x) => x.itemId === itemId ? { ...x, quantity: x.quantity - 1 } : x)
+        .filter((x) => x.quantity > 0),
+    }));
+  }
+
   function doEquip(slotId: SlotId, itemId: string | null) {
     if (itemId) {
       update((c: Character) => {
@@ -537,27 +546,32 @@ export function PlayItemsPage() {
 
             return (
               <View key={inv.itemId}>
-                <Pressable
-                  style={[styles.bagRow, expanded ? styles.bagRowExpanded : null]}
-                  onPress={() => {
-                    if (slots.length === 0 || isBlocked) return;
-                    if (slots.length === 1) {
-                      doEquip(slots[0], inv.itemId);
-                    } else {
-                      setBagExpandedItem(expanded ? null : inv.itemId);
-                    }
-                  }}
-                >
-                  <GameIcon name={itemIcon(item)} size={24} color={slots.length > 0 && !isBlocked ? '#9aa3ae' : '#4a525d'} />
-                  <AppText style={styles.bagName}>{itemName(inv)}</AppText>
-                  {inv.quantity > 1 && <AppText style={styles.bagQty}>×{inv.quantity}</AppText>}
-                  {slots.length > 1 && !isBlocked && (
-                    <AppText style={styles.bagEquipArrow}>{expanded ? '▾' : '›'}</AppText>
-                  )}
-                  {slots.length === 1 && !isBlocked && (
-                    <AppText style={styles.bagEquipArrow}>→</AppText>
-                  )}
-                </Pressable>
+                <View style={[styles.bagRow, expanded ? styles.bagRowExpanded : null]}>
+                  <Pressable
+                    style={styles.bagRowMain}
+                    onPress={() => {
+                      if (slots.length === 0 || isBlocked) return;
+                      if (slots.length === 1) {
+                        doEquip(slots[0], inv.itemId);
+                      } else {
+                        setBagExpandedItem(expanded ? null : inv.itemId);
+                      }
+                    }}
+                  >
+                    <GameIcon name={itemIcon(item)} size={24} color={slots.length > 0 && !isBlocked ? '#9aa3ae' : '#4a525d'} />
+                    <AppText style={styles.bagName}>{itemName(inv)}</AppText>
+                    {inv.quantity > 1 && <AppText style={styles.bagQty}>×{inv.quantity}</AppText>}
+                    {slots.length > 1 && !isBlocked && (
+                      <AppText style={styles.bagEquipArrow}>{expanded ? '▾' : '›'}</AppText>
+                    )}
+                    {slots.length === 1 && !isBlocked && (
+                      <AppText style={styles.bagEquipArrow}>→</AppText>
+                    )}
+                  </Pressable>
+                  <Pressable style={styles.bagDeleteBtn} onPress={() => removeOneFromBag(inv.itemId)}>
+                    <AppText style={styles.bagDeleteBtnText}>−</AppText>
+                  </Pressable>
+                </View>
                 {expanded && (
                   <View style={styles.bagSlotChips}>
                     {slots.map((slotId) => {
