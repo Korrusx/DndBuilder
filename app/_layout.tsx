@@ -3,6 +3,7 @@ import { Unbounded_600SemiBold, Unbounded_700Bold } from '@expo-google-fonts/unb
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import type { SQLiteDatabase } from 'expo-sqlite';
 import { SQLiteProvider } from 'expo-sqlite';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -14,6 +15,12 @@ import { injectHomebrew } from '@/shared/content';
 import { LanguageGate, useTranslation } from '@/shared/i18n';
 
 SplashScreen.preventAutoHideAsync();
+
+async function initDb(db: SQLiteDatabase) {
+  await initUserDb(db);
+  const homebrew = await loadHombrewEquipment(db);
+  injectHomebrew(homebrew.map(hombrewToEquipment));
+}
 
 export default function RootLayout() {
   const { t } = useTranslation();
@@ -32,14 +39,7 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-    <SQLiteProvider
-      databaseName={USER_DB_NAME}
-      onInit={async (db) => {
-        await initUserDb(db);
-        const homebrew = await loadHombrewEquipment(db);
-        injectHomebrew(homebrew.map(hombrewToEquipment));
-      }}
-    >
+    <SQLiteProvider databaseName={USER_DB_NAME} onInit={initDb}>
       <StatusBar style="light" />
       <LanguageGate>
         <Stack
