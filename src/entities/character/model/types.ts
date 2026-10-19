@@ -193,6 +193,10 @@ export type AcInput = {
   shield?: ArmorInfo;
   mods: AbilityScores;
   effects: Effect[];
+  /** Магический бонус к КЗ от надетого доспеха (+1/+2/+3). */
+  armorMagicBonus?: number;
+  /** Магический бонус к КЗ от надетого щита. */
+  shieldMagicBonus?: number;
 };
 
 // --- Атаки оружием ---
@@ -216,6 +220,8 @@ export type WeaponAttack = {
   offhandDamageBonus?: number;
   /** Ярость и фехтовальное оружие, которое по умолчанию бьёт Ловкостью: та же атака Силой (с бонусом ярости). */
   strengthAlt?: { toHit: number; damageBonus: number };
+  /** Дополнительный урон (например, 1к6 огнём у Пламенного клинка). */
+  additionalDamage?: { dice: string; type: string }[];
 };
 
 /** Что меняет атаки оружием помимо характеристики и владения. */
@@ -261,7 +267,23 @@ export type Effect =
   /** Дополнительная атака лёгким оружием получает модификатор к урону (стиль «Сражение двумя оружиями»). */
   | { type: 'lightExtraAttackModifier' }
   /** Бонус к проверкам навыков, равный модификатору характеристики (не меньше `min`). */
-  | { type: 'skillBonusFromAbility'; skills: string[]; ability: AbilityId; min: number };
+  | { type: 'skillBonusFromAbility'; skills: string[]; ability: AbilityId; min: number }
+  /** Бонус к спасброскам: все или конкретную характеристику (кольцо защиты: +1 ко всем). */
+  | { type: 'savingThrowBonus'; value: number; ability?: AbilityId }
+  /** Установить значение характеристики (перчатки силы огра: ТЕЛ становится 19, если было меньше). */
+  | { type: 'setAbilityScore'; ability: AbilityId; value: number }
+  /** Прибавка к значению характеристики от предмета. */
+  | { type: 'abilityBonus'; ability: AbilityId; value: number }
+  /** Владение навыком от предмета. */
+  | { type: 'skillProficiency'; skill: string }
+  /** Компетентность навыком от предмета. */
+  | { type: 'skillExpertise'; skill: string }
+  /** Преимущество на проверки навыка от предмета (TODO: отображение). */
+  | { type: 'skillAdvantage'; skill: string }
+  /** Сопротивление урону от предмета (TODO: отображение). */
+  | { type: 'damageResistance'; damageType: string }
+  /** Иммунитет к урону от предмета (TODO: отображение). */
+  | { type: 'damageImmunity'; damageType: string };
 
 // ---------- Спасброски от смерти ----------
 

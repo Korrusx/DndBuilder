@@ -33,6 +33,7 @@ export type {
   ContentIndex,
   Edition,
   Equipment,
+  ItemEffect,
   LocalizedText,
   MagicItem,
   ResourceFormula,

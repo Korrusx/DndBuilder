@@ -286,6 +286,19 @@ export type ToolInfo = {
   craft: string[];
 };
 
+/** Механические эффекты предмета, пока надет (для предметов с настройкой — пока настроен). */
+export type ItemEffect =
+  | { type: 'acBonus'; value: number }
+  | { type: 'savingThrowBonus'; value: number; ability?: AbilityId }
+  | { type: 'speedBonus'; value: number }
+  | { type: 'setAbilityScore'; ability: AbilityId; value: number }
+  | { type: 'abilityBonus'; ability: AbilityId; value: number }
+  | { type: 'skillProficiency'; skill: string }
+  | { type: 'skillExpertise'; skill: string }
+  | { type: 'skillAdvantage'; skill: string }
+  | { type: 'damageResistance'; damageType: string }
+  | { type: 'damageImmunity'; damageType: string };
+
 export type Equipment = {
   id: string;
   name: LocalizedText;
@@ -300,6 +313,12 @@ export type Equipment = {
   tool?: ToolInfo;
   /** Содержимое набора снаряжения. */
   contents?: { id: string; count: number }[];
+  /** Магический бонус к атаке и урону (оружие) или к КЗ (броня/щит). +1/+2/+3. */
+  magicBonus?: number;
+  /** Дополнительный урон (например, 1к6 огнём у Пламенного клинка). */
+  additionalDamage?: { dice: string; type: string }[];
+  /** Механические эффекты предмета, пока надет. */
+  effects?: ItemEffect[];
 };
 
 export type EquipmentCategory = { id: string; name: LocalizedText; equipment: string[] };
@@ -353,6 +372,8 @@ export type MagicItem = {
   description: LocalizedText;
   variants: string[];
   isVariant: boolean;
+  /** Механические эффекты предмета, пока надет (для предметов с настройкой — пока настроен). */
+  effects?: ItemEffect[];
 };
 
 /** Как считается число (максимум ресурса или размер его кости). Уровень — уровень класса `classId` ресурса, иначе общий. */

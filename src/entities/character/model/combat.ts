@@ -39,13 +39,13 @@ export function bonusHpFromEffects(effects: Effect[], totalLevel: number, classL
  * КЗ: без доспеха 10 + ЛОВ (или лучшая из формул «Защиты без доспехов»);
  * лёгкий — база + ЛОВ, средний — база + ЛОВ (не больше +2), тяжёлый — база; щит +2.
  */
-export function armorClass({ armor, shield, mods, effects }: AcInput): number {
+export function armorClass({ armor, shield, mods, effects, armorMagicBonus, shieldMagicBonus }: AcInput): number {
   let ac: number;
   if (armor) {
     let maxDex = armor.maxDex ?? Infinity;
     if (armor.category === 'medium') for (const e of effects) if (e.type === 'mediumArmorMaxDex') maxDex = Math.max(maxDex, e.value);
     const dex = armor.dexBonus ? Math.min(mods.dex, maxDex) : 0;
-    ac = armor.base + dex;
+    ac = armor.base + dex + (armorMagicBonus ?? 0);
     for (const e of effects) if (e.type === 'armoredAcBonus') ac += e.value;
   } else {
     ac = 10 + mods.dex;
@@ -54,7 +54,7 @@ export function armorClass({ armor, shield, mods, effects }: AcInput): number {
       ac = Math.max(ac, (e.base ?? 10) + e.abilities.reduce((s, id) => s + mods[id], 0));
     }
   }
-  if (shield) ac += shield.base;
+  if (shield) ac += shield.base + (shieldMagicBonus ?? 0);
   for (const e of effects) if (e.type === 'acBonus') ac += e.value;
   return ac;
 }
@@ -110,6 +110,7 @@ export function weaponAttack(
     ...(rage && ability === 'dex' && w.properties.includes('finesse')
       ? { strengthAlt: { toHit: mods.str + (proficient ? profBonus : 0) + magic, damageBonus: mods.str + magic + rage } }
       : {}),
+    ...(item.additionalDamage?.length ? { additionalDamage: item.additionalDamage } : {}),
   };
 }
 

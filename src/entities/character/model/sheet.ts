@@ -1,6 +1,6 @@
 // Сборка всех производных чисел персонажа из его выборов и справочника.
 
-import type { AbilityId, Content, Equipment } from '@/shared/content';
+import type { AbilityId, Content, Equipment, ItemEffect } from '@/shared/content';
 import { indexOf } from '@/shared/content';
 import { t } from '@/shared/i18n/model';
 
@@ -163,16 +163,37 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   const traitIds = features.filter((f) => f.source === 'species').map((f) => f.id);
   for (const id of chosenSubfeatures(c, content, traitIds, 'trait')) features.push({ id, source: 'species' });
   for (const id of [...originFeatIds(c, content), ...c.feats.map((f) => f.featId)]) features.push({ id, source: 'feat' });
-  const effects = [...effectsOf(features.map((f) => f.id), content.edition), ...featureOptionEffects(c)];
+  const featureEffects = [...effectsOf(features.map((f) => f.id), content.edition), ...featureOptionEffects(c)];
+
+  // --- Снаряжение (нужно до расчётов для эффектов предметов) ---
+  // Поддерживаем оба формата: новый (equippedSlots) и старый (equipped: true в equipment).
+  const equippedSlotIds = Object.values(c.equippedSlots ?? {}).filter(Boolean) as string[];
+  const equippedFromSlots = equippedSlotIds.map((id) => idx.equipment.get(id)).filter(Boolean) as Equipment[];
+  const equippedFromLegacy = equippedFromSlots.length === 0
+    ? c.equipment.filter((i) => i.equipped).map((i) => idx.equipment.get(i.itemId)).filter(Boolean) as Equipment[]
+    : [];
+  const equipped = [...equippedFromSlots, ...equippedFromLegacy];
+
+  // Эффекты от надетых предметов (Equipment + MagicItem).
+  const itemEffects: ItemEffect[] = [];
+  for (const slotId of Object.values(c.equippedSlots ?? {})) {
+    if (!slotId) continue;
+    const eq = idx.equipment.get(slotId);
+    const mi = idx.magicItems.get(slotId);
+    const fx = eq?.effects ?? mi?.effects ?? [];
+    itemEffects.push(...fx);
+  }
+  const effects = [...featureEffects, ...(itemEffects as Effect[])];
 
   // --- Характеристики и спасброски ---
-  const scores = finalAbilityScores(c, content);
+  const scores = applyItemAbilityEffects(finalAbilityScores(c, content), itemEffects);
   const mods = modifiers(scores);
   const saveProfs = new Set([...(classes[0]?.cls.savingThrows ?? []), ...featSavingThrows(c, content)]);
   const abilities = {} as CharacterSheet['abilities'];
   for (const id of ABILITY_IDS) {
     const proficient = saveProfs.has(id);
-    abilities[id] = { score: scores[id], mod: mods[id], save: savingThrow(mods[id], proficient, pb), saveProficient: proficient };
+    const saveBonus = sumItemSaveBonus(itemEffects, id);
+    abilities[id] = { score: scores[id], mod: mods[id], save: savingThrow(mods[id], proficient, pb) + saveBonus, saveProficient: proficient };
   }
 
   // --- Владения ---
@@ -185,7 +206,9 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     const p = idx.proficiencies.get(id);
     if (p?.type === 'skill' && p.refId) skillProfs.add(p.refId);
   }
+  for (const e of itemEffects) if (e.type === 'skillProficiency') skillProfs.add(e.skill);
   const expertise = new Set(c.expertise);
+  for (const e of itemEffects) if (e.type === 'skillExpertise') expertise.add(e.skill);
   const skills = content.skills.map((s) => {
     const proficient = skillProfs.has(s.id);
     const exp = proficient && expertise.has(s.id);
@@ -194,17 +217,17 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   });
   const perception = skills.find((s) => s.id === 'perception')?.bonus ?? mods.wis;
 
-  // --- Снаряжение, КЗ, атаки ---
-  // Поддерживаем оба формата: новый (equippedSlots) и старый (equipped: true в equipment).
-  const equippedSlotIds = Object.values(c.equippedSlots ?? {}).filter(Boolean) as string[];
-  const equippedFromSlots = equippedSlotIds.map((id) => idx.equipment.get(id)).filter(Boolean) as Equipment[];
-  const equippedFromLegacy = equippedFromSlots.length === 0
-    ? c.equipment.filter((i) => i.equipped).map((i) => idx.equipment.get(i.itemId)).filter(Boolean) as Equipment[]
-    : [];
-  const equipped = [...equippedFromSlots, ...equippedFromLegacy];
+  // --- КЗ ---
   const armorItem = equipped.find((e) => e.armor && e.armor.category !== 'shield');
   const shieldItem = equipped.find((e) => e.armor?.category === 'shield');
-  const ac = armorClass({ armor: armorItem?.armor, shield: shieldItem?.armor, mods, effects });
+  const ac = armorClass({
+    armor: armorItem?.armor,
+    shield: shieldItem?.armor,
+    mods,
+    effects,
+    armorMagicBonus: armorItem?.magicBonus,
+    shieldMagicBonus: shieldItem?.magicBonus,
+  });
 
   // Ярость: бонус к урону из таблицы варвара, пока персонаж в ярости.
   const barbarian = classes.find(({ cls }) => cls.id === 'barbarian');
@@ -221,7 +244,8 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   for (const inv of c.equipment) {
     const item = idx.equipment.get(inv.itemId);
     if (!item?.weapon) continue;
-    const attack = weaponAttack(item, mods, pb, isProficient(item), { ...attackOpts, magicBonus: inv.magicBonus });
+    const totalMagic = (item.magicBonus ?? 0) + (inv.magicBonus ?? 0);
+    const attack = weaponAttack(item, mods, pb, isProficient(item), { ...attackOpts, magicBonus: totalMagic || undefined });
     if (!attack || seen.has(attack.key)) continue;
     seen.add(attack.key);
     attacks.push(attack);
@@ -231,7 +255,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     if (!itemId) continue;
     const item = idx.equipment.get(itemId);
     if (!item?.weapon) continue;
-    const attack = weaponAttack(item, mods, pb, isProficient(item), attackOpts);
+    const attack = weaponAttack(item, mods, pb, isProficient(item), { ...attackOpts, magicBonus: item.magicBonus });
     if (!attack || seen.has(attack.key)) continue;
     seen.add(attack.key);
     attacks.push(attack);
@@ -325,6 +349,32 @@ function sumEffects(effects: Effect[], type: 'rangedAttackBonus'): number {
   let sum = 0;
   for (const e of effects) if (e.type === type) sum += e.value;
   return sum;
+}
+
+/** Суммирует бонус к спасброскам от предметов: учитывает эффекты на все СБ и на конкретную характеристику. */
+function sumItemSaveBonus(itemEffects: ItemEffect[], ability: AbilityId): number {
+  let sum = 0;
+  for (const e of itemEffects) {
+    if (e.type === 'savingThrowBonus' && (e.ability === undefined || e.ability === ability)) sum += e.value;
+  }
+  return sum;
+}
+
+/**
+ * Применяет эффекты предметов, изменяющие значения характеристик.
+ * `setAbilityScore` — устанавливает значение, если текущее ниже.
+ * `abilityBonus` — прибавляет к значению.
+ */
+function applyItemAbilityEffects(scores: AbilityScores, itemEffects: ItemEffect[]): AbilityScores {
+  let result = scores;
+  for (const e of itemEffects) {
+    if (e.type === 'setAbilityScore') {
+      if (result[e.ability] < e.value) result = { ...result, [e.ability]: e.value };
+    } else if (e.type === 'abilityBonus') {
+      result = { ...result, [e.ability]: result[e.ability] + e.value };
+    }
+  }
+  return result;
 }
 
 /** Бонус к навыку от эффектов («Чудотворец»: + мод. МДР к Магии и Религии, минимум +1). */
