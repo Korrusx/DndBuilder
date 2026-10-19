@@ -127,7 +127,8 @@ export function makeProficiencyCheck(profIds: Set<string>, content: Content): (i
 /** Черты происхождения: черта предыстории и черта от «Универсальности» человека. */
 export function originFeatIds(c: Character, content: Content): string[] {
   const background = indexOf(content).backgrounds.get(c.backgroundId);
-  return [background?.featId, ...(c.choices[CHOICE_KEYS.versatileFeat] ?? [])].filter((x): x is string => !!x);
+  const ids = [background?.featId, ...(c.choices[CHOICE_KEYS.versatileFeat] ?? [])].filter((x): x is string => !!x);
+  return [...new Set(ids)];
 }
 
 export function computeSheet(c: Character, content: Content): CharacterSheet {
