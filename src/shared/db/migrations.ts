@@ -26,6 +26,23 @@ export const MIGRATIONS: Migration[] = [
       `);
     },
   },
+  {
+    version: 2,
+    up: async (db) => {
+      await db.execAsync(`
+        CREATE TABLE homebrew_equipment (
+          id TEXT PRIMARY KEY NOT NULL,
+          name_ru TEXT NOT NULL,
+          name_en TEXT NOT NULL DEFAULT '',
+          description_ru TEXT NOT NULL DEFAULT '',
+          weight REAL,
+          cost_amount INTEGER NOT NULL DEFAULT 0,
+          cost_unit TEXT NOT NULL DEFAULT 'gp',
+          created_at TEXT NOT NULL
+        );
+      `);
+    },
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;

@@ -1,4 +1,4 @@
-import { coinAbbr, content, tr } from '@/shared/content';
+import { coinAbbr, content, HOMEBREW_EQUIPMENT_PREFIX, tr } from '@/shared/content';
 import { currentLanguage } from '@/shared/i18n/model';
 
 import type { Entry } from './types';
@@ -7,7 +7,11 @@ import type { Entry } from './types';
 
 export function equipmentCatalog(): Entry[] {
   return content.equipment
-    .map((e) => ({ id: e.id, name: tr(e.name).text, note: `${e.cost.amount} ${coinAbbr(e.cost.unit)}` }))
+    .map((e) => ({
+      id: e.id,
+      name: tr(e.name).text,
+      note: e.id.startsWith(HOMEBREW_EQUIPMENT_PREFIX) ? '★' : `${e.cost.amount} ${coinAbbr(e.cost.unit)}`,
+    }))
     .sort((a, b) => a.name.localeCompare(b.name, currentLanguage()));
 }
 

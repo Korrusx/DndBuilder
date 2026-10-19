@@ -364,7 +364,8 @@
     "about": "About",
     "newCharacter": "New Character",
     "edit": "Edit",
-    "levelUp": "Level Up"
+    "levelUp": "Level Up",
+    "homebrew": "Homebrew Items"
   },
   "tabs": {
     "sheet": "Sheet",
@@ -832,5 +833,21 @@
     "table": "Table",
     "felt": "Felt",
     "stone": "Stone"
+  },
+  "homebrew": {
+    "short": "★ Homebrew",
+    "create": "Create item",
+    "edit": "Edit item",
+    "empty": "No homebrew items yet. Tap \"Create item\" to add your own.",
+    "confirmDelete": "Delete this homebrew item? Characters that have it in their inventory will lose the display name.",
+    "nameRu": "Name (RU)",
+    "nameEn": "Name (EN, optional)",
+    "namePlaceholder": "E.g. Enchanted Staff",
+    "nameEnPlaceholder": "Enchanted Staff",
+    "cost": "Cost",
+    "unit": "Coin",
+    "weight": "Weight (lb.), optional",
+    "description": "Description (optional)",
+    "descriptionPlaceholder": "What this item does..."
   }
 }

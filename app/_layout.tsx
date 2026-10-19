@@ -9,6 +9,8 @@ import { useEffect } from 'react';
 
 import { colors, fonts } from '@/shared/config';
 import { initUserDb, USER_DB_NAME } from '@/shared/db';
+import { hombrewToEquipment, loadHombrewEquipment } from '@/features/homebrew-equipment';
+import { injectHomebrew } from '@/shared/content';
 import { LanguageGate, useTranslation } from '@/shared/i18n';
 
 SplashScreen.preventAutoHideAsync();
@@ -30,7 +32,14 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-    <SQLiteProvider databaseName={USER_DB_NAME} onInit={initUserDb}>
+    <SQLiteProvider
+      databaseName={USER_DB_NAME}
+      onInit={async (db) => {
+        await initUserDb(db);
+        const homebrew = await loadHombrewEquipment(db);
+        injectHomebrew(homebrew.map(hombrewToEquipment));
+      }}
+    >
       <StatusBar style="light" />
       <LanguageGate>
         <Stack
@@ -46,6 +55,7 @@ export default function RootLayout() {
           <Stack.Screen name="create" options={{ headerShown: false }} />
           <Stack.Screen name="character/[id]" options={{ headerShown: false }} />
           <Stack.Screen name="about" options={{ title: t('nav.about') }} />
+          <Stack.Screen name="homebrew-equipment" options={{ title: t('nav.homebrew') }} />
         </Stack>
       </LanguageGate>
     </SQLiteProvider>

@@ -1,5 +1,7 @@
 // Доступ к справочнику. Файл assets/content/content.json собирается командой `npm run data:build`.
 
+export const HOMEBREW_EQUIPMENT_PREFIX = 'homebrew-eq-';
+
 import { currentLanguage } from '@/shared/i18n/model';
 
 import data from '../../../assets/content/content.json';
@@ -71,6 +73,54 @@ export function tr(text: LocalizedText | undefined): { text: string; translated:
   if (!text) return { text: '', translated: true };
   if (currentLanguage() === 'en') return text.en ? { text: text.en, translated: true } : { text: text.ru ?? '', translated: false };
   return text.ru ? { text: text.ru, translated: true } : { text: text.en, translated: false };
+}
+
+/**
+ * Вталкивает хоумбрю-предметы в справочник так, чтобы byId.equipment их видел.
+ * Идемпотентно: повторная вставка одного id игнорируется.
+ */
+type MutableEquipmentMap = Map<string, import('./types').Equipment>;
+
+function eqMap(c: Content): MutableEquipmentMap {
+  return indexOf(c).equipment as unknown as MutableEquipmentMap;
+}
+
+export function injectHomebrew(equipment: import('./types').Equipment[]): void {
+  for (const e of equipment) {
+    if (eqMap(content2024).has(e.id)) continue;
+    content2024.equipment.push(e);
+    eqMap(content2024).set(e.id, e);
+    if (content2014) {
+      content2014.equipment.push(e);
+      eqMap(content2014).set(e.id, e);
+    }
+  }
+}
+
+/** Обновляет один хоумбрю-предмет в индексе (после редактирования). */
+export function updateHombrewItem(e: import('./types').Equipment): void {
+  const map24 = eqMap(content2024);
+  if (!map24.has(e.id)) return;
+  map24.set(e.id, e);
+  const i24 = content2024.equipment.findIndex((x) => x.id === e.id);
+  if (i24 >= 0) content2024.equipment[i24] = e;
+  if (content2014) {
+    eqMap(content2014).set(e.id, e);
+    const i14 = content2014.equipment.findIndex((x) => x.id === e.id);
+    if (i14 >= 0) content2014.equipment[i14] = e;
+  }
+}
+
+/** Удаляет хоумбрю-предмет из индекса (после удаления из БД). */
+export function removeHombrewItem(id: string): void {
+  eqMap(content2024).delete(id);
+  const i24 = content2024.equipment.findIndex((x) => x.id === id);
+  if (i24 >= 0) content2024.equipment.splice(i24, 1);
+  if (content2014) {
+    eqMap(content2014).delete(id);
+    const i14 = content2014.equipment.findIndex((x) => x.id === id);
+    if (i14 >= 0) content2014.equipment.splice(i14, 1);
+  }
 }
 
 /** Доля переведённых текстов справочника (для страницы «О приложении»). */

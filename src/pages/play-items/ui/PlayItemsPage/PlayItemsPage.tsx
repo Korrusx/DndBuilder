@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, TextInput, View } from 'react-native';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
+import { useRouter } from 'expo-router';
 import { addToInventory, computeSheet, equipToSlot, fitsSlot, unequipSlot } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import type { Character, SlotId } from '@/entities/character';
@@ -98,6 +99,7 @@ export function PlayItemsPage() {
   const { character, sheet, update } = usePlay();
   const { t, i18n } = useTranslation();
   const isRu = i18n.language === 'ru';
+  const router = useRouter();
 
   function slotLabel(def: SlotDef | WeaponSlotDef): string {
     return isRu ? def.labelRu : def.labelEn;
@@ -437,7 +439,10 @@ export function PlayItemsPage() {
             КЗ {currentAc} · настройка {attuned}/3
           </AppText>
         </View>
-        <Pressable style={styles.bagBtn} onPress={() => { setBagExpandedItem(null); setBagOpen(true); }}>
+        <Pressable style={styles.bagBtn} onPress={() => router.push('/homebrew-equipment')} hitSlop={4}>
+          <AppText style={styles.bagBtnText}>{t('homebrew.short')}</AppText>
+        </Pressable>
+        <Pressable style={[styles.bagBtn, { marginLeft: 8 }]} onPress={() => { setBagExpandedItem(null); setBagOpen(true); }}>
           <GameIcon name="person" size={18} color="#9aa3ae" />
           <AppText style={styles.bagBtnText}>
             {t('inventory.bag')} · {bag.length}
