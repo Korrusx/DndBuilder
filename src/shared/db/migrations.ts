@@ -43,6 +43,25 @@ export const MIGRATIONS: Migration[] = [
       `);
     },
   },
+  {
+    version: 3,
+    up: async (db) => {
+      await db.execAsync(`
+        ALTER TABLE homebrew_equipment ADD COLUMN kind TEXT NOT NULL DEFAULT 'gear';
+        ALTER TABLE homebrew_equipment ADD COLUMN weapon_damage_dice TEXT NOT NULL DEFAULT '';
+        ALTER TABLE homebrew_equipment ADD COLUMN weapon_damage_type TEXT NOT NULL DEFAULT '';
+        ALTER TABLE homebrew_equipment ADD COLUMN weapon_range_type TEXT NOT NULL DEFAULT 'melee';
+        ALTER TABLE homebrew_equipment ADD COLUMN weapon_category TEXT NOT NULL DEFAULT 'simple';
+        ALTER TABLE homebrew_equipment ADD COLUMN weapon_is_light INTEGER NOT NULL DEFAULT 0;
+        ALTER TABLE homebrew_equipment ADD COLUMN weapon_is_two_handed INTEGER NOT NULL DEFAULT 0;
+        ALTER TABLE homebrew_equipment ADD COLUMN weapon_is_finesse INTEGER NOT NULL DEFAULT 0;
+        ALTER TABLE homebrew_equipment ADD COLUMN weapon_is_thrown INTEGER NOT NULL DEFAULT 0;
+        ALTER TABLE homebrew_equipment ADD COLUMN armor_category TEXT NOT NULL DEFAULT 'light';
+        ALTER TABLE homebrew_equipment ADD COLUMN armor_base INTEGER NOT NULL DEFAULT 11;
+        ALTER TABLE homebrew_equipment ADD COLUMN armor_stealth INTEGER NOT NULL DEFAULT 0;
+      `);
+    },
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;

@@ -21,6 +21,7 @@ export type {
   AbilityBonuses,
   AbilityId,
   ArmorInfo,
+  WeaponInfo,
   Background,
   CharacterClass,
   Choice,

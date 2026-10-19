@@ -2,7 +2,7 @@ import type { SQLiteDatabase } from 'expo-sqlite';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useEffect, useState } from 'react';
 
-import type { Coin, Equipment } from '@/shared/content';
+import type { ArmorInfo, Coin, Equipment, WeaponInfo } from '@/shared/content';
 import { HOMEBREW_EQUIPMENT_PREFIX } from '@/shared/content';
 
 import type { HombrewEquipment, HombrewEquipmentRow } from '../model/types';
@@ -21,11 +21,65 @@ function rowToHombrew(r: HombrewEquipmentRow): HombrewEquipment {
     costAmount: r.cost_amount,
     costUnit: r.cost_unit as Coin,
     createdAt: r.created_at,
+    kind: (r.kind as HombrewEquipment['kind']) || 'gear',
+    weaponDamageDice: r.weapon_damage_dice || '1к6',
+    weaponDamageType: r.weapon_damage_type || 'рубящий',
+    weaponRangeType: (r.weapon_range_type as HombrewEquipment['weaponRangeType']) || 'melee',
+    weaponCategory: (r.weapon_category as HombrewEquipment['weaponCategory']) || 'simple',
+    weaponIsLight: !!r.weapon_is_light,
+    weaponIsTwoHanded: !!r.weapon_is_two_handed,
+    weaponIsFinesse: !!r.weapon_is_finesse,
+    weaponIsThrown: !!r.weapon_is_thrown,
+    armorCategory: (r.armor_category as HombrewEquipment['armorCategory']) || 'light',
+    armorBase: r.armor_base || 11,
+    armorStealthDisadvantage: !!r.armor_stealth,
   };
 }
 
-export function hombrewToEquipment(h: HombrewEquipment): Equipment {
+function buildWeaponInfo(h: HombrewEquipment): WeaponInfo {
+  const props: string[] = [];
+  if (h.weaponIsLight) props.push('light');
+  if (h.weaponIsTwoHanded) props.push('two-handed');
+  if (h.weaponIsFinesse) props.push('finesse');
+  if (h.weaponIsThrown) props.push('thrown');
+  if (h.weaponRangeType === 'ranged') props.push('ammunition');
   return {
+    category: h.weaponCategory,
+    range: h.weaponRangeType,
+    damage: { dice: h.weaponDamageDice || '1к6', type: h.weaponDamageType || 'bludgeoning' },
+    reach: h.weaponRangeType === 'melee' ? { normal: 5 } : { normal: 80, long: 320 },
+    properties: props,
+  };
+}
+
+function buildArmorInfo(h: HombrewEquipment): ArmorInfo {
+  const cat = h.armorCategory;
+  return {
+    category: cat,
+    base: h.armorBase,
+    dexBonus: cat !== 'heavy',
+    maxDex: cat === 'medium' ? 2 : undefined,
+    strMinimum: 0,
+    stealthDisadvantage: h.armorStealthDisadvantage,
+  };
+}
+
+function weaponProfCategory(h: HombrewEquipment): string {
+  return h.weaponCategory === 'simple' ? 'simple-weapons' : 'martial-weapons';
+}
+
+function armorProfCategory(h: HombrewEquipment): string {
+  const map: Record<HombrewEquipment['armorCategory'], string> = {
+    light: 'light-armor',
+    medium: 'medium-armor',
+    heavy: 'heavy-armor',
+    shield: 'shields',
+  };
+  return map[h.armorCategory];
+}
+
+export function hombrewToEquipment(h: HombrewEquipment): Equipment {
+  const base: Equipment = {
     id: h.id,
     name: { ru: h.nameRu, en: h.nameEn || h.nameRu },
     categories: ['adventuring-gear'],
@@ -33,6 +87,13 @@ export function hombrewToEquipment(h: HombrewEquipment): Equipment {
     weight: h.weight ?? undefined,
     description: h.descriptionRu ? { ru: h.descriptionRu, en: h.descriptionRu } : undefined,
   };
+  if (h.kind === 'weapon') {
+    return { ...base, categories: [weaponProfCategory(h)], weapon: buildWeaponInfo(h) };
+  }
+  if (h.kind === 'armor') {
+    return { ...base, categories: [armorProfCategory(h)], armor: buildArmorInfo(h) };
+  }
+  return base;
 }
 
 export async function loadHombrewEquipment(db: SQLiteDatabase): Promise<HombrewEquipment[]> {
@@ -44,23 +105,35 @@ export async function loadHombrewEquipment(db: SQLiteDatabase): Promise<HombrewE
 
 export async function saveHombrewEquipment(db: SQLiteDatabase, item: HombrewEquipment): Promise<void> {
   await db.runAsync(
-    `INSERT INTO homebrew_equipment (id, name_ru, name_en, description_ru, weight, cost_amount, cost_unit, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `INSERT INTO homebrew_equipment
+       (id, name_ru, name_en, description_ru, weight, cost_amount, cost_unit, created_at,
+        kind, weapon_damage_dice, weapon_damage_type, weapon_range_type, weapon_category,
+        weapon_is_light, weapon_is_two_handed, weapon_is_finesse, weapon_is_thrown,
+        armor_category, armor_base, armor_stealth)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
      ON CONFLICT(id) DO UPDATE SET
-       name_ru = excluded.name_ru,
-       name_en = excluded.name_en,
-       description_ru = excluded.description_ru,
-       weight = excluded.weight,
-       cost_amount = excluded.cost_amount,
-       cost_unit = excluded.cost_unit`,
-    item.id,
-    item.nameRu,
-    item.nameEn,
-    item.descriptionRu,
-    item.weight,
-    item.costAmount,
-    item.costUnit,
-    item.createdAt,
+       name_ru=excluded.name_ru, name_en=excluded.name_en,
+       description_ru=excluded.description_ru, weight=excluded.weight,
+       cost_amount=excluded.cost_amount, cost_unit=excluded.cost_unit,
+       kind=excluded.kind,
+       weapon_damage_dice=excluded.weapon_damage_dice,
+       weapon_damage_type=excluded.weapon_damage_type,
+       weapon_range_type=excluded.weapon_range_type,
+       weapon_category=excluded.weapon_category,
+       weapon_is_light=excluded.weapon_is_light,
+       weapon_is_two_handed=excluded.weapon_is_two_handed,
+       weapon_is_finesse=excluded.weapon_is_finesse,
+       weapon_is_thrown=excluded.weapon_is_thrown,
+       armor_category=excluded.armor_category,
+       armor_base=excluded.armor_base,
+       armor_stealth=excluded.armor_stealth`,
+    item.id, item.nameRu, item.nameEn, item.descriptionRu,
+    item.weight, item.costAmount, item.costUnit, item.createdAt,
+    item.kind,
+    item.weaponDamageDice, item.weaponDamageType, item.weaponRangeType, item.weaponCategory,
+    item.weaponIsLight ? 1 : 0, item.weaponIsTwoHanded ? 1 : 0,
+    item.weaponIsFinesse ? 1 : 0, item.weaponIsThrown ? 1 : 0,
+    item.armorCategory, item.armorBase, item.armorStealthDisadvantage ? 1 : 0,
   );
 }
 

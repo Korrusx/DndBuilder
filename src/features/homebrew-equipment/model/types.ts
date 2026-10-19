@@ -1,5 +1,10 @@
 import type { Coin } from '@/shared/content';
 
+export type HombrewItemKind = 'gear' | 'weapon' | 'armor';
+export type HombrewWeaponRangeType = 'melee' | 'ranged';
+export type HombrewWeaponCategory = 'simple' | 'martial';
+export type HombrewArmorCategory = 'light' | 'medium' | 'heavy' | 'shield';
+
 export type HombrewEquipment = {
   id: string;
   nameRu: string;
@@ -9,6 +14,20 @@ export type HombrewEquipment = {
   costAmount: number;
   costUnit: Coin;
   createdAt: string;
+  kind: HombrewItemKind;
+  // weapon
+  weaponDamageDice: string;
+  weaponDamageType: string;
+  weaponRangeType: HombrewWeaponRangeType;
+  weaponCategory: HombrewWeaponCategory;
+  weaponIsLight: boolean;
+  weaponIsTwoHanded: boolean;
+  weaponIsFinesse: boolean;
+  weaponIsThrown: boolean;
+  // armor
+  armorCategory: HombrewArmorCategory;
+  armorBase: number;
+  armorStealthDisadvantage: boolean;
 };
 
 export type HombrewEquipmentRow = {
@@ -20,4 +39,16 @@ export type HombrewEquipmentRow = {
   cost_amount: number;
   cost_unit: string;
   created_at: string;
+  kind: string;
+  weapon_damage_dice: string;
+  weapon_damage_type: string;
+  weapon_range_type: string;
+  weapon_category: string;
+  weapon_is_light: number;
+  weapon_is_two_handed: number;
+  weapon_is_finesse: number;
+  weapon_is_thrown: number;
+  armor_category: string;
+  armor_base: number;
+  armor_stealth: number;
 };

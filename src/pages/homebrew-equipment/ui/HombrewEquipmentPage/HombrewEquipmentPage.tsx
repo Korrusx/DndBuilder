@@ -1,10 +1,9 @@
 import { Alert, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { useState } from 'react';
 
-import type { HombrewEquipment } from '@/features/homebrew-equipment';
+import type { HombrewArmorCategory, HombrewEquipment, HombrewItemKind, HombrewWeaponCategory, HombrewWeaponRangeType } from '@/features/homebrew-equipment';
 import { hombrewToEquipment, newHombrewId, useHombrewEquipment } from '@/features/homebrew-equipment';
-import { coinAbbr, removeHombrewItem, updateHombrewItem } from '@/shared/content';
-import { injectHomebrew } from '@/shared/content';
+import { coinAbbr, injectHomebrew, removeHombrewItem, updateHombrewItem } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, BottomSheet, Button } from '@/shared/ui';
 
@@ -12,9 +11,48 @@ import { styles } from './HombrewEquipmentPage.styles';
 
 type Coin = 'gp' | 'sp' | 'cp';
 const COINS: Coin[] = ['gp', 'sp', 'cp'];
+const DAMAGE_DICE = ['1к4', '1к6', '1к8', '1к10', '1к12', '2к6'];
+const DAMAGE_TYPES_RU = ['рубящий', 'колющий', 'дробящий', 'огнём', 'холодом', 'молнией'];
 
-function emptyForm(): Omit<HombrewEquipment, 'id' | 'createdAt'> {
-  return { nameRu: '', nameEn: '', descriptionRu: '', weight: null, costAmount: 0, costUnit: 'gp' };
+type FormState = Omit<HombrewEquipment, 'id' | 'createdAt'>;
+
+function emptyForm(): FormState {
+  return {
+    nameRu: '', nameEn: '', descriptionRu: '',
+    weight: null, costAmount: 0, costUnit: 'gp',
+    kind: 'gear',
+    weaponDamageDice: '1к6', weaponDamageType: 'рубящий',
+    weaponRangeType: 'melee', weaponCategory: 'simple',
+    weaponIsLight: false, weaponIsTwoHanded: false, weaponIsFinesse: false, weaponIsThrown: false,
+    armorCategory: 'light', armorBase: 11, armorStealthDisadvantage: false,
+  };
+}
+
+
+function BtnGroup<T extends string>({
+  value, options, onPress,
+}: { value: T; options: { v: T; label: string }[]; onPress: (v: T) => void }) {
+  return (
+    <View style={styles.btnRow}>
+      {options.map((o) => (
+        <Pressable
+          key={o.v}
+          style={[styles.btn, value === o.v && styles.btnActive]}
+          onPress={() => onPress(o.v)}
+        >
+          <AppText style={[styles.btnText, value === o.v && styles.btnTextActive]}>{o.label}</AppText>
+        </Pressable>
+      ))}
+    </View>
+  );
+}
+
+function CheckBtn({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
+  return (
+    <Pressable style={[styles.checkBtn, active && styles.checkBtnActive]} onPress={onPress}>
+      <AppText style={[styles.checkText, active && styles.checkTextActive]}>{label}</AppText>
+    </Pressable>
+  );
 }
 
 export function HombrewEquipmentPage() {
@@ -22,7 +60,10 @@ export function HombrewEquipmentPage() {
   const { items, save, remove } = useHombrewEquipment();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState(emptyForm());
+  const [form, setForm] = useState<FormState>(emptyForm());
+
+  const set = <K extends keyof FormState>(key: K, val: FormState[K]) =>
+    setForm((f) => ({ ...f, [key]: val }));
 
   function openCreate() {
     setEditingId(null);
@@ -32,14 +73,8 @@ export function HombrewEquipmentPage() {
 
   function openEdit(item: HombrewEquipment) {
     setEditingId(item.id);
-    setForm({
-      nameRu: item.nameRu,
-      nameEn: item.nameEn,
-      descriptionRu: item.descriptionRu,
-      weight: item.weight,
-      costAmount: item.costAmount,
-      costUnit: item.costUnit,
-    });
+    const { id: _id, createdAt: _c, ...rest } = item;
+    setForm(rest);
     setSheetOpen(true);
   }
 
@@ -47,22 +82,17 @@ export function HombrewEquipmentPage() {
     if (!form.nameRu.trim()) return;
     const id = editingId ?? newHombrewId();
     const item: HombrewEquipment = {
+      ...form,
       id,
       nameRu: form.nameRu.trim(),
       nameEn: form.nameEn.trim(),
       descriptionRu: form.descriptionRu.trim(),
-      weight: form.weight,
-      costAmount: form.costAmount,
-      costUnit: form.costUnit,
       createdAt: editingId ? '' : new Date().toISOString(),
     };
     await save(item);
     const eq = hombrewToEquipment(item);
-    if (editingId) {
-      updateHombrewItem(eq);
-    } else {
-      injectHomebrew([eq]);
-    }
+    if (editingId) updateHombrewItem(eq);
+    else injectHomebrew([eq]);
     setSheetOpen(false);
   }
 
@@ -72,13 +102,16 @@ export function HombrewEquipmentPage() {
       {
         text: t('common.delete'),
         style: 'destructive',
-        onPress: async () => {
-          await remove(item.id);
-          removeHombrewItem(item.id);
-        },
+        onPress: async () => { await remove(item.id); removeHombrewItem(item.id); },
       },
     ]);
   }
+
+  const kindOptions: { v: HombrewItemKind; label: string }[] = [
+    { v: 'gear', label: t('homebrew.kindGear') },
+    { v: 'weapon', label: t('homebrew.kindWeapon') },
+    { v: 'armor', label: t('homebrew.kindArmor') },
+  ];
 
   return (
     <View style={styles.container}>
@@ -87,25 +120,18 @@ export function HombrewEquipmentPage() {
           <AppText variant="secondary" style={styles.empty}>{t('homebrew.empty')}</AppText>
         ) : (
           items.map((item) => (
-            <Pressable
-              key={item.id}
-              style={styles.row}
-              onPress={() => openEdit(item)}
-              accessibilityRole="button"
-            >
+            <Pressable key={item.id} style={styles.row} onPress={() => openEdit(item)} accessibilityRole="button">
               <View style={styles.rowMain}>
                 <AppText style={styles.rowName}>{item.nameRu}</AppText>
                 <AppText style={styles.rowSub}>
-                  {item.costAmount} {coinAbbr(item.costUnit)}
-                  {item.weight ? `  ·  ${item.weight} ф.` : ''}
+                  {item.kind === 'weapon'
+                    ? `${item.weaponDamageDice} ${item.weaponDamageType}`
+                    : item.kind === 'armor'
+                    ? t(`homebrew.armorCat.${item.armorCategory}` as 'homebrew.armorCat.light')
+                    : `${item.costAmount} ${coinAbbr(item.costUnit)}`}
                 </AppText>
               </View>
-              <Pressable
-                style={styles.rowDelete}
-                onPress={() => confirmDelete(item)}
-                hitSlop={8}
-                accessibilityLabel={t('common.delete')}
-              >
+              <Pressable style={styles.rowDelete} onPress={() => confirmDelete(item)} hitSlop={8}>
                 <AppText style={styles.rowDeleteText}>×</AppText>
               </Pressable>
             </Pressable>
@@ -118,46 +144,36 @@ export function HombrewEquipmentPage() {
       </Pressable>
 
       <BottomSheet visible={sheetOpen} title={editingId ? t('homebrew.edit') : t('homebrew.create')} onClose={() => setSheetOpen(false)}>
+
+        {/* Тип предмета */}
+        <AppText style={styles.formLabel}>{t('homebrew.kind')}</AppText>
+        <BtnGroup<HombrewItemKind> value={form.kind} options={kindOptions} onPress={(v) => set('kind', v)} />
+
+        {/* Основные поля */}
         <AppText style={styles.formLabel}>{t('homebrew.nameRu')} *</AppText>
-        <TextInput
-          style={styles.formInput}
-          value={form.nameRu}
-          onChangeText={(v) => setForm((f) => ({ ...f, nameRu: v }))}
-          placeholder={t('homebrew.namePlaceholder')}
-          placeholderTextColor="#4A525D"
-        />
+        <TextInput style={styles.formInput} value={form.nameRu}
+          onChangeText={(v) => set('nameRu', v)}
+          placeholder={t('homebrew.namePlaceholder')} placeholderTextColor="#4A525D" />
 
         <AppText style={styles.formLabel}>{t('homebrew.nameEn')}</AppText>
-        <TextInput
-          style={styles.formInput}
-          value={form.nameEn}
-          onChangeText={(v) => setForm((f) => ({ ...f, nameEn: v }))}
-          placeholder={t('homebrew.nameEnPlaceholder')}
-          placeholderTextColor="#4A525D"
-        />
+        <TextInput style={styles.formInput} value={form.nameEn}
+          onChangeText={(v) => set('nameEn', v)}
+          placeholder={t('homebrew.nameEnPlaceholder')} placeholderTextColor="#4A525D" />
 
         <View style={styles.formRow}>
           <View style={styles.formRowItem}>
             <AppText style={styles.formLabel}>{t('homebrew.cost')}</AppText>
-            <TextInput
-              style={styles.formInput}
-              value={String(form.costAmount)}
-              onChangeText={(v) => setForm((f) => ({ ...f, costAmount: parseInt(v.replace(/\D/g, ''), 10) || 0 }))}
-              keyboardType="number-pad"
-            />
+            <TextInput style={styles.formInput} value={String(form.costAmount)}
+              onChangeText={(v) => set('costAmount', parseInt(v.replace(/\D/g, ''), 10) || 0)}
+              keyboardType="number-pad" />
           </View>
           <View style={styles.formRowItem}>
             <AppText style={styles.formLabel}>{t('homebrew.unit')}</AppText>
-            <View style={styles.formSegRow}>
+            <View style={[styles.btnRow, { marginTop: 4 }]}>
               {COINS.map((c) => (
-                <Pressable
-                  key={c}
-                  style={[styles.formUnitBtn, form.costUnit === c && styles.formUnitBtnActive]}
-                  onPress={() => setForm((f) => ({ ...f, costUnit: c }))}
-                >
-                  <AppText style={[styles.formUnitText, form.costUnit === c && styles.formUnitTextActive]}>
-                    {coinAbbr(c)}
-                  </AppText>
+                <Pressable key={c} style={[styles.btn, form.costUnit === c && styles.btnActive]}
+                  onPress={() => set('costUnit', c)}>
+                  <AppText style={[styles.btnText, form.costUnit === c && styles.btnTextActive]}>{coinAbbr(c)}</AppText>
                 </Pressable>
               ))}
             </View>
@@ -165,24 +181,112 @@ export function HombrewEquipmentPage() {
         </View>
 
         <AppText style={styles.formLabel}>{t('homebrew.weight')}</AppText>
-        <TextInput
-          style={styles.formInput}
+        <TextInput style={styles.formInput}
           value={form.weight !== null ? String(form.weight) : ''}
-          onChangeText={(v) => setForm((f) => ({ ...f, weight: v ? parseFloat(v.replace(',', '.')) || null : null }))}
-          keyboardType="decimal-pad"
-          placeholder="—"
-          placeholderTextColor="#4A525D"
-        />
+          onChangeText={(v) => set('weight', v ? parseFloat(v.replace(',', '.')) || null : null)}
+          keyboardType="decimal-pad" placeholder="—" placeholderTextColor="#4A525D" />
+
+        {/* Секция: оружие */}
+        {form.kind === 'weapon' && (
+          <>
+            <AppText style={styles.formLabel}>{t('homebrew.weaponCategory')}</AppText>
+            <BtnGroup<HombrewWeaponCategory>
+              value={form.weaponCategory}
+              options={[
+                { v: 'simple', label: t('homebrew.weaponSimple') },
+                { v: 'martial', label: t('homebrew.weaponMartial') },
+              ]}
+              onPress={(v) => set('weaponCategory', v)}
+            />
+
+            <AppText style={styles.formLabel}>{t('homebrew.weaponRangeType')}</AppText>
+            <BtnGroup<HombrewWeaponRangeType>
+              value={form.weaponRangeType}
+              options={[
+                { v: 'melee', label: t('homebrew.weaponMelee') },
+                { v: 'ranged', label: t('homebrew.weaponRanged') },
+              ]}
+              onPress={(v) => set('weaponRangeType', v)}
+            />
+
+            <AppText style={styles.formLabel}>{t('homebrew.weaponDamageDice')}</AppText>
+            <View style={styles.diceRow}>
+              {DAMAGE_DICE.map((d) => (
+                <Pressable key={d} style={[styles.diceBtn, form.weaponDamageDice === d && styles.diceBtnActive]}
+                  onPress={() => set('weaponDamageDice', d)}>
+                  <AppText style={[styles.diceText, form.weaponDamageDice === d && styles.diceTextActive]}>{d}</AppText>
+                </Pressable>
+              ))}
+            </View>
+
+            <AppText style={styles.formLabel}>{t('homebrew.weaponDamageType')}</AppText>
+            <View style={styles.diceRow}>
+              {DAMAGE_TYPES_RU.map((d) => (
+                <Pressable key={d} style={[styles.diceBtn, form.weaponDamageType === d && styles.diceBtnActive]}
+                  onPress={() => set('weaponDamageType', d)}>
+                  <AppText style={[styles.diceText, form.weaponDamageType === d && styles.diceTextActive]}>{d}</AppText>
+                </Pressable>
+              ))}
+            </View>
+
+            <AppText style={styles.formLabel}>{t('homebrew.weaponProps')}</AppText>
+            <View style={styles.checkGrid}>
+              <CheckBtn label={t('homebrew.propLight')} active={form.weaponIsLight} onPress={() => set('weaponIsLight', !form.weaponIsLight)} />
+              <CheckBtn label={t('homebrew.propTwoHanded')} active={form.weaponIsTwoHanded} onPress={() => set('weaponIsTwoHanded', !form.weaponIsTwoHanded)} />
+              <CheckBtn label={t('homebrew.propFinesse')} active={form.weaponIsFinesse} onPress={() => set('weaponIsFinesse', !form.weaponIsFinesse)} />
+              {form.weaponRangeType === 'melee' && (
+                <CheckBtn label={t('homebrew.propThrown')} active={form.weaponIsThrown} onPress={() => set('weaponIsThrown', !form.weaponIsThrown)} />
+              )}
+            </View>
+          </>
+        )}
+
+        {/* Секция: броня */}
+        {form.kind === 'armor' && (
+          <>
+            <AppText style={styles.formLabel}>{t('homebrew.armorKind')}</AppText>
+            <BtnGroup<HombrewArmorCategory>
+              value={form.armorCategory}
+              options={[
+                { v: 'light', label: t('homebrew.armorCat.light') },
+                { v: 'medium', label: t('homebrew.armorCat.medium') },
+                { v: 'heavy', label: t('homebrew.armorCat.heavy') },
+                { v: 'shield', label: t('homebrew.armorCat.shield') },
+              ]}
+              onPress={(v) => set('armorCategory', v)}
+            />
+
+            {form.armorCategory !== 'shield' && (
+              <>
+                <AppText style={styles.formLabel}>{t('homebrew.armorBase')}</AppText>
+                <TextInput style={styles.formInput}
+                  value={String(form.armorBase)}
+                  onChangeText={(v) => set('armorBase', parseInt(v.replace(/\D/g, ''), 10) || 0)}
+                  keyboardType="number-pad" />
+                <AppText style={[styles.formLabel, { marginTop: 4, fontSize: 12 }]}>
+                  {form.armorCategory === 'light' ? t('homebrew.armorHintLight')
+                    : form.armorCategory === 'medium' ? t('homebrew.armorHintMedium')
+                    : t('homebrew.armorHintHeavy')}
+                </AppText>
+              </>
+            )}
+
+            <AppText style={styles.formLabel}>{t('homebrew.armorStealth')}</AppText>
+            <View style={styles.btnRow}>
+              <Pressable style={[styles.btn, form.armorStealthDisadvantage && styles.btnActive]}
+                onPress={() => set('armorStealthDisadvantage', !form.armorStealthDisadvantage)}>
+                <AppText style={[styles.btnText, form.armorStealthDisadvantage && styles.btnTextActive]}>
+                  {form.armorStealthDisadvantage ? t('homebrew.armorStealthYes') : t('homebrew.armorStealthNo')}
+                </AppText>
+              </Pressable>
+            </View>
+          </>
+        )}
 
         <AppText style={styles.formLabel}>{t('homebrew.description')}</AppText>
-        <TextInput
-          style={[styles.formInput, { height: 80, textAlignVertical: 'top' }]}
-          value={form.descriptionRu}
-          onChangeText={(v) => setForm((f) => ({ ...f, descriptionRu: v }))}
-          multiline
-          placeholder={t('homebrew.descriptionPlaceholder')}
-          placeholderTextColor="#4A525D"
-        />
+        <TextInput style={[styles.formInput, { height: 72, textAlignVertical: 'top' }]}
+          value={form.descriptionRu} onChangeText={(v) => set('descriptionRu', v)}
+          multiline placeholder={t('homebrew.descriptionPlaceholder')} placeholderTextColor="#4A525D" />
 
         <View style={styles.formSave}>
           <Button title={t('common.done')} disabled={!form.nameRu.trim()} onPress={handleSave} />

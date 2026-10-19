@@ -47,16 +47,45 @@ export const styles = StyleSheet.create({
   },
   formRow: { flexDirection: 'row', gap: 8 },
   formRowItem: { flex: 1 },
-  formSegRow: { flexDirection: 'row', gap: 8, marginTop: 4 },
-  formUnitBtn: {
+
+  // Кнопки-переключатели (единицы монет, тип, категория)
+  btnRow: { flexDirection: 'row', gap: 6 },
+  btn: {
     flex: 1,
     paddingVertical: 10,
     borderRadius: 10,
     backgroundColor: colors.surface2,
     alignItems: 'center',
   },
-  formUnitBtnActive: { backgroundColor: colors.accentBg },
-  formUnitText: { color: colors.textSecondary, fontSize: 15 },
-  formUnitTextActive: { color: colors.accent },
+  btnActive: { backgroundColor: colors.accentBg },
+  btnText: { color: colors.textSecondary, fontSize: 14 },
+  btnTextActive: { color: colors.accent, fontWeight: '600' },
+
+  // Чекбоксы свойств оружия
+  checkGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4 },
+  checkBtn: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: colors.surface2,
+  },
+  checkBtnActive: { backgroundColor: colors.accentBg },
+  checkText: { fontSize: 14, color: colors.textSecondary },
+  checkTextActive: { color: colors.accent, fontWeight: '600' },
+
+  // Кубики урона
+  diceRow: { flexDirection: 'row', gap: 6, flexWrap: 'wrap', marginTop: 4 },
+  diceBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: colors.surface2,
+    minWidth: 44,
+    alignItems: 'center',
+  },
+  diceBtnActive: { backgroundColor: colors.accentBg },
+  diceText: { fontSize: 14, color: colors.textSecondary },
+  diceTextActive: { color: colors.accent, fontWeight: '600' },
+
   formSave: { marginTop: 20 },
 });
