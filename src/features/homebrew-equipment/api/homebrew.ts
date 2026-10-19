@@ -30,9 +30,12 @@ function rowToHombrew(r: HombrewEquipmentRow): HombrewEquipment {
     weaponIsTwoHanded: !!r.weapon_is_two_handed,
     weaponIsFinesse: !!r.weapon_is_finesse,
     weaponIsThrown: !!r.weapon_is_thrown,
+    additionalDamageDice: r.add_damage_dice || '',
+    additionalDamageType: r.add_damage_type || '',
     armorCategory: (r.armor_category as HombrewEquipment['armorCategory']) || 'light',
     armorBase: r.armor_base || 11,
     armorStealthDisadvantage: !!r.armor_stealth,
+    magicBonus: r.magic_bonus ?? 0,
   };
 }
 
@@ -86,9 +89,18 @@ export function hombrewToEquipment(h: HombrewEquipment): Equipment {
     cost: { amount: h.costAmount, unit: h.costUnit },
     weight: h.weight ?? undefined,
     description: h.descriptionRu ? { ru: h.descriptionRu, en: h.descriptionRu } : undefined,
+    ...(h.magicBonus > 0 ? { magicBonus: h.magicBonus } : {}),
   };
   if (h.kind === 'weapon') {
-    return { ...base, categories: [weaponProfCategory(h)], weapon: buildWeaponInfo(h) };
+    const additionalDamage = h.additionalDamageDice
+      ? [{ dice: h.additionalDamageDice, type: h.additionalDamageType || h.additionalDamageDice }]
+      : undefined;
+    return {
+      ...base,
+      categories: [weaponProfCategory(h)],
+      weapon: buildWeaponInfo(h),
+      ...(additionalDamage ? { additionalDamage } : {}),
+    };
   }
   if (h.kind === 'armor') {
     return { ...base, categories: [armorProfCategory(h)], armor: buildArmorInfo(h) };
@@ -109,8 +121,10 @@ export async function saveHombrewEquipment(db: SQLiteDatabase, item: HombrewEqui
        (id, name_ru, name_en, description_ru, weight, cost_amount, cost_unit, created_at,
         kind, weapon_damage_dice, weapon_damage_type, weapon_range_type, weapon_category,
         weapon_is_light, weapon_is_two_handed, weapon_is_finesse, weapon_is_thrown,
-        armor_category, armor_base, armor_stealth)
-     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        add_damage_dice, add_damage_type,
+        armor_category, armor_base, armor_stealth,
+        magic_bonus)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
      ON CONFLICT(id) DO UPDATE SET
        name_ru=excluded.name_ru, name_en=excluded.name_en,
        description_ru=excluded.description_ru, weight=excluded.weight,
@@ -124,16 +138,21 @@ export async function saveHombrewEquipment(db: SQLiteDatabase, item: HombrewEqui
        weapon_is_two_handed=excluded.weapon_is_two_handed,
        weapon_is_finesse=excluded.weapon_is_finesse,
        weapon_is_thrown=excluded.weapon_is_thrown,
+       add_damage_dice=excluded.add_damage_dice,
+       add_damage_type=excluded.add_damage_type,
        armor_category=excluded.armor_category,
        armor_base=excluded.armor_base,
-       armor_stealth=excluded.armor_stealth`,
+       armor_stealth=excluded.armor_stealth,
+       magic_bonus=excluded.magic_bonus`,
     item.id, item.nameRu, item.nameEn, item.descriptionRu,
     item.weight, item.costAmount, item.costUnit, item.createdAt,
     item.kind,
     item.weaponDamageDice, item.weaponDamageType, item.weaponRangeType, item.weaponCategory,
     item.weaponIsLight ? 1 : 0, item.weaponIsTwoHanded ? 1 : 0,
     item.weaponIsFinesse ? 1 : 0, item.weaponIsThrown ? 1 : 0,
+    item.additionalDamageDice, item.additionalDamageType,
     item.armorCategory, item.armorBase, item.armorStealthDisadvantage ? 1 : 0,
+    item.magicBonus,
   );
 }
 

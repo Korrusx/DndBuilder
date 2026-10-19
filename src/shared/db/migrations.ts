@@ -62,6 +62,16 @@ export const MIGRATIONS: Migration[] = [
       `);
     },
   },
+  {
+    version: 4,
+    up: async (db) => {
+      await db.execAsync(`
+        ALTER TABLE homebrew_equipment ADD COLUMN magic_bonus INTEGER NOT NULL DEFAULT 0;
+        ALTER TABLE homebrew_equipment ADD COLUMN add_damage_dice TEXT NOT NULL DEFAULT '';
+        ALTER TABLE homebrew_equipment ADD COLUMN add_damage_type TEXT NOT NULL DEFAULT '';
+      `);
+    },
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;

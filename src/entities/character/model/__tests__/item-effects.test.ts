@@ -25,19 +25,19 @@ const attackOf = (s: ReturnType<typeof computeSheet>, id: string) =>
 /** Создаёт тестовый Equipment с оружием; добавляет в content.equipment, удаляет после теста. */
 function withTestEquipment(item: Equipment, fn: () => void) {
   content.equipment.push(item);
-  idx.equipment.set(item.id, item);
+  (idx.equipment as Map<string, Equipment>).set(item.id, item);
   try { fn(); } finally {
     content.equipment.splice(content.equipment.indexOf(item), 1);
-    idx.equipment.delete(item.id);
+    (idx.equipment as Map<string, Equipment>).delete(item.id);
   }
 }
 
 function withTestMagicItem(item: MagicItem, fn: () => void) {
   content.magicItems.push(item);
-  idx.magicItems.set(item.id, item);
+  (idx.magicItems as Map<string, MagicItem>).set(item.id, item);
   try { fn(); } finally {
     content.magicItems.splice(content.magicItems.indexOf(item), 1);
-    idx.magicItems.delete(item.id);
+    (idx.magicItems as Map<string, MagicItem>).delete(item.id);
   }
 }
 

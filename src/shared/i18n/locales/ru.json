@@ -888,6 +888,11 @@
     "armorHintHeavy": "Итоговый КЗ = база (ЛОВ не учитывается)",
     "armorStealth": "Помеха к скрытности",
     "armorStealthYes": "Да — помеха",
-    "armorStealthNo": "Нет"
+    "armorStealthNo": "Нет",
+    "magicBonus": "Магический бонус",
+    "magicBonusNone": "Без магии",
+    "additionalDamage": "Дополнительный урон (необязательно)",
+    "additionalDamageDice": "Кость",
+    "additionalDamageType": "Тип"
   }
 }

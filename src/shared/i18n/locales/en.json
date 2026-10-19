@@ -879,6 +879,11 @@
     "armorHintHeavy": "Final AC = base (DEX ignored)",
     "armorStealth": "Stealth disadvantage",
     "armorStealthYes": "Yes — disadvantage",
-    "armorStealthNo": "No"
+    "armorStealthNo": "No",
+    "magicBonus": "Magic bonus",
+    "magicBonusNone": "Not magic",
+    "additionalDamage": "Extra damage (optional)",
+    "additionalDamageDice": "Die",
+    "additionalDamageType": "Type"
   }
 }

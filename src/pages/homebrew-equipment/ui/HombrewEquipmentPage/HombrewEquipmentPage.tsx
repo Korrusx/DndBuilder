@@ -13,6 +13,7 @@ type Coin = 'gp' | 'sp' | 'cp';
 const COINS: Coin[] = ['gp', 'sp', 'cp'];
 const DAMAGE_DICE = ['1к4', '1к6', '1к8', '1к10', '1к12', '2к6'];
 const DAMAGE_TYPES_RU = ['рубящий', 'колющий', 'дробящий', 'огнём', 'холодом', 'молнией'];
+const MAGIC_BONUSES = [0, 1, 2, 3];
 
 type FormState = Omit<HombrewEquipment, 'id' | 'createdAt'>;
 
@@ -24,7 +25,9 @@ function emptyForm(): FormState {
     weaponDamageDice: '1к6', weaponDamageType: 'рубящий',
     weaponRangeType: 'melee', weaponCategory: 'simple',
     weaponIsLight: false, weaponIsTwoHanded: false, weaponIsFinesse: false, weaponIsThrown: false,
+    additionalDamageDice: '', additionalDamageType: 'огнём',
     armorCategory: 'light', armorBase: 11, armorStealthDisadvantage: false,
+    magicBonus: 0,
   };
 }
 
@@ -125,9 +128,12 @@ export function HombrewEquipmentPage() {
                 <AppText style={styles.rowName}>{item.nameRu}</AppText>
                 <AppText style={styles.rowSub}>
                   {item.kind === 'weapon'
-                    ? `${item.weaponDamageDice} ${item.weaponDamageType}`
+                    ? [
+                        `${item.weaponDamageDice}${item.magicBonus > 0 ? `+${item.magicBonus}` : ''} ${item.weaponDamageType}`,
+                        item.additionalDamageDice ? `+ ${item.additionalDamageDice} ${item.additionalDamageType}` : '',
+                      ].filter(Boolean).join(' ')
                     : item.kind === 'armor'
-                    ? t(`homebrew.armorCat.${item.armorCategory}` as 'homebrew.armorCat.light')
+                    ? `${t(`homebrew.armorCat.${item.armorCategory}` as 'homebrew.armorCat.light')}${item.magicBonus > 0 ? ` +${item.magicBonus}` : ''}`
                     : `${item.costAmount} ${coinAbbr(item.costUnit)}`}
                 </AppText>
               </View>
@@ -238,6 +244,51 @@ export function HombrewEquipmentPage() {
                 <CheckBtn label={t('homebrew.propThrown')} active={form.weaponIsThrown} onPress={() => set('weaponIsThrown', !form.weaponIsThrown)} />
               )}
             </View>
+
+            <AppText style={styles.formLabel}>{t('homebrew.magicBonus')}</AppText>
+            <View style={styles.btnRow}>
+              {MAGIC_BONUSES.map((n) => (
+                <Pressable key={n} style={[styles.btn, form.magicBonus === n && styles.btnActive]}
+                  onPress={() => set('magicBonus', n)}>
+                  <AppText style={[styles.btnText, form.magicBonus === n && styles.btnTextActive]}>
+                    {n === 0 ? '—' : `+${n}`}
+                  </AppText>
+                </Pressable>
+              ))}
+            </View>
+
+            <AppText style={styles.formLabel}>{t('homebrew.additionalDamage')}</AppText>
+            <View style={styles.formRow}>
+              <View style={[styles.formRowItem, { flex: 1 }]}>
+                <AppText style={styles.formLabel}>{t('homebrew.additionalDamageDice')}</AppText>
+                <View style={styles.diceRow}>
+                  <Pressable
+                    style={[styles.diceBtn, form.additionalDamageDice === '' && styles.diceBtnActive]}
+                    onPress={() => set('additionalDamageDice', '')}>
+                    <AppText style={[styles.diceText, form.additionalDamageDice === '' && styles.diceTextActive]}>—</AppText>
+                  </Pressable>
+                  {DAMAGE_DICE.map((d) => (
+                    <Pressable key={d} style={[styles.diceBtn, form.additionalDamageDice === d && styles.diceBtnActive]}
+                      onPress={() => set('additionalDamageDice', d)}>
+                      <AppText style={[styles.diceText, form.additionalDamageDice === d && styles.diceTextActive]}>{d}</AppText>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            </View>
+            {form.additionalDamageDice !== '' && (
+              <>
+                <AppText style={styles.formLabel}>{t('homebrew.additionalDamageType')}</AppText>
+                <View style={styles.diceRow}>
+                  {DAMAGE_TYPES_RU.map((d) => (
+                    <Pressable key={d} style={[styles.diceBtn, form.additionalDamageType === d && styles.diceBtnActive]}
+                      onPress={() => set('additionalDamageType', d)}>
+                      <AppText style={[styles.diceText, form.additionalDamageType === d && styles.diceTextActive]}>{d}</AppText>
+                    </Pressable>
+                  ))}
+                </View>
+              </>
+            )}
           </>
         )}
 
@@ -279,6 +330,18 @@ export function HombrewEquipmentPage() {
                   {form.armorStealthDisadvantage ? t('homebrew.armorStealthYes') : t('homebrew.armorStealthNo')}
                 </AppText>
               </Pressable>
+            </View>
+
+            <AppText style={styles.formLabel}>{t('homebrew.magicBonus')}</AppText>
+            <View style={styles.btnRow}>
+              {MAGIC_BONUSES.map((n) => (
+                <Pressable key={n} style={[styles.btn, form.magicBonus === n && styles.btnActive]}
+                  onPress={() => set('magicBonus', n)}>
+                  <AppText style={[styles.btnText, form.magicBonus === n && styles.btnTextActive]}>
+                    {n === 0 ? '—' : `+${n}`}
+                  </AppText>
+                </Pressable>
+              ))}
             </View>
           </>
         )}

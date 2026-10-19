@@ -24,10 +24,15 @@ export type HombrewEquipment = {
   weaponIsTwoHanded: boolean;
   weaponIsFinesse: boolean;
   weaponIsThrown: boolean;
+  /** Дополнительный урон (например, 1к6 огнём). Пустая строка — нет доп. урона. */
+  additionalDamageDice: string;
+  additionalDamageType: string;
   // armor
   armorCategory: HombrewArmorCategory;
   armorBase: number;
   armorStealthDisadvantage: boolean;
+  /** Магический бонус к атаке/урону (оружие) или к КЗ (броня/щит). 0 = не магический. */
+  magicBonus: number;
 };
 
 export type HombrewEquipmentRow = {
@@ -48,7 +53,10 @@ export type HombrewEquipmentRow = {
   weapon_is_two_handed: number;
   weapon_is_finesse: number;
   weapon_is_thrown: number;
+  add_damage_dice: string;
+  add_damage_type: string;
   armor_category: string;
   armor_base: number;
   armor_stealth: number;
+  magic_bonus: number;
 };
