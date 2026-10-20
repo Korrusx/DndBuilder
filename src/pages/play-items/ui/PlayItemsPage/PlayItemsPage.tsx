@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react';
-import { Alert, Pressable, ScrollView, TextInput, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Alert, InteractionManager, Pressable, ScrollView, TextInput, View } from 'react-native';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { addToInventory, computeSheet, equipToSlot, fitsSlot, unequipSlot } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import type { Character, SlotId } from '@/entities/character';
-import { AddItemSheet } from '@/features/add-item';
+import { AddItemSheet, warmCatalogCache } from '@/features/add-item';
 import { byId, coinAbbr, coinName, COIN_ORDER, contentFor, itemName, plain, tr } from '@/shared/content';
 import type { Equipment, MagicItem } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
@@ -109,6 +109,12 @@ export function PlayItemsPage() {
   const [bagOpen, setBagOpen] = useState(false);
   const [bagExpandedItem, setBagExpandedItem] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
+  const [addingEver, setAddingEver] = useState(false);
+
+  useEffect(() => {
+    const task = InteractionManager.runAfterInteractions(() => { warmCatalogCache(); });
+    return () => task.cancel();
+  }, []);
 
   const equippedSlots = character.equippedSlots ?? {};
   const bag = character.equipment;
@@ -434,7 +440,7 @@ export function PlayItemsPage() {
       {/* Шапка */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <AppText style={styles.title}>{t('inventory.title')}</AppText>
+          <AppText style={styles.title} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>{t('inventory.title')}</AppText>
           <AppText style={styles.summary}>
             КЗ {currentAc} · настройка {attuned}/3
           </AppText>
@@ -537,11 +543,13 @@ export function PlayItemsPage() {
         </Card>
       </ScrollView>
 
-      <AddItemSheet
-        visible={adding}
-        onClose={() => setAdding(false)}
-        onAdd={(item) => update((c) => ({ ...c, equipment: addToInventory(c.equipment, item) }))}
-      />
+      {addingEver && (
+        <AddItemSheet
+          visible={adding}
+          onClose={() => setAdding(false)}
+          onAdd={(item) => update((c) => ({ ...c, equipment: addToInventory(c.equipment, item) }))}
+        />
+      )}
 
       {/* Шторка рюкзака */}
       <BottomSheet
@@ -549,7 +557,7 @@ export function PlayItemsPage() {
         title={`${t('inventory.bag')} · ${bag.length}`}
         onClose={() => setBagOpen(false)}
       >
-        <Pressable style={[styles.cardBtn, styles.cardBtnPrimary, { marginBottom: 8 }]} onPress={() => { setBagOpen(false); setAdding(true); }}>
+        <Pressable style={[styles.cardBtn, styles.cardBtnPrimary, { marginBottom: 8 }]} onPress={() => { setBagOpen(false); setAdding(true); setAddingEver(true); }}>
           <AppText style={[styles.cardBtnText, styles.cardBtnTextPrimary]}>{t('inventory.add')}</AppText>
         </Pressable>
         {bag.length === 0 ? (
