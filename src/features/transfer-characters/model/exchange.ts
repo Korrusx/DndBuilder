@@ -4,7 +4,7 @@
 import type { Character } from '@/entities/character';
 import { ABILITY_IDS, computeSheet, withDefaults } from '@/entities/character';
 import type { Content, Edition } from '@/shared/content';
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import { EXCHANGE_FORMAT, EXCHANGE_MAX_BYTES, EXCHANGE_VERSION } from '../config/constants';
 import type { ExchangeFile, ImportResult } from './types';

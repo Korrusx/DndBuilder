@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 
 import type { Character } from '@/entities/character';
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import { exportCharacterPdf } from '../api/exportPdf';
 

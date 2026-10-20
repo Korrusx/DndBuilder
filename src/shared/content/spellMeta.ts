@@ -1,4 +1,4 @@
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import { tr } from './content';
 import type { Spell } from './types';

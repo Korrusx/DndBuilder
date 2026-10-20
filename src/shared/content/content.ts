@@ -2,7 +2,7 @@
 
 export const HOMEBREW_EQUIPMENT_PREFIX = 'homebrew-eq-';
 
-import { currentLanguage } from '@/shared/i18n/model';
+import { currentLanguage } from '@/shared/i18n';
 
 import data from '../../../assets/content/content.json';
 import type { Content, ContentIndex, Edition, LocalizedText } from './types';

@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 14,
   },
-  fabText: { color: '#1A1406', fontSize: 16, fontWeight: '600' },
+  fabText: { color: colors.onAccent, fontSize: 16, fontWeight: '600' },
 
   // Form
   formLabel: { fontSize: 13, color: colors.textSecondary, marginBottom: 4, marginTop: 12 },

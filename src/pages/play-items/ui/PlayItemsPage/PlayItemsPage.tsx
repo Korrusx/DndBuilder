@@ -8,6 +8,7 @@ import type { Character, SlotId } from '@/entities/character';
 import { AddItemSheet, warmCatalogCache } from '@/features/add-item';
 import { byId, coinAbbr, coinName, COIN_ORDER, contentFor, itemName, plain, tr } from '@/shared/content';
 import type { Equipment, MagicItem } from '@/shared/content';
+import { colors, rarityColors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, BottomSheet, Card, GameIcon, Section } from '@/shared/ui';
 
@@ -46,16 +47,9 @@ const WEAPON_SLOTS: WeaponSlotDef[] = [
 const ALL_SLOT_DEFS: (SlotDef | WeaponSlotDef)[] = [...BODY_SLOTS, ...WEAPON_SLOTS];
 const ALL_SLOT_IDS = ALL_SLOT_DEFS.map((d) => d.id);
 
-const RARITY_COLORS: Record<string, string> = {
-  uncommon: '#6FD69A',
-  rare: '#8FB8FF',
-  'very rare': '#C9A0FF',
-  legendary: '#FF9F5A',
-};
-
 function rarityColor(rarity: string | undefined): string {
-  if (!rarity) return '#4A525D';
-  return RARITY_COLORS[rarity.toLowerCase()] ?? '#4A525D';
+  if (!rarity) return colors.iconMuted;
+  return rarityColors[rarity.toLowerCase()] ?? colors.iconMuted;
 }
 
 function lookupItem(itemId: string): Equipment | MagicItem | undefined {
@@ -197,8 +191,8 @@ export function PlayItemsPage() {
     const itemId = equippedSlots[s.id] ?? null;
     const item = itemId ? lookupItem(itemId) : undefined;
     const on = selectedSlot === s.id;
-    const rarColor = item && isMagicItem(item) ? rarityColor(tr(item.rarity).text) : '#4A525D';
-    const iconColor = itemId ? (rarColor === '#4A525D' ? '#C9C3B8' : rarColor) : '#4a525d';
+    const rarColor = item && isMagicItem(item) ? rarityColor(tr(item.rarity).text) : colors.iconMuted;
+    const iconColor = itemId ? (rarColor === colors.iconMuted ? colors.textTertiary : rarColor) : colors.iconMuted;
 
     return (
       <Pressable
@@ -208,7 +202,7 @@ export function PlayItemsPage() {
           itemId ? styles.slotFilled : null,
           on ? styles.slotSelected : null,
           { left: Math.round(rawLeft * SCALE), top: Math.round(rawTop * SCALE) },
-          itemId && rarColor !== '#4A525D' ? { borderColor: rarColor } : null,
+          itemId && rarColor !== colors.iconMuted ? { borderColor: rarColor } : null,
         ]}
         onPress={() => setSelectedSlot(s.id)}
         accessibilityLabel={slotLabel(s)}
@@ -251,7 +245,7 @@ export function PlayItemsPage() {
         <GameIcon
           name={item ? itemIcon(item) : SLOT_ICONS[w.id]}
           size={20}
-          color={itemId ? '#c9c3b8' : '#4a525d'}
+          color={itemId ? colors.textTertiary : colors.iconMuted}
         />
         <View style={styles.weaponSlotText}>
           {itemId ? (
@@ -283,7 +277,7 @@ export function PlayItemsPage() {
     const bodyY = s.pt[1] * SCALE;
     const itemId = equippedSlots[s.id];
     const on = selectedSlot === s.id;
-    const color = on ? '#f2b14a' : itemId ? '#4a525d' : '#2c323b';
+    const color = on ? colors.accent : itemId ? colors.iconMuted : colors.border;
     const strokeWidth = on ? 2 * SCALE : 1.2 * SCALE;
     const dashArr = (!itemId && !on) ? `${3 * SCALE} ${4 * SCALE}` : undefined;
 
@@ -311,7 +305,7 @@ export function PlayItemsPage() {
     cardContent = (
       <View style={styles.cardTop}>
         <View style={styles.cardIcon}>
-          <GameIcon name={SLOT_ICONS[selectedSlot]} size={24} color="#4a525d" />
+          <GameIcon name={SLOT_ICONS[selectedSlot]} size={24} color={colors.iconMuted} />
         </View>
         <View style={{ flex: 1 }}>
           <AppText style={styles.cardTitle}>{t('inventory.slotEmpty')}</AppText>
@@ -323,8 +317,8 @@ export function PlayItemsPage() {
     const eq2 = selectedItem as Equipment;
     const magic = selectedItem as MagicItem;
     const icon = itemIcon(selectedItem);
-    const rarColor = isMagicItem(selectedItem) ? rarityColor(tr(magic.rarity).text) : '#4A525D';
-    const iconColor = rarColor === '#4A525D' ? '#C9C3B8' : rarColor;
+    const rarColor = isMagicItem(selectedItem) ? rarityColor(tr(magic.rarity).text) : colors.iconMuted;
+    const iconColor = rarColor === colors.iconMuted ? colors.textTertiary : rarColor;
 
     let tag = '';
     if (eq2.weapon) {
@@ -403,7 +397,7 @@ export function PlayItemsPage() {
               onPress={() => { if (!attuneFull) doEquip(selectedSlot, id); }}
               disabled={attuneFull}
             >
-              <GameIcon name={itemIcon(item)} size={32} color="#c9c3b8" />
+              <GameIcon name={itemIcon(item)} size={32} color={colors.textTertiary} />
               <View style={styles.optMid}>
                 <AppText style={styles.optName}>{itemName({ itemId: id })}</AppText>
                 {willClearOff && (
@@ -449,7 +443,7 @@ export function PlayItemsPage() {
           <AppText style={styles.bagBtnText}>{t('homebrew.short')}</AppText>
         </Pressable>
         <Pressable style={[styles.bagBtn, { marginLeft: 8 }]} onPress={() => { setBagExpandedItem(null); setBagOpen(true); }}>
-          <GameIcon name="person" size={18} color="#9aa3ae" />
+          <GameIcon name="person" size={18} color={colors.textSecondary} />
           <AppText style={styles.bagBtnText}>
             {t('inventory.bag')} · {bag.length}
           </AppText>
@@ -475,7 +469,7 @@ export function PlayItemsPage() {
           >
             <Path
               d="M50 74 Q80 64 110 74 L132 250 Q80 266 28 250 Z"
-              fill={equippedSlots.shoulders ? '#2b2416' : 'transparent'}
+              fill={equippedSlots.shoulders ? colors.accentBg : 'transparent'}
               opacity={0.9}
             />
             <Path d="M47 82 Q32 100 28 140 L24 196 M113 82 Q128 100 132 140 L136 196" stroke="#3a414b" strokeWidth={20} strokeLinecap="round" fill="none" />
@@ -485,7 +479,7 @@ export function PlayItemsPage() {
             <Path
               d="M50 76 Q80 68 110 76 L116 172 Q80 182 44 172 Z"
               fill="#1d2127"
-              stroke={equippedSlots.body ? 'rgba(242,177,74,.55)' : '#3a414b'}
+              stroke={equippedSlots.body ? 'rgba(242,177,74,0.55)' : '#3a414b'}
               strokeWidth={2}
             />
             <Rect x={72} y={58} width={16} height={14} rx={4} fill="#1d2127" stroke="#3a414b" strokeWidth={2} />
@@ -583,7 +577,7 @@ export function PlayItemsPage() {
                       }
                     }}
                   >
-                    <GameIcon name={itemIcon(item)} size={24} color={slots.length > 0 && !isBlocked ? '#9aa3ae' : '#4a525d'} />
+                    <GameIcon name={itemIcon(item)} size={24} color={slots.length > 0 && !isBlocked ? colors.textSecondary : colors.iconMuted} />
                     <AppText style={styles.bagName}>{itemName(inv)}</AppText>
                     {inv.quantity > 1 && <AppText style={styles.bagQty}>×{inv.quantity}</AppText>}
                     {slots.length > 1 && !isBlocked && (

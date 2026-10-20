@@ -35,7 +35,7 @@ import {
   sizeName,
   tr,
 } from '@/shared/content';
-import { currentLanguage, t } from '@/shared/i18n/model';
+import { currentLanguage, t } from '@/shared/i18n';
 import { formatDamage, formatDice, formatDie, formatFeet, formatModifier } from '@/shared/lib/dice';
 
 import { SLOT_FORM } from '../config/constants';

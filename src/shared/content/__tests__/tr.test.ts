@@ -1,4 +1,4 @@
-import { i18n } from '@/shared/i18n/model';
+import { i18n } from '@/shared/i18n';
 
 import { content, contentFor, tr } from '../content';
 

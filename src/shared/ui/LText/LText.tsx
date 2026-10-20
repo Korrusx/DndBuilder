@@ -1,5 +1,5 @@
 import { tr } from '@/shared/content';
-import { currentLanguage } from '@/shared/i18n/model';
+import { currentLanguage } from '@/shared/i18n';
 
 import { AppText } from '../AppText/AppText';
 import { styles } from './LText.styles';

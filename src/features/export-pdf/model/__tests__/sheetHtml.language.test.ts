@@ -1,6 +1,6 @@
 import { irmaLevel1 } from '@/entities/character';
 import { content } from '@/shared/content';
-import { i18n } from '@/shared/i18n/model';
+import { i18n } from '@/shared/i18n';
 
 import { characterSheetHtml } from '../sheetHtml';
 

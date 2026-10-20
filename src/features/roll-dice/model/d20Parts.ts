@@ -1,6 +1,6 @@
 import { exhaustionPenalty } from '@/entities/character';
 import { activeEdition } from '@/shared/content';
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import type { RollPart } from './types';
 

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
-  wrap: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.55)' },
+  wrap: { flex: 1, justifyContent: 'flex-end', backgroundColor: colors.overlay },
   sheet: {
     maxHeight: '85%',
     backgroundColor: colors.surface,

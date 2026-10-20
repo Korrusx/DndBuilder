@@ -27,7 +27,7 @@ import {
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import { abilityAbbr, indexOf, nameOf } from '@/shared/content';
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import { EXPERTISE_GRANTS, FEAT_ABILITY, LANGUAGE_GRANTS, SKILL_GRANTS } from '../config/constants';
 import type { FeatSlotKind, LevelUpIssue, LevelUpPlan } from './types';

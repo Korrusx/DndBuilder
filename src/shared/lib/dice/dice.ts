@@ -1,4 +1,4 @@
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import type { D20Mode, D20Roll, DiceExpr } from './types';
 

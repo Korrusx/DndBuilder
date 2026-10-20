@@ -5,6 +5,7 @@ import type { HombrewArmorCategory, HombrewEquipment, HombrewItemKind, HombrewWe
 import { hombrewToEquipment, newHombrewId, useHombrewEquipment } from '@/features/homebrew-equipment';
 import { coinAbbr, injectHomebrew, removeHombrewItem, updateHombrewItem } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
+import { colors } from '@/shared/config';
 import { AppText, BottomSheet, Button } from '@/shared/ui';
 
 import { styles } from './HombrewEquipmentPage.styles';
@@ -159,12 +160,12 @@ export function HombrewEquipmentPage() {
         <AppText style={styles.formLabel}>{t('homebrew.nameRu')} *</AppText>
         <TextInput style={styles.formInput} value={form.nameRu}
           onChangeText={(v) => set('nameRu', v)}
-          placeholder={t('homebrew.namePlaceholder')} placeholderTextColor="#4A525D" />
+          placeholder={t('homebrew.namePlaceholder')} placeholderTextColor={colors.iconMuted} />
 
         <AppText style={styles.formLabel}>{t('homebrew.nameEn')}</AppText>
         <TextInput style={styles.formInput} value={form.nameEn}
           onChangeText={(v) => set('nameEn', v)}
-          placeholder={t('homebrew.nameEnPlaceholder')} placeholderTextColor="#4A525D" />
+          placeholder={t('homebrew.nameEnPlaceholder')} placeholderTextColor={colors.iconMuted} />
 
         <View style={styles.formRow}>
           <View style={styles.formRowItem}>
@@ -190,7 +191,7 @@ export function HombrewEquipmentPage() {
         <TextInput style={styles.formInput}
           value={form.weight !== null ? String(form.weight) : ''}
           onChangeText={(v) => set('weight', v ? parseFloat(v.replace(',', '.')) || null : null)}
-          keyboardType="decimal-pad" placeholder="—" placeholderTextColor="#4A525D" />
+          keyboardType="decimal-pad" placeholder="—" placeholderTextColor={colors.iconMuted} />
 
         {/* Секция: оружие */}
         {form.kind === 'weapon' && (
@@ -349,7 +350,7 @@ export function HombrewEquipmentPage() {
         <AppText style={styles.formLabel}>{t('homebrew.description')}</AppText>
         <TextInput style={[styles.formInput, { height: 72, textAlignVertical: 'top' }]}
           value={form.descriptionRu} onChangeText={(v) => set('descriptionRu', v)}
-          multiline placeholder={t('homebrew.descriptionPlaceholder')} placeholderTextColor="#4A525D" />
+          multiline placeholder={t('homebrew.descriptionPlaceholder')} placeholderTextColor={colors.iconMuted} />
 
         <View style={styles.formSave}>
           <Button title={t('common.done')} disabled={!form.nameRu.trim()} onPress={handleSave} />

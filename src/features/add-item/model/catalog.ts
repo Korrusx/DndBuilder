@@ -1,5 +1,5 @@
 import { coinAbbr, content, HOMEBREW_EQUIPMENT_PREFIX, tr } from '@/shared/content';
-import { currentLanguage } from '@/shared/i18n/model';
+import { currentLanguage } from '@/shared/i18n';
 
 import type { Entry } from './types';
 

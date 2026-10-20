@@ -2,7 +2,7 @@
 
 import type { AbilityId, Content, Equipment, ItemEffect } from '@/shared/content';
 import { indexOf } from '@/shared/content';
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import { ABILITY_IDS, CHOICE_KEYS, SPELLCASTER_PROGRESSION } from '../config/constants';
 import { abilityModifier, addIncrease, applyIncreases, modifiers, proficiencyBonus } from './abilities';

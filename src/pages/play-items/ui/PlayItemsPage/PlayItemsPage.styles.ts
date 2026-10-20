@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     width: Math.round(200 * SCALE),
     height: Math.round(360 * SCALE),
     borderRadius: Math.round(100 * SCALE),
-    backgroundColor: '#15181c',
+    backgroundColor: '#15181c', // чуть светлее bg — намеренное отличие от tokens
   },
   slot: {
     position: 'absolute',
@@ -118,7 +118,7 @@ export const styles = StyleSheet.create({
   },
   weaponSlotFilled: {
     borderStyle: 'solid',
-    borderColor: '#4a525d',
+    borderColor: colors.iconMuted,
     backgroundColor: colors.surface,
   },
   weaponSlotSelected: {
@@ -187,7 +187,7 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.text,
     fontSize: 13,
     lineHeight: 18,
-    color: '#c9c3b8',
+    color: colors.textTertiary,
   },
   cardRow: {
     flexDirection: 'row',
@@ -302,7 +302,7 @@ export const styles = StyleSheet.create({
   currentAc: {
     fontFamily: fonts.text,
     fontSize: 13,
-    color: '#c9c3b8',
+    color: colors.textTertiary,
   },
   sheetHint: {
     fontFamily: fonts.text,

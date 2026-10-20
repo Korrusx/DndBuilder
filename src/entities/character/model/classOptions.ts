@@ -3,7 +3,7 @@
 
 import type { ClassOption, Content } from '@/shared/content';
 import { indexOf, tr } from '@/shared/content';
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import { CHOICE_KEYS, METAMAGIC_COUNT, TOME_CANTRIPS, TOME_RITUALS } from '../config/constants';
 import type { Character } from './types';

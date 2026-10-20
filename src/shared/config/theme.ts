@@ -8,6 +8,11 @@ export const colors = {
 
   text: '#F1ECE2',
   textSecondary: '#9AA3AE',
+  textTertiary: '#C9C3B8',
+
+  iconMuted: '#4A525D',
+
+  overlay: 'rgba(0,0,0,0.55)',
 
   accent: '#F2B14A',
   onAccent: '#1A1406',
@@ -20,6 +25,14 @@ export const colors = {
   info: '#C6D4E2',
   infoBg: '#172029',
 } as const;
+
+/** Цвета редкости магических предметов. */
+export const rarityColors: Record<string, string> = {
+  uncommon: '#6FD69A',
+  rare: '#8FB8FF',
+  'very rare': '#C9A0FF',
+  legendary: '#FF9F5A',
+};
 
 // Имена шрифтов совпадают с ключами, под которыми они загружаются в app/_layout.tsx.
 export const fonts = {

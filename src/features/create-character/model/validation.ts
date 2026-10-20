@@ -37,7 +37,7 @@ import {
   weaponMasteryCount,
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 import { indexOf, tr } from '@/shared/content';
 
 import type { Issue } from './types';

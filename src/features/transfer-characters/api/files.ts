@@ -8,7 +8,7 @@ import { Platform } from 'react-native';
 import type { Character } from '@/entities/character';
 import { newId } from '@/entities/character/api';
 import { content, contentFor } from '@/shared/content';
-import { t } from '@/shared/i18n/model';
+import { t } from '@/shared/i18n';
 
 import { buildExchange, exchangeFileName, parseExchange } from '../model/exchange';
 import type { ImportResult } from '../model/types';

@@ -1,6 +1,6 @@
 // Названия записей справочника для подписей на экранах (русский, иначе английский).
 
-import { currentLanguage, t } from '@/shared/i18n/model';
+import { currentLanguage, t } from '@/shared/i18n';
 
 import { COIN_ORDER } from './constants';
 import { byId, tr } from './content';
