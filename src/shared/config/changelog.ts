@@ -23,7 +23,7 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
   {
     version: '1.2.1',
-    date: { ru: 'сентябрь 2026', en: 'September 2026' },
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
       { ru: 'Исправлен фриз при первом переходе на вкладку «Вещи»', en: 'Fixed freeze on first open of the Items tab' },
       { ru: 'Исправлена ошибка «database is locked»', en: 'Fixed "database is locked" error' },
@@ -35,7 +35,7 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
   {
     version: '1.2.0',
-    date: { ru: 'август 2026', en: 'August 2026' },
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
       { ru: 'Черта Skilled: дедупликация при выборе', en: 'Skilled feat: deduplication on pick' },
       {
@@ -47,7 +47,7 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
   {
     version: '1.1.0',
-    date: { ru: 'июль 2026', en: 'July 2026' },
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
       { ru: 'Полный мастер создания персонажа (6 шагов)', en: 'Full character creation wizard (6 steps)' },
       { ru: 'Режим игры: хиты, броски, заклинания, отдых', en: 'Play mode: HP, rolls, spells, rest' },
