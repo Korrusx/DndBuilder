@@ -15,7 +15,6 @@ function rowToHombrew(r: HombrewEquipmentRow): HombrewEquipment {
   return {
     id: r.id,
     nameRu: r.name_ru,
-    nameEn: r.name_en,
     descriptionRu: r.description_ru,
     weight: r.weight,
     costAmount: r.cost_amount,
@@ -84,7 +83,7 @@ function armorProfCategory(h: HombrewEquipment): string {
 export function hombrewToEquipment(h: HombrewEquipment): Equipment {
   const base: Equipment = {
     id: h.id,
-    name: { ru: h.nameRu, en: h.nameEn || h.nameRu },
+    name: { ru: h.nameRu, en: h.nameRu },
     categories: ['adventuring-gear'],
     cost: { amount: h.costAmount, unit: h.costUnit },
     weight: h.weight ?? undefined,
@@ -144,7 +143,7 @@ export async function saveHombrewEquipment(db: SQLiteDatabase, item: HombrewEqui
        armor_base=excluded.armor_base,
        armor_stealth=excluded.armor_stealth,
        magic_bonus=excluded.magic_bonus`,
-    item.id, item.nameRu, item.nameEn, item.descriptionRu,
+    item.id, item.nameRu, item.nameRu, item.descriptionRu,
     item.weight, item.costAmount, item.costUnit, item.createdAt,
     item.kind,
     item.weaponDamageDice, item.weaponDamageType, item.weaponRangeType, item.weaponCategory,

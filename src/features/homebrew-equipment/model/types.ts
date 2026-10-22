@@ -8,7 +8,6 @@ export type HombrewArmorCategory = 'light' | 'medium' | 'heavy' | 'shield';
 export type HombrewEquipment = {
   id: string;
   nameRu: string;
-  nameEn: string;
   descriptionRu: string;
   weight: number | null;
   costAmount: number;
@@ -38,7 +37,6 @@ export type HombrewEquipment = {
 export type HombrewEquipmentRow = {
   id: string;
   name_ru: string;
-  name_en: string;
   description_ru: string;
   weight: number | null;
   cost_amount: number;

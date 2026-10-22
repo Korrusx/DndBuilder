@@ -20,7 +20,7 @@ type FormState = Omit<HombrewEquipment, 'id' | 'createdAt'>;
 
 function emptyForm(): FormState {
   return {
-    nameRu: '', nameEn: '', descriptionRu: '',
+    nameRu: '', descriptionRu: '',
     weight: null, costAmount: 0, costUnit: 'gp',
     kind: 'gear',
     weaponDamageDice: '1к6', weaponDamageType: 'рубящий',
@@ -89,7 +89,6 @@ export function HombrewEquipmentPage() {
       ...form,
       id,
       nameRu: form.nameRu.trim(),
-      nameEn: form.nameEn.trim(),
       descriptionRu: form.descriptionRu.trim(),
       createdAt: editingId ? '' : new Date().toISOString(),
     };
@@ -157,15 +156,10 @@ export function HombrewEquipmentPage() {
         <BtnGroup<HombrewItemKind> value={form.kind} options={kindOptions} onPress={(v) => set('kind', v)} />
 
         {/* Основные поля */}
-        <AppText style={styles.formLabel}>{t('homebrew.nameRu')} *</AppText>
+        <AppText style={styles.formLabel}>{t('homebrew.name')} *</AppText>
         <TextInput style={styles.formInput} value={form.nameRu}
           onChangeText={(v) => set('nameRu', v)}
           placeholder={t('homebrew.namePlaceholder')} placeholderTextColor={colors.iconMuted} />
-
-        <AppText style={styles.formLabel}>{t('homebrew.nameEn')}</AppText>
-        <TextInput style={styles.formInput} value={form.nameEn}
-          onChangeText={(v) => set('nameEn', v)}
-          placeholder={t('homebrew.nameEnPlaceholder')} placeholderTextColor={colors.iconMuted} />
 
         <View style={styles.formRow}>
           <View style={styles.formRowItem}>
