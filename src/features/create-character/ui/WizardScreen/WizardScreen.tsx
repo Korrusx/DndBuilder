@@ -1,6 +1,5 @@
 import { Pressable, View } from 'react-native';
 
-import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Button, Screen } from '@/shared/ui';
 
@@ -46,7 +45,7 @@ export function WizardScreen({ step, children, summary, canContinue, footer, pre
               onPress={() => goTo(n, step)}
               style={({ pressed }) => [styles.segmentHit, pressed && { opacity: 0.6 }]}
             >
-              <View style={[styles.segment, { backgroundColor: n <= step ? colors.accent : open ? colors.textSecondary : colors.surface2 }]} />
+              <View style={[styles.segment, n <= step ? styles.segmentActive : open ? styles.segmentOpen : styles.segmentLocked]} />
             </Pressable>
           );
         })}

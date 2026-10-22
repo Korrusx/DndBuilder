@@ -1,7 +1,5 @@
 import { Pressable } from 'react-native';
 
-import { colors } from '@/shared/config';
-
 import { AppText } from '../AppText/AppText';
 import { styles } from './Chip.styles';
 import type { ChipProps } from './Chip.types';
@@ -20,7 +18,7 @@ export function Chip({ label, selected, disabled, note, onPress }: ChipProps) {
         pressed && { opacity: 0.8 },
       ]}
     >
-      <AppText style={[styles.chipLabel, selected && { color: colors.accent }]}>{label}</AppText>
+      <AppText style={[styles.chipLabel, selected && styles.chipLabelSelected]}>{label}</AppText>
       {note ? <AppText style={styles.chipNote}>{note}</AppText> : null}
     </Pressable>
   );

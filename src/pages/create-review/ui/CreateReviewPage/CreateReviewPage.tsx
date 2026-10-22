@@ -64,8 +64,8 @@ export function CreateReviewPage() {
       {issues.length ? (
         <View style={styles.gapSm}>
           {issues.map((i) => (
-            <View key={i.message} style={[styles.issue, !i.blocking && { backgroundColor: colors.infoBg }]}>
-              <AppText style={{ flex: 1, color: i.blocking ? colors.damage : colors.info, fontSize: 14 }}>{i.message}</AppText>
+            <View key={i.message} style={[styles.issue, !i.blocking && styles.issueInfo]}>
+              <AppText style={i.blocking ? styles.issueText : styles.issueTextInfo}>{i.message}</AppText>
               {i.step < 6 ? (
                 <Pressable accessibilityRole="button" onPress={() => goTo(i.step, 6)} style={styles.fix}>
                   <AppText style={styles.linkLabel}>{t('review.fix')}</AppText>

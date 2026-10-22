@@ -9,7 +9,6 @@ import {
   knownLanguages,
   speciesSpellcasting,
 } from '@/entities/character';
-import { colors } from '@/shared/config';
 import {
   abilityAbbr,
   abilityName,
@@ -74,7 +73,7 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
               {skills.map((s) => (
                 <View key={s.id} style={styles.line}>
                   <AppText style={styles.profMark}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
-                  <AppText style={{ flex: 1, color: s.proficient ? colors.text : colors.textSecondary }}>{nameOf('skills', s.id)}</AppText>
+                  <AppText style={s.proficient ? styles.skillName : styles.skillNameDim}>{nameOf('skills', s.id)}</AppText>
                   <AppText style={styles.num}>{formatModifier(s.bonus)}</AppText>
                 </View>
               ))}
@@ -89,8 +88,8 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
             {sheet.attacks.map((a) => (
               <View key={a.key} style={styles.line}>
                 <AppText style={styles.fill}>{attackName(a)}</AppText>
-                <AppText style={[styles.num, { width: 48 }]}>{formatModifier(a.toHit)}</AppText>
-                <AppText style={[styles.num, { width: 80 }]}>{formatDamage(a.damageDice, a.damageBonus)}</AppText>
+                <AppText style={[styles.num, styles.numW48]}>{formatModifier(a.toHit)}</AppText>
+                <AppText style={[styles.num, styles.numW80]}>{formatDamage(a.damageDice, a.damageBonus)}</AppText>
               </View>
             ))}
           </View>

@@ -23,4 +23,7 @@ export const styles = StyleSheet.create({
     minHeight: sizes.touchMin + 4,
   },
   label: { fontFamily: fonts.textBold, fontSize: 16 },
+  labelPrimary: { color: colors.onAccent },
+  labelDanger: { color: colors.damage },
+  labelDefault: { color: colors.text },
 });

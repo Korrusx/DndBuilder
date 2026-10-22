@@ -36,7 +36,7 @@ export function BagSheet({ visible, bag, mainIsTwoHanded, onClose, onAdd, onEqui
   return (
     <BottomSheet visible={visible} title={`${t('inventory.bag')} · ${bag.length}`} onClose={onClose}>
       <Pressable
-        style={[styles.cardBtn, styles.cardBtnPrimary, { marginBottom: 8 }]}
+        style={[styles.cardBtn, styles.cardBtnPrimary, styles.addItemBtn]}
         onPress={() => { onClose(); onAdd(); }}
       >
         <AppText style={[styles.cardBtnText, styles.cardBtnTextPrimary]}>{t('inventory.add')}</AppText>

@@ -19,7 +19,9 @@ export const styles = StyleSheet.create({
   abilityMod: { fontFamily: fonts.displayBold, fontSize: 26, color: colors.text },
   abilityScore: { fontFamily: fonts.text, fontSize: 13, color: colors.textSecondary },
   save: { minHeight: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface2 },
+  saveProficient: { backgroundColor: colors.accentBg },
   saveText: { fontFamily: fonts.textMedium, fontSize: 13, color: colors.text },
+  saveProficientText: { color: colors.accent },
   exhaustion: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   fill: { flex: 1 },
 });

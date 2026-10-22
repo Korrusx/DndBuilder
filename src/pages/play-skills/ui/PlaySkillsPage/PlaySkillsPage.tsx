@@ -5,7 +5,6 @@ import { exhaustionPenalty, knownLanguages, proficiencyGroups } from '@/entities
 import { usePlay } from '@/entities/character/ui';
 import type { D20Request } from '@/features/roll-dice';
 import { d20Parts, D20Sheet } from '@/features/roll-dice';
-import { colors } from '@/shared/config';
 import { abilityAbbr, abilityName, content, groupSkillsByAbility, nameOf } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
@@ -58,9 +57,9 @@ export function PlaySkillsPage() {
                   if (a.saveProficient) parts.push({ label: t('stats.pb'), value: sheet.profBonus });
                   setRoll({ title: t('sheet.rollTitle', { kind: t('sheet.save'), ability: abilityName(ability) }), parts: d20Parts(parts, ex) });
                 }}
-                style={[styles.save, a.saveProficient && { backgroundColor: colors.accentBg }]}
+                style={[styles.save, a.saveProficient && styles.saveProficient]}
               >
-                <AppText style={[styles.saveText, a.saveProficient && { color: colors.accent }]}>
+                <AppText style={[styles.saveText, a.saveProficient && styles.saveProficientText]}>
                   {t('sheet.saveShort', { value: formatModifier(a.save) })}
                   {a.saveProficient ? ' ●' : ''}
                 </AppText>
@@ -71,10 +70,10 @@ export function PlaySkillsPage() {
                 key={s.id}
                 accessibilityRole="button"
                 onPress={() => open(s)}
-                style={({ pressed }) => [styles.row, styles.divider, pressed && { backgroundColor: colors.surface2 }]}
+                style={({ pressed }) => [styles.row, styles.divider, pressed && styles.rowPressed]}
               >
                 <AppText style={styles.mark}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
-                <AppText style={{ flex: 1, color: s.proficient ? colors.text : colors.textSecondary }}>{nameOf('skills', s.id)}</AppText>
+                <AppText style={s.proficient ? styles.skillName : styles.skillNameDim}>{nameOf('skills', s.id)}</AppText>
                 <AppText style={styles.bonus}>{formatModifier(s.bonus + exhaustionPenalty(ex, c.edition))}</AppText>
               </Pressable>
             ))}

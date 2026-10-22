@@ -23,4 +23,8 @@ export const styles = StyleSheet.create({
   gapSm: { gap: spacing.sm },
   fill: { flex: 1 },
   size12: { fontSize: 12 },
+  pointsOk: { color: colors.accent },
+  pointsOver: { color: colors.damage },
+  valueAccent: { color: colors.accent },
+  valueDim: { color: colors.textSecondary },
 });

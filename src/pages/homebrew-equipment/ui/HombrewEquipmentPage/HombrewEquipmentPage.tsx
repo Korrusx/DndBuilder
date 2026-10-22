@@ -176,7 +176,7 @@ export function HombrewEquipmentPage() {
           </View>
           <View style={styles.formRowItem}>
             <AppText style={styles.formLabel}>{t('homebrew.unit')}</AppText>
-            <View style={[styles.btnRow, { marginTop: 4 }]}>
+            <View style={[styles.btnRow, styles.btnRowMt]}>
               {COINS.map((c) => (
                 <Pressable key={c} style={[styles.btn, form.costUnit === c && styles.btnActive]}
                   onPress={() => set('costUnit', c)}>
@@ -260,7 +260,7 @@ export function HombrewEquipmentPage() {
 
             <AppText style={styles.formLabel}>{t('homebrew.additionalDamage')}</AppText>
             <View style={styles.formRow}>
-              <View style={[styles.formRowItem, { flex: 1 }]}>
+              <View style={styles.formRowItem}>
                 <AppText style={styles.formLabel}>{t('homebrew.additionalDamageDice')}</AppText>
                 <View style={styles.diceRow}>
                   <Pressable
@@ -315,7 +315,7 @@ export function HombrewEquipmentPage() {
                   value={String(form.armorBase)}
                   onChangeText={(v) => set('armorBase', parseInt(v.replace(/\D/g, ''), 10) || 0)}
                   keyboardType="number-pad" />
-                <AppText style={[styles.formLabel, { marginTop: 4, fontSize: 12 }]}>
+                <AppText style={[styles.formLabel, styles.formLabelSm]}>
                   {form.armorCategory === 'light' ? t('homebrew.armorHintLight')
                     : form.armorCategory === 'medium' ? t('homebrew.armorHintMedium')
                     : t('homebrew.armorHintHeavy')}
@@ -348,7 +348,7 @@ export function HombrewEquipmentPage() {
         )}
 
         <AppText style={styles.formLabel}>{t('homebrew.description')}</AppText>
-        <TextInput style={[styles.formInput, { height: 72, textAlignVertical: 'top' }]}
+        <TextInput style={[styles.formInput, styles.formInputMultiline]}
           value={form.descriptionRu} onChangeText={(v) => set('descriptionRu', v)}
           multiline placeholder={t('homebrew.descriptionPlaceholder')} placeholderTextColor={colors.iconMuted} />
 

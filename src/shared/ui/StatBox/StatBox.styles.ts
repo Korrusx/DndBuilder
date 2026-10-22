@@ -16,5 +16,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   statValue: { fontFamily: fonts.displayBold, fontSize: 22, color: colors.text },
+  statValueAccent: { color: colors.accent },
   statLabel: { fontFamily: fonts.text, fontSize: 12, color: colors.textSecondary, textAlign: 'center' },
 });

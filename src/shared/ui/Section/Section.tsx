@@ -1,7 +1,5 @@
 import { View } from 'react-native';
 
-import { colors } from '@/shared/config';
-
 import { AppText } from '../AppText/AppText';
 import { styles } from './Section.styles';
 import type { SectionProps } from './Section.types';
@@ -22,7 +20,7 @@ export function Section({
           {title}
         </AppText>
         {need !== undefined ? (
-          <AppText style={[styles.counter, { color: done ? colors.heal : colors.accent }]}>
+          <AppText style={[styles.counter, done && styles.counterDone]}>
             {picked ?? 0} / {need}
           </AppText>
         ) : null}

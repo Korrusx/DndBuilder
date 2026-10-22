@@ -52,7 +52,7 @@ export function SlotCard({ selectedSlot, selectedItemId, selectedItem, attacks, 
           <View style={styles.cardIcon}>
             <GameIcon name={SLOT_ICONS[selectedSlot]} size={24} color={colors.iconMuted} />
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={styles.fill}>
             <AppText style={styles.cardTitle}>{t('inventory.slotEmpty')}</AppText>
             <AppText style={styles.cardTag}>{selLabel}</AppText>
           </View>
@@ -73,7 +73,7 @@ export function SlotCard({ selectedSlot, selectedItemId, selectedItem, attacks, 
         <View style={[styles.cardIcon, { borderColor: rarColor }]}>
           <GameIcon name={itemIcon(selectedItem)} size={24} color={iconColor} />
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={styles.fill}>
           <AppText style={styles.cardTitle} numberOfLines={1}>{itemName({ itemId: selectedItemId })}</AppText>
           <AppText style={styles.cardTag}>{buildTag(selectedItem)}</AppText>
         </View>

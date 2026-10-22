@@ -15,7 +15,6 @@ import {
   STANDARD_ARRAY,
 } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
-import { colors } from '@/shared/config';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, abilityName, byId, content } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
@@ -102,7 +101,7 @@ export function CreateAbilitiesPage() {
       ) : null}
 
       {c.abilityMethod === 'pointBuy' ? (
-        <AppText variant="heading" style={{ color: (spent ?? 0) <= POINT_BUY_BUDGET ? colors.accent : colors.damage }}>
+        <AppText variant="heading" style={(spent ?? 0) <= POINT_BUY_BUDGET ? styles.pointsOk : styles.pointsOver}>
           {t('abilities.pointsLeft', { left: POINT_BUY_BUDGET - (spent ?? 0), total: POINT_BUY_BUDGET })}
         </AppText>
       ) : pool.length ? (
@@ -118,7 +117,7 @@ export function CreateAbilitiesPage() {
 
       <View style={styles.table}>
         <View style={styles.row}>
-          <AppText style={[styles.head, { flex: 1 }]}>{t('abilities.ability')}</AppText>
+          <AppText style={[styles.head, styles.fill]}>{t('abilities.ability')}</AppText>
           <AppText style={[styles.head, styles.cell]}>{t('abilities.base')}</AppText>
           <AppText style={[styles.head, styles.cell]}>{t('abilities.bonus')}</AppText>
           <AppText style={[styles.head, styles.cell]}>{t('abilities.total')}</AppText>
@@ -146,11 +145,11 @@ export function CreateAbilitiesPage() {
                   <AppText style={styles.value}>{base || '—'}</AppText>
                 </View>
               )}
-              <AppText style={[styles.cell, styles.value, { color: bonus ? colors.accent : colors.textSecondary }]}>
+              <AppText style={[styles.cell, styles.value, bonus ? styles.valueAccent : styles.valueDim]}>
                 {bonus ? `+${bonus}` : '—'}
               </AppText>
               <AppText style={[styles.cell, styles.value]}>{base ? totals[id] : '—'}</AppText>
-              <AppText style={[styles.cell, styles.value, { color: colors.accent }]}>
+              <AppText style={[styles.cell, styles.value, styles.valueAccent]}>
                 {base ? formatModifier(abilityModifier(totals[id])) : '—'}
               </AppText>
             </Pressable>

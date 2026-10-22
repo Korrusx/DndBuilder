@@ -1,7 +1,5 @@
 import { Pressable, Text } from 'react-native';
 
-import { colors } from '@/shared/config';
-
 import { styles } from './Button.styles';
 import type { ButtonProps } from './Button.types';
 
@@ -19,7 +17,7 @@ export function Button({ title, onPress, variant = 'primary', disabled, style }:
         style,
       ]}
     >
-      <Text style={[styles.label, { color: primary ? colors.onAccent : variant === 'danger' ? colors.damage : colors.text }]}>{title}</Text>
+      <Text style={[styles.label, primary ? styles.labelPrimary : variant === 'danger' ? styles.labelDanger : styles.labelDefault]}>{title}</Text>
     </Pressable>
   );
 }

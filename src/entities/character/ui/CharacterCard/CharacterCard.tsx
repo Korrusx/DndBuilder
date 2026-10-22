@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { colors } from '@/shared/config';
 import { contentFor, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Badge, Button } from '@/shared/ui';
@@ -42,7 +41,7 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
           </View>
         ) : (
           <View style={[styles.avatar, draft && styles.avatarDraft]}>
-            <AppText style={[styles.avatarLetter, draft && { color: colors.textSecondary }]}>{s.letter}</AppText>
+            <AppText style={[styles.avatarLetter, draft && styles.avatarLetterDraft]}>{s.letter}</AppText>
           </View>
         )}
         <View style={styles.info}>

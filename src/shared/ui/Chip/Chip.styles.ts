@@ -15,5 +15,6 @@ export const styles = StyleSheet.create({
   },
   chipSelected: { borderColor: colors.accent, backgroundColor: colors.accentBg },
   chipLabel: { fontFamily: fonts.textMedium, fontSize: 15, color: colors.text },
+  chipLabelSelected: { color: colors.accent },
   chipNote: { fontFamily: fonts.text, fontSize: 11, color: colors.textSecondary },
 });

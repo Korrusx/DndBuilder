@@ -21,7 +21,6 @@ import type { D20Request } from '@/features/roll-dice';
 import { d20Parts, D20Sheet } from '@/features/roll-dice';
 import { HpBlock } from '@/features/track-hp';
 import { ResourcesCard } from '@/features/track-resources';
-import { colors } from '@/shared/config';
 import { abilityAbbr, byId, content, nameOf, plain, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet, formatModifier, rollD20 } from '@/shared/lib/dice';
@@ -118,9 +117,9 @@ export function PlaySheetPage() {
               <Pressable
                 accessibilityRole="button"
                 onPress={() => rollAbility(id, true)}
-                style={[styles.save, a.saveProficient && { backgroundColor: colors.accentBg }]}
+                style={[styles.save, a.saveProficient && styles.saveProficient]}
               >
-                <AppText style={[styles.saveText, a.saveProficient && { color: colors.accent }]}>
+                <AppText style={[styles.saveText, a.saveProficient && styles.saveProficientText]}>
                   {t('sheet.saveShort', { value: formatModifier(a.save) })}
                   {a.saveProficient ? ' ●' : ''}
                 </AppText>

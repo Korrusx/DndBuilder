@@ -3,7 +3,7 @@ import { Pressable, TextInput, View } from 'react-native';
 
 import { applyDamage, applyHealing, deathStatus, HP_COLORS, hpLevel, setTempHp } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
-import { colors, fonts } from '@/shared/config';
+import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import { formatDie } from '@/shared/lib/dice';
 import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
@@ -33,7 +33,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
         </View>
         {tempHp > 0 ? (
           <View style={styles.temp}>
-            <AppText style={[styles.hpMax, { color: colors.info }]}>+{tempHp}</AppText>
+            <AppText style={[styles.hpMax, styles.hpMaxTemp]}>+{tempHp}</AppText>
             <AppText style={styles.tempLabel}>{t('hp.temp')}</AppText>
           </View>
         ) : null}
@@ -73,7 +73,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
 
       {status !== 'alive' ? (
         <View style={styles.death}>
-          <AppText style={{ color: status === 'dead' ? colors.damage : colors.text, fontFamily: fonts.textBold }}>
+          <AppText style={[styles.statusText, status === 'dead' && styles.statusDead]}>
             {status === 'dead' ? t('hp.dead') : status === 'stable' ? t('hp.stable') : t('hp.dying')}
           </AppText>
           <View style={styles.row}>

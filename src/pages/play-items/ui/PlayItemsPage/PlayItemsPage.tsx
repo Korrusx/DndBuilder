@@ -95,13 +95,13 @@ export function PlayItemsPage() {
         <Pressable style={styles.bagBtn} onPress={() => router.push('/homebrew-equipment')} hitSlop={4}>
           <AppText style={styles.bagBtnText}>{t('homebrew.short')}</AppText>
         </Pressable>
-        <Pressable style={[styles.bagBtn, { marginLeft: 8 }]} onPress={() => setBagOpen(true)}>
+        <Pressable style={[styles.bagBtn, styles.bagBtnRight]} onPress={() => setBagOpen(true)}>
           <GameIcon name="person" size={18} color={styles.bagBtnText.color} />
           <AppText style={styles.bagBtnText}>{t('inventory.bag')} · {bag.length}</AppText>
         </Pressable>
       </View>
 
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 8 }} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <CharacterDoll
           equippedSlots={equippedSlots}
           selectedSlot={selectedSlot}
@@ -129,7 +129,7 @@ export function PlayItemsPage() {
           onEquip={doEquip}
         />
 
-        <Card style={{ marginHorizontal: 8, marginTop: 8 }}>
+        <Card style={styles.coinCard}>
           <Section title={t('inventory.coins')}>
             {[...COIN_ORDER].reverse().map((id) => (
               <View key={id} style={styles.coinRow}>

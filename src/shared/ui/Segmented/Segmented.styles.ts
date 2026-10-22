@@ -21,4 +21,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: spacing.xs,
   },
   segmentedLabel: { fontFamily: fonts.textBold, fontSize: 13, color: colors.text, textAlign: 'center' },
+  segmentedItemOn: { backgroundColor: colors.accent },
+  segmentedLabelOn: { color: colors.onAccent },
 });

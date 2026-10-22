@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
   },
   avatarDraft: { backgroundColor: colors.surface2 },
   avatarLetter: { fontFamily: fonts.displayBold, fontSize: 22, color: colors.accent },
+  avatarLetterDraft: { color: colors.textSecondary },
   info: { flex: 1, gap: 2 },
   nameRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   name: { flexShrink: 1 },

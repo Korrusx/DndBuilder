@@ -415,6 +415,15 @@ export const styles = StyleSheet.create({
     color: colors.textSecondary,
     lineHeight: 22,
   },
+  // Утилиты
+  fill: { flex: 1 },
+  scroll: { flex: 1 },
+  scrollContent: { paddingBottom: 8 },
+  coinCard: { marginHorizontal: 8, marginTop: 8 },
+  bagBtnRight: { marginLeft: spacing.sm },
+  addItemBtn: { marginBottom: spacing.sm },
+  svgBody: { position: 'absolute', left: Math.round(107 * SCALE), top: Math.round(50 * SCALE) },
+  svgOverlay: { position: 'absolute', left: 0, top: 0 },
   // Монеты
   coinRow: {
     flexDirection: 'row' as const,

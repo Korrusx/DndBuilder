@@ -55,7 +55,7 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
             width={Math.round(176 * SCALE)}
             height={Math.round(352 * SCALE)}
             viewBox="0 0 160 320"
-            style={{ position: 'absolute', left: Math.round(107 * SCALE), top: Math.round(50 * SCALE) }}
+            style={styles.svgBody}
           >
             <Path
               d="M50 74 Q80 64 110 74 L132 250 Q80 266 28 250 Z"
@@ -79,7 +79,7 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
           <Svg
             width={W}
             height={DOLL_H}
-            style={{ position: 'absolute', left: 0, top: 0 }}
+            style={styles.svgOverlay}
             pointerEvents="none"
           >
             {BODY_SLOTS.map((s) => {

@@ -1,7 +1,5 @@
 import { Pressable, View } from 'react-native';
 
-import { colors } from '@/shared/config';
-
 import { AppText } from '../AppText/AppText';
 import { styles } from './Segmented.styles';
 import type { SegmentedProps } from './Segmented.types';
@@ -22,9 +20,9 @@ export function Segmented<T extends string>({
             accessibilityRole="button"
             accessibilityState={{ selected: on }}
             onPress={() => onChange(o.value)}
-            style={[styles.segmentedItem, on && { backgroundColor: colors.accent }]}
+            style={[styles.segmentedItem, on && styles.segmentedItemOn]}
           >
-            <AppText style={[styles.segmentedLabel, on && { color: colors.onAccent }]}>{o.label}</AppText>
+            <AppText style={[styles.segmentedLabel, on && styles.segmentedLabelOn]}>{o.label}</AppText>
           </Pressable>
         );
       })}

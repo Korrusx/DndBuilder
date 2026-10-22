@@ -88,4 +88,7 @@ export const styles = StyleSheet.create({
   diceTextActive: { color: colors.accent, fontWeight: '600' },
 
   formSave: { marginTop: 20 },
+  btnRowMt: { marginTop: 4 },
+  formLabelSm: { marginTop: 4, fontSize: 12 },
+  formInputMultiline: { height: 72, textAlignVertical: 'top' as const },
 });
