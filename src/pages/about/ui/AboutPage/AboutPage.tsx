@@ -1,5 +1,6 @@
 import Constants from 'expo-constants';
 import { useSQLiteContext } from 'expo-sqlite';
+import { View } from 'react-native';
 
 import { DiceSettingsSection } from '@/features/roll-dice';
 import { contentFor } from '@/shared/content';
@@ -7,14 +8,15 @@ import type { Language } from '@/shared/i18n';
 import { LANGUAGES, setLanguage, useTranslation } from '@/shared/i18n';
 import { AppText, Screen, Segmented } from '@/shared/ui';
 
+import { CHANGELOG } from '@/shared/config';
 import { extraCount } from '../../lib/extraCount';
 import { ReferenceCard } from './ReferenceCard';
 import { styles } from './AboutPage.styles';
 
 export function AboutPage() {
   const db = useSQLiteContext();
-  // Подписка на смену языка: страница перерисуется сразу после переключения.
   const { t, i18n } = useTranslation();
+  const lang = i18n.language as Language;
   const c2024 = contentFor('2024');
   const c2014 = contentFor('2014');
 
@@ -56,6 +58,21 @@ export function AboutPage() {
       </AppText>
       <AppText variant="secondary">{t('about.icons')}</AppText>
       <AppText variant="secondary">{t('about.dice3d')}</AppText>
+
+      <AppText variant="heading">{t('about.changelog')}</AppText>
+      {CHANGELOG.map((entry) => (
+        <View key={entry.version} style={styles.changelogEntry}>
+          <AppText variant="heading">
+            {entry.version} · {entry.date[lang] ?? entry.date.en}
+          </AppText>
+          {entry.items.map((item, i) => (
+            <AppText key={i} variant="secondary" style={styles.changelogItem}>
+              {'· '}
+              {item[lang] ?? item.en}
+            </AppText>
+          ))}
+        </View>
+      ))}
 
       <AppText variant="secondary" style={styles.build}>
         {t('about.appVersion', { version: Constants.expoConfig?.version ?? '—' })}

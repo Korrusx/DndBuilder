@@ -1,0 +1,58 @@
+export type ChangelogEntry = {
+  version: string;
+  date: { ru: string; en: string };
+  items: { ru: string; en: string }[];
+};
+
+export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.3.0',
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
+    items: [
+      { ru: 'Хоумбрю предметы: создание, редактирование, удаление', en: 'Homebrew items: create, edit, delete' },
+      {
+        ru: 'Движок эффектов предметов: магический бонус к атаке/урону, дополнительный урон',
+        en: 'Item effects engine: magic attack/damage bonus, extra damage',
+      },
+      {
+        ru: 'Оптимизация: устранены фризы при переключении вкладок и открытии шторки «Добавить»',
+        en: 'Performance: fixed freezes when switching tabs and opening the Add sheet',
+      },
+      { ru: 'История обновлений в разделе «О приложении»', en: 'Version history in the About screen' },
+    ],
+  },
+  {
+    version: '1.2.1',
+    date: { ru: 'сентябрь 2026', en: 'September 2026' },
+    items: [
+      { ru: 'Исправлен фриз при первом переходе на вкладку «Вещи»', en: 'Fixed freeze on first open of the Items tab' },
+      { ru: 'Исправлена ошибка «database is locked»', en: 'Fixed "database is locked" error' },
+      {
+        ru: 'Подтверждение перед удалением предмета из рюкзака',
+        en: 'Confirmation before removing an item from the inventory',
+      },
+    ],
+  },
+  {
+    version: '1.2.0',
+    date: { ru: 'август 2026', en: 'August 2026' },
+    items: [
+      { ru: 'Черта Skilled: дедупликация при выборе', en: 'Skilled feat: deduplication on pick' },
+      {
+        ru: 'Волшебник, шаг 5: скрывать подготовку до заполнения книги',
+        en: 'Wizard step 5: hide preparation until spellbook is filled',
+      },
+      { ru: 'Монеты как визуальная плашка в инвентаре', en: 'Coins displayed as a visual chip in inventory' },
+    ],
+  },
+  {
+    version: '1.1.0',
+    date: { ru: 'июль 2026', en: 'July 2026' },
+    items: [
+      { ru: 'Полный мастер создания персонажа (6 шагов)', en: 'Full character creation wizard (6 steps)' },
+      { ru: 'Режим игры: хиты, броски, заклинания, отдых', en: 'Play mode: HP, rolls, spells, rest' },
+      { ru: 'Экспорт/импорт персонажа файлом (.dnd.json)', en: 'Character export/import as a file (.dnd.json)' },
+      { ru: 'Поддержка правил D&D 2014 и 2024', en: 'Support for D&D 2014 and 2024 rules' },
+    ],
+  },
+];

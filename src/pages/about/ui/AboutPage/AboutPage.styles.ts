@@ -11,6 +11,12 @@ export const styles = StyleSheet.create({
     padding: spacing.lg,
     gap: spacing.xs,
   },
+  changelogEntry: {
+    gap: spacing.xs,
+  },
+  changelogItem: {
+    paddingLeft: spacing.sm,
+  },
   build: {
     fontSize: 12,
     lineHeight: 16,

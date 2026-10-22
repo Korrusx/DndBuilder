@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import { router, useFocusEffect, useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, BackHandler, View } from 'react-native';
@@ -8,18 +9,37 @@ import { deleteCharacters, newId, saveCharacter, saveCharacters, useCharacterLis
 import { CharacterCard } from '@/entities/character/ui';
 import { CREATE_STEPS } from '@/features/create-character';
 import { ImportError, pickCharactersFile, shareCharacters } from '@/features/transfer-characters';
-import { colors } from '@/shared/config';
+import { CHANGELOG, colors } from '@/shared/config';
 import { contentFor } from '@/shared/content';
-import { setMeta } from '@/shared/db';
+import { getMeta, setMeta } from '@/shared/db';
 import { useTranslation } from '@/shared/i18n';
 import { formatDate } from '@/shared/lib/date';
 import { AppText, Button, Placeholder, Screen } from '@/shared/ui';
 
 import { styles } from './CharactersPage.styles';
 
+const CURRENT_VERSION = Constants.expoConfig?.version ?? '';
+const LATEST_CHANGELOG = CHANGELOG[0];
+
 export function CharactersPage() {
   const { db, characters, lastBackupAt, reload } = useCharacterList();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language as 'ru' | 'en';
+
+  const [showWhatsNew, setShowWhatsNew] = useState(false);
+
+  useEffect(() => {
+    getMeta(db, 'whatsNewShown').then((shown) => {
+      if (shown !== CURRENT_VERSION) {
+        setShowWhatsNew(true);
+      }
+    });
+  }, [db]);
+
+  const dismissWhatsNew = async () => {
+    await setMeta(db, 'whatsNewShown', CURRENT_VERSION);
+    setShowWhatsNew(false);
+  };
 
   const open = (c: Character) => {
     if (c.status.kind === 'draft') {
@@ -230,6 +250,21 @@ export function CharactersPage() {
         )
       }
     >
+      {showWhatsNew && LATEST_CHANGELOG ? (
+        <View style={styles.whatsNewBanner}>
+          <AppText variant="heading">
+            {t('characters.whatsNew', { version: LATEST_CHANGELOG.version })}
+          </AppText>
+          {LATEST_CHANGELOG.items.map((item, i) => (
+            <AppText key={i} variant="secondary" style={styles.whatsNewItem}>
+              {'· '}
+              {item[lang] ?? item.en}
+            </AppText>
+          ))}
+          <Button title={t('characters.whatsNewClose')} onPress={dismissWhatsNew} />
+        </View>
+      ) : null}
+
       {characters === null ? (
         <ActivityIndicator color={colors.accent} />
       ) : characters.length === 0 ? (

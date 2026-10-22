@@ -431,7 +431,9 @@
     "about": "О приложении и лицензии",
     "offline": "Работает без интернета",
     "lastBackup": "последняя копия {{date}}",
-    "noBackup": "резервных копий ещё не было"
+    "noBackup": "резервных копий ещё не было",
+    "whatsNew": "Что нового в {{version}}",
+    "whatsNewClose": "Понятно"
   },
   "about": {
     "reference": "Справочник",
@@ -449,6 +451,7 @@
     "extra2014": "В справочник 2014 года добавлена игровая механика {{backgrounds}} предысторий, {{feats}} черт, {{subclasses}} подклассов и {{species}} вариантов рас из Player's Handbook 2014. Тексты книги не используются: описания написаны заново, кратко, своими словами.",
     "icons": "Иконки классов и видов — game-icons.net (авторы: Lorc, Delapouite, Cathelineau, Caro Asercion, Sbed), лицензия Creative Commons Attribution 3.0 (CC BY 3.0): https://creativecommons.org/licenses/by/3.0/. Цвет и размер иконок изменены.",
     "appVersion": "Версия приложения: {{version}}",
+    "changelog": "История обновлений",
     "dice3d": "3D-кубики: three.js и cannon-es (лицензия MIT)."
   },
   "createClass": {

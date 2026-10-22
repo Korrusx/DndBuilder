@@ -425,7 +425,9 @@
     "about": "About & license",
     "offline": "Works offline",
     "lastBackup": "last backup {{date}}",
-    "noBackup": "no backups yet"
+    "noBackup": "no backups yet",
+    "whatsNew": "What's new in {{version}}",
+    "whatsNewClose": "Got it"
   },
   "about": {
     "reference": "Rules reference",
@@ -443,6 +445,7 @@
     "extra2014": "The 2014 rules reference also includes the game mechanics of {{backgrounds}} backgrounds, {{feats}} feats, {{subclasses}} subclasses and {{species}} race variants from the Player's Handbook 2014. No book text is used: descriptions are written anew, briefly, in our own words.",
     "icons": "Class and species icons: game-icons.net (by Lorc, Delapouite, Cathelineau, Caro Asercion, Sbed), licensed under Creative Commons Attribution 3.0 (CC BY 3.0): https://creativecommons.org/licenses/by/3.0/. Icon colors and sizes were changed.",
     "appVersion": "App version: {{version}}",
+    "changelog": "Version history",
     "dice3d": "3D dice: three.js and cannon-es (MIT license)."
   },
   "createClass": {
