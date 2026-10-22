@@ -1,26 +1,26 @@
 import { i18n } from '@/shared/i18n';
 
-import { content, contentFor, tr } from '../content';
+import { content, contentFor, localizeText } from '../content';
 
-describe('tr: текст справочника на текущем языке', () => {
+describe('localizeText: текст справочника на текущем языке', () => {
   afterEach(() => i18n.changeLanguage('ru'));
 
   test('по умолчанию — русский', () => {
-    expect(tr({ en: 'Shield', ru: 'Щит' })).toEqual({ text: 'Щит', translated: true });
+    expect(localizeText({ en: 'Shield', ru: 'Щит' })).toEqual({ text: 'Щит', translated: true });
   });
 
   test('без перевода — английский с пометкой', () => {
-    expect(tr({ en: 'Shield' })).toEqual({ text: 'Shield', translated: false });
+    expect(localizeText({ en: 'Shield' })).toEqual({ text: 'Shield', translated: false });
   });
 
   test('английский язык — оригинал', async () => {
     await i18n.changeLanguage('en');
-    expect(tr({ en: 'Shield', ru: 'Щит' })).toEqual({ text: 'Shield', translated: true });
+    expect(localizeText({ en: 'Shield', ru: 'Щит' })).toEqual({ text: 'Shield', translated: true });
   });
 
   test('английский язык, но английского текста нет — русский с пометкой', async () => {
     await i18n.changeLanguage('en');
-    expect(tr({ en: '', ru: 'Щит' })).toEqual({ text: 'Щит', translated: false });
+    expect(localizeText({ en: '', ru: 'Щит' })).toEqual({ text: 'Щит', translated: false });
   });
 
   test('в справочнике у каждого текста есть английский вариант (без кириллицы)', () => {
@@ -39,5 +39,5 @@ describe('tr: текст справочника на текущем языке',
     expect(bad).toEqual([]);
   });
 
-  test('пустой текст', () => expect(tr(undefined)).toEqual({ text: '', translated: true }));
+  test('пустой текст', () => expect(localizeText(undefined)).toEqual({ text: '', translated: true }));
 });

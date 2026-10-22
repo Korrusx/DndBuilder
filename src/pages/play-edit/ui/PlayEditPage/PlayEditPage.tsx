@@ -7,7 +7,7 @@ import { usePlay } from '@/entities/character/ui';
 import { ClassOptionsPicker } from '@/features/pick-class-options';
 import { shareCharacters } from '@/features/transfer-characters';
 import { colors } from '@/shared/config';
-import { abilityName, content, nameOf, tr } from '@/shared/content';
+import { abilityName, content, nameOf, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { Chip, ChipRow, Screen, Section, SmallButton } from '@/shared/ui';
 
@@ -58,7 +58,7 @@ export function PlayEditPage() {
           {content.alignments.map((a) => (
             <Chip
               key={a.id}
-              label={tr(a.name).text}
+              label={localizeText(a.name).text}
               selected={c.alignment === a.id}
               onPress={() => set({ alignment: c.alignment === a.id ? undefined : a.id })}
             />

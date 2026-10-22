@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { setClass, setEdition, setSubclass, subclassLevel } from '@/entities/character';
 import { useDraft, WizardScreen } from '@/features/create-character';
 import type { Edition } from '@/shared/content';
-import { abilityAbbr, byId, content, nameOf, tr } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDie } from '@/shared/lib/dice';
 import { AppText, Chip, ChipRow, Hint, OptionCard, Section, Segmented } from '@/shared/ui';
@@ -81,7 +81,7 @@ export function CreateClassPage() {
               return (
                 <Chip
                   key={id}
-                  label={sub ? tr(sub.name).text : id}
+                  label={sub ? localizeText(sub.name).text : id}
                   selected={id === subclassId}
                   onPress={() => update((d) => setSubclass(d, id))}
                 />

@@ -33,7 +33,7 @@ import {
   nameOf,
   proficiencyName,
   sizeName,
-  tr,
+  localizeText,
 } from '@/shared/content';
 import { currentLanguage, t } from '@/shared/i18n';
 import { formatDamage, formatDice, formatDie, formatFeet, formatModifier } from '@/shared/lib/dice';
@@ -80,9 +80,9 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
   const species = speciesSpellcasting(c, content);
   const speciesNote = [t('pdf.species'), species?.ability ? abilityAbbr(species.ability) : ''].filter(Boolean).join(', ');
   species?.spells.forEach((s) => add(s.spellId, speciesNote));
-  classOptionSpells(c, content).forEach((s) => add(s.spellId, tr(byId.classOptions.get(s.optionId)?.name).text));
+  classOptionSpells(c, content).forEach((s) => add(s.spellId, localizeText(byId.classOptions.get(s.optionId)?.name).text));
   return [...out.values()].sort(
-    (a, b) => a.spell.level - b.spell.level || tr(a.spell.name).text.localeCompare(tr(b.spell.name).text, currentLanguage()),
+    (a, b) => a.spell.level - b.spell.level || localizeText(a.spell.name).text.localeCompare(localizeText(b.spell.name).text, currentLanguage()),
   );
 }
 
@@ -121,9 +121,9 @@ function proficiencyRows(sheet: CharacterSheet, c: Character, content: Content) 
 
 function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const cls = c.classes.map((x) => `${nameOf('classes', x.classId)} ${x.level}`).join(' / ');
-  const sub = c.classes.map((x) => (x.subclassId ? tr(byId.subclasses.get(x.subclassId)?.name).text : '')).filter(Boolean).join(', ');
+  const sub = c.classes.map((x) => (x.subclassId ? localizeText(byId.subclasses.get(x.subclassId)?.name).text : '')).filter(Boolean).join(', ');
   const species = [nameOf('species', c.speciesId), c.subspeciesId ? nameOf('subspecies', c.subspeciesId) : ''].filter(Boolean).join(': ');
-  const alignment = c.alignment ? tr(byId.alignments.get(c.alignment)?.name).text : '';
+  const alignment = c.alignment ? localizeText(byId.alignments.get(c.alignment)?.name).text : '';
   const size = c.size ?? byId.species.get(c.speciesId)?.sizes[0] ?? '';
 
   const header = `
@@ -200,19 +200,19 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const masteryOf = (itemId: string) => {
     if (!c.weaponMasteries.includes(itemId)) return '';
     const m = byId.equipment.get(itemId)?.weapon?.mastery;
-    return m ? tr(byId.weaponMasteries.get(m)?.name).text : '';
+    return m ? localizeText(byId.weaponMasteries.get(m)?.name).text : '';
   };
   const attackRows = sheet.attacks.map((a) => {
-    const type = a.damageType ? tr(byId.damageTypes.get(a.damageType)?.name).text : '';
+    const type = a.damageType ? localizeText(byId.damageTypes.get(a.damageType)?.name).text : '';
     const mastery = masteryOf(a.itemId);
-    return `<tr><td class="d">${e(attackName(a))}</td><td class="d c">${formatModifier(a.toHit)}</td><td class="d">${e(
+    return `<localizeText><td class="d">${e(attackName(a))}</td><td class="d c">${formatModifier(a.toHit)}</td><td class="d">${e(
       `${formatDamage(a.damageDice, a.damageBonus)} ${type}`.trim(),
-    )}</td><td class="d">${mastery ? e(t('pdf.mastery', { name: mastery })) : ''}</td></tr>`;
+    )}</td><td class="d">${mastery ? e(t('pdf.mastery', { name: mastery })) : ''}</td></localizeText>`;
   });
-  while (attackRows.length < 4) attackRows.push('<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>');
+  while (attackRows.length < 4) attackRows.push('<localizeText><td>&nbsp;</td><td></td><td></td><td></td></localizeText>');
   const attacks = box(
     t('pdf.attacks'),
-    `<table class="tbl"><thead><tr><th>${e(t('pdf.attackName'))}</th><th class="c">${e(t('pdf.attackBonus'))}</th><th>${e(t('pdf.damage'))}</th><th>${e(t('pdf.notes'))}</th></tr></thead><tbody>${attackRows.join('')}</tbody></table>`,
+    `<table class="tbl"><thead><localizeText><th>${e(t('pdf.attackName'))}</th><th class="c">${e(t('pdf.attackBonus'))}</th><th>${e(t('pdf.damage'))}</th><th>${e(t('pdf.notes'))}</th></localizeText></thead><tbody>${attackRows.join('')}</tbody></table>`,
   );
 
   const resources = characterResources(c, content, sheet);
@@ -223,7 +223,7 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
           .map((r) => {
             const marks = r.max <= 10 ? circles(r.max) : `<span class="pool">___ / <span class="d">${r.max}</span></span>`;
             const recovery = t(r.recovery === 'long' ? 'pdf.recLong' : r.recovery === 'short' ? 'pdf.recShort' : 'pdf.recShortOne');
-            return `<div class="res"><span>${e(tr(r.name).text)}${r.die ? ` <span class="d">${formatDie(r.die)}</span>` : ''} <span class="muted">${recovery}</span></span><span class="marks">${marks}</span></div>`;
+            return `<div class="res"><span>${e(localizeText(r.name).text)}${r.die ? ` <span class="d">${formatDie(r.die)}</span>` : ''} <span class="muted">${recovery}</span></span><span class="marks">${marks}</span></div>`;
           })
           .join('')}</div><div class="hint">${e(t('pdf.recHint'))}</div>`,
       )
@@ -232,13 +232,13 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const fg = featureGroups(sheet);
   // 2014: умение предыстории («Приют для верующих») — в блоке черт с пометкой.
   const bgFeature = byId.backgrounds.get(c.backgroundId)?.feature;
-  const backgroundFeature = bgFeature ? [`${e(tr(bgFeature.name).text)} <span class="muted">${e(t('pdf.backgroundMark'))}</span>`] : [];
+  const backgroundFeature = bgFeature ? [`${e(localizeText(bgFeature.name).text)} <span class="muted">${e(t('pdf.backgroundMark'))}</span>`] : [];
   const featureList = (items: string[], cols = 2) =>
     items.length ? `<ul class="flist d" style="column-count:${cols}">${items.map((x) => `<li>${x}</li>`).join('')}</ul>` : lines(2);
   // Воззвания и метамагия — в том же списке, что и умения класса.
   const optionItems = (['invocation', 'metamagic'] as const)
     .flatMap((kind) => chosenClassOptions(c, kind))
-    .map((id) => e(tr(byId.classOptions.get(id)?.name).text || id));
+    .map((id) => e(localizeText(byId.classOptions.get(id)?.name).text || id));
   const classItems = [...fg.cls, ...fg.sub.map((x) => `${x} <span class="muted">${e(t('pdf.subclassMark'))}</span>`), ...optionItems];
   const features = `
     ${box(t('pdf.classFeatures'), featureList(classItems, classItems.length > 24 ? 3 : 2), 'grow')}
@@ -297,20 +297,20 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
   const spells = sheetSpells(c, content);
   const spellRows = spells.map(({ spell: s, note }) => {
     const comps = s.components.map((x) => t(x === 'V' ? 'pdf.compV' : x === 'S' ? 'pdf.compS' : 'pdf.compM')).join('');
-    return `<tr><td class="d c">${s.level === 0 ? e(t('pdf.cantripShort')) : s.level}</td><td class="d">${e(tr(s.name).text)}${
+    return `<localizeText><td class="d c">${s.level === 0 ? e(t('pdf.cantripShort')) : s.level}</td><td class="d">${e(localizeText(s.name).text)}${
       note ? ` <span class="muted">${e(note)}</span>` : ''
-    }</td><td class="d">${e(tr(s.castingTime).text)}</td><td class="d">${e(tr(s.range).text)}</td><td class="d">${e(
-      tr(s.duration).text,
+    }</td><td class="d">${e(localizeText(s.castingTime).text)}</td><td class="d">${e(localizeText(s.range).text)}</td><td class="d">${e(
+      localizeText(s.duration).text,
     )}</td><td class="d c">${comps}</td><td class="c">${s.concentration ? circle(true) : circle()}</td><td class="c">${
       s.ritual ? circle(true) : circle()
-    }</td></tr>`;
+    }</td></localizeText>`;
   });
   // Пустые строки — для карандаша; при длинном списке строки ниже и мельче, чтобы всё влезло.
   const dense = spellRows.length > 28;
-  while (spellRows.length < 28) spellRows.push('<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td class="c">' + circle() + '</td><td class="c">' + circle() + '</td></tr>');
+  while (spellRows.length < 28) spellRows.push('<localizeText><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td class="c">' + circle() + '</td><td class="c">' + circle() + '</td></localizeText>');
   const spellTable = box(
     t('pdf.spellTable'),
-    `<table class="tbl sp${dense ? ' dense' : ''}"><thead><tr><th class="c">${e(t('pdf.level'))}</th><th>${e(t('pdf.attackName'))}</th><th>${e(t('pdf.time'))}</th><th>${e(t('pdf.range'))}</th><th>${e(t('pdf.duration'))}</th><th class="c">${e(t('pdf.components'))}</th><th class="c">${e(t('pdf.concentrationShort'))}</th><th class="c">${e(t('pdf.ritualShort'))}</th></tr></thead><tbody>${spellRows.join(
+    `<table class="tbl sp${dense ? ' dense' : ''}"><thead><localizeText><th class="c">${e(t('pdf.level'))}</th><th>${e(t('pdf.attackName'))}</th><th>${e(t('pdf.time'))}</th><th>${e(t('pdf.range'))}</th><th>${e(t('pdf.duration'))}</th><th class="c">${e(t('pdf.components'))}</th><th class="c">${e(t('pdf.concentrationShort'))}</th><th class="c">${e(t('pdf.ritualShort'))}</th></localizeText></thead><tbody>${spellRows.join(
       '',
     )}</tbody></table><div class="hint">${e(t('pdf.spellHint'))}</div>`,
     'grow spells',

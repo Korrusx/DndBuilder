@@ -38,7 +38,7 @@ import {
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import { t } from '@/shared/i18n';
-import { indexOf, tr } from '@/shared/content';
+import { indexOf, localizeText } from '@/shared/content';
 
 import type { Issue } from './types';
 
@@ -83,8 +83,8 @@ export function draftIssues(c: Character, content: Content): Issue[] {
   if (bonusChoice) need(2, count(c.choices[CHOICE_KEYS.speciesAbilityBonus]) === bonusChoice.choose, t('issues.raceBonus', { count: bonusChoice.choose }));
   for (const traitId of originTraitIds(c, content)) {
     const trait = idx.traits.get(traitId);
-    if (trait?.subtraits) need(2, !!choice1(c, CHOICE_KEYS.traitOption(traitId)), t('issues.traitOption', { name: tr(trait.name).text }));
-    if (trait?.spellChoice) need(2, count(c.choices[CHOICE_KEYS.traitSpell(traitId)]) === trait.spellChoice.choose, t('issues.traitSpell', { name: tr(trait.name).text }));
+    if (trait?.subtraits) need(2, !!choice1(c, CHOICE_KEYS.traitOption(traitId)), t('issues.traitOption', { name: localizeText(trait.name).text }));
+    if (trait?.spellChoice) need(2, count(c.choices[CHOICE_KEYS.traitSpell(traitId)]) === trait.spellChoice.choose, t('issues.traitSpell', { name: localizeText(trait.name).text }));
   }
 
   // 3. Характеристики

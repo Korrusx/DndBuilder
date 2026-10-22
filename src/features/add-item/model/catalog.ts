@@ -1,4 +1,4 @@
-import { coinAbbr, content, HOMEBREW_EQUIPMENT_PREFIX, tr } from '@/shared/content';
+import { coinAbbr, content, HOMEBREW_EQUIPMENT_PREFIX, localizeText } from '@/shared/content';
 import { currentLanguage } from '@/shared/i18n';
 
 import type { Entry } from './types';
@@ -12,7 +12,7 @@ export function equipmentCatalog(): Entry[] {
   _eq.list = content.equipment
     .map((e) => ({
       id: e.id,
-      name: tr(e.name).text,
+      name: localizeText(e.name).text,
       note: e.id.startsWith(HOMEBREW_EQUIPMENT_PREFIX) ? '★' : `${e.cost.amount} ${coinAbbr(e.cost.unit)}`,
     }))
     .sort((a, b) => a.name.localeCompare(b.name, lang));
@@ -24,7 +24,7 @@ export function magicCatalog(): Entry[] {
   const lang = currentLanguage();
   if (_mg.lang === lang && _mg.list.length > 0) return _mg.list;
   _mg.list = content.magicItems
-    .map((m) => ({ id: m.id, name: tr(m.name).text, note: tr(m.rarity).text }))
+    .map((m) => ({ id: m.id, name: localizeText(m.name).text, note: localizeText(m.rarity).text }))
     .sort((a, b) => a.name.localeCompare(b.name, lang));
   _mg.lang = lang;
   return _mg.list;

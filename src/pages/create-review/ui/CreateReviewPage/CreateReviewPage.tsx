@@ -4,7 +4,7 @@ import { safeSheet } from '@/entities/character';
 import { useDraft, WizardScreen } from '@/features/create-character';
 import { usePdfExport } from '@/features/export-pdf';
 import { colors } from '@/shared/config';
-import { content, nameOf, tr } from '@/shared/content';
+import { content, nameOf, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Button, Chip, ChipRow, Section } from '@/shared/ui';
 import { SheetPreview } from '@/widgets/sheet-preview';
@@ -81,7 +81,7 @@ export function CreateReviewPage() {
           {content.alignments.map((a) => (
             <Chip
               key={a.id}
-              label={tr(a.name).text}
+              label={localizeText(a.name).text}
               selected={c.alignment === a.id}
               onPress={() => update((d) => ({ ...d, alignment: d.alignment === a.id ? undefined : a.id }))}
             />

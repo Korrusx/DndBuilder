@@ -1,5 +1,5 @@
 import type { AbilityBonuses, AbilityId, Subspecies } from '@/shared/content';
-import { abilityAbbr, byId, nameOf, tr } from '@/shared/content';
+import { abilityAbbr, byId, nameOf, localizeText } from '@/shared/content';
 import { i18n } from '@/shared/i18n';
 
 /** «ЛОВ +2, ХАР +1». */
@@ -21,7 +21,7 @@ export function shortSubspeciesName(id: string): string {
  */
 export function subspeciesSummary(sub: Subspecies): { traits: string; description?: string } {
   const traits = sub.traits.flatMap((st) => byId.traits.get(st.id) ?? []);
-  if (traits.length === 1) return { traits: '', description: tr(traits[0].description).text };
+  if (traits.length === 1) return { traits: '', description: localizeText(traits[0].description).text };
   const own = nameOf('subspecies', sub.id);
   return {
     traits: sub.traits

@@ -35,7 +35,7 @@ import {
   startLevelUp,
 } from '@/features/level-up';
 import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, byId, content, nameOf, plain, proficiencyName, tr } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, plain, proficiencyName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import type { InfoContent } from '@/shared/ui';
 import {
@@ -196,7 +196,7 @@ export function LevelUpPage() {
       </Section>
 
       {plan.multiclassChoices.map((mc) => (
-        <Section key={mc.key} title={t('levelUpPage.multiclassChoice', { what: tr(mc.desc).text || (mc.options.every((id) => id.startsWith('skill-')) ? t('levelUpPage.skill') : t('levelUpPage.proficiency')) })} picked={next.choices[mc.key]?.length ?? 0} need={mc.choose}>
+        <Section key={mc.key} title={t('levelUpPage.multiclassChoice', { what: localizeText(mc.desc).text || (mc.options.every((id) => id.startsWith('skill-')) ? t('levelUpPage.skill') : t('levelUpPage.proficiency')) })} picked={next.choices[mc.key]?.length ?? 0} need={mc.choose}>
           <MultiPick
             options={mc.options}
             selected={next.choices[mc.key] ?? []}
@@ -213,8 +213,8 @@ export function LevelUpPage() {
           {FEATURE_OPTIONS[featureId].map((o) => (
             <OptionCard
               key={o.id}
-              title={tr(o.name).text}
-              lines={[tr(o.description).text]}
+              title={localizeText(o.name).text}
+              lines={[localizeText(o.description).text]}
               selected={next.choices[CHOICE_KEYS.featureOption(featureId)]?.[0] === o.id}
               onPress={() => set((c) => ({ ...c, choices: { ...c.choices, [CHOICE_KEYS.featureOption(featureId)]: [o.id] } }))}
             />
@@ -297,8 +297,8 @@ export function LevelUpPage() {
             .map((s) => (
               <OptionCard
                 key={s.id}
-                title={tr(s.name).text}
-                lines={[tr(s.summary).text, ...(s.extra ? [t('common.fromPhb')] : [])]}
+                title={localizeText(s.name).text}
+                lines={[localizeText(s.summary).text, ...(s.extra ? [t('common.fromPhb')] : [])]}
                 selected={entry.subclassId === s.id}
                 onPress={() => setEntry({ subclassId: s.id })}
               />

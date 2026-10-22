@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import type { ResourceView } from '@/entities/character';
 import { adjustResource } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
-import { tr } from '@/shared/content';
+import { localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDie } from '@/shared/lib/dice';
 import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
@@ -27,7 +27,7 @@ export function ResourcesCard({ resources }: ResourcesCardProps) {
         const note = [r.die ? formatDie(r.die) : '', t('resources.recovery', { how: t(`resources.recoveryKind.${r.recovery}`) })].filter(Boolean).join(' · ');
         return (
           <View key={r.id} style={styles.item}>
-            <AppText>{tr(r.name).text}</AppText>
+            <AppText>{localizeText(r.name).text}</AppText>
             <AppText variant="secondary" style={styles.note}>
               {note}
             </AppText>

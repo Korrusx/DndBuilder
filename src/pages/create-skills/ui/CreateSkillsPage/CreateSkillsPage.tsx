@@ -21,7 +21,7 @@ import {
 } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import { ClassOptionsPicker } from '@/features/pick-class-options';
-import { byId, content, nameOf, proficiencyName, tr } from '@/shared/content';
+import { byId, content, nameOf, proficiencyName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
 
@@ -67,7 +67,7 @@ export function CreateSkillsPage() {
             source: t(`skillsStep.source.${slot.source}`),
             what: slot.options.every((o) => o.startsWith('skill-')) ? t('skillsStep.skills') : t('skillsStep.proficiencies'),
           })}
-          hint={tr(slot.desc).text}
+          hint={localizeText(slot.desc).text}
           picked={c.choices[slot.key]?.length ?? 0}
           need={slot.choose}
         >
@@ -102,8 +102,8 @@ export function CreateSkillsPage() {
               {FEATURE_OPTIONS[featureId].map((o) => (
                 <Chip
                   key={o.id}
-                  label={tr(o.name).text}
-                  note={tr(o.description).text}
+                  label={localizeText(o.name).text}
+                  note={localizeText(o.description).text}
                   selected={chosen === o.id}
                   onPress={() =>
                     update((d) => ({

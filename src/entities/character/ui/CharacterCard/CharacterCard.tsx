@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { colors } from '@/shared/config';
-import { contentFor, tr } from '@/shared/content';
+import { contentFor, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Badge, Button } from '@/shared/ui';
 
@@ -18,8 +18,8 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
   const s = useMemo(() => characterSummary(c, contentFor(c.edition)), [c]);
   const draft = c.status.kind === 'draft' ? c.status : null;
   // Один класс — просто название; мультикласс — с уровнями: «Плут 3 / Волшебник 2».
-  const classes = s.classNames.map((n, i) => (s.classNames.length > 1 ? `${tr(n).text} ${s.classLevels[i]}` : tr(n).text)).join(' / ');
-  const subtitle = [classes, tr(s.species).text, tr(s.background).text]
+  const classes = s.classNames.map((n, i) => (s.classNames.length > 1 ? `${localizeText(n).text} ${s.classLevels[i]}` : localizeText(n).text)).join(' / ');
+  const subtitle = [classes, localizeText(s.species).text, localizeText(s.background).text]
     .filter(Boolean)
     .join(' · ');
 

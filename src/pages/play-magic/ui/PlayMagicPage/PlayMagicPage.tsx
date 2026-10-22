@@ -30,7 +30,7 @@ import { SpellsEditSheet } from '@/features/edit-spells';
 import type { D20Request, DamageRequest } from '@/features/roll-dice';
 import { d20Parts, D20Sheet, DamageSheet } from '@/features/roll-dice';
 import type { AbilityId, Spell } from '@/shared/content';
-import { abilityAbbr, byId, content, nameOf, plain, spellMeta, spellName, tr } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, plain, spellMeta, spellName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDamage, formatModifier } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
@@ -98,7 +98,7 @@ export function PlayMagicPage() {
     }
     const done = result;
     updateState(() => done.state);
-    const name = tr(spell.name).text;
+    const name = localizeText(spell.name).text;
     setMessage(
       done.slotLevel === 0
         ? t('magic.castCantrip', { name })
@@ -114,11 +114,11 @@ export function PlayMagicPage() {
   const warlockAttack = sheet.spellcastingClasses.find((x) => x.classId === 'warlock')?.attackBonus ?? sc?.attackBonus;
   const topCircle = (xs: number[] = []) => xs.reduce((m, n, i) => (n > 0 ? i + 1 : m), 0);
   const maxSlot = Math.max(topCircle(sc?.slots), topCircle(pact));
-  const damageTypeName = (id?: string) => (id ? tr(byId.damageTypes.get(id)?.name).text || id : undefined);
+  const damageTypeName = (id?: string) => (id ? localizeText(byId.damageTypes.get(id)?.name).text || id : undefined);
 
   /** Кнопки «Атака» и «Урон» заклинания; `attackBonus` — от характеристики источника (класс, черта, вид). */
   const spellActions = (s: Spell, attackBonus: number | undefined) => {
-    const name = tr(s.name).text;
+    const name = localizeText(s.name).text;
     // Модификатор заклинательной характеристики источника: бонус атаки − БМ.
     const mod = attackBonus === undefined ? 0 : attackBonus - sheet.profBonus;
     const total = (d: SpellDamage) => d.bonus + (d.addModifier ? mod : 0) + (s.id === 'eldritch-blast' ? agonizing : 0);
@@ -184,13 +184,13 @@ export function PlayMagicPage() {
       <Pressable
         key={id}
         accessibilityRole="button"
-        onPress={() => setInfo({ title: tr(s.name).text, subtitle: spellMeta(s), text: [plain(s.description), plain(s.higherLevel)].filter(Boolean).join('\n\n') })}
+        onPress={() => setInfo({ title: localizeText(s.name).text, subtitle: spellMeta(s), text: [plain(s.description), plain(s.higherLevel)].filter(Boolean).join('\n\n') })}
         style={({ pressed }) => [styles.spell, pressed && { opacity: 0.85 }]}
       >
         <View style={styles.row}>
           <View style={styles.fillGap2}>
             <View style={styles.row}>
-              <AppText style={styles.spellName}>{tr(s.name).text}</AppText>
+              <AppText style={styles.spellName}>{localizeText(s.name).text}</AppText>
               {s.concentration ? <Badge label={t('magic.concentrationBadge')} /> : null}
               {s.ritual ? <Badge label={t('magic.ritualBadge')} /> : null}
             </View>
@@ -344,8 +344,8 @@ export function PlayMagicPage() {
               {chosen.map((o) => (
                 <Chip
                   key={o.id}
-                  label={o.cost ? t('classOptions.withCost', { name: tr(o.name).text, count: o.cost }) : tr(o.name).text}
-                  onPress={() => setInfo({ title: tr(o.name).text, text: plain(o.description) })}
+                  label={o.cost ? t('classOptions.withCost', { name: localizeText(o.name).text, count: o.cost }) : localizeText(o.name).text}
+                  onPress={() => setInfo({ title: localizeText(o.name).text, text: plain(o.description) })}
                 />
               ))}
             </ChipRow>

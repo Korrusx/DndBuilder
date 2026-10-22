@@ -3,15 +3,15 @@
 import { currentLanguage, t } from '@/shared/i18n';
 
 import { COIN_ORDER } from './constants';
-import { byId, tr } from './content';
+import { byId, localizeText } from './content';
 import type { AbilityId, Choice, ChoiceOption, Coin } from './types';
 
 type Table = 'classes' | 'species' | 'subspecies' | 'backgrounds' | 'feats' | 'equipment' | 'languages' | 'skills' | 'features' | 'traits';
 
 export function nameOf(table: Table, id: string | undefined): string {
   if (!id) return '';
-  const entry = byId[table].get(id) as { name: Parameters<typeof tr>[0] } | undefined;
-  return entry ? tr(entry.name).text : id;
+  const entry = byId[table].get(id) as { name: Parameters<typeof localizeText>[0] } | undefined;
+  return entry ? localizeText(entry.name).text : id;
 }
 
 export function proficiencyName(id: string): string {
@@ -19,20 +19,20 @@ export function proficiencyName(id: string): string {
   if (!p) return id;
   // Для навыков берём переведённое название навыка.
   if (p.type === 'skill' && p.refId) return nameOf('skills', p.refId);
-  return tr(p.name).text;
+  return localizeText(p.name).text;
 }
 
 export function spellName(id: string): string {
   const s = byId.spells.get(id);
-  return s ? tr(s.name).text : id;
+  return s ? localizeText(s.name).text : id;
 }
 
 export function abilityAbbr(id: AbilityId): string {
-  return tr(byId.abilities.get(id)?.abbr).text;
+  return localizeText(byId.abilities.get(id)?.abbr).text;
 }
 
 export function abilityName(id: AbilityId): string {
-  return tr(byId.abilities.get(id)?.name).text;
+  return localizeText(byId.abilities.get(id)?.name).text;
 }
 
 /** Сокращение монеты: «зм» / «gp». */
@@ -77,7 +77,7 @@ export function equipmentOptionText(option: ChoiceOption): string {
 function choiceText(choice: Choice): string {
   if (choice.fromCategory) {
     const category = byId.equipmentCategories.get(choice.fromCategory);
-    return t('choice.fromCategory', { category: category ? tr(category.name).text : choice.fromCategory });
+    return t('choice.fromCategory', { category: category ? localizeText(category.name).text : choice.fromCategory });
   }
   return t('choice.item');
 }
@@ -97,7 +97,7 @@ export function groupSkillsByAbility<T extends { id: string; ability: AbilityId 
 export function itemName(item: { itemId: string; name?: string }): string {
   if (item.name) return item.name;
   const eq = byId.equipment.get(item.itemId);
-  if (eq) return tr(eq.name).text;
+  if (eq) return localizeText(eq.name).text;
   const magic = byId.magicItems.get(item.itemId);
-  return magic ? tr(magic.name).text : item.itemId;
+  return magic ? localizeText(magic.name).text : item.itemId;
 }

@@ -69,7 +69,7 @@ export function releaseEdition(owner: symbol) {
  * Текст для показа на текущем языке. Если текста на этом языке нет — текст на другом языке
  * с флагом `translated: false` (для пометки).
  */
-export function tr(text: LocalizedText | undefined): { text: string; translated: boolean } {
+export function localizeText(text: LocalizedText | undefined): { text: string; translated: boolean } {
   if (!text) return { text: '', translated: true };
   if (currentLanguage() === 'en') return text.en ? { text: text.en, translated: true } : { text: text.ru ?? '', translated: false };
   return text.ru ? { text: text.ru, translated: true } : { text: text.en, translated: false };

@@ -20,7 +20,7 @@ import {
   nameOf,
   proficiencyName,
   spellName,
-  tr,
+  localizeText,
 } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDamage, formatFeet, formatModifier } from '@/shared/lib/dice';
@@ -122,7 +122,7 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
       {(['invocation', 'metamagic'] as const).map((kind) =>
         chosenClassOptions(c, kind).length ? (
           <Section key={kind} title={t(`classOptions.${kind}`)}>
-            <AppText>{chosenClassOptions(c, kind).map((id) => tr(byId.classOptions.get(id)?.name).text || id).join(', ')}</AppText>
+            <AppText>{chosenClassOptions(c, kind).map((id) => localizeText(byId.classOptions.get(id)?.name).text || id).join(', ')}</AppText>
           </Section>
         ) : null,
       )}

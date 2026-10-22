@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { characterResources, finishShortRest, shortRestResources, spendHitDie } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
-import { content, nameOf, tr } from '@/shared/content';
+import { content, nameOf, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDie, formatModifier, rollDie } from '@/shared/lib/dice';
 import { AppText, BottomSheet, SmallButton } from '@/shared/ui';
@@ -21,7 +21,7 @@ export function ShortRestSheet({ visible, onClose }: ShortRestSheetProps) {
     ...((sheet.spellcasting?.slotsFromPact && c.state.slotsSpent.some(Boolean)) || c.state.pactSlotsSpent?.some(Boolean) ? [t('rest.pactSlots')] : []),
     ...resources
       .filter((r) => r.spent > 0 && r.recovery !== 'long')
-      .map((r) => `${tr(r.name).text}${r.recovery === 'short-one' && r.spent > 1 ? ' (1)' : ''}`),
+      .map((r) => `${localizeText(r.name).text}${r.recovery === 'short-one' && r.spent > 1 ? ' (1)' : ''}`),
   ];
 
   return (

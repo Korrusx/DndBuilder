@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { chosenClassOptions, classOptionChoices, classOptionSlots, meetsPrerequisite, tomeSlots } from '@/entities/character';
 import type { ClassOption } from '@/shared/content';
-import { content, plain, spellName, tr } from '@/shared/content';
+import { content, plain, spellName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import type { InfoContent } from '@/shared/ui';
 import { Chip, InfoSheet, MultiPick, Section, SmallButton } from '@/shared/ui';
@@ -18,7 +18,7 @@ export function ClassOptionsPicker({ character: c, onChoice }: ClassOptionsPicke
   const tome = tomeSlots(c, content);
 
   const label = (o: ClassOption) => {
-    const name = tr(o.name).text;
+    const name = localizeText(o.name).text;
     return o.cost ? t('classOptions.withCost', { name, count: o.cost }) : name;
   };
 
@@ -49,7 +49,7 @@ export function ClassOptionsPicker({ character: c, onChoice }: ClassOptionsPicke
                         onPress={() => onChoice(slot.key, on ? chosen.filter((id) => id !== o.id) : [...chosen, o.id])}
                       />
                     </View>
-                    <SmallButton title="?" onPress={() => setInfo({ title: tr(o.name).text, text: plain(o.description) })} />
+                    <SmallButton title="?" onPress={() => setInfo({ title: localizeText(o.name).text, text: plain(o.description) })} />
                   </View>
                 );
               })}

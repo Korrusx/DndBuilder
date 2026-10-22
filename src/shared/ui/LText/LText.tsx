@@ -1,4 +1,4 @@
-import { tr } from '@/shared/content';
+import { localizeText } from '@/shared/content';
 import { currentLanguage } from '@/shared/i18n';
 
 import { AppText } from '../AppText/AppText';
@@ -7,7 +7,7 @@ import type { LTextProps } from './LText.types';
 
 /** Текст из справочника. Если текста на текущем языке нет — текст на другом языке с пометкой («EN» / «RU»). */
 export function LText({ text, ...rest }: LTextProps) {
-  const { text: value, translated } = tr(text);
+  const { text: value, translated } = localizeText(text);
   return (
     <AppText {...rest}>
       {value}

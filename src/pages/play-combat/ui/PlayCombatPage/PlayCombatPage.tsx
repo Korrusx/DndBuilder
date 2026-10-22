@@ -17,7 +17,7 @@ import {
 import { usePlay } from '@/entities/character/ui';
 import type { D20Request, DamageRequest } from '@/features/roll-dice';
 import { d20Parts, D20Sheet, DamageSheet } from '@/features/roll-dice';
-import { abilityAbbr, byId, content, nameOf, plain, spellName, tr } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, plain, spellName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDamage, formatDice, formatFeet, formatModifier } from '@/shared/lib/dice';
 import { AppText, BottomSheet, Card, Chip, ChipRow, InfoSheet, MultiPick, Screen, Segmented, SmallButton, StatBox } from '@/shared/ui';
@@ -76,7 +76,7 @@ export function PlayCombatPage() {
     setDamage({ title: spellName('divine-smite'), dice, bonus: 0, damageType: damageType('radiant') });
   };
 
-  const damageType = (id?: string) => (id ? tr(byId.damageTypes.get(id)?.name).text || id : undefined);
+  const damageType = (id?: string) => (id ? localizeText(byId.damageTypes.get(id)?.name).text || id : undefined);
 
   return (
     <Screen>
@@ -95,7 +95,7 @@ export function PlayCombatPage() {
         <Card style={styles.gapSm}>
           <View style={styles.row}>
             <View style={styles.fill}>
-              <AppText variant="heading">{tr(rage.name).text}</AppText>
+              <AppText variant="heading">{localizeText(rage.name).text}</AppText>
               <AppText variant="secondary">
                 {c.state.raging ? t('combat.rageActive', { bonus: rageBonus }) : t('combat.rageInactive', { left: rageLeft, max: rage.max })}
               </AppText>
@@ -216,8 +216,8 @@ export function PlayCombatPage() {
             ) : null}
             {masteryEntry ? (
               <SmallButton
-                title={t('combat.mastery', { name: tr(masteryEntry.name).text })}
-                onPress={() => setInfo({ title: tr(masteryEntry.name).text, text: plain(masteryEntry.description) })}
+                title={t('combat.mastery', { name: localizeText(masteryEntry.name).text })}
+                onPress={() => setInfo({ title: localizeText(masteryEntry.name).text, text: plain(masteryEntry.description) })}
               />
             ) : null}
           </Card>
@@ -312,8 +312,8 @@ export function PlayCombatPage() {
                 ) : null}
                 {masteryEntry ? (
                   <SmallButton
-                    title={t('combat.mastery', { name: tr(masteryEntry.name).text })}
-                    onPress={() => setInfo({ title: tr(masteryEntry.name).text, text: plain(masteryEntry.description) })}
+                    title={t('combat.mastery', { name: localizeText(masteryEntry.name).text })}
+                    onPress={() => setInfo({ title: localizeText(masteryEntry.name).text, text: plain(masteryEntry.description) })}
                   />
                 ) : null}
               </Card>

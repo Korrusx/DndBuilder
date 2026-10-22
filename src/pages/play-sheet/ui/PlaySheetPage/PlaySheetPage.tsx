@@ -22,7 +22,7 @@ import { d20Parts, D20Sheet } from '@/features/roll-dice';
 import { HpBlock } from '@/features/track-hp';
 import { ResourcesCard } from '@/features/track-resources';
 import { colors } from '@/shared/config';
-import { abilityAbbr, byId, content, nameOf, plain, tr } from '@/shared/content';
+import { abilityAbbr, byId, content, nameOf, plain, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet, formatModifier, rollD20 } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
@@ -140,9 +140,9 @@ export function PlaySheetPage() {
             return (
               <Chip
                 key={id}
-                label={tr(cond?.name).text || id}
+                label={localizeText(cond?.name).text || id}
                 selected
-                onPress={() => setInfo({ title: tr(cond?.name).text, text: plain(cond?.description), conditionId: id })}
+                onPress={() => setInfo({ title: localizeText(cond?.name).text, text: plain(cond?.description), conditionId: id })}
               />
             );
           })}
@@ -208,7 +208,7 @@ export function PlaySheetPage() {
             .map((x) => (
               <Chip
                 key={x.id}
-                label={tr(x.name).text}
+                label={localizeText(x.name).text}
                 onPress={() => {
                   updateState((s) => toggleCondition(s, x.id));
                   setPickCondition(false);

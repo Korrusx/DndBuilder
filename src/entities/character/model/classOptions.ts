@@ -2,7 +2,7 @@
 // а также Книга теней «Договора гримуара». Чистые функции.
 
 import type { ClassOption, Content } from '@/shared/content';
-import { indexOf, tr } from '@/shared/content';
+import { indexOf, localizeText } from '@/shared/content';
 import { t } from '@/shared/i18n';
 
 import { CHOICE_KEYS, METAMAGIC_COUNT, TOME_CANTRIPS, TOME_RITUALS } from '../config/constants';
@@ -134,7 +134,7 @@ export function classOptionProblemTexts(c: Character, content: Content): string[
     p.kind === 'count'
       ? t(p.slot.kind === 'invocation' ? 'issues.invocations' : 'issues.metamagic', { count: p.slot.count })
       : p.kind === 'unmet'
-        ? t('issues.unmetOptions', { list: p.ids.map((id) => tr(idx.get(id)?.name).text || id).join(', ') })
+        ? t('issues.unmetOptions', { list: p.ids.map((id) => localizeText(idx.get(id)?.name).text || id).join(', ') })
         : t('issues.tome'),
   );
 }

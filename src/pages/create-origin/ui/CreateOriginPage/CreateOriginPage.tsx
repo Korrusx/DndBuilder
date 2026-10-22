@@ -14,7 +14,7 @@ import {
 } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, abilityName, byId, content, nameOf, proficiencyName, sizeName, spellName, tr } from '@/shared/content';
+import { abilityAbbr, abilityName, byId, content, nameOf, proficiencyName, sizeName, spellName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet } from '@/shared/lib/dice';
 import { AppText, Chip, ChipRow, MultiPick, OptionCard, Section } from '@/shared/ui';
@@ -66,7 +66,7 @@ export function CreateOriginPage() {
             ...(background.featId
               ? [t('origin.feat', { name: `${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}` })]
               : []),
-            ...(background.feature ? [t('origin.feature', { name: tr(background.feature.name).text })] : []),
+            ...(background.feature ? [t('origin.feature', { name: localizeText(background.feature.name).text })] : []),
             `${t('origin.proficiencies', { list: background.proficiencies.map(proficiencyName).join(', ') })}${background.proficiencyChoices.length ? t('origin.plusChoice') : ''}`,
             ...(background.languageChoice ? [t('origin.languagesChoice', { count: background.languageChoice.choose })] : []),
             ...(background.extra ? [t('common.fromPhb')] : []),
@@ -146,7 +146,7 @@ export function CreateOriginPage() {
       {traits
         .filter((trait) => trait.subtraits)
         .map((trait) => (
-          <Section key={trait.id} title={tr(trait.name).text} picked={choice1(c, CHOICE_KEYS.traitOption(trait.id)) ? 1 : 0} need={1}>
+          <Section key={trait.id} title={localizeText(trait.name).text} picked={choice1(c, CHOICE_KEYS.traitOption(trait.id)) ? 1 : 0} need={1}>
             <MultiPick
               options={trait.subtraits!}
               selected={c.choices[CHOICE_KEYS.traitOption(trait.id)] ?? []}
@@ -162,7 +162,7 @@ export function CreateOriginPage() {
         .map((trait) => (
           <Section
             key={trait.id}
-            title={t('origin.traitSpell', { name: tr(trait.name).text })}
+            title={t('origin.traitSpell', { name: localizeText(trait.name).text })}
             picked={(c.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []).length}
             need={trait.spellChoice!.choose}
           >
