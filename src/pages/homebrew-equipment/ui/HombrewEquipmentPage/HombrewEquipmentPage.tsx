@@ -12,12 +12,11 @@ import { hombrewToEquipment, newHombrewId, useHombrewEquipment } from '@/feature
 import { coinAbbr, injectHomebrew, removeHombrewItem, updateHombrewItem } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { colors } from '@/shared/config';
-import { AppText, BottomSheet, Button } from '@/shared/ui';
+import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 
 import { COINS, DAMAGE_DICE, DAMAGE_TYPES_RU, MAGIC_BONUSES } from '../../config/constants';
 import { emptyForm } from '../../model/types';
 import type { FormState } from '../../model/types';
-import { BtnGroup } from './BtnGroup';
 import { CheckBtn } from './CheckBtn';
 import { styles } from './HombrewEquipmentPage.styles';
 
@@ -79,24 +78,24 @@ export function HombrewEquipmentPage() {
     ]);
   }
 
-  const kindOptions: { v: HombrewItemKind; label: string }[] = [
-    { v: 'gear', label: t('homebrew.kindGear') },
-    { v: 'weapon', label: t('homebrew.kindWeapon') },
-    { v: 'armor', label: t('homebrew.kindArmor') },
+  const kindOptions: { value: HombrewItemKind; label: string }[] = [
+    { value: 'gear', label: t('homebrew.kindGear') },
+    { value: 'weapon', label: t('homebrew.kindWeapon') },
+    { value: 'armor', label: t('homebrew.kindArmor') },
   ];
-  const weaponCategoryOptions: { v: HombrewWeaponCategory; label: string }[] = [
-    { v: 'simple', label: t('homebrew.weaponSimple') },
-    { v: 'martial', label: t('homebrew.weaponMartial') },
+  const weaponCategoryOptions: { value: HombrewWeaponCategory; label: string }[] = [
+    { value: 'simple', label: t('homebrew.weaponSimple') },
+    { value: 'martial', label: t('homebrew.weaponMartial') },
   ];
-  const weaponRangeOptions: { v: HombrewWeaponRangeType; label: string }[] = [
-    { v: 'melee', label: t('homebrew.weaponMelee') },
-    { v: 'ranged', label: t('homebrew.weaponRanged') },
+  const weaponRangeOptions: { value: HombrewWeaponRangeType; label: string }[] = [
+    { value: 'melee', label: t('homebrew.weaponMelee') },
+    { value: 'ranged', label: t('homebrew.weaponRanged') },
   ];
-  const armorCategoryOptions: { v: HombrewArmorCategory; label: string }[] = [
-    { v: 'light', label: t('homebrew.armorCat.light') },
-    { v: 'medium', label: t('homebrew.armorCat.medium') },
-    { v: 'heavy', label: t('homebrew.armorCat.heavy') },
-    { v: 'shield', label: t('homebrew.armorCat.shield') },
+  const armorCategoryOptions: { value: HombrewArmorCategory; label: string }[] = [
+    { value: 'light', label: t('homebrew.armorCat.light') },
+    { value: 'medium', label: t('homebrew.armorCat.medium') },
+    { value: 'heavy', label: t('homebrew.armorCat.heavy') },
+    { value: 'shield', label: t('homebrew.armorCat.shield') },
   ];
 
   return (
@@ -143,7 +142,12 @@ export function HombrewEquipmentPage() {
       >
         {/* Тип предмета */}
         <AppText style={styles.formLabel}>{t('homebrew.kind')}</AppText>
-        <BtnGroup<HombrewItemKind> value={form.kind} options={kindOptions} onPress={(v) => set('kind', v)} />
+        <Segmented<HombrewItemKind>
+          value={form.kind}
+          options={kindOptions}
+          onChange={(v) => set('kind', v)}
+          variant="soft"
+        />
 
         {/* Основные поля */}
         <AppText style={styles.formLabel}>{t('homebrew.name')} *</AppText>
@@ -197,17 +201,19 @@ export function HombrewEquipmentPage() {
         {form.kind === 'weapon' && (
           <>
             <AppText style={styles.formLabel}>{t('homebrew.weaponCategory')}</AppText>
-            <BtnGroup<HombrewWeaponCategory>
+            <Segmented<HombrewWeaponCategory>
               value={form.weaponCategory}
               options={weaponCategoryOptions}
-              onPress={(v) => set('weaponCategory', v)}
+              onChange={(v) => set('weaponCategory', v)}
+              variant="soft"
             />
 
             <AppText style={styles.formLabel}>{t('homebrew.weaponRangeType')}</AppText>
-            <BtnGroup<HombrewWeaponRangeType>
+            <Segmented<HombrewWeaponRangeType>
               value={form.weaponRangeType}
               options={weaponRangeOptions}
-              onPress={(v) => set('weaponRangeType', v)}
+              onChange={(v) => set('weaponRangeType', v)}
+              variant="soft"
             />
 
             <AppText style={styles.formLabel}>{t('homebrew.weaponDamageDice')}</AppText>
@@ -335,10 +341,11 @@ export function HombrewEquipmentPage() {
         {form.kind === 'armor' && (
           <>
             <AppText style={styles.formLabel}>{t('homebrew.armorKind')}</AppText>
-            <BtnGroup<HombrewArmorCategory>
+            <Segmented<HombrewArmorCategory>
               value={form.armorCategory}
               options={armorCategoryOptions}
-              onPress={(v) => set('armorCategory', v)}
+              onChange={(v) => set('armorCategory', v)}
+              variant="soft"
             />
 
             {form.armorCategory !== 'shield' && (

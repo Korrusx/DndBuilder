@@ -18,4 +18,5 @@ export const styles = StyleSheet.create({
   statValue: { fontFamily: fonts.displayBold, fontSize: 22, color: colors.text },
   statValueAccent: { color: colors.accent },
   statLabel: { fontFamily: fonts.text, fontSize: 12, color: colors.textSecondary, textAlign: 'center' },
+  statNote: { fontSize: 11, color: colors.textSecondary, textAlign: 'center' },
 });

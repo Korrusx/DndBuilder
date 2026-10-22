@@ -17,6 +17,5 @@ export const styles = StyleSheet.create({
   fillGap2: { flex: 1, gap: 2 },
   spellName: { fontFamily: fonts.textBold, flexShrink: 1 },
   size13: { fontSize: 13 },
-  width70: { width: 70 },
   textAccent: { color: colors.accent },
 });

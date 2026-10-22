@@ -23,4 +23,17 @@ export const styles = StyleSheet.create({
   segmentedLabel: { fontFamily: fonts.textBold, fontSize: 13, color: colors.text, textAlign: 'center' },
   segmentedItemOn: { backgroundColor: colors.accent },
   segmentedLabelOn: { color: colors.onAccent },
+
+  /* variant="soft" */
+  softRow: { flexDirection: 'row', gap: 6 },
+  softItem: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: colors.surface2,
+    alignItems: 'center',
+  },
+  softItemOn: { backgroundColor: colors.accentBg },
+  softLabel: { color: colors.textSecondary, fontSize: 14, fontFamily: fonts.text },
+  softLabelOn: { color: colors.accent, fontFamily: fonts.textBold },
 });

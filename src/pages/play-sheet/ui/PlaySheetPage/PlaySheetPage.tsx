@@ -5,6 +5,7 @@ import { Alert, Pressable, View } from 'react-native';
 import {
   ABILITY_IDS,
   characterResources,
+  characterSubtitle,
   deathSave,
   EXHAUSTION_MAX,
   featureInfo,
@@ -25,7 +26,18 @@ import { abilityAbbr, byId, content, nameOf, plain, localizeText } from '@/share
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet, formatModifier, rollD20 } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
-import { AppText, BottomSheet, Card, Chip, ChipRow, InfoSheet, Screen, SmallButton, StatBox } from '@/shared/ui';
+import {
+  AppText,
+  BottomSheet,
+  Card,
+  Chip,
+  ChipRow,
+  InfoSheet,
+  SaveChip,
+  Screen,
+  SmallButton,
+  StatBox,
+} from '@/shared/ui';
 
 import { styles } from './PlaySheetPage.styles';
 
@@ -39,11 +51,7 @@ export function PlaySheetPage() {
   const resources = characterResources(character, content, sheet);
 
   const exhaustion = character.state.exhaustion;
-  const subtitle = [
-    character.classes.map((e) => `${nameOf('classes', e.classId)} ${e.level}`).join(' / '),
-    nameOf('species', character.speciesId),
-    nameOf('backgrounds', character.backgroundId),
-  ].join(' · ');
+  const subtitle = characterSubtitle(character);
 
   const rollAbility = (id: (typeof ABILITY_IDS)[number], save: boolean) => {
     const a = sheet.abilities[id];
@@ -132,16 +140,13 @@ export function PlaySheetPage() {
                 <AppText style={styles.abilityMod}>{formatModifier(a.mod)}</AppText>
                 <AppText style={styles.abilityScore}>{a.score}</AppText>
               </Pressable>
-              <Pressable
-                accessibilityRole="button"
+              <SaveChip
+                label={t('sheet.saveShort', { value: formatModifier(a.save) })}
+                proficient={a.saveProficient}
                 onPress={() => rollAbility(id, true)}
-                style={[styles.save, a.saveProficient && styles.saveProficient]}
-              >
-                <AppText style={[styles.saveText, a.saveProficient && styles.saveProficientText]}>
-                  {t('sheet.saveShort', { value: formatModifier(a.save) })}
-                  {a.saveProficient ? ' ●' : ''}
-                </AppText>
-              </Pressable>
+                style={styles.save}
+                textStyle={styles.saveText}
+              />
             </View>
           );
         })}

@@ -7,8 +7,6 @@ export const styles = StyleSheet.create({
   hpValue: { fontFamily: fonts.displayBold, fontSize: 48, lineHeight: 56 },
   hpMax: { fontFamily: fonts.display, fontSize: 22, color: colors.textSecondary },
   temp: { alignItems: 'center', backgroundColor: colors.infoBg, borderRadius: 14, padding: spacing.sm },
-  track: { height: 10, borderRadius: 5, backgroundColor: colors.surface2, overflow: 'hidden' },
-  fill: { height: '100%', borderRadius: 5 },
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   amount: {
     flexDirection: 'row',
@@ -33,5 +31,4 @@ export const styles = StyleSheet.create({
   hpMaxTemp: { color: colors.info },
   fill2: { flex: 1 },
   tempLabel: { fontSize: 12, color: colors.info },
-  width72: { width: 72 },
 });

@@ -23,10 +23,9 @@ import {
 } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDamage, formatFeet, formatModifier } from '@/shared/lib/dice';
-import { AppText, Section } from '@/shared/ui';
+import { AppText, Section, StatBox } from '@/shared/ui';
 
 import { Grid } from '../Grid/Grid';
-import { Stat } from '../Stat/Stat';
 import { styles } from './SheetPreview.styles';
 import type { SheetPreviewProps } from './SheetPreview.types';
 
@@ -45,7 +44,7 @@ export function SheetPreview({ character, sheet }: SheetPreviewProps) {
     <>
       <Grid>
         {main.map((m) => (
-          <Stat key={m.label} label={m.label} value={m.value} />
+          <StatBox key={m.label} label={m.label} value={m.value} style={styles.statCell} />
         ))}
       </Grid>
 
@@ -54,11 +53,12 @@ export function SheetPreview({ character, sheet }: SheetPreviewProps) {
           {ABILITY_IDS.map((id) => {
             const a = sheet.abilities[id];
             return (
-              <Stat
+              <StatBox
                 key={id}
                 label={abilityAbbr(id)}
                 value={formatModifier(a.mod)}
                 note={`${t('preview.save', { score: a.score, save: formatModifier(a.save) })}${a.saveProficient ? ' ●' : ''}`}
+                style={styles.statCell}
               />
             );
           })}

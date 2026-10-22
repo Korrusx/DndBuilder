@@ -6,7 +6,7 @@ import { usePlay } from '@/entities/character/ui';
 import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import { formatDie } from '@/shared/lib/dice';
-import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
+import { AppText, Card, DotRow, HpBar, SmallButton } from '@/shared/ui';
 
 import { styles } from './HpBlock.styles';
 import type { HpBlockProps } from './HpBlock.types';
@@ -38,14 +38,7 @@ export function HpBlock({ character, sheet, onDeathSave }: HpBlockProps) {
           </View>
         ) : null}
       </View>
-      <View style={styles.track}>
-        <View
-          style={[
-            styles.fill,
-            { width: `${sheet.maxHp ? (currentHp / sheet.maxHp) * 100 : 0}%`, backgroundColor: color },
-          ]}
-        />
-      </View>
+      <HpBar current={currentHp} max={sheet.maxHp} color={color} />
 
       <View style={styles.row}>
         <SmallButton
@@ -109,44 +102,38 @@ export function HpBlock({ character, sheet, onDeathSave }: HpBlockProps) {
           <AppText style={[styles.statusText, status === 'dead' && styles.statusDead]}>
             {status === 'dead' ? t('hp.dead') : status === 'stable' ? t('hp.stable') : t('hp.dying')}
           </AppText>
-          <View style={styles.row}>
-            <AppText variant="secondary" style={styles.width72}>
-              {t('hp.successes')}
-            </AppText>
-            <Dots
-              total={3}
-              filled={character.state.deathSaves.successes}
-              color={colors.heal}
-              onPress={(i) =>
-                updateState((s) => ({
-                  ...s,
-                  deathSaves: {
-                    ...s.deathSaves,
-                    successes: i < s.deathSaves.successes ? i : i + 1,
-                  },
-                }))
-              }
-            />
-          </View>
-          <View style={styles.row}>
-            <AppText variant="secondary" style={styles.width72}>
-              {t('hp.failures')}
-            </AppText>
-            <Dots
-              total={3}
-              filled={character.state.deathSaves.failures}
-              color={colors.damage}
-              onPress={(i) =>
-                updateState((s) => ({
-                  ...s,
-                  deathSaves: {
-                    ...s.deathSaves,
-                    failures: i < s.deathSaves.failures ? i : i + 1,
-                  },
-                }))
-              }
-            />
-          </View>
+          <DotRow
+            label={t('hp.successes')}
+            total={3}
+            filled={character.state.deathSaves.successes}
+            color={colors.heal}
+            secondary
+            onPress={(i) =>
+              updateState((s) => ({
+                ...s,
+                deathSaves: {
+                  ...s.deathSaves,
+                  successes: i < s.deathSaves.successes ? i : i + 1,
+                },
+              }))
+            }
+          />
+          <DotRow
+            label={t('hp.failures')}
+            total={3}
+            filled={character.state.deathSaves.failures}
+            color={colors.damage}
+            secondary
+            onPress={(i) =>
+              updateState((s) => ({
+                ...s,
+                deathSaves: {
+                  ...s.deathSaves,
+                  failures: i < s.deathSaves.failures ? i : i + 1,
+                },
+              }))
+            }
+          />
           {status === 'dying' ? (
             <SmallButton title={t('hp.rollDeathSave')} tone="accent" onPress={onDeathSave} />
           ) : null}

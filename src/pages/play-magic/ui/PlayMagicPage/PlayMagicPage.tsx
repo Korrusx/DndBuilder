@@ -41,7 +41,7 @@ import {
   Card,
   Chip,
   ChipRow,
-  Dots,
+  DotRow,
   InfoSheet,
   Placeholder,
   Screen,
@@ -281,16 +281,15 @@ export function PlayMagicPage() {
             <AppText variant="secondary">{t('magic.slotsHint')}</AppText>
             {sc.slots.map((max, i) =>
               max > 0 ? (
-                <View key={i} style={styles.row}>
-                  <AppText style={styles.width70}>{t('spell.circle', { level: i + 1 })}</AppText>
-                  <Dots
-                    total={max}
-                    filled={character.state.slotsSpent[i] ?? 0}
-                    onPress={(dot) =>
-                      updateState((s) => adjustSlot(s, i + 1, dot < (s.slotsSpent[i] ?? 0) ? -1 : 1, sc.slots))
-                    }
-                  />
-                </View>
+                <DotRow
+                  key={i}
+                  label={t('spell.circle', { level: i + 1 })}
+                  total={max}
+                  filled={character.state.slotsSpent[i] ?? 0}
+                  onPress={(dot) =>
+                    updateState((s) => adjustSlot(s, i + 1, dot < (s.slotsSpent[i] ?? 0) ? -1 : 1, sc.slots))
+                  }
+                />
               ) : null,
             )}
             {pact ? (
@@ -299,18 +298,15 @@ export function PlayMagicPage() {
                 <AppText variant="secondary">{t('magic.pactSlotsHint')}</AppText>
                 {pact.map((max, i) =>
                   max > 0 ? (
-                    <View key={`pact-${i}`} style={styles.row}>
-                      <AppText style={styles.width70}>{t('spell.circle', { level: i + 1 })}</AppText>
-                      <Dots
-                        total={max}
-                        filled={character.state.pactSlotsSpent?.[i] ?? 0}
-                        onPress={(dot) =>
-                          updateState((s) =>
-                            adjustPactSlot(s, i + 1, dot < (s.pactSlotsSpent?.[i] ?? 0) ? -1 : 1, pact),
-                          )
-                        }
-                      />
-                    </View>
+                    <DotRow
+                      key={`pact-${i}`}
+                      label={t('spell.circle', { level: i + 1 })}
+                      total={max}
+                      filled={character.state.pactSlotsSpent?.[i] ?? 0}
+                      onPress={(dot) =>
+                        updateState((s) => adjustPactSlot(s, i + 1, dot < (s.pactSlotsSpent?.[i] ?? 0) ? -1 : 1, pact))
+                      }
+                    />
                   ) : null,
                 )}
               </>

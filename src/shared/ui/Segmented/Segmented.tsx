@@ -4,21 +4,32 @@ import { AppText } from '../AppText/AppText';
 import { styles } from './Segmented.styles';
 import type { SegmentedProps } from './Segmented.types';
 
-/** Переключатель из нескольких вариантов («Стандартный / Покупка очков / Броски»). */
-export function Segmented<T extends string>({ options, value, onChange }: SegmentedProps<T>) {
+/** Переключатель из нескольких вариантов. variant="soft" — без рамки, фон surface2, акцент мягкий. */
+export function Segmented<T extends string>({ options, value, onChange, variant = 'default' }: SegmentedProps<T>) {
+  const soft = variant === 'soft';
   return (
-    <View style={styles.segmented}>
-      {options.map((o) => {
-        const on = o.value === value;
+    <View style={soft ? styles.softRow : styles.segmented}>
+      {options.map((option) => {
+        const on = option.value === value;
         return (
           <Pressable
-            key={o.value}
+            key={option.value}
             accessibilityRole="button"
             accessibilityState={{ selected: on }}
-            onPress={() => onChange(o.value)}
-            style={[styles.segmentedItem, on && styles.segmentedItemOn]}
+            onPress={() => onChange(option.value)}
+            style={
+              soft ? [styles.softItem, on && styles.softItemOn] : [styles.segmentedItem, on && styles.segmentedItemOn]
+            }
           >
-            <AppText style={[styles.segmentedLabel, on && styles.segmentedLabelOn]}>{o.label}</AppText>
+            <AppText
+              style={
+                soft
+                  ? [styles.softLabel, on && styles.softLabelOn]
+                  : [styles.segmentedLabel, on && styles.segmentedLabelOn]
+              }
+            >
+              {option.label}
+            </AppText>
           </Pressable>
         );
       })}

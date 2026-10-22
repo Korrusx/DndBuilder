@@ -8,7 +8,7 @@ import { d20Parts, D20Sheet } from '@/features/roll-dice';
 import { abilityAbbr, abilityName, content, groupSkillsByAbility, nameOf } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
-import { AppText, Card, Screen } from '@/shared/ui';
+import { AppText, Card, SaveChip, Screen } from '@/shared/ui';
 
 import { styles } from './PlaySkillsPage.styles';
 
@@ -63,8 +63,9 @@ export function PlaySkillsPage() {
                   {t('skillsTab.modScore', { mod: formatModifier(a.mod), score: a.score })}
                 </AppText>
               </Pressable>
-              <Pressable
-                accessibilityRole="button"
+              <SaveChip
+                label={t('sheet.saveShort', { value: formatModifier(a.save) })}
+                proficient={a.saveProficient}
                 onPress={() => {
                   const parts = [{ label: abilityAbbr(ability), value: a.mod }];
                   if (a.saveProficient) {
@@ -75,13 +76,7 @@ export function PlaySkillsPage() {
                     parts: d20Parts(parts, exhaustion),
                   });
                 }}
-                style={[styles.save, a.saveProficient && styles.saveProficient]}
-              >
-                <AppText style={[styles.saveText, a.saveProficient && styles.saveProficientText]}>
-                  {t('sheet.saveShort', { value: formatModifier(a.save) })}
-                  {a.saveProficient ? ' ●' : ''}
-                </AppText>
-              </Pressable>
+              />
             </View>
             {skills.map((s) => (
               <Pressable

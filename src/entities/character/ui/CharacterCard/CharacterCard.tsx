@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { contentFor, localizeText } from '@/shared/content';
+import { contentFor } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, Badge, Button } from '@/shared/ui';
+import { AppText, AvatarLetter, Badge, Button, HpBar } from '@/shared/ui';
 
 import { HP_COLORS } from '../../config/hpColors';
+import { characterSubtitle } from '../../lib/subtitle';
 import { characterSummary, hpLevel } from '../../model/summary';
 import { styles } from './CharacterCard.styles';
 import type { CharacterCardProps } from './CharacterCard.types';
@@ -13,14 +14,9 @@ import type { CharacterCardProps } from './CharacterCard.types';
 export function CharacterCard({ character, onPress, onLongPress, selected, draftSteps }: CharacterCardProps) {
   const { t } = useTranslation();
   const selecting = selected !== undefined;
-  // Сводка считает лист персонажа — пересчитываем, только когда изменился сам персонаж.
   const s = useMemo(() => characterSummary(character, contentFor(character.edition)), [character]);
   const draft = character.status.kind === 'draft' ? character.status : null;
-  // Один класс — просто название; мультикласс — с уровнями: «Плут 3 / Волшебник 2».
-  const classes = s.classNames
-    .map((n, i) => (s.classNames.length > 1 ? `${localizeText(n).text} ${s.classLevels[i]}` : localizeText(n).text))
-    .join(' / ');
-  const subtitle = [classes, localizeText(s.species).text, localizeText(s.background).text].filter(Boolean).join(' · ');
+  const subtitle = characterSubtitle(character);
 
   return (
     <Pressable
@@ -40,9 +36,7 @@ export function CharacterCard({ character, onPress, onLongPress, selected, draft
             {selected ? <AppText style={styles.checkMark}>✓</AppText> : null}
           </View>
         ) : (
-          <View style={[styles.avatar, draft && styles.avatarDraft]}>
-            <AppText style={[styles.avatarLetter, draft && styles.avatarLetterDraft]}>{s.letter}</AppText>
-          </View>
+          <AvatarLetter letter={s.letter} dim={!!draft} />
         )}
         <View style={styles.info}>
           {/* Редакция правил (5e24 / 5e14) — рядом с именем, чтобы её было видно и при длинной строке класса. */}
@@ -74,17 +68,12 @@ export function CharacterCard({ character, onPress, onLongPress, selected, draft
       {s.hp ? (
         <View style={styles.row}>
           <View style={styles.hpBlock}>
-            <View style={styles.hpTrack}>
-              <View
-                style={[
-                  styles.hpFill,
-                  {
-                    width: `${s.hp.max > 0 ? (s.hp.current / s.hp.max) * 100 : 0}%`,
-                    backgroundColor: HP_COLORS[hpLevel(s.hp.current, s.hp.max)],
-                  },
-                ]}
-              />
-            </View>
+            <HpBar
+              current={s.hp.current}
+              max={s.hp.max}
+              color={HP_COLORS[hpLevel(s.hp.current, s.hp.max)]}
+              height={8}
+            />
             <AppText variant="secondary">{t('card.hp', { current: s.hp.current, max: s.hp.max })}</AppText>
           </View>
           {s.armorClass !== undefined ? (

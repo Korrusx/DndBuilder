@@ -21,4 +21,5 @@ export const styles = StyleSheet.create({
   groupTitle: { fontFamily: fonts.display, fontSize: 13, color: colors.textSecondary },
   profMark: { width: 18, color: colors.accent },
   fill: { flex: 1 },
+  statCell: { width: '31.5%', flex: 0 },
 });

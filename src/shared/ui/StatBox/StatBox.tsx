@@ -5,18 +5,19 @@ import { styles } from './StatBox.styles';
 import type { StatBoxProps } from './StatBox.types';
 
 /** Плитка с числом: КЗ, инициатива, скорость… Нажатие — бросок или подробности. */
-export function StatBox({ label, value, onPress, accent }: StatBoxProps) {
+export function StatBox({ label, value, onPress, accent, note, style }: StatBoxProps) {
   return (
     <Pressable
       accessibilityRole={onPress ? 'button' : undefined}
       disabled={!onPress}
       onPress={onPress}
-      style={({ pressed }) => [styles.stat, pressed && { opacity: 0.8 }]}
+      style={({ pressed }) => [styles.stat, pressed && { opacity: 0.8 }, style]}
     >
       <AppText style={[styles.statValue, accent && styles.statValueAccent]}>{value}</AppText>
       <AppText style={styles.statLabel} numberOfLines={2}>
         {label}
       </AppText>
+      {note ? <AppText style={styles.statNote}>{note}</AppText> : null}
     </Pressable>
   );
 }

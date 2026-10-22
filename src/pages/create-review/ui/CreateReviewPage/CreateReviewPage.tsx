@@ -1,12 +1,12 @@
 import { Pressable, TextInput, View } from 'react-native';
 
-import { safeSheet } from '@/entities/character';
+import { characterSubtitle, safeSheet } from '@/entities/character';
 import { useDraft, WizardScreen } from '@/features/create-character';
 import { usePdfExport } from '@/features/export-pdf';
 import { colors } from '@/shared/config';
-import { content, nameOf, localizeText } from '@/shared/content';
+import { content, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, Button, Chip, ChipRow, Section } from '@/shared/ui';
+import { AppText, AvatarLetter, Button, Chip, ChipRow, Section } from '@/shared/ui';
 import { SheetPreview } from '@/widgets/sheet-preview';
 
 import { styles } from './CreateReviewPage.styles';
@@ -17,13 +17,7 @@ export function CreateReviewPage() {
   const { t } = useTranslation();
   const blocking = issues.filter((i) => i.blocking);
   const sheet = issues.some((i) => i.blocking && i.step <= 2) ? null : safeSheet(character);
-  const subtitle = [
-    t('review.level1', { className: nameOf('classes', character.classes[0]?.classId) }),
-    nameOf('species', character.speciesId),
-    nameOf('backgrounds', character.backgroundId),
-  ]
-    .filter(Boolean)
-    .join(' · ');
+  const subtitle = characterSubtitle(character);
 
   return (
     <WizardScreen
@@ -46,9 +40,7 @@ export function CreateReviewPage() {
       }
     >
       <View style={styles.hero}>
-        <View style={styles.avatar}>
-          <AppText style={styles.avatarLetter}>{(character.name.trim()[0] ?? '?').toUpperCase()}</AppText>
-        </View>
+        <AvatarLetter letter={(character.name.trim()[0] ?? '?').toUpperCase()} size="lg" />
         <View style={styles.heroText}>
           <TextInput
             value={character.name}
