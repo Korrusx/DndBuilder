@@ -9,12 +9,7 @@ import { styles } from './BottomSheet.styles';
 import type { BottomSheetProps } from './BottomSheet.types';
 
 /** Нижняя панель поверх экрана. Нажатие на затемнение закрывает её. */
-export function BottomSheet({
-  visible,
-  title,
-  onClose,
-  children,
-}: BottomSheetProps) {
+export function BottomSheet({ visible, title, onClose, children }: BottomSheetProps) {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   return (

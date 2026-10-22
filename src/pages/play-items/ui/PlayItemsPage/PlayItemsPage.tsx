@@ -36,11 +36,13 @@ export function PlayItemsPage() {
   }, [equippedSlots]);
 
   const candidates = useMemo(() => {
-    if (selectedSlot === 'off' && mainIsTwoHanded) return [];
+    if (selectedSlot === 'off' && mainIsTwoHanded) {
+      return [];
+    }
     return bag
       .map((inv) => ({ inv, item: lookupItem(inv.itemId) }))
-      .filter((x): x is typeof x & { item: NonNullable<typeof x['item']> } =>
-        !!x.item && fitsSlot(x.item, selectedSlot),
+      .filter(
+        (x): x is typeof x & { item: NonNullable<(typeof x)['item']> } => !!x.item && fitsSlot(x.item, selectedSlot),
       );
   }, [bag, selectedSlot, mainIsTwoHanded]);
 
@@ -48,7 +50,9 @@ export function PlayItemsPage() {
     if (itemId) {
       update((c: Character) => {
         let next = equipToSlot(c, slotId, itemId);
-        if (slotId === 'main' && isTwoHandedWeapon(itemId)) next = unequipSlot(next, 'off');
+        if (slotId === 'main' && isTwoHandedWeapon(itemId)) {
+          next = unequipSlot(next, 'off');
+        }
         return next;
       });
     } else {
@@ -59,9 +63,7 @@ export function PlayItemsPage() {
 
   function removeOneFromBag(itemId: string, qty: number) {
     const name = itemName({ itemId });
-    const msg = qty > 1
-      ? t('inventory.confirmRemoveQty', { name, qty })
-      : t('inventory.confirmRemove', { name });
+    const msg = qty > 1 ? t('inventory.confirmRemoveQty', { name, qty }) : t('inventory.confirmRemove', { name });
     Alert.alert(name, msg, [
       { text: t('common.cancel'), style: 'cancel' },
       {
@@ -71,7 +73,7 @@ export function PlayItemsPage() {
           update((c) => ({
             ...c,
             equipment: c.equipment
-              .map((x) => x.itemId === itemId ? { ...x, quantity: x.quantity - 1 } : x)
+              .map((x) => (x.itemId === itemId ? { ...x, quantity: x.quantity - 1 } : x))
               .filter((x) => x.quantity > 0),
           })),
       },
@@ -97,11 +99,17 @@ export function PlayItemsPage() {
         </Pressable>
         <Pressable style={[styles.bagBtn, styles.bagBtnRight]} onPress={() => setBagOpen(true)}>
           <GameIcon name="person" size={18} color={styles.bagBtnText.color} />
-          <AppText style={styles.bagBtnText}>{t('inventory.bag')} · {bag.length}</AppText>
+          <AppText style={styles.bagBtnText}>
+            {t('inventory.bag')} · {bag.length}
+          </AppText>
         </Pressable>
       </View>
 
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <CharacterDoll
           equippedSlots={equippedSlots}
           selectedSlot={selectedSlot}
@@ -125,7 +133,6 @@ export function PlayItemsPage() {
           attuned={attuned}
           currentAc={sheet.armorClass}
           character={character}
-          sheet={sheet}
           onEquip={doEquip}
         />
 
@@ -165,7 +172,10 @@ export function PlayItemsPage() {
         bag={bag}
         mainIsTwoHanded={mainIsTwoHanded}
         onClose={() => setBagOpen(false)}
-        onAdd={() => { setAdding(true); setAddingEver(true); }}
+        onAdd={() => {
+          setAdding(true);
+          setAddingEver(true);
+        }}
         onEquip={doEquip}
         onRemove={removeOneFromBag}
       />

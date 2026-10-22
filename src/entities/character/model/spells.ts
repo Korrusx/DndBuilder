@@ -24,7 +24,10 @@ const NO_SLOTS = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 function activeCasters(entries: ClassEntry[], classes: ReadonlyMap<string, CharacterClass>) {
   return entries
     .map((e) => ({ e, cls: classes.get(e.classId) }))
-    .filter(({ e, cls }) => !!cls?.spellcasting && e.level >= cls.spellcasting.fromLevel) as { e: ClassEntry; cls: CharacterClass }[];
+    .filter(({ e, cls }) => !!cls?.spellcasting && e.level >= cls.spellcasting.fromLevel) as {
+    e: ClassEntry;
+    cls: CharacterClass;
+  }[];
 }
 
 /**
@@ -33,23 +36,41 @@ function activeCasters(entries: ClassEntry[], classes: ReadonlyMap<string, Chara
  * заклинателей + половина уровней паладина и следопыта (2024 — вверх, 2014 — вниз). Колдун в сумму не входит:
  * его ячейки отдельно (см. characterPactSlots); если колдун — единственный заклинатель, его ячейки и есть общие.
  */
-export function characterSpellSlots(entries: ClassEntry[], classes: ReadonlyMap<string, CharacterClass>, edition: Edition = '2024'): number[] {
+export function characterSpellSlots(
+  entries: ClassEntry[],
+  classes: ReadonlyMap<string, CharacterClass>,
+  edition: Edition = '2024',
+): number[] {
   const casters = activeCasters(entries, classes);
   const regular = casters.filter(({ cls }) => SPELLCASTER_PROGRESSION[cls.id] !== 'pact');
-  if (regular.length === 0) return casters[0] ? spellSlots(casters[0].cls, casters[0].e.level) : NO_SLOTS;
-  if (regular.length === 1) return spellSlots(regular[0].cls, regular[0].e.level);
+  if (regular.length === 0) {
+    return casters[0] ? spellSlots(casters[0].cls, casters[0].e.level) : NO_SLOTS;
+  }
+  if (regular.length === 1) {
+    return spellSlots(regular[0].cls, regular[0].e.level);
+  }
   const half = edition === '2014' ? Math.floor : Math.ceil;
-  const total = regular.reduce((sum, { e, cls }) => sum + (SPELLCASTER_PROGRESSION[cls.id] === 'half' ? half(e.level / 2) : e.level), 0);
-  if (total === 0) return NO_SLOTS;
+  const total = regular.reduce(
+    (sum, { e, cls }) => sum + (SPELLCASTER_PROGRESSION[cls.id] === 'half' ? half(e.level / 2) : e.level),
+    0,
+  );
+  if (total === 0) {
+    return NO_SLOTS;
+  }
   const table = classes.get(MULTICLASS_SLOTS_CLASS);
   return table ? spellSlots(table, Math.min(20, total)) : NO_SLOTS;
 }
 
 /** Ячейки «Магии договора», если они идут отдельно от общих (колдун и ещё один заклинатель); иначе undefined. */
-export function characterPactSlots(entries: ClassEntry[], classes: ReadonlyMap<string, CharacterClass>): number[] | undefined {
+export function characterPactSlots(
+  entries: ClassEntry[],
+  classes: ReadonlyMap<string, CharacterClass>,
+): number[] | undefined {
   const casters = activeCasters(entries, classes);
   const pact = casters.find(({ cls }) => SPELLCASTER_PROGRESSION[cls.id] === 'pact');
-  if (!pact || casters.length < 2) return undefined;
+  if (!pact || casters.length < 2) {
+    return undefined;
+  }
   return spellSlots(pact.cls, pact.e.level);
 }
 
@@ -83,7 +104,9 @@ export type SpellDamage = {
  */
 export function spellDamage(spell: Spell, characterLevel: number, slotLevel = spell.level): SpellDamage | null {
   const d = spell.damage;
-  if (!d) return null;
+  if (!d) {
+    return null;
+  }
   const key = spell.level === 0 ? '0' : String(slotLevel);
   const common = {
     ...(d.addModifier ? { addModifier: true } : {}),
@@ -101,7 +124,9 @@ export function spellDamage(spell: Spell, characterLevel: number, slotLevel = sp
     }
     dice = d.byCharacterLevel?.[String(CANTRIP_TIERS[tier - 1])] ?? dice;
   }
-  if (!dice) return null;
+  if (!dice) {
+    return null;
+  }
   const count = d.countBySlotLevel?.[key];
   if (count) {
     const [n, die] = dice.split('d');
@@ -112,7 +137,9 @@ export function spellDamage(spell: Spell, characterLevel: number, slotLevel = sp
 
 /** Круги, для которых известен урон заклинания: от его круга до `maxSlot`. */
 export function spellDamageLevels(spell: Spell, maxSlot: number): number[] {
-  if (!spell.damage?.bySlotLevel || spell.level === 0) return [];
+  if (!spell.damage?.bySlotLevel || spell.level === 0) {
+    return [];
+  }
   return Object.keys(spell.damage.bySlotLevel)
     .map(Number)
     .filter((l) => l >= spell.level && l <= Math.max(spell.level, maxSlot))

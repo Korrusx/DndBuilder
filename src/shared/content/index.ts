@@ -1,5 +1,18 @@
 export { COIN_ORDER } from './constants';
-export { activeEdition, byId, content, contentFor, HOMEBREW_EQUIPMENT_PREFIX, indexOf, injectHomebrew, removeHombrewItem, setActiveEdition, localizeText, translationProgress, updateHombrewItem } from './content';
+export {
+  activeEdition,
+  byId,
+  content,
+  contentFor,
+  HOMEBREW_EQUIPMENT_PREFIX,
+  indexOf,
+  injectHomebrew,
+  removeHombrewItem,
+  setActiveEdition,
+  localizeText,
+  translationProgress,
+  updateHombrewItem,
+} from './content';
 export { useActiveEdition } from './useActiveEdition';
 export {
   abilityAbbr,

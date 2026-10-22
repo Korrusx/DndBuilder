@@ -26,12 +26,17 @@ describe('localizeText: текст справочника на текущем я
   test('в справочнике у каждого текста есть английский вариант (без кириллицы)', () => {
     const bad: string[] = [];
     const walk = (v: unknown, path: string) => {
-      if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${path}[${i}]`));
-      else if (v && typeof v === 'object') {
+      if (Array.isArray(v)) {
+        v.forEach((x, i) => walk(x, `${path}[${i}]`));
+      } else if (v && typeof v === 'object') {
         const t = v as { en?: unknown };
         if (typeof t.en === 'string') {
-          if (/[А-Яа-яЁё]/.test(t.en)) bad.push(path);
-        } else Object.entries(v).forEach(([k, x]) => walk(x, `${path}.${k}`));
+          if (/[А-Яа-яЁё]/.test(t.en)) {
+            bad.push(path);
+          }
+        } else {
+          Object.entries(v).forEach(([k, x]) => walk(x, `${path}.${k}`));
+        }
       }
     };
     walk(content, 'content');

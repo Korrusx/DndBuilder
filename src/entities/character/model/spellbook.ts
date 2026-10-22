@@ -20,9 +20,13 @@ export function hasSpellbook(c: Character): boolean {
  * в ней считаются его подготовленные заклинания.
  */
 export function spellbook(c: Character): string[] {
-  if (!hasSpellbook(c)) return [];
+  if (!hasSpellbook(c)) {
+    return [];
+  }
   const book = c.choices[CHOICE_KEYS.spellbook];
-  if (book) return book;
+  if (book) {
+    return book;
+  }
   // Тогда мультикласса ещё не было: волшебник был единственным классом.
   return c.classes[0]?.classId === 'wizard' ? c.preparedSpells : [];
 }

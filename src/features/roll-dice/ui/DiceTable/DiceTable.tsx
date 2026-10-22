@@ -23,12 +23,18 @@ export function DiceTable({ roll, settings, onLanded, onError }: DiceTableProps)
   const run = (js: string) => web.current?.injectJavaScript(`${js};true;`);
 
   useEffect(() => {
-    if (ready) run(`window.diceSetup(${JSON.stringify({ skin, table, sound })})`);
+    if (ready) {
+      run(`window.diceSetup(${JSON.stringify({ skin, table, sound })})`);
+    }
   }, [ready, skin, table, sound]);
 
   useEffect(() => {
-    if (!ready || !roll) return;
-    run(`window.diceRoll(${JSON.stringify({ id: roll.id, values: roll.dice, sides: roll.sides, keep: roll.keep, animate: animation })})`);
+    if (!ready || !roll) {
+      return;
+    }
+    run(
+      `window.diceRoll(${JSON.stringify({ id: roll.id, values: roll.dice, sides: roll.sides, keep: roll.keep, animate: animation })})`,
+    );
     // Страховка: если сцена зависла, итог всё равно появится.
     timer.current = setTimeout(() => onLanded(roll.id), DICE_LANDED_TIMEOUT);
     return () => clearTimeout(timer.current);
@@ -42,12 +48,16 @@ export function DiceTable({ roll, settings, onLanded, onError }: DiceTableProps)
     } catch {
       return;
     }
-    if (msg.type === 'ready') setReady(true);
-    else if (msg.type === 'landed' && typeof msg.id === 'number') {
-      if (msg.id === roll?.id) clearTimeout(timer.current);
+    if (msg.type === 'ready') {
+      setReady(true);
+    } else if (msg.type === 'landed' && typeof msg.id === 'number') {
+      if (msg.id === roll?.id) {
+        clearTimeout(timer.current);
+      }
       onLanded(msg.id);
+    } else if (msg.type === 'error') {
+      onError();
     }
-    else if (msg.type === 'error') onError();
   };
 
   return (

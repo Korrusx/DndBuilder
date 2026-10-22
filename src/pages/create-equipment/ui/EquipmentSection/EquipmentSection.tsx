@@ -12,10 +12,12 @@ import type { EquipmentSectionProps } from './EquipmentSection.types';
  * набор без выбора и «(а) … или (б) …». Вариант без альтернативы выбран сразу.
  */
 export function EquipmentSection({ source, title }: EquipmentSectionProps) {
-  const { character: c, update } = useDraft();
+  const { character, update } = useDraft();
   const { t } = useTranslation();
-  const choices = equipmentChoices(c, content, source);
-  if (!choices.length) return null;
+  const choices = equipmentChoices(character, content, source);
+  if (!choices.length) {
+    return null;
+  }
 
   const select = (step: number, i: number) =>
     update((d) => {
@@ -29,21 +31,18 @@ export function EquipmentSection({ source, title }: EquipmentSectionProps) {
     <>
       {choices.map((choice, step) => {
         const options = choice.options ?? [];
-        const option = chosenEquipmentOption(c, choice, source, step);
+        const option = chosenEquipmentOption(character, choice, source, step);
         const single = options.length === 1;
         return (
-          <Section
-            key={step}
-            title={step === 0 ? title : t('equipmentStep.more')}
-            picked={option ? 1 : 0}
-            need={1}
-          >
+          <Section key={step} title={step === 0 ? title : t('equipmentStep.more')} picked={option ? 1 : 0} need={1}>
             {options.map((o, i) =>
               // Единственный вариант «предмет на выбор» показывается только списком предметов ниже.
               single && o.kind === 'choice' ? null : (
                 <OptionCard
                   key={i}
-                  title={single ? t('equipmentStep.fixedKit') : t('equipmentStep.option', { letter: LETTERS[i] ?? i + 1 })}
+                  title={
+                    single ? t('equipmentStep.fixedKit') : t('equipmentStep.option', { letter: LETTERS[i] ?? i + 1 })
+                  }
                   lines={[equipmentOptionText(o)]}
                   selected={o === option}
                   onPress={single ? undefined : () => select(step, i)}
@@ -53,10 +52,15 @@ export function EquipmentSection({ source, title }: EquipmentSectionProps) {
             {equipmentPicks(option, content).map((pick) => {
               const key = CHOICE_KEYS.equipmentPick(source, pick.index, step);
               return (
-                <Section key={key} title={t('equipmentStep.pick')} picked={c.choices[key]?.length ?? 0} need={pick.choose}>
+                <Section
+                  key={key}
+                  title={t('equipmentStep.pick')}
+                  picked={character.choices[key]?.length ?? 0}
+                  need={pick.choose}
+                >
                   <MultiPick
                     options={pick.options}
-                    selected={c.choices[key] ?? []}
+                    selected={character.choices[key] ?? []}
                     max={pick.choose}
                     label={(id) => nameOf('equipment', id)}
                     onChange={(ids) => update((d) => ({ ...d, choices: { ...d.choices, [key]: ids } }))}

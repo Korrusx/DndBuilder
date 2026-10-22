@@ -7,35 +7,26 @@ import type { Equipment, MagicItem } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, GameIcon } from '@/shared/ui';
 
-import { ALL_SLOT_DEFS } from './constants';
-
-const ARMOR_I18N_KEY: Record<string, string> = {
-  shield: 'inventory.acShield',
-  light:  'inventory.acLight',
-  medium: 'inventory.acMedium',
-};
+import { ALL_SLOT_DEFS, ARMOR_I18N_KEY } from './constants';
 import { fmtHit, isMagicItem, lookupItem, rarityColor } from './helpers';
 import { itemIcon, SLOT_ICONS } from '../../lib/itemIcon';
 import { styles } from './PlayItemsPage.styles';
+import type { SlotCardProps } from './SlotCard.types';
 
-type Props = {
-  selectedSlot: SlotId;
-  selectedItemId: string | null;
-  selectedItem: Equipment | MagicItem | undefined;
-  attacks: CharacterSheet['attacks'];
-  onUnequip: () => void;
-};
-
-export function SlotCard({ selectedSlot, selectedItemId, selectedItem, attacks, onUnequip }: Props) {
+export function SlotCard({ selectedSlot, selectedItemId, selectedItem, attacks, onUnequip }: SlotCardProps) {
   const { t, i18n } = useTranslation();
 
   function buildTag(item: Equipment | MagicItem): string {
-    if (isMagicItem(item)) return localizeText(item.rarity).text;
-    if (item.weapon) return item.weapon.damage?.type ?? '';
+    if (isMagicItem(item)) {
+      return localizeText(item.rarity).text;
+    }
+    if (item.weapon) {
+      return item.weapon.damage?.type ?? '';
+    }
     if (item.armor) {
       const { category, base } = item.armor;
       // значения в таблице — известные ключи, каст безопасен
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       return (t as any)(ARMOR_I18N_KEY[category] ?? 'inventory.acHeavy', { base }) as string;
     }
     return '';
@@ -74,15 +65,19 @@ export function SlotCard({ selectedSlot, selectedItemId, selectedItem, attacks, 
           <GameIcon name={itemIcon(selectedItem)} size={24} color={iconColor} />
         </View>
         <View style={styles.fill}>
-          <AppText style={styles.cardTitle} numberOfLines={1}>{itemName({ itemId: selectedItemId })}</AppText>
+          <AppText style={styles.cardTitle} numberOfLines={1}>
+            {itemName({ itemId: selectedItemId })}
+          </AppText>
           <AppText style={styles.cardTag}>{buildTag(selectedItem)}</AppText>
         </View>
-        {isMagicItem(selectedItem) && selectedItem.attunement
-          ? <View style={styles.slotAttuned} />
-          : null}
+        {isMagicItem(selectedItem) && selectedItem.attunement ? <View style={styles.slotAttuned} /> : null}
       </View>
       {!!atkLine && <AppText style={styles.cardAtk}>{atkLine}</AppText>}
-      {!!descText && <AppText style={styles.cardDesc} numberOfLines={2}>{descText}</AppText>}
+      {!!descText && (
+        <AppText style={styles.cardDesc} numberOfLines={2}>
+          {descText}
+        </AppText>
+      )}
       <Pressable style={styles.cardBtn} onPress={onUnequip}>
         <AppText style={styles.cardBtnText}>{t('inventory.unequip')}</AppText>
       </Pressable>

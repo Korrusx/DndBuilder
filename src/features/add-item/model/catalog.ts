@@ -8,7 +8,9 @@ const _mg: { lang: string; list: Entry[] } = { lang: '', list: [] };
 
 export function equipmentCatalog(): Entry[] {
   const lang = currentLanguage();
-  if (_eq.lang === lang && _eq.list.length > 0) return _eq.list;
+  if (_eq.lang === lang && _eq.list.length > 0) {
+    return _eq.list;
+  }
   _eq.list = content.equipment
     .map((e) => ({
       id: e.id,
@@ -22,7 +24,9 @@ export function equipmentCatalog(): Entry[] {
 
 export function magicCatalog(): Entry[] {
   const lang = currentLanguage();
-  if (_mg.lang === lang && _mg.list.length > 0) return _mg.list;
+  if (_mg.lang === lang && _mg.list.length > 0) {
+    return _mg.list;
+  }
   _mg.list = content.magicItems
     .map((m) => ({ id: m.id, name: localizeText(m.name).text, note: localizeText(m.rarity).text }))
     .sort((a, b) => a.name.localeCompare(b.name, lang));

@@ -15,7 +15,9 @@ export function proficiencyBonus(level: number): number {
 
 export function modifiers(scores: AbilityScores): AbilityScores {
   const out = {} as AbilityScores;
-  for (const id of ABILITY_IDS) out[id] = abilityModifier(scores[id]);
+  for (const id of ABILITY_IDS) {
+    out[id] = abilityModifier(scores[id]);
+  }
   return out;
 }
 
@@ -30,7 +32,9 @@ export function addIncrease(scores: AbilityScores, inc: Partial<AbilityScores>, 
   for (const id of ABILITY_IDS) {
     const add = inc[id] ?? 0;
     // Прибавка не снижает значение, уже превышающее предел.
-    if (add) out[id] = Math.max(out[id], Math.min(cap, out[id] + add));
+    if (add) {
+      out[id] = Math.max(out[id], Math.min(cap, out[id] + add));
+    }
   }
   return out;
 }
@@ -47,7 +51,9 @@ export function pointBuySpent(scores: AbilityScores): number | undefined {
   let total = 0;
   for (const id of ABILITY_IDS) {
     const cost = pointBuyCost(scores[id]);
-    if (cost === undefined) return undefined;
+    if (cost === undefined) {
+      return undefined;
+    }
     total += cost;
   }
   return total;
@@ -73,20 +79,21 @@ export function roll4d6DropLowest(rng: () => number = Math.random): AbilityRoll 
  * Проверка распределения бонусов предыстории: +2/+1 или +1/+1/+1,
  * только к характеристикам, указанным в предыстории. Возвращает список ошибок (пустой — всё верно).
  */
-export function validateBackgroundBonuses(
-  bonuses: Partial<AbilityScores>,
-  allowed: AbilityId[],
-): string[] {
+export function validateBackgroundBonuses(bonuses: Partial<AbilityScores>, allowed: AbilityId[]): string[] {
   const errors: string[] = [];
   const entries = ABILITY_IDS.map((id) => [id, bonuses[id] ?? 0] as const).filter(([, v]) => v !== 0);
 
   for (const [id] of entries) {
-    if (!allowed.includes(id)) errors.push(`Бонус к ${id} не разрешён предысторией`);
+    if (!allowed.includes(id)) {
+      errors.push(`Бонус к ${id} не разрешён предысторией`);
+    }
   }
   const pattern = entries
     .map(([, v]) => v)
     .sort((a, b) => b - a)
     .join(',');
-  if (pattern !== '2,1' && pattern !== '1,1,1') errors.push('Нужно распределить +2/+1 или +1/+1/+1');
+  if (pattern !== '2,1' && pattern !== '1,1,1') {
+    errors.push('Нужно распределить +2/+1 или +1/+1/+1');
+  }
   return errors;
 }

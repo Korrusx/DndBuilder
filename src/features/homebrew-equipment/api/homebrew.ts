@@ -40,11 +40,21 @@ function rowToHombrew(r: HombrewEquipmentRow): HombrewEquipment {
 
 function buildWeaponInfo(h: HombrewEquipment): WeaponInfo {
   const props: string[] = [];
-  if (h.weaponIsLight) props.push('light');
-  if (h.weaponIsTwoHanded) props.push('two-handed');
-  if (h.weaponIsFinesse) props.push('finesse');
-  if (h.weaponIsThrown) props.push('thrown');
-  if (h.weaponRangeType === 'ranged') props.push('ammunition');
+  if (h.weaponIsLight) {
+    props.push('light');
+  }
+  if (h.weaponIsTwoHanded) {
+    props.push('two-handed');
+  }
+  if (h.weaponIsFinesse) {
+    props.push('finesse');
+  }
+  if (h.weaponIsThrown) {
+    props.push('thrown');
+  }
+  if (h.weaponRangeType === 'ranged') {
+    props.push('ammunition');
+  }
   return {
     category: h.weaponCategory,
     range: h.weaponRangeType,
@@ -108,9 +118,7 @@ export function hombrewToEquipment(h: HombrewEquipment): Equipment {
 }
 
 export async function loadHombrewEquipment(db: SQLiteDatabase): Promise<HombrewEquipment[]> {
-  const rows = await db.getAllAsync<HombrewEquipmentRow>(
-    'SELECT * FROM homebrew_equipment ORDER BY created_at DESC',
-  );
+  const rows = await db.getAllAsync<HombrewEquipmentRow>('SELECT * FROM homebrew_equipment ORDER BY created_at DESC');
   return rows.map(rowToHombrew);
 }
 
@@ -143,14 +151,28 @@ export async function saveHombrewEquipment(db: SQLiteDatabase, item: HombrewEqui
        armor_base=excluded.armor_base,
        armor_stealth=excluded.armor_stealth,
        magic_bonus=excluded.magic_bonus`,
-    item.id, item.nameRu, item.nameRu, item.descriptionRu,
-    item.weight, item.costAmount, item.costUnit, item.createdAt,
+    item.id,
+    item.nameRu,
+    item.nameRu,
+    item.descriptionRu,
+    item.weight,
+    item.costAmount,
+    item.costUnit,
+    item.createdAt,
     item.kind,
-    item.weaponDamageDice, item.weaponDamageType, item.weaponRangeType, item.weaponCategory,
-    item.weaponIsLight ? 1 : 0, item.weaponIsTwoHanded ? 1 : 0,
-    item.weaponIsFinesse ? 1 : 0, item.weaponIsThrown ? 1 : 0,
-    item.additionalDamageDice, item.additionalDamageType,
-    item.armorCategory, item.armorBase, item.armorStealthDisadvantage ? 1 : 0,
+    item.weaponDamageDice,
+    item.weaponDamageType,
+    item.weaponRangeType,
+    item.weaponCategory,
+    item.weaponIsLight ? 1 : 0,
+    item.weaponIsTwoHanded ? 1 : 0,
+    item.weaponIsFinesse ? 1 : 0,
+    item.weaponIsThrown ? 1 : 0,
+    item.additionalDamageDice,
+    item.additionalDamageType,
+    item.armorCategory,
+    item.armorBase,
+    item.armorStealthDisadvantage ? 1 : 0,
     item.magicBonus,
   );
 }
@@ -167,17 +189,25 @@ export function useHombrewEquipment() {
     setItems(await loadHombrewEquipment(db));
   }, [db]);
 
-  useEffect(() => { reload(); }, [reload]);
+  useEffect(() => {
+    reload();
+  }, [reload]);
 
-  const save = useCallback(async (item: HombrewEquipment) => {
-    await saveHombrewEquipment(db, item);
-    await reload();
-  }, [db, reload]);
+  const save = useCallback(
+    async (item: HombrewEquipment) => {
+      await saveHombrewEquipment(db, item);
+      await reload();
+    },
+    [db, reload],
+  );
 
-  const remove = useCallback(async (id: string) => {
-    await deleteHombrewEquipment(db, id);
-    await reload();
-  }, [db, reload]);
+  const remove = useCallback(
+    async (id: string) => {
+      await deleteHombrewEquipment(db, id);
+      await reload();
+    },
+    [db, reload],
+  );
 
   return { items, save, remove, reload };
 }

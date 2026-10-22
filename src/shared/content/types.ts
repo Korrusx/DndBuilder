@@ -52,14 +52,7 @@ export type Skill = {
 };
 
 export type ProficiencyType =
-  | 'skill'
-  | 'savingThrow'
-  | 'armor'
-  | 'weapon'
-  | 'tool'
-  | 'artisanTool'
-  | 'instrument'
-  | 'other';
+  'skill' | 'savingThrow' | 'armor' | 'weapon' | 'tool' | 'artisanTool' | 'instrument' | 'other';
 
 export type Proficiency = {
   id: string;
@@ -243,7 +236,13 @@ export type Feat = {
   type: FeatType;
   description: LocalizedText;
   /** `proficiency` (2014) — нужное владение («Тяжёлая броня» — средние доспехи); `spellcasting` — умение творить заклинания. */
-  prerequisites?: { minLevel?: number; feature?: string; abilityOptions?: Choice; proficiency?: string; spellcasting?: boolean };
+  prerequisites?: {
+    minLevel?: number;
+    feature?: string;
+    abilityOptions?: Choice;
+    proficiency?: string;
+    spellcasting?: boolean;
+  };
   repeatable?: LocalizedText;
   /** Владения на выбор, которые даёт черта (id владений). */
   proficiencyChoices?: Choice[];

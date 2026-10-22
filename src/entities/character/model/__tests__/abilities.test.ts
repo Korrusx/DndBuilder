@@ -10,7 +10,12 @@ import {
 } from '../abilities';
 
 const scores = (str: number, dex: number, con: number, int: number, wis: number, cha: number) => ({
-  str, dex, con, int, wis, cha,
+  str,
+  dex,
+  con,
+  int,
+  wis,
+  cha,
 });
 
 test('модификатор характеристики', () => {

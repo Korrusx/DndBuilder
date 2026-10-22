@@ -22,7 +22,9 @@ export function useDiceReveal<T extends object>(feel: (roll: T) => void, outcome
   const sound = settings.sound;
 
   useEffect(() => {
-    if (sound) preloadDiceSounds();
+    if (sound) {
+      preloadDiceSounds();
+    }
   }, [sound]);
 
   /** `allow3d: false` — этот бросок не для стола (слишком много костей или необычная кость). */
@@ -31,22 +33,30 @@ export function useDiceReveal<T extends object>(feel: (roll: T) => void, outcome
     const on3d = use3d && allow3d;
     setRoll({ ...r, id, on3d });
     setLanded(!on3d);
-    if (!on3d) landedId.current = id;
+    if (!on3d) {
+      landedId.current = id;
+    }
     // На 3D-столе стук играет сама сцена; простой бросок звучит здесь
     if (sound && !on3d) {
       playDiceSound('roll');
       const o = outcome?.(r);
-      if (o) playDiceSound(o, OUTCOME_SOUND_DELAY);
+      if (o) {
+        playDiceSound(o, OUTCOME_SOUND_DELAY);
+      }
     }
   };
 
   const onLanded = (id: number) => {
-    if (!roll || id !== roll.id || landedId.current === id) return;
+    if (!roll || id !== roll.id || landedId.current === id) {
+      return;
+    }
     landedId.current = id;
     setLanded(true);
     feel(roll);
     const o = sound ? outcome?.(roll) : null;
-    if (o) playDiceSound(o);
+    if (o) {
+      playDiceSound(o);
+    }
   };
 
   const onError = () => {

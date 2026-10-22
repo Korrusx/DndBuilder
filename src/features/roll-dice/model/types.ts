@@ -29,7 +29,13 @@ export type DamageRequest = {
 export type DiceStyle = '3d' | 'simple';
 export type DiceSkin = 'amber' | 'obsidian' | 'bone';
 export type DiceTableKind = 'felt' | 'stone';
-export type DiceSettings = { style: DiceStyle; animation: boolean; skin: DiceSkin; table: DiceTableKind; sound: boolean };
+export type DiceSettings = {
+  style: DiceStyle;
+  animation: boolean;
+  skin: DiceSkin;
+  table: DiceTableKind;
+  sound: boolean;
+};
 
 /** Звуки бросков в приложении (стук на 3D-столе играет сама сцена). */
 export type DiceSound = 'roll' | 'crit' | 'fumble';

@@ -8,37 +8,59 @@ import { computeSheet } from './sheet';
 import type { Character, CharacterSheet, GameState, ResourceContext, ResourceView } from './types';
 
 function evalFormula(f: ResourceFormula, { level, sheet, classId }: ResourceContext): number {
-  if ('fixed' in f) return f.fixed;
+  if ('fixed' in f) {
+    return f.fixed;
+  }
   if ('classSpecific' in f) {
     const v = classId ? sheet.classSpecific[classId]?.[f.classSpecific] : undefined;
     return typeof v === 'number' ? v : 0;
   }
   if ('byLevel' in f) {
     let value = 0;
-    for (const [from, v] of Object.entries(f.byLevel)) if (level >= Number(from)) value = Math.max(value, v);
+    for (const [from, v] of Object.entries(f.byLevel)) {
+      if (level >= Number(from)) {
+        value = Math.max(value, v);
+      }
+    }
     return value;
   }
-  if ('ability' in f) return Math.max(f.min ?? 0, sheet.abilities[f.ability].mod + (f.plus ?? 0));
-  if ('profBonus' in f) return sheet.profBonus;
+  if ('ability' in f) {
+    return Math.max(f.min ?? 0, sheet.abilities[f.ability].mod + (f.plus ?? 0));
+  }
+  if ('profBonus' in f) {
+    return sheet.profBonus;
+  }
   return level * f.perLevel + (f.plus ?? 0);
 }
 
 /** Уровень, по которому считается ресурс: уровень его класса, иначе общий. */
 function levelFor(r: ClassResource, c: Character): number {
-  if (!r.classId) return totalLevel(c.classes);
+  if (!r.classId) {
+    return totalLevel(c.classes);
+  }
   return c.classes.find((e) => e.classId === r.classId)?.level ?? 0;
 }
 
 /** Ресурсы персонажа с максимумом и потраченным, в порядке справочника. */
-export function characterResources(c: Character, content: Content, sheet: CharacterSheet = computeSheet(c, content)): ResourceView[] {
+export function characterResources(
+  c: Character,
+  content: Content,
+  sheet: CharacterSheet = computeSheet(c, content),
+): ResourceView[] {
   const have = new Set(sheet.features.map((f) => f.id));
   const out: ResourceView[] = [];
   for (const r of content.resources) {
-    if (!r.features.some((id) => have.has(id))) continue;
+    if (!r.features.some((id) => have.has(id))) {
+      continue;
+    }
     const ctx = { level: levelFor(r, c), sheet, classId: r.classId };
-    if (r.minLevel && ctx.level < r.minLevel) continue;
+    if (r.minLevel && ctx.level < r.minLevel) {
+      continue;
+    }
     const max = evalFormula(r.max, ctx);
-    if (max <= 0) continue;
+    if (max <= 0) {
+      continue;
+    }
     const short = r.shortWith && have.has(r.shortWith) ? 'all' : r.short;
     out.push({
       id: r.id,
@@ -62,9 +84,14 @@ export function adjustResource(state: GameState, id: string, delta: number, max:
 export function shortRestResources(state: GameState, resources: ResourceView[]): GameState {
   const spent = { ...state.resourcesSpent };
   for (const r of resources) {
-    if (!spent[r.id]) continue;
-    if (r.recovery === 'short') spent[r.id] = 0;
-    else if (r.recovery === 'short-one') spent[r.id] = Math.max(0, Math.min(r.max, spent[r.id] ?? 0) - 1);
+    if (!spent[r.id]) {
+      continue;
+    }
+    if (r.recovery === 'short') {
+      spent[r.id] = 0;
+    } else if (r.recovery === 'short-one') {
+      spent[r.id] = Math.max(0, Math.min(r.max, spent[r.id] ?? 0) - 1);
+    }
   }
   return { ...state, resourcesSpent: spent };
 }

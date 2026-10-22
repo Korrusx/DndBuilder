@@ -82,7 +82,9 @@ export async function migrate(db: MigrationDb, migrations: Migration[] = MIGRATI
   const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version;');
   let current = row?.user_version ?? 0;
   for (const m of migrations) {
-    if (m.version <= current) continue;
+    if (m.version <= current) {
+      continue;
+    }
     await db.withTransactionAsync(async () => {
       await m.up(db);
       await db.execAsync(`PRAGMA user_version = ${m.version};`);

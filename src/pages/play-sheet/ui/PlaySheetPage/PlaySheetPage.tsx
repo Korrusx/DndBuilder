@@ -30,36 +30,43 @@ import { AppText, BottomSheet, Card, Chip, ChipRow, InfoSheet, Screen, SmallButt
 import { styles } from './PlaySheetPage.styles';
 
 export function PlaySheetPage() {
-  const { character: c, sheet, update, updateState } = usePlay();
+  const { character, sheet, update, updateState } = usePlay();
   const { t } = useTranslation();
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [info, setInfo] = useState<(InfoContent & { conditionId?: string }) | null>(null);
   const [pickCondition, setPickCondition] = useState(false);
   const [shortRest, setShortRest] = useState(false);
-  const resources = characterResources(c, content, sheet);
+  const resources = characterResources(character, content, sheet);
 
-  const ex = c.state.exhaustion;
+  const exhaustion = character.state.exhaustion;
   const subtitle = [
-    c.classes.map((e) => `${nameOf('classes', e.classId)} ${e.level}`).join(' / '),
-    nameOf('species', c.speciesId),
-    nameOf('backgrounds', c.backgroundId),
+    character.classes.map((e) => `${nameOf('classes', e.classId)} ${e.level}`).join(' / '),
+    nameOf('species', character.speciesId),
+    nameOf('backgrounds', character.backgroundId),
   ].join(' · ');
 
   const rollAbility = (id: (typeof ABILITY_IDS)[number], save: boolean) => {
     const a = sheet.abilities[id];
     const parts = [{ label: abilityAbbr(id), value: a.mod }];
-    if (save && a.saveProficient) parts.push({ label: t('stats.pb'), value: sheet.profBonus });
-    setRoll({ title: t('sheet.rollTitle', { kind: save ? t('sheet.save') : t('sheet.check'), ability: abilityAbbr(id) }), parts: d20Parts(parts, ex) });
+    if (save && a.saveProficient) {
+      parts.push({ label: t('stats.pb'), value: sheet.profBonus });
+    }
+    setRoll({
+      title: t('sheet.rollTitle', { kind: save ? t('sheet.save') : t('sheet.check'), ability: abilityAbbr(id) }),
+      parts: d20Parts(parts, exhaustion),
+    });
   };
 
   const rollInitiative = () => {
     const parts = [{ label: abilityAbbr('dex'), value: sheet.abilities.dex.mod }];
-    if (sheet.initiative !== sheet.abilities.dex.mod) parts.push({ label: nameOf('feats', 'alert'), value: sheet.initiative - sheet.abilities.dex.mod });
-    setRoll({ title: t('stats.initiative'), parts: d20Parts(parts, ex) });
+    if (sheet.initiative !== sheet.abilities.dex.mod) {
+      parts.push({ label: nameOf('feats', 'alert'), value: sheet.initiative - sheet.abilities.dex.mod });
+    }
+    setRoll({ title: t('stats.initiative'), parts: d20Parts(parts, exhaustion) });
   };
 
   const rollDeathSave = () => {
-    const parts = d20Parts([], ex);
+    const parts = d20Parts([], exhaustion);
     const modifier = parts.reduce((s, p) => s + p.value, 0);
     const r = rollD20(modifier);
     updateState((s) => deathSave(s, r.natural, r.total));
@@ -69,7 +76,10 @@ export function PlaySheetPage() {
   const confirmLongRest = () =>
     Alert.alert(t('rest.long'), t('sheet.longRestConfirm'), [
       { text: t('common.cancel'), style: 'cancel' },
-      { text: t('sheet.rest'), onPress: () => updateState((s) => longRest(s, sheet.maxHp, c.edition, sheet.hitDice)) },
+      {
+        text: t('sheet.rest'),
+        onPress: () => updateState((s) => longRest(s, sheet.maxHp, character.edition, sheet.hitDice)),
+      },
     ]);
 
   return (
@@ -79,18 +89,26 @@ export function PlaySheetPage() {
           {subtitle}
         </AppText>
         <Chip
-          label={`${c.state.heroicInspiration ? '★' : '☆'} ${t('sheet.inspiration')}`}
-          selected={c.state.heroicInspiration}
+          label={`${character.state.heroicInspiration ? '★' : '☆'} ${t('sheet.inspiration')}`}
+          selected={character.state.heroicInspiration}
           onPress={() => updateState((s) => ({ ...s, heroicInspiration: !s.heroicInspiration }))}
         />
       </View>
 
-      <HpBlock c={c} sheet={sheet} onDeathSave={rollDeathSave} />
+      <HpBlock character={character} sheet={sheet} onDeathSave={rollDeathSave} />
 
       <View style={styles.row}>
         <StatBox label={t('stats.ac')} value={String(sheet.armorClass)} />
-        <StatBox label={t('stats.initiative')} value={formatModifier(sheet.initiative)} onPress={rollInitiative} accent />
-        <StatBox label={t('stats.speed')} value={`${speedWithExhaustion(sheet.speed, ex, c.edition)}`} />
+        <StatBox
+          label={t('stats.initiative')}
+          value={formatModifier(sheet.initiative)}
+          onPress={rollInitiative}
+          accent
+        />
+        <StatBox
+          label={t('stats.speed')}
+          value={`${speedWithExhaustion(sheet.speed, exhaustion, character.edition)}`}
+        />
         <StatBox label={t('stats.pb')} value={formatModifier(sheet.profBonus)} />
         <StatBox
           label={t('stats.passivePerception')}
@@ -134,14 +152,16 @@ export function PlaySheetPage() {
       <Card>
         <AppText variant="heading">{t('sheet.conditions')}</AppText>
         <ChipRow>
-          {c.state.conditions.map((id) => {
+          {character.state.conditions.map((id) => {
             const cond = byId.conditions.get(id);
             return (
               <Chip
                 key={id}
                 label={localizeText(cond?.name).text || id}
                 selected
-                onPress={() => setInfo({ title: localizeText(cond?.name).text, text: plain(cond?.description), conditionId: id })}
+                onPress={() =>
+                  setInfo({ title: localizeText(cond?.name).text, text: plain(cond?.description), conditionId: id })
+                }
               />
             );
           })}
@@ -149,17 +169,29 @@ export function PlaySheetPage() {
         </ChipRow>
         <View style={styles.exhaustion}>
           <AppText style={styles.fill}>
-            {t('sheet.exhaustion', { level: ex, max: EXHAUSTION_MAX })}
-            {ex ? (
+            {t('sheet.exhaustion', { level: exhaustion, max: EXHAUSTION_MAX })}
+            {exhaustion ? (
               <AppText variant="secondary">
-                {c.edition === '2014'
-                  ? `  (${t(`sheet.exhaustion2014.${ex}` as 'sheet.exhaustion2014.1')})`
-                  : t('sheet.exhaustionEffect', { d20: t('roll.d20'), penalty: formatModifier(-2 * ex), speed: formatFeet(5 * ex) })}
+                {character.edition === '2014'
+                  ? `  (${t(`sheet.exhaustion2014.${exhaustion}` as 'sheet.exhaustion2014.1')})`
+                  : t('sheet.exhaustionEffect', {
+                      d20: t('roll.d20'),
+                      penalty: formatModifier(-2 * exhaustion),
+                      speed: formatFeet(5 * exhaustion),
+                    })}
               </AppText>
             ) : null}
           </AppText>
-          <SmallButton title="−" disabled={ex === 0} onPress={() => updateState((s) => setExhaustion(s, s.exhaustion - 1))} />
-          <SmallButton title="+" disabled={ex === EXHAUSTION_MAX} onPress={() => updateState((s) => setExhaustion(s, s.exhaustion + 1))} />
+          <SmallButton
+            title="−"
+            disabled={exhaustion === 0}
+            onPress={() => updateState((s) => setExhaustion(s, s.exhaustion - 1))}
+          />
+          <SmallButton
+            title="+"
+            disabled={exhaustion === EXHAUSTION_MAX}
+            onPress={() => updateState((s) => setExhaustion(s, s.exhaustion + 1))}
+          />
         </View>
       </Card>
 
@@ -172,11 +204,11 @@ export function PlaySheetPage() {
         </ChipRow>
       </Card>
 
-      {totalLevel(c.classes) < MAX_LEVEL ? (
+      {totalLevel(character.classes) < MAX_LEVEL ? (
         <SmallButton
-          title={t('sheet.levelUp', { from: totalLevel(c.classes), to: totalLevel(c.classes) + 1 })}
+          title={t('sheet.levelUp', { from: totalLevel(character.classes), to: totalLevel(character.classes) + 1 })}
           tone="accent"
-          onPress={() => router.navigate({ pathname: '/character/[id]/level-up', params: { id: c.id } })}
+          onPress={() => router.navigate({ pathname: '/character/[id]/level-up', params: { id: character.id } })}
         />
       ) : null}
 
@@ -203,7 +235,7 @@ export function PlaySheetPage() {
       <BottomSheet visible={pickCondition} title={t('sheet.pickCondition')} onClose={() => setPickCondition(false)}>
         <ChipRow>
           {content.conditions
-            .filter((x) => x.id !== 'exhaustion' && !c.state.conditions.includes(x.id))
+            .filter((x) => x.id !== 'exhaustion' && !character.state.conditions.includes(x.id))
             .map((x) => (
               <Chip
                 key={x.id}

@@ -15,7 +15,9 @@ import type { ResourcesCardProps } from './ResourcesCard.types';
 export function ResourcesCard({ resources }: ResourcesCardProps) {
   const { updateState } = usePlay();
   const { t } = useTranslation();
-  if (!resources.length) return null;
+  if (!resources.length) {
+    return null;
+  }
   const adjust = (r: ResourceView, delta: number) => updateState((s) => adjustResource(s, r.id, delta, r.max));
 
   return (
@@ -24,7 +26,12 @@ export function ResourcesCard({ resources }: ResourcesCardProps) {
       <AppText variant="secondary">{t('resources.hint')}</AppText>
       {resources.map((r) => {
         const left = r.max - r.spent;
-        const note = [r.die ? formatDie(r.die) : '', t('resources.recovery', { how: t(`resources.recoveryKind.${r.recovery}`) })].filter(Boolean).join(' · ');
+        const note = [
+          r.die ? formatDie(r.die) : '',
+          t('resources.recovery', { how: t(`resources.recoveryKind.${r.recovery}`) }),
+        ]
+          .filter(Boolean)
+          .join(' · ');
         return (
           <View key={r.id} style={styles.item}>
             <AppText>{localizeText(r.name).text}</AppText>

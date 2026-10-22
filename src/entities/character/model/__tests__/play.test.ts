@@ -20,7 +20,11 @@ import {
 import { applyDamage } from '../rest';
 import type { GameState } from '../types';
 
-const at = (hp: number, extra: Partial<GameState> = {}): GameState => ({ ...emptyGameState(), currentHp: hp, ...extra });
+const at = (hp: number, extra: Partial<GameState> = {}): GameState => ({
+  ...emptyGameState(),
+  currentHp: hp,
+  ...extra,
+});
 
 /** Генератор «случайных» чисел, выдающий заданные значения кости. */
 const dice = (sides: number, ...values: number[]) => {

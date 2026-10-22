@@ -1,4 +1,3 @@
-
 export const SHEET_CSS = `
 @page { size: A4; margin: 0; }
 * { box-sizing: border-box; margin: 0; padding: 0; }

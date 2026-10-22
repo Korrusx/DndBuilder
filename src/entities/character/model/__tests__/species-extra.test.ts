@@ -11,7 +11,13 @@ describe('виды не из SRD', () => {
   test('в справочнике 16 видов: 9 из SRD и 7 дополнительных', () => {
     expect(content.species).toHaveLength(16);
     expect(content.species.filter((s) => s.extra).map((s) => s.id)).toEqual([
-      'aasimar', 'dhampir', 'kalashtar', 'warforged', 'khoravar', 'changeling', 'shifter',
+      'aasimar',
+      'dhampir',
+      'kalashtar',
+      'warforged',
+      'khoravar',
+      'changeling',
+      'shifter',
     ]);
   });
 

@@ -1,4 +1,3 @@
-
 export const EXCHANGE_FORMAT = 'dnd-builder/characters';
 
 /** Версия формата файла. Повышается, если файл перестанет читаться старым способом. */

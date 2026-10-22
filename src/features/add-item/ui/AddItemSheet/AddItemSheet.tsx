@@ -13,11 +13,7 @@ import type { Source } from '../../model/types';
 import { styles } from './AddItemSheet.styles';
 import type { AddItemSheetProps } from './AddItemSheet.types';
 
-export function AddItemSheet({
-  visible,
-  onClose,
-  onAdd,
-}: AddItemSheetProps) {
+export function AddItemSheet({ visible, onClose, onAdd }: AddItemSheetProps) {
   const { t, i18n } = useTranslation();
   const [source, setSource] = useState<Source>('equipment');
   const [query, setQuery] = useState('');
@@ -44,17 +40,14 @@ export function AddItemSheet({
   };
 
   const custom = query.trim();
+  const sourceOptions = [
+    { value: 'equipment' as Source, label: t('items.equipment') },
+    { value: 'magic' as Source, label: t('items.magic') },
+  ];
 
   return (
     <BottomSheet visible={visible} title={t('items.add')} onClose={close}>
-      <Segmented<Source>
-        value={source}
-        onChange={setSource}
-        options={[
-          { value: 'equipment', label: t('items.equipment') },
-          { value: 'magic', label: t('items.magic') },
-        ]}
-      />
+      <Segmented<Source> value={source} onChange={setSource} options={sourceOptions} />
       <TextInput
         value={query}
         onChangeText={setQuery}
@@ -67,7 +60,9 @@ export function AddItemSheet({
       {custom ? (
         <Pressable
           accessibilityRole="button"
-          onPress={() => add({ itemId: `${CUSTOM_ITEM_PREFIX}${Date.now().toString(36)}`, quantity: 1, name: custom }, custom)}
+          onPress={() =>
+            add({ itemId: `${CUSTOM_ITEM_PREFIX}${Date.now().toString(36)}`, quantity: 1, name: custom }, custom)
+          }
           style={({ pressed }) => [styles.row, styles.customRow, pressed && { opacity: 0.8 }]}
         >
           <AppText style={styles.customItem}>{t('items.custom', { name: custom })}</AppText>
@@ -80,7 +75,11 @@ export function AddItemSheet({
             key={e.id}
             accessibilityRole="button"
             onPress={() => add({ itemId: e.id, quantity: 1 }, e.name)}
-            style={({ pressed }) => [styles.row, i > 0 && styles.divider, pressed && { backgroundColor: colors.surface2 }]}
+            style={({ pressed }) => [
+              styles.row,
+              i > 0 && styles.divider,
+              pressed && { backgroundColor: colors.surface2 },
+            ]}
           >
             <AppText style={styles.fill}>{e.name}</AppText>
             <AppText variant="secondary" style={styles.size12}>

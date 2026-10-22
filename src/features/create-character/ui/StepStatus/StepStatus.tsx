@@ -6,7 +6,9 @@ import type { StepStatusProps } from './StepStatus.types';
 /** Строка над «Далее»: чего не хватает на шаге. */
 export function StepStatus({ issues, done }: StepStatusProps) {
   const { t } = useTranslation();
-  if (issues.length === 0) return done ? <>{done}</> : null;
+  if (issues.length === 0) {
+    return done ? <>{done}</> : null;
+  }
   return (
     <AppText variant="secondary" numberOfLines={2}>
       {issues[0].message}

@@ -49,7 +49,8 @@ export const CHOICE_KEYS = {
   /** Заговор вместо заданного особенностью (высший эльф: вместо «Фокусов»). */
   speciesCantrip: (traitId: string) => `trait.${traitId}.cantrip`,
   /** Варианты умений класса: воззвания колдуна, метамагия чародея (id из `content.classOptions`). */
-  classOptions: (kind: 'invocation' | 'metamagic') => (kind === 'invocation' ? 'class.warlock.invocations' : 'class.sorcerer.metamagic'),
+  classOptions: (kind: 'invocation' | 'metamagic') =>
+    kind === 'invocation' ? 'class.warlock.invocations' : 'class.sorcerer.metamagic',
   /** «Договор гримуара»: три заговора и два ритуала 1-го круга из любых списков. */
   tomeCantrips: 'class.warlock.tome.cantrips',
   tomeRituals: 'class.warlock.tome.rituals',
@@ -72,13 +73,19 @@ export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
     {
       id: 'protector',
       name: { en: 'Protector', ru: 'Защитник' },
-      description: { en: 'Proficiency with Martial weapons and Heavy armor.', ru: 'Владение воинским оружием и тяжёлыми доспехами.' },
+      description: {
+        en: 'Proficiency with Martial weapons and Heavy armor.',
+        ru: 'Владение воинским оружием и тяжёлыми доспехами.',
+      },
       proficiencies: ['martial-weapons', 'heavy-armor'],
     },
     {
       id: 'thaumaturge',
       name: { en: 'Thaumaturge', ru: 'Чудотворец' },
-      description: { en: 'One extra Cleric cantrip; WIS bonus to Arcana and Religion checks.', ru: 'Дополнительный заговор жреца; бонус МДР к проверкам Магии и Религии.' },
+      description: {
+        en: 'One extra Cleric cantrip; WIS bonus to Arcana and Religion checks.',
+        ru: 'Дополнительный заговор жреца; бонус МДР к проверкам Магии и Религии.',
+      },
       extraCantrips: 1,
       // SRD 5.2: бонус к проверкам ИНТ (Магия или Религия), равный модификатору МДР (минимум +1).
       effects: [{ type: 'skillBonusFromAbility', skills: ['arcana', 'religion'], ability: 'wis', min: 1 }],
@@ -88,7 +95,10 @@ export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
     {
       id: 'magician',
       name: { en: 'Magician', ru: 'Волхв' },
-      description: { en: 'One extra Druid cantrip; WIS bonus to Arcana and Nature checks.', ru: 'Дополнительный заговор друида; бонус МДР к проверкам Магии и Природы.' },
+      description: {
+        en: 'One extra Druid cantrip; WIS bonus to Arcana and Nature checks.',
+        ru: 'Дополнительный заговор друида; бонус МДР к проверкам Магии и Природы.',
+      },
       extraCantrips: 1,
       // SRD 5.2: бонус к проверкам ИНТ (Магия или Природа), равный модификатору МДР (минимум +1).
       effects: [{ type: 'skillBonusFromAbility', skills: ['arcana', 'nature'], ability: 'wis', min: 1 }],
@@ -96,7 +106,10 @@ export const FEATURE_OPTIONS: Record<string, FeatureOption[]> = {
     {
       id: 'warden',
       name: { en: 'Warden', ru: 'Страж' },
-      description: { en: 'Proficiency with Martial weapons and Medium armor.', ru: 'Владение воинским оружием и средними доспехами.' },
+      description: {
+        en: 'Proficiency with Martial weapons and Medium armor.',
+        ru: 'Владение воинским оружием и средними доспехами.',
+      },
       proficiencies: ['martial-weapons', 'medium-armor'],
     },
   ],

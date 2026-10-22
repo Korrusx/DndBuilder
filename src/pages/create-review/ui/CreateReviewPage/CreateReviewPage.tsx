@@ -12,15 +12,15 @@ import { SheetPreview } from '@/widgets/sheet-preview';
 import { styles } from './CreateReviewPage.styles';
 
 export function CreateReviewPage() {
-  const { character: c, issues, update, goTo, finish } = useDraft();
+  const { character, issues, update, goTo, finish } = useDraft();
   const pdf = usePdfExport();
   const { t } = useTranslation();
   const blocking = issues.filter((i) => i.blocking);
-  const sheet = issues.some((i) => i.blocking && i.step <= 2) ? null : safeSheet(c);
+  const sheet = issues.some((i) => i.blocking && i.step <= 2) ? null : safeSheet(character);
   const subtitle = [
-    t('review.level1', { className: nameOf('classes', c.classes[0]?.classId) }),
-    nameOf('species', c.speciesId),
-    nameOf('backgrounds', c.backgroundId),
+    t('review.level1', { className: nameOf('classes', character.classes[0]?.classId) }),
+    nameOf('species', character.speciesId),
+    nameOf('backgrounds', character.backgroundId),
   ]
     .filter(Boolean)
     .join(' · ');
@@ -36,7 +36,7 @@ export function CreateReviewPage() {
               title={pdf.busy ? 'PDF…' : 'PDF'}
               variant="secondary"
               disabled={pdf.busy || blocking.length > 0}
-              onPress={() => pdf.run(c)}
+              onPress={() => pdf.run(character)}
             />
           </View>
           <View style={styles.fill2}>
@@ -47,11 +47,11 @@ export function CreateReviewPage() {
     >
       <View style={styles.hero}>
         <View style={styles.avatar}>
-          <AppText style={styles.avatarLetter}>{(c.name.trim()[0] ?? '?').toUpperCase()}</AppText>
+          <AppText style={styles.avatarLetter}>{(character.name.trim()[0] ?? '?').toUpperCase()}</AppText>
         </View>
         <View style={styles.heroText}>
           <TextInput
-            value={c.name}
+            value={character.name}
             onChangeText={(name) => update((d) => ({ ...d, name }))}
             placeholder={t('review.name')}
             placeholderTextColor={colors.textSecondary}
@@ -82,14 +82,14 @@ export function CreateReviewPage() {
             <Chip
               key={a.id}
               label={localizeText(a.name).text}
-              selected={c.alignment === a.id}
+              selected={character.alignment === a.id}
               onPress={() => update((d) => ({ ...d, alignment: d.alignment === a.id ? undefined : a.id }))}
             />
           ))}
         </ChipRow>
       </Section>
 
-      {sheet ? <SheetPreview c={c} sheet={sheet} /> : null}
+      {sheet ? <SheetPreview character={character} sheet={sheet} /> : null}
     </WizardScreen>
   );
 }

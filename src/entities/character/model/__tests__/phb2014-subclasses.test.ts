@@ -25,13 +25,25 @@ function make(classId: string, level: number, subclassId: string, patch: Partial
 describe('подклассы PHB 2014', () => {
   test('у каждого класса есть подклассы PHB; всего 40', () => {
     expect(content.subclasses).toHaveLength(12 + 28);
-    expect(idx.classes.get('cleric')?.subclasses).toEqual(['life', 'knowledge', 'light', 'nature', 'tempest', 'trickery', 'war']);
+    expect(idx.classes.get('cleric')?.subclasses).toEqual([
+      'life',
+      'knowledge',
+      'light',
+      'nature',
+      'tempest',
+      'trickery',
+      'war',
+    ]);
     expect(idx.classes.get('wizard')?.subclasses).toHaveLength(8);
   });
 
   test('уровень подкласса не изменился: жрец — 1, волшебник — 2, воин — 3', () => {
     const first = (classId: string) =>
-      Math.min(...(idx.classes.get(classId)?.subclasses ?? []).flatMap((s) => idx.subclasses.get(s)!.features.map((f) => idx.features.get(f)!.level)));
+      Math.min(
+        ...(idx.classes.get(classId)?.subclasses ?? []).flatMap((s) =>
+          idx.subclasses.get(s)!.features.map((f) => idx.features.get(f)!.level),
+        ),
+      );
     expect(first('cleric')).toBe(1);
     expect(first('wizard')).toBe(2);
     expect(first('fighter')).toBe(3);
@@ -48,8 +60,13 @@ describe('подклассы PHB 2014', () => {
   });
 
   test('домен знаний: два навыка на выбор при создании', () => {
-    const slot = proficiencySlots(make('cleric', 1, 'knowledge'), content).find((s) => s.key.startsWith('feature.knowledge-'));
-    expect(slot).toMatchObject({ choose: 2, options: ['skill-arcana', 'skill-history', 'skill-nature', 'skill-religion'] });
+    const slot = proficiencySlots(make('cleric', 1, 'knowledge'), content).find((s) =>
+      s.key.startsWith('feature.knowledge-'),
+    );
+    expect(slot).toMatchObject({
+      choose: 2,
+      options: ['skill-arcana', 'skill-history', 'skill-nature', 'skill-religion'],
+    });
   });
 
   test('клятва мести: заклинания с 3-го уровня паладина', () => {
@@ -64,12 +81,16 @@ describe('подклассы PHB 2014', () => {
   });
 
   test('мастер боевых искусств: 4 кости превосходства к8, на 10-м — к10', () => {
-    expect(characterResources(make('fighter', 3, 'battle-master'), content).find((r) => r.id === 'superiority-dice')).toMatchObject({
+    expect(
+      characterResources(make('fighter', 3, 'battle-master'), content).find((r) => r.id === 'superiority-dice'),
+    ).toMatchObject({
       max: 4,
       die: 8,
       recovery: 'short',
     });
-    expect(characterResources(make('fighter', 10, 'battle-master'), content).find((r) => r.id === 'superiority-dice')).toMatchObject({ max: 5, die: 10 });
+    expect(
+      characterResources(make('fighter', 10, 'battle-master'), content).find((r) => r.id === 'superiority-dice'),
+    ).toMatchObject({ max: 5, die: 10 });
   });
 
   test('коллегия доблести на 3-м: средние доспехи, щиты, воинское оружие', () => {

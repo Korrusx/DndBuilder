@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { Alert, TextInput } from 'react-native';
 
 import type { Character } from '@/entities/character';
-import { choice1, CHOICE_KEYS, knownLanguages, needsSpeciesSpellAbility, SPECIES_SPELL_ABILITIES } from '@/entities/character';
+import {
+  choice1,
+  CHOICE_KEYS,
+  knownLanguages,
+  needsSpeciesSpellAbility,
+  SPECIES_SPELL_ABILITIES,
+} from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { ClassOptionsPicker } from '@/features/pick-class-options';
 import { shareCharacters } from '@/features/transfer-characters';
@@ -16,14 +22,14 @@ import { styles } from './PlayEditPage.styles';
 
 /** Изменение данных персонажа, которые меняются по ходу игры: имя, кампания, мировоззрение, языки, воззвания, заметки. */
 export function PlayEditPage() {
-  const { character: c, update } = usePlay();
+  const { character, update } = usePlay();
   const { t } = useTranslation();
   const set = (patch: Partial<Character>) => update((d) => ({ ...d, ...patch }));
   const [sharing, setSharing] = useState(false);
   const exportToFile = async () => {
     setSharing(true);
     try {
-      await shareCharacters([c]);
+      await shareCharacters([character]);
     } catch (err) {
       Alert.alert(t('edit.saveFailed'), err instanceof Error ? err.message : String(err));
     } finally {
@@ -33,7 +39,7 @@ export function PlayEditPage() {
 
   const field = (key: TextField, placeholder: string, multiline = false) => (
     <TextInput
-      value={c[key] ?? ''}
+      value={character[key] ?? ''}
       onChangeText={(text) => set({ [key]: text })}
       placeholder={placeholder}
       placeholderTextColor={colors.textSecondary}
@@ -43,9 +49,13 @@ export function PlayEditPage() {
   );
 
   // Языки от умений класса (воровской жаргон и т.п.) отмечены, но снять их нельзя.
-  const known = new Set(knownLanguages(c, content));
+  const known = new Set(knownLanguages(character, content));
   const toggleLanguage = (id: string) =>
-    set({ languages: c.languages.includes(id) ? c.languages.filter((l) => l !== id) : [...c.languages, id] });
+    set({
+      languages: character.languages.includes(id)
+        ? character.languages.filter((l) => l !== id)
+        : [...character.languages, id],
+    });
 
   return (
     <Screen>
@@ -59,8 +69,8 @@ export function PlayEditPage() {
             <Chip
               key={a.id}
               label={localizeText(a.name).text}
-              selected={c.alignment === a.id}
-              onPress={() => set({ alignment: c.alignment === a.id ? undefined : a.id })}
+              selected={character.alignment === a.id}
+              onPress={() => set({ alignment: character.alignment === a.id ? undefined : a.id })}
             />
           ))}
         </ChipRow>
@@ -73,34 +83,41 @@ export function PlayEditPage() {
               key={l.id}
               label={nameOf('languages', l.id)}
               selected={known.has(l.id)}
-              disabled={known.has(l.id) && !c.languages.includes(l.id)}
+              disabled={known.has(l.id) && !character.languages.includes(l.id)}
               onPress={() => toggleLanguage(l.id)}
             />
           ))}
         </ChipRow>
       </Section>
 
-      {needsSpeciesSpellAbility(c, content) ? (
+      {needsSpeciesSpellAbility(character, content) ? (
         <Section title={t('origin.spellAbility')} hint={t('origin.spellAbilityHint')}>
           <ChipRow>
             {SPECIES_SPELL_ABILITIES.map((ability) => (
               <Chip
                 key={ability}
                 label={abilityName(ability)}
-                selected={choice1(c, CHOICE_KEYS.speciesSpellAbility) === ability}
-                onPress={() => set({ choices: { ...c.choices, [CHOICE_KEYS.speciesSpellAbility]: [ability] } })}
+                selected={choice1(character, CHOICE_KEYS.speciesSpellAbility) === ability}
+                onPress={() => set({ choices: { ...character.choices, [CHOICE_KEYS.speciesSpellAbility]: [ability] } })}
               />
             ))}
           </ChipRow>
         </Section>
       ) : null}
 
-      <ClassOptionsPicker character={c} onChoice={(key, ids) => set({ choices: { ...c.choices, [key]: ids } })} />
+      <ClassOptionsPicker
+        character={character}
+        onChoice={(key, ids) => set({ choices: { ...character.choices, [key]: ids } })}
+      />
 
       <Section title={t('edit.notes')}>{field('notes', t('edit.notesPlaceholder'), true)}</Section>
 
       <Section title={t('edit.file')} hint={t('edit.fileHint')}>
-        <SmallButton title={sharing ? t('edit.saving') : t('edit.saveToFile')} disabled={sharing} onPress={exportToFile} />
+        <SmallButton
+          title={sharing ? t('edit.saving') : t('edit.saveToFile')}
+          disabled={sharing}
+          onPress={exportToFile}
+        />
       </Section>
     </Screen>
   );

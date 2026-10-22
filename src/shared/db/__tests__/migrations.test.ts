@@ -9,8 +9,11 @@ function fakeDb(version = 0) {
     version: () => version,
     async execAsync(sql) {
       const m = sql.match(/PRAGMA user_version = (\d+)/);
-      if (m) version = Number(m[1]);
-      else executed.push(sql.trim());
+      if (m) {
+        version = Number(m[1]);
+      } else {
+        executed.push(sql.trim());
+      }
     },
     async getFirstAsync<T>() {
       return { user_version: version } as T;

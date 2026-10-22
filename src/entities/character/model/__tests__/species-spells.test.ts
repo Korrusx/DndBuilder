@@ -4,8 +4,14 @@ import { CHOICE_KEYS } from '../../config/constants';
 import { irmaLevel1, irmaLevel5 } from '../../lib/samples';
 import { needsSpeciesSpellAbility, speciesSpellcasting } from '../speciesSpells';
 
-const ids = (c: Parameters<typeof speciesSpellcasting>[0]) => speciesSpellcasting(c, content)?.spells.map((s) => s.spellId);
-const as = (c: ReturnType<typeof irmaLevel1>, speciesId: string, subspeciesId?: string, choices: Record<string, string[]> = {}) => ({
+const ids = (c: Parameters<typeof speciesSpellcasting>[0]) =>
+  speciesSpellcasting(c, content)?.spells.map((s) => s.spellId);
+const as = (
+  c: ReturnType<typeof irmaLevel1>,
+  speciesId: string,
+  subspeciesId?: string,
+  choices: Record<string, string[]> = {},
+) => ({
   ...c,
   speciesId,
   subspeciesId,
@@ -47,8 +53,14 @@ describe('заклинания вида', () => {
 
   test('высший эльф: «Фокусы» можно заменить заговором волшебника', () => {
     const elf = as(irmaLevel1(), 'elf', 'elven-lineage-high-elf');
-    expect(speciesSpellcasting(elf, content)?.spells[0]).toMatchObject({ spellId: 'prestidigitation', swapList: 'wizard' });
-    const swapped = { ...elf, choices: { ...elf.choices, [CHOICE_KEYS.speciesCantrip('high-elf-cantrip-versatility')]: ['fire-bolt'] } };
+    expect(speciesSpellcasting(elf, content)?.spells[0]).toMatchObject({
+      spellId: 'prestidigitation',
+      swapList: 'wizard',
+    });
+    const swapped = {
+      ...elf,
+      choices: { ...elf.choices, [CHOICE_KEYS.speciesCantrip('high-elf-cantrip-versatility')]: ['fire-bolt'] },
+    };
     expect(ids(swapped)).toEqual(['fire-bolt']);
   });
 

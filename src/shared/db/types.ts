@@ -1,4 +1,3 @@
-
 export type MetaKey = 'lastBackupAt' | 'language' | 'diceSettings';
 
 // Миграции пользовательской базы. Версия схемы хранится в PRAGMA user_version.

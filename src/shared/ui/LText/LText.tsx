@@ -11,7 +11,9 @@ export function LText({ text, ...rest }: LTextProps) {
   return (
     <AppText {...rest}>
       {value}
-      {translated ? null : <AppText style={styles.textTextSecondarySize11}>{currentLanguage() === 'en' ? ' RU' : ' EN'}</AppText>}
+      {translated ? null : (
+        <AppText style={styles.textTextSecondarySize11}>{currentLanguage() === 'en' ? ' RU' : ' EN'}</AppText>
+      )}
     </AppText>
   );
 }

@@ -6,19 +6,35 @@ import { COIN_ORDER } from './constants';
 import { byId, localizeText } from './content';
 import type { AbilityId, Choice, ChoiceOption, Coin } from './types';
 
-type Table = 'classes' | 'species' | 'subspecies' | 'backgrounds' | 'feats' | 'equipment' | 'languages' | 'skills' | 'features' | 'traits';
+type Table =
+  | 'classes'
+  | 'species'
+  | 'subspecies'
+  | 'backgrounds'
+  | 'feats'
+  | 'equipment'
+  | 'languages'
+  | 'skills'
+  | 'features'
+  | 'traits';
 
 export function nameOf(table: Table, id: string | undefined): string {
-  if (!id) return '';
+  if (!id) {
+    return '';
+  }
   const entry = byId[table].get(id) as { name: Parameters<typeof localizeText>[0] } | undefined;
   return entry ? localizeText(entry.name).text : id;
 }
 
 export function proficiencyName(id: string): string {
   const p = byId.proficiencies.get(id);
-  if (!p) return id;
+  if (!p) {
+    return id;
+  }
   // Для навыков берём переведённое название навыка.
-  if (p.type === 'skill' && p.refId) return nameOf('skills', p.refId);
+  if (p.type === 'skill' && p.refId) {
+    return nameOf('skills', p.refId);
+  }
   return localizeText(p.name).text;
 }
 
@@ -83,7 +99,9 @@ function choiceText(choice: Choice): string {
 }
 
 /** Навыки по характеристикам (СИЛ, ЛОВ, ТЕЛ, ИНТ, МДР, ХАР), внутри — по алфавиту, как на бумажном листе. */
-export function groupSkillsByAbility<T extends { id: string; ability: AbilityId }>(skills: T[]): { ability: AbilityId; skills: T[] }[] {
+export function groupSkillsByAbility<T extends { id: string; ability: AbilityId }>(
+  skills: T[],
+): { ability: AbilityId; skills: T[] }[] {
   const order: AbilityId[] = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
   return order.map((ability) => ({
     ability,
@@ -95,9 +113,13 @@ export function groupSkillsByAbility<T extends { id: string; ability: AbilityId 
 
 /** Название предмета инвентаря: снаряжение, магический предмет или свой предмет. */
 export function itemName(item: { itemId: string; name?: string }): string {
-  if (item.name) return item.name;
+  if (item.name) {
+    return item.name;
+  }
   const eq = byId.equipment.get(item.itemId);
-  if (eq) return localizeText(eq.name).text;
+  if (eq) {
+    return localizeText(eq.name).text;
+  }
   const magic = byId.magicItems.get(item.itemId);
   return magic ? localizeText(magic.name).text : item.itemId;
 }

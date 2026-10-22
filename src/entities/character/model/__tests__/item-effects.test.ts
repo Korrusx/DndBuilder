@@ -26,7 +26,9 @@ const attackOf = (s: ReturnType<typeof computeSheet>, id: string) =>
 function withTestEquipment(item: Equipment, fn: () => void) {
   content.equipment.push(item);
   (idx.equipment as Map<string, Equipment>).set(item.id, item);
-  try { fn(); } finally {
+  try {
+    fn();
+  } finally {
     content.equipment.splice(content.equipment.indexOf(item), 1);
     (idx.equipment as Map<string, Equipment>).delete(item.id);
   }
@@ -35,7 +37,9 @@ function withTestEquipment(item: Equipment, fn: () => void) {
 function withTestMagicItem(item: MagicItem, fn: () => void) {
   content.magicItems.push(item);
   (idx.magicItems as Map<string, MagicItem>).set(item.id, item);
-  try { fn(); } finally {
+  try {
+    fn();
+  } finally {
     content.magicItems.splice(content.magicItems.indexOf(item), 1);
     (idx.magicItems as Map<string, MagicItem>).delete(item.id);
   }
@@ -46,7 +50,9 @@ function withTestMagicItem(item: MagicItem, fn: () => void) {
 // ЛОВ +4, БМ +3, магия +1. Атака: +4+3+1 = +8. Урон: 1к4+5 (кол.) + 1к6 (огнём).
 describe('Пламенный клинок (+1, 1к6 огнём)', () => {
   const daggerBase = idx.equipment.get('dagger');
-  if (!daggerBase?.weapon) throw new Error('dagger не найден в контенте');
+  if (!daggerBase?.weapon) {
+    throw new Error('dagger не найден в контенте');
+  }
 
   const flamingSword: Equipment = {
     ...daggerBase,

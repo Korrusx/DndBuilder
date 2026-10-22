@@ -43,13 +43,22 @@ describe('ресурсы умений', () => {
   });
 
   test('подкласс: кости превосходства Мастера боевых искусств растут и крупнеют', () => {
-    expect(byId(at('fighter', 3, 'battle-master'))['superiority-dice']).toMatchObject({ max: 4, die: 8, recovery: 'short' });
+    expect(byId(at('fighter', 3, 'battle-master'))['superiority-dice']).toMatchObject({
+      max: 4,
+      die: 8,
+      recovery: 'short',
+    });
     expect(byId(at('fighter', 10, 'battle-master'))['superiority-dice']).toMatchObject({ max: 5, die: 10 });
     expect(byId(at('fighter', 3))['superiority-dice']).toBeUndefined();
   });
 
   test('вид и черта: оружие дыхания и очки удачи = бонус мастерства', () => {
-    const dragonborn = { ...at('fighter', 5), speciesId: 'dragonborn', subspeciesId: 'draconic-ancestor-black', size: undefined };
+    const dragonborn = {
+      ...at('fighter', 5),
+      speciesId: 'dragonborn',
+      subspeciesId: 'draconic-ancestor-black',
+      size: undefined,
+    };
     const r = byId(dragonborn);
     expect(r['breath-weapon'].max).toBe(3);
     expect(r['draconic-flight'].max).toBe(1);

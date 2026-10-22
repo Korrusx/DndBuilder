@@ -79,6 +79,8 @@ describe('Ирма Вейл, плут 5', () => {
   test('умения подкласса до 5-го уровня', () => {
     const ids = sheet.features.filter((f) => f.source === 'subclass').map((f) => f.id);
     expect(ids.length).toBeGreaterThan(0);
-    for (const id of ids) expect(content.features.find((f) => f.id === id)!.level).toBeLessThanOrEqual(5);
+    for (const id of ids) {
+      expect(content.features.find((f) => f.id === id)!.level).toBeLessThanOrEqual(5);
+    }
   });
 });

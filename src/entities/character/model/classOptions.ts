@@ -34,11 +34,23 @@ export function classOptionSlots(c: Character, content: Content): ClassOptionSlo
   const warlock = classLevel(c, 'warlock');
   const invocations = indexOf(content).classes.get('warlock')?.levels[warlock - 1]?.classSpecific?.eldritch_invocations;
   if (warlock && typeof invocations === 'number' && invocations > 0) {
-    slots.push({ kind: 'invocation', classId: 'warlock', key: CHOICE_KEYS.classOptions('invocation'), count: invocations });
+    slots.push({
+      kind: 'invocation',
+      classId: 'warlock',
+      key: CHOICE_KEYS.classOptions('invocation'),
+      count: invocations,
+    });
   }
   const sorcerer = classLevel(c, 'sorcerer');
   const metamagic = METAMAGIC_COUNT.filter(([level]) => sorcerer >= level).at(-1)?.[1] ?? 0;
-  if (metamagic) slots.push({ kind: 'metamagic', classId: 'sorcerer', key: CHOICE_KEYS.classOptions('metamagic'), count: metamagic });
+  if (metamagic) {
+    slots.push({
+      kind: 'metamagic',
+      classId: 'sorcerer',
+      key: CHOICE_KEYS.classOptions('metamagic'),
+      count: metamagic,
+    });
+  }
   return slots;
 }
 
@@ -57,12 +69,20 @@ function warlockCantrips(c: Character, content: Content) {
 /** Выполнены ли условия варианта при текущих выборах (сам вариант в расчёт не берётся). */
 export function meetsPrerequisite(c: Character, content: Content, option: ClassOption): boolean {
   const p = option.prerequisite;
-  if (!p) return true;
-  if (p.level && classLevel(c, option.classId) < p.level) return false;
-  if (p.invocation && !chosenClassOptions(c, 'invocation').includes(p.invocation)) return false;
+  if (!p) {
+    return true;
+  }
+  if (p.level && classLevel(c, option.classId) < p.level) {
+    return false;
+  }
+  if (p.invocation && !chosenClassOptions(c, 'invocation').includes(p.invocation)) {
+    return false;
+  }
   if (p.cantrip) {
     const ok = warlockCantrips(c, content).some((s) => !!s!.damage && (p.cantrip === 'damage' || !!s!.attackType));
-    if (!ok) return false;
+    if (!ok) {
+      return false;
+    }
   }
   return true;
 }
@@ -86,7 +106,9 @@ export function unmetClassOptions(c: Character, content: Content): string[] {
 
 /** Выборы Книги теней, если взят «Договор гримуара». */
 export function tomeSlots(c: Character, content: Content) {
-  if (!chosenClassOptions(c, 'invocation').includes('pact-of-the-tome')) return null;
+  if (!chosenClassOptions(c, 'invocation').includes('pact-of-the-tome')) {
+    return null;
+  }
   const prepared = new Set([...c.cantrips, ...c.preparedSpells]);
   const cantrips = content.spells.filter((s) => s.level === 0 && !prepared.has(s.id)).map((s) => s.id);
   const rituals = content.spells.filter((s) => s.level === 1 && s.ritual && !prepared.has(s.id)).map((s) => s.id);
@@ -106,7 +128,10 @@ export function classOptionSpells(c: Character, content: Content): ClassOptionSp
     }
   }
   if (chosenClassOptions(c, 'invocation').includes('pact-of-the-tome')) {
-    for (const spellId of [...(c.choices[CHOICE_KEYS.tomeCantrips] ?? []), ...(c.choices[CHOICE_KEYS.tomeRituals] ?? [])]) {
+    for (const spellId of [
+      ...(c.choices[CHOICE_KEYS.tomeCantrips] ?? []),
+      ...(c.choices[CHOICE_KEYS.tomeRituals] ?? []),
+    ]) {
       out.push({ optionId: 'pact-of-the-tome', spellId, free: 'tome', resourceKey: '' });
     }
   }
@@ -114,16 +139,25 @@ export function classOptionSpells(c: Character, content: Content): ClassOptionSp
 }
 
 /** Чего не хватает в выборе вариантов умений: сообщения для мастера создания и повышения уровня. */
-export function classOptionProblems(c: Character, content: Content): ({ kind: 'count'; slot: ClassOptionSlot } | { kind: 'unmet'; ids: string[] } | { kind: 'tome' })[] {
+export function classOptionProblems(
+  c: Character,
+  content: Content,
+): ({ kind: 'count'; slot: ClassOptionSlot } | { kind: 'unmet'; ids: string[] } | { kind: 'tome' })[] {
   const out: ({ kind: 'count'; slot: ClassOptionSlot } | { kind: 'unmet'; ids: string[] } | { kind: 'tome' })[] = [];
   for (const slot of classOptionSlots(c, content)) {
-    if (chosenClassOptions(c, slot.kind).length !== slot.count) out.push({ kind: 'count', slot });
+    if (chosenClassOptions(c, slot.kind).length !== slot.count) {
+      out.push({ kind: 'count', slot });
+    }
   }
   const unmet = unmetClassOptions(c, content);
-  if (unmet.length) out.push({ kind: 'unmet', ids: unmet });
+  if (unmet.length) {
+    out.push({ kind: 'unmet', ids: unmet });
+  }
   const tome = tomeSlots(c, content);
   const count = (key: string) => c.choices[key]?.length ?? 0;
-  if (tome && (count(tome.cantrips.key) !== tome.cantrips.count || count(tome.rituals.key) !== tome.rituals.count)) out.push({ kind: 'tome' });
+  if (tome && (count(tome.cantrips.key) !== tome.cantrips.count || count(tome.rituals.key) !== tome.rituals.count)) {
+    out.push({ kind: 'tome' });
+  }
   return out;
 }
 

@@ -5,13 +5,7 @@ import { styles } from './Section.styles';
 import type { SectionProps } from './Section.types';
 
 /** Раздел шага: заголовок, счётчик «выбрано / нужно», подсказка. */
-export function Section({
-  title,
-  hint,
-  picked,
-  need,
-  children,
-}: SectionProps) {
+export function Section({ title, hint, picked, need, children }: SectionProps) {
   const done = need !== undefined && picked === need;
   return (
     <View style={styles.section}>

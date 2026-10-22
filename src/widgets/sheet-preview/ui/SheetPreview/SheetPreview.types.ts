@@ -1,3 +1,3 @@
 import type { Character, CharacterSheet } from '@/entities/character';
 
-export type SheetPreviewProps = { c: Character; sheet: CharacterSheet };
+export type SheetPreviewProps = { character: Character; sheet: CharacterSheet };

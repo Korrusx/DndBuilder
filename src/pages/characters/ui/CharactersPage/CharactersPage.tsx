@@ -35,13 +35,17 @@ export function CharactersPage() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    navigation.setOptions({ title: selected ? t('characters.selected', { count: selected.size }) : t('nav.characters') });
+    navigation.setOptions({
+      title: selected ? t('characters.selected', { count: selected.size }) : t('nav.characters'),
+    });
   }, [navigation, selected, t]);
 
   // Кнопка «Назад» на Android выходит из режима выбора, а не из приложения.
   useFocusEffect(
     useCallback(() => {
-      if (!selected) return;
+      if (!selected) {
+        return;
+      }
       const sub = BackHandler.addEventListener('hardwareBackPress', () => {
         setSelected(null);
         return true;
@@ -53,13 +57,18 @@ export function CharactersPage() {
   const toggle = (id: string) =>
     setSelected((prev) => {
       const next = new Set(prev ?? []);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next.size ? next : null;
     });
 
   const confirmDelete = () => {
-    if (!selected?.size) return;
+    if (!selected?.size) {
+      return;
+    }
     const names = (characters ?? []).filter((c) => selected.has(c.id)).map((c) => `«${c.name || t('common.unnamed')}»`);
     const shown = names.length > 5 ? [...names.slice(0, 5), t('common.andMore', { count: names.length - 5 })] : names;
     Alert.alert(
@@ -82,7 +91,9 @@ export function CharactersPage() {
 
   const [busy, setBusy] = useState(false);
   const withBusy = async (task: () => Promise<void>, errorTitle: string) => {
-    if (busy) return;
+    if (busy) {
+      return;
+    }
     setBusy(true);
     try {
       await task();
@@ -115,11 +126,16 @@ export function CharactersPage() {
         }
         throw err;
       }
-      if (!result) return;
+      if (!result) {
+        return;
+      }
       await saveCharacters(db, result.characters);
       reload();
       const names = result.characters.map((c) => `«${c.name || t('common.unnamed')}»`).join(', ');
-      const title = result.characters.length === 1 ? t('characters.loadedOne') : t('characters.loadedMany', { count: result.characters.length });
+      const title =
+        result.characters.length === 1
+          ? t('characters.loadedOne')
+          : t('characters.loadedMany', { count: result.characters.length });
       Alert.alert(title, [names, ...result.warnings].join('\n\n'));
     }, t('characters.loadFailed'));
 
@@ -165,11 +181,20 @@ export function CharactersPage() {
                   title={t('characters.toFile', { count: selected.size })}
                   variant="secondary"
                   disabled={busy}
-                  onPress={() => exportCharacters((characters ?? []).filter((c) => selected.has(c.id)), allSelected)}
+                  onPress={() =>
+                    exportCharacters(
+                      (characters ?? []).filter((c) => selected.has(c.id)),
+                      allSelected,
+                    )
+                  }
                 />
               </View>
               <View style={styles.fill}>
-                <Button title={t('characters.deleteCount', { count: selected.size })} variant="danger" onPress={confirmDelete} />
+                <Button
+                  title={t('characters.deleteCount', { count: selected.size })}
+                  variant="danger"
+                  onPress={confirmDelete}
+                />
               </View>
             </View>
             <View style={styles.row}>

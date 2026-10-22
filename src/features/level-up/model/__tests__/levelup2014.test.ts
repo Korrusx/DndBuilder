@@ -39,29 +39,47 @@ describe('повышение уровня 2014', () => {
   });
 
   test('боевой стиль паладина на 2-м уровне', () => {
-    expect(plan(make('paladin', 1)).optionChoices).toEqual([expect.objectContaining({ featureId: 'paladin-fighting-style', total: 1 })]);
+    expect(plan(make('paladin', 1)).optionChoices).toEqual([
+      expect.objectContaining({ featureId: 'paladin-fighting-style', total: 1 }),
+    ]);
   });
 
   test('воззвания колдуна: 2 на 2-м уровне, 3 на 5-м; договор на 3-м', () => {
-    expect(plan(make('warlock', 1, 'fiend')).optionChoices).toEqual([expect.objectContaining({ featureId: 'eldritch-invocations', total: 2 })]);
+    expect(plan(make('warlock', 1, 'fiend')).optionChoices).toEqual([
+      expect.objectContaining({ featureId: 'eldritch-invocations', total: 2 }),
+    ]);
     expect(plan(make('warlock', 2, 'fiend')).optionChoices.map((o) => o.featureId)).toEqual(['pact-boon']);
     // SRD 5.1: 3 воззвания с 5-го уровня (в данных API ошибочно с 4-го — исправлено в сборке).
     expect(plan(make('warlock', 3, 'fiend')).optionChoices).toEqual([]);
-    expect(plan(make('warlock', 4, 'fiend')).optionChoices).toEqual([expect.objectContaining({ featureId: 'eldritch-invocations', total: 3 })]);
-    expect(plan(make('warlock', 6, 'fiend')).optionChoices).toEqual([expect.objectContaining({ featureId: 'eldritch-invocations', total: 4 })]);
+    expect(plan(make('warlock', 4, 'fiend')).optionChoices).toEqual([
+      expect.objectContaining({ featureId: 'eldritch-invocations', total: 3 }),
+    ]);
+    expect(plan(make('warlock', 6, 'fiend')).optionChoices).toEqual([
+      expect.objectContaining({ featureId: 'eldritch-invocations', total: 4 }),
+    ]);
   });
 
   test('без выбора варианта повысить нельзя', () => {
     const prev = make('paladin', 1);
     const next = startLevelUp(prev);
-    expect(levelUpIssues(next, prev, content).filter((i) => i.blocking).map((i) => i.message)).toContain('Не выбран вариант умения класса');
+    expect(
+      levelUpIssues(next, prev, content)
+        .filter((i) => i.blocking)
+        .map((i) => i.message),
+    ).toContain('Не выбран вариант умения класса');
     const chosen = { ...next, choices: { 'feature.paladin-fighting-style': ['fighting-style-defense'] } };
-    expect(levelUpIssues(chosen, prev, content).filter((i) => i.blocking).map((i) => i.message)).toEqual([]);
+    expect(
+      levelUpIssues(chosen, prev, content)
+        .filter((i) => i.blocking)
+        .map((i) => i.message),
+    ).toEqual([]);
   });
 
   test('коллегия знаний на 3-м уровне: три навыка на выбор', () => {
     const next = startLevelUp(make('bard', 2));
     const withLore = { ...next, classes: [{ ...next.classes[0], subclassId: 'lore' }] };
-    expect(levelUpPlan(withLore, content).skillChoices).toEqual([expect.objectContaining({ featureId: 'bonus-proficiencies', choose: 3 })]);
+    expect(levelUpPlan(withLore, content).skillChoices).toEqual([
+      expect.objectContaining({ featureId: 'bonus-proficiencies', choose: 3 }),
+    ]);
   });
 });

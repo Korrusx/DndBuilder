@@ -34,7 +34,9 @@ export function CharacterProvider({ children }: CharacterProviderProps) {
 
   const update = useCallback(
     (fn: (c: Character) => Character) => {
-      if (!current.current) return;
+      if (!current.current) {
+        return;
+      }
       const next = fn(current.current);
       current.current = next;
       setCharacter(next);
@@ -43,13 +45,18 @@ export function CharacterProvider({ children }: CharacterProviderProps) {
     [db],
   );
 
-  const updateState = useCallback((fn: (s: GameState) => GameState) => update((c) => ({ ...c, state: fn(c.state) })), [update]);
+  const updateState = useCallback(
+    (fn: (s: GameState) => GameState) => update((c) => ({ ...c, state: fn(c.state) })),
+    [update],
+  );
 
   // Экраны режима игры берут справочник редакции персонажа (content / byId).
   useActiveEdition(character?.edition ?? '2024');
 
   const sheet = useMemo(() => {
-    if (!character) return null;
+    if (!character) {
+      return null;
+    }
     try {
       return computeSheet(character, contentFor(character.edition));
     } catch {
@@ -57,7 +64,9 @@ export function CharacterProvider({ children }: CharacterProviderProps) {
     }
   }, [character]);
 
-  if (character === undefined) return null;
+  if (character === undefined) {
+    return null;
+  }
   if (!character || !sheet) {
     return (
       <Screen>
@@ -72,6 +81,8 @@ export function CharacterProvider({ children }: CharacterProviderProps) {
 
 export function usePlay(): PlayApi {
   const api = useContext(PlayContext);
-  if (!api) throw new Error('usePlay вне CharacterProvider');
+  if (!api) {
+    throw new Error('usePlay вне CharacterProvider');
+  }
   return api;
 }

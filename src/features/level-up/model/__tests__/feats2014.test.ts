@@ -31,7 +31,9 @@ describe('черты PHB 2014', () => {
   });
 
   test('«Устойчивый»: +1 и владение спасброском', () => {
-    const c = make('wizard', 4, { feats: [{ featId: 'resilient', source: 'class', level: 4, abilityIncreases: { con: 1 } }] });
+    const c = make('wizard', 4, {
+      feats: [{ featId: 'resilient', source: 'class', level: 4, abilityIncreases: { con: 1 } }],
+    });
     const sheet = computeSheet(c, content);
     expect(sheet.abilities.con).toMatchObject({ score: 16, saveProficient: true, save: 3 + 2 });
   });
@@ -48,7 +50,9 @@ describe('черты PHB 2014', () => {
     const feats = (featId: string) => [{ featId, source: 'class' as const, level: 4 }];
     const plain = computeSheet(make('fighter', 4), content);
     expect(computeSheet(make('fighter', 4, { feats: feats('mobile') }), content).speed).toBe(plain.speed + 10);
-    expect(computeSheet(make('fighter', 4, { feats: feats('observant') }), content).passivePerception).toBe(plain.passivePerception + 5);
+    expect(computeSheet(make('fighter', 4, { feats: feats('observant') }), content).passivePerception).toBe(
+      plain.passivePerception + 5,
+    );
     expect(computeSheet(make('fighter', 4, { feats: feats('tough') }), content).maxHp).toBe(plain.maxHp + 8);
   });
 
@@ -59,11 +63,15 @@ describe('черты PHB 2014', () => {
     });
     // Чешуйчатый доспех 14 + ЛОВ 17 (+3), но не больше +2
     expect(computeSheet(c, content).armorClass).toBe(16);
-    expect(computeSheet({ ...c, feats: [{ featId: 'medium-armor-master', source: 'class', level: 4 }] }, content).armorClass).toBe(17);
+    expect(
+      computeSheet({ ...c, feats: [{ featId: 'medium-armor-master', source: 'class', level: 4 }] }, content).armorClass,
+    ).toBe(17);
   });
 
   test('«Тяжёлая броня» даёт владение тяжёлыми доспехами', () => {
-    const c = make('cleric', 4, { feats: [{ featId: 'heavily-armored', source: 'class', level: 4, abilityIncreases: { str: 1 } }] });
+    const c = make('cleric', 4, {
+      feats: [{ featId: 'heavily-armored', source: 'class', level: 4, abilityIncreases: { str: 1 } }],
+    });
     expect(computeSheet(c, content).proficiencies).toContain('heavy-armor');
   });
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
 
-import type { CharacterSheet, SlotId } from '@/entities/character';
+import type { SlotId } from '@/entities/character';
 import { warmCatalogCache } from '@/features/add-item';
 import { colors } from '@/shared/config';
 import { itemName, localizeText } from '@/shared/content';
@@ -13,15 +13,9 @@ import { BODY_SLOTS, WEAPON_SLOTS, type SlotDef, type WeaponSlotDef } from './co
 import { fmtHit, isMagicItem, lookupItem, rarityColor } from './helpers';
 import { itemIcon, SLOT_ICONS } from '../../lib/itemIcon';
 import { DOLL_H, SCALE, styles, W } from './PlayItemsPage.styles';
+import type { CharacterDollProps } from './CharacterDoll.types';
 
-type Props = {
-  equippedSlots: Partial<Record<string, string>>;
-  selectedSlot: SlotId;
-  onSelectSlot: (slot: SlotId) => void;
-  attacks: CharacterSheet['attacks'];
-};
-
-export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attacks }: Props) {
+export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attacks }: CharacterDollProps) {
   const { t, i18n } = useTranslation();
   const isRu = i18n.language === 'ru';
 
@@ -37,7 +31,9 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
   }, []);
 
   useEffect(() => {
-    if (!dollReady) return;
+    if (!dollReady) {
+      return;
+    }
     Animated.timing(dollOpacity, { toValue: 1, duration: 220, useNativeDriver: true }).start();
   }, [dollReady]);
 
@@ -62,10 +58,34 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
               fill={equippedSlots.shoulders ? colors.accentBg : 'transparent'}
               opacity={0.9}
             />
-            <Path d="M47 82 Q32 100 28 140 L24 196 M113 82 Q128 100 132 140 L136 196" stroke="#3a414b" strokeWidth={20} strokeLinecap="round" fill="none" />
-            <Path d="M47 82 Q32 100 28 140 L24 196 M113 82 Q128 100 132 140 L136 196" stroke="#1d2127" strokeWidth={16} strokeLinecap="round" fill="none" />
-            <Path d="M60 172 L56 302 M100 172 L104 302" stroke="#3a414b" strokeWidth={26} strokeLinecap="round" fill="none" />
-            <Path d="M60 172 L56 302 M100 172 L104 302" stroke="#1d2127" strokeWidth={22} strokeLinecap="round" fill="none" />
+            <Path
+              d="M47 82 Q32 100 28 140 L24 196 M113 82 Q128 100 132 140 L136 196"
+              stroke="#3a414b"
+              strokeWidth={20}
+              strokeLinecap="round"
+              fill="none"
+            />
+            <Path
+              d="M47 82 Q32 100 28 140 L24 196 M113 82 Q128 100 132 140 L136 196"
+              stroke="#1d2127"
+              strokeWidth={16}
+              strokeLinecap="round"
+              fill="none"
+            />
+            <Path
+              d="M60 172 L56 302 M100 172 L104 302"
+              stroke="#3a414b"
+              strokeWidth={26}
+              strokeLinecap="round"
+              fill="none"
+            />
+            <Path
+              d="M60 172 L56 302 M100 172 L104 302"
+              stroke="#1d2127"
+              strokeWidth={22}
+              strokeLinecap="round"
+              fill="none"
+            />
             <Path
               d="M50 76 Q80 68 110 76 L116 172 Q80 182 44 172 Z"
               fill="#1d2127"
@@ -76,12 +96,7 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
             <Circle cx={80} cy={36} r={23} fill="#1d2127" stroke="#3a414b" strokeWidth={2} />
           </Svg>
 
-          <Svg
-            width={W}
-            height={DOLL_H}
-            style={styles.svgOverlay}
-            pointerEvents="none"
-          >
+          <Svg width={W} height={DOLL_H} style={styles.svgOverlay} pointerEvents="none">
             {BODY_SLOTS.map((s) => {
               const rawLeft = s.col === 0 ? 14 : 322;
               const rawTop = 22 + s.row * 76;
@@ -93,10 +108,18 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
               const on = selectedSlot === s.id;
               const color = on ? colors.accent : itemId ? colors.iconMuted : colors.border;
               const strokeWidth = on ? 2 * SCALE : 1.2 * SCALE;
-              const dashArr = (!itemId && !on) ? `${3 * SCALE} ${4 * SCALE}` : undefined;
+              const dashArr = !itemId && !on ? `${3 * SCALE} ${4 * SCALE}` : undefined;
               return (
                 <React.Fragment key={s.id}>
-                  <Line x1={anchorX} y1={anchorY} x2={bodyX} y2={bodyY} stroke={color} strokeWidth={strokeWidth} strokeDasharray={dashArr} />
+                  <Line
+                    x1={anchorX}
+                    y1={anchorY}
+                    x2={bodyX}
+                    y2={bodyY}
+                    stroke={color}
+                    strokeWidth={strokeWidth}
+                    strokeDasharray={dashArr}
+                  />
                   <Circle cx={bodyX} cy={bodyY} r={3 * SCALE} fill={color} />
                 </React.Fragment>
               );
@@ -110,7 +133,11 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
             const item = itemId ? lookupItem(itemId) : undefined;
             const on = selectedSlot === s.id;
             const rarColor = item && isMagicItem(item) ? rarityColor(localizeText(item.rarity).text) : colors.iconMuted;
-            const iconColor = itemId ? (rarColor === colors.iconMuted ? colors.textTertiary : rarColor) : colors.iconMuted;
+            const iconColor = itemId
+              ? rarColor === colors.iconMuted
+                ? colors.textTertiary
+                : rarColor
+              : colors.iconMuted;
 
             return (
               <Pressable
@@ -126,7 +153,11 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
                 accessibilityLabel={slotLabel(s)}
                 hitSlop={4}
               >
-                <GameIcon name={item ? itemIcon(item) : SLOT_ICONS[s.id]} size={Math.round(24 * SCALE)} color={iconColor} />
+                <GameIcon
+                  name={item ? itemIcon(item) : SLOT_ICONS[s.id]}
+                  size={Math.round(24 * SCALE)}
+                  color={iconColor}
+                />
                 {item && isMagicItem(item) && item.attunement ? <View style={styles.slotAttuned} /> : null}
               </Pressable>
             );
@@ -142,7 +173,9 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
               let stat = '';
               if (itemId && eq?.weapon) {
                 const atk = attacks.find((a) => a.itemId === itemId);
-                if (atk) stat = `${fmtHit(atk.toHit)} · ${atk.damageDice}`;
+                if (atk) {
+                  stat = `${fmtHit(atk.toHit)} · ${atk.damageDice}`;
+                }
               } else if (itemId && eq?.armor?.category === 'shield') {
                 stat = 'КЗ +2';
               }
@@ -157,11 +190,17 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
                   ]}
                   onPress={() => onSelectSlot(w.id)}
                 >
-                  <GameIcon name={item ? itemIcon(item) : SLOT_ICONS[w.id]} size={20} color={itemId ? colors.textTertiary : colors.iconMuted} />
+                  <GameIcon
+                    name={item ? itemIcon(item) : SLOT_ICONS[w.id]}
+                    size={20}
+                    color={itemId ? colors.textTertiary : colors.iconMuted}
+                  />
                   <View style={styles.weaponSlotText}>
                     {itemId ? (
                       <>
-                        <AppText style={styles.weaponSlotName} numberOfLines={2}>{itemName({ itemId })}</AppText>
+                        <AppText style={styles.weaponSlotName} numberOfLines={2}>
+                          {itemName({ itemId })}
+                        </AppText>
                         {!!stat && <AppText style={styles.weaponSlotStat}>{stat}</AppText>}
                       </>
                     ) : (

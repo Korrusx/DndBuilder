@@ -21,7 +21,10 @@ import { content } from '@/shared/content';
 import { draftIssues, finishCharacter, firstIncompleteStep } from '../validation';
 
 const blank = () => newDraftCharacter('t', '2026-01-01T00:00:00.000Z');
-const steps = (c: Character) => draftIssues(c, content).filter((i) => i.blocking).map((i) => i.step);
+const steps = (c: Character) =>
+  draftIssues(c, content)
+    .filter((i) => i.blocking)
+    .map((i) => i.step);
 
 /** Ирма, собранная через мастер. */
 function irmaViaWizard(): Character {
@@ -37,7 +40,12 @@ function irmaViaWizard(): Character {
     backgroundBonuses: { dex: 2, int: 1 },
     choices: {
       ...c.choices,
-      [CHOICE_KEYS.classProf('rogue', 0)]: ['skill-acrobatics', 'skill-investigation', 'skill-perception', 'skill-deception'],
+      [CHOICE_KEYS.classProf('rogue', 0)]: [
+        'skill-acrobatics',
+        'skill-investigation',
+        'skill-perception',
+        'skill-deception',
+      ],
       [CHOICE_KEYS.equipment('class')]: ['0'],
       [CHOICE_KEYS.equipment('background')]: ['0'],
       [CHOICE_KEYS.featureLanguages('rogue-thieves-cant')]: ['dwarvish'],
@@ -62,7 +70,10 @@ describe('мастер создания', () => {
     const done = finishCharacter(c, content);
     expect(done.status).toEqual({ kind: 'ready' });
     expect(done.state.currentHp).toBe(10);
-    const sheet = computeSheet({ ...done, ...startingKit(done, content), equipment: startingKit(done, content).items }, content);
+    const sheet = computeSheet(
+      { ...done, ...startingKit(done, content), equipment: startingKit(done, content).items },
+      content,
+    );
     expect(sheet.armorClass).toBe(14);
     expect(sheet.skills.find((s) => s.id === 'stealth')?.bonus).toBe(7);
     expect(sheet.skills.find((s) => s.id === 'acrobatics')?.bonus).toBe(5);
@@ -97,7 +108,10 @@ describe('мастер создания', () => {
     expect(kit.items.find((i) => i.itemId === 'dagger')?.quantity).toBe(4);
     // Кожаный доспех автоматически надевается в слот тела (новая модель equippedSlots).
     expect(kit.equippedSlots.body).toBe('leather-armor');
-    const gold = startingKit({ ...irmaViaWizard(), choices: { 'equip.class': ['1'], 'equip.background': ['1'] } }, content);
+    const gold = startingKit(
+      { ...irmaViaWizard(), choices: { 'equip.class': ['1'], 'equip.background': ['1'] } },
+      content,
+    );
     expect(gold.items).toEqual([]);
     expect(gold.coins).toEqual({ gp: 150 });
   });
@@ -110,7 +124,10 @@ describe('мастер создания', () => {
     expect(picks[0].options.length).toBeGreaterThan(0);
     expect(draftIssues(c, content).some((i) => i.message.includes('Не выбран предмет'))).toBe(true);
     const symbol = picks[0].options[0];
-    const kit = startingKit({ ...c, choices: { ...c.choices, [`equip.class.pick.${picks[0].index}`]: [symbol] } }, content);
+    const kit = startingKit(
+      { ...c, choices: { ...c.choices, [`equip.class.pick.${picks[0].index}`]: [symbol] } },
+      content,
+    );
     expect(kit.items.map((i) => i.itemId)).toContain(symbol);
     // Доспех и щит автоматически надеваются (новая модель equippedSlots).
     expect(kit.equippedSlots.body).toBe('chain-shirt');
@@ -142,7 +159,11 @@ describe('мастер создания', () => {
   });
 
   test('владения «Защитника» попадают в лист', () => {
-    const c = { ...irmaViaWizard(), classes: [{ classId: 'cleric', level: 1 }], choices: { 'feature.cleric-divine-order': ['protector'] } };
+    const c = {
+      ...irmaViaWizard(),
+      classes: [{ classId: 'cleric', level: 1 }],
+      choices: { 'feature.cleric-divine-order': ['protector'] },
+    };
     expect(computeSheet(c, content).proficiencies).toEqual(expect.arrayContaining(['heavy-armor', 'martial-weapons']));
   });
 
@@ -157,8 +178,12 @@ describe('мастер создания', () => {
 
   test('характеристики: покупка очков и броски', () => {
     const c = irmaViaWizard();
-    expect(steps({ ...c, abilityMethod: 'pointBuy', baseAbilities: { str: 15, dex: 15, con: 15, int: 15, wis: 8, cha: 8 } })).toEqual([3]);
-    expect(steps({ ...c, abilityMethod: 'pointBuy', baseAbilities: { str: 8, dex: 15, con: 15, int: 13, wis: 10, cha: 8 } })).toEqual([]);
+    expect(
+      steps({ ...c, abilityMethod: 'pointBuy', baseAbilities: { str: 15, dex: 15, con: 15, int: 15, wis: 8, cha: 8 } }),
+    ).toEqual([3]);
+    expect(
+      steps({ ...c, abilityMethod: 'pointBuy', baseAbilities: { str: 8, dex: 15, con: 15, int: 13, wis: 10, cha: 8 } }),
+    ).toEqual([]);
     const rolled = { ...c, abilityMethod: 'roll' as const, abilityRolls: [16, 12, 11, 9, 14, 7] };
     expect(steps({ ...rolled, baseAbilities: { str: 7, dex: 16, con: 14, int: 12, wis: 11, cha: 9 } })).toEqual([]);
     expect(steps({ ...rolled, baseAbilities: { str: 18, dex: 16, con: 14, int: 12, wis: 11, cha: 9 } })).toEqual([3]);
@@ -175,7 +200,9 @@ describe('мастер создания', () => {
       ['feat', 3],
     ]);
     // Проводник: «Посвящённый в магию» со списком друида.
-    expect(magicInitiateSlots(setBackground(blank(), 'guide'), content)).toEqual([{ slot: 'bgfeat', fixedList: 'druid' }]);
+    expect(magicInitiateSlots(setBackground(blank(), 'guide'), content)).toEqual([
+      { slot: 'bgfeat', fixedList: 'druid' },
+    ]);
     // Фермер: черта «Крепкий» — +2 хита за уровень.
     const irma = irmaViaWizard();
     const farmer = { ...irma, backgroundId: 'farmer' };
@@ -204,8 +231,16 @@ describe('мастер создания', () => {
 describe('книга волшебника в мастере', () => {
   test('нужно 6 заклинаний в книге, а подготовленные — только из неё', () => {
     const level1 = content.spells.filter((s) => s.level === 1 && s.classes.includes('wizard')).map((s) => s.id);
-    const base = { ...irmaViaWizard(), classes: [{ classId: 'wizard', level: 1 }], cantrips: [], preparedSpells: level1.slice(0, 4) };
-    const step5 = (c: Character) => draftIssues(c, content).filter((i) => i.step === 5).map((i) => i.message);
+    const base = {
+      ...irmaViaWizard(),
+      classes: [{ classId: 'wizard', level: 1 }],
+      cantrips: [],
+      preparedSpells: level1.slice(0, 4),
+    };
+    const step5 = (c: Character) =>
+      draftIssues(c, content)
+        .filter((i) => i.step === 5)
+        .map((i) => i.message);
     expect(step5(base).some((m) => /Книга заклинаний/.test(m))).toBe(true);
     const ok = { ...base, choices: { ...base.choices, 'class.wizard.spellbook': level1.slice(0, 6) } };
     expect(step5(ok).filter((m) => /книг/i.test(m))).toEqual([]);

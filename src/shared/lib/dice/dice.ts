@@ -6,7 +6,9 @@ import type { D20Mode, D20Roll, DiceExpr } from './types';
 
 export function parseDice(expr: string): DiceExpr {
   const m = /^(\d+)\s*[dк](\d+)$/i.exec(expr.trim());
-  if (!m) throw new Error(`Не понимаю запись костей: ${expr}`);
+  if (!m) {
+    throw new Error(`Не понимаю запись костей: ${expr}`);
+  }
   return { count: Number(m[1]), sides: Number(m[2]) };
 }
 
@@ -44,8 +46,12 @@ export function rollDie(sides: number, rng: () => number = Math.random): number 
 export function rollD20(modifier: number, mode: D20Mode = 'normal', rng: () => number = Math.random): D20Roll {
   const dice = mode === 'normal' ? [rollDie(20, rng)] : [rollDie(20, rng), rollDie(20, rng)];
   let keptIndex = 0;
-  if (mode === 'advantage' && dice[1] > dice[0]) keptIndex = 1;
-  if (mode === 'disadvantage' && dice[1] < dice[0]) keptIndex = 1;
+  if (mode === 'advantage' && dice[1] > dice[0]) {
+    keptIndex = 1;
+  }
+  if (mode === 'disadvantage' && dice[1] < dice[0]) {
+    keptIndex = 1;
+  }
   const natural = dice[keptIndex];
   return { dice, keptIndex, natural, total: natural + modifier };
 }

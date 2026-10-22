@@ -6,4 +6,6 @@ import type { IconName } from '../model/types';
 /** Иконка вкладки нижнего бара. */
 export const tabIcon =
   (name: IconName) =>
-  ({ color, size }: { color: ColorValue; size: number }) => <MaterialCommunityIcons name={name} color={color as string} size={size} />;
+  ({ color, size }: { color: ColorValue; size: number }) => (
+    <MaterialCommunityIcons name={name} color={color as string} size={size} />
+  );

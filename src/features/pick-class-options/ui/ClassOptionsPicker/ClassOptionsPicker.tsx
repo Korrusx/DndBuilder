@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { chosenClassOptions, classOptionChoices, classOptionSlots, meetsPrerequisite, tomeSlots } from '@/entities/character';
+import {
+  chosenClassOptions,
+  classOptionChoices,
+  classOptionSlots,
+  meetsPrerequisite,
+  tomeSlots,
+} from '@/entities/character';
 import type { ClassOption } from '@/shared/content';
 import { content, plain, spellName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
@@ -12,10 +18,10 @@ import { styles } from './ClassOptionsPicker.styles';
 import type { ClassOptionsPickerProps } from './ClassOptionsPicker.types';
 
 /** Выбор таинственных воззваний колдуна, метамагии чародея и заклинаний Книги теней. */
-export function ClassOptionsPicker({ character: c, onChoice }: ClassOptionsPickerProps) {
+export function ClassOptionsPicker({ character, onChoice }: ClassOptionsPickerProps) {
   const { t } = useTranslation();
   const [info, setInfo] = useState<InfoContent | null>(null);
-  const tome = tomeSlots(c, content);
+  const tome = tomeSlots(character, content);
 
   const label = (o: ClassOption) => {
     const name = localizeText(o.name).text;
@@ -24,8 +30,8 @@ export function ClassOptionsPicker({ character: c, onChoice }: ClassOptionsPicke
 
   return (
     <>
-      {classOptionSlots(c, content).map((slot) => {
-        const chosen = chosenClassOptions(c, slot.kind);
+      {classOptionSlots(character, content).map((slot) => {
+        const chosen = chosenClassOptions(character, slot.kind);
         const full = chosen.length >= slot.count;
         return (
           <Section
@@ -36,7 +42,7 @@ export function ClassOptionsPicker({ character: c, onChoice }: ClassOptionsPicke
             need={slot.count}
           >
             <View style={styles.list}>
-              {classOptionChoices(c, content, slot.kind).map((o) => {
+              {classOptionChoices(character, content, slot.kind).map((o) => {
                 const on = chosen.includes(o.id);
                 return (
                   <View key={o.id} style={styles.row}>
@@ -45,11 +51,14 @@ export function ClassOptionsPicker({ character: c, onChoice }: ClassOptionsPicke
                         label={label(o)}
                         selected={on}
                         disabled={!on && full}
-                        note={on && !meetsPrerequisite(c, content, o) ? t('classOptions.unmet') : undefined}
+                        note={on && !meetsPrerequisite(character, content, o) ? t('classOptions.unmet') : undefined}
                         onPress={() => onChoice(slot.key, on ? chosen.filter((id) => id !== o.id) : [...chosen, o.id])}
                       />
                     </View>
-                    <SmallButton title="?" onPress={() => setInfo({ title: localizeText(o.name).text, text: plain(o.description) })} />
+                    <SmallButton
+                      title="?"
+                      onPress={() => setInfo({ title: localizeText(o.name).text, text: plain(o.description) })}
+                    />
                   </View>
                 );
               })}
@@ -60,19 +69,28 @@ export function ClassOptionsPicker({ character: c, onChoice }: ClassOptionsPicke
 
       {tome ? (
         <>
-          <Section title={t('classOptions.tomeCantrips')} hint={t('classOptions.tomeHint')} picked={(c.choices[tome.cantrips.key] ?? []).length} need={tome.cantrips.count}>
+          <Section
+            title={t('classOptions.tomeCantrips')}
+            hint={t('classOptions.tomeHint')}
+            picked={(character.choices[tome.cantrips.key] ?? []).length}
+            need={tome.cantrips.count}
+          >
             <MultiPick
               options={tome.cantrips.options}
-              selected={c.choices[tome.cantrips.key] ?? []}
+              selected={character.choices[tome.cantrips.key] ?? []}
               max={tome.cantrips.count}
               label={spellName}
               onChange={(ids) => onChoice(tome.cantrips.key, ids)}
             />
           </Section>
-          <Section title={t('classOptions.tomeRituals')} picked={(c.choices[tome.rituals.key] ?? []).length} need={tome.rituals.count}>
+          <Section
+            title={t('classOptions.tomeRituals')}
+            picked={(character.choices[tome.rituals.key] ?? []).length}
+            need={tome.rituals.count}
+          >
             <MultiPick
               options={tome.rituals.options}
-              selected={c.choices[tome.rituals.key] ?? []}
+              selected={character.choices[tome.rituals.key] ?? []}
               max={tome.rituals.count}
               label={spellName}
               onChange={(ids) => onChoice(tome.rituals.key, ids)}

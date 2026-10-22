@@ -9,6 +9,8 @@ import type { Effect } from './types';
 
 export function effectsOf(ids: Iterable<string>, edition: Edition = '2024'): Effect[] {
   const out: Effect[] = [];
-  for (const id of ids) out.push(...((edition === '2014' ? EFFECTS_2014[id] : undefined) ?? EFFECTS[id] ?? []));
+  for (const id of ids) {
+    out.push(...((edition === '2014' ? EFFECTS_2014[id] : undefined) ?? EFFECTS[id] ?? []));
+  }
   return out;
 }

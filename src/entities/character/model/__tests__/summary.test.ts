@@ -17,11 +17,27 @@ describe('сводка для карточки', () => {
 
   test('пустой черновик не падает и не показывает числа', () => {
     const s = characterSummary(newDraftCharacter('x', '2026-01-01T00:00:00.000Z'), content);
-    expect(s).toEqual({ letter: '?', level: 0, classNames: [], classLevels: [], species: undefined, background: undefined });
+    expect(s).toEqual({
+      letter: '?',
+      level: 0,
+      classNames: [],
+      classLevels: [],
+      species: undefined,
+      background: undefined,
+    });
   });
 
   test('мультикласс: уровни классов и общий уровень', () => {
-    const s = characterSummary({ ...irmaLevel1(), classes: [{ classId: 'rogue', level: 3 }, { classId: 'wizard', level: 2 }] }, content);
+    const s = characterSummary(
+      {
+        ...irmaLevel1(),
+        classes: [
+          { classId: 'rogue', level: 3 },
+          { classId: 'wizard', level: 2 },
+        ],
+      },
+      content,
+    );
     expect(s.level).toBe(5);
     expect(s.classLevels).toEqual([3, 2]);
     expect(s.classNames.map((n) => n.ru)).toEqual(['Плут', 'Волшебник']);

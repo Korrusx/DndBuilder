@@ -21,7 +21,14 @@ export function CreateClassPage() {
   const subclassId = character.classes[0]?.subclassId;
 
   const rows: (typeof content.classes)[] = [];
-  for (let i = 0; i < content.classes.length; i += 2) rows.push(content.classes.slice(i, i + 2));
+  for (let i = 0; i < content.classes.length; i += 2) {
+    rows.push(content.classes.slice(i, i + 2));
+  }
+
+  const editionOptions = [
+    { value: '2024' as Edition, label: t('edition.v2024') },
+    { value: '2014' as Edition, label: t('edition.v2014') },
+  ];
 
   return (
     <WizardScreen
@@ -30,7 +37,8 @@ export function CreateClassPage() {
       summary={
         cls ? (
           <AppText variant="secondary">
-            {t('createClass.chosen')} <AppText style={styles.textText}>{nameOf('classes', cls.id)}</AppText> · {formatDie(cls.hitDie)}
+            {t('createClass.chosen')} <AppText style={styles.textText}>{nameOf('classes', cls.id)}</AppText> ·{' '}
+            {formatDie(cls.hitDie)}
           </AppText>
         ) : (
           <AppText variant="secondary">{t('createClass.choose')}</AppText>
@@ -41,10 +49,7 @@ export function CreateClassPage() {
         <Segmented<Edition>
           value={character.edition}
           onChange={(e) => update((d) => setEdition(d, e))}
-          options={[
-            { value: '2024', label: t('edition.v2024') },
-            { value: '2014', label: t('edition.v2014') },
-          ]}
+          options={editionOptions}
         />
         <Hint>{`${character.edition === '2014' ? t('edition.hint2014') : t('edition.hint2024')} ${t('edition.changeWarning')}`}</Hint>
       </Section>
@@ -66,7 +71,9 @@ export function CreateClassPage() {
               }
               lines={[
                 t('createClass.hitDie', { die: formatDie(c.hitDie) }),
-                c.primaryAbilities.map(abilityAbbr).join(` ${c.primaryAbilityChoice ? t('common.or') : t('common.and')} `),
+                c.primaryAbilities
+                  .map(abilityAbbr)
+                  .join(` ${c.primaryAbilityChoice ? t('common.or') : t('common.and')} `),
               ]}
             />
           ))}
@@ -74,7 +81,12 @@ export function CreateClassPage() {
       ))}
 
       {subclassNow.length ? (
-        <Section title={t('createClass.subclass')} hint={t('createClass.subclassHint')} picked={subclassId ? 1 : 0} need={1}>
+        <Section
+          title={t('createClass.subclass')}
+          hint={t('createClass.subclassHint')}
+          picked={subclassId ? 1 : 0}
+          need={1}
+        >
           <ChipRow>
             {subclassNow.map((id) => {
               const sub = byId.subclasses.get(id);

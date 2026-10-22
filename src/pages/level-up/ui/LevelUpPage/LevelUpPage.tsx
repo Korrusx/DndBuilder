@@ -99,12 +99,23 @@ export function LevelUpPage() {
       const others = c.feats.filter((f) => f !== levelFeat(c, content, level));
       const rule = featId ? featAbilityRule(featId, content) : null;
       const added = featId
-        ? [{ featId, source: 'class' as const, level, abilityIncreases: {}, ...(rule?.mode === 'one' && rule.cap !== 20 ? { abilityCap: rule.cap } : {}) }]
+        ? [
+            {
+              featId,
+              source: 'class' as const,
+              level,
+              abilityIncreases: {},
+              ...(rule?.mode === 'one' && rule.cap !== 20 ? { abilityCap: rule.cap } : {}),
+            },
+          ]
         : [];
       return { ...clearLevelFeatChoices(c, level), feats: [...others, ...added] };
     });
   const setIncreases = (abilityIncreases: Partial<Record<AbilityId, number>>) =>
-    set((c) => ({ ...c, feats: c.feats.map((f) => (f === levelFeat(c, content, level) ? { ...f, abilityIncreases } : f)) }));
+    set((c) => ({
+      ...c,
+      feats: c.feats.map((f) => (f === levelFeat(c, content, level) ? { ...f, abilityIncreases } : f)),
+    }));
 
   const scores = finalAbilityScores(prev, content);
   const featProfSlots: { key: string; choose: number; options: string[] }[] = !feat
@@ -114,7 +125,9 @@ export function LevelUpPage() {
           {
             key: levelFeatProfKey(level, 'skilled', 0),
             choose: 3,
-            options: content.proficiencies.filter((p) => ['skill', 'tool', 'artisanTool', 'instrument'].includes(p.type)).map((p) => p.id),
+            options: content.proficiencies
+              .filter((p) => ['skill', 'tool', 'artisanTool', 'instrument'].includes(p.type))
+              .map((p) => p.id),
           },
         ]
       : (byId.feats.get(feat.featId)?.proficiencyChoices ?? []).map((ch, i) => ({
@@ -125,12 +138,16 @@ export function LevelUpPage() {
 
   // Уже имеющиеся владения нельзя выбрать ещё раз.
   const owned = new Set<string>();
-  for (const s of proficientSkills(prev, content)) owned.add(`skill-${s}`);
+  for (const s of proficientSkills(prev, content)) {
+    owned.add(`skill-${s}`);
+  }
   const blocked = new Map([...owned].map((id) => [id, t('levelUpPage.owned')] as const));
 
   const newExpertise = next.expertise.filter((s) => !prev.expertise.includes(s));
   const expertiseOptions = proficientSkills(next, content).filter((s) => !prev.expertise.includes(s));
-  const fightingStyleFeats = next.feats.filter((f) => f.level === level && byId.feats.get(f.featId)?.type === 'fighting-style');
+  const fightingStyleFeats = next.feats.filter(
+    (f) => f.level === level && byId.feats.get(f.featId)?.type === 'fighting-style',
+  );
   const takenStyles = new Set(prev.feats.map((f) => f.featId));
   const newLanguages = next.languages.filter((l) => !prev.languages.includes(l));
   const masteryCount = weaponMasteryCount(next, content);
@@ -196,7 +213,18 @@ export function LevelUpPage() {
       </Section>
 
       {plan.multiclassChoices.map((mc) => (
-        <Section key={mc.key} title={t('levelUpPage.multiclassChoice', { what: localizeText(mc.desc).text || (mc.options.every((id) => id.startsWith('skill-')) ? t('levelUpPage.skill') : t('levelUpPage.proficiency')) })} picked={next.choices[mc.key]?.length ?? 0} need={mc.choose}>
+        <Section
+          key={mc.key}
+          title={t('levelUpPage.multiclassChoice', {
+            what:
+              localizeText(mc.desc).text ||
+              (mc.options.every((id) => id.startsWith('skill-'))
+                ? t('levelUpPage.skill')
+                : t('levelUpPage.proficiency')),
+          })}
+          picked={next.choices[mc.key]?.length ?? 0}
+          need={mc.choose}
+        >
           <MultiPick
             options={mc.options}
             selected={next.choices[mc.key] ?? []}
@@ -209,14 +237,21 @@ export function LevelUpPage() {
       ))}
 
       {plan.featureOptions.map((featureId) => (
-        <Section key={featureId} title={nameOf('features', featureId)} picked={next.choices[CHOICE_KEYS.featureOption(featureId)]?.length ?? 0} need={1}>
+        <Section
+          key={featureId}
+          title={nameOf('features', featureId)}
+          picked={next.choices[CHOICE_KEYS.featureOption(featureId)]?.length ?? 0}
+          need={1}
+        >
           {FEATURE_OPTIONS[featureId].map((o) => (
             <OptionCard
               key={o.id}
               title={localizeText(o.name).text}
               lines={[localizeText(o.description).text]}
               selected={next.choices[CHOICE_KEYS.featureOption(featureId)]?.[0] === o.id}
-              onPress={() => set((c) => ({ ...c, choices: { ...c.choices, [CHOICE_KEYS.featureOption(featureId)]: [o.id] } }))}
+              onPress={() =>
+                set((c) => ({ ...c, choices: { ...c.choices, [CHOICE_KEYS.featureOption(featureId)]: [o.id] } }))
+              }
             />
           ))}
         </Section>
@@ -256,7 +291,12 @@ export function LevelUpPage() {
       {featureLanguageSlots(next, content)
         .filter((slot) => plan.features.some((f) => f.id === slot.featureId))
         .map((slot) => (
-          <Section key={slot.key} title={nameOf('features', slot.featureId)} picked={next.choices[slot.key]?.length ?? 0} need={slot.choose}>
+          <Section
+            key={slot.key}
+            title={nameOf('features', slot.featureId)}
+            picked={next.choices[slot.key]?.length ?? 0}
+            need={slot.choose}
+          >
             <MultiPick
               options={slot.options}
               selected={next.choices[slot.key] ?? []}
@@ -339,7 +379,12 @@ export function LevelUpPage() {
             </ChipRow>
           ) : null}
           {featProfSlots.map((slot) => (
-            <Section key={slot.key} title={t('levelUpPage.featProficiencies')} picked={next.choices[slot.key]?.length ?? 0} need={slot.choose}>
+            <Section
+              key={slot.key}
+              title={t('levelUpPage.featProficiencies')}
+              picked={next.choices[slot.key]?.length ?? 0}
+              need={slot.choose}
+            >
               <MultiPick
                 options={slot.options}
                 selected={next.choices[slot.key] ?? []}
@@ -354,7 +399,12 @@ export function LevelUpPage() {
       ) : null}
 
       {plan.expertise ? (
-        <Section title={t('levelUpPage.expertise')} hint={t('levelUpPage.expertiseHint')} picked={newExpertise.length} need={plan.expertise}>
+        <Section
+          title={t('levelUpPage.expertise')}
+          hint={t('levelUpPage.expertiseHint')}
+          picked={newExpertise.length}
+          need={plan.expertise}
+        >
           <MultiPick
             options={expertiseOptions}
             selected={newExpertise}
@@ -389,7 +439,10 @@ export function LevelUpPage() {
                           set((c) => ({
                             ...c,
                             feats: [
-                              ...c.feats.filter((feat) => !(feat.level === level && byId.feats.get(feat.featId)?.type === 'fighting-style')),
+                              ...c.feats.filter(
+                                (feat) =>
+                                  !(feat.level === level && byId.feats.get(feat.featId)?.type === 'fighting-style'),
+                              ),
                               ...nextIds.map((featId) => ({ featId, source: 'class' as const, level })),
                             ],
                           }));
@@ -402,7 +455,12 @@ export function LevelUpPage() {
       ) : null}
 
       {plan.skillChoices.map((sc) => (
-        <Section key={sc.key} title={t('levelUpPage.skills', { feature: nameOf('features', sc.featureId) })} picked={next.choices[sc.key]?.length ?? 0} need={sc.choose}>
+        <Section
+          key={sc.key}
+          title={t('levelUpPage.skills', { feature: nameOf('features', sc.featureId) })}
+          picked={next.choices[sc.key]?.length ?? 0}
+          need={sc.choose}
+        >
           <MultiPick
             options={sc.options}
             selected={next.choices[sc.key] ?? []}
@@ -414,7 +472,10 @@ export function LevelUpPage() {
         </Section>
       ))}
 
-      <ClassOptionsPicker character={next} onChoice={(key, ids) => set((c) => ({ ...c, choices: { ...c.choices, [key]: ids } }))} />
+      <ClassOptionsPicker
+        character={next}
+        onChoice={(key, ids) => set((c) => ({ ...c, choices: { ...c.choices, [key]: ids } }))}
+      />
 
       {plan.languages ? (
         <Section title={t('levelUpPage.languages')} picked={newLanguages.length} need={plan.languages}>

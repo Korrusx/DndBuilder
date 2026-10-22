@@ -13,7 +13,9 @@ describe('настройки бросков', () => {
 
   test('испорченные и неизвестные значения заменяются значениями по умолчанию', () => {
     expect(parseDiceSettings('{не json')).toEqual(DEFAULT_DICE_SETTINGS);
-    expect(parseDiceSettings(JSON.stringify({ style: 'vr', animation: 'да', skin: 'gold' }))).toEqual(DEFAULT_DICE_SETTINGS);
+    expect(parseDiceSettings(JSON.stringify({ style: 'vr', animation: 'да', skin: 'gold' }))).toEqual(
+      DEFAULT_DICE_SETTINGS,
+    );
     expect(parseDiceSettings(JSON.stringify({ animation: false })).animation).toBe(false);
     expect(parseDiceSettings(JSON.stringify({ sound: 'громко' })).sound).toBe(true);
   });

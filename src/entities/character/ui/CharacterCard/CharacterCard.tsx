@@ -10,17 +10,17 @@ import { characterSummary, hpLevel } from '../../model/summary';
 import { styles } from './CharacterCard.styles';
 import type { CharacterCardProps } from './CharacterCard.types';
 
-export function CharacterCard({ character: c, onPress, onLongPress, selected, draftSteps }: CharacterCardProps) {
+export function CharacterCard({ character, onPress, onLongPress, selected, draftSteps }: CharacterCardProps) {
   const { t } = useTranslation();
   const selecting = selected !== undefined;
   // Сводка считает лист персонажа — пересчитываем, только когда изменился сам персонаж.
-  const s = useMemo(() => characterSummary(c, contentFor(c.edition)), [c]);
-  const draft = c.status.kind === 'draft' ? c.status : null;
+  const s = useMemo(() => characterSummary(character, contentFor(character.edition)), [character]);
+  const draft = character.status.kind === 'draft' ? character.status : null;
   // Один класс — просто название; мультикласс — с уровнями: «Плут 3 / Волшебник 2».
-  const classes = s.classNames.map((n, i) => (s.classNames.length > 1 ? `${localizeText(n).text} ${s.classLevels[i]}` : localizeText(n).text)).join(' / ');
-  const subtitle = [classes, localizeText(s.species).text, localizeText(s.background).text]
-    .filter(Boolean)
-    .join(' · ');
+  const classes = s.classNames
+    .map((n, i) => (s.classNames.length > 1 ? `${localizeText(n).text} ${s.classLevels[i]}` : localizeText(n).text))
+    .join(' / ');
+  const subtitle = [classes, localizeText(s.species).text, localizeText(s.background).text].filter(Boolean).join(' · ');
 
   return (
     <Pressable
@@ -48,18 +48,18 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
           {/* Редакция правил (5e24 / 5e14) — рядом с именем, чтобы её было видно и при длинной строке класса. */}
           <View style={styles.nameRow}>
             <AppText variant="heading" numberOfLines={1} style={styles.name}>
-              {c.name || t('common.unnamed')}
+              {character.name || t('common.unnamed')}
             </AppText>
-            <Badge label={`5e${c.edition.slice(2)}`} />
+            <Badge label={`5e${character.edition.slice(2)}`} />
           </View>
           {subtitle ? (
             <AppText variant="secondary" numberOfLines={1}>
               {subtitle}
             </AppText>
           ) : null}
-          {c.campaign ? (
+          {character.campaign ? (
             <AppText variant="secondary" numberOfLines={1} style={styles.textInfo}>
-              {c.campaign}
+              {character.campaign}
             </AppText>
           ) : null}
         </View>
@@ -85,9 +85,7 @@ export function CharacterCard({ character: c, onPress, onLongPress, selected, dr
                 ]}
               />
             </View>
-            <AppText variant="secondary">
-              {t('card.hp', { current: s.hp.current, max: s.hp.max })}
-            </AppText>
+            <AppText variant="secondary">{t('card.hp', { current: s.hp.current, max: s.hp.max })}</AppText>
           </View>
           {s.armorClass !== undefined ? (
             <View style={styles.ac}>

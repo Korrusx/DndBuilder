@@ -53,19 +53,28 @@ export function speciesSpellcasting(
   const spells: SpeciesSpell[] = [];
   let fixedAbility: AbilityId | undefined;
   for (const f of sheet.features) {
-    if (f.source !== 'species') continue;
+    if (f.source !== 'species') {
+      continue;
+    }
     const trait = idx.traits.get(f.id);
     // 2014: заклинание на выбор (заговор высшего эльфа) — из выборов игрока.
-    const traitSpells = trait?.spells ?? (trait?.spellChoice ? (c.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []) : undefined);
-    if (!trait || !traitSpells?.length) continue;
+    const traitSpells =
+      trait?.spells ?? (trait?.spellChoice ? (c.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []) : undefined);
+    if (!trait || !traitSpells?.length) {
+      continue;
+    }
     fixedAbility ??= SPECIES_SPELL_FIXED_ABILITY[trait.id];
     for (const original of traitSpells) {
       // Заклинание с более высокого уровня персонажа («Наследие Ада»: «Адское возмездие» с 3-го).
-      if ((trait.spellLevels?.[original] ?? 1) > sheet.level) continue;
+      if ((trait.spellLevels?.[original] ?? 1) > sheet.level) {
+        continue;
+      }
       const swapList = SPECIES_CANTRIP_SWAP[trait.id];
       const spellId = (swapList && choice1(c, CHOICE_KEYS.speciesCantrip(trait.id))) || original;
       const level = idx.spells.get(spellId)?.level ?? 0;
-      if (spells.some((s) => s.spellId === spellId)) continue;
+      if (spells.some((s) => s.spellId === spellId)) {
+        continue;
+      }
       spells.push({
         traitId: trait.id,
         spellId,
@@ -76,12 +85,16 @@ export function speciesSpellcasting(
       });
     }
   }
-  if (!spells.length) return null;
+  if (!spells.length) {
+    return null;
+  }
   const ability = fixedAbility ?? (choice1(c, CHOICE_KEYS.speciesSpellAbility) as AbilityId | undefined);
   const mod = ability ? sheet.abilities[ability].mod : undefined;
   return {
     ability,
-    ...(mod === undefined ? {} : { saveDC: spellSaveDC(mod, sheet.profBonus), attackBonus: spellAttackBonus(mod, sheet.profBonus) }),
+    ...(mod === undefined
+      ? {}
+      : { saveDC: spellSaveDC(mod, sheet.profBonus), attackBonus: spellAttackBonus(mod, sheet.profBonus) }),
     spells: spells.sort((a, b) => a.level - b.level),
   };
 }

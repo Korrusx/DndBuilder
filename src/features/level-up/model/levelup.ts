@@ -91,7 +91,8 @@ export function levelUpPlan(next: Character, content: Content, classId = next.cl
 
   // 2024: строка «Подкласс» в таблице класса; 2014: уровень первого умения подкласса (жрец — 1, волшебник — 2…).
   const firstSubclassLevel =
-    cls.levels.findIndex((r) => r.features.some((id) => id.endsWith('-subclass'))) + 1 || subclassLevel(cls.id, content);
+    cls.levels.findIndex((r) => r.features.some((id) => id.endsWith('-subclass'))) + 1 ||
+    subclassLevel(cls.id, content);
   const subclassFeatures = entry.subclassId
     ? (idx.subclasses.get(entry.subclassId)?.features ?? []).filter((id) => idx.features.get(id)?.level === toLevel)
     : [];
@@ -162,16 +163,35 @@ export function levelUpPlan(next: Character, content: Content, classId = next.cl
  * 2014: варианты умений нового уровня. Обычное умение (боевой стиль, договор, метамагия) — выбрать `choose`;
  * воззвания колдуна — всего столько, сколько известно по таблице (столбец invocations_known), если оно выросло.
  */
-function optionChoices(next: Character, content: Content, classId: string, toLevel: number, ids: string[]): LevelUpPlan['optionChoices'] {
+function optionChoices(
+  next: Character,
+  content: Content,
+  classId: string,
+  toLevel: number,
+  ids: string[],
+): LevelUpPlan['optionChoices'] {
   const idx = indexOf(content);
   const out: LevelUpPlan['optionChoices'] = ids.flatMap((featureId) => {
     const choice = idx.features.get(featureId)?.optionChoice;
-    return choice ? [{ featureId, key: CHOICE_KEYS.featureOption(featureId), total: choice.choose, options: choiceOptionIds(choice, content) }] : [];
+    return choice
+      ? [
+          {
+            featureId,
+            key: CHOICE_KEYS.featureOption(featureId),
+            total: choice.choose,
+            options: choiceOptionIds(choice, content),
+          },
+        ]
+      : [];
   });
   const cls = idx.classes.get(classId);
   const known = (lvl: number) => Number(cls?.levels[lvl - 1]?.classSpecific?.invocations_known ?? 0);
   const invocations = idx.features.get('eldritch-invocations');
-  if (invocations?.optionChoice && known(toLevel) > known(toLevel - 1) && !out.some((o) => o.featureId === invocations.id)) {
+  if (
+    invocations?.optionChoice &&
+    known(toLevel) > known(toLevel - 1) &&
+    !out.some((o) => o.featureId === invocations.id)
+  ) {
     out.push({
       featureId: invocations.id,
       key: CHOICE_KEYS.featureOption(invocations.id),
@@ -197,38 +217,50 @@ export function levelFeatOptions(c: Character, content: Content, kind: FeatSlotK
   const profs = proficiencyIds(c, content);
   const sheet = computeSheet(c, content);
   const casts = !!sheet.spellcasting || !!speciesSpellcasting(c, content, sheet);
-  const taken = new Set([...originFeatIds(c, content), ...c.feats.filter((f) => f.level !== level).map((f) => f.featId)]);
-  return content.feats
-    .filter((f) => (kind === 'epic-boon' ? f.type === 'epic-boon' : f.type === 'general' || f.type === 'origin'))
-    .filter((f) => f.id !== 'magic-initiate')
-    .filter((f) => (f.prerequisites?.minLevel ?? 0) <= level)
-    .filter((f) => !taken.has(f.id) || !!f.repeatable)
-    .filter((f) => {
-      const opts = f.prerequisites?.abilityOptions?.options ?? [];
-      return opts.length === 0 || opts.some((o) => o.kind === 'minScore' && scores[o.ability] >= o.min);
-    })
-    // 2014: нужное владение («Тяжёлая броня» — средние доспехи) и умение творить заклинания.
-    // «Все доспехи» (воин, паладин 2014) покрывают лёгкие, средние и тяжёлые.
-    .filter((f) => {
-      const need = f.prerequisites?.proficiency;
-      return !need || profs.has(need) || (need.endsWith('-armor') && profs.has('all-armor'));
-    })
-    .filter((f) => !f.prerequisites?.spellcasting || casts)
-    .map((f) => f.id);
+  const taken = new Set([
+    ...originFeatIds(c, content),
+    ...c.feats.filter((f) => f.level !== level).map((f) => f.featId),
+  ]);
+  return (
+    content.feats
+      .filter((f) => (kind === 'epic-boon' ? f.type === 'epic-boon' : f.type === 'general' || f.type === 'origin'))
+      .filter((f) => f.id !== 'magic-initiate')
+      .filter((f) => (f.prerequisites?.minLevel ?? 0) <= level)
+      .filter((f) => !taken.has(f.id) || !!f.repeatable)
+      .filter((f) => {
+        const opts = f.prerequisites?.abilityOptions?.options ?? [];
+        return opts.length === 0 || opts.some((o) => o.kind === 'minScore' && scores[o.ability] >= o.min);
+      })
+      // 2014: нужное владение («Тяжёлая броня» — средние доспехи) и умение творить заклинания.
+      // «Все доспехи» (воин, паладин 2014) покрывают лёгкие, средние и тяжёлые.
+      .filter((f) => {
+        const need = f.prerequisites?.proficiency;
+        return !need || profs.has(need) || (need.endsWith('-armor') && profs.has('all-armor'));
+      })
+      .filter((f) => !f.prerequisites?.spellcasting || casts)
+      .map((f) => f.id)
+  );
 }
 
 /**
  * Какие прибавки к характеристикам даёт черта и до какого предела. 2024 — таблица FEAT_ABILITY;
  * 2014 — данные черты (`Feat.abilityIncrease`), у части черт те же id, но другие прибавки («Захват»).
  */
-export function featAbilityRule(featId: string, content: Content): { mode: 'asi' } | { mode: 'one'; abilities: AbilityId[]; cap: number } | null {
-  if (featId === 'ability-score-improvement') return { mode: 'asi' };
+export function featAbilityRule(
+  featId: string,
+  content: Content,
+): { mode: 'asi' } | { mode: 'one'; abilities: AbilityId[]; cap: number } | null {
+  if (featId === 'ability-score-improvement') {
+    return { mode: 'asi' };
+  }
   if (content.edition === '2014') {
     const inc = indexOf(content).feats.get(featId)?.abilityIncrease;
     return inc ? { mode: 'one', abilities: inc.abilities, cap: inc.cap ?? 20 } : null;
   }
   const rule = FEAT_ABILITY[featId];
-  if (!rule) return null;
+  if (!rule) {
+    return null;
+  }
   return rule === 'asi' ? { mode: 'asi' } : { mode: 'one', ...rule };
 }
 
@@ -238,13 +270,20 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
   const entry = next.classes.find((e) => e.classId === plan.classId)!;
   const issues: LevelUpIssue[] = [];
   const need = (ok: boolean, message: string, blocking = true, action?: LevelUpIssue['action']) => {
-    if (!ok) issues.push({ message, blocking, ...(action ? { action } : {}) });
+    if (!ok) {
+      issues.push({ message, blocking, ...(action ? { action } : {}) });
+    }
   };
 
-  if (plan.needsSubclass) need(!!entry.subclassId, t('levelUp.issues.subclass'));
+  if (plan.needsSubclass) {
+    need(!!entry.subclassId, t('levelUp.issues.subclass'));
+  }
 
   for (const mc of plan.multiclassChoices) {
-    need((next.choices[mc.key]?.length ?? 0) === mc.choose, t('levelUp.issues.multiclassProficiencies', { count: mc.choose }));
+    need(
+      (next.choices[mc.key]?.length ?? 0) === mc.choose,
+      t('levelUp.issues.multiclassProficiencies', { count: mc.choose }),
+    );
   }
   for (const featureId of plan.featureOptions) {
     need(!!next.choices[CHOICE_KEYS.featureOption(featureId)]?.length, t('issues.featureOption'));
@@ -266,8 +305,12 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
       const rule = featAbilityRule(feat.featId, content);
       const inc = Object.values(feat.abilityIncreases ?? {}).filter(Boolean) as number[];
       const total = inc.reduce((a, b) => a + b, 0);
-      if (rule?.mode === 'asi') need(total === 2 && inc.every((v) => v <= 2), t('levelUp.issues.asiSpread'));
-      if (rule?.mode === 'one') need(total === 1 && inc.length === 1, t('levelUp.issues.asiOne'));
+      if (rule?.mode === 'asi') {
+        need(total === 2 && inc.every((v) => v <= 2), t('levelUp.issues.asiSpread'));
+      }
+      if (rule?.mode === 'one') {
+        need(total === 1 && inc.length === 1, t('levelUp.issues.asiOne'));
+      }
       const featData = indexOf(content).feats.get(feat.featId);
       const slots = feat.featId === 'skilled' ? [3] : (featData?.proficiencyChoices ?? []).map((ch) => ch.choose);
       slots.forEach((n, i) => {
@@ -280,14 +323,16 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
   if (plan.expertise) {
     const skills = proficientSkills(next, content);
     need(
-      next.expertise.length === prev.expertise.length + plan.expertise && next.expertise.every((s) => skills.includes(s)),
+      next.expertise.length === prev.expertise.length + plan.expertise &&
+        next.expertise.every((s) => skills.includes(s)),
       t('levelUp.issues.expertise', { count: plan.expertise }),
     );
   }
 
   if (plan.fightingStyles) {
     const count = (c: Character) =>
-      c.feats.filter((f) => f.source === 'class' && indexOf(content).feats.get(f.featId)?.type === 'fighting-style').length;
+      c.feats.filter((f) => f.source === 'class' && indexOf(content).feats.get(f.featId)?.type === 'fighting-style')
+        .length;
     need(count(next) === count(prev) + plan.fightingStyles, t('levelUp.issues.fightingStyle'));
   }
 
@@ -296,7 +341,10 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
   }
 
   if (plan.languages) {
-    need(next.languages.length >= prev.languages.length + plan.languages, t('levelUp.issues.languages', { count: plan.languages }));
+    need(
+      next.languages.length >= prev.languages.length + plan.languages,
+      t('levelUp.issues.languages', { count: plan.languages }),
+    );
   }
 
   // Необязательное: новые заклинания и приёмы оружия можно добрать и позже.
@@ -308,14 +356,18 @@ export function levelUpIssues(next: Character, prev: Character, content: Content
   }
   if (plan.classId === 'wizard') {
     // Новый волшебник — 6 заклинаний в книге, дальше по 2 за уровень.
-    const missing = (hasSpellbook(prev) ? spellbook(prev).length + SPELLBOOK_PER_LEVEL : spellbookMinimum(next)) - spellbook(next).length;
+    const missing =
+      (hasSpellbook(prev) ? spellbook(prev).length + SPELLBOOK_PER_LEVEL : spellbookMinimum(next)) -
+      spellbook(next).length;
     need(missing <= 0, t('levelUp.issues.spellbook', { count: missing }), false, 'spells');
   }
   const masteries = weaponMasteryCount(next, content);
   if (masteries > next.weaponMasteries.length) {
     need(false, t('levelUp.issues.moreMasteries', { count: masteries - next.weaponMasteries.length }), false);
   }
-  for (const message of classOptionProblemTexts(next, content)) need(false, message);
+  for (const message of classOptionProblemTexts(next, content)) {
+    need(false, message);
+  }
   return issues;
 }
 
@@ -341,7 +393,6 @@ export function clearLevelFeatChoices(c: Character, level: number): Character {
   const prefix = `${levelKey(level)}.feat.`;
   return { ...c, choices: Object.fromEntries(Object.entries(c.choices).filter(([k]) => !k.startsWith(prefix))) };
 }
-
 
 /** Ключ выбора владений, которые даёт новый класс при мультиклассе (навык плута, инструмент барда…). */
 export function multiclassProfKey(classId: string, index: number): string {

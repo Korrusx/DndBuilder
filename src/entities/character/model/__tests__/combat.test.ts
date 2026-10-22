@@ -5,7 +5,12 @@ import { effectsOf } from '../effects';
 
 const mods = { str: 3, dex: 2, con: 1, int: 0, wis: 3, cha: -1 };
 const armor = (category: ArmorInfo['category'], base: number, dexBonus: boolean, maxDex?: number): ArmorInfo => ({
-  category, base, dexBonus, maxDex, strMinimum: 0, stealthDisadvantage: false,
+  category,
+  base,
+  dexBonus,
+  maxDex,
+  strMinimum: 0,
+  stealthDisadvantage: false,
 });
 const shield = armor('shield', 2, false);
 
@@ -15,7 +20,8 @@ describe('класс защиты', () => {
   test('средний: ЛОВ не больше +2', () => {
     expect(armorClass({ armor: armor('medium', 14, true, 2), mods: { ...mods, dex: 4 }, effects: [] })).toBe(16);
   });
-  test('тяжёлый: только база', () => expect(armorClass({ armor: armor('heavy', 16, false), mods, effects: [] })).toBe(16));
+  test('тяжёлый: только база', () =>
+    expect(armorClass({ armor: armor('heavy', 16, false), mods, effects: [] })).toBe(16));
   test('щит +2', () => expect(armorClass({ armor: armor('heavy', 16, false), shield, mods, effects: [] })).toBe(18));
   test('варвар: 10 + ЛОВ + ТЕЛ, щит можно', () => {
     const effects = effectsOf(['barbarian-unarmored-defense']);
@@ -45,7 +51,15 @@ describe('хиты', () => {
   test('дальше среднее', () => expect(maxHitPoints([{ hitDie: 8, level: 5 }], 2)).toBe(38));
   test('мультикласс: максимум только у первого класса', () => {
     // воин 1 (10+1) + волшебник 2 (2 × (4+1))
-    expect(maxHitPoints([{ hitDie: 10, level: 1 }, { hitDie: 6, level: 2 }], 1)).toBe(21);
+    expect(
+      maxHitPoints(
+        [
+          { hitDie: 10, level: 1 },
+          { hitDie: 6, level: 2 },
+        ],
+        1,
+      ),
+    ).toBe(21);
   });
   test('дварфийская стойкость и драконья устойчивость', () => {
     expect(bonusHpFromEffects(effectsOf(['dwarven-toughness']), 4, {})).toBe(4);
@@ -69,13 +83,24 @@ describe('атака оружием', () => {
     weapon: { category: 'simple', range, damage: { dice: '1d6', type: 'piercing' }, reach: { normal: 5 }, properties },
   });
   test('рукопашное — СИЛ', () => {
-    expect(weaponAttack(weapon('melee', []), mods, 2, true)).toMatchObject({ ability: 'str', toHit: 5, damageBonus: 3 });
+    expect(weaponAttack(weapon('melee', []), mods, 2, true)).toMatchObject({
+      ability: 'str',
+      toHit: 5,
+      damageBonus: 3,
+    });
   });
   test('дальнобойное — ЛОВ', () => {
-    expect(weaponAttack(weapon('ranged', []), mods, 2, true)).toMatchObject({ ability: 'dex', toHit: 4, damageBonus: 2 });
+    expect(weaponAttack(weapon('ranged', []), mods, 2, true)).toMatchObject({
+      ability: 'dex',
+      toHit: 4,
+      damageBonus: 2,
+    });
   });
   test('фехтовальное — лучшая из СИЛ и ЛОВ', () => {
-    expect(weaponAttack(weapon('melee', ['finesse']), { ...mods, dex: 4 }, 2, true)).toMatchObject({ ability: 'dex', toHit: 6 });
+    expect(weaponAttack(weapon('melee', ['finesse']), { ...mods, dex: 4 }, 2, true)).toMatchObject({
+      ability: 'dex',
+      toHit: 6,
+    });
     expect(weaponAttack(weapon('melee', ['finesse']), mods, 2, true)).toMatchObject({ ability: 'str', toHit: 5 });
   });
   test('без владения БМ не добавляется', () => {

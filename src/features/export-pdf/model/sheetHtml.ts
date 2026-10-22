@@ -1,12 +1,6 @@
-import { attackName, featureName } from '@/entities/character';
-
-// Лист персонажа для печати: HTML двух страниц A4. Без React — только данные справочника и расчёты из сущности персонажа (src/entities/character).
-// Стр. 1 — персонаж (характеристики и навыки, бой, хиты, атаки, ресурсы, умения, владения),
-// стр. 2 — заклинания, внешность и характер, снаряжение, настройка, монеты.
-// Бланк чёрный с бордовым акцентом, данные тёмно-синие. Текущие и временные хиты пустые — для карандаша.
-
-import type { Character, CharacterSheet, SourcedId } from '@/entities/character';
 import {
+  attackName,
+  featureName,
   ABILITY_IDS,
   characterResources,
   CHOICE_KEYS,
@@ -21,6 +15,13 @@ import {
   spellbook,
   subclassSpellIds,
 } from '@/entities/character';
+
+// Лист персонажа для печати: HTML двух страниц A4. Без React — только данные справочника и расчёты из сущности персонажа (src/entities/character).
+// Стр. 1 — персонаж (характеристики и навыки, бой, хиты, атаки, ресурсы, умения, владения),
+// стр. 2 — заклинания, внешность и характер, снаряжение, настройка, монеты.
+// Бланк чёрный с бордовым акцентом, данные тёмно-синие. Текущие и временные хиты пустые — для карандаша.
+
+import type { Character, CharacterSheet, SourcedId } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
 import {
   abilityAbbr,
@@ -51,8 +52,10 @@ const circle = (on = false, extra = '') => `<span class="o${on ? ' on' : ''}${ex
 const circles = (n: number, filled = 0) => Array.from({ length: n }, (_, i) => circle(i < filled)).join('');
 const field = (value: string, label: string, cls = '') =>
   `<div class="field ${cls}"><div class="v d">${e(value) || '&nbsp;'}</div><div class="lbl">${e(label)}</div></div>`;
-const stat = (value: string, label: string) => `<div class="box stat"><div class="sv d">${e(value) || '&nbsp;'}</div><div class="lbl">${e(label)}</div></div>`;
-const box = (title: string, body: string, cls = '') => `<section class="box ${cls}"><h3>${e(title)}</h3>${body}</section>`;
+const stat = (value: string, label: string) =>
+  `<div class="box stat"><div class="sv d">${e(value) || '&nbsp;'}</div><div class="lbl">${e(label)}</div></div>`;
+const box = (title: string, body: string, cls = '') =>
+  `<section class="box ${cls}"><h3>${e(title)}</h3>${body}</section>`;
 const lines = (n: number) => Array.from({ length: n }, () => '<div class="ln"></div>').join('');
 
 /** Заклинания для листа: заговоры, подготовленные и от черт «Посвящённый в магию»; по кругу и названию. */
@@ -60,7 +63,9 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
   const out = new Map<string, SheetSpell>();
   const add = (id: string, note?: string) => {
     const spell = byId.spells.get(id);
-    if (spell && !out.has(id)) out.set(id, { spell, note });
+    if (spell && !out.has(id)) {
+      out.set(id, { spell, note });
+    }
   };
   // Заклинания каждого класса; при нескольких заклинателях — с пометкой класса.
   const casters = c.classes.filter((e) => byId.classes.get(e.classId)?.spellcasting).map((e) => e.classId);
@@ -73,16 +78,25 @@ export function sheetSpells(c: Character, content: Content): SheetSpell[] {
   // 2014: заклинания подкласса (домен, клятва) — всегда подготовлены.
   subclassSpellIds(c, content).forEach((id) => add(id, t('pdf.subclassMark')));
   for (const { slot } of magicInitiateSlots(c, content)) {
-    for (const id of [...(c.choices[CHOICE_KEYS.featCantrips(slot)] ?? []), ...(c.choices[CHOICE_KEYS.featSpell(slot)] ?? [])]) {
+    for (const id of [
+      ...(c.choices[CHOICE_KEYS.featCantrips(slot)] ?? []),
+      ...(c.choices[CHOICE_KEYS.featSpell(slot)] ?? []),
+    ]) {
       add(id, t('pdf.feat'));
     }
   }
   const species = speciesSpellcasting(c, content);
-  const speciesNote = [t('pdf.species'), species?.ability ? abilityAbbr(species.ability) : ''].filter(Boolean).join(', ');
+  const speciesNote = [t('pdf.species'), species?.ability ? abilityAbbr(species.ability) : '']
+    .filter(Boolean)
+    .join(', ');
   species?.spells.forEach((s) => add(s.spellId, speciesNote));
-  classOptionSpells(c, content).forEach((s) => add(s.spellId, localizeText(byId.classOptions.get(s.optionId)?.name).text));
+  classOptionSpells(c, content).forEach((s) =>
+    add(s.spellId, localizeText(byId.classOptions.get(s.optionId)?.name).text),
+  );
   return [...out.values()].sort(
-    (a, b) => a.spell.level - b.spell.level || localizeText(a.spell.name).text.localeCompare(localizeText(b.spell.name).text, currentLanguage()),
+    (a, b) =>
+      a.spell.level - b.spell.level ||
+      localizeText(a.spell.name).text.localeCompare(localizeText(b.spell.name).text, currentLanguage()),
   );
 }
 
@@ -91,7 +105,9 @@ function featureGroups(sheet: CharacterSheet) {
   const seen = new Set<string>();
   const list = sheet.features.filter((f) => {
     const key = `${f.source}:${f.id}`;
-    if (seen.has(key) || f.id.endsWith('-subclass')) return false;
+    if (seen.has(key) || f.id.endsWith('-subclass')) {
+      return false;
+    }
     seen.add(key);
     return true;
   });
@@ -113,7 +129,12 @@ function proficiencyRows(sheet: CharacterSheet, c: Character, content: Content) 
     { label: t('pdf.armor'), text: g.armor.join(', ') },
     { label: t('pdf.weapons'), text: g.weapons.join(', ') },
     { label: t('pdf.tools'), text: g.tools.join(', ') },
-    { label: t('pdf.languages'), text: knownLanguages(c, content).map((l) => nameOf('languages', l)).join(', ') },
+    {
+      label: t('pdf.languages'),
+      text: knownLanguages(c, content)
+        .map((l) => nameOf('languages', l))
+        .join(', '),
+    },
   ];
 }
 
@@ -121,8 +142,13 @@ function proficiencyRows(sheet: CharacterSheet, c: Character, content: Content) 
 
 function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const cls = c.classes.map((x) => `${nameOf('classes', x.classId)} ${x.level}`).join(' / ');
-  const sub = c.classes.map((x) => (x.subclassId ? localizeText(byId.subclasses.get(x.subclassId)?.name).text : '')).filter(Boolean).join(', ');
-  const species = [nameOf('species', c.speciesId), c.subspeciesId ? nameOf('subspecies', c.subspeciesId) : ''].filter(Boolean).join(': ');
+  const sub = c.classes
+    .map((x) => (x.subclassId ? localizeText(byId.subclasses.get(x.subclassId)?.name).text : ''))
+    .filter(Boolean)
+    .join(', ');
+  const species = [nameOf('species', c.speciesId), c.subspeciesId ? nameOf('subspecies', c.subspeciesId) : '']
+    .filter(Boolean)
+    .join(': ');
   const alignment = c.alignment ? localizeText(byId.alignments.get(c.alignment)?.name).text : '';
   const size = c.size ?? byId.species.get(c.speciesId)?.sizes[0] ?? '';
 
@@ -198,7 +224,9 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
     </div>`;
 
   const masteryOf = (itemId: string) => {
-    if (!c.weaponMasteries.includes(itemId)) return '';
+    if (!c.weaponMasteries.includes(itemId)) {
+      return '';
+    }
     const m = byId.equipment.get(itemId)?.weapon?.mastery;
     return m ? localizeText(byId.weaponMasteries.get(m)?.name).text : '';
   };
@@ -209,7 +237,9 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
       `${formatDamage(a.damageDice, a.damageBonus)} ${type}`.trim(),
     )}</td><td class="d">${mastery ? e(t('pdf.mastery', { name: mastery })) : ''}</td></localizeText>`;
   });
-  while (attackRows.length < 4) attackRows.push('<localizeText><td>&nbsp;</td><td></td><td></td><td></td></localizeText>');
+  while (attackRows.length < 4) {
+    attackRows.push('<localizeText><td>&nbsp;</td><td></td><td></td><td></td></localizeText>');
+  }
   const attacks = box(
     t('pdf.attacks'),
     `<table class="tbl"><thead><localizeText><th>${e(t('pdf.attackName'))}</th><th class="c">${e(t('pdf.attackBonus'))}</th><th>${e(t('pdf.damage'))}</th><th>${e(t('pdf.notes'))}</th></localizeText></thead><tbody>${attackRows.join('')}</tbody></table>`,
@@ -221,8 +251,11 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
         t('pdf.resources'),
         `<div class="cols2">${resources
           .map((r) => {
-            const marks = r.max <= 10 ? circles(r.max) : `<span class="pool">___ / <span class="d">${r.max}</span></span>`;
-            const recovery = t(r.recovery === 'long' ? 'pdf.recLong' : r.recovery === 'short' ? 'pdf.recShort' : 'pdf.recShortOne');
+            const marks =
+              r.max <= 10 ? circles(r.max) : `<span class="pool">___ / <span class="d">${r.max}</span></span>`;
+            const recovery = t(
+              r.recovery === 'long' ? 'pdf.recLong' : r.recovery === 'short' ? 'pdf.recShort' : 'pdf.recShortOne',
+            );
             return `<div class="res"><span>${e(localizeText(r.name).text)}${r.die ? ` <span class="d">${formatDie(r.die)}</span>` : ''} <span class="muted">${recovery}</span></span><span class="marks">${marks}</span></div>`;
           })
           .join('')}</div><div class="hint">${e(t('pdf.recHint'))}</div>`,
@@ -232,14 +265,22 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const fg = featureGroups(sheet);
   // 2014: умение предыстории («Приют для верующих») — в блоке черт с пометкой.
   const bgFeature = byId.backgrounds.get(c.backgroundId)?.feature;
-  const backgroundFeature = bgFeature ? [`${e(localizeText(bgFeature.name).text)} <span class="muted">${e(t('pdf.backgroundMark'))}</span>`] : [];
+  const backgroundFeature = bgFeature
+    ? [`${e(localizeText(bgFeature.name).text)} <span class="muted">${e(t('pdf.backgroundMark'))}</span>`]
+    : [];
   const featureList = (items: string[], cols = 2) =>
-    items.length ? `<ul class="flist d" style="column-count:${cols}">${items.map((x) => `<li>${x}</li>`).join('')}</ul>` : lines(2);
+    items.length
+      ? `<ul class="flist d" style="column-count:${cols}">${items.map((x) => `<li>${x}</li>`).join('')}</ul>`
+      : lines(2);
   // Воззвания и метамагия — в том же списке, что и умения класса.
   const optionItems = (['invocation', 'metamagic'] as const)
     .flatMap((kind) => chosenClassOptions(c, kind))
     .map((id) => e(localizeText(byId.classOptions.get(id)?.name).text || id));
-  const classItems = [...fg.cls, ...fg.sub.map((x) => `${x} <span class="muted">${e(t('pdf.subclassMark'))}</span>`), ...optionItems];
+  const classItems = [
+    ...fg.cls,
+    ...fg.sub.map((x) => `${x} <span class="muted">${e(t('pdf.subclassMark'))}</span>`),
+    ...optionItems,
+  ];
   const features = `
     ${box(t('pdf.classFeatures'), featureList(classItems, classItems.length > 24 ? 3 : 2), 'grow')}
     <div class="pair">
@@ -250,7 +291,10 @@ function page1(c: Character, content: Content, sheet: CharacterSheet): string {
   const profs = box(
     t('pdf.proficiencies'),
     proficiencyRows(sheet, c, content)
-      .map((p) => `<div class="prof"><span class="lbl">${e(p.label)}</span> <span class="d">${e(p.text) || '—'}</span></div>`)
+      .map(
+        (p) =>
+          `<div class="prof"><span class="lbl">${e(p.label)}</span> <span class="d">${e(p.text) || '—'}</span></div>`,
+      )
       .join(''),
   );
 
@@ -282,7 +326,9 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
 
   const slotBoxes = SLOT_FORM.map((n, i) => {
     const have = slots[i] ?? 0;
-    const marks = Array.from({ length: Math.max(n, have) }, (_, k) => circle(false, k < have ? ' have' : ' off')).join('');
+    const marks = Array.from({ length: Math.max(n, have) }, (_, k) => circle(false, k < have ? ' have' : ' off')).join(
+      '',
+    );
     return `<div class="box slot"><div class="lbl">${e(t('spell.circle', { level: i + 1 }))}</div><div class="marks">${marks}</div></div>`;
   }).join('');
   // Отдельные ячейки договора колдуна-мультикласса: круг и кружки.
@@ -307,7 +353,15 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
   });
   // Пустые строки — для карандаша; при длинном списке строки ниже и мельче, чтобы всё влезло.
   const dense = spellRows.length > 28;
-  while (spellRows.length < 28) spellRows.push('<localizeText><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td class="c">' + circle() + '</td><td class="c">' + circle() + '</td></localizeText>');
+  while (spellRows.length < 28) {
+    spellRows.push(
+      '<localizeText><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td class="c">' +
+        circle() +
+        '</td><td class="c">' +
+        circle() +
+        '</td></localizeText>',
+    );
+  }
   const spellTable = box(
     t('pdf.spellTable'),
     `<table class="tbl sp${dense ? ' dense' : ''}"><thead><localizeText><th class="c">${e(t('pdf.level'))}</th><th>${e(t('pdf.attackName'))}</th><th>${e(t('pdf.time'))}</th><th>${e(t('pdf.range'))}</th><th>${e(t('pdf.duration'))}</th><th class="c">${e(t('pdf.components'))}</th><th class="c">${e(t('pdf.concentrationShort'))}</th><th class="c">${e(t('pdf.ritualShort'))}</th></localizeText></thead><tbody>${spellRows.join(
@@ -320,10 +374,19 @@ function page2(c: Character, content: Content, sheet: CharacterSheet): string {
     (i) =>
       `<div class="item">${circle(!!i.equipped)}<span class="d">${e(itemName(i))}${i.quantity > 1 ? ` ×${i.quantity}` : ''}</span></div>`,
   );
-  while (items.length < 14) items.push(`<div class="item">${circle()}<span class="ln inline"></span></div>`);
-  const equipment = box(t('pdf.equipment'), `<div class="items">${items.join('')}</div><div class="hint">${circle(true)} ${e(t('pdf.equippedHint'))}</div>`, 'grow');
+  while (items.length < 14) {
+    items.push(`<div class="item">${circle()}<span class="ln inline"></span></div>`);
+  }
+  const equipment = box(
+    t('pdf.equipment'),
+    `<div class="items">${items.join('')}</div><div class="hint">${circle(true)} ${e(t('pdf.equippedHint'))}</div>`,
+    'grow',
+  );
 
-  const attune = box(t('pdf.attunement'), Array.from({ length: 3 }, () => `<div class="item">${circle()}<span class="ln inline"></span></div>`).join(''));
+  const attune = box(
+    t('pdf.attunement'),
+    Array.from({ length: 3 }, () => `<div class="item">${circle()}<span class="ln inline"></span></div>`).join(''),
+  );
   const coins = box(
     t('pdf.coins'),
     `<div class="coins">${COIN_ORDER.map((id) => `<div class="coin"><div class="sv d">${c.coins[id] ?? ''}&nbsp;</div><div class="lbl">${coinAbbr(id).toUpperCase()}</div></div>`).join('')}</div>`,

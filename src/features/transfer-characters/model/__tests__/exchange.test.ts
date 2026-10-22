@@ -6,7 +6,8 @@ import { buildExchange, exchangeFileName, ImportError, parseExchange } from '../
 const NOW = '2026-10-11T12:00:00.000Z';
 let n = 0;
 const makeId = () => `new-${++n}`;
-const parse = (data: unknown) => parseExchange(typeof data === 'string' ? data : JSON.stringify(data), () => content, makeId, NOW);
+const parse = (data: unknown) =>
+  parseExchange(typeof data === 'string' ? data : JSON.stringify(data), () => content, makeId, NOW);
 
 describe('файл обмена персонажами', () => {
   test('экспорт → импорт: тот же персонаж с новым id, числа не меняются', () => {
@@ -63,7 +64,11 @@ describe('файл обмена персонажами', () => {
   });
 
   test('неизвестные заклинания и предметы — предупреждение, персонаж загружается', () => {
-    const c = { ...irmaLevel1(), preparedSpells: ['homebrew-bolt'], equipment: [...irmaLevel1().equipment, { itemId: 'laser-sword', quantity: 1 }] };
+    const c = {
+      ...irmaLevel1(),
+      preparedSpells: ['homebrew-bolt'],
+      equipment: [...irmaLevel1().equipment, { itemId: 'laser-sword', quantity: 1 }],
+    };
     const { characters, warnings } = parse(buildExchange([c], NOW, 'x'));
     expect(characters).toHaveLength(1);
     expect(warnings).toEqual(['У персонажа «Ирма Вейл» не найдено в справочнике: homebrew-bolt, laser-sword.']);

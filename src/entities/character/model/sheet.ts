@@ -15,9 +15,15 @@ import { maxHpWithExhaustion } from './play';
 import { characterPactSlots, characterSpellSlots, spellAttackBonus, spellSaveDC } from './spells';
 import type { AbilityScores, Character, CharacterSheet, ClassEntry, Effect, SourcedId, WeaponAttack } from './types';
 
-function need<T>(map: ReadonlyMap<string, T>, id: string, what: 'background' | 'species' | 'subspecies' | 'class' | 'subclass'): T {
+function need<T>(
+  map: ReadonlyMap<string, T>,
+  id: string,
+  what: 'background' | 'species' | 'subspecies' | 'class' | 'subclass',
+): T {
   const x = map.get(id);
-  if (!x) throw new Error(t('contentError.unknown', { what: t(`contentError.${what}`), id }));
+  if (!x) {
+    throw new Error(t('contentError.unknown', { what: t(`contentError.${what}`), id }));
+  }
   return x;
 }
 
@@ -31,13 +37,19 @@ export function finalAbilityScores(c: Character, content: Content): AbilityScore
 }
 
 function originIncreases(c: Character, content: Content): Partial<AbilityScores>[] {
-  if (content.edition !== '2014') return [c.backgroundBonuses];
+  if (content.edition !== '2014') {
+    return [c.backgroundBonuses];
+  }
   const idx = indexOf(content);
   const species = idx.species.get(c.speciesId);
   const sub = c.subspeciesId ? idx.subspecies.get(c.subspeciesId) : undefined;
   // Прибавки на выбор (полуэльф): не больше `choose`, только из разрешённых.
   const opt = species?.abilityBonusChoice;
-  const picked = opt ? (c.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []).filter((a) => (opt.options as string[]).includes(a)).slice(0, opt.choose) : [];
+  const picked = opt
+    ? (c.choices[CHOICE_KEYS.speciesAbilityBonus] ?? [])
+        .filter((a) => (opt.options as string[]).includes(a))
+        .slice(0, opt.choose)
+    : [];
   const chosen = Object.fromEntries(picked.map((a) => [a, opt!.bonus])) as Partial<AbilityScores>;
   return [species?.abilityBonuses ?? {}, sub?.abilityBonuses ?? {}, chosen, originFeatIncrease(c, content)];
 }
@@ -52,8 +64,14 @@ function originFeatIncrease(c: Character, content: Content): Partial<AbilityScor
 /** Умения класса и его подкласса на уровне этого класса. */
 export function classFeatureIdsAt(e: ClassEntry, content: Content): string[] {
   const idx = indexOf(content);
-  const own = idx.classes.get(e.classId)?.levels.slice(0, e.level).flatMap((r) => r.features) ?? [];
-  const sub = e.subclassId ? (idx.subclasses.get(e.subclassId)?.features ?? []).filter((id) => (idx.features.get(id)?.level ?? 99) <= e.level) : [];
+  const own =
+    idx.classes
+      .get(e.classId)
+      ?.levels.slice(0, e.level)
+      .flatMap((r) => r.features) ?? [];
+  const sub = e.subclassId
+    ? (idx.subclasses.get(e.subclassId)?.features ?? []).filter((id) => (idx.features.get(id)?.level ?? 99) <= e.level)
+    : [];
   return [...own, ...sub];
 }
 
@@ -62,7 +80,9 @@ function featSavingThrows(c: Character, content: Content): AbilityId[] {
   const idx = indexOf(content);
   const fromLevels = c.feats.flatMap((f) =>
     idx.feats.get(f.featId)?.savingThrowFromIncrease
-      ? (Object.entries(f.abilityIncreases ?? {}).filter(([, v]) => v).map(([a]) => a) as AbilityId[])
+      ? (Object.entries(f.abilityIncreases ?? {})
+          .filter(([, v]) => v)
+          .map(([a]) => a) as AbilityId[])
       : [],
   );
   const origin = idx.feats.get(c.choices[CHOICE_KEYS.versatileFeat]?.[0] ?? '');
@@ -102,12 +122,16 @@ export function proficiencyIds(c: Character, content: Content): Set<string> {
     }),
     ...(background?.proficiencies ?? []),
     // 2014: владения от умений классов и подклассов («Дополнительное владение» домена жизни).
-    ...c.classes.flatMap((e) => classFeatureIdsAt(e, content)).flatMap((id) => idx.features.get(id)?.proficiencies ?? []),
+    ...c.classes
+      .flatMap((e) => classFeatureIdsAt(e, content))
+      .flatMap((id) => idx.features.get(id)?.proficiencies ?? []),
     // 2014: владения от особенностей расы («Острые чувства» — Восприятие, «Обучение эльфийскому оружию»).
     ...speciesTraitIdsAt(c, content, totalLevel(c.classes)).flatMap((id) => idx.traits.get(id)?.proficiencies ?? []),
     ...c.toolProficiencies,
     // 2014: владения от черт («Средняя броня» и т.п.) — черты уровня и черта человека-варианта.
-    ...[...c.feats.map((f) => f.featId), ...originFeatIds(c, content)].flatMap((id) => idx.feats.get(id)?.proficiencies ?? []),
+    ...[...c.feats.map((f) => f.featId), ...originFeatIds(c, content)].flatMap(
+      (id) => idx.feats.get(id)?.proficiencies ?? [],
+    ),
     ...chosenProficiencyIds(c),
     ...featureOptionProficiencies(c),
   ]);
@@ -119,7 +143,9 @@ export function makeProficiencyCheck(profIds: Set<string>, content: Content): (i
   const refs = new Set<string>();
   for (const id of profIds) {
     const ref = idx.proficiencies.get(id)?.refId;
-    if (ref) refs.add(ref);
+    if (ref) {
+      refs.add(ref);
+    }
   }
   return (item) => refs.has(item.id) || item.categories.some((cat) => refs.has(cat));
 }
@@ -146,38 +172,66 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   for (const { entry, cls } of classes) {
     classLevels[cls.id] = entry.level;
     for (const row of cls.levels.slice(0, entry.level)) {
-      for (const id of row.features) features.push({ id, source: 'class' });
+      for (const id of row.features) {
+        features.push({ id, source: 'class' });
+      }
     }
     if (entry.subclassId) {
       const sub = need(idx.subclasses, entry.subclassId, 'subclass');
       for (const id of sub.features) {
-        if ((idx.features.get(id)?.level ?? 99) <= entry.level) features.push({ id, source: 'subclass' });
+        if ((idx.features.get(id)?.level ?? 99) <= entry.level) {
+          features.push({ id, source: 'subclass' });
+        }
       }
     }
   }
-  for (const id of species.traits) features.push({ id, source: 'species' });
-  for (const t of subspecies?.traits ?? []) if (t.level <= level) features.push({ id: t.id, source: 'species' });
+  for (const id of species.traits) {
+    features.push({ id, source: 'species' });
+  }
+  for (const t of subspecies?.traits ?? []) {
+    if (t.level <= level) {
+      features.push({ id: t.id, source: 'species' });
+    }
+  }
   // 2014: выбранные варианты умений и особенностей — отдельными умениями (у них свои эффекты).
   const classFeatureIds = features.filter((f) => f.source !== 'species').map((f) => f.id);
-  for (const id of chosenSubfeatures(c, content, classFeatureIds, 'feature')) features.push({ id, source: 'class' });
+  for (const id of chosenSubfeatures(c, content, classFeatureIds, 'feature')) {
+    features.push({ id, source: 'class' });
+  }
   const traitIds = features.filter((f) => f.source === 'species').map((f) => f.id);
-  for (const id of chosenSubfeatures(c, content, traitIds, 'trait')) features.push({ id, source: 'species' });
-  for (const id of [...originFeatIds(c, content), ...c.feats.map((f) => f.featId)]) features.push({ id, source: 'feat' });
-  const featureEffects = [...effectsOf(features.map((f) => f.id), content.edition), ...featureOptionEffects(c)];
+  for (const id of chosenSubfeatures(c, content, traitIds, 'trait')) {
+    features.push({ id, source: 'species' });
+  }
+  for (const id of [...originFeatIds(c, content), ...c.feats.map((f) => f.featId)]) {
+    features.push({ id, source: 'feat' });
+  }
+  const featureEffects = [
+    ...effectsOf(
+      features.map((f) => f.id),
+      content.edition,
+    ),
+    ...featureOptionEffects(c),
+  ];
 
   // --- Снаряжение (нужно до расчётов для эффектов предметов) ---
   // Поддерживаем оба формата: новый (equippedSlots) и старый (equipped: true в equipment).
   const equippedSlotIds = Object.values(c.equippedSlots ?? {}).filter(Boolean) as string[];
   const equippedFromSlots = equippedSlotIds.map((id) => idx.equipment.get(id)).filter(Boolean) as Equipment[];
-  const equippedFromLegacy = equippedFromSlots.length === 0
-    ? c.equipment.filter((i) => i.equipped).map((i) => idx.equipment.get(i.itemId)).filter(Boolean) as Equipment[]
-    : [];
+  const equippedFromLegacy =
+    equippedFromSlots.length === 0
+      ? (c.equipment
+          .filter((i) => i.equipped)
+          .map((i) => idx.equipment.get(i.itemId))
+          .filter(Boolean) as Equipment[])
+      : [];
   const equipped = [...equippedFromSlots, ...equippedFromLegacy];
 
   // Эффекты от надетых предметов (Equipment + MagicItem).
   const itemEffects: ItemEffect[] = [];
   for (const slotId of Object.values(c.equippedSlots ?? {})) {
-    if (!slotId) continue;
+    if (!slotId) {
+      continue;
+    }
     const eq = idx.equipment.get(slotId);
     const mi = idx.magicItems.get(slotId);
     const fx = eq?.effects ?? mi?.effects ?? [];
@@ -193,7 +247,12 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   for (const id of ABILITY_IDS) {
     const proficient = saveProfs.has(id);
     const saveBonus = sumItemSaveBonus(itemEffects, id);
-    abilities[id] = { score: scores[id], mod: mods[id], save: savingThrow(mods[id], proficient, pb) + saveBonus, saveProficient: proficient };
+    abilities[id] = {
+      score: scores[id],
+      mod: mods[id],
+      save: savingThrow(mods[id], proficient, pb) + saveBonus,
+      saveProficient: proficient,
+    };
   }
 
   // --- Владения ---
@@ -204,16 +263,33 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   const skillProfs = new Set<string>(c.skillProficiencies);
   for (const id of profIds) {
     const p = idx.proficiencies.get(id);
-    if (p?.type === 'skill' && p.refId) skillProfs.add(p.refId);
+    if (p?.type === 'skill' && p.refId) {
+      skillProfs.add(p.refId);
+    }
   }
-  for (const e of itemEffects) if (e.type === 'skillProficiency') skillProfs.add(e.skill);
+  for (const e of itemEffects) {
+    if (e.type === 'skillProficiency') {
+      skillProfs.add(e.skill);
+    }
+  }
   const expertise = new Set(c.expertise);
-  for (const e of itemEffects) if (e.type === 'skillExpertise') expertise.add(e.skill);
+  for (const e of itemEffects) {
+    if (e.type === 'skillExpertise') {
+      expertise.add(e.skill);
+    }
+  }
   const skills = content.skills.map((s) => {
     const proficient = skillProfs.has(s.id);
     const exp = proficient && expertise.has(s.id);
     const extra = skillExtraBonus(s.id, mods, effects);
-    return { id: s.id, ability: s.ability, bonus: skillBonus(mods[s.ability], proficient, exp, pb) + extra, extra, proficient, expertise: exp };
+    return {
+      id: s.id,
+      ability: s.ability,
+      bonus: skillBonus(mods[s.ability], proficient, exp, pb) + extra,
+      extra,
+      proficient,
+      expertise: exp,
+    };
   });
   const perception = skills.find((s) => s.id === 'perception')?.bonus ?? mods.wis;
 
@@ -243,20 +319,33 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   const seen = new Set<string>();
   for (const inv of c.equipment) {
     const item = idx.equipment.get(inv.itemId);
-    if (!item?.weapon) continue;
+    if (!item?.weapon) {
+      continue;
+    }
     const totalMagic = (item.magicBonus ?? 0) + (inv.magicBonus ?? 0);
-    const attack = weaponAttack(item, mods, pb, isProficient(item), { ...attackOpts, magicBonus: totalMagic || undefined });
-    if (!attack || seen.has(attack.key)) continue;
+    const attack = weaponAttack(item, mods, pb, isProficient(item), {
+      ...attackOpts,
+      magicBonus: totalMagic || undefined,
+    });
+    if (!attack || seen.has(attack.key)) {
+      continue;
+    }
     seen.add(attack.key);
     attacks.push(attack);
   }
   // Оружие из слотов (новая модель: вооружённые слоты не лежат в рюкзаке c.equipment).
   for (const itemId of Object.values(c.equippedSlots ?? {})) {
-    if (!itemId) continue;
+    if (!itemId) {
+      continue;
+    }
     const item = idx.equipment.get(itemId);
-    if (!item?.weapon) continue;
+    if (!item?.weapon) {
+      continue;
+    }
     const attack = weaponAttack(item, mods, pb, isProficient(item), { ...attackOpts, magicBonus: item.magicBonus });
-    if (!attack || seen.has(attack.key)) continue;
+    if (!attack || seen.has(attack.key)) {
+      continue;
+    }
     seen.add(attack.key);
     attacks.push(attack);
   }
@@ -278,19 +367,31 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   let speed = species.speed;
   for (const f of features) {
     const traitSpeed = f.source === 'species' ? idx.traits.get(f.id)?.speed : undefined;
-    if (traitSpeed) speed = Math.max(speed, traitSpeed);
+    if (traitSpeed) {
+      speed = Math.max(speed, traitSpeed);
+    }
   }
-  for (const e of effects) if (e.type === 'speedBonus') speed += e.value;
+  for (const e of effects) {
+    if (e.type === 'speedBonus') {
+      speed += e.value;
+    }
+  }
   const classSpecific: CharacterSheet['classSpecific'] = {};
   for (const { entry, cls } of classes) {
     const row = cls.levels[entry.level - 1];
-    if (row?.classSpecific) classSpecific[cls.id] = row.classSpecific;
+    if (row?.classSpecific) {
+      classSpecific[cls.id] = row.classSpecific;
+    }
   }
   if (!armorItem && !shieldItem) {
     for (const e of effects) {
-      if (e.type !== 'unarmoredSpeedFromClassTable') continue;
+      if (e.type !== 'unarmoredSpeedFromClassTable') {
+        continue;
+      }
       const bonus = classSpecific[e.classId]?.[e.column];
-      if (typeof bonus === 'number') speed += bonus;
+      if (typeof bonus === 'number') {
+        speed += bonus;
+      }
     }
   }
 
@@ -300,7 +401,12 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     .filter(({ entry, cls }) => cls.spellcasting && entry.level >= cls.spellcasting.fromLevel)
     .map(({ cls }) => {
       const ability = cls.spellcasting!.ability;
-      return { classId: cls.id, ability, saveDC: spellSaveDC(mods[ability], pb), attackBonus: spellAttackBonus(mods[ability], pb) };
+      return {
+        classId: cls.id,
+        ability,
+        saveDC: spellSaveDC(mods[ability], pb),
+        attackBonus: spellAttackBonus(mods[ability], pb),
+      };
     });
   const pactSlots = characterPactSlots(c.classes, idx.classes);
   const spellcasting: CharacterSheet['spellcasting'] = spellcastingClasses[0] && {
@@ -314,7 +420,8 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
     profBonus: pb,
     abilities,
     skills,
-    passivePerception: passiveScore(perception) + effects.reduce((s, e) => s + (e.type === 'passivePerceptionBonus' ? e.value : 0), 0),
+    passivePerception:
+      passiveScore(perception) + effects.reduce((s, e) => s + (e.type === 'passivePerceptionBonus' ? e.value : 0), 0),
     initiative: initiative(mods.dex, pb, effects),
     maxHp,
     armorClass: ac,
@@ -341,13 +448,19 @@ export function subclassSpellIds(c: Character, content: Content): string[] {
   const chosen = new Set(Object.values(c.choices).flat());
   return c.classes.flatMap((e) => {
     const sub = e.subclassId ? idx.subclasses.get(e.subclassId) : undefined;
-    return (sub?.spells ?? []).filter((s) => s.level <= e.level && (!s.feature || chosen.has(s.feature))).map((s) => s.id);
+    return (sub?.spells ?? [])
+      .filter((s) => s.level <= e.level && (!s.feature || chosen.has(s.feature)))
+      .map((s) => s.id);
   });
 }
 
 function sumEffects(effects: Effect[], type: 'rangedAttackBonus'): number {
   let sum = 0;
-  for (const e of effects) if (e.type === type) sum += e.value;
+  for (const e of effects) {
+    if (e.type === type) {
+      sum += e.value;
+    }
+  }
   return sum;
 }
 
@@ -355,7 +468,9 @@ function sumEffects(effects: Effect[], type: 'rangedAttackBonus'): number {
 function sumItemSaveBonus(itemEffects: ItemEffect[], ability: AbilityId): number {
   let sum = 0;
   for (const e of itemEffects) {
-    if (e.type === 'savingThrowBonus' && (e.ability === undefined || e.ability === ability)) sum += e.value;
+    if (e.type === 'savingThrowBonus' && (e.ability === undefined || e.ability === ability)) {
+      sum += e.value;
+    }
   }
   return sum;
 }
@@ -369,7 +484,9 @@ function applyItemAbilityEffects(scores: AbilityScores, itemEffects: ItemEffect[
   let result = scores;
   for (const e of itemEffects) {
     if (e.type === 'setAbilityScore') {
-      if (result[e.ability] < e.value) result = { ...result, [e.ability]: e.value };
+      if (result[e.ability] < e.value) {
+        result = { ...result, [e.ability]: e.value };
+      }
     } else if (e.type === 'abilityBonus') {
       result = { ...result, [e.ability]: result[e.ability] + e.value };
     }
@@ -380,6 +497,10 @@ function applyItemAbilityEffects(scores: AbilityScores, itemEffects: ItemEffect[
 /** Бонус к навыку от эффектов («Чудотворец»: + мод. МДР к Магии и Религии, минимум +1). */
 function skillExtraBonus(skillId: string, mods: AbilityScores, effects: Effect[]): number {
   let sum = 0;
-  for (const e of effects) if (e.type === 'skillBonusFromAbility' && e.skills.includes(skillId)) sum += Math.max(e.min, mods[e.ability]);
+  for (const e of effects) {
+    if (e.type === 'skillBonusFromAbility' && e.skills.includes(skillId)) {
+      sum += Math.max(e.min, mods[e.ability]);
+    }
+  }
   return sum;
 }

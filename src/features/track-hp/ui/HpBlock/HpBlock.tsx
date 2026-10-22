@@ -11,14 +11,14 @@ import { AppText, Card, Dots, SmallButton } from '@/shared/ui';
 import { styles } from './HpBlock.styles';
 import type { HpBlockProps } from './HpBlock.types';
 
-export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
+export function HpBlock({ character, sheet, onDeathSave }: HpBlockProps) {
   const { updateState } = usePlay();
   const { t } = useTranslation();
   const [amountText, setAmountText] = useState('1');
   const amount = Math.max(0, parseInt(amountText, 10) || 0);
-  const { currentHp, tempHp } = c.state;
+  const { currentHp, tempHp } = character.state;
   const color = HP_COLORS[hpLevel(currentHp, sheet.maxHp)];
-  const status = deathStatus(c.state);
+  const status = deathStatus(character.state);
   const setAmount = (n: number) => setAmountText(String(Math.max(0, n)));
 
   return (
@@ -39,11 +39,22 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
         ) : null}
       </View>
       <View style={styles.track}>
-        <View style={[styles.fill, { width: `${sheet.maxHp ? (currentHp / sheet.maxHp) * 100 : 0}%`, backgroundColor: color }]} />
+        <View
+          style={[
+            styles.fill,
+            { width: `${sheet.maxHp ? (currentHp / sheet.maxHp) * 100 : 0}%`, backgroundColor: color },
+          ]}
+        />
       </View>
 
       <View style={styles.row}>
-        <SmallButton title={t('hp.damage')} tone="damage" flex={1} disabled={!amount} onPress={() => updateState((s) => applyDamage(s, amount, sheet.maxHp))} />
+        <SmallButton
+          title={t('hp.damage')}
+          tone="damage"
+          flex={1}
+          disabled={!amount}
+          onPress={() => updateState((s) => applyDamage(s, amount, sheet.maxHp))}
+        />
         <View style={styles.amount}>
           <Pressable onPress={() => setAmount(amount - 1)} hitSlop={8} style={styles.amountBtn}>
             <AppText style={styles.amountSign}>−</AppText>
@@ -59,16 +70,38 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
             <AppText style={styles.amountSign}>+</AppText>
           </Pressable>
         </View>
-        <SmallButton title={t('hp.heal')} tone="heal" flex={1} disabled={!amount} onPress={() => updateState((s) => applyHealing(s, amount, sheet.maxHp))} />
+        <SmallButton
+          title={t('hp.heal')}
+          tone="heal"
+          flex={1}
+          disabled={!amount}
+          onPress={() => updateState((s) => applyHealing(s, amount, sheet.maxHp))}
+        />
       </View>
       <View style={styles.row}>
-        <SmallButton title={t('hp.setTemp', { amount })} tone="accent" flex={1} disabled={!amount} onPress={() => updateState((s) => setTempHp(s, amount))} />
-        {tempHp ? <SmallButton title={t('hp.resetTemp')} flex={1} onPress={() => updateState((s) => ({ ...s, tempHp: 0 }))} /> : null}
+        <SmallButton
+          title={t('hp.setTemp', { amount })}
+          tone="accent"
+          flex={1}
+          disabled={!amount}
+          onPress={() => updateState((s) => setTempHp(s, amount))}
+        />
+        {tempHp ? (
+          <SmallButton title={t('hp.resetTemp')} flex={1} onPress={() => updateState((s) => ({ ...s, tempHp: 0 }))} />
+        ) : null}
       </View>
 
       <AppText variant="secondary">
         {t('hp.hitDice')}{' '}
-        {sheet.hitDice.map((h) => t('hp.hitDiceItem', { left: h.total - (c.state.hitDiceSpent[h.classId] ?? 0), total: h.total, die: formatDie(h.die) })).join(', ')}
+        {sheet.hitDice
+          .map((h) =>
+            t('hp.hitDiceItem', {
+              left: h.total - (character.state.hitDiceSpent[h.classId] ?? 0),
+              total: h.total,
+              die: formatDie(h.die),
+            }),
+          )
+          .join(', ')}
       </AppText>
 
       {status !== 'alive' ? (
@@ -82,7 +115,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
             </AppText>
             <Dots
               total={3}
-              filled={c.state.deathSaves.successes}
+              filled={character.state.deathSaves.successes}
               color={colors.heal}
               onPress={(i) =>
                 updateState((s) => ({
@@ -101,7 +134,7 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
             </AppText>
             <Dots
               total={3}
-              filled={c.state.deathSaves.failures}
+              filled={character.state.deathSaves.failures}
               color={colors.damage}
               onPress={(i) =>
                 updateState((s) => ({
@@ -114,7 +147,9 @@ export function HpBlock({ c, sheet, onDeathSave }: HpBlockProps) {
               }
             />
           </View>
-          {status === 'dying' ? <SmallButton title={t('hp.rollDeathSave')} tone="accent" onPress={onDeathSave} /> : null}
+          {status === 'dying' ? (
+            <SmallButton title={t('hp.rollDeathSave')} tone="accent" onPress={onDeathSave} />
+          ) : null}
           {status === 'dead' ? (
             <SmallButton
               title={t('hp.revive')}

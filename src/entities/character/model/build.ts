@@ -3,12 +3,28 @@
 
 import type { AbilityId, Choice, ChoiceOption, Coin, Content, Edition } from '@/shared/content';
 import { indexOf } from '@/shared/content';
-import { CHOICE_KEYS, FEAT_FEATURES, FEATURE_LANGUAGES, FEATURE_OPTIONS, SPELLCASTER_PROGRESSION, STANDARD_LANGUAGE_COUNT } from '../config/constants';
+import {
+  CHOICE_KEYS,
+  FEAT_FEATURES,
+  FEATURE_LANGUAGES,
+  FEATURE_OPTIONS,
+  SPELLCASTER_PROGRESSION,
+  STANDARD_LANGUAGE_COUNT,
+} from '../config/constants';
 import { newDraftCharacter } from './character';
 import { choice1 } from './choices';
 import { abilityModifier } from './abilities';
 import { classFeatureIdsAt, finalAbilityScores, makeProficiencyCheck, proficiencyIds } from './sheet';
-import type { Character, EquipmentSource, InventoryItem, OriginFeat, OriginFeatSlot, ProficiencySlot, SlotId, SpellLimits } from './types';
+import type {
+  Character,
+  EquipmentSource,
+  InventoryItem,
+  OriginFeat,
+  OriginFeatSlot,
+  ProficiencySlot,
+  SlotId,
+  SpellLimits,
+} from './types';
 
 // ---------- Справочник ----------
 
@@ -22,8 +38,12 @@ export function choiceOptionIds(choice: Choice, content: Content): string[] {
     ? (indexOf(content).equipmentCategories.get(choice.fromCategory)?.equipment ?? [])
     : [];
   const fromOptions = (choice.options ?? []).flatMap((o): string[] => {
-    if (o.kind === 'ref' || o.kind === 'item') return [o.id];
-    if (o.kind === 'choice') return choiceOptionIds(o.choice, content);
+    if (o.kind === 'ref' || o.kind === 'item') {
+      return [o.id];
+    }
+    if (o.kind === 'choice') {
+      return choiceOptionIds(o.choice, content);
+    }
     return [];
   });
   return [...new Set([...fromCategory, ...fromOptions])];
@@ -33,7 +53,9 @@ export function choiceOptionIds(choice: Choice, content: Content): string[] {
 
 /** Смена редакции: выборы другой редакции не подходят (другие id и правила) — черновик начинается заново, имя остаётся. */
 export function setEdition(c: Character, edition: Edition): Character {
-  if (c.edition === edition) return c;
+  if (c.edition === edition) {
+    return c;
+  }
   const fresh = newDraftCharacter(c.id, c.createdAt, edition);
   return { ...fresh, name: c.name, player: c.player, notes: c.notes, campaign: c.campaign, updatedAt: c.updatedAt };
 }
@@ -49,7 +71,9 @@ export function subclassLevel(classId: string, content: Content): number {
 
 export function setSubclass(c: Character, subclassId: string): Character {
   const [first, ...rest] = c.classes;
-  if (!first || first.subclassId === subclassId) return c;
+  if (!first || first.subclassId === subclassId) {
+    return c;
+  }
   // Варианты умений прежнего подкласса (драконий предок) больше не нужны.
   return { ...c, classes: [{ ...first, subclassId }, ...rest], choices: dropChoices(c.choices, ['feature.']) };
 }
@@ -63,7 +87,9 @@ function dropChoices(choices: Record<string, string[]>, prefixes: string[]): Rec
 
 /** Выбор класса сбрасывает всё, что от него зависело. */
 export function setClass(c: Character, classId: string): Character {
-  if (c.classes[0]?.classId === classId) return c;
+  if (c.classes[0]?.classId === classId) {
+    return c;
+  }
   return {
     ...c,
     classes: [{ classId, level: 1 }],
@@ -77,7 +103,9 @@ export function setClass(c: Character, classId: string): Character {
 }
 
 export function setBackground(c: Character, backgroundId: string): Character {
-  if (c.backgroundId === backgroundId) return c;
+  if (c.backgroundId === backgroundId) {
+    return c;
+  }
   return {
     ...c,
     backgroundId,
@@ -88,7 +116,9 @@ export function setBackground(c: Character, backgroundId: string): Character {
 }
 
 export function setSpecies(c: Character, speciesId: string, content: Content): Character {
-  if (c.speciesId === speciesId) return c;
+  if (c.speciesId === speciesId) {
+    return c;
+  }
   const species = indexOf(content).species.get(speciesId);
   return {
     ...c,
@@ -106,7 +136,9 @@ export function originFeats(c: Character, content: Content): OriginFeat[] {
   const out: OriginFeat[] = [];
   const background = indexOf(content).backgrounds.get(c.backgroundId);
   // В 2014 предыстория черты не даёт.
-  if (background?.featId) out.push({ slot: 'bgfeat', featId: background.featId, source: 'background' });
+  if (background?.featId) {
+    out.push({ slot: 'bgfeat', featId: background.featId, source: 'background' });
+  }
   const species = indexOf(content).species.get(c.speciesId);
   // 2024: человек, «Универсальность»; 2014: человек-вариант — черта на 1-м уровне.
   if (species?.traits.some((id) => id === 'versatile' || id === 'variant-human-feat')) {
@@ -122,54 +154,101 @@ export function proficiencySlots(c: Character, content: Content): ProficiencySlo
   const slots: ProficiencySlot[] = [];
   const cls = startingClass(c, content);
   cls?.proficiencyChoices.forEach((ch, i) =>
-    slots.push({ key: CHOICE_KEYS.classProf(cls.id, i), source: 'class', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
+    slots.push({
+      key: CHOICE_KEYS.classProf(cls.id, i),
+      source: 'class',
+      desc: ch.desc,
+      choose: ch.choose,
+      options: choiceOptionIds(ch, content),
+    }),
   );
   const background = indexOf(content).backgrounds.get(c.backgroundId);
   background?.proficiencyChoices.forEach((ch, i) =>
-    slots.push({ key: CHOICE_KEYS.backgroundProf(background.id, i), source: 'background', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
+    slots.push({
+      key: CHOICE_KEYS.backgroundProf(background.id, i),
+      source: 'background',
+      desc: ch.desc,
+      choose: ch.choose,
+      options: choiceOptionIds(ch, content),
+    }),
   );
   // 2014: умения 1-го уровня класса и подкласса с владениями на выбор (домен знаний, домен природы).
   const first = c.classes[0];
   for (const featureId of first ? classFeatureIdsAt({ ...first, level: 1 }, content) : []) {
-    indexOf(content).features.get(featureId)?.proficiencyChoices?.forEach((ch, i) =>
-      slots.push({ key: `feature.${featureId}.prof.${i}`, source: 'class', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
-    );
+    indexOf(content)
+      .features.get(featureId)
+      ?.proficiencyChoices?.forEach((ch, i) =>
+        slots.push({
+          key: `feature.${featureId}.prof.${i}`,
+          source: 'class',
+          desc: ch.desc,
+          choose: ch.choose,
+          options: choiceOptionIds(ch, content),
+        }),
+      );
   }
   for (const traitId of speciesTraitIds(c, content)) {
-    indexOf(content).traits.get(traitId)?.proficiencyChoices?.forEach((ch, i) =>
-      slots.push({ key: CHOICE_KEYS.traitProf(traitId, i), source: 'species', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
-    );
+    indexOf(content)
+      .traits.get(traitId)
+      ?.proficiencyChoices?.forEach((ch, i) =>
+        slots.push({
+          key: CHOICE_KEYS.traitProf(traitId, i),
+          source: 'species',
+          desc: ch.desc,
+          choose: ch.choose,
+          options: choiceOptionIds(ch, content),
+        }),
+      );
   }
   for (const f of originFeats(c, content)) {
     // Владения на выбор из данных черты («Ремесленник», «Музыкант»).
     (f.featId ? indexOf(content).feats.get(f.featId) : undefined)?.proficiencyChoices?.forEach((ch, i) =>
-      slots.push({ key: `${CHOICE_KEYS.featProf(f.slot)}.${i}`, source: 'feat', desc: ch.desc, choose: ch.choose, options: choiceOptionIds(ch, content) }),
+      slots.push({
+        key: `${CHOICE_KEYS.featProf(f.slot)}.${i}`,
+        source: 'feat',
+        desc: ch.desc,
+        choose: ch.choose,
+        options: choiceOptionIds(ch, content),
+      }),
     );
     // Черта «Одарённый»: любые три навыка или инструмента.
-    if (f.featId !== 'skilled') continue;
+    if (f.featId !== 'skilled') {
+      continue;
+    }
     const options = content.proficiencies
       .filter((p) => ['skill', 'tool', 'artisanTool', 'instrument'].includes(p.type))
       .map((p) => p.id);
-    slots.push({ key: CHOICE_KEYS.featProf(f.slot), source: 'feat', desc: { en: 'Skilled: three skills or tools', ru: 'Одарённый: три навыка или инструмента' }, choose: 3, options });
+    slots.push({
+      key: CHOICE_KEYS.featProf(f.slot),
+      source: 'feat',
+      desc: { en: 'Skilled: three skills or tools', ru: 'Одарённый: три навыка или инструмента' },
+      choose: 3,
+      options,
+    });
   }
   return slots;
 }
 
 function speciesTraitIds(c: Character, content: Content): string[] {
   const species = indexOf(content).species.get(c.speciesId);
-  const sub = (c.subspeciesId ? indexOf(content).subspecies.get(c.subspeciesId) : undefined);
+  const sub = c.subspeciesId ? indexOf(content).subspecies.get(c.subspeciesId) : undefined;
   return [...(species?.traits ?? []), ...(sub?.traits.filter((t) => t.level <= 1).map((t) => t.id) ?? [])];
 }
 
 /** Владения, которые даются без выбора (класс, предыстория, особенности расы 2014). Их нельзя выбрать ещё раз. */
-export function fixedProficiencies(c: Character, content: Content): { id: string; source: 'class' | 'background' | 'species' }[] {
+export function fixedProficiencies(
+  c: Character,
+  content: Content,
+): { id: string; source: 'class' | 'background' | 'species' }[] {
   const cls = startingClass(c, content);
   const idx = indexOf(content);
   const background = idx.backgrounds.get(c.backgroundId);
   return [
     ...(cls?.proficiencies ?? []).map((id) => ({ id, source: 'class' as const })),
     ...(background?.proficiencies ?? []).map((id) => ({ id, source: 'background' as const })),
-    ...speciesTraitIds(c, content).flatMap((t) => (idx.traits.get(t)?.proficiencies ?? []).map((id) => ({ id, source: 'species' as const }))),
+    ...speciesTraitIds(c, content).flatMap((t) =>
+      (idx.traits.get(t)?.proficiencies ?? []).map((id) => ({ id, source: 'species' as const })),
+    ),
   ];
 }
 
@@ -182,13 +261,21 @@ export function originTraitIds(c: Character, content: Content): string[] {
  * 2014: варианты умений 1-го уровня (класс и подкласс 1-го уровня): боевой стиль, драконий предок.
  * Ключ выбора — CHOICE_KEYS.featureOption(featureId), значения — id умений-вариантов.
  */
-export function featureChoices(c: Character, content: Content): { featureId: string; choose: number; options: string[] }[] {
+export function featureChoices(
+  c: Character,
+  content: Content,
+): { featureId: string; choose: number; options: string[] }[] {
   const idx = indexOf(content);
   const first = c.classes[0];
   const cls = first && idx.classes.get(first.classId);
-  if (!cls) return [];
+  if (!cls) {
+    return [];
+  }
   const sub = first.subclassId ? idx.subclasses.get(first.subclassId) : undefined;
-  const ids = [...(cls.levels[0]?.features ?? []), ...(sub?.features ?? []).filter((id) => idx.features.get(id)?.level === 1)];
+  const ids = [
+    ...(cls.levels[0]?.features ?? []),
+    ...(sub?.features ?? []).filter((id) => idx.features.get(id)?.level === 1),
+  ];
   return ids.flatMap((featureId) => {
     const choice = idx.features.get(featureId)?.optionChoice;
     return choice ? [{ featureId, choose: choice.choose, options: choiceOptionIds(choice, content) }] : [];
@@ -197,17 +284,25 @@ export function featureChoices(c: Character, content: Content): { featureId: str
 
 /** Сколько языков выбирает игрок: 2024 — два стандартных; 2014 — сколько дают раса, её особенности и предыстория. */
 export function languageChoiceCount(c: Character, content: Content): number {
-  if (content.edition !== '2014') return STANDARD_LANGUAGE_COUNT;
+  if (content.edition !== '2014') {
+    return STANDARD_LANGUAGE_COUNT;
+  }
   const idx = indexOf(content);
   const species = idx.species.get(c.speciesId);
   const background = idx.backgrounds.get(c.backgroundId);
   const traits = speciesTraitIds(c, content).map((id) => idx.traits.get(id)?.languageChoice?.choose ?? 0);
-  return (species?.languageChoice?.choose ?? 0) + (background?.languageChoice?.choose ?? 0) + traits.reduce((a, b) => a + b, 0);
+  return (
+    (species?.languageChoice?.choose ?? 0) +
+    (background?.languageChoice?.choose ?? 0) +
+    traits.reduce((a, b) => a + b, 0)
+  );
 }
 
 /** Из каких языков выбирать: 2024 — стандартные; 2014 — любые, кроме уже известных от расы. */
 export function languageChoiceOptions(c: Character, content: Content): string[] {
-  if (content.edition !== '2014') return languageOptions(content);
+  if (content.edition !== '2014') {
+    return languageOptions(content);
+  }
   const own = new Set(['common', ...(indexOf(content).species.get(c.speciesId)?.languages ?? [])]);
   return content.languages.map((l) => l.id).filter((id) => !own.has(id));
 }
@@ -218,7 +313,9 @@ export function proficientSkills(c: Character, content: Content): string[] {
   const skills = new Set(c.skillProficiencies);
   for (const id of proficiencyIds(c, content)) {
     const p = idx.proficiencies.get(id);
-    if (p?.type === 'skill' && p.refId) skills.add(p.refId);
+    if (p?.type === 'skill' && p.refId) {
+      skills.add(p.refId);
+    }
   }
   return content.skills.map((s) => s.id).filter((id) => skills.has(id));
 }
@@ -242,7 +339,9 @@ function masteryClasses(c: Character, content: Content): { classId: string; coun
   const classes = indexOf(content).classes;
   return c.classes.flatMap((e) => {
     const rows = classes.get(e.classId)?.levels.slice(0, e.level) ?? [];
-    if (!rows.some((r) => r.features.some((id) => id.endsWith('-weapon-mastery')))) return [];
+    if (!rows.some((r) => r.features.some((id) => id.endsWith('-weapon-mastery')))) {
+      return [];
+    }
     // Столбец таблицы класса на текущем уровне; если его нет (плут, паладин, следопыт) — 2.
     const fromTable = rows[rows.length - 1]?.classSpecific?.weapon_mastery;
     return [{ classId: e.classId, count: typeof fromTable === 'number' ? fromTable : 2 }];
@@ -264,7 +363,9 @@ export function weaponMasteryOptions(c: Character, content: Content): string[] {
 export function featureOptionIds(c: Character, content: Content): string[] {
   const cls = startingClass(c, content);
   // Таблицы умений 2024; в 2014 варианты умений — featureChoices.
-  if (content.edition === '2014') return [];
+  if (content.edition === '2014') {
+    return [];
+  }
   return (cls?.levels[0]?.features ?? []).filter((id) => FEATURE_OPTIONS[id]);
 }
 
@@ -272,7 +373,9 @@ export function featureOptionIds(c: Character, content: Content): string[] {
 export function featFeatureIds(c: Character, content: Content): string[] {
   const cls = startingClass(c, content);
   // 2014: боевой стиль — вариант умения (featureChoices), а не черта.
-  if (content.edition === '2014') return [];
+  if (content.edition === '2014') {
+    return [];
+  }
   return (cls?.levels[0]?.features ?? []).filter((id) => FEAT_FEATURES[id]);
 }
 
@@ -284,14 +387,21 @@ export function languageOptions(content: Content): string[] {
 /** Умения классов персонажа, которые дают языки (плут: «Воровской жаргон»; друид: «Друидический»). */
 function languageFeatureIds(c: Character, content: Content): string[] {
   const classes = indexOf(content).classes;
-  if (content.edition === '2014') return [];
+  if (content.edition === '2014') {
+    return [];
+  }
   return c.classes.flatMap((e) =>
-    (classes.get(e.classId)?.levels.slice(0, e.level) ?? []).flatMap((row) => row.features.filter((id) => FEATURE_LANGUAGES[id])),
+    (classes.get(e.classId)?.levels.slice(0, e.level) ?? []).flatMap((row) =>
+      row.features.filter((id) => FEATURE_LANGUAGES[id]),
+    ),
   );
 }
 
 /** Выборы языков от умений класса: сколько выбрать и из чего (любой язык, которого ещё нет). */
-export function featureLanguageSlots(c: Character, content: Content): { featureId: string; key: string; choose: number; options: string[] }[] {
+export function featureLanguageSlots(
+  c: Character,
+  content: Content,
+): { featureId: string; key: string; choose: number; options: string[] }[] {
   return languageFeatureIds(c, content)
     .filter((id) => FEATURE_LANGUAGES[id].choose > 0)
     .map((featureId) => {
@@ -311,8 +421,12 @@ export function featureLanguageSlots(c: Character, content: Content): { featureI
 export function knownLanguages(c: Character, content: Content): string[] {
   const ids = new Set(['common', ...c.languages, ...(indexOf(content).species.get(c.speciesId)?.languages ?? [])]);
   for (const featureId of languageFeatureIds(c, content)) {
-    for (const id of FEATURE_LANGUAGES[featureId].known) ids.add(id);
-    for (const id of c.choices[CHOICE_KEYS.featureLanguages(featureId)] ?? []) ids.add(id);
+    for (const id of FEATURE_LANGUAGES[featureId].known) {
+      ids.add(id);
+    }
+    for (const id of c.choices[CHOICE_KEYS.featureLanguages(featureId)] ?? []) {
+      ids.add(id);
+    }
   }
   // Порядок — как в справочнике; языки, которых в справочнике нет (из файла другой версии), — в конце.
   const ordered = content.languages.map((l) => l.id).filter((id) => ids.has(id));
@@ -330,23 +444,42 @@ export function equipmentChoice(c: Character, content: Content, source: Equipmen
  * «Любой предмет из категории» без вариантов превращается в выбор из одного варианта с выбором предмета.
  */
 export function equipmentChoices(c: Character, content: Content, source: EquipmentSource): Choice[] {
-  const list = source === 'class' ? startingClass(c, content)?.startingEquipment : indexOf(content).backgrounds.get(c.backgroundId)?.equipment;
+  const list =
+    source === 'class'
+      ? startingClass(c, content)?.startingEquipment
+      : indexOf(content).backgrounds.get(c.backgroundId)?.equipment;
   return (list ?? []).map((ch) => (ch.options ? ch : { choose: 1, options: [{ kind: 'choice', choice: ch }] }));
 }
 
 /** Выбранный вариант: номер из выборов игрока; если вариант один — он и выбран. */
-export function chosenEquipmentOption(c: Character, choice: Choice, source: EquipmentSource, step: number): ChoiceOption | undefined {
-  if (choice.options?.length === 1) return choice.options[0];
+export function chosenEquipmentOption(
+  c: Character,
+  choice: Choice,
+  source: EquipmentSource,
+  step: number,
+): ChoiceOption | undefined {
+  if (choice.options?.length === 1) {
+    return choice.options[0];
+  }
   const chosen = choice1(c, CHOICE_KEYS.equipment(source, step));
   return chosen === undefined ? undefined : choice.options?.[Number(chosen)];
 }
 
 /** Вложенные выборы внутри варианта набора («священный символ на выбор»): индекс → варианты и сколько выбрать. */
-export function equipmentPicks(option: ChoiceOption | undefined, content: Content): { index: number; options: string[]; choose: number }[] {
-  if (option?.kind === 'choice') return [{ index: 0, options: choiceOptionIds(option.choice, content), choose: option.choice.choose }];
-  if (option?.kind !== 'all') return [];
+export function equipmentPicks(
+  option: ChoiceOption | undefined,
+  content: Content,
+): { index: number; options: string[]; choose: number }[] {
+  if (option?.kind === 'choice') {
+    return [{ index: 0, options: choiceOptionIds(option.choice, content), choose: option.choice.choose }];
+  }
+  if (option?.kind !== 'all') {
+    return [];
+  }
   return option.items.flatMap((item, index) =>
-    item.kind === 'choice' ? [{ index, options: choiceOptionIds(item.choice, content), choose: item.choice.choose }] : [],
+    item.kind === 'choice'
+      ? [{ index, options: choiceOptionIds(item.choice, content), choose: item.choice.choose }]
+      : [],
   );
 }
 
@@ -362,12 +495,20 @@ export function startingKit(
   for (const source of ['class', 'background'] as const) {
     equipmentChoices(c, content, source).forEach((choice, step) => {
       const option = chosenEquipmentOption(c, choice, source, step);
-      if (!option) return;
+      if (!option) {
+        return;
+      }
       const items = option.kind === 'all' ? option.items : [option];
       items.forEach((item, i) => {
-        if (item.kind === 'item') add(item.id, item.count);
-        else if (item.kind === 'money') coins[item.unit] = (coins[item.unit] ?? 0) + item.amount;
-        else if (item.kind === 'choice') for (const pick of c.choices[CHOICE_KEYS.equipmentPick(source, i, step)] ?? []) add(pick, 1);
+        if (item.kind === 'item') {
+          add(item.id, item.count);
+        } else if (item.kind === 'money') {
+          coins[item.unit] = (coins[item.unit] ?? 0) + item.amount;
+        } else if (item.kind === 'choice') {
+          for (const pick of c.choices[CHOICE_KEYS.equipmentPick(source, i, step)] ?? []) {
+            add(pick, 1);
+          }
+        }
       });
     });
   }
@@ -378,9 +519,14 @@ export function startingKit(
 
   for (const [itemId] of counts) {
     const eq = indexOf(content).equipment.get(itemId);
-    if (!eq) continue;
-    if (eq.armor?.category === 'shield' && !equippedSlots.off) { equippedSlots.off = itemId; }
-    else if (eq.armor && eq.armor.category !== 'shield' && !equippedSlots.body) { equippedSlots.body = itemId; }
+    if (!eq) {
+      continue;
+    }
+    if (eq.armor?.category === 'shield' && !equippedSlots.off) {
+      equippedSlots.off = itemId;
+    } else if (eq.armor && eq.armor.category !== 'shield' && !equippedSlots.body) {
+      equippedSlots.body = itemId;
+    }
   }
 
   // Убираем надетые предметы из рюкзака
@@ -399,8 +545,14 @@ export function primaryCasterId(c: Character, content: Content): string | undefi
 }
 
 /** Заговоры и подготовленные заклинания класса (у основного заклинателя — общие поля персонажа). */
-export function classSpellLists(c: Character, content: Content, classId: string): { cantrips: string[]; preparedSpells: string[] } {
-  if (classId === primaryCasterId(c, content)) return { cantrips: c.cantrips, preparedSpells: c.preparedSpells };
+export function classSpellLists(
+  c: Character,
+  content: Content,
+  classId: string,
+): { cantrips: string[]; preparedSpells: string[] } {
+  if (classId === primaryCasterId(c, content)) {
+    return { cantrips: c.cantrips, preparedSpells: c.preparedSpells };
+  }
   const e = c.classes.find((x) => x.classId === classId);
   return { cantrips: e?.cantrips ?? [], preparedSpells: e?.preparedSpells ?? [] };
 }
@@ -412,7 +564,9 @@ export function setClassSpellLists(
   classId: string,
   patch: Partial<{ cantrips: string[]; preparedSpells: string[] }>,
 ): Character {
-  if (classId === primaryCasterId(c, content)) return { ...c, ...patch };
+  if (classId === primaryCasterId(c, content)) {
+    return { ...c, ...patch };
+  }
   return { ...c, classes: c.classes.map((e) => (e.classId === classId ? { ...e, ...patch } : e)) };
 }
 
@@ -426,13 +580,19 @@ export function setClassSpellLists(
 export function spellLimits(c: Character, content: Content, classId = primaryCasterId(c, content)): SpellLimits | null {
   const entry = c.classes.find((e) => e.classId === classId);
   const cls = entry && indexOf(content).classes.get(entry.classId);
-  if (!entry || !cls) return null;
+  if (!entry || !cls) {
+    return null;
+  }
   const sc = cls.levels[entry.level - 1]?.spellcasting;
-  if (!sc || (cls.spellcasting?.fromLevel ?? 99) > entry.level) return null;
+  if (!sc || (cls.spellcasting?.fromLevel ?? 99) > entry.level) {
+    return null;
+  }
   let cantrips = sc.cantrips;
   // «Божественный порядок» и т.п.: дополнительные заговоры у класса, которому принадлежит умение.
   for (const [featureId, options] of Object.entries(FEATURE_OPTIONS)) {
-    if (!featureId.startsWith(`${cls.id}-`)) continue;
+    if (!featureId.startsWith(`${cls.id}-`)) {
+      continue;
+    }
     const chosen = choice1(c, CHOICE_KEYS.featureOption(featureId));
     cantrips += options.find((o) => o.id === chosen)?.extraCantrips ?? 0;
   }
@@ -444,8 +604,12 @@ function preparedCount(c: Character, content: Content, classId: string, level: n
   const cls = indexOf(content).classes.get(classId)!;
   const sc = cls.levels[level - 1]?.spellcasting;
   const preparation = cls.spellcasting?.preparation;
-  if (!preparation) return sc?.prepared ?? 0;
-  if (preparation === 'known') return sc?.known ?? 0;
+  if (!preparation) {
+    return sc?.prepared ?? 0;
+  }
+  if (preparation === 'known') {
+    return sc?.known ?? 0;
+  }
   const mod = abilityModifier(finalAbilityScores(c, content)[cls.spellcasting!.ability]);
   return Math.max(1, mod + (SPELLCASTER_PROGRESSION[classId] === 'half' ? Math.floor(level / 2) : level));
 }

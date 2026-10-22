@@ -17,7 +17,14 @@ export function Button({ title, onPress, variant = 'primary', disabled, style }:
         style,
       ]}
     >
-      <Text style={[styles.label, primary ? styles.labelPrimary : variant === 'danger' ? styles.labelDanger : styles.labelDefault]}>{title}</Text>
+      <Text
+        style={[
+          styles.label,
+          primary ? styles.labelPrimary : variant === 'danger' ? styles.labelDanger : styles.labelDefault,
+        ]}
+      >
+        {title}
+      </Text>
     </Pressable>
   );
 }

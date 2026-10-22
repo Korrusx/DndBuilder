@@ -1,7 +1,7 @@
 // Черновик персонажа, общий для всех шагов мастера создания.
 // Загружается из базы по id из адреса; если такого нет — это новый персонаж (в базу попадёт после шага 1).
 
-import type { DraftApi } from "./types";
+import type { DraftApi } from './types';
 import { router, useGlobalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -26,7 +26,9 @@ export function DraftProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let alive = true;
     getCharacter(db, id).then((c) => {
-      if (alive) setCharacter(c ?? newDraftCharacter(id, new Date().toISOString()));
+      if (alive) {
+        setCharacter(c ?? newDraftCharacter(id, new Date().toISOString()));
+      }
     });
     return () => {
       alive = false;
@@ -41,7 +43,9 @@ export function DraftProvider({ children }: { children: ReactNode }) {
   const { i18n } = useTranslation();
   const issues = useMemo(() => (character ? draftIssues(character, content) : []), [character, i18n.language]);
 
-  if (!character) return null;
+  if (!character) {
+    return null;
+  }
 
   const reached = character.status.kind === 'draft' ? character.status.step : CREATE_STEPS.length;
 
@@ -55,7 +59,9 @@ export function DraftProvider({ children }: { children: ReactNode }) {
       const saved = await saveCharacter(db, { ...current, status: { kind: 'draft', step: Math.max(prev, step + 1) } });
       setCharacter(saved);
       const target = CREATE_STEPS[step];
-      if (target) router.push({ pathname: target.route, params: { id } });
+      if (target) {
+        router.push({ pathname: target.route, params: { id } });
+      }
     },
     reached,
     canOpen: (step) => step <= reached && !issues.some((i) => i.blocking && i.step < step),
@@ -63,8 +69,11 @@ export function DraftProvider({ children }: { children: ReactNode }) {
       const href = { pathname: CREATE_STEPS[step - 1].route, params: { id } };
       // Назад: снимаем экраны до нужного шага; если черновик открыт сразу на позднем шаге
       // (из списка «Продолжить»), нужного экрана в истории нет — dismissTo заменит текущий.
-      if (step < from) router.dismissTo(href);
-      else if (step > from) router.push(href);
+      if (step < from) {
+        router.dismissTo(href);
+      } else if (step > from) {
+        router.push(href);
+      }
     },
     finish: async () => {
       await saveCharacter(db, finishCharacter(character, content));
@@ -78,6 +87,8 @@ export function DraftProvider({ children }: { children: ReactNode }) {
 
 export function useDraft(): DraftApi {
   const api = useContext(DraftContext);
-  if (!api) throw new Error('useDraft вне DraftProvider');
+  if (!api) {
+    throw new Error('useDraft вне DraftProvider');
+  }
   return api;
 }

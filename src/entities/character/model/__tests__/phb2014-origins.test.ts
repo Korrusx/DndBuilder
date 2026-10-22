@@ -36,7 +36,11 @@ describe('PHB 2014: подрасы', () => {
   });
 
   test('дроу: заклинания по уровням, Харизма', () => {
-    const at = (level: number) => speciesSpellcasting(make({ speciesId: 'elf', subspeciesId: 'dark-elf', classes: [{ classId: 'fighter', level }] }), content);
+    const at = (level: number) =>
+      speciesSpellcasting(
+        make({ speciesId: 'elf', subspeciesId: 'dark-elf', classes: [{ classId: 'fighter', level }] }),
+        content,
+      );
     expect(at(1)).toMatchObject({ ability: 'cha', spells: [{ spellId: 'dancing-lights' }] });
     expect(at(3)?.spells.map((s) => s.spellId)).toEqual(['dancing-lights', 'faerie-fire']);
     expect(at(5)?.spells.map((s) => s.spellId)).toEqual(['dancing-lights', 'faerie-fire', 'darkness']);
@@ -44,7 +48,10 @@ describe('PHB 2014: подрасы', () => {
 
   test('тифлинг: «Наследие Ада» — «Чудотворство», с 3-го «Адское возмездие», с 5-го «Тьма»', () => {
     const at = (level: number) =>
-      speciesSpellcasting(make({ speciesId: 'tiefling', classes: [{ classId: 'fighter', level }] }), content)?.spells.map((s) => s.spellId);
+      speciesSpellcasting(
+        make({ speciesId: 'tiefling', classes: [{ classId: 'fighter', level }] }),
+        content,
+      )?.spells.map((s) => s.spellId);
     expect(at(1)).toEqual(['thaumaturgy']);
     expect(at(5)).toEqual(['thaumaturgy', 'hellish-rebuke', 'darkness']);
   });
@@ -62,7 +69,9 @@ describe('PHB 2014: человек-вариант', () => {
 
   test('+1 к двум, навык на выбор, черта на 1-м уровне, язык на выбор', () => {
     expect(finalAbilityScores(base, content)).toMatchObject({ str: 11, con: 11, dex: 10 });
-    expect(proficiencySlots(base, content).some((s) => s.key === 'trait.variant-human-skill.prof.0' && s.choose === 1)).toBe(true);
+    expect(
+      proficiencySlots(base, content).some((s) => s.key === 'trait.variant-human-skill.prof.0' && s.choose === 1),
+    ).toBe(true);
     expect(originFeats(base, content)).toEqual([expect.objectContaining({ slot: 'versatile' })]);
     // 1 от человека + 1 от «Прислужника» ×2
     expect(languageChoiceCount(base, content)).toBe(3);
@@ -72,12 +81,18 @@ describe('PHB 2014: человек-вариант', () => {
 describe('PHB 2014: предыстории', () => {
   test('12 предысторий PHB + «Прислужник»', () => {
     expect(content.backgrounds).toHaveLength(13);
-    expect(idx.backgrounds.get('criminal')).toMatchObject({ abilities: [], proficiencies: ['skill-deception', 'skill-stealth', 'tool-thieves-tools'] });
+    expect(idx.backgrounds.get('criminal')).toMatchObject({
+      abilities: [],
+      proficiencies: ['skill-deception', 'skill-stealth', 'tool-thieves-tools'],
+    });
   });
 
   test('мудрец — два языка, солдат — игровой набор на выбор', () => {
     expect(languageChoiceCount(make({ speciesId: 'dwarf', backgroundId: 'sage' }), content)).toBe(2);
     const soldier = make({ speciesId: 'dwarf', backgroundId: 'soldier' });
-    expect(proficiencySlots(soldier, content).find((s) => s.source === 'background')?.options).toEqual(['tool-dice', 'tool-playing-cards']);
+    expect(proficiencySlots(soldier, content).find((s) => s.source === 'background')?.options).toEqual([
+      'tool-dice',
+      'tool-playing-cards',
+    ]);
   });
 });

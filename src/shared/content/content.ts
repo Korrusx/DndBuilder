@@ -1,11 +1,11 @@
 // Доступ к справочнику. Файл assets/content/content.json собирается командой `npm run data:build`.
 
-export const HOMEBREW_EQUIPMENT_PREFIX = 'homebrew-eq-';
-
 import { currentLanguage } from '@/shared/i18n';
 
 import data from '../../../assets/content/content.json';
 import type { Content, ContentIndex, Edition, LocalizedText } from './types';
+
+export const HOMEBREW_EQUIPMENT_PREFIX = 'homebrew-eq-';
 
 export type * from './types';
 
@@ -17,7 +17,9 @@ let content2014: Content | undefined;
  * загружается при первом обращении, чтобы не замедлять запуск тем, кто играет только по 2024.
  */
 export function contentFor(edition: Edition): Content {
-  if (edition === '2024') return content2024;
+  if (edition === '2024') {
+    return content2024;
+  }
   content2014 ??= require('../../../assets/content/content-2014.json') as Content;
   return content2014;
 }
@@ -29,7 +31,9 @@ export function indexOf(c: Content): ContentIndex {
   let idx = indexCache.get(c);
   if (!idx) {
     const entries = Object.entries(c).filter(([, v]) => Array.isArray(v)) as [string, { id: string }[]][];
-    idx = Object.fromEntries(entries.map(([key, items]) => [key, new Map(items.map((x) => [x.id, x]))])) as unknown as ContentIndex;
+    idx = Object.fromEntries(
+      entries.map(([key, items]) => [key, new Map(items.map((x) => [x.id, x]))]),
+    ) as unknown as ContentIndex;
     indexCache.set(c, idx);
   }
   return idx;
@@ -55,14 +59,18 @@ export function activeEdition(): Edition {
 /** Переключает активную редакцию. `owner` — кто переключил: вернуть 2024 может только он (releaseEdition). */
 export function setActiveEdition(edition: Edition, owner: symbol | null = null) {
   active = { edition, owner };
-  if (content.edition === edition) return;
+  if (content.edition === edition) {
+    return;
+  }
   content = contentFor(edition);
   byId = indexOf(content);
 }
 
 /** Возвращает 2024, если редакцию последним переключал `owner` (провайдер закрылся, а другой ещё не открылся). */
 export function releaseEdition(owner: symbol) {
-  if (active.owner === owner) setActiveEdition('2024');
+  if (active.owner === owner) {
+    setActiveEdition('2024');
+  }
 }
 
 /**
@@ -70,8 +78,12 @@ export function releaseEdition(owner: symbol) {
  * с флагом `translated: false` (для пометки).
  */
 export function localizeText(text: LocalizedText | undefined): { text: string; translated: boolean } {
-  if (!text) return { text: '', translated: true };
-  if (currentLanguage() === 'en') return text.en ? { text: text.en, translated: true } : { text: text.ru ?? '', translated: false };
+  if (!text) {
+    return { text: '', translated: true };
+  }
+  if (currentLanguage() === 'en') {
+    return text.en ? { text: text.en, translated: true } : { text: text.ru ?? '', translated: false };
+  }
   return text.ru ? { text: text.ru, translated: true } : { text: text.en, translated: false };
 }
 
@@ -87,7 +99,9 @@ function eqMap(c: Content): MutableEquipmentMap {
 
 export function injectHomebrew(equipment: import('./types').Equipment[]): void {
   for (const e of equipment) {
-    if (eqMap(content2024).has(e.id)) continue;
+    if (eqMap(content2024).has(e.id)) {
+      continue;
+    }
     content2024.equipment.push(e);
     eqMap(content2024).set(e.id, e);
     if (content2014) {
@@ -100,14 +114,20 @@ export function injectHomebrew(equipment: import('./types').Equipment[]): void {
 /** Обновляет один хоумбрю-предмет в индексе (после редактирования). */
 export function updateHombrewItem(e: import('./types').Equipment): void {
   const map24 = eqMap(content2024);
-  if (!map24.has(e.id)) return;
+  if (!map24.has(e.id)) {
+    return;
+  }
   map24.set(e.id, e);
   const i24 = content2024.equipment.findIndex((x) => x.id === e.id);
-  if (i24 >= 0) content2024.equipment[i24] = e;
+  if (i24 >= 0) {
+    content2024.equipment[i24] = e;
+  }
   if (content2014) {
     eqMap(content2014).set(e.id, e);
     const i14 = content2014.equipment.findIndex((x) => x.id === e.id);
-    if (i14 >= 0) content2014.equipment[i14] = e;
+    if (i14 >= 0) {
+      content2014.equipment[i14] = e;
+    }
   }
 }
 
@@ -115,11 +135,15 @@ export function updateHombrewItem(e: import('./types').Equipment): void {
 export function removeHombrewItem(id: string): void {
   eqMap(content2024).delete(id);
   const i24 = content2024.equipment.findIndex((x) => x.id === id);
-  if (i24 >= 0) content2024.equipment.splice(i24, 1);
+  if (i24 >= 0) {
+    content2024.equipment.splice(i24, 1);
+  }
   if (content2014) {
     eqMap(content2014).delete(id);
     const i14 = content2014.equipment.findIndex((x) => x.id === id);
-    if (i14 >= 0) content2014.equipment.splice(i14, 1);
+    if (i14 >= 0) {
+      content2014.equipment.splice(i14, 1);
+    }
   }
 }
 
@@ -128,12 +152,17 @@ export function translationProgress(c: Content): { done: number; total: number }
   let done = 0;
   let total = 0;
   const walk = (v: unknown) => {
-    if (Array.isArray(v)) v.forEach(walk);
-    else if (v && typeof v === 'object') {
+    if (Array.isArray(v)) {
+      v.forEach(walk);
+    } else if (v && typeof v === 'object') {
       if ('en' in v && typeof (v as LocalizedText).en === 'string') {
         total++;
-        if ((v as LocalizedText).ru) done++;
-      } else Object.values(v).forEach(walk);
+        if ((v as LocalizedText).ru) {
+          done++;
+        }
+      } else {
+        Object.values(v).forEach(walk);
+      }
     }
   };
   walk(c);

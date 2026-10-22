@@ -13,7 +13,10 @@ import {
   startLevelUp,
 } from '../levelup';
 
-const blocking = (next: Character, prev: Character) => levelUpIssues(next, prev, content).filter((i) => i.blocking).map((i) => i.message);
+const blocking = (next: Character, prev: Character) =>
+  levelUpIssues(next, prev, content)
+    .filter((i) => i.blocking)
+    .map((i) => i.message);
 
 describe('мультикласс при повышении уровня', () => {
   const irma = irmaLevel1(); // плут 1: СИЛ 8, ЛОВ 17, ТЕЛ 14, ИНТ 14, МДР 12, ХАР 10
@@ -37,22 +40,38 @@ describe('мультикласс при повышении уровня', () => 
   test('плут → воин: стиль боя и приёмы оружия, хиты — среднее к10 + ТЕЛ', () => {
     const next = startLevelUp(irma, 'fighter');
     const plan = levelUpPlan(next, content, 'fighter');
-    expect(plan).toMatchObject({ isNewClass: true, toLevel: 1, charLevel: 2, fightingStyles: 1, multiclassChoices: [] });
+    expect(plan).toMatchObject({
+      isNewClass: true,
+      toLevel: 1,
+      charLevel: 2,
+      fightingStyles: 1,
+      multiclassChoices: [],
+    });
     expect(levelUpHpGain(next, irma, content)).toBe(6 + 2);
     expect(blocking(next, irma)).toContain('Выберите боевой стиль');
   });
 
   test('плут → волшебник: книга из 6 заклинаний и заклинания волшебника — напоминания', () => {
     const next = startLevelUp(irma, 'wizard');
-    const soft = levelUpIssues(next, irma, content).filter((i) => !i.blocking).map((i) => i.message);
+    const soft = levelUpIssues(next, irma, content)
+      .filter((i) => !i.blocking)
+      .map((i) => i.message);
     expect(soft.some((m) => /книг.*6/.test(m))).toBe(true);
     expect(soft.some((m) => /заклинан/i.test(m))).toBe(true);
     const done = finishLevelUp(next, irma, content);
-    expect(computeSheet(done, content).spellcasting).toMatchObject({ classId: 'wizard', slots: [2, 0, 0, 0, 0, 0, 0, 0, 0] });
+    expect(computeSheet(done, content).spellcasting).toMatchObject({
+      classId: 'wizard',
+      slots: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+    });
   });
 
   test('воин → плут: навык на выбор, 2 компетентности, язык от «Воровского жаргона»', () => {
-    const fighter: Character = { ...irmaLevel1(), classes: [{ classId: 'fighter', level: 1 }], choices: {}, expertise: [] };
+    const fighter: Character = {
+      ...irmaLevel1(),
+      classes: [{ classId: 'fighter', level: 1 }],
+      choices: {},
+      expertise: [],
+    };
     const next = startLevelUp(fighter, 'rogue');
     const plan = levelUpPlan(next, content, 'rogue');
     expect(plan.multiclassChoices).toEqual([expect.objectContaining({ key: 'mc.rogue.prof.0', choose: 1 })]);
@@ -73,7 +92,13 @@ describe('мультикласс при повышении уровня', () => 
   });
 
   test('черта за уровень помечается общим уровнем: плут 4 при волшебнике 1 — 5-й уровень персонажа', () => {
-    const c: Character = { ...irmaLevel1(), classes: [{ classId: 'rogue', level: 3 }, { classId: 'wizard', level: 1 }] };
+    const c: Character = {
+      ...irmaLevel1(),
+      classes: [
+        { classId: 'rogue', level: 3 },
+        { classId: 'wizard', level: 1 },
+      ],
+    };
     const next = startLevelUp(c, 'rogue');
     const plan = levelUpPlan(next, content, 'rogue');
     expect(plan).toMatchObject({ toLevel: 4, charLevel: 5, featSlot: 'asi' });

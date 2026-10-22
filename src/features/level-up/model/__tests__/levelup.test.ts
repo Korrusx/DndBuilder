@@ -43,9 +43,16 @@ describe('повышение уровня: Ирма Вейл до 5-го', () =>
 
     // 4-й: «Увеличение характеристик» ЛОВ +1, ТЕЛ +1.
     const at4 = startLevelUp(irma);
-    expect(levelFeatOptions(at4, content, 'asi')).toEqual(expect.arrayContaining(['ability-score-improvement', 'grappler', 'skilled']));
+    expect(levelFeatOptions(at4, content, 'asi')).toEqual(
+      expect.arrayContaining(['ability-score-improvement', 'grappler', 'skilled']),
+    );
     expect(blocking(at4, irma)).toEqual(['Выберите увеличение характеристик или черту']);
-    const badAsi = { ...at4, feats: [{ featId: 'ability-score-improvement', source: 'class' as const, level: 4, abilityIncreases: { dex: 1 } }] };
+    const badAsi = {
+      ...at4,
+      feats: [
+        { featId: 'ability-score-improvement', source: 'class' as const, level: 4, abilityIncreases: { dex: 1 } },
+      ],
+    };
     expect(blocking(badAsi, irma)).toEqual(['Распределите +2 к характеристикам']);
     irma = levelUp(irma, (n) => ({
       ...n,
@@ -104,19 +111,27 @@ describe('выборы других классов', () => {
 
   test('эпический дар: +1 к характеристике до 30', () => {
     expect(featAbilityRule('boon-of-fate', content)).toMatchObject({ mode: 'one', cap: 30 });
-    const prev = { ...at('fighter', 18), baseAbilities: { str: 20, dex: 14, con: 14, int: 10, wis: 10, cha: 8 }, backgroundBonuses: {} };
+    const prev = {
+      ...at('fighter', 18),
+      baseAbilities: { str: 20, dex: 14, con: 14, int: 10, wis: 10, cha: 8 },
+      backgroundBonuses: {},
+    };
     const next = startLevelUp(prev);
     expect(levelUpPlan(next, content).featSlot).toBe('epic-boon');
     const withBoon = {
       ...next,
-      feats: [{ featId: 'boon-of-fate', source: 'class' as const, level: 19, abilityIncreases: { str: 1 }, abilityCap: 30 }],
+      feats: [
+        { featId: 'boon-of-fate', source: 'class' as const, level: 19, abilityIncreases: { str: 1 }, abilityCap: 30 },
+      ],
     };
     expect(blocking(withBoon, prev)).toEqual([]);
     expect(computeSheet(withBoon, content).abilities.str.score).toBe(21);
   });
 
-  test('подклассы Player\'s Handbook: по 4 на класс, умения подкласса появляются на своих уровнях', () => {
-    for (const cls of content.classes) expect(cls.subclasses).toHaveLength(4);
+  test("подклассы Player's Handbook: по 4 на класс, умения подкласса появляются на своих уровнях", () => {
+    for (const cls of content.classes) {
+      expect(cls.subclasses).toHaveLength(4);
+    }
     const prev = at('rogue', 2);
     const next = startLevelUp(prev);
     expect(levelUpPlan(next, content).needsSubclass).toBe(true);
@@ -146,7 +161,11 @@ describe('выборы других классов', () => {
 describe('книга волшебника при повышении уровня', () => {
   test('на 2-м уровне нужно вписать в книгу ещё 2 заклинания (не блокирует)', () => {
     const level1 = content.spells.filter((s) => s.level === 1 && s.classes.includes('wizard')).map((s) => s.id);
-    const prev: Character = { ...irmaLevel1(), classes: [{ classId: 'wizard', level: 1 }], choices: { 'class.wizard.spellbook': level1.slice(0, 6) } };
+    const prev: Character = {
+      ...irmaLevel1(),
+      classes: [{ classId: 'wizard', level: 1 }],
+      choices: { 'class.wizard.spellbook': level1.slice(0, 6) },
+    };
     const next = startLevelUp(prev);
     const issue = levelUpIssues(next, prev, content).find((i) => i.action === 'spells' && /книг/.test(i.message));
     expect(issue).toMatchObject({ blocking: false });

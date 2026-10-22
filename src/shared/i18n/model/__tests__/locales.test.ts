@@ -7,8 +7,11 @@ function keys(dict: object, prefix = ''): Set<string> {
   const out = new Set<string>();
   for (const [k, v] of Object.entries(dict)) {
     const key = prefix + k.replace(/_(zero|one|two|few|many|other)$/, '');
-    if (v && typeof v === 'object') keys(v, `${key}.`).forEach((x) => out.add(x));
-    else out.add(key);
+    if (v && typeof v === 'object') {
+      keys(v, `${key}.`).forEach((x) => out.add(x));
+    } else {
+      out.add(key);
+    }
   }
   return out;
 }

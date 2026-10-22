@@ -31,7 +31,13 @@ export async function saveCharacter(db: SQLiteDatabase, c: Character): Promise<C
      ON CONFLICT(id) DO UPDATE SET
        name = excluded.name, status = excluded.status, draft_step = excluded.draft_step,
        data = excluded.data, updated_at = excluded.updated_at`,
-    r.id, r.name, r.status, r.draft_step, r.data, r.created_at, r.updated_at,
+    r.id,
+    r.name,
+    r.status,
+    r.draft_step,
+    r.data,
+    r.created_at,
+    r.updated_at,
   );
   return saved;
 }
@@ -39,7 +45,9 @@ export async function saveCharacter(db: SQLiteDatabase, c: Character): Promise<C
 /** Сохраняет сразу несколько персонажей одной транзакцией (импорт из файла). */
 export async function saveCharacters(db: SQLiteDatabase, list: Character[]): Promise<void> {
   await db.withTransactionAsync(async () => {
-    for (const c of list) await saveCharacter(db, c);
+    for (const c of list) {
+      await saveCharacter(db, c);
+    }
   });
 }
 
@@ -49,8 +57,12 @@ export async function deleteCharacter(db: SQLiteDatabase, id: string): Promise<v
 
 /** Удаляет сразу несколько персонажей одной транзакцией. */
 export async function deleteCharacters(db: SQLiteDatabase, ids: string[]): Promise<void> {
-  if (ids.length === 0) return;
+  if (ids.length === 0) {
+    return;
+  }
   await db.withTransactionAsync(async () => {
-    for (const id of ids) await db.runAsync('DELETE FROM characters WHERE id = ?', id);
+    for (const id of ids) {
+      await db.runAsync('DELETE FROM characters WHERE id = ?', id);
+    }
   });
 }

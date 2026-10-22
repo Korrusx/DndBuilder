@@ -16,7 +16,10 @@ const A4 = { width: 595, height: 842 };
 
 /** Имя файла без символов, запрещённых в именах файлов. */
 export function pdfFileName(name: string): string {
-  const safe = name.replace(/[\\/:*?"<>|\n\r\t]+/g, ' ').trim().slice(0, 60);
+  const safe = name
+    .replace(/[\\/:*?"<>|\n\r\t]+/g, ' ')
+    .trim()
+    .slice(0, 60);
   return `${safe || t('files.pdfName')}.pdf`;
 }
 
@@ -25,13 +28,28 @@ export async function exportCharacterPdf(c: Character): Promise<void> {
   const html = characterSheetHtml(c, content, PDF_FONT_CSS);
   // В Expo Go «Поделиться» может читать только папки приложения, а печать кладёт файл в чужую папку
   // (Not allowed to read file under given url). Поэтому берём содержимое PDF и сами пишем файл в кэш приложения.
-  const { base64 } = await Print.printToFileAsync({ html, ...A4, base64: true, margins: { left: 0, right: 0, top: 0, bottom: 0 } });
-  if (!base64) throw new Error(t('files.noPdf'));
+  const { base64 } = await Print.printToFileAsync({
+    html,
+    ...A4,
+    base64: true,
+    margins: { left: 0, right: 0, top: 0, bottom: 0 },
+  });
+  if (!base64) {
+    throw new Error(t('files.noPdf'));
+  }
   const target = new File(Paths.cache, pdfFileName(c.name));
-  if (target.exists) target.delete();
+  if (target.exists) {
+    target.delete();
+  }
   target.create();
   target.write(base64, { encoding: 'base64' });
 
-  if (!(await Sharing.isAvailableAsync())) throw new Error(t('files.cantShare'));
-  await Sharing.shareAsync(target.uri, { mimeType: 'application/pdf', UTI: 'com.adobe.pdf', dialogTitle: c.name || t('files.dialogSheet') });
+  if (!(await Sharing.isAvailableAsync())) {
+    throw new Error(t('files.cantShare'));
+  }
+  await Sharing.shareAsync(target.uri, {
+    mimeType: 'application/pdf',
+    UTI: 'com.adobe.pdf',
+    dialogTitle: c.name || t('files.dialogSheet'),
+  });
 }

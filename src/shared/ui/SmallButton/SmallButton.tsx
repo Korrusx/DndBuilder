@@ -7,13 +7,7 @@ import { styles } from './SmallButton.styles';
 import type { SmallButtonProps } from './SmallButton.types';
 
 /** Небольшая кнопка (44 px) с цветом урона/лечения/акцента. */
-export function SmallButton({
-  title,
-  onPress,
-  tone = 'neutral',
-  disabled,
-  flex,
-}: SmallButtonProps) {
+export function SmallButton({ title, onPress, tone = 'neutral', disabled, flex }: SmallButtonProps) {
   const palette = {
     neutral: { bg: colors.surface2, fg: colors.text },
     damage: { bg: colors.damageBg, fg: colors.damage },

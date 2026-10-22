@@ -26,14 +26,23 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
   const dice = request?.variants?.[variant]?.dice ?? request?.dice ?? '';
   const bonus = request?.variants?.[variant]?.bonus ?? request?.bonus ?? 0;
 
+  const criticalOptions = [
+    { value: 'normal' as const, label: t('roll.normal') },
+    { value: 'crit' as const, label: t('roll.critical') },
+  ];
+
   const doRoll = (crit: boolean, d = dice, b = bonus) => {
-    if (!request) return;
+    if (!request) {
+      return;
+    }
     const r = rollDamage(d, b, crit, secureRandom, request.minDie);
     show(r, DICE_3D_SIDES.includes(r.sides) && r.dice.length > 0 && r.dice.length <= DICE_3D_MAX);
   };
 
   useEffect(() => {
-    if (!request) return;
+    if (!request) {
+      return;
+    }
     setCritical(false);
     setVariant(0);
     doRoll(false, request.variants?.[0]?.dice ?? request.dice, request.variants?.[0]?.bonus ?? request.bonus);
@@ -73,10 +82,7 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
             setCritical(v === 'crit');
             doRoll(v === 'crit');
           }}
-          options={[
-            { value: 'normal', label: t('roll.normal') },
-            { value: 'crit', label: t('roll.critical') },
-          ]}
+          options={criticalOptions}
         />
       )}
       {use3d && request && roll?.on3d !== false ? (
@@ -107,7 +113,12 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
         </View>
       ) : null}
       <View style={styles.buttons}>
-        <Button title={t('common.rollAgain')} variant="secondary" onPress={() => doRoll(critical)} style={styles.fill} />
+        <Button
+          title={t('common.rollAgain')}
+          variant="secondary"
+          onPress={() => doRoll(critical)}
+          style={styles.fill}
+        />
         <Button title={t('common.done')} onPress={onClose} style={styles.fill} />
       </View>
     </BottomSheet>

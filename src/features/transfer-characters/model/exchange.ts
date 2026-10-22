@@ -15,7 +15,13 @@ export function buildExchange(characters: Character[], now: string, contentVersi
 
 /** Имя файла: «Ирма Вейл.dnd.json» для одного персонажа, «Персонажи 2026-10-11.dnd.json» для нескольких. */
 export function exchangeFileName(characters: Character[], now: string): string {
-  const one = characters.length === 1 ? characters[0].name.replace(/[\\/:*?"<>|\n\r\t]+/g, ' ').trim().slice(0, 60) : '';
+  const one =
+    characters.length === 1
+      ? characters[0].name
+          .replace(/[\\/:*?"<>|\n\r\t]+/g, ' ')
+          .trim()
+          .slice(0, 60)
+      : '';
   return `${one || t('files.manyName', { date: now.slice(0, 10) })}.dnd.json`;
 }
 
@@ -26,26 +32,55 @@ const isStringArray = (x: unknown) => x === undefined || (Array.isArray(x) && x.
 
 /** Почему запись не похожа на персонажа (или null, если похожа). */
 function shapeProblem(x: unknown): string | null {
-  if (!isObject(x)) return t('import.shape.notCharacter');
-  if (typeof x.name !== 'string') return t('import.shape.noName');
-  if (!Array.isArray(x.classes)) return t('import.shape.noClasses');
+  if (!isObject(x)) {
+    return t('import.shape.notCharacter');
+  }
+  if (typeof x.name !== 'string') {
+    return t('import.shape.noName');
+  }
+  if (!Array.isArray(x.classes)) {
+    return t('import.shape.noClasses');
+  }
   for (const e of x.classes) {
     if (!isObject(e) || typeof e.classId !== 'string' || typeof e.level !== 'number' || e.level < 1 || e.level > 20) {
       return t('import.shape.badLevels');
     }
   }
-  if (typeof x.speciesId !== 'string' || typeof x.backgroundId !== 'string') return t('import.shape.noOrigin');
+  if (typeof x.speciesId !== 'string' || typeof x.backgroundId !== 'string') {
+    return t('import.shape.noOrigin');
+  }
   // Поля нет у персонажей, сохранённых до появления редакции 2014: они по 2024.
-  if (x.edition !== undefined && x.edition !== '2014' && x.edition !== '2024') return t('import.shape.badEdition');
-  if (!isObject(x.baseAbilities) || !ABILITY_IDS.every((a) => typeof (x.baseAbilities as Record<string, unknown>)[a] === 'number')) {
+  if (x.edition !== undefined && x.edition !== '2014' && x.edition !== '2024') {
+    return t('import.shape.badEdition');
+  }
+  if (
+    !isObject(x.baseAbilities) ||
+    !ABILITY_IDS.every((a) => typeof (x.baseAbilities as Record<string, unknown>)[a] === 'number')
+  ) {
     return t('import.shape.badAbilities');
   }
-  for (const key of ['skillProficiencies', 'expertise', 'languages', 'toolProficiencies', 'weaponMasteries', 'cantrips', 'preparedSpells']) {
-    if (!isStringArray(x[key])) return t('import.shape.badField', { key });
+  for (const key of [
+    'skillProficiencies',
+    'expertise',
+    'languages',
+    'toolProficiencies',
+    'weaponMasteries',
+    'cantrips',
+    'preparedSpells',
+  ]) {
+    if (!isStringArray(x[key])) {
+      return t('import.shape.badField', { key });
+    }
   }
-  if (x.equipment !== undefined && !Array.isArray(x.equipment)) return t('import.shape.badEquipment');
-  if (x.feats !== undefined && !Array.isArray(x.feats)) return t('import.shape.badFeats');
-  if (x.state !== undefined && !isObject(x.state)) return t('import.shape.badState');
+  if (x.equipment !== undefined && !Array.isArray(x.equipment)) {
+    return t('import.shape.badEquipment');
+  }
+  if (x.feats !== undefined && !Array.isArray(x.feats)) {
+    return t('import.shape.badFeats');
+  }
+  if (x.state !== undefined && !isObject(x.state)) {
+    return t('import.shape.badState');
+  }
   return null;
 }
 
@@ -69,7 +104,9 @@ function unknownRefs(c: Character, content: Content): string[] {
 
 /** Для сообщения об ошибке: размер и начало прочитанного, без управляющих символов. */
 export function describeStart(text: string): string {
-  if (!text) return t('import.empty');
+  if (!text) {
+    return t('import.empty');
+  }
   const start = text.slice(0, 60).replace(/[\u0000-\u001f\u007f-\u009f\ufffd]/g, '·');
   return t('import.readStart', { length: text.length, start: `${start}${text.length > 60 ? '…' : ''}` });
 }
@@ -79,8 +116,15 @@ export function describeStart(text: string): string {
  * Персонажи, которых нельзя открыть (неизвестный класс, вид или предыстория), пропускаются с предупреждением.
  * Каждый персонаж проверяется по справочнику своей редакции (`contentOf`).
  */
-export function parseExchange(text: string, contentOf: (edition: Edition) => Content, makeId: () => string, now: string): ImportResult {
-  if (text.length > EXCHANGE_MAX_BYTES) throw new ImportError(t('import.tooBig'));
+export function parseExchange(
+  text: string,
+  contentOf: (edition: Edition) => Content,
+  makeId: () => string,
+  now: string,
+): ImportResult {
+  if (text.length > EXCHANGE_MAX_BYTES) {
+    throw new ImportError(t('import.tooBig'));
+  }
   // Невидимая метка порядка байтов (BOM) и пробелы по краям появляются, если файл пересохранили другим приложением.
   const body = text.replace(/^\uFEFF/, '').trim();
   if (body.startsWith('%PDF')) {
@@ -98,7 +142,9 @@ export function parseExchange(text: string, contentOf: (edition: Edition) => Con
   if (typeof data.version !== 'number' || data.version > EXCHANGE_VERSION) {
     throw new ImportError(t('import.newer'));
   }
-  if (!Array.isArray(data.characters) || data.characters.length === 0) throw new ImportError(t('import.noCharacters'));
+  if (!Array.isArray(data.characters) || data.characters.length === 0) {
+    throw new ImportError(t('import.noCharacters'));
+  }
 
   const characters: Character[] = [];
   const warnings: string[] = [];
@@ -110,7 +156,10 @@ export function parseExchange(text: string, contentOf: (edition: Edition) => Con
   });
 
   data.characters.forEach((raw: unknown, i: number) => {
-    const label = isObject(raw) && typeof raw.name === 'string' && raw.name.trim() ? `«${raw.name.trim()}»` : t('import.number', { n: i + 1 });
+    const label =
+      isObject(raw) && typeof raw.name === 'string' && raw.name.trim()
+        ? `«${raw.name.trim()}»`
+        : t('import.number', { n: i + 1 });
     const problem = shapeProblem(raw);
     if (problem) {
       warnings.push(t('import.skipped', { label, reason: problem }));
@@ -124,9 +173,13 @@ export function parseExchange(text: string, contentOf: (edition: Edition) => Con
 
     const missing = [
       ...c.classes.filter((e) => !known.classes.has(e.classId)).map((e) => t('import.missingClass', { id: e.classId })),
-      ...c.classes.filter((e) => e.subclassId && !known.subclasses.has(e.subclassId)).map((e) => t('import.missingSubclass', { id: e.subclassId })),
+      ...c.classes
+        .filter((e) => e.subclassId && !known.subclasses.has(e.subclassId))
+        .map((e) => t('import.missingSubclass', { id: e.subclassId })),
       ...(c.speciesId && !known.species.has(c.speciesId) ? [t('import.missingSpecies', { id: c.speciesId })] : []),
-      ...(c.backgroundId && !known.backgrounds.has(c.backgroundId) ? [t('import.missingBackground', { id: c.backgroundId })] : []),
+      ...(c.backgroundId && !known.backgrounds.has(c.backgroundId)
+        ? [t('import.missingBackground', { id: c.backgroundId })]
+        : []),
     ];
     if (missing.length) {
       warnings.push(t('import.skipped', { label, reason: t('import.missing', { list: missing.join(', ') }) }));
@@ -136,15 +189,21 @@ export function parseExchange(text: string, contentOf: (edition: Edition) => Con
       try {
         computeSheet(c, content);
       } catch (err) {
-        warnings.push(t('import.skipped', { label, reason: err instanceof Error ? err.message : t('import.sheetFailed') }));
+        warnings.push(
+          t('import.skipped', { label, reason: err instanceof Error ? err.message : t('import.sheetFailed') }),
+        );
         return;
       }
     }
     const unknown = unknownRefs(c, content);
-    if (unknown.length) warnings.push(t('import.unknownRefs', { label, list: unknown.join(', ') }));
+    if (unknown.length) {
+      warnings.push(t('import.unknownRefs', { label, list: unknown.join(', ') }));
+    }
     characters.push(c);
   });
 
-  if (characters.length === 0) throw new ImportError([t('import.noneLoaded'), ...warnings].join('\n'));
+  if (characters.length === 0) {
+    throw new ImportError([t('import.noneLoaded'), ...warnings].join('\n'));
+  }
   return { characters, warnings };
 }

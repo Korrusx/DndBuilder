@@ -30,9 +30,9 @@ import { Stat } from '../Stat/Stat';
 import { styles } from './SheetPreview.styles';
 import type { SheetPreviewProps } from './SheetPreview.types';
 
-export function SheetPreview({ c, sheet }: SheetPreviewProps) {
+export function SheetPreview({ character, sheet }: SheetPreviewProps) {
   const { t } = useTranslation();
-  const speciesSpells = speciesSpellcasting(c, content, sheet);
+  const speciesSpells = speciesSpellcasting(character, content, sheet);
   const main = [
     { label: t('stats.hp'), value: String(sheet.maxHp) },
     { label: t('stats.ac'), value: String(sheet.armorClass) },
@@ -73,7 +73,9 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
               {skills.map((s) => (
                 <View key={s.id} style={styles.line}>
                   <AppText style={styles.profMark}>{s.expertise ? '◆' : s.proficient ? '●' : ''}</AppText>
-                  <AppText style={s.proficient ? styles.skillName : styles.skillNameDim}>{nameOf('skills', s.id)}</AppText>
+                  <AppText style={s.proficient ? styles.skillName : styles.skillNameDim}>
+                    {nameOf('skills', s.id)}
+                  </AppText>
                   <AppText style={styles.num}>{formatModifier(s.bonus)}</AppText>
                 </View>
               ))}
@@ -96,14 +98,17 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
         </Section>
       ) : null}
 
-      {c.cantrips.length || c.preparedSpells.length ? (
+      {character.cantrips.length || character.preparedSpells.length ? (
         <Section title={t('preview.spells')}>
           {sheet.spellcasting ? (
             <AppText variant="secondary">
-              {t('preview.spellStats', { dc: sheet.spellcasting.saveDC, attack: formatModifier(sheet.spellcasting.attackBonus) })}
+              {t('preview.spellStats', {
+                dc: sheet.spellcasting.saveDC,
+                attack: formatModifier(sheet.spellcasting.attackBonus),
+              })}
             </AppText>
           ) : null}
-          <AppText>{[...c.cantrips, ...c.preparedSpells].map(spellName).join(', ')}</AppText>
+          <AppText>{[...character.cantrips, ...character.preparedSpells].map(spellName).join(', ')}</AppText>
         </Section>
       ) : null}
 
@@ -111,7 +116,11 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
         <Section title={t('magic.species')}>
           {speciesSpells.ability ? (
             <AppText variant="secondary">
-              {t('magic.speciesStats', { ability: abilityAbbr(speciesSpells.ability), dc: speciesSpells.saveDC, attack: formatModifier(speciesSpells.attackBonus ?? 0) })}
+              {t('magic.speciesStats', {
+                ability: abilityAbbr(speciesSpells.ability),
+                dc: speciesSpells.saveDC,
+                attack: formatModifier(speciesSpells.attackBonus ?? 0),
+              })}
             </AppText>
           ) : null}
           <AppText>{speciesSpells.spells.map((s) => spellName(s.spellId)).join(', ')}</AppText>
@@ -119,9 +128,13 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
       ) : null}
 
       {(['invocation', 'metamagic'] as const).map((kind) =>
-        chosenClassOptions(c, kind).length ? (
+        chosenClassOptions(character, kind).length ? (
           <Section key={kind} title={t(`classOptions.${kind}`)}>
-            <AppText>{chosenClassOptions(c, kind).map((id) => localizeText(byId.classOptions.get(id)?.name).text || id).join(', ')}</AppText>
+            <AppText>
+              {chosenClassOptions(character, kind)
+                .map((id) => localizeText(byId.classOptions.get(id)?.name).text || id)
+                .join(', ')}
+            </AppText>
           </Section>
         ) : null,
       )}
@@ -144,8 +157,14 @@ export function SheetPreview({ c, sheet }: SheetPreviewProps) {
             .map(proficiencyName)
             .join(', ') || '—'}
         </AppText>
-        <AppText variant="secondary">{t('preview.languages', { list: knownLanguages(c, content).map((l) => nameOf('languages', l)).join(', ') })}</AppText>
-        <AppText variant="secondary">{t('preview.coins', { list: coinsText(c.coins) || '—' })}</AppText>
+        <AppText variant="secondary">
+          {t('preview.languages', {
+            list: knownLanguages(character, content)
+              .map((l) => nameOf('languages', l))
+              .join(', '),
+          })}
+        </AppText>
+        <AppText variant="secondary">{t('preview.coins', { list: coinsText(character.coins) || '—' })}</AppText>
       </Section>
     </>
   );

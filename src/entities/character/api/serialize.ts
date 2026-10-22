@@ -1,6 +1,6 @@
 // Превращение персонажа в строку таблицы и обратно.
 
-import { withDefaults } from "../model/normalize";
+import { withDefaults } from '../model/normalize';
 
 import type { Character } from '../model/types';
 import type { CharacterRow } from './types';
@@ -23,6 +23,12 @@ export function characterToRow(c: Character): CharacterRow {
  */
 export function rowToCharacter(row: CharacterRow): Character {
   const saved = JSON.parse(row.data) as Partial<Character>;
-  const fallbackStatus: Character['status'] = row.status === 'ready' ? { kind: 'ready' } : { kind: 'draft', step: row.draft_step ?? 1 };
-  return withDefaults(saved, { id: row.id, createdAt: row.created_at, updatedAt: row.updated_at, status: fallbackStatus });
+  const fallbackStatus: Character['status'] =
+    row.status === 'ready' ? { kind: 'ready' } : { kind: 'draft', step: row.draft_step ?? 1 };
+  return withDefaults(saved, {
+    id: row.id,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    status: fallbackStatus,
+  });
 }

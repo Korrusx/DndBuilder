@@ -13,20 +13,16 @@ import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
 
 import type { MagicInitiateProps } from './MagicInitiate.types';
 
-export function MagicInitiate({
-  slot,
-  fixedList,
-  setChoice,
-}: MagicInitiateProps) {
-  const { character: c, update } = useDraft();
+export function MagicInitiate({ slot, fixedList, setChoice }: MagicInitiateProps) {
+  const { character, update } = useDraft();
   const { t } = useTranslation();
   const listKey = CHOICE_KEYS.featSpellList(slot);
-  const list = fixedList ?? choice1(c, listKey);
+  const list = fixedList ?? choice1(character, listKey);
   const abilityKey = CHOICE_KEYS.featAbility(slot);
   const cantripsKey = CHOICE_KEYS.featCantrips(slot);
   const spellKey = CHOICE_KEYS.featSpell(slot);
   // 2014: шесть классов на выбор, характеристика — заклинательная характеристика выбранного класса.
-  const is2014 = c.edition === '2014';
+  const is2014 = character.edition === '2014';
   const lists = is2014 ? MAGIC_INITIATE_LISTS_2014 : MAGIC_INITIATE_LISTS;
   const classAbility = (id: string) => byId.classes.get(id)?.spellcasting?.ability;
 
@@ -65,26 +61,31 @@ export function MagicInitiate({
           <AppText variant="secondary">{t('magicInitiate.ability')}</AppText>
           <ChipRow>
             {MAGIC_INITIATE_ABILITIES.map((id) => (
-              <Chip key={id} label={abilityAbbr(id)} selected={choice1(c, abilityKey) === id} onPress={() => setChoice(abilityKey, [id])} />
+              <Chip
+                key={id}
+                label={abilityAbbr(id)}
+                selected={choice1(character, abilityKey) === id}
+                onPress={() => setChoice(abilityKey, [id])}
+              />
             ))}
           </ChipRow>
         </>
       )}
       {list ? (
         <>
-          <Section title={t('magicInitiate.cantrips')} picked={c.choices[cantripsKey]?.length ?? 0} need={2}>
+          <Section title={t('magicInitiate.cantrips')} picked={character.choices[cantripsKey]?.length ?? 0} need={2}>
             <MultiPick
               options={spellOptions(list, 0, content)}
-              selected={c.choices[cantripsKey] ?? []}
+              selected={character.choices[cantripsKey] ?? []}
               max={2}
               label={spellName}
               onChange={(ids) => setChoice(cantripsKey, ids)}
             />
           </Section>
-          <Section title={t('magicInitiate.spell')} picked={c.choices[spellKey]?.length ?? 0} need={1}>
+          <Section title={t('magicInitiate.spell')} picked={character.choices[spellKey]?.length ?? 0} need={1}>
             <MultiPick
               options={spellOptions(list, 1, content)}
-              selected={c.choices[spellKey] ?? []}
+              selected={character.choices[spellKey] ?? []}
               max={1}
               label={spellName}
               onChange={(ids) => setChoice(spellKey, ids)}

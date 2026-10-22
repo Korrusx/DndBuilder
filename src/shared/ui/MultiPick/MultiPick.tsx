@@ -6,14 +6,7 @@ import type { MultiPickProps } from './MultiPick.types';
  * Выбор нескольких вариантов из списка с ограничением.
  * `blocked` — варианты, которые уже даны или выбраны в другом месте.
  */
-export function MultiPick({
-  options,
-  selected,
-  max,
-  label,
-  blocked,
-  onChange,
-}: MultiPickProps) {
+export function MultiPick({ options, selected, max, label, blocked, onChange }: MultiPickProps) {
   const full = selected.length >= max;
   const selectedSet = new Set(selected);
   return (

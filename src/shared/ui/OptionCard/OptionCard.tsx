@@ -9,15 +9,7 @@ import { styles } from './OptionCard.styles';
 import type { OptionCardProps } from './OptionCard.types';
 
 /** Карточка варианта (класс, предыстория, вид, набор снаряжения). */
-export function OptionCard({
-  title,
-  lines,
-  selected,
-  onPress,
-  compact,
-  icon,
-  pattern,
-}: OptionCardProps) {
+export function OptionCard({ title, lines, selected, onPress, compact, icon, pattern }: OptionCardProps) {
   const heading = typeof title === 'string' ? <AppText variant="heading">{title}</AppText> : title;
   const body = (
     <>
@@ -41,7 +33,9 @@ export function OptionCard({
       )}
     </>
   );
-  if (!onPress) return <View style={[styles.card, compact && styles.cardCompact]}>{body}</View>;
+  if (!onPress) {
+    return <View style={[styles.card, compact && styles.cardCompact]}>{body}</View>;
+  }
   return (
     <Pressable
       accessibilityRole="button"

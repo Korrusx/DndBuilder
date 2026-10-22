@@ -17,7 +17,9 @@ export function characterSummary(c: Character, content: Content): CharacterSumma
     species: idx.species.get(c.speciesId)?.name,
     background: idx.backgrounds.get(c.backgroundId)?.name,
   };
-  if (c.status.kind !== 'ready') return summary;
+  if (c.status.kind !== 'ready') {
+    return summary;
+  }
   try {
     const sheet = computeSheet(c, content);
     summary.hp = { current: Math.min(c.state.currentHp, sheet.maxHp), max: sheet.maxHp };
@@ -31,7 +33,11 @@ export function characterSummary(c: Character, content: Content): CharacterSumma
 /** Доля оставшихся хитов → цвет полосы: >50% хорошо, >25% внимание, иначе опасно. */
 export function hpLevel(current: number, max: number): 'good' | 'warn' | 'danger' {
   const share = max > 0 ? current / max : 0;
-  if (share > 0.5) return 'good';
-  if (share > 0.25) return 'warn';
+  if (share > 0.5) {
+    return 'good';
+  }
+  if (share > 0.25) {
+    return 'warn';
+  }
   return 'danger';
 }

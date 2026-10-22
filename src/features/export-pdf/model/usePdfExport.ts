@@ -12,7 +12,9 @@ export function usePdfExport() {
   const [busy, setBusy] = useState(false);
   const run = useCallback(
     async (c: Character) => {
-      if (busy) return;
+      if (busy) {
+        return;
+      }
       setBusy(true);
       try {
         await exportCharacterPdf(c);

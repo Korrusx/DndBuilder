@@ -5,7 +5,8 @@ import { irmaLevel1 } from '../../lib/samples';
 import { featureLanguageSlots, knownLanguages, languageOptions } from '../build';
 import { computeSheet } from '../sheet';
 
-const skill = (c: ReturnType<typeof irmaLevel1>, id: string) => computeSheet(c, content).skills.find((s) => s.id === id)!;
+const skill = (c: ReturnType<typeof irmaLevel1>, id: string) =>
+  computeSheet(c, content).skills.find((s) => s.id === id)!;
 
 describe('языки от умений класса', () => {
   test('плут: воровской жаргон и ещё один язык на выбор, в том числе редкий', () => {
@@ -17,8 +18,13 @@ describe('языки от умений класса', () => {
     expect(slot.options).not.toContain('thieves-cant'); // уже даётся умением
     expect(knownLanguages(irma, content)).toContain('thieves-cant');
 
-    const chosen = { ...irma, choices: { ...irma.choices, [CHOICE_KEYS.featureLanguages('rogue-thieves-cant')]: ['abyssal'] } };
-    expect(knownLanguages(chosen, content)).toEqual(expect.arrayContaining(['common', 'halfling', 'elvish', 'thieves-cant', 'abyssal']));
+    const chosen = {
+      ...irma,
+      choices: { ...irma.choices, [CHOICE_KEYS.featureLanguages('rogue-thieves-cant')]: ['abyssal'] },
+    };
+    expect(knownLanguages(chosen, content)).toEqual(
+      expect.arrayContaining(['common', 'halfling', 'elvish', 'thieves-cant', 'abyssal']),
+    );
     expect(featureLanguageSlots(chosen, content)[0].options).toContain('abyssal'); // свой выбор остаётся в списке
   });
 
@@ -69,7 +75,17 @@ describe('редкие языки (SRD 5.2)', () => {
   test('Друидический — редкий: в стандартном выборе при создании его нет', () => {
     const rare = content.languages.filter((l) => l.rare).map((l) => l.id);
     expect(rare.sort()).toEqual(
-      ['abyssal', 'celestial', 'deep-speech', 'druidic', 'infernal', 'primordial', 'sylvan', 'thieves-cant', 'undercommon'].sort(),
+      [
+        'abyssal',
+        'celestial',
+        'deep-speech',
+        'druidic',
+        'infernal',
+        'primordial',
+        'sylvan',
+        'thieves-cant',
+        'undercommon',
+      ].sort(),
     );
     expect(languageOptions(content)).not.toContain('druidic');
   });

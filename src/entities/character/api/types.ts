@@ -1,4 +1,3 @@
-
 export type CharacterRow = {
   id: string;
   name: string;

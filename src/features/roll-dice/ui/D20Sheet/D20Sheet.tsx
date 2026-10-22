@@ -32,18 +32,32 @@ const outcome = (r: D20Roll): DiceOutcome => (r.natural === 20 ? 'crit' : r.natu
 export function D20Sheet({ request, onClose }: D20SheetProps) {
   const { t } = useTranslation();
   const [mode, setMode] = useState<D20Mode>('normal');
-  const { settings, use3d, roll, landed, show, onLanded, onError } = useDiceReveal<D20Roll>((r) => feel(r.natural), outcome);
+  const { settings, use3d, roll, landed, show, onLanded, onError } = useDiceReveal<D20Roll>(
+    (r) => feel(r.natural),
+    outcome,
+  );
   const modifier = request?.parts.reduce((s, p) => s + p.value, 0) ?? 0;
 
   const fixed = !!request?.roll;
   const doRoll = (m: D20Mode) => show(rollD20(modifier, m, secureRandom));
 
+  const d20ModeOptions = [
+    { value: 'disadvantage' as D20Mode, label: t('roll.disadvantage') },
+    { value: 'normal' as D20Mode, label: t('roll.normal') },
+    { value: 'advantage' as D20Mode, label: t('roll.advantage') },
+  ];
+
   useEffect(() => {
-    if (!request) return;
+    if (!request) {
+      return;
+    }
     const m = request.mode ?? 'normal';
     setMode(m);
-    if (request.roll) show(request.roll);
-    else doRoll(m);
+    if (request.roll) {
+      show(request.roll);
+    } else {
+      doRoll(m);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request]);
 
@@ -62,11 +76,7 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
             setMode(m);
             doRoll(m);
           }}
-          options={[
-            { value: 'disadvantage', label: t('roll.disadvantage') },
-            { value: 'normal', label: t('roll.normal') },
-            { value: 'advantage', label: t('roll.advantage') },
-          ]}
+          options={d20ModeOptions}
         />
       )}
       {use3d && request ? (

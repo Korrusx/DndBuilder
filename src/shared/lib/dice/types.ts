@@ -1,4 +1,3 @@
-
 // Кости: разбор записи «2d6», показ по-русски «2к6», броски.
 
 export type DiceExpr = { count: number; sides: number };

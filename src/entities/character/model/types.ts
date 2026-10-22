@@ -79,9 +79,19 @@ export type InventoryItem = {
 
 /** Слоты экипировки персонажа. */
 export type SlotId =
-  | 'head' | 'shoulders' | 'body' | 'hands' | 'feet'
-  | 'neck' | 'wrists' | 'belt' | 'ring1' | 'ring2'
-  | 'main' | 'off' | 'ranged';
+  | 'head'
+  | 'shoulders'
+  | 'body'
+  | 'hands'
+  | 'feet'
+  | 'neck'
+  | 'wrists'
+  | 'belt'
+  | 'ring1'
+  | 'ring2'
+  | 'main'
+  | 'off'
+  | 'ranged';
 
 export type GameState = {
   currentHp: number;
@@ -329,7 +339,14 @@ export type CharacterSheet = {
    * Основной заклинатель (первый по порядку класс с заклинаниями) и общие ячейки.
    * `slotsFromPact` — ячейки только от «Магии договора» (колдун без других заклинателей): их возвращает короткий отдых.
    */
-  spellcasting?: { classId: string; ability: AbilityId; saveDC: number; attackBonus: number; slots: number[]; slotsFromPact: boolean };
+  spellcasting?: {
+    classId: string;
+    ability: AbilityId;
+    saveDC: number;
+    attackBonus: number;
+    slots: number[];
+    slotsFromPact: boolean;
+  };
   /** Каждый класс с заклинаниями: своя характеристика, СЛ и бонус атаки. */
   spellcastingClasses: { classId: string; ability: AbilityId; saveDC: number; attackBonus: number }[];
   /** Ячейки «Магии договора» отдельно от общих — у колдуна, если есть и другой заклинатель. */

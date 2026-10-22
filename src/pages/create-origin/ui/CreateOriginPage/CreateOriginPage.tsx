@@ -14,7 +14,17 @@ import {
 } from '@/entities/character';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, abilityName, byId, content, nameOf, proficiencyName, sizeName, spellName, localizeText } from '@/shared/content';
+import {
+  abilityAbbr,
+  abilityName,
+  byId,
+  content,
+  nameOf,
+  proficiencyName,
+  sizeName,
+  spellName,
+  localizeText,
+} from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet } from '@/shared/lib/dice';
 import { AppText, Chip, ChipRow, MultiPick, OptionCard, Section } from '@/shared/ui';
@@ -25,33 +35,34 @@ import { SubspeciesPanel } from '../SubspeciesPanel/SubspeciesPanel';
 import { styles } from './CreateOriginPage.styles';
 
 export function CreateOriginPage() {
-  const { character: c, update, issues: allIssues } = useDraft();
+  const { character, update, issues: allIssues } = useDraft();
   const { t } = useTranslation();
-  const species = byId.species.get(c.speciesId);
-  const background = byId.backgrounds.get(c.backgroundId);
-  const versatile = originFeats(c, content).find((f) => f.slot === 'versatile');
+  const species = byId.species.get(character.speciesId);
+  const background = byId.backgrounds.get(character.backgroundId);
+  const versatile = originFeats(character, content).find((f) => f.slot === 'versatile');
   const issues = allIssues.filter((i) => i.step === 2);
-  const is2014 = c.edition === '2014';
+  const is2014 = character.edition === '2014';
   const setChoice = (key: string, ids: string[]) => update((d) => ({ ...d, choices: { ...d.choices, [key]: ids } }));
-  const traits = originTraitIds(c, content).flatMap((id) => byId.traits.get(id) ?? []);
+  const traits = originTraitIds(character, content).flatMap((id) => byId.traits.get(id) ?? []);
   const bonusChoice = species?.abilityBonusChoice;
   const versatileFeat = versatile?.featId ? byId.feats.get(versatile.featId) : undefined;
   const speciesRows: (typeof content.species)[] = [];
-  for (let i = 0; i < content.species.length; i += 2) speciesRows.push(content.species.slice(i, i + 2));
+  for (let i = 0; i < content.species.length; i += 2) {
+    speciesRows.push(content.species.slice(i, i + 2));
+  }
 
   return (
-    <WizardScreen
-      step={2}
-      canContinue={issues.length === 0}
-      summary={<StepStatus issues={issues} />}
-    >
-      <Section title={t('origin.background')} hint={is2014 ? t('origin.backgroundHint2014') : t('origin.backgroundHint')}>
+    <WizardScreen step={2} canContinue={issues.length === 0} summary={<StepStatus issues={issues} />}>
+      <Section
+        title={t('origin.background')}
+        hint={is2014 ? t('origin.backgroundHint2014') : t('origin.backgroundHint')}
+      >
         <ChipRow>
           {content.backgrounds.map((b) => (
             <Chip
               key={b.id}
               label={nameOf('backgrounds', b.id)}
-              selected={b.id === c.backgroundId}
+              selected={b.id === character.backgroundId}
               onPress={() => update((d) => setBackground(d, b.id))}
             />
           ))}
@@ -62,13 +73,21 @@ export function CreateOriginPage() {
         <OptionCard
           title={nameOf('backgrounds', background.id)}
           lines={[
-            ...(background.abilities.length ? [t('origin.abilities', { list: background.abilities.map(abilityAbbr).join(', ') })] : []),
+            ...(background.abilities.length
+              ? [t('origin.abilities', { list: background.abilities.map(abilityAbbr).join(', ') })]
+              : []),
             ...(background.featId
-              ? [t('origin.feat', { name: `${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}` })]
+              ? [
+                  t('origin.feat', {
+                    name: `${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}`,
+                  }),
+                ]
               : []),
             ...(background.feature ? [t('origin.feature', { name: localizeText(background.feature.name).text })] : []),
             `${t('origin.proficiencies', { list: background.proficiencies.map(proficiencyName).join(', ') })}${background.proficiencyChoices.length ? t('origin.plusChoice') : ''}`,
-            ...(background.languageChoice ? [t('origin.languagesChoice', { count: background.languageChoice.choose })] : []),
+            ...(background.languageChoice
+              ? [t('origin.languagesChoice', { count: background.languageChoice.choose })]
+              : []),
             ...(background.extra ? [t('common.fromPhb')] : []),
           ]}
         />
@@ -85,7 +104,7 @@ export function CreateOriginPage() {
                     compact
                     pattern
                     icon={SPECIES_ICONS[s.id] ?? DEFAULT_SPECIES_ICON}
-                    selected={s.id === c.speciesId}
+                    selected={s.id === character.speciesId}
                     onPress={() => update((d) => setSpecies(d, s.id, content))}
                     title={
                       <AppText style={styles.name} numberOfLines={1} adjustsFontSizeToFit>
@@ -104,7 +123,7 @@ export function CreateOriginPage() {
               {species && species.subspecies.length > 0 && row.some((s) => s.id === species.id) ? (
                 <SubspeciesPanel
                   species={species}
-                  selectedId={c.subspeciesId}
+                  selectedId={character.subspeciesId}
                   onSelect={(id) => update((d) => ({ ...d, subspeciesId: id }))}
                   hint={is2014 ? t('origin.subraceHint') : t('origin.subspeciesHint')}
                 />
@@ -118,9 +137,14 @@ export function CreateOriginPage() {
         <OptionCard
           title={nameOf('species', species.id)}
           lines={[
-            t('origin.speedSize', { speed: formatFeet(species.speed), sizes: species.sizes.map(sizeName).join(` ${t('common.or')} `) }),
+            t('origin.speedSize', {
+              speed: formatFeet(species.speed),
+              sizes: species.sizes.map(sizeName).join(` ${t('common.or')} `),
+            }),
             ...(species.abilityBonuses ? [t('origin.raceBonuses', { list: bonusText(species.abilityBonuses) })] : []),
-            ...(species.languages ? [t('origin.languages', { list: species.languages.map((id) => nameOf('languages', id)).join(', ') })] : []),
+            ...(species.languages
+              ? [t('origin.languages', { list: species.languages.map((id) => nameOf('languages', id)).join(', ') })]
+              : []),
             t('origin.traits', { list: species.traits.map((id) => nameOf('traits', id)).join(', ') }),
           ]}
         />
@@ -130,12 +154,12 @@ export function CreateOriginPage() {
         <Section
           title={t('origin.bonusChoice')}
           hint={t('origin.bonusChoiceHint', { bonus: bonusChoice.bonus, count: bonusChoice.choose })}
-          picked={(c.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []).length}
+          picked={(character.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []).length}
           need={bonusChoice.choose}
         >
           <MultiPick
             options={bonusChoice.options}
-            selected={c.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []}
+            selected={character.choices[CHOICE_KEYS.speciesAbilityBonus] ?? []}
             max={bonusChoice.choose}
             label={(id) => abilityName(id as AbilityId)}
             onChange={(ids) => setChoice(CHOICE_KEYS.speciesAbilityBonus, ids)}
@@ -146,10 +170,15 @@ export function CreateOriginPage() {
       {traits
         .filter((trait) => trait.subtraits)
         .map((trait) => (
-          <Section key={trait.id} title={localizeText(trait.name).text} picked={choice1(c, CHOICE_KEYS.traitOption(trait.id)) ? 1 : 0} need={1}>
+          <Section
+            key={trait.id}
+            title={localizeText(trait.name).text}
+            picked={choice1(character, CHOICE_KEYS.traitOption(trait.id)) ? 1 : 0}
+            need={1}
+          >
             <MultiPick
               options={trait.subtraits!}
-              selected={c.choices[CHOICE_KEYS.traitOption(trait.id)] ?? []}
+              selected={character.choices[CHOICE_KEYS.traitOption(trait.id)] ?? []}
               max={1}
               label={(id) => nameOf('traits', id)}
               onChange={(ids) => setChoice(CHOICE_KEYS.traitOption(trait.id), ids)}
@@ -163,12 +192,12 @@ export function CreateOriginPage() {
           <Section
             key={trait.id}
             title={t('origin.traitSpell', { name: localizeText(trait.name).text })}
-            picked={(c.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []).length}
+            picked={(character.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []).length}
             need={trait.spellChoice!.choose}
           >
             <MultiPick
               options={choiceOptionIds(trait.spellChoice!, content)}
-              selected={c.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []}
+              selected={character.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []}
               max={trait.spellChoice!.choose}
               label={spellName}
               onChange={(ids) => setChoice(CHOICE_KEYS.traitSpell(trait.id), ids)}
@@ -177,13 +206,17 @@ export function CreateOriginPage() {
         ))}
 
       {versatileFeat?.abilityIncrease ? (
-        <Section title={t('origin.featAbility')} picked={choice1(c, CHOICE_KEYS.versatileAbility) ? 1 : 0} need={1}>
+        <Section
+          title={t('origin.featAbility')}
+          picked={choice1(character, CHOICE_KEYS.versatileAbility) ? 1 : 0}
+          need={1}
+        >
           <ChipRow>
             {versatileFeat.abilityIncrease.abilities.map((ability) => (
               <Chip
                 key={ability}
                 label={`${abilityName(ability)} +1`}
-                selected={choice1(c, CHOICE_KEYS.versatileAbility) === ability}
+                selected={choice1(character, CHOICE_KEYS.versatileAbility) === ability}
                 onPress={() => setChoice(CHOICE_KEYS.versatileAbility, [ability])}
               />
             ))}
@@ -191,15 +224,17 @@ export function CreateOriginPage() {
         </Section>
       ) : null}
 
-      {needsSpeciesSpellAbility(c, content) ? (
+      {needsSpeciesSpellAbility(character, content) ? (
         <Section title={t('origin.spellAbility')} hint={t('origin.spellAbilityHint')}>
           <ChipRow>
             {SPECIES_SPELL_ABILITIES.map((ability) => (
               <Chip
                 key={ability}
                 label={abilityName(ability)}
-                selected={choice1(c, CHOICE_KEYS.speciesSpellAbility) === ability}
-                onPress={() => update((d) => ({ ...d, choices: { ...d.choices, [CHOICE_KEYS.speciesSpellAbility]: [ability] } }))}
+                selected={choice1(character, CHOICE_KEYS.speciesSpellAbility) === ability}
+                onPress={() =>
+                  update((d) => ({ ...d, choices: { ...d.choices, [CHOICE_KEYS.speciesSpellAbility]: [ability] } }))
+                }
               />
             ))}
           </ChipRow>
@@ -213,7 +248,7 @@ export function CreateOriginPage() {
               <Chip
                 key={size}
                 label={sizeName(size)}
-                selected={c.size === size}
+                selected={character.size === size}
                 onPress={() => update((d) => ({ ...d, size }))}
               />
             ))}
@@ -222,11 +257,16 @@ export function CreateOriginPage() {
       ) : null}
 
       {versatile ? (
-        <Section title={is2014 ? t('origin.variantFeat') : t('origin.versatile')} hint={is2014 ? t('origin.variantFeatHint') : t('origin.versatileHint')}>
+        <Section
+          title={is2014 ? t('origin.variantFeat') : t('origin.versatile')}
+          hint={is2014 ? t('origin.variantFeatHint') : t('origin.versatileHint')}
+        >
           <ChipRow>
             {content.feats
               // 2014: любая черта (кроме «Увеличения характеристик»); 2024 — черта происхождения.
-              .filter((f) => (is2014 ? f.type === 'general' && f.id !== 'ability-score-improvement' : f.type === 'origin'))
+              .filter((f) =>
+                is2014 ? f.type === 'general' && f.id !== 'ability-score-improvement' : f.type === 'origin',
+              )
               .map((f) => (
                 <Chip
                   key={f.id}
@@ -235,7 +275,9 @@ export function CreateOriginPage() {
                   onPress={() =>
                     update((d) => {
                       // Выборы прежней черты (навыки, заклинания) больше не нужны.
-                      const choices = Object.fromEntries(Object.entries(d.choices).filter(([k]) => !k.startsWith('versatile.')));
+                      const choices = Object.fromEntries(
+                        Object.entries(d.choices).filter(([k]) => !k.startsWith('versatile.')),
+                      );
                       return { ...d, choices: { ...choices, [CHOICE_KEYS.versatileFeat]: [f.id] } };
                     })
                   }

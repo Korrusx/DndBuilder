@@ -1,7 +1,14 @@
 import { content } from '@/shared/content';
 
 import { irmaLevel1 } from '../../lib/samples';
-import { classSpellLists, primaryCasterId, setClassSpellLists, spellLimits, weaponMasteryCount, weaponMasteryOptions } from '../build';
+import {
+  classSpellLists,
+  primaryCasterId,
+  setClassSpellLists,
+  spellLimits,
+  weaponMasteryCount,
+  weaponMasteryOptions,
+} from '../build';
 import { emptyGameState } from '../character';
 import { adjustPactSlot, castWithPactSlot, finishShortRest } from '../play';
 import { longRest } from '../rest';
@@ -42,7 +49,12 @@ describe('мультикласс: Ирма, плут 3 / волшебник 2', 
   });
 
   test('заклинатель один — ячейки по таблице волшебника 2-го уровня; лимиты как у волшебника 2', () => {
-    expect(sheet.spellcasting).toMatchObject({ classId: 'wizard', ability: 'int', slots: slots(3), slotsFromPact: false });
+    expect(sheet.spellcasting).toMatchObject({
+      classId: 'wizard',
+      ability: 'int',
+      slots: slots(3),
+      slotsFromPact: false,
+    });
     expect(spellLimits(irma, content)).toMatchObject({ classId: 'wizard', cantrips: 3, prepared: 5, maxSpellLevel: 1 });
     expect(spellLimits(irma, content, 'rogue')).toBeNull();
   });
@@ -53,11 +65,17 @@ describe('мультикласс: ячейки заклинаний', () => {
 
   test('несколько заклинателей — общая таблица: полные уровни + половина паладина (вверх)', () => {
     // Чародей 3 + паладин 2 → 3 + 1 = 4-й уровень таблицы: 4 / 3.
-    expect(sheetOf({ classId: 'sorcerer', level: 3 }, { classId: 'paladin', level: 2 }).spellcasting?.slots).toEqual(slots(4, 3));
+    expect(sheetOf({ classId: 'sorcerer', level: 3 }, { classId: 'paladin', level: 2 }).spellcasting?.slots).toEqual(
+      slots(4, 3),
+    );
     // Следопыт 3 + паладин 3 → 2 + 2 = 4: 4 / 3.
-    expect(sheetOf({ classId: 'ranger', level: 3 }, { classId: 'paladin', level: 3 }).spellcasting?.slots).toEqual(slots(4, 3));
+    expect(sheetOf({ classId: 'ranger', level: 3 }, { classId: 'paladin', level: 3 }).spellcasting?.slots).toEqual(
+      slots(4, 3),
+    );
     // Жрец 5 + волшебник 5 → 10: 4 / 3 / 3 / 3 / 2.
-    expect(sheetOf({ classId: 'cleric', level: 5 }, { classId: 'wizard', level: 5 }).spellcasting?.slots).toEqual(slots(4, 3, 3, 3, 2));
+    expect(sheetOf({ classId: 'cleric', level: 5 }, { classId: 'wizard', level: 5 }).spellcasting?.slots).toEqual(
+      slots(4, 3, 3, 3, 2),
+    );
   });
 
   test('у каждого заклинателя своя характеристика, СЛ и атака', () => {

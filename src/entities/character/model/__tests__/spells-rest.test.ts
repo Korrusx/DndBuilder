@@ -30,7 +30,10 @@ describe('кости', () => {
     expect(formatDamage('1d8', 0)).toBe('1к8');
   });
   test('к20 с преимуществом и помехой', () => {
-    const seq = (...v: number[]) => { let i = 0; return () => (v[i++] - 1) / 20; };
+    const seq = (...v: number[]) => {
+      let i = 0;
+      return () => (v[i++] - 1) / 20;
+    };
     expect(rollD20(4, 'advantage', seq(7, 15))).toMatchObject({ dice: [7, 15], keptIndex: 1, natural: 15, total: 19 });
     expect(rollD20(4, 'disadvantage', seq(7, 15))).toMatchObject({ keptIndex: 0, natural: 7, total: 11 });
     expect(rollD20(0, 'normal', seq(20))).toMatchObject({ dice: [20], natural: 20 });

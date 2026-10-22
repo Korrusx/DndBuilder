@@ -3,7 +3,14 @@ import { content } from '@/shared/content';
 import { CHOICE_KEYS } from '../../config/constants';
 import { irmaLevel1 } from '../../lib/samples';
 import { spellOptions } from '../build';
-import { hasSpellbook, preparableSpells, setSpellbook, spellbook, spellbookMinimum, spellbookOptions } from '../spellbook';
+import {
+  hasSpellbook,
+  preparableSpells,
+  setSpellbook,
+  spellbook,
+  spellbookMinimum,
+  spellbookOptions,
+} from '../spellbook';
 
 const level1 = spellOptions('wizard', 1, content);
 const book6 = level1.slice(0, 6);

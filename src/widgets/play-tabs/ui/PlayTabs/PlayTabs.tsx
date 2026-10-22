@@ -65,11 +65,17 @@ export function PlayTabs() {
         tabBarLabelStyle: { fontFamily: fonts.textMedium, fontSize: 12 },
       }}
     >
-      <Tabs.Screen name="index" options={{ tabBarLabel: t('tabs.sheet'), tabBarIcon: tabIcon('card-account-details-outline') }} />
+      <Tabs.Screen
+        name="index"
+        options={{ tabBarLabel: t('tabs.sheet'), tabBarIcon: tabIcon('card-account-details-outline') }}
+      />
       <Tabs.Screen name="skills" options={{ tabBarLabel: t('tabs.skills'), tabBarIcon: tabIcon('dice-d20-outline') }} />
       <Tabs.Screen name="combat" options={{ tabBarLabel: t('tabs.combat'), tabBarIcon: tabIcon('sword-cross') }} />
       <Tabs.Screen name="magic" options={{ tabBarLabel: t('tabs.magic'), tabBarIcon: tabIcon('auto-fix') }} />
-      <Tabs.Screen name="items" options={{ tabBarLabel: t('tabs.items'), tabBarIcon: tabIcon('bag-personal-outline') }} />
+      <Tabs.Screen
+        name="items"
+        options={{ tabBarLabel: t('tabs.items'), tabBarIcon: tabIcon('bag-personal-outline') }}
+      />
       <Tabs.Screen
         name="edit"
         options={{

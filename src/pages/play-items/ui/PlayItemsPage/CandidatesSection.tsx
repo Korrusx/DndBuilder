@@ -1,50 +1,15 @@
 import { Pressable, View } from 'react-native';
 
-import { computeSheet } from '@/entities/character';
-import { contentFor } from '@/shared/content';
-import type { Character, CharacterSheet, InventoryItem, SlotId } from '@/entities/character';
-import { colors } from '@/shared/config';
 import { itemName } from '@/shared/content';
-import type { Equipment, MagicItem } from '@/shared/content';
+import type { Equipment } from '@/shared/content';
+import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, GameIcon } from '@/shared/ui';
 
-import { fmtDelta, isMagicItem, isTwoHandedWeapon } from './helpers';
+import { calcHypoAc, deltaStyle, fmtDelta, isMagicItem, isTwoHandedWeapon } from './helpers';
 import { itemIcon } from '../../lib/itemIcon';
 import { styles } from './PlayItemsPage.styles';
-
-type Candidate = { inv: InventoryItem; item: Equipment | MagicItem };
-
-type Props = {
-  candidates: Candidate[];
-  selectedSlot: SlotId;
-  mainIsTwoHanded: boolean;
-  equippedSlots: Partial<Record<string, string>>;
-  attuned: number;
-  currentAc: number;
-  character: Character;
-  sheet: CharacterSheet;
-  onEquip: (slotId: SlotId, itemId: string) => void;
-};
-
-function deltaStyle(delta: number) {
-  return delta > 0 ? styles.deltaUp : delta < 0 ? styles.deltaDown : styles.deltaEq;
-}
-
-function calcHypoAc(
-  slotId: SlotId,
-  itemId: string,
-  character: Character,
-  equippedSlots: Partial<Record<string, string>>,
-  fallback: number,
-): number {
-  try {
-    const slots = { ...equippedSlots, [slotId]: itemId };
-    return computeSheet({ ...character, equippedSlots: slots }, contentFor(character.edition)).armorClass;
-  } catch {
-    return fallback;
-  }
-}
+import type { CandidatesSectionProps } from './CandidatesSection.types';
 
 export function CandidatesSection({
   candidates,
@@ -55,7 +20,7 @@ export function CandidatesSection({
   currentAc,
   character,
   onEquip,
-}: Props) {
+}: CandidatesSectionProps) {
   const { t } = useTranslation();
 
   if (selectedSlot === 'off' && mainIsTwoHanded) {
@@ -88,7 +53,11 @@ export function CandidatesSection({
           <Pressable
             key={id}
             style={[styles.opt, attuneFull ? styles.optDisabled : null]}
-            onPress={() => { if (!attuneFull) onEquip(selectedSlot, id); }}
+            onPress={() => {
+              if (!attuneFull) {
+                onEquip(selectedSlot, id);
+              }
+            }}
             disabled={attuneFull}
           >
             <GameIcon name={itemIcon(item)} size={32} color={colors.textTertiary} />
@@ -99,9 +68,7 @@ export function CandidatesSection({
               {attuneFull && <AppText style={styles.optWarn}>{t('inventory.noAttunement')}</AppText>}
             </View>
             {isWeapon ? (
-              <View style={styles.optRight}>
-                {dmgDice && <AppText style={styles.optAcVal}>{dmgDice}</AppText>}
-              </View>
+              <View style={styles.optRight}>{dmgDice && <AppText style={styles.optAcVal}>{dmgDice}</AppText>}</View>
             ) : (
               <View style={styles.optRight}>
                 <AppText style={styles.optAcVal}>{newAc}</AppText>

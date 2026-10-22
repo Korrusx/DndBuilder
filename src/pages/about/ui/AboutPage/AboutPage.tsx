@@ -1,44 +1,15 @@
 import Constants from 'expo-constants';
 import { useSQLiteContext } from 'expo-sqlite';
-import { View } from 'react-native';
 
 import { DiceSettingsSection } from '@/features/roll-dice';
-import type { Content, Edition } from '@/shared/content';
-import { contentFor, translationProgress } from '@/shared/content';
+import { contentFor } from '@/shared/content';
 import type { Language } from '@/shared/i18n';
 import { LANGUAGES, setLanguage, useTranslation } from '@/shared/i18n';
 import { AppText, Screen, Segmented } from '@/shared/ui';
 
+import { extraCount } from '../../lib/extraCount';
+import { ReferenceCard } from './ReferenceCard';
 import { styles } from './AboutPage.styles';
-
-const extraCount = (items: { extra?: boolean }[]) => items.filter((x) => x.extra).length;
-
-/** Карточка справочника одной редакции: что в нём есть и сколько переведено. */
-function ReferenceCard({ edition }: { edition: Edition }) {
-  const { t } = useTranslation();
-  const c: Content = contentFor(edition);
-  const { done, total } = translationProgress(c);
-  const percent = total ? Math.round((done / total) * 100) : 0;
-  const counts = {
-    classes: c.classes.length,
-    species: c.species.length,
-    backgrounds: c.backgrounds.length,
-    spells: c.spells.length,
-    items: c.equipment.length,
-    magicItems: c.magicItems.length,
-  };
-
-  return (
-    <View style={styles.card}>
-      <AppText>{t(edition === '2024' ? 'about.edition2024' : 'about.edition2014')}</AppText>
-      <AppText variant="secondary">{t(edition === '2024' ? 'about.counts' : 'about.counts2014', counts)}</AppText>
-      <AppText variant="secondary">{t('about.translated', { done, total, percent })}</AppText>
-      <AppText variant="secondary" style={styles.build}>
-        {t('about.build', { build: c.version })}
-      </AppText>
-    </View>
-  );
-}
 
 export function AboutPage() {
   const db = useSQLiteContext();
@@ -50,7 +21,11 @@ export function AboutPage() {
   return (
     <Screen>
       <AppText variant="heading">{t('language.title')}</AppText>
-      <Segmented<Language> options={LANGUAGES} value={i18n.language as Language} onChange={(lang) => setLanguage(db, lang)} />
+      <Segmented<Language>
+        options={LANGUAGES}
+        value={i18n.language as Language}
+        onChange={(lang) => setLanguage(db, lang)}
+      />
       <AppText variant="secondary">{t('language.hint')}</AppText>
 
       <DiceSettingsSection />

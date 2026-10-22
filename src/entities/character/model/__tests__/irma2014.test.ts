@@ -54,7 +54,16 @@ describe('Ирма Вейл 2014, плут 1 (SRD 5.1)', () => {
   test('скрытая атака 1к6; умения класса и расы; черт нет', () => {
     expect(sheet.classSpecific.rogue.sneak_attack).toEqual({ dice_count: 1, dice_value: 6 });
     const ids = sheet.features.map((f) => f.id);
-    expect(ids).toEqual(expect.arrayContaining(['sneak-attack', 'rogue-expertise-1', 'thieves-cant', 'lucky', 'brave', 'naturally-stealthy']));
+    expect(ids).toEqual(
+      expect.arrayContaining([
+        'sneak-attack',
+        'rogue-expertise-1',
+        'thieves-cant',
+        'lucky',
+        'brave',
+        'naturally-stealthy',
+      ]),
+    );
     expect(sheet.features.some((f) => f.source === 'feat')).toBe(false);
   });
 

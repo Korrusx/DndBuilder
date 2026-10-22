@@ -16,7 +16,9 @@ export function SubspeciesPanel({ species, selectedId, onSelect, hint }: Subspec
       </AppText>
       {species.subspecies.flatMap((id) => {
         const sub = byId.subspecies.get(id);
-        if (!sub) return [];
+        if (!sub) {
+          return [];
+        }
         const selected = id === selectedId;
         const { traits, description } = subspeciesSummary(sub);
         const bonuses = bonusText(sub.abilityBonuses);
@@ -28,7 +30,9 @@ export function SubspeciesPanel({ species, selectedId, onSelect, hint }: Subspec
             onPress={() => onSelect(id)}
             style={({ pressed }) => [styles.option, selected && styles.optionSelected, pressed && { opacity: 0.85 }]}
           >
-            <View style={[styles.radio, selected && styles.radioSelected]}>{selected ? <View style={styles.radioDot} /> : null}</View>
+            <View style={[styles.radio, selected && styles.radioSelected]}>
+              {selected ? <View style={styles.radioDot} /> : null}
+            </View>
             <View style={styles.text}>
               <AppText style={styles.name}>{shortSubspeciesName(id)}</AppText>
               {bonuses ? <AppText variant="secondary">{bonuses}</AppText> : null}

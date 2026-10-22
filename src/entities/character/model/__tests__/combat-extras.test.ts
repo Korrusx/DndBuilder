@@ -104,7 +104,10 @@ describe('дополнительная атака лёгким оружием', 
     expect(attackOf(plain, 'dagger').offhandDamageBonus).toBe(0); // ЛОВ +3 не прибавляется
     expect(attackOf(plain, 'shortsword').offhandDamageBonus).toBe(0);
     expect(attackOf(plain, 'shortbow').offhandDamageBonus).toBeUndefined(); // не лёгкое
-    const twf = computeSheet({ ...irmaLevel1(), feats: [{ featId: 'two-weapon-fighting', source: 'class' as const, level: 1 }] }, content);
+    const twf = computeSheet(
+      { ...irmaLevel1(), feats: [{ featId: 'two-weapon-fighting', source: 'class' as const, level: 1 }] },
+      content,
+    );
     expect(attackOf(twf, 'dagger').offhandDamageBonus).toBe(3);
   });
 

@@ -45,14 +45,17 @@ export function WizardScreen({ step, children, summary, canContinue, footer, pre
               onPress={() => goTo(n, step)}
               style={({ pressed }) => [styles.segmentHit, pressed && { opacity: 0.6 }]}
             >
-              <View style={[styles.segment, n <= step ? styles.segmentActive : open ? styles.segmentOpen : styles.segmentLocked]} />
+              <View
+                style={[
+                  styles.segment,
+                  n <= step ? styles.segmentActive : open ? styles.segmentOpen : styles.segmentLocked,
+                ]}
+              />
             </Pressable>
           );
         })}
       </View>
-      <AppText variant="secondary">
-        {t('wizard.stepOf', { step, total: CREATE_STEPS.length })}
-      </AppText>
+      <AppText variant="secondary">{t('wizard.stepOf', { step, total: CREATE_STEPS.length })}</AppText>
       <AppText variant="title">{t(`wizard.steps.${CREATE_STEPS[step - 1].id}`)}</AppText>
       {children}
     </Screen>

@@ -116,7 +116,14 @@ export {
   tomeSlots,
   unmetClassOptions,
 } from './model/classOptions';
-export { hasSpellbook, preparableSpells, setSpellbook, spellbook, spellbookMinimum, spellbookOptions } from './model/spellbook';
+export {
+  hasSpellbook,
+  preparableSpells,
+  setSpellbook,
+  spellbook,
+  spellbookMinimum,
+  spellbookOptions,
+} from './model/spellbook';
 export type { SpeciesSpell, SpeciesSpellcasting } from './model/speciesSpells';
 export { needsSpeciesSpellAbility, speciesSpellcasting } from './model/speciesSpells';
 export { hpLevel } from './model/summary';
@@ -129,6 +136,7 @@ export type {
   DamageRoll,
   EquipmentSource,
   FeatChoice,
+  GameState,
   InventoryItem,
   OriginFeatSlot,
   ProficiencySlot,
@@ -136,4 +144,5 @@ export type {
   ResourceView,
   SlotId,
   SourcedId,
+  WeaponAttack,
 } from './model/types';

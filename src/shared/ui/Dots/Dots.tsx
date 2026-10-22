@@ -6,12 +6,7 @@ import { styles } from './Dots.styles';
 import type { DotsProps } from './Dots.types';
 
 /** Кружки: потраченные ячейки, спасброски от смерти. */
-export function Dots({
-  total,
-  filled,
-  color = colors.accent,
-  onPress,
-}: DotsProps) {
+export function Dots({ total, filled, color = colors.accent, onPress }: DotsProps) {
   return (
     <View style={styles.dots}>
       {Array.from({ length: total }, (_, i) => (

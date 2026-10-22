@@ -11,7 +11,10 @@ describe('сохранение персонажа', () => {
   });
 
   test('номер шага черновика', () => {
-    const draft = { ...newDraftCharacter('d', '2026-01-01T00:00:00.000Z'), status: { kind: 'draft', step: 3 } } as const;
+    const draft = {
+      ...newDraftCharacter('d', '2026-01-01T00:00:00.000Z'),
+      status: { kind: 'draft', step: 3 },
+    } as const;
     expect(characterToRow(draft)).toMatchObject({ status: 'draft', draft_step: 3 });
   });
 

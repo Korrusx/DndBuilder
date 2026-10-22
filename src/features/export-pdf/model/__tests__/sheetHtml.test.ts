@@ -31,12 +31,19 @@ describe('лист персонажа для PDF', () => {
   });
 
   test('ячейки на бланке: 4-3-3-3-3-2-2-1-1 кружков', () => {
-    const slots = [...html.matchAll(/<div class="box slot">.*?<\/div><div class="marks">(.*?)<\/div>/g)].map((m) => (m[1].match(/<span/g) ?? []).length);
+    const slots = [...html.matchAll(/<div class="box slot">.*?<\/div><div class="marks">(.*?)<\/div>/g)].map(
+      (m) => (m[1].match(/<span/g) ?? []).length,
+    );
     expect(slots).toEqual([4, 3, 3, 3, 3, 2, 2, 1, 1]);
   });
 
   test('заклинания волшебника: заговоры первыми, затем по кругу', () => {
-    const wiz = { ...irmaLevel1(), classes: [{ classId: 'wizard', level: 1 }], cantrips: ['light'], preparedSpells: ['shield', 'magic-missile'] };
+    const wiz = {
+      ...irmaLevel1(),
+      classes: [{ classId: 'wizard', level: 1 }],
+      cantrips: ['light'],
+      preparedSpells: ['shield', 'magic-missile'],
+    };
     const list = sheetSpells(wiz, content).map((s) => s.spell.id);
     expect(list[0]).toBe('light');
     expect(list.slice(1).sort()).toEqual(['magic-missile', 'shield']);
@@ -50,14 +57,28 @@ describe('лист персонажа для PDF', () => {
 
 describe('лист персонажа 2014 для PDF', () => {
   test('раса вместо вида, умение предыстории, заклинания домена', () => {
-    const c = { ...irmaLevel1(), edition: '2014' as const, speciesId: 'dwarf', subspeciesId: 'hill-dwarf', backgroundId: 'acolyte', classes: [{ classId: 'cleric', subclassId: 'life', level: 1 }], weaponMasteries: [], equipment: [], choices: {} };
+    const c = {
+      ...irmaLevel1(),
+      edition: '2014' as const,
+      speciesId: 'dwarf',
+      subspeciesId: 'hill-dwarf',
+      backgroundId: 'acolyte',
+      classes: [{ classId: 'cleric', subclassId: 'life', level: 1 }],
+      weaponMasteries: [],
+      equipment: [],
+      choices: {},
+    };
     setActiveEdition('2014');
     try {
-      const text = characterSheetHtml(c, contentFor('2014')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+      const text = characterSheetHtml(c, contentFor('2014'))
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ');
       expect(text).toContain('Раса');
       expect(text).toContain('Особенности расы');
       expect(text).toMatch(/Shelter of the Faithful|Приют/);
-      expect(sheetSpells(c, contentFor('2014')).map((s) => s.spell.id)).toEqual(expect.arrayContaining(['bless', 'cure-wounds']));
+      expect(sheetSpells(c, contentFor('2014')).map((s) => s.spell.id)).toEqual(
+        expect.arrayContaining(['bless', 'cure-wounds']),
+      );
     } finally {
       setActiveEdition('2024');
     }

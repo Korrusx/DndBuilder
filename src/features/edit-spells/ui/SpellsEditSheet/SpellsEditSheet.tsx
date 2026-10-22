@@ -19,26 +19,21 @@ import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
 import { styles } from './SpellsEditSheet.styles';
 import type { SpellsEditSheetProps } from './SpellsEditSheet.types';
 
-export function SpellsEditSheet({
-  visible,
-  character: c,
-  classId,
-  onChange,
-  onClose,
-}: SpellsEditSheetProps) {
+export function SpellsEditSheet({ visible, character, classId, onChange, onClose }: SpellsEditSheetProps) {
   const { t } = useTranslation();
-  const limits = spellLimits(c, content, classId);
-  if (!limits) return null;
-  const { cantrips, preparedSpells } = classSpellLists(c, content, limits.classId);
-  const setLists = (patch: Parameters<typeof setClassSpellLists>[3]) => onChange((d) => setClassSpellLists(d, content, limits.classId, patch));
+  const limits = spellLimits(character, content, classId);
+  if (!limits) {
+    return null;
+  }
+  const { cantrips, preparedSpells } = classSpellLists(character, content, limits.classId);
+  const setLists = (patch: Parameters<typeof setClassSpellLists>[3]) =>
+    onChange((d) => setClassSpellLists(d, content, limits.classId, patch));
   const circles = Array.from({ length: limits.maxSpellLevel }, (_, i) => i + 1);
-  const book = spellbook(c);
+  const book = spellbook(character);
 
   return (
     <BottomSheet visible={visible} title={t('spells.title')} onClose={onClose}>
-      <AppText variant="secondary">
-        {t('spells.editHint')}
-      </AppText>
+      <AppText variant="secondary">{t('spells.editHint')}</AppText>
       {limits.cantrips > 0 ? (
         <Section title={t('spells.cantrips')} picked={cantrips.length} need={limits.cantrips}>
           <MultiPick
@@ -50,11 +45,16 @@ export function SpellsEditSheet({
           />
         </Section>
       ) : null}
-      {limits.classId === 'wizard' && hasSpellbook(c) ? (
-        <Section title={t('spells.spellbook')} hint={t('spells.spellbookHint')} picked={book.length} need={spellbookMinimum(c)}>
+      {limits.classId === 'wizard' && hasSpellbook(character) ? (
+        <Section
+          title={t('spells.spellbook')}
+          hint={t('spells.spellbookHint')}
+          picked={book.length}
+          need={spellbookMinimum(character)}
+        >
           <View style={styles.gapMd}>
             {circles.map((circle) => {
-              const options = spellbookOptions(c, content, circle);
+              const options = spellbookOptions(character, content, circle);
               const inOptions = new Set(options);
               return (
                 <View key={circle} style={styles.gapSm}>
@@ -64,7 +64,9 @@ export function SpellsEditSheet({
                     selected={book.filter((id) => inOptions.has(id))}
                     max={options.length}
                     label={spellName}
-                    onChange={(ids) => onChange((d) => setSpellbook(d, [...book.filter((id) => !inOptions.has(id)), ...ids], content))}
+                    onChange={(ids) =>
+                      onChange((d) => setSpellbook(d, [...book.filter((id) => !inOptions.has(id)), ...ids], content))
+                    }
                   />
                 </View>
               );
@@ -72,10 +74,18 @@ export function SpellsEditSheet({
           </View>
         </Section>
       ) : null}
-      <Section title={byId.classes.get(limits.classId)?.spellcasting?.preparation === 'known' ? t('spells.known') : t('spells.prepared')} picked={preparedSpells.length} need={limits.prepared}>
+      <Section
+        title={
+          byId.classes.get(limits.classId)?.spellcasting?.preparation === 'known'
+            ? t('spells.known')
+            : t('spells.prepared')
+        }
+        picked={preparedSpells.length}
+        need={limits.prepared}
+      >
         <View style={styles.gapMd}>
           {circles.map((circle) => {
-            const options = preparableSpells(c, content, limits.classId, circle);
+            const options = preparableSpells(character, content, limits.classId, circle);
             const inOptions = new Set(options);
             const inCircle = preparedSpells.filter((id) => inOptions.has(id));
             const others = preparedSpells.length - inCircle.length;
@@ -88,7 +98,9 @@ export function SpellsEditSheet({
                   // Общий лимит на все круги: здесь можно выбрать столько, сколько осталось после других кругов.
                   max={Math.max(inCircle.length, limits.prepared - others)}
                   label={spellName}
-                  onChange={(ids) => setLists({ preparedSpells: [...preparedSpells.filter((id) => !inOptions.has(id)), ...ids] })}
+                  onChange={(ids) =>
+                    setLists({ preparedSpells: [...preparedSpells.filter((id) => !inOptions.has(id)), ...ids] })
+                  }
                 />
               </View>
             );

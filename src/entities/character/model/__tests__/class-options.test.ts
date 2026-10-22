@@ -37,12 +37,16 @@ describe('таинственные воззвания', () => {
 
   test('«Мучительный взрыв» — со 2-го уровня и только с заговором колдуна, наносящим урон', () => {
     expect(ids(classOptionChoices(warlock(2), content, 'invocation'))).not.toContain('agonizing-blast');
-    expect(ids(classOptionChoices(warlock(2, [], ['eldritch-blast']), content, 'invocation'))).toContain('agonizing-blast');
+    expect(ids(classOptionChoices(warlock(2, [], ['eldritch-blast']), content, 'invocation'))).toContain(
+      'agonizing-blast',
+    );
   });
 
   test('«Жаждущий клинок» требует «Договора клинка»; без него выбор считается невыполненным', () => {
     expect(ids(classOptionChoices(warlock(5), content, 'invocation'))).not.toContain('thirsting-blade');
-    expect(ids(classOptionChoices(warlock(5, ['pact-of-the-blade']), content, 'invocation'))).toContain('thirsting-blade');
+    expect(ids(classOptionChoices(warlock(5, ['pact-of-the-blade']), content, 'invocation'))).toContain(
+      'thirsting-blade',
+    );
     expect(unmetClassOptions(warlock(5, ['thirsting-blade']), content)).toEqual(['thirsting-blade']);
     expect(unmetClassOptions(warlock(5, ['pact-of-the-blade', 'thirsting-blade']), content)).toEqual([]);
   });
@@ -54,7 +58,9 @@ describe('таинственные воззвания', () => {
     expect(tome.rituals.count).toBe(2);
     expect(tome.rituals.options).toContain('find-familiar'); // ритуал 1-го круга из любого списка
     const withBook = { ...c, choices: { ...c.choices, [CHOICE_KEYS.tomeRituals]: ['find-familiar'] } };
-    expect(classOptionSpells(withBook, content)).toEqual([expect.objectContaining({ spellId: 'find-familiar', free: 'tome' })]);
+    expect(classOptionSpells(withBook, content)).toEqual([
+      expect.objectContaining({ spellId: 'find-familiar', free: 'tome' }),
+    ]);
     expect(classOptionSpells(warlock(1, ['armor-of-shadows']), content)).toEqual([
       expect.objectContaining({ spellId: 'mage-armor', free: 'atWill' }),
     ]);

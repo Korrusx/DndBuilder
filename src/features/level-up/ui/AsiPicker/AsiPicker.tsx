@@ -11,21 +11,25 @@ import { styles } from './AsiPicker.styles';
 import type { AsiPickerProps } from './AsiPicker.types';
 
 /** «Увеличение характеристик»: +2 к одной или +1 к двум, не выше 20. */
-export function AsiPicker({
-  increases,
-  scores,
-  onChange,
-}: AsiPickerProps) {
+export function AsiPicker({ increases, scores, onChange }: AsiPickerProps) {
   const { t } = useTranslation();
-  const mode: 'two' | 'split' = Object.values(increases).some((v) => v === 2) || Object.keys(increases).length === 0 ? 'two' : 'split';
+  const mode: 'two' | 'split' =
+    Object.values(increases).some((v) => v === 2) || Object.keys(increases).length === 0 ? 'two' : 'split';
   const [current, setCurrent] = useState<'two' | 'split'>(mode);
   const picked = ABILITY_IDS.filter((id) => (increases[id] ?? 0) > 0);
 
   const tap = (id: AbilityId) => {
-    if (current === 'two') return onChange({ [id]: 2 });
+    if (current === 'two') {
+      return onChange({ [id]: 2 });
+    }
     const next = picked.includes(id) ? picked.filter((x) => x !== id) : [...picked, id].slice(-2);
     onChange(Object.fromEntries(next.map((x) => [x, 1])));
   };
+
+  const asiModeOptions = [
+    { value: 'two' as const, label: t('levelUp.asiTwo') },
+    { value: 'split' as const, label: t('levelUp.asiSplit') },
+  ];
 
   return (
     <View style={styles.gapSm}>
@@ -35,10 +39,7 @@ export function AsiPicker({
           setCurrent(m);
           onChange({});
         }}
-        options={[
-          { value: 'two', label: t('levelUp.asiTwo') },
-          { value: 'split', label: t('levelUp.asiSplit') },
-        ]}
+        options={asiModeOptions}
       />
       <ChipRow>
         {ABILITY_IDS.map((id) => {

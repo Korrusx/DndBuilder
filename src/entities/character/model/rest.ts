@@ -11,16 +11,22 @@ import type { GameState } from './types';
  * - если после падения до 0 остаток урона не меньше максимума хитов — мгновенная смерть (3 провала).
  */
 export function applyDamage(state: GameState, amount: number, maxHp?: number, critical = false): GameState {
-  if (amount <= 0) return state;
+  if (amount <= 0) {
+    return state;
+  }
   const fromTemp = Math.min(state.tempHp, amount);
   const rest = amount - fromTemp;
   const next = { ...state, tempHp: state.tempHp - fromTemp, currentHp: Math.max(0, state.currentHp - rest) };
-  if (maxHp === undefined || rest === 0) return next;
+  if (maxHp === undefined || rest === 0) {
+    return next;
+  }
   const failures = state.deathSaves.failures;
   if (state.currentHp === 0) {
     return { ...next, deathSaves: { ...state.deathSaves, failures: Math.min(3, failures + (critical ? 2 : 1)) } };
   }
-  if (rest - state.currentHp >= maxHp) return { ...next, deathSaves: { ...state.deathSaves, failures: 3 } };
+  if (rest - state.currentHp >= maxHp) {
+    return { ...next, deathSaves: { ...state.deathSaves, failures: 3 } };
+  }
   return next;
 }
 
@@ -49,7 +55,9 @@ export function spendHitDie(
   maxHp: number,
 ): GameState {
   const spent = state.hitDiceSpent[classId] ?? 0;
-  if (spent >= available) return state;
+  if (spent >= available) {
+    return state;
+  }
   const healed = applyHealing(state, Math.max(1, roll + conMod), maxHp);
   return { ...healed, hitDiceSpent: { ...state.hitDiceSpent, [classId]: spent + 1 } };
 }

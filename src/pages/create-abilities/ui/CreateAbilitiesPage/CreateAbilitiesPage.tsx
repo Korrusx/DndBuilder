@@ -28,22 +28,28 @@ import { StepButton } from '../StepButton/StepButton';
 import { styles } from './CreateAbilitiesPage.styles';
 
 export function CreateAbilitiesPage() {
-  const { character: c, update, issues: allIssues } = useDraft();
+  const { character, update, issues: allIssues } = useDraft();
   const { t } = useTranslation();
   const [picked, setPicked] = useState<number | null>(null);
   const [lastRolls, setLastRolls] = useState<AbilityRoll[] | null>(null);
-  const background = byId.backgrounds.get(c.backgroundId);
+  const background = byId.backgrounds.get(character.backgroundId);
   const issues = allIssues.filter((i) => i.step === 3);
 
-  const pool: number[] = c.abilityMethod === 'standard' ? [...STANDARD_ARRAY] : c.abilityMethod === 'roll' ? (c.abilityRolls ?? []) : [];
-  const free = freeValues(pool, c.baseAbilities);
-  const totals = finalAbilityScores({ ...c, feats: [] }, content);
+  const pool: number[] =
+    character.abilityMethod === 'standard'
+      ? [...STANDARD_ARRAY]
+      : character.abilityMethod === 'roll'
+        ? (character.abilityRolls ?? [])
+        : [];
+  const free = freeValues(pool, character.baseAbilities);
+  const totals = finalAbilityScores({ ...character, feats: [] }, content);
   // Прибавки происхождения: 2024 — бонусы предыстории, 2014 — прибавки расы (итог при нулевой базе).
-  const bonuses = finalAbilityScores({ ...c, feats: [], baseAbilities: EMPTY }, content);
+  const bonuses = finalAbilityScores({ ...character, feats: [], baseAbilities: EMPTY }, content);
   const raceBonusList = ABILITY_IDS.filter((id) => bonuses[id] > 0).map((id) => `${abilityAbbr(id)} +${bonuses[id]}`);
-  const spent = c.abilityMethod === 'pointBuy' ? pointBuySpent(c.baseAbilities) : undefined;
+  const spent = character.abilityMethod === 'pointBuy' ? pointBuySpent(character.baseAbilities) : undefined;
 
-  const setBase = (fn: (b: AbilityScores) => AbilityScores) => update((d) => ({ ...d, baseAbilities: fn(d.baseAbilities) }));
+  const setBase = (fn: (b: AbilityScores) => AbilityScores) =>
+    update((d) => ({ ...d, baseAbilities: fn(d.baseAbilities) }));
 
   const changeMethod = (m: AbilityMethod) => {
     setPicked(null);
@@ -58,11 +64,13 @@ export function CreateAbilitiesPage() {
   };
 
   const tapAbility = (id: AbilityId) => {
-    if (c.abilityMethod === 'pointBuy') return;
+    if (character.abilityMethod === 'pointBuy') {
+      return;
+    }
     if (picked !== null) {
       setBase((b) => ({ ...b, [id]: free[picked] }));
       setPicked(null);
-    } else if (c.baseAbilities[id]) {
+    } else if (character.baseAbilities[id]) {
       setBase((b) => ({ ...b, [id]: 0 }));
     }
   };
@@ -71,36 +79,49 @@ export function CreateAbilitiesPage() {
     setBase((b) => ({ ...b, [id]: Math.min(POINT_BUY_MAX, Math.max(POINT_BUY_MIN, b[id] + delta)) }));
 
   const canIncrease = (id: AbilityId) => {
-    const v = c.baseAbilities[id];
-    if (v >= POINT_BUY_MAX) return false;
+    const v = character.baseAbilities[id];
+    if (v >= POINT_BUY_MAX) {
+      return false;
+    }
     const extra = (pointBuyCost(v + 1) ?? 99) - (pointBuyCost(v) ?? 0);
     return (spent ?? 0) + extra <= POINT_BUY_BUDGET;
   };
 
+  const abilityMethodOptions = [
+    { value: 'standard' as AbilityMethod, label: t('abilities.standard') },
+    { value: 'pointBuy' as AbilityMethod, label: t('abilities.pointBuy') },
+    { value: 'roll' as AbilityMethod, label: t('abilities.roll') },
+  ];
+
   return (
     <WizardScreen step={3} canContinue={issues.length === 0} summary={<StepStatus issues={issues} />}>
       <Segmented<AbilityMethod>
-        value={c.abilityMethod}
+        value={character.abilityMethod}
         onChange={changeMethod}
-        options={[
-          { value: 'standard', label: t('abilities.standard') },
-          { value: 'pointBuy', label: t('abilities.pointBuy') },
-          { value: 'roll', label: t('abilities.roll') },
-        ]}
+        options={abilityMethodOptions}
       />
 
-      {c.abilityMethod === 'roll' ? (
+      {character.abilityMethod === 'roll' ? (
         <View style={styles.gapSm}>
-          <Button title={c.abilityRolls?.length ? t('abilities.reroll') : t('abilities.rollSix')} variant="secondary" onPress={roll} />
+          <Button
+            title={character.abilityRolls?.length ? t('abilities.reroll') : t('abilities.rollSix')}
+            variant="secondary"
+            onPress={roll}
+          />
           {lastRolls ? (
             <AppText variant="secondary">
-              {lastRolls.map((r) => r.dice.map((d, i) => (i === r.droppedIndex ? `(${d})` : String(d))).join(' ') + ` = ${r.total}`).join('\n')}
+              {lastRolls
+                .map(
+                  (r) =>
+                    r.dice.map((d, i) => (i === r.droppedIndex ? `(${d})` : String(d))).join(' ') + ` = ${r.total}`,
+                )
+                .join('\n')}
             </AppText>
           ) : null}
         </View>
       ) : null}
 
-      {c.abilityMethod === 'pointBuy' ? (
+      {character.abilityMethod === 'pointBuy' ? (
         <AppText variant="heading" style={(spent ?? 0) <= POINT_BUY_BUDGET ? styles.pointsOk : styles.pointsOver}>
           {t('abilities.pointsLeft', { left: POINT_BUY_BUDGET - (spent ?? 0), total: POINT_BUY_BUDGET })}
         </AppText>
@@ -108,7 +129,12 @@ export function CreateAbilitiesPage() {
         <Section title={t('abilities.values')} hint={free.length ? t('abilities.valuesHint') : undefined}>
           <ChipRow>
             {free.map((v, i) => (
-              <Chip key={`${v}-${i}`} label={String(v)} selected={picked === i} onPress={() => setPicked(picked === i ? null : i)} />
+              <Chip
+                key={`${v}-${i}`}
+                label={String(v)}
+                selected={picked === i}
+                onPress={() => setPicked(picked === i ? null : i)}
+              />
             ))}
             {free.length === 0 ? <AppText variant="secondary">{t('abilities.allAssigned')}</AppText> : null}
           </ChipRow>
@@ -124,17 +150,21 @@ export function CreateAbilitiesPage() {
           <AppText style={[styles.head, styles.cell]}>{t('abilities.mod')}</AppText>
         </View>
         {ABILITY_IDS.map((id) => {
-          const base = c.baseAbilities[id];
+          const base = character.baseAbilities[id];
           const bonus = bonuses[id];
           return (
-            <Pressable key={id} onPress={() => tapAbility(id)} style={({ pressed }) => [styles.row, styles.dataRow, pressed && { opacity: 0.8 }]}>
+            <Pressable
+              key={id}
+              onPress={() => tapAbility(id)}
+              style={({ pressed }) => [styles.row, styles.dataRow, pressed && { opacity: 0.8 }]}
+            >
               <View style={styles.fill}>
                 <AppText style={styles.abbr}>{abilityAbbr(id)}</AppText>
                 <AppText variant="secondary" style={styles.size12}>
                   {abilityName(id)}
                 </AppText>
               </View>
-              {c.abilityMethod === 'pointBuy' ? (
+              {character.abilityMethod === 'pointBuy' ? (
                 <View style={styles.stepper}>
                   <StepButton label="−" disabled={base <= POINT_BUY_MIN} onPress={() => step(id, -1)} />
                   <AppText style={styles.value}>{base}</AppText>
@@ -157,9 +187,13 @@ export function CreateAbilitiesPage() {
         })}
       </View>
 
-      {background?.abilities.length ? <BackgroundBonuses c={c} allowed={background.abilities} /> : null}
-      {c.edition === '2014' ? (
-        <Hint>{raceBonusList.length ? t('abilities.raceHint', { list: raceBonusList.join(', ') }) : t('abilities.raceHintNone')}</Hint>
+      {background?.abilities.length ? <BackgroundBonuses character={character} allowed={background.abilities} /> : null}
+      {character.edition === '2014' ? (
+        <Hint>
+          {raceBonusList.length
+            ? t('abilities.raceHint', { list: raceBonusList.join(', ') })
+            : t('abilities.raceHintNone')}
+        </Hint>
       ) : null}
     </WizardScreen>
   );

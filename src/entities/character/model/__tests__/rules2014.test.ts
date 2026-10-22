@@ -27,17 +27,31 @@ function make(patch: Partial<Character>): Character {
 describe('2014: прибавки расы', () => {
   test('человек: +1 ко всем', () => {
     expect(finalAbilityScores(make({ classes: [{ classId: 'fighter', level: 1 }] }), content)).toEqual({
-      str: 11, dex: 11, con: 11, int: 11, wis: 11, cha: 11,
+      str: 11,
+      dex: 11,
+      con: 11,
+      int: 11,
+      wis: 11,
+      cha: 11,
     });
   });
 
   test('полуэльф: ХАР +2 и +1 к двум выбранным; ХАР выбрать нельзя, третья не считается', () => {
-    const c = make({ speciesId: 'half-elf', classes: [{ classId: 'bard', level: 1 }], choices: { 'trait.abilityBonus': ['cha', 'str', 'dex', 'con'] } });
+    const c = make({
+      speciesId: 'half-elf',
+      classes: [{ classId: 'bard', level: 1 }],
+      choices: { 'trait.abilityBonus': ['cha', 'str', 'dex', 'con'] },
+    });
     expect(finalAbilityScores(c, content)).toMatchObject({ cha: 12, str: 11, dex: 11, con: 10 });
   });
 
   test('бонусы предыстории 2024 в 2014 не действуют', () => {
-    const c = make({ speciesId: 'dwarf', subspeciesId: 'hill-dwarf', backgroundBonuses: { str: 2 }, classes: [{ classId: 'fighter', level: 1 }] });
+    const c = make({
+      speciesId: 'dwarf',
+      subspeciesId: 'hill-dwarf',
+      backgroundBonuses: { str: 2 },
+      classes: [{ classId: 'fighter', level: 1 }],
+    });
     expect(finalAbilityScores(c, content)).toMatchObject({ str: 10, con: 12, wis: 11 });
   });
 });
@@ -45,7 +59,12 @@ describe('2014: прибавки расы', () => {
 describe('2014: особенности расы', () => {
   test('эльф: «Острые чувства» — Восприятие; высший эльф владеет длинным мечом', () => {
     const sheet = computeSheet(
-      make({ speciesId: 'elf', subspeciesId: 'high-elf', classes: [{ classId: 'wizard', level: 1 }], equipment: [{ itemId: 'longsword', quantity: 1 }] }),
+      make({
+        speciesId: 'elf',
+        subspeciesId: 'high-elf',
+        classes: [{ classId: 'wizard', level: 1 }],
+        equipment: [{ itemId: 'longsword', quantity: 1 }],
+      }),
       content,
     );
     expect(sheet.skills.find((s) => s.id === 'perception')?.proficient).toBe(true);
@@ -54,14 +73,21 @@ describe('2014: особенности расы', () => {
   });
 
   test('холмовой дварф: +1 хит за уровень', () => {
-    const sheet = computeSheet(make({ speciesId: 'dwarf', subspeciesId: 'hill-dwarf', classes: [{ classId: 'fighter', level: 1 }] }), content);
+    const sheet = computeSheet(
+      make({ speciesId: 'dwarf', subspeciesId: 'hill-dwarf', classes: [{ classId: 'fighter', level: 1 }] }),
+      content,
+    );
     // к10 + ТЕЛ +1 (12) + 1
     expect(sheet.maxHp).toBe(12);
   });
 
   test('драконорождённый: выбранное наследие — особенностью расы', () => {
     const sheet = computeSheet(
-      make({ speciesId: 'dragonborn', classes: [{ classId: 'fighter', level: 1 }], choices: { 'trait.draconic-ancestry.option': ['draconic-ancestry-red'] } }),
+      make({
+        speciesId: 'dragonborn',
+        classes: [{ classId: 'fighter', level: 1 }],
+        choices: { 'trait.draconic-ancestry.option': ['draconic-ancestry-red'] },
+      }),
       content,
     );
     expect(sheet.features).toContainEqual({ id: 'draconic-ancestry-red', source: 'species' });
@@ -69,7 +95,11 @@ describe('2014: особенности расы', () => {
   });
 
   test('языки расы и выбранные', () => {
-    expect(knownLanguages(make({ speciesId: 'dwarf', languages: ['elvish'] }), content)).toEqual(['common', 'dwarvish', 'elvish']);
+    expect(knownLanguages(make({ speciesId: 'dwarf', languages: ['elvish'] }), content)).toEqual([
+      'common',
+      'dwarvish',
+      'elvish',
+    ]);
   });
 });
 
@@ -87,7 +117,10 @@ describe('2014: умения классов', () => {
   });
 
   test('«Драконья устойчивость»: +1 хит за уровень чародея, без доспеха КЗ 13 + ЛОВ', () => {
-    const c = make({ classes: [{ classId: 'sorcerer', subclassId: 'draconic', level: 1 }], baseAbilities: { str: 8, dex: 14, con: 14, int: 10, wis: 10, cha: 15 } });
+    const c = make({
+      classes: [{ classId: 'sorcerer', subclassId: 'draconic', level: 1 }],
+      baseAbilities: { str: 8, dex: 14, con: 14, int: 10, wis: 10, cha: 15 },
+    });
     const sheet = computeSheet(c, content);
     expect(sheet.maxHp).toBe(6 + 2 + 1);
     expect(sheet.armorClass).toBe(13 + 2);
@@ -99,18 +132,29 @@ describe('2014: умения классов', () => {
 
   test('заклинания домена Жизни по уровню жреца', () => {
     const sheet = computeSheet(make({ classes: [{ classId: 'cleric', subclassId: 'life', level: 3 }] }), content);
-    expect(sheet.subclassSpells).toEqual(expect.arrayContaining(['bless', 'cure-wounds', 'lesser-restoration', 'spiritual-weapon']));
+    expect(sheet.subclassSpells).toEqual(
+      expect.arrayContaining(['bless', 'cure-wounds', 'lesser-restoration', 'spiritual-weapon']),
+    );
     expect(sheet.subclassSpells).not.toContain('beacon-of-hope');
   });
 });
 
 describe('2014: заклинания', () => {
   const caster = (classId: string, level: number, scores: Partial<Character['baseAbilities']>) =>
-    make({ speciesId: 'human', classes: [{ classId, level }], baseAbilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10, ...scores } });
+    make({
+      speciesId: 'human',
+      classes: [{ classId, level }],
+      baseAbilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10, ...scores },
+    });
 
   test('волшебник готовит ИНТ + уровень', () => {
     // ИНТ 15 + 1 (человек) = 16 → +3
-    expect(spellLimits(caster('wizard', 1, { int: 15 }), content)).toEqual({ classId: 'wizard', cantrips: 3, prepared: 4, maxSpellLevel: 1 });
+    expect(spellLimits(caster('wizard', 1, { int: 15 }), content)).toEqual({
+      classId: 'wizard',
+      cantrips: 3,
+      prepared: 4,
+      maxSpellLevel: 1,
+    });
   });
 
   test('паладин готовит ХАР + половина уровня, с 2-го уровня', () => {
@@ -141,7 +185,11 @@ describe('2014: заклинания', () => {
   test('«Мистический заряд»: лучи по уровню персонажа', () => {
     expect(spellDamage(idx.spells.get('eldritch-blast')!, 5)).toMatchObject({ dice: '1d10', beams: 2 });
     expect(spellDamage(idx.spells.get('fire-bolt')!, 11)).toMatchObject({ dice: '3d10' });
-    expect(spellDamage(idx.spells.get('cure-wounds')!, 1, 2)).toMatchObject({ dice: '2d8', kind: 'heal', addModifier: true });
+    expect(spellDamage(idx.spells.get('cure-wounds')!, 1, 2)).toMatchObject({
+      dice: '2d8',
+      kind: 'heal',
+      addModifier: true,
+    });
   });
 });
 
@@ -158,8 +206,14 @@ describe('2014: отдых и истощение', () => {
       { classId: 'wizard', die: 6, total: 3 },
       { classId: 'fighter', die: 10, total: 2 },
     ];
-    expect(longRest({ ...emptyGameState(), hitDiceSpent: { fighter: 2, wizard: 3 } }, 30, '2014', dice).hitDiceSpent).toEqual({ wizard: 3 });
-    expect(longRest({ ...emptyGameState(), hitDiceSpent: { rogue: 1 } }, 10, '2014', [{ classId: 'rogue', die: 8, total: 1 }]).hitDiceSpent).toEqual({});
+    expect(
+      longRest({ ...emptyGameState(), hitDiceSpent: { fighter: 2, wizard: 3 } }, 30, '2014', dice).hitDiceSpent,
+    ).toEqual({ wizard: 3 });
+    expect(
+      longRest({ ...emptyGameState(), hitDiceSpent: { rogue: 1 } }, 10, '2014', [
+        { classId: 'rogue', die: 8, total: 1 },
+      ]).hitDiceSpent,
+    ).toEqual({});
   });
 
   test('истощение 2014: помехи вместо −2, скорость и хиты вдвое', () => {
@@ -179,7 +233,10 @@ describe('2014: отдых и истощение', () => {
 describe('2014: ресурсы умений', () => {
   const res = (classId: string, level: number, scores: Partial<Character['baseAbilities']> = {}) =>
     characterResources(
-      make({ classes: [{ classId, level }], baseAbilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10, ...scores } }),
+      make({
+        classes: [{ classId, level }],
+        baseAbilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10, ...scores },
+      }),
       content,
     ).map((r) => ({ id: r.id, max: r.max, recovery: r.recovery, ...(r.die ? { die: r.die } : {}) }));
 

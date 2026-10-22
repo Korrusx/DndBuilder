@@ -17,11 +17,19 @@ import type { ImportResult } from '../model/types';
 export async function shareCharacters(characters: Character[]): Promise<void> {
   const now = new Date().toISOString();
   const file = new File(Paths.cache, exchangeFileName(characters, now));
-  if (file.exists) file.delete();
+  if (file.exists) {
+    file.delete();
+  }
   file.create();
   file.write(JSON.stringify(buildExchange(characters, now, content.version), null, 1));
-  if (!(await Sharing.isAvailableAsync())) throw new Error(t('files.cantShare'));
-  await Sharing.shareAsync(file.uri, { mimeType: 'application/json', UTI: 'public.json', dialogTitle: t('files.dialogCharacters') });
+  if (!(await Sharing.isAvailableAsync())) {
+    throw new Error(t('files.cantShare'));
+  }
+  await Sharing.shareAsync(file.uri, {
+    mimeType: 'application/json',
+    UTI: 'public.json',
+    dialogTitle: t('files.dialogCharacters'),
+  });
 }
 
 /** Открывает выбор файла и читает персонажей. null — пользователь ничего не выбрал. */
@@ -29,8 +37,14 @@ export async function pickCharactersFile(): Promise<ImportResult | null> {
   // Тип '*/*': на Android файлы .json из мессенджеров часто приходят без нужного типа.
   // На Android не копируем файл в кэш: в Expo Go копия попадает в папку, которую нельзя читать
   // (Missing READ permission), а ссылку content:// от системного выбора файла читать можно.
-  const res = await DocumentPicker.getDocumentAsync({ type: '*/*', copyToCacheDirectory: Platform.OS !== 'android', multiple: false });
-  if (res.canceled || !res.assets?.length) return null;
+  const res = await DocumentPicker.getDocumentAsync({
+    type: '*/*',
+    copyToCacheDirectory: Platform.OS !== 'android',
+    multiple: false,
+  });
+  if (res.canceled || !res.assets?.length) {
+    return null;
+  }
   const text = await new File(res.assets[0].uri).text();
   return parseExchange(text, contentFor, newId, new Date().toISOString());
 }
