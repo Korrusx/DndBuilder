@@ -12,7 +12,7 @@
     },
     "android": {
       "package": "com.nikitakim.dndbuilder",
-      "versionCode": 4,
+      "versionCode": 5,
       "adaptiveIcon": {
         "backgroundColor": "#0F1114",
         "foregroundImage": "./assets/android-icon-foreground.png",
