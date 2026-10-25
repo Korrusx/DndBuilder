@@ -15,7 +15,8 @@ const SOURCE = { html: DICE_SCENE_HTML };
  * так, чтобы кубики легли нужной гранью вверх, и сообщает «остановились».
  */
 export function DiceTable({ roll, settings, onLanded, onError }: DiceTableProps) {
-  const web = useRef<WebView>(null);
+  // В типах react-native-webview 14 параметр по умолчанию `undefined` превращает пропсы в never
+  const web = useRef<WebView<object>>(null);
   const [ready, setReady] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const { skin, table, animation, sound } = settings;
@@ -42,7 +43,7 @@ export function DiceTable({ roll, settings, onLanded, onError }: DiceTableProps)
   }, [ready, roll?.id]);
 
   const onMessage = (e: WebViewMessageEvent) => {
-    let msg: { type?: string; id?: number };
+    let msg: { type?: string; id?: number; message?: string };
     try {
       msg = JSON.parse(e.nativeEvent.data);
     } catch {
@@ -56,22 +57,32 @@ export function DiceTable({ roll, settings, onLanded, onError }: DiceTableProps)
       }
       onLanded(msg.id);
     } else if (msg.type === 'error') {
+      console.warn('[dice] scene error:', msg.message);
       onError();
     }
   };
 
   return (
     <View style={styles.table}>
-      <WebView
+      <WebView<object>
         ref={web}
         source={SOURCE}
         originWhitelist={['*']}
         // Стук костей (Web Audio в сцене) звучит без нажатия на сам стол
         mediaPlaybackRequiresUserAction={false}
         onMessage={onMessage}
-        onError={onError}
-        onRenderProcessGone={onError}
-        onContentProcessDidTerminate={onError}
+        onError={(e) => {
+          console.warn('[dice] webview error:', JSON.stringify(e.nativeEvent));
+          onError();
+        }}
+        onRenderProcessGone={(e) => {
+          console.warn('[dice] render process gone:', JSON.stringify(e.nativeEvent));
+          onError();
+        }}
+        onContentProcessDidTerminate={() => {
+          console.warn('[dice] content process terminated');
+          onError();
+        }}
         scrollEnabled={false}
         bounces={false}
         overScrollMode="never"

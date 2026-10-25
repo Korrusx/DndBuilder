@@ -6,6 +6,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.3.1',
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
+    items: [
+      {
+        ru: 'Исправлены 3D-броски: стол падал на первом стуке кубика и бросок становился простым',
+        en: 'Fixed 3D dice: the table crashed on the first die hit and fell back to a simple roll',
+      },
+      { ru: 'Обновление до Expo SDK 58', en: 'Updated to Expo SDK 58' },
+    ],
+  },
+  {
     version: '1.3.0',
     date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
