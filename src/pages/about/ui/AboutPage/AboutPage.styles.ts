@@ -11,6 +11,10 @@ export const styles = StyleSheet.create({
     padding: spacing.lg,
     gap: spacing.xs,
   },
+  // Оригинальный английский текст атрибуции: тот же размер, что у русского над ним, только вторичный цвет.
+  original: {
+    color: colors.textSecondary,
+  },
   changelogEntry: {
     gap: spacing.xs,
   },

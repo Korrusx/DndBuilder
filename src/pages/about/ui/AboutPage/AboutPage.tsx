@@ -7,7 +7,7 @@ import { DiceSettingsSection } from '@/features/roll-dice';
 import { contentFor } from '@/shared/content';
 import type { Language } from '@/shared/i18n';
 import { LANGUAGES, setLanguage, useTranslation } from '@/shared/i18n';
-import { AppText, Screen, Segmented, SmallButton } from '@/shared/ui';
+import { AppText, LinkedText, Screen, Segmented, SmallButton } from '@/shared/ui';
 
 import { CHANGELOG } from '@/shared/config';
 import { CHANGELOG_VISIBLE } from '../../config/constants';
@@ -42,8 +42,15 @@ export function AboutPage() {
       <ReferenceCard edition="2014" />
 
       <AppText variant="heading">{t('about.attribution')}</AppText>
-      <AppText>{t('about.srd')}</AppText>
-      <AppText>{t('about.srd51')}</AppText>
+      <AppText>{t('about.disclaimer')}</AppText>
+      <LinkedText text={t('about.srd')} />
+      {t('about.srdOriginal') === t('about.srd') ? null : (
+        <LinkedText text={t('about.srdOriginal')} style={styles.original} />
+      )}
+      <LinkedText text={t('about.srd51')} />
+      {t('about.srd51Original') === t('about.srd51') ? null : (
+        <LinkedText text={t('about.srd51Original')} style={styles.original} />
+      )}
       <AppText variant="secondary">{t('about.ownTranslation')}</AppText>
       <AppText variant="secondary">
         {t('about.extra', {
@@ -61,7 +68,9 @@ export function AboutPage() {
           species: extraCount(c2014.species),
         })}
       </AppText>
-      <AppText variant="secondary">{t('about.icons')}</AppText>
+      <LinkedText variant="secondary" text={t('about.icons')} />
+      <AppText variant="secondary">{t('about.dataSource')}</AppText>
+      <AppText variant="secondary">{t('about.fonts')}</AppText>
       <AppText variant="secondary">{t('about.dice3d')}</AppText>
 
       <AppText variant="heading">{t('about.changelog')}</AppText>

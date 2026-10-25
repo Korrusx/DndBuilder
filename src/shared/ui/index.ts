@@ -17,6 +17,8 @@ export { InfoSheet } from './InfoSheet/InfoSheet';
 export type { InfoContent, InfoSheetProps } from './InfoSheet/InfoSheet.types';
 export { LText } from './LText/LText';
 export type { LTextProps } from './LText/LText.types';
+export { LinkedText } from './LinkedText/LinkedText';
+export type { LinkedTextProps } from './LinkedText/LinkedText.types';
 export { MultiPick } from './MultiPick/MultiPick';
 export { OptionCard } from './OptionCard/OptionCard';
 export { GameIcon } from './GameIcon/GameIcon';
