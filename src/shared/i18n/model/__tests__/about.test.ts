@@ -12,6 +12,22 @@ const SRD51_ORIGINAL =
   'Creative Commons Attribution 4.0 International License available at ' +
   'https://creativecommons.org/licenses/by/4.0/legalcode.';
 
+/** Плейсхолдеры {{…}} строки — в порядке сортировки. */
+const placeholders = (text: string) => (text.match(/\{\{\w+\}\}/g) ?? []).sort();
+
+describe('тексты «О приложении» на двух языках', () => {
+  test('в ru и en одинаковый набор ключей about.*', () => {
+    expect(Object.keys(en.about).sort()).toEqual(Object.keys(ru.about).sort());
+  });
+
+  test('плейсхолдеры {{…}} совпадают между языками', () => {
+    for (const [key, text] of Object.entries(ru.about)) {
+      const english = (en.about as Record<string, string>)[key] ?? '';
+      expect({ key, placeholders: placeholders(english) }).toEqual({ key, placeholders: placeholders(text) });
+    }
+  });
+});
+
 describe('атрибуция SRD в «О приложении»', () => {
   test.each([
     ['ru', ru],
