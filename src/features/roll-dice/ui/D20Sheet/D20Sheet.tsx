@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { View } from 'react-native';
 
 import { colors } from '@/shared/config';
@@ -7,6 +7,7 @@ import { useTranslation } from '@/shared/i18n';
 import type { D20Mode, D20Roll } from '@/shared/lib/dice';
 import { formatModifier, rollD20 } from '@/shared/lib/dice';
 import { secureRandom } from '@/shared/lib/random';
+import { useResetState } from '@/shared/lib/reset-state';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
 
 import type { DiceOutcome } from '../../model/types';
@@ -31,7 +32,7 @@ const outcome = (r: D20Roll): DiceOutcome => (r.natural === 20 ? 'crit' : r.natu
 
 export function D20Sheet({ request, onClose }: D20SheetProps) {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<D20Mode>('normal');
+  const [mode, setMode] = useResetState<D20Mode>(request?.mode ?? 'normal', request);
   const { settings, use3d, roll, landed, show, onLanded, onError } = useDiceReveal<D20Roll>(
     (r) => feel(r.natural),
     outcome,
@@ -51,12 +52,10 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
     if (!request) {
       return;
     }
-    const m = request.mode ?? 'normal';
-    setMode(m);
     if (request.roll) {
       show(request.roll);
     } else {
-      doRoll(m);
+      doRoll(mode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request]);

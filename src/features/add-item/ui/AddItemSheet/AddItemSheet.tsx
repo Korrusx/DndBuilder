@@ -2,13 +2,13 @@ import { useMemo, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 
 import type { InventoryItem } from '@/entities/character';
-import { CUSTOM_ITEM_PREFIX } from '@/entities/character';
 import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, BottomSheet, Segmented } from '@/shared/ui';
 
 import { MAX_RESULTS } from '../../config/constants';
 import { equipmentCatalog, magicCatalog } from '../../model/catalog';
+import { customItemId } from '../../model/customItemId';
 import type { Source } from '../../model/types';
 import { styles } from './AddItemSheet.styles';
 import type { AddItemSheetProps } from './AddItemSheet.types';
@@ -60,9 +60,7 @@ export function AddItemSheet({ visible, onClose, onAdd }: AddItemSheetProps) {
       {custom ? (
         <Pressable
           accessibilityRole="button"
-          onPress={() =>
-            add({ itemId: `${CUSTOM_ITEM_PREFIX}${Date.now().toString(36)}`, quantity: 1, name: custom }, custom)
-          }
+          onPress={() => add({ itemId: customItemId(), quantity: 1, name: custom }, custom)}
           style={({ pressed }) => [styles.row, styles.customRow, pressed && { opacity: 0.8 }]}
         >
           <AppText style={styles.customItem}>{t('items.custom', { name: custom })}</AppText>

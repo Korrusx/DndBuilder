@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
 
@@ -20,7 +20,7 @@ export function CharacterDoll({ equippedSlots, selectedSlot, onSelectSlot, attac
   const isRu = i18n.language === 'ru';
 
   const [dollReady, setDollReady] = useState(false);
-  const dollOpacity = useRef(new Animated.Value(0)).current;
+  const [dollOpacity] = useState(() => new Animated.Value(0));
 
   useEffect(() => {
     const id = requestIdleCallback(() => {

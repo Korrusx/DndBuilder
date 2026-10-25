@@ -190,8 +190,16 @@ export function useHombrewEquipment() {
   }, [db]);
 
   useEffect(() => {
-    reload();
-  }, [reload]);
+    let active = true;
+    loadHombrewEquipment(db).then((loaded) => {
+      if (active) {
+        setItems(loaded);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, [db]);
 
   const save = useCallback(
     async (item: HombrewEquipment) => {

@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { View } from 'react-native';
 
 import type { DamageRoll } from '@/entities/character';
@@ -7,6 +7,7 @@ import { rollDamage } from '@/entities/character';
 import { useTranslation } from '@/shared/i18n';
 import { formatDice, formatModifier } from '@/shared/lib/dice';
 import { secureRandom } from '@/shared/lib/random';
+import { useResetState } from '@/shared/lib/reset-state';
 import { AppText, BottomSheet, Button, Chip, ChipRow, Segmented } from '@/shared/ui';
 
 import { DICE_3D_MAX, DICE_3D_SIDES } from '../../config/diceSettings';
@@ -20,9 +21,9 @@ const feel = () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch
 
 export function DamageSheet({ request, onClose }: DamageSheetProps) {
   const { t } = useTranslation();
-  const [critical, setCritical] = useState(false);
+  const [critical, setCritical] = useResetState(false, request);
   const { settings, use3d, roll, landed, show, onLanded, onError } = useDiceReveal<DamageRoll>(feel);
-  const [variant, setVariant] = useState(0);
+  const [variant, setVariant] = useResetState(0, request);
   const dice = request?.variants?.[variant]?.dice ?? request?.dice ?? '';
   const bonus = request?.variants?.[variant]?.bonus ?? request?.bonus ?? 0;
 
@@ -43,8 +44,6 @@ export function DamageSheet({ request, onClose }: DamageSheetProps) {
     if (!request) {
       return;
     }
-    setCritical(false);
-    setVariant(0);
     doRoll(false, request.variants?.[0]?.dice ?? request.dice, request.variants?.[0]?.bonus ?? request.bonus);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request]);
