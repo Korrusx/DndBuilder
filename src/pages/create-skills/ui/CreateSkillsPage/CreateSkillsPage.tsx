@@ -23,7 +23,7 @@ import { StepStatus, useDraft, WizardScreen } from '@/features/create-character'
 import { ClassOptionsPicker } from '@/features/pick-class-options';
 import { byId, content, nameOf, proficiencyName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
+import { AppText, MultiPick, OptionCard, Section } from '@/shared/ui';
 
 export function CreateSkillsPage() {
   const { character, update, issues: allIssues } = useDraft();
@@ -125,24 +125,22 @@ export function CreateSkillsPage() {
         const chosen = choice1(character, CHOICE_KEYS.featureOption(featureId));
         return (
           <Section key={featureId} title={nameOf('features', featureId)} picked={chosen ? 1 : 0} need={1}>
-            <ChipRow>
-              {FEATURE_OPTIONS[featureId].map((o) => (
-                <Chip
-                  key={o.id}
-                  label={localizeText(o.name).text}
-                  note={localizeText(o.description).text}
-                  selected={chosen === o.id}
-                  onPress={() =>
-                    update((d) => ({
-                      ...d,
-                      choices: { ...d.choices, [CHOICE_KEYS.featureOption(featureId)]: [o.id] },
-                      // Число заговоров могло измениться — выбор заговоров начинается заново.
-                      cantrips: [],
-                    }))
-                  }
-                />
-              ))}
-            </ChipRow>
+            {FEATURE_OPTIONS[featureId].map((o) => (
+              <OptionCard
+                key={o.id}
+                title={localizeText(o.name).text}
+                lines={[localizeText(o.description).text]}
+                selected={chosen === o.id}
+                onPress={() =>
+                  update((d) => ({
+                    ...d,
+                    choices: { ...d.choices, [CHOICE_KEYS.featureOption(featureId)]: [o.id] },
+                    // Число заговоров могло измениться — выбор заговоров начинается заново.
+                    cantrips: [],
+                  }))
+                }
+              />
+            ))}
           </Section>
         );
       })}
