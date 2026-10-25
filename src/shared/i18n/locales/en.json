@@ -446,6 +446,8 @@
     "icons": "Class and species icons: game-icons.net (by Lorc, Delapouite, Cathelineau, Caro Asercion, Sbed), licensed under Creative Commons Attribution 3.0 (CC BY 3.0): https://creativecommons.org/licenses/by/3.0/. Icon colors and sizes were changed.",
     "appVersion": "App version: {{version}}",
     "changelog": "Version history",
+    "changelogMore": "Show earlier ({{count}})",
+    "changelogLess": "Show less",
     "dice3d": "3D dice: three.js and cannon-es (MIT license)."
   },
   "createClass": {

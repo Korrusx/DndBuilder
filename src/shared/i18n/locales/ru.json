@@ -452,6 +452,8 @@
     "icons": "Иконки классов и видов — game-icons.net (авторы: Lorc, Delapouite, Cathelineau, Caro Asercion, Sbed), лицензия Creative Commons Attribution 3.0 (CC BY 3.0): https://creativecommons.org/licenses/by/3.0/. Цвет и размер иконок изменены.",
     "appVersion": "Версия приложения: {{version}}",
     "changelog": "История обновлений",
+    "changelogMore": "Показать более ранние ({{count}})",
+    "changelogLess": "Свернуть",
     "dice3d": "3D-кубики: three.js и cannon-es (лицензия MIT)."
   },
   "createClass": {
