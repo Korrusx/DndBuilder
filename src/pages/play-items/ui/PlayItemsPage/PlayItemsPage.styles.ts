@@ -28,6 +28,11 @@ export const styles = StyleSheet.create({
     color: colors.text,
     lineHeight: 28,
   },
+  summaryRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   summary: {
     fontFamily: fonts.text,
     fontSize: 13,

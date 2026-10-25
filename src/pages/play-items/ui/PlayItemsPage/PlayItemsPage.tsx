@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, TextInput, View } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 import { addToInventory, equipToSlot, fitsSlot, unequipSlot } from '@/entities/character';
@@ -8,7 +9,7 @@ import type { Character, SlotId } from '@/entities/character';
 import { AddItemSheet } from '@/features/add-item';
 import { coinAbbr, coinName, COIN_ORDER, itemName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, Card, GameIcon, Section } from '@/shared/ui';
+import { AppText, Card, GameIcon, InfoSheet, Section } from '@/shared/ui';
 
 import { BagSheet } from './BagSheet';
 import { CandidatesSection } from './CandidatesSection';
@@ -26,6 +27,7 @@ export function PlayItemsPage() {
   const [bagOpen, setBagOpen] = useState(false);
   const [adding, setAdding] = useState(false);
   const [addingEver, setAddingEver] = useState(false);
+  const [attunementInfo, setAttunementInfo] = useState(false);
 
   const equippedSlots = character.equippedSlots ?? {};
   const bag = character.equipment;
@@ -90,9 +92,15 @@ export function PlayItemsPage() {
           <AppText style={styles.title} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
             {t('inventory.title')}
           </AppText>
-          <AppText style={styles.summary}>
-            КЗ {sheet.armorClass} · настройка {attuned}/3
-          </AppText>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setAttunementInfo(true)}
+            hitSlop={8}
+            style={styles.summaryRow}
+          >
+            <AppText style={styles.summary}>{t('inventory.summary', { ac: sheet.armorClass, count: attuned })}</AppText>
+            <MaterialCommunityIcons name="information-outline" size={14} color={styles.summary.color} />
+          </Pressable>
         </View>
         <Pressable style={styles.bagBtn} onPress={() => router.push('/homebrew-equipment')} hitSlop={4}>
           <AppText style={styles.bagBtnText}>{t('homebrew.short')}</AppText>
@@ -178,6 +186,13 @@ export function PlayItemsPage() {
         }}
         onEquip={doEquip}
         onRemove={removeOneFromBag}
+      />
+
+      <InfoSheet
+        info={
+          attunementInfo ? { title: t('inventory.attunementInfoTitle'), text: t('inventory.attunementInfoText') } : null
+        }
+        onClose={() => setAttunementInfo(false)}
       />
     </View>
   );

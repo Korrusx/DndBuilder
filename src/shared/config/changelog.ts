@@ -6,6 +6,20 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.3.2',
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
+    items: [
+      {
+        ru: 'Исправлено открытие экранов редактирования и повышения уровня',
+        en: 'Fixed opening the edit and level-up screens',
+      },
+      {
+        ru: 'Вкладка «Вещи»: понятный счётчик настройки на магические предметы с пояснением по нажатию',
+        en: 'Items tab: clearer magic item attunement counter with an explanation on tap',
+      },
+    ],
+  },
+  {
     version: '1.3.1',
     date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
