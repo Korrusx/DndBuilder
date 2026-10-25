@@ -17,6 +17,10 @@ export const CHANGELOG: ChangelogEntry[] = [
         ru: 'Вкладка «Вещи»: понятный счётчик настройки на магические предметы с пояснением по нажатию',
         en: 'Items tab: clearer magic item attunement counter with an explanation on tap',
       },
+      {
+        ru: 'История обновлений: сразу видны 3 последние версии, остальные — по кнопке',
+        en: 'Version history: the 3 latest versions are shown, the rest behind a button',
+      },
     ],
   },
   {
