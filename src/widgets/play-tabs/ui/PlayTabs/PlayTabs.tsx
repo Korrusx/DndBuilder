@@ -9,6 +9,7 @@ import { useTranslation } from '@/shared/i18n';
 import { AppText } from '@/shared/ui';
 
 import { tabIcon } from '../../lib/tabIcon';
+import { HIDDEN_TAB } from '../../config/hiddenTab';
 import { styles } from './PlayTabs.styles';
 
 export function PlayTabs() {
@@ -79,7 +80,7 @@ export function PlayTabs() {
       <Tabs.Screen
         name="edit"
         options={{
-          href: null,
+          ...HIDDEN_TAB,
           title: t('nav.edit'),
           tabBarStyle: { display: 'none' },
           headerRight: () => null,
@@ -98,7 +99,7 @@ export function PlayTabs() {
       <Tabs.Screen
         name="level-up"
         options={{
-          href: null,
+          ...HIDDEN_TAB,
           title: t('nav.levelUp'),
           tabBarStyle: { display: 'none' },
           headerRight: () => null,
