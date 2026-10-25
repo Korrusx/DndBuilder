@@ -6,6 +6,21 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.3.3',
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
+    items: [
+      {
+        ru: '«О приложении»: отметка о неофициальном приложении, оригинальный текст атрибуции SRD, источник данных и шрифты',
+        en: 'About: unofficial app notice, original SRD attribution text, data source and fonts',
+      },
+      { ru: 'Ссылки в атрибуции открываются по нажатию', en: 'Links in the attribution open on tap' },
+      {
+        ru: 'Новое название — «Конструктор 5e», из интерфейса убраны товарные знаки',
+        en: 'App renamed to “Конструктор 5e”, trademarks removed from the interface',
+      },
+    ],
+  },
+  {
     version: '1.3.2',
     date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
