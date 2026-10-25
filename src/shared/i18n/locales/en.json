@@ -351,7 +351,7 @@
     "spells": "Spells",
     "appearance": "Appearance",
     "personality": "Personality & Backstory",
-    "footer": "Sheet made with the D&D Character Builder. Rules — System Reference Document 5.2, CC BY 4.0.",
+    "footer": "Sheet made with the 5e Character Builder. Rules — System Reference Document 5.2, CC BY 4.0.",
     "untitled": "Character",
     "spellbook": "spellbook",
     "pactSlots": "Pact slots (level {{level}}, Short Rest):",
@@ -821,8 +821,8 @@
   },
   "edition": {
     "title": "Rules edition",
-    "v2024": "D&D 2024",
-    "v2014": "D&D 2014",
+    "v2024": "5e (2024)",
+    "v2014": "5e (2014)",
     "hint2024": "2024 rules (SRD 5.2): ability bonuses and a feat come from your background.",
     "hint2014": "2014 rules (SRD 5.1): ability increases come from your race; the background has its own feature.",
     "changeWarning": "Changing the edition restarts the draft (the name is kept)."

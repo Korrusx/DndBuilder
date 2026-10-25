@@ -81,7 +81,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       { ru: 'Полный мастер создания персонажа (6 шагов)', en: 'Full character creation wizard (6 steps)' },
       { ru: 'Режим игры: хиты, броски, заклинания, отдых', en: 'Play mode: HP, rolls, spells, rest' },
       { ru: 'Экспорт/импорт персонажа файлом (.dnd.json)', en: 'Character export/import as a file (.dnd.json)' },
-      { ru: 'Поддержка правил D&D 2014 и 2024', en: 'Support for D&D 2014 and 2024 rules' },
+      { ru: 'Поддержка правил 5e 2014 и 2024', en: 'Support for 5e 2014 and 2024 rules' },
     ],
   },
 ];
