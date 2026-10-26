@@ -6,6 +6,40 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.4.0',
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
+    items: [
+      {
+        ru: 'Создание персонажа: под плитками класса, вида и предыстории — карточка с описанием: что умеет, что даёт, что дальше; предыстории, подходящие классу, — первыми',
+        en: 'Character creation: a description card under class, species and background tiles — what it can do, what it gives, what comes next; backgrounds that fit your class come first',
+      },
+      {
+        ru: 'Новый выбор заклинаний: поиск, фильтры, описание в шторке, «Выбрано N из M»',
+        en: 'New spell picker: search, filters, details sheet, “N of M selected”',
+      },
+      {
+        ru: 'Черты, воззвания, метамагия, боевые стили, приёмы оружия и предметы выбираются строкой с описанием по нажатию',
+        en: 'Feats, invocations, metamagic, fighting styles, weapon masteries and items: pick from a list, details on tap',
+      },
+      {
+        ru: 'Редакция 2014: те же расы, что в 2024 — голиаф, орк, аасимар, дампир, калаштар, кованый, ченджлинг, шифтер',
+        en: '2014 edition: the same races as 2024 — goliath, orc, aasimar, dhampir, kalashtar, warforged, changeling, shifter',
+      },
+      {
+        ru: 'Редакция 2014: подрасы тифлинга; драконий предок выбирается под карточкой расы, как подраса',
+        en: '2014 edition: tiefling subraces; draconic ancestry is chosen under the race card, like a subrace',
+      },
+      {
+        ru: 'Редакция 2014: «Человек (стандартный)» и «Человек (альтернативный)»',
+        en: '2014 edition: clearer Russian names for Human and Human (Variant)',
+      },
+      {
+        ru: 'Исправлено: падение мастера на шаге навыков (духовая трубка), одно заклинание можно было выбрать дважды',
+        en: 'Fixed: character creation crash on the skills step (blowgun), the same spell could be picked twice',
+      },
+    ],
+  },
+  {
     version: '1.3.3',
     date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
