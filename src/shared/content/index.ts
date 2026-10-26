@@ -29,7 +29,7 @@ export {
   spellName,
 } from './names';
 export { plain } from './plain';
-export { spellMeta } from './spellMeta';
+export { spellDescription, spellMeta } from './spellMeta';
 export type {
   AbilityBonuses,
   AbilityId,

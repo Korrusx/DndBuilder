@@ -906,5 +906,37 @@
     "additionalDamage": "Дополнительный урон (необязательно)",
     "additionalDamageDice": "Кость",
     "additionalDamageType": "Тип"
+  },
+  "spellSummary": {
+    "attack": "атака",
+    "save": "СЛ спасброска {{ability}}",
+    "modifier": "+ мод.",
+    "beams": "{{count}} × {{dice}}",
+    "heal": "лечение {{dice}}",
+    "tempHp": "{{dice}} временных хитов",
+    "chosenType": "{{dice}}, вид урона на выбор",
+    "damage": {
+      "acid": "{{dice}} кислотой",
+      "bludgeoning": "{{dice}} дробящим",
+      "cold": "{{dice}} холодом",
+      "fire": "{{dice}} огнём",
+      "force": "{{dice}} силовым полем",
+      "lightning": "{{dice}} электричеством",
+      "necrotic": "{{dice}} некротической энергией",
+      "piercing": "{{dice}} колющим",
+      "poison": "{{dice}} ядом",
+      "psychic": "{{dice}} психической энергией",
+      "radiant": "{{dice}} излучением",
+      "slashing": "{{dice}} рубящим",
+      "thunder": "{{dice}} звуком"
+    },
+    "area": {
+      "cone": "конус {{size}}",
+      "cube": "куб {{size}}",
+      "cylinder": "цилиндр {{size}}",
+      "emanation": "эманация {{size}}",
+      "line": "линия {{size}}",
+      "sphere": "сфера {{size}}"
+    }
   }
 }

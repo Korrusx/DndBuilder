@@ -32,6 +32,7 @@ import {
   finish,
   ids,
   joinText,
+  manualTexts,
   PROFICIENCY_TYPES,
   proficiencyId,
   raw,
@@ -498,9 +499,11 @@ async function build(): Promise<Omit<Content, 'version'>> {
       ...(bonus.length ? { bonusBySlotLevel: Object.fromEntries(bonus) } : {}),
     };
   };
+  const shorts = await manualTexts('spells', '.short');
   const spells = (await raw('spells')).map((s) => {
     const key = `spell.${s.index}`;
     const description = paragraphs(s.desc);
+    const short = shorts.get(`${key}.short`);
     // Урон: у заклинаний с двумя видами урона («Небесный огонь») — только первый, как и в 2024.
     const d = (s.damage as Raw[])[0];
     let damage: Spell['damage'] | undefined;
@@ -525,6 +528,9 @@ async function build(): Promise<Omit<Content, 'version'>> {
       concentration: Boolean(s.concentration),
       ritual: Boolean(s.ritual),
       ...(s.attack_type ? { attackType: s.attack_type } : {}),
+      ...(s.dc?.dc_type ? { save: s.dc.dc_type.index } : {}),
+      ...(s.area_of_effect ? { area: { shape: s.area_of_effect.type, size: s.area_of_effect.size } } : {}),
+      ...(short ? { short: tx(`${key}.short`, short) } : {}),
       ...(damage ? { damage } : {}),
       description: tx(`${key}.description`, description),
       ...(s.higher_level?.length ? { higherLevel: tx(`${key}.higherLevel`, paragraphs(s.higher_level)) } : {}),

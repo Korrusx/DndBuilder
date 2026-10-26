@@ -32,11 +32,14 @@ import {
   ids,
   joinText,
   levelOf,
+  manualTexts,
   PROFICIENCY_TYPES,
   raw,
   ROOT,
   seeded,
   slug,
+  spellAreaFromText,
+  spellSaveFromText,
   tx,
   txOpt,
   warn,
@@ -653,9 +656,13 @@ async function build(): Promise<Omit<Content, 'version'>> {
     en = en.charAt(0).toUpperCase() + en.slice(1);
     return tx(`spellText.${slug(en)}`, en);
   };
+  const shorts = await manualTexts('spells', '.short');
   const spells = (await raw('spells')).map((s) => {
     const key = `spell.${s.index}`;
     const d = s.damage;
+    const save = spellSaveFromText(s.description ?? '');
+    const area = spellAreaFromText(s.description ?? '');
+    const short = shorts.get(`${key}.short`);
     return {
       id: s.index,
       name: tx(`${key}.name`, s.name),
@@ -669,6 +676,9 @@ async function build(): Promise<Omit<Content, 'version'>> {
       concentration: Boolean(s.concentration),
       ritual: Boolean(s.ritual),
       ...(s.attack_type ? { attackType: s.attack_type } : {}),
+      ...(save ? { save } : {}),
+      ...(area ? { area } : {}),
+      ...(short ? { short: tx(`${key}.short`, short) } : {}),
       ...(d
         ? {
             damage: {

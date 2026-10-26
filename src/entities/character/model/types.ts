@@ -375,6 +375,12 @@ export type CharacterSummary = {
   armorClass?: number;
 };
 
+/** Короткая сводка заклинания для списка выбора и метки (концентрация, ритуал). */
+export type SpellSummary = {
+  text: string;
+  tags: ('concentration' | 'ritual')[];
+};
+
 export type PlayApi = {
   character: Character;
   sheet: CharacterSheet;

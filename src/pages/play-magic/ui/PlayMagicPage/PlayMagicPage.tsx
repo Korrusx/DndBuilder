@@ -30,7 +30,17 @@ import { SpellsEditSheet } from '@/features/edit-spells';
 import type { D20Request, DamageRequest } from '@/features/roll-dice';
 import { d20Parts, D20Sheet, DamageSheet } from '@/features/roll-dice';
 import type { AbilityId, Spell } from '@/shared/content';
-import { abilityAbbr, byId, content, nameOf, plain, spellMeta, spellName, localizeText } from '@/shared/content';
+import {
+  abilityAbbr,
+  byId,
+  content,
+  nameOf,
+  plain,
+  spellDescription,
+  spellMeta,
+  spellName,
+  localizeText,
+} from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDamage, formatModifier } from '@/shared/lib/dice';
 import type { InfoContent } from '@/shared/ui';
@@ -229,7 +239,7 @@ export function PlayMagicPage() {
           setInfo({
             title: localizeText(s.name).text,
             subtitle: spellMeta(s),
-            text: [plain(s.description), plain(s.higherLevel)].filter(Boolean).join('\n\n'),
+            text: spellDescription(s),
           })
         }
         style={({ pressed }) => [styles.spell, pressed && { opacity: 0.85 }]}

@@ -897,5 +897,37 @@
     "additionalDamage": "Extra damage (optional)",
     "additionalDamageDice": "Die",
     "additionalDamageType": "Type"
+  },
+  "spellSummary": {
+    "attack": "attack",
+    "save": "{{ability}} save",
+    "modifier": "+ mod",
+    "beams": "{{count}} × {{dice}}",
+    "heal": "heals {{dice}}",
+    "tempHp": "{{dice}} temp HP",
+    "chosenType": "{{dice}}, damage type of your choice",
+    "damage": {
+      "acid": "{{dice}} acid",
+      "bludgeoning": "{{dice}} bludgeoning",
+      "cold": "{{dice}} cold",
+      "fire": "{{dice}} fire",
+      "force": "{{dice}} force",
+      "lightning": "{{dice}} lightning",
+      "necrotic": "{{dice}} necrotic",
+      "piercing": "{{dice}} piercing",
+      "poison": "{{dice}} poison",
+      "psychic": "{{dice}} psychic",
+      "radiant": "{{dice}} radiant",
+      "slashing": "{{dice}} slashing",
+      "thunder": "{{dice}} thunder"
+    },
+    "area": {
+      "cone": "{{size}} cone",
+      "cube": "{{size}} cube",
+      "cylinder": "{{size}} cylinder",
+      "emanation": "{{size}} emanation",
+      "line": "{{size}} line",
+      "sphere": "{{size}} sphere"
+    }
   }
 }

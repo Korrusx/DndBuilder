@@ -105,6 +105,7 @@ export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './m
 export { computeSheet, finalAbilityScores, originFeatIds, proficiencyIds, subclassSpellIds } from './model/sheet';
 export type { SpellDamage } from './model/spells';
 export { spellAttackBonus, spellDamage, spellDamageLevels, spellSaveDC } from './model/spells';
+export { spellSummary } from './model/spellSummary';
 export type { ClassOptionSlot, ClassOptionSpell } from './model/classOptions';
 export {
   chosenClassOptions,
@@ -145,5 +146,6 @@ export type {
   ResourceView,
   SlotId,
   SourcedId,
+  SpellSummary,
   WeaponAttack,
 } from './model/types';

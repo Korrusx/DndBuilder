@@ -322,6 +322,8 @@ export type Equipment = {
 
 export type EquipmentCategory = { id: string; name: LocalizedText; equipment: string[] };
 
+export type SpellAreaShape = 'cone' | 'cube' | 'cylinder' | 'emanation' | 'line' | 'sphere';
+
 export type Spell = {
   id: string;
   name: LocalizedText;
@@ -335,6 +337,12 @@ export type Spell = {
   concentration: boolean;
   ritual: boolean;
   attackType?: 'melee' | 'ranged';
+  /** Спасбросок цели («makes a Dexterity saving throw» в тексте SRD). */
+  save?: AbilityId;
+  /** Область действия: «15-foot Cone» → { shape: 'cone', size: 15 }. */
+  area?: { shape: SpellAreaShape; size: number };
+  /** Краткая сводка для заклинаний без урона и спасброска (spell.<id>.short в spells.csv, необязательно). */
+  short?: LocalizedText;
   damage?: {
     type?: string;
     /** Урон по кругу ячейки (ключ — круг) или по уровню персонажа (заговоры). */

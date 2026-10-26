@@ -8,7 +8,17 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import type { Choice, ChoiceOption, Coin, Content, LocalizedText, ProficiencyType } from '../src/shared/content/types.ts';
+import type {
+  AbilityId,
+  Choice,
+  ChoiceOption,
+  Coin,
+  Content,
+  LocalizedText,
+  ProficiencyType,
+  Spell,
+  SpellAreaShape,
+} from '../src/shared/content/types.ts';
 import { parseCsv, stringifyCsv } from './csv.ts';
 
 export type Edition = '2014' | '2024';
@@ -91,6 +101,35 @@ export function tx(key: string, en: string): LocalizedText {
     texts.set(key, { en, file, targets: [target] });
   }
   return target;
+}
+
+/**
+ * Необязательные тексты, которые пишутся в CSV вручную (например, spell.<id>.short): английский — из колонки en.
+ * Ключ → английский текст; пустые строки пропускаются.
+ */
+export async function manualTexts(file: string, suffix: string): Promise<Map<string, string>> {
+  const rows = await readTranslations(file);
+  return new Map(rows.filter((r) => r.key.endsWith(suffix) && r.en.trim()).map((r) => [r.key, r.en]));
+}
+
+/** Спасбросок и область заклинания из английского текста SRD 5.2 (в API 2024 этих полей нет). */
+const SAVE_ABILITIES: Record<string, AbilityId> = {
+  Strength: 'str',
+  Dexterity: 'dex',
+  Constitution: 'con',
+  Intelligence: 'int',
+  Wisdom: 'wis',
+  Charisma: 'cha',
+};
+export function spellSaveFromText(text: string): AbilityId | undefined {
+  // Только «makes / succeeds on / fails a X saving throw»: «advantage on Dexterity saving throws» («Ускорение») — не спасбросок от заклинания.
+  const m = text.match(/(?:makes?|succeeds? on|fails?) an? (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) saving throw\b/);
+  return m ? SAVE_ABILITIES[m[1]] : undefined;
+}
+export function spellAreaFromText(text: string): Spell['area'] {
+  // «15-foot Cone», «20-foot-radius Sphere», «100-foot-long, 5-foot-wide Line», «10-foot-radius, 40-foot-high Cylinder».
+  const m = text.match(/(\d+)-?foot(?:-radius|-long)?(?:,? \d+-?foot[- ]?(?:wide|high|tall))?[ -](Cone|Cube|Cylinder|Emanation|Line|Sphere)\b/);
+  return m ? { shape: m[2].toLowerCase() as SpellAreaShape, size: Number(m[1]) } : undefined;
 }
 
 export function txOpt(key: string, en: string | null | undefined): LocalizedText | undefined {
