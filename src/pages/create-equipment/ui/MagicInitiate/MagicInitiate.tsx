@@ -7,14 +7,15 @@ import {
   spellOptions,
 } from '@/entities/character';
 import { useDraft } from '@/features/create-character';
-import { abilityAbbr, byId, content, nameOf, spellName } from '@/shared/content';
+import { SpellPickerField } from '@/entities/character/ui';
+import { abilityAbbr, byId, content, nameOf } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
+import { AppText, Chip, ChipRow, Section } from '@/shared/ui';
 
 import { takenSpells } from '../../lib/takenSpells';
 import type { MagicInitiateProps } from './MagicInitiate.types';
 
-export function MagicInitiate({ slot, fixedList, setChoice }: MagicInitiateProps) {
+export function MagicInitiate({ slot, fixedList, setChoice, step }: MagicInitiateProps) {
   const { character, update } = useDraft();
   const { t } = useTranslation();
   const listKey = CHOICE_KEYS.featSpellList(slot);
@@ -74,26 +75,28 @@ export function MagicInitiate({ slot, fixedList, setChoice }: MagicInitiateProps
       )}
       {list ? (
         <>
-          <Section title={t('magicInitiate.cantrips')} picked={character.choices[cantripsKey]?.length ?? 0} need={2}>
-            <MultiPick
-              options={spellOptions(list, 0, content)}
-              selected={character.choices[cantripsKey] ?? []}
-              max={2}
-              label={spellName}
-              blocked={takenSpells(character, cantripsKey)}
-              onChange={(ids) => setChoice(cantripsKey, ids)}
-            />
-          </Section>
-          <Section title={t('magicInitiate.spell')} picked={character.choices[spellKey]?.length ?? 0} need={1}>
-            <MultiPick
-              options={spellOptions(list, 1, content)}
-              selected={character.choices[spellKey] ?? []}
-              max={1}
-              label={spellName}
-              blocked={takenSpells(character, spellKey)}
-              onChange={(ids) => setChoice(spellKey, ids)}
-            />
-          </Section>
+          <SpellPickerField
+            {...step(cantripsKey)}
+            title={t('magicInitiate.cantrips')}
+            buttonLabel={t('picker.chooseCantrips')}
+            options={spellOptions(list, 0, content)}
+            selected={character.choices[cantripsKey] ?? []}
+            max={2}
+            character={character}
+            blocked={takenSpells(character, cantripsKey)}
+            onChange={(ids) => setChoice(cantripsKey, ids)}
+          />
+          <SpellPickerField
+            {...step(spellKey)}
+            title={t('magicInitiate.spell')}
+            buttonLabel={t('picker.chooseSpell')}
+            options={spellOptions(list, 1, content)}
+            selected={character.choices[spellKey] ?? []}
+            max={1}
+            character={character}
+            blocked={takenSpells(character, spellKey)}
+            onChange={(ids) => setChoice(spellKey, ids)}
+          />
         </>
       ) : null}
     </Section>

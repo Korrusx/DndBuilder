@@ -8,11 +8,12 @@ import {
   meetsPrerequisite,
   tomeSlots,
 } from '@/entities/character';
+import { SpellPickerField } from '@/entities/character/ui';
 import type { ClassOption } from '@/shared/content';
-import { content, plain, spellName, localizeText } from '@/shared/content';
+import { content, plain, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import type { InfoContent } from '@/shared/ui';
-import { Chip, InfoSheet, MultiPick, Section, SmallButton } from '@/shared/ui';
+import { Chip, InfoSheet, Section, SmallButton } from '@/shared/ui';
 
 import { styles } from './ClassOptionsPicker.styles';
 import type { ClassOptionsPickerProps } from './ClassOptionsPicker.types';
@@ -69,33 +70,25 @@ export function ClassOptionsPicker({ character, onChoice }: ClassOptionsPickerPr
 
       {tome ? (
         <>
-          <Section
+          <SpellPickerField
             title={t('classOptions.tomeCantrips')}
             hint={t('classOptions.tomeHint')}
-            picked={(character.choices[tome.cantrips.key] ?? []).length}
-            need={tome.cantrips.count}
-          >
-            <MultiPick
-              options={tome.cantrips.options}
-              selected={character.choices[tome.cantrips.key] ?? []}
-              max={tome.cantrips.count}
-              label={spellName}
-              onChange={(ids) => onChoice(tome.cantrips.key, ids)}
-            />
-          </Section>
-          <Section
+            buttonLabel={t('picker.chooseCantrips')}
+            options={tome.cantrips.options}
+            selected={character.choices[tome.cantrips.key] ?? []}
+            max={tome.cantrips.count}
+            character={character}
+            onChange={(ids) => onChoice(tome.cantrips.key, ids)}
+          />
+          <SpellPickerField
             title={t('classOptions.tomeRituals')}
-            picked={(character.choices[tome.rituals.key] ?? []).length}
-            need={tome.rituals.count}
-          >
-            <MultiPick
-              options={tome.rituals.options}
-              selected={character.choices[tome.rituals.key] ?? []}
-              max={tome.rituals.count}
-              label={spellName}
-              onChange={(ids) => onChoice(tome.rituals.key, ids)}
-            />
-          </Section>
+            buttonLabel={t('picker.chooseSpells')}
+            options={tome.rituals.options}
+            selected={character.choices[tome.rituals.key] ?? []}
+            max={tome.rituals.count}
+            character={character}
+            onChange={(ids) => onChoice(tome.rituals.key, ids)}
+          />
         </>
       ) : null}
 

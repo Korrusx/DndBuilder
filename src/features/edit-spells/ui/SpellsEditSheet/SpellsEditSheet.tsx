@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { useState } from 'react';
 
 import {
   classSpellLists,
@@ -12,15 +12,17 @@ import {
   spellLimits,
   spellOptions,
 } from '@/entities/character';
-import { byId, content, spellName } from '@/shared/content';
+import { SpellPickerField } from '@/entities/character/ui';
+import { byId, content } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, BottomSheet, MultiPick, Section } from '@/shared/ui';
+import { AppText, BottomSheet, pickerSequence } from '@/shared/ui';
 
-import { styles } from './SpellsEditSheet.styles';
+import { CANTRIPS, PREPARED, SPELLBOOK } from '../../config/constants';
 import type { SpellsEditSheetProps } from './SpellsEditSheet.types';
 
 export function SpellsEditSheet({ visible, character, classId, onChange, onClose }: SpellsEditSheetProps) {
   const { t } = useTranslation();
+  const [openKey, setOpenKey] = useState<string | null>(null);
   const limits = spellLimits(character, content, classId);
   if (!limits) {
     return null;
@@ -30,83 +32,71 @@ export function SpellsEditSheet({ visible, character, classId, onChange, onClose
     onChange((d) => setClassSpellLists(d, content, limits.classId, patch));
   const circles = Array.from({ length: limits.maxSpellLevel }, (_, i) => i + 1);
   const book = spellbook(character);
+  const withBook = limits.classId === 'wizard' && hasSpellbook(character);
+
+  // Все круги в одном списке (фильтр по кругу — на экране выбора); выбранное вне списка не трогаем.
+  const bookOptions = circles.flatMap((circle) => spellbookOptions(character, content, circle));
+  const inBook = new Set(bookOptions);
+  const preparedOptions = circles.flatMap((circle) => preparableSpells(character, content, limits.classId, circle));
+  const inPrepared = new Set(preparedOptions);
+  const preparedHere = preparedSpells.filter((id) => inPrepared.has(id));
+  const preparedElsewhere = preparedSpells.length - preparedHere.length;
+
+  const step = pickerSequence(
+    [...(limits.cantrips > 0 ? [CANTRIPS] : []), ...(withBook ? [SPELLBOOK] : []), PREPARED],
+    openKey,
+    setOpenKey,
+  );
 
   return (
     <BottomSheet visible={visible} title={t('spells.title')} onClose={onClose}>
       <AppText variant="secondary">{t('spells.editHint')}</AppText>
       {limits.cantrips > 0 ? (
-        <Section title={t('spells.cantrips')} picked={cantrips.length} need={limits.cantrips}>
-          <MultiPick
-            options={spellOptions(limits.classId, 0, content)}
-            selected={cantrips}
-            max={limits.cantrips}
-            label={spellName}
-            onChange={(ids) => setLists({ cantrips: ids })}
-          />
-        </Section>
+        <SpellPickerField
+          {...step(CANTRIPS)}
+          title={t('spells.cantrips')}
+          buttonLabel={t('picker.chooseCantrips')}
+          options={spellOptions(limits.classId, 0, content)}
+          selected={cantrips}
+          max={limits.cantrips}
+          character={character}
+          onChange={(ids) => setLists({ cantrips: ids })}
+        />
       ) : null}
-      {limits.classId === 'wizard' && hasSpellbook(character) ? (
-        <Section
+      {withBook ? (
+        <SpellPickerField
+          {...step(SPELLBOOK)}
           title={t('spells.spellbook')}
           hint={t('spells.spellbookHint')}
-          picked={book.length}
+          buttonLabel={t('picker.chooseSpells')}
+          options={bookOptions}
+          selected={book.filter((id) => inBook.has(id))}
+          max={bookOptions.length}
           need={spellbookMinimum(character)}
-        >
-          <View style={styles.gapMd}>
-            {circles.map((circle) => {
-              const options = spellbookOptions(character, content, circle);
-              const inOptions = new Set(options);
-              return (
-                <View key={circle} style={styles.gapSm}>
-                  <AppText variant="secondary">{t('spell.circle', { level: circle })}</AppText>
-                  <MultiPick
-                    options={options}
-                    selected={book.filter((id) => inOptions.has(id))}
-                    max={options.length}
-                    label={spellName}
-                    onChange={(ids) =>
-                      onChange((d) => setSpellbook(d, [...book.filter((id) => !inOptions.has(id)), ...ids], content))
-                    }
-                  />
-                </View>
-              );
-            })}
-          </View>
-        </Section>
+          character={character}
+          onChange={(ids) =>
+            onChange((d) => setSpellbook(d, [...book.filter((id) => !inBook.has(id)), ...ids], content))
+          }
+        />
       ) : null}
-      <Section
+      <SpellPickerField
+        {...step(PREPARED)}
         title={
           byId.classes.get(limits.classId)?.spellcasting?.preparation === 'known'
             ? t('spells.known')
             : t('spells.prepared')
         }
-        picked={preparedSpells.length}
+        buttonLabel={t('picker.chooseSpells')}
+        options={preparedOptions}
+        selected={preparedHere}
+        // Общий лимит: подготовленные вне списка (например, с прежних уровней другого класса) тоже считаются.
+        max={Math.max(preparedHere.length, limits.prepared - preparedElsewhere)}
         need={limits.prepared}
-      >
-        <View style={styles.gapMd}>
-          {circles.map((circle) => {
-            const options = preparableSpells(character, content, limits.classId, circle);
-            const inOptions = new Set(options);
-            const inCircle = preparedSpells.filter((id) => inOptions.has(id));
-            const others = preparedSpells.length - inCircle.length;
-            return (
-              <View key={circle} style={styles.gapSm}>
-                <AppText variant="secondary">{t('spell.circle', { level: circle })}</AppText>
-                <MultiPick
-                  options={options}
-                  selected={inCircle}
-                  // Общий лимит на все круги: здесь можно выбрать столько, сколько осталось после других кругов.
-                  max={Math.max(inCircle.length, limits.prepared - others)}
-                  label={spellName}
-                  onChange={(ids) =>
-                    setLists({ preparedSpells: [...preparedSpells.filter((id) => !inOptions.has(id)), ...ids] })
-                  }
-                />
-              </View>
-            );
-          })}
-        </View>
-      </Section>
+        character={character}
+        onChange={(ids) =>
+          setLists({ preparedSpells: [...preparedSpells.filter((id) => !inPrepared.has(id)), ...ids] })
+        }
+      />
     </BottomSheet>
   );
 }

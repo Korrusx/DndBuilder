@@ -958,5 +958,22 @@
       "S": "S",
       "M": "M"
     }
+  },
+  "picker": {
+    "search": "Search",
+    "empty": "Nothing found",
+    "next": "{{picked}} of {{max}} selected · Next",
+    "done": "{{picked}} of {{max}} selected · Done",
+    "nothing": "Nothing selected yet",
+    "filter": {
+      "damage": "Damage",
+      "heal": "Healing",
+      "support": "Support",
+      "concentration": "Concentration",
+      "ritual": "Ritual"
+    },
+    "chooseCantrips": "Choose cantrips",
+    "chooseSpells": "Choose spells",
+    "chooseSpell": "Choose a spell"
   }
 }

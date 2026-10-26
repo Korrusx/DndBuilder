@@ -12,6 +12,7 @@ import {
   setSpecies,
   SPECIES_SPELL_ABILITIES,
 } from '@/entities/character';
+import { SpellPickerField } from '@/entities/character/ui';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import type { AbilityId } from '@/shared/content';
 import {
@@ -22,7 +23,6 @@ import {
   nameOf,
   proficiencyName,
   sizeName,
-  spellName,
   localizeText,
 } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
@@ -189,20 +189,16 @@ export function CreateOriginPage() {
       {traits
         .filter((trait) => trait.spellChoice)
         .map((trait) => (
-          <Section
+          <SpellPickerField
             key={trait.id}
             title={t('origin.traitSpell', { name: localizeText(trait.name).text })}
-            picked={(character.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []).length}
-            need={trait.spellChoice!.choose}
-          >
-            <MultiPick
-              options={choiceOptionIds(trait.spellChoice!, content)}
-              selected={character.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []}
-              max={trait.spellChoice!.choose}
-              label={spellName}
-              onChange={(ids) => setChoice(CHOICE_KEYS.traitSpell(trait.id), ids)}
-            />
-          </Section>
+            buttonLabel={trait.spellChoice!.choose > 1 ? t('picker.chooseSpells') : t('picker.chooseSpell')}
+            options={choiceOptionIds(trait.spellChoice!, content)}
+            selected={character.choices[CHOICE_KEYS.traitSpell(trait.id)] ?? []}
+            max={trait.spellChoice!.choose}
+            character={character}
+            onChange={(ids) => setChoice(CHOICE_KEYS.traitSpell(trait.id), ids)}
+          />
         ))}
 
       {versatileFeat?.abilityIncrease ? (
