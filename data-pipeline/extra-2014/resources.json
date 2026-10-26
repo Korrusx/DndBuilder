@@ -239,6 +239,68 @@
       "max": {
         "fixed": 1
       }
+    },
+    {
+      "id": "stones-endurance",
+      "name": {
+        "en": "Stone's Endurance",
+        "ru": "Выносливость камня"
+      },
+      "features": "stones-endurance",
+      "max": {
+        "fixed": 1
+      },
+      "short": "all"
+    },
+    {
+      "id": "healing-hands",
+      "name": {
+        "en": "Healing Hands",
+        "ru": "Исцеляющие руки"
+      },
+      "features": "healing-hands",
+      "max": {
+        "fixed": 1
+      }
+    },
+    {
+      "id": "aasimar-transformation",
+      "name": {
+        "en": "Celestial Transformation",
+        "ru": "Небесное преображение"
+      },
+      "features": [
+        "radiant-soul",
+        "radiant-consumption",
+        "necrotic-shroud"
+      ],
+      "minLevel": 3,
+      "max": {
+        "fixed": 1
+      }
+    },
+    {
+      "id": "vampiric-bite",
+      "name": {
+        "en": "Vampiric Bite Empowerment",
+        "ru": "Усиление укусом"
+      },
+      "features": "vampiric-bite",
+      "max": {
+        "profBonus": true
+      }
+    },
+    {
+      "id": "shifting",
+      "name": {
+        "en": "Shifting",
+        "ru": "Смена облика"
+      },
+      "features": "shifting",
+      "max": {
+        "fixed": 1
+      },
+      "short": "all"
     }
   ]
 }

@@ -54,4 +54,5 @@ export type {
   Species,
   Spell,
   Subspecies,
+  Trait,
 } from './types';

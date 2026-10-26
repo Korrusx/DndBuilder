@@ -14,7 +14,7 @@ import {
 import { newDraftCharacter } from './character';
 import { choice1 } from './choices';
 import { abilityModifier } from './abilities';
-import { classFeatureIdsAt, finalAbilityScores, makeProficiencyCheck, proficiencyIds } from './sheet';
+import { classFeatureIdsAt, finalAbilityScores, makeProficiencyCheck, proficiencyIds, raceTraitIds } from './sheet';
 import type {
   Character,
   EquipmentSource,
@@ -232,7 +232,7 @@ export function proficiencySlots(c: Character, content: Content): ProficiencySlo
 function speciesTraitIds(c: Character, content: Content): string[] {
   const species = indexOf(content).species.get(c.speciesId);
   const sub = c.subspeciesId ? indexOf(content).subspecies.get(c.subspeciesId) : undefined;
-  return [...(species?.traits ?? []), ...(sub?.traits.filter((t) => t.level <= 1).map((t) => t.id) ?? [])];
+  return raceTraitIds(species, sub, 1);
 }
 
 /** Владения, которые даются без выбора (класс, предыстория, особенности расы 2014). Их нельзя выбрать ещё раз. */

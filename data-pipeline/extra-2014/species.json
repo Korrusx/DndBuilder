@@ -1,74 +1,1195 @@
 {
-  "_comment": "Расы и подрасы Player's Handbook 2014, которых нет в SRD 5.1. Механика кратко своими словами (по памяти) — сверить с книгой. Особенность — строка (id особенности SRD 5.1) или объект { id, name, text, textEn, proficiencies?, proficiencyChoices?, spells?, spellLevels?, speed? }. spellLevels — с какого уровня персонажа доступно заклинание. traitSpells — заклинания для особенностей SRD, у которых их нет в данных API.",
+  "_comment": "Расы и подрасы, которых нет в SRD 5.1: Player's Handbook 2014; Голиаф, Орк, Аасимар — Volo's Guide to Monsters; Калаштар, Кованый, Ченджлинг, Шифтер — Eberron: Rising from the Last War; подрасы тифлинга — Mordenkainen's Tome of Foes (заменяют прибавки и «Наследие Ада»: replacesAbilityBonuses, replacesTraits); Дампир — Van Richten's Guide to Ravenloft (прибавки упрощены до +1/+1/+1). Механика кратко своими словами (по памяти) — сверить с книгой. Особенность — строка (id особенности SRD 5.1) или объект { id, name, text, textEn, proficiencies?, proficiencyChoices?, spells?, spellLevels?, speed? }. spellLevels — с какого уровня персонажа доступно заклинание. traitSpells — заклинания для особенностей SRD, у которых их нет в данных API.",
   "subraces": [
     {
       "id": "mountain-dwarf",
       "raceId": "dwarf",
-      "name": { "en": "Mountain Dwarf", "ru": "Горный дварф" },
-      "abilityBonuses": { "str": 2 },
+      "name": {
+        "en": "Mountain Dwarf",
+        "ru": "Горный дварф"
+      },
+      "abilityBonuses": {
+        "str": 2
+      },
       "traits": [
-        { "id": "dwarven-armor-training", "name": { "en": "Dwarven Armor Training", "ru": "Владение дварфийскими доспехами" }, "text": "Вы владеете лёгкими и средними доспехами.", "textEn": "You have proficiency with light and medium armor.", "proficiencies": ["light-armor", "medium-armor"] }
+        {
+          "id": "dwarven-armor-training",
+          "name": {
+            "en": "Dwarven Armor Training",
+            "ru": "Владение дварфийскими доспехами"
+          },
+          "text": "Вы владеете лёгкими и средними доспехами.",
+          "textEn": "You have proficiency with light and medium armor.",
+          "proficiencies": [
+            "light-armor",
+            "medium-armor"
+          ]
+        }
       ]
     },
     {
       "id": "wood-elf",
       "raceId": "elf",
-      "name": { "en": "Wood Elf", "ru": "Лесной эльф" },
-      "abilityBonuses": { "wis": 1 },
+      "name": {
+        "en": "Wood Elf",
+        "ru": "Лесной эльф"
+      },
+      "abilityBonuses": {
+        "wis": 1
+      },
       "traits": [
         "elf-weapon-training",
-        { "id": "fleet-of-foot", "name": { "en": "Fleet of Foot", "ru": "Быстрые ноги" }, "text": "Ваша базовая скорость — 35 фт.", "textEn": "Your base walking speed is 35 feet.", "speed": 35 },
-        { "id": "mask-of-the-wild", "name": { "en": "Mask of the Wild", "ru": "Маскировка в дикой природе" }, "text": "Вы можете пытаться спрятаться, даже если вас лишь слегка заслоняет листва, сильный дождь, снегопад, туман и другие природные явления.", "textEn": "You can try to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist and other natural phenomena." }
+        {
+          "id": "fleet-of-foot",
+          "name": {
+            "en": "Fleet of Foot",
+            "ru": "Быстрые ноги"
+          },
+          "text": "Ваша базовая скорость — 35 фт.",
+          "textEn": "Your base walking speed is 35 feet.",
+          "speed": 35
+        },
+        {
+          "id": "mask-of-the-wild",
+          "name": {
+            "en": "Mask of the Wild",
+            "ru": "Маскировка в дикой природе"
+          },
+          "text": "Вы можете пытаться спрятаться, даже если вас лишь слегка заслоняет листва, сильный дождь, снегопад, туман и другие природные явления.",
+          "textEn": "You can try to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist and other natural phenomena."
+        }
       ]
     },
     {
       "id": "dark-elf",
       "raceId": "elf",
-      "name": { "en": "Dark Elf (Drow)", "ru": "Тёмный эльф (дроу)" },
-      "abilityBonuses": { "cha": 1 },
+      "name": {
+        "en": "Dark Elf (Drow)",
+        "ru": "Тёмный эльф (дроу)"
+      },
+      "abilityBonuses": {
+        "cha": 1
+      },
       "traits": [
-        { "id": "superior-darkvision", "name": { "en": "Superior Darkvision", "ru": "Превосходное тёмное зрение" }, "text": "Тёмное зрение на 120 фт вместо 60 фт.", "textEn": "Your darkvision has a radius of 120 feet instead of 60 feet." },
-        { "id": "sunlight-sensitivity", "name": { "en": "Sunlight Sensitivity", "ru": "Чувствительность к солнцу" }, "text": "Помеха на броски атаки и проверки Мудрости (Восприятие), основанные на зрении, если вы, цель атаки или то, что вы пытаетесь заметить, на прямом солнечном свету.", "textEn": "Disadvantage on attack rolls and on sight-based Wisdom (Perception) checks when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight." },
-        { "id": "drow-magic", "name": { "en": "Drow Magic", "ru": "Магия дроу" }, "text": "Вы знаете заговор «Пляшущие огоньки». С 3-го уровня — «Огонь фей», с 5-го — «Тьма», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.", "textEn": "You know the Dancing Lights cantrip. From level 3 you can cast Faerie Fire, and from level 5 Darkness, each once per long rest. Charisma is your spellcasting ability for them.", "spells": ["dancing-lights", "faerie-fire", "darkness"], "spellLevels": { "faerie-fire": 3, "darkness": 5 } },
-        { "id": "drow-weapon-training", "name": { "en": "Drow Weapon Training", "ru": "Владение оружием дроу" }, "text": "Вы владеете рапирами, короткими мечами и ручными арбалетами.", "textEn": "You have proficiency with rapiers, shortswords and hand crossbows.", "proficiencies": ["rapiers", "shortswords", "hand-crossbows"] }
+        {
+          "id": "superior-darkvision",
+          "name": {
+            "en": "Superior Darkvision",
+            "ru": "Превосходное тёмное зрение"
+          },
+          "text": "Тёмное зрение на 120 фт вместо 60 фт.",
+          "textEn": "Your darkvision has a radius of 120 feet instead of 60 feet."
+        },
+        {
+          "id": "sunlight-sensitivity",
+          "name": {
+            "en": "Sunlight Sensitivity",
+            "ru": "Чувствительность к солнцу"
+          },
+          "text": "Помеха на броски атаки и проверки Мудрости (Восприятие), основанные на зрении, если вы, цель атаки или то, что вы пытаетесь заметить, на прямом солнечном свету.",
+          "textEn": "Disadvantage on attack rolls and on sight-based Wisdom (Perception) checks when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
+        },
+        {
+          "id": "drow-magic",
+          "name": {
+            "en": "Drow Magic",
+            "ru": "Магия дроу"
+          },
+          "text": "Вы знаете заговор «Пляшущие огоньки». С 3-го уровня — «Огонь фей», с 5-го — «Тьма», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Dancing Lights cantrip. From level 3 you can cast Faerie Fire, and from level 5 Darkness, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "dancing-lights",
+            "faerie-fire",
+            "darkness"
+          ],
+          "spellLevels": {
+            "faerie-fire": 3,
+            "darkness": 5
+          }
+        },
+        {
+          "id": "drow-weapon-training",
+          "name": {
+            "en": "Drow Weapon Training",
+            "ru": "Владение оружием дроу"
+          },
+          "text": "Вы владеете рапирами, короткими мечами и ручными арбалетами.",
+          "textEn": "You have proficiency with rapiers, shortswords and hand crossbows.",
+          "proficiencies": [
+            "rapiers",
+            "shortswords",
+            "hand-crossbows"
+          ]
+        }
       ]
     },
     {
       "id": "stout-halfling",
       "raceId": "halfling",
-      "name": { "en": "Stout Halfling", "ru": "Коренастый полурослик" },
-      "abilityBonuses": { "con": 1 },
+      "name": {
+        "en": "Stout Halfling",
+        "ru": "Коренастый полурослик"
+      },
+      "abilityBonuses": {
+        "con": 1
+      },
       "traits": [
-        { "id": "stout-resilience", "name": { "en": "Stout Resilience", "ru": "Устойчивость коренастых" }, "text": "Преимущество на спасброски от яда и сопротивление урону ядом.", "textEn": "Advantage on saving throws against poison and resistance to poison damage." }
+        {
+          "id": "stout-resilience",
+          "name": {
+            "en": "Stout Resilience",
+            "ru": "Устойчивость коренастых"
+          },
+          "text": "Преимущество на спасброски от яда и сопротивление урону ядом.",
+          "textEn": "Advantage on saving throws against poison and resistance to poison damage."
+        }
       ]
     },
     {
       "id": "forest-gnome",
       "raceId": "gnome",
-      "name": { "en": "Forest Gnome", "ru": "Лесной гном" },
-      "abilityBonuses": { "dex": 1 },
+      "name": {
+        "en": "Forest Gnome",
+        "ru": "Лесной гном"
+      },
+      "abilityBonuses": {
+        "dex": 1
+      },
       "traits": [
-        { "id": "natural-illusionist", "name": { "en": "Natural Illusionist", "ru": "Природный иллюзионист" }, "text": "Вы знаете заговор «Малая иллюзия». Заклинательная характеристика — Интеллект.", "textEn": "You know the Minor Illusion cantrip. Intelligence is your spellcasting ability for it.", "spells": ["minor-illusion"] },
-        { "id": "speak-with-small-beasts", "name": { "en": "Speak with Small Beasts", "ru": "Разговор с маленькими зверями" }, "text": "Звуками и жестами вы можете передавать простые мысли маленьким и мелким зверям.", "textEn": "Through sounds and gestures you can communicate simple ideas with Small or smaller beasts." }
+        {
+          "id": "natural-illusionist",
+          "name": {
+            "en": "Natural Illusionist",
+            "ru": "Природный иллюзионист"
+          },
+          "text": "Вы знаете заговор «Малая иллюзия». Заклинательная характеристика — Интеллект.",
+          "textEn": "You know the Minor Illusion cantrip. Intelligence is your spellcasting ability for it.",
+          "spells": [
+            "minor-illusion"
+          ]
+        },
+        {
+          "id": "speak-with-small-beasts",
+          "name": {
+            "en": "Speak with Small Beasts",
+            "ru": "Разговор с маленькими зверями"
+          },
+          "text": "Звуками и жестами вы можете передавать простые мысли маленьким и мелким зверям.",
+          "textEn": "Through sounds and gestures you can communicate simple ideas with Small or smaller beasts."
+        }
+      ]
+    },
+    {
+      "id": "aasimar-protector",
+      "raceId": "aasimar",
+      "name": {
+        "en": "Protector Aasimar",
+        "ru": "Аасимар-защитник"
+      },
+      "abilityBonuses": {
+        "wis": 1
+      },
+      "traits": [
+        {
+          "id": "radiant-soul",
+          "name": {
+            "en": "Radiant Soul",
+            "ru": "Сияющая душа"
+          },
+          "text": "С 3-го уровня. Действием вы преображаетесь на 1 минуту: у вас появляются призрачные крылья и скорость полёта 30 фт, а раз в ход одна ваша атака или заклинание наносит дополнительный урон излучением, равный вашему уровню. Один раз до долгого отдыха.",
+          "textEn": "From level 3. As an action you transform for 1 minute: you sprout spectral wings and gain a flying speed of 30 feet, and once on each of your turns one of your attacks or spells deals extra radiant damage equal to your level. Once per long rest."
+        }
+      ]
+    },
+    {
+      "id": "aasimar-scourge",
+      "raceId": "aasimar",
+      "name": {
+        "en": "Scourge Aasimar",
+        "ru": "Аасимар-каратель"
+      },
+      "abilityBonuses": {
+        "con": 1
+      },
+      "traits": [
+        {
+          "id": "radiant-consumption",
+          "name": {
+            "en": "Radiant Consumption",
+            "ru": "Испепеляющее сияние"
+          },
+          "text": "С 3-го уровня. Действием вы преображаетесь на 1 минуту: яркий свет на 10 фт и тусклый ещё на 10 фт; в конце каждого вашего хода вы и все существа в пределах 10 фт получаете урон излучением, равный половине вашего уровня (с округлением вверх), а раз в ход одна ваша атака или заклинание наносит дополнительный урон излучением, равный вашему уровню. Один раз до долгого отдыха.",
+          "textEn": "From level 3. As an action you transform for 1 minute: you shed bright light in 10 feet and dim light 10 feet beyond; at the end of each of your turns you and each creature within 10 feet take radiant damage equal to half your level (rounded up), and once on each of your turns one of your attacks or spells deals extra radiant damage equal to your level. Once per long rest."
+        }
+      ]
+    },
+    {
+      "id": "aasimar-fallen",
+      "raceId": "aasimar",
+      "name": {
+        "en": "Fallen Aasimar",
+        "ru": "Падший аасимар"
+      },
+      "abilityBonuses": {
+        "str": 1
+      },
+      "traits": [
+        {
+          "id": "necrotic-shroud",
+          "name": {
+            "en": "Necrotic Shroud",
+            "ru": "Некротическая пелена"
+          },
+          "text": "С 3-го уровня. Действием вы преображаетесь на 1 минуту: существа в пределах 10 фт, которые вас видят (кроме союзников), проходят спасбросок Харизмы (СЛ 8 + БМ + мод. ХАР) или испуганы вами до конца вашего следующего хода; раз в ход одна ваша атака или заклинание наносит дополнительный некротический урон, равный вашему уровню. Один раз до долгого отдыха.",
+          "textEn": "From level 3. As an action you transform for 1 minute: creatures within 10 feet that can see you (other than your allies) make a Charisma saving throw (DC 8 + proficiency bonus + Charisma modifier) or are frightened of you until the end of your next turn; once on each of your turns one of your attacks or spells deals extra necrotic damage equal to your level. Once per long rest."
+        }
+      ]
+    },
+    {
+      "id": "shifter-beasthide",
+      "raceId": "shifter",
+      "name": {
+        "en": "Beasthide",
+        "ru": "Толстошкурый"
+      },
+      "abilityBonuses": {
+        "con": 2,
+        "str": 1
+      },
+      "traits": [
+        {
+          "id": "beasthide-natural-athlete",
+          "name": {
+            "en": "Natural Athlete",
+            "ru": "Прирождённый атлет"
+          },
+          "text": "Вы владеете навыком Атлетика.",
+          "textEn": "You have proficiency in the Athletics skill.",
+          "proficiencies": [
+            "skill-athletics"
+          ]
+        },
+        {
+          "id": "beasthide-shift",
+          "name": {
+            "en": "Shifting Feature",
+            "ru": "Облик: толстая шкура"
+          },
+          "text": "В облике — ещё 1к6 временных хитов и +1 к КЗ.",
+          "textEn": "While shifted — 1d6 more temporary hit points and +1 AC."
+        }
+      ]
+    },
+    {
+      "id": "shifter-longtooth",
+      "raceId": "shifter",
+      "name": {
+        "en": "Longtooth",
+        "ru": "Длиннозубый"
+      },
+      "abilityBonuses": {
+        "str": 2,
+        "dex": 1
+      },
+      "traits": [
+        {
+          "id": "longtooth-fierce",
+          "name": {
+            "en": "Fierce",
+            "ru": "Свирепость"
+          },
+          "text": "Вы владеете навыком Запугивание.",
+          "textEn": "You have proficiency in the Intimidation skill.",
+          "proficiencies": [
+            "skill-intimidation"
+          ]
+        },
+        {
+          "id": "longtooth-shift",
+          "name": {
+            "en": "Shifting Feature",
+            "ru": "Облик: клыки"
+          },
+          "text": "В облике — бонусным действием безоружный удар клыками: 1к6 + мод. СИЛ колющего урона.",
+          "textEn": "While shifted — as a bonus action, an unarmed strike with your fangs: 1d6 + Strength modifier piercing damage."
+        }
+      ]
+    },
+    {
+      "id": "shifter-swiftstride",
+      "raceId": "shifter",
+      "name": {
+        "en": "Swiftstride",
+        "ru": "Быстроногий"
+      },
+      "abilityBonuses": {
+        "dex": 2,
+        "cha": 1
+      },
+      "traits": [
+        {
+          "id": "swiftstride-graceful",
+          "name": {
+            "en": "Graceful",
+            "ru": "Грация"
+          },
+          "text": "Вы владеете навыком Акробатика.",
+          "textEn": "You have proficiency in the Acrobatics skill.",
+          "proficiencies": [
+            "skill-acrobatics"
+          ]
+        },
+        {
+          "id": "swiftstride-shift",
+          "name": {
+            "en": "Shifting Feature",
+            "ru": "Облик: быстрые ноги"
+          },
+          "text": "В облике — скорость +10 фт; когда существо заканчивает ход в пределах 5 фт от вас, реакцией можно отойти на 10 фт, не провоцируя атак.",
+          "textEn": "While shifted — +10 ft speed; when a creature ends its turn within 5 feet of you, you can use your reaction to move up to 10 feet without provoking opportunity attacks."
+        }
+      ]
+    },
+    {
+      "id": "shifter-wildhunt",
+      "raceId": "shifter",
+      "name": {
+        "en": "Wildhunt",
+        "ru": "Дикий охотник"
+      },
+      "abilityBonuses": {
+        "wis": 2,
+        "dex": 1
+      },
+      "traits": [
+        {
+          "id": "wildhunt-natural-tracker",
+          "name": {
+            "en": "Natural Tracker",
+            "ru": "Прирождённый следопыт"
+          },
+          "text": "Вы владеете навыком Выживание.",
+          "textEn": "You have proficiency in the Survival skill.",
+          "proficiencies": [
+            "skill-survival"
+          ]
+        },
+        {
+          "id": "wildhunt-shift",
+          "name": {
+            "en": "Shifting Feature",
+            "ru": "Облик: охотник"
+          },
+          "text": "В облике — преимущество на проверки Мудрости, и существа в пределах 30 фт не могут атаковать вас с преимуществом, если вы не недееспособны.",
+          "textEn": "While shifted — advantage on Wisdom checks, and no creature within 30 feet of you can make an attack roll with advantage against you unless you are incapacitated."
+        }
+      ]
+    },
+    {
+      "id": "tiefling-asmodeus",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Asmodeus",
+        "ru": "Асмодей"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "int": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        "infernal-legacy"
+      ]
+    },
+    {
+      "id": "tiefling-baalzebul",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Baalzebul",
+        "ru": "Вельзевул"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "int": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        {
+          "id": "legacy-of-maladomini",
+          "name": {
+            "en": "Legacy of Maladomini",
+            "ru": "Наследие Маладомини"
+          },
+          "text": "Вы знаете заговор «Чудотворство». С 3-го уровня — «Луч болезни» (как заклинание 2-го круга), с 5-го — «Корона безумия», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Thaumaturgy cantrip. From level 3 you can cast Ray of Sickness (as a 2nd-level spell), and from level 5 Crown of Madness, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "thaumaturgy",
+            "ray-of-sickness",
+            "crown-of-madness"
+          ],
+          "spellLevels": {
+            "ray-of-sickness": 3,
+            "crown-of-madness": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tiefling-dispater",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Dispater",
+        "ru": "Диспатер"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "dex": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        {
+          "id": "legacy-of-dis",
+          "name": {
+            "en": "Legacy of Dis",
+            "ru": "Наследие Диса"
+          },
+          "text": "Вы знаете заговор «Чудотворство». С 3-го уровня — «Маскировка», с 5-го — «Обнаружение мыслей», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Thaumaturgy cantrip. From level 3 you can cast Disguise Self, and from level 5 Detect Thoughts, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "thaumaturgy",
+            "disguise-self",
+            "detect-thoughts"
+          ],
+          "spellLevels": {
+            "disguise-self": 3,
+            "detect-thoughts": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tiefling-fierna",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Fierna",
+        "ru": "Фьёрна"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "wis": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        {
+          "id": "legacy-of-phlegethos",
+          "name": {
+            "en": "Legacy of Phlegethos",
+            "ru": "Наследие Флегетоса"
+          },
+          "text": "Вы знаете заговор «Дружба». С 3-го уровня — «Очарование личности» (как заклинание 2-го круга), с 5-го — «Внушение», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Friends cantrip. From level 3 you can cast Charm Person (as a 2nd-level spell), and from level 5 Suggestion, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "friends",
+            "charm-person",
+            "suggestion"
+          ],
+          "spellLevels": {
+            "charm-person": 3,
+            "suggestion": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tiefling-glasya",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Glasya",
+        "ru": "Гласия"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "dex": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        {
+          "id": "legacy-of-malbolge",
+          "name": {
+            "en": "Legacy of Malbolge",
+            "ru": "Наследие Мальболга"
+          },
+          "text": "Вы знаете заговор «Малая иллюзия». С 3-го уровня — «Маскировка», с 5-го — «Невидимость», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Minor Illusion cantrip. From level 3 you can cast Disguise Self, and from level 5 Invisibility, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "minor-illusion",
+            "disguise-self",
+            "invisibility"
+          ],
+          "spellLevels": {
+            "disguise-self": 3,
+            "invisibility": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tiefling-levistus",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Levistus",
+        "ru": "Левистус"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "con": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        {
+          "id": "legacy-of-stygia",
+          "name": {
+            "en": "Legacy of Stygia",
+            "ru": "Наследие Стигии"
+          },
+          "text": "Вы знаете заговор «Луч холода». С 3-го уровня — «Доспех Агатиса» (как заклинание 2-го круга), с 5-го — «Тьма», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Ray of Frost cantrip. From level 3 you can cast Armor of Agathys (as a 2nd-level spell), and from level 5 Darkness, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "ray-of-frost",
+            "armor-of-agathys",
+            "darkness"
+          ],
+          "spellLevels": {
+            "armor-of-agathys": 3,
+            "darkness": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tiefling-mammon",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Mammon",
+        "ru": "Маммон"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "int": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        {
+          "id": "legacy-of-minauros",
+          "name": {
+            "en": "Legacy of Minauros",
+            "ru": "Наследие Минауроса"
+          },
+          "text": "Вы знаете заговор «Волшебная рука». С 3-го уровня — «Парящий диск», с 5-го — «Магический замок», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Mage Hand cantrip. From level 3 you can cast Floating Disk, and from level 5 Arcane Lock, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "mage-hand",
+            "floating-disk",
+            "arcane-lock"
+          ],
+          "spellLevels": {
+            "floating-disk": 3,
+            "arcane-lock": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tiefling-mephistopheles",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Mephistopheles",
+        "ru": "Мефистофель"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "int": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        {
+          "id": "legacy-of-cania",
+          "name": {
+            "en": "Legacy of Cania",
+            "ru": "Наследие Кании"
+          },
+          "text": "Вы знаете заговор «Волшебная рука». С 3-го уровня — «Огненные ладони» (как заклинание 2-го круга), с 5-го — «Пылающий клинок», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Mage Hand cantrip. From level 3 you can cast Burning Hands (as a 2nd-level spell), and from level 5 Flame Blade, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "mage-hand",
+            "burning-hands",
+            "flame-blade"
+          ],
+          "spellLevels": {
+            "burning-hands": 3,
+            "flame-blade": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tiefling-zariel",
+      "raceId": "tiefling",
+      "name": {
+        "en": "Zariel",
+        "ru": "Зариэль"
+      },
+      "abilityBonuses": {
+        "cha": 2,
+        "str": 1
+      },
+      "replacesAbilityBonuses": true,
+      "replacesTraits": [
+        "infernal-legacy"
+      ],
+      "traits": [
+        {
+          "id": "legacy-of-avernus",
+          "name": {
+            "en": "Legacy of Avernus",
+            "ru": "Наследие Аверна"
+          },
+          "text": "Вы знаете заговор «Чудотворство». С 3-го уровня — «Палящая кара» (как заклинание 2-го круга), с 5-го — «Клеймящая кара», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Thaumaturgy cantrip. From level 3 you can cast Searing Smite (as a 2nd-level spell), and from level 5 Branding Smite, each once per long rest. Charisma is your spellcasting ability for them.",
+          "spells": [
+            "thaumaturgy",
+            "searing-smite",
+            "branding-smite"
+          ],
+          "spellLevels": {
+            "searing-smite": 3,
+            "branding-smite": 5
+          }
+        }
       ]
     }
   ],
   "species": [
     {
       "id": "human-variant",
-      "name": { "en": "Human (Variant)", "ru": "Человек (вариант)" },
-      "sizes": ["Medium"],
+      "name": {
+        "en": "Human (Variant)",
+        "ru": "Человек (альтернативный)"
+      },
+      "sizes": [
+        "Medium"
+      ],
       "speed": 30,
-      "abilityBonusChoice": { "choose": 2, "bonus": 1, "options": ["str", "dex", "con", "int", "wis", "cha"] },
-      "languages": ["common"],
+      "abilityBonusChoice": {
+        "choose": 2,
+        "bonus": 1,
+        "options": [
+          "str",
+          "dex",
+          "con",
+          "int",
+          "wis",
+          "cha"
+        ]
+      },
+      "languages": [
+        "common"
+      ],
       "languageChoice": 1,
       "traits": [
-        { "id": "variant-human-skill", "name": { "en": "Skills", "ru": "Навык" }, "text": "Вы владеете одним навыком на выбор.", "textEn": "You gain proficiency in one skill of your choice.", "proficiencyChoices": [{ "choose": 1, "fromProficiencyType": "skill", "desc": "Любой навык", "descEn": "Any skill" }] },
-        { "id": "variant-human-feat", "name": { "en": "Feat", "ru": "Черта" }, "text": "Вы получаете одну черту на выбор.", "textEn": "You gain one feat of your choice." }
+        {
+          "id": "variant-human-skill",
+          "name": {
+            "en": "Skills",
+            "ru": "Навык"
+          },
+          "text": "Вы владеете одним навыком на выбор.",
+          "textEn": "You gain proficiency in one skill of your choice.",
+          "proficiencyChoices": [
+            {
+              "choose": 1,
+              "fromProficiencyType": "skill",
+              "desc": "Любой навык",
+              "descEn": "Any skill"
+            }
+          ]
+        },
+        {
+          "id": "variant-human-feat",
+          "name": {
+            "en": "Feat",
+            "ru": "Черта"
+          },
+          "text": "Вы получаете одну черту на выбор.",
+          "textEn": "You gain one feat of your choice."
+        }
+      ]
+    },
+    {
+      "id": "goliath",
+      "name": {
+        "en": "Goliath",
+        "ru": "Голиаф"
+      },
+      "sizes": [
+        "Medium"
+      ],
+      "speed": 30,
+      "abilityBonuses": {
+        "str": 2,
+        "con": 1
+      },
+      "languages": [
+        "common",
+        "giant"
+      ],
+      "traits": [
+        {
+          "id": "goliath-natural-athlete",
+          "name": {
+            "en": "Natural Athlete",
+            "ru": "Прирождённый атлет"
+          },
+          "text": "Вы владеете навыком Атлетика.",
+          "textEn": "You have proficiency in the Athletics skill.",
+          "proficiencies": [
+            "skill-athletics"
+          ]
+        },
+        {
+          "id": "stones-endurance",
+          "name": {
+            "en": "Stone's Endurance",
+            "ru": "Выносливость камня"
+          },
+          "text": "Получив урон, вы можете реакцией бросить к12, прибавить модификатор ТЕЛ и уменьшить урон на это число. Один раз до короткого или долгого отдыха.",
+          "textEn": "When you take damage, you can use your reaction to roll a d12, add your Constitution modifier and reduce the damage by that total. Once per short or long rest."
+        },
+        {
+          "id": "powerful-build",
+          "name": {
+            "en": "Powerful Build",
+            "ru": "Мощное телосложение"
+          },
+          "text": "При расчёте грузоподъёмности и веса, который вы можете толкать, тащить или поднимать, вы считаетесь на один размер больше.",
+          "textEn": "You count as one size larger when determining your carrying capacity and the weight you can push, drag or lift."
+        },
+        {
+          "id": "mountain-born",
+          "name": {
+            "en": "Mountain Born",
+            "ru": "Рождённый в горах"
+          },
+          "text": "Сопротивление урону холодом. Вы привычны к большой высоте, в том числе выше 20 000 фт.",
+          "textEn": "Resistance to cold damage. You are acclimated to high altitude, including elevations above 20,000 feet."
+        }
+      ]
+    },
+    {
+      "id": "orc",
+      "name": {
+        "en": "Orc",
+        "ru": "Орк"
+      },
+      "sizes": [
+        "Medium"
+      ],
+      "speed": 30,
+      "abilityBonuses": {
+        "str": 2,
+        "con": 1,
+        "int": -2
+      },
+      "languages": [
+        "common",
+        "orc"
+      ],
+      "traits": [
+        "darkvision",
+        {
+          "id": "aggressive",
+          "name": {
+            "en": "Aggressive",
+            "ru": "Агрессивность"
+          },
+          "text": "Бонусным действием вы можете переместиться на расстояние до своей скорости к враждебному существу, которое видите.",
+          "textEn": "As a bonus action, you can move up to your speed toward a hostile creature you can see."
+        },
+        "menacing",
+        "powerful-build"
+      ]
+    },
+    {
+      "id": "aasimar",
+      "name": {
+        "en": "Aasimar",
+        "ru": "Аасимар"
+      },
+      "sizes": [
+        "Medium"
+      ],
+      "speed": 30,
+      "abilityBonuses": {
+        "cha": 2
+      },
+      "languages": [
+        "common",
+        "celestial"
+      ],
+      "traits": [
+        "darkvision",
+        {
+          "id": "celestial-resistance",
+          "name": {
+            "en": "Celestial Resistance",
+            "ru": "Небесная стойкость"
+          },
+          "text": "Сопротивление урону некротической энергией и излучением.",
+          "textEn": "Resistance to necrotic and radiant damage."
+        },
+        {
+          "id": "healing-hands",
+          "name": {
+            "en": "Healing Hands",
+            "ru": "Исцеляющие руки"
+          },
+          "text": "Действием коснитесь существа: оно восстанавливает хиты, равные вашему уровню. Один раз до долгого отдыха.",
+          "textEn": "As an action, touch a creature: it regains hit points equal to your level. Once per long rest."
+        },
+        {
+          "id": "light-bearer",
+          "name": {
+            "en": "Light Bearer",
+            "ru": "Несущий свет"
+          },
+          "text": "Вы знаете заговор «Свет». Заклинательная характеристика — Харизма.",
+          "textEn": "You know the Light cantrip. Charisma is your spellcasting ability for it.",
+          "spells": [
+            "light"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dhampir",
+      "name": {
+        "en": "Dhampir",
+        "ru": "Дампир"
+      },
+      "sizes": [
+        "Medium",
+        "Small"
+      ],
+      "speed": 35,
+      "abilityBonusChoice": {
+        "choose": 3,
+        "bonus": 1,
+        "options": [
+          "str",
+          "dex",
+          "con",
+          "int",
+          "wis",
+          "cha"
+        ]
+      },
+      "languages": [
+        "common"
+      ],
+      "languageChoice": 1,
+      "traits": [
+        "darkvision",
+        {
+          "id": "deathless-nature",
+          "name": {
+            "en": "Deathless Nature",
+            "ru": "Бессмертная природа"
+          },
+          "text": "Вам не нужно дышать.",
+          "textEn": "You don't need to breathe."
+        },
+        {
+          "id": "spider-climb",
+          "name": {
+            "en": "Spider Climb",
+            "ru": "Паучье лазание"
+          },
+          "text": "Скорость лазания равна скорости ходьбы. С 3-го уровня вы можете передвигаться по стенам и потолку, не используя рук.",
+          "textEn": "You have a climbing speed equal to your walking speed. From level 3 you can move up, down and across vertical surfaces and along ceilings, leaving your hands free."
+        },
+        {
+          "id": "vampiric-bite",
+          "name": {
+            "en": "Vampiric Bite",
+            "ru": "Вампирский укус"
+          },
+          "text": "Укус клыками — безоружный удар: 1к4 + мод. ТЕЛ колющего урона, с преимуществом, если у вас не больше половины хитов. Попав по существу (не конструкту и не нежити), вы можете восстановить хиты, равные урону, или получить такой же бонус к следующей проверке или броску атаки. Усиление укусом — столько раз, каков бонус мастерства, до долгого отдыха.",
+          "textEn": "Your fanged bite is an unarmed strike: 1d4 + Constitution modifier piercing damage, with advantage if you have no more than half your hit points. When you hit a creature that isn't a construct or undead, you can either regain hit points equal to the damage or gain a bonus equal to the damage to your next ability check or attack roll. Uses of the empowerment: proficiency bonus per long rest."
+        }
+      ]
+    },
+    {
+      "id": "kalashtar",
+      "name": {
+        "en": "Kalashtar",
+        "ru": "Калаштар"
+      },
+      "sizes": [
+        "Medium"
+      ],
+      "speed": 30,
+      "abilityBonuses": {
+        "wis": 2,
+        "cha": 1
+      },
+      "languages": [
+        "common"
+      ],
+      "languageChoice": 1,
+      "traits": [
+        {
+          "id": "dual-mind",
+          "name": {
+            "en": "Dual Mind",
+            "ru": "Двойной разум"
+          },
+          "text": "Преимущество на все спасброски Мудрости.",
+          "textEn": "Advantage on all Wisdom saving throws."
+        },
+        {
+          "id": "mental-discipline",
+          "name": {
+            "en": "Mental Discipline",
+            "ru": "Ментальная дисциплина"
+          },
+          "text": "Сопротивление урону психической энергией.",
+          "textEn": "Resistance to psychic damage."
+        },
+        {
+          "id": "mind-link",
+          "name": {
+            "en": "Mind Link",
+            "ru": "Мысленная связь"
+          },
+          "text": "Вы можете телепатически говорить с видимым существом в пределах 10 × ваш уровень фт; оно поймёт, только если знает ваш язык. Действием вы можете дать ему отвечать вам телепатически в течение 1 часа.",
+          "textEn": "You can speak telepathically to a creature you can see within 10 × your level feet; it understands you only if it knows a language you know. As an action you can let it reply telepathically for 1 hour."
+        },
+        {
+          "id": "severed-from-dreams",
+          "name": {
+            "en": "Severed from Dreams",
+            "ru": "Отрезанный от снов"
+          },
+          "text": "Вы не видите снов и невосприимчивы к заклинаниям и эффектам, которым нужно, чтобы вы спали и видели сны (например, «Сновидение»), но не к усыплению. Языки: вы знаете ещё квори — в приложении его нет, запишите в заметках.",
+          "textEn": "You don't dream; you are immune to spells and effects that require you to dream (like Dream), but not to sleep effects. Languages: you also know Quori — the app doesn't list it, mark it in notes."
+        }
+      ]
+    },
+    {
+      "id": "warforged",
+      "name": {
+        "en": "Warforged",
+        "ru": "Кованый"
+      },
+      "sizes": [
+        "Medium"
+      ],
+      "speed": 30,
+      "abilityBonuses": {
+        "con": 2
+      },
+      "abilityBonusChoice": {
+        "choose": 1,
+        "bonus": 1,
+        "options": [
+          "str",
+          "dex",
+          "int",
+          "wis",
+          "cha"
+        ]
+      },
+      "languages": [
+        "common"
+      ],
+      "languageChoice": 1,
+      "traits": [
+        {
+          "id": "constructed-resilience-2014",
+          "name": {
+            "en": "Constructed Resilience",
+            "ru": "Искусственная стойкость"
+          },
+          "text": "Преимущество на спасброски от отравления и сопротивление урону ядом. Вам не нужно есть, пить и дышать, вы невосприимчивы к болезням, и магия не может вас усыпить.",
+          "textEn": "Advantage on saving throws against being poisoned and resistance to poison damage. You don't need to eat, drink or breathe, you are immune to disease, and magic can't put you to sleep."
+        },
+        {
+          "id": "sentrys-rest",
+          "name": {
+            "en": "Sentry's Rest",
+            "ru": "Отдых часового"
+          },
+          "text": "Долгий отдых — 6 часов в неподвижном состоянии: вы не спите и видите и слышите всё вокруг.",
+          "textEn": "A long rest is 6 hours of inactivity: you don't sleep and can see and hear everything around you."
+        },
+        {
+          "id": "integrated-protection",
+          "name": {
+            "en": "Integrated Protection",
+            "ru": "Встроенная защита"
+          },
+          "text": "+1 к КЗ (учтено в листе). Надетый доспех становится частью тела: надеть или снять его можно только за 1 час, и против вашей воли его не снять.",
+          "textEn": "+1 AC (included in the sheet). Armor you wear becomes part of your body: donning or doffing it takes 1 hour, and it can't be removed against your will."
+        },
+        {
+          "id": "specialized-design",
+          "name": {
+            "en": "Specialized Design",
+            "ru": "Особая конструкция"
+          },
+          "text": "Владение одним навыком и одним инструментом на ваш выбор.",
+          "textEn": "Proficiency in one skill and one tool of your choice.",
+          "proficiencyChoices": [
+            {
+              "choose": 1,
+              "fromProficiencyType": "skill",
+              "desc": "Выберите навык",
+              "descEn": "Choose a skill"
+            },
+            {
+              "choose": 1,
+              "fromProficiencyType": "anyTool",
+              "desc": "Выберите инструмент",
+              "descEn": "Choose a tool"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "changeling",
+      "name": {
+        "en": "Changeling",
+        "ru": "Ченджлинг"
+      },
+      "sizes": [
+        "Medium"
+      ],
+      "speed": 30,
+      "abilityBonuses": {
+        "cha": 2
+      },
+      "abilityBonusChoice": {
+        "choose": 1,
+        "bonus": 1,
+        "options": [
+          "str",
+          "dex",
+          "con",
+          "int",
+          "wis"
+        ]
+      },
+      "languages": [
+        "common"
+      ],
+      "languageChoice": 2,
+      "traits": [
+        {
+          "id": "shapechanger",
+          "name": {
+            "en": "Shapechanger",
+            "ru": "Перевёртыш"
+          },
+          "text": "Действием вы меняете внешность и голос: рост, вес, черты лица, волосы, кожу. Вы можете выглядеть как представитель другой Средней гуманоидной расы, но параметры не меняются. Облик держится, пока вы действием не вернёте свой или не умрёте.",
+          "textEn": "As an action you change your appearance and voice: height, weight, features, hair, skin. You can look like a member of another Medium humanoid race, but your statistics don't change. You stay in the new form until you use an action to revert or die."
+        },
+        {
+          "id": "changeling-instincts",
+          "name": {
+            "en": "Changeling Instincts",
+            "ru": "Чутьё ченджлинга"
+          },
+          "text": "Владение двумя навыками из списка: Обман, Проницательность, Запугивание, Убеждение.",
+          "textEn": "Proficiency in two skills from the list: Deception, Insight, Intimidation, Persuasion.",
+          "proficiencyChoices": [
+            {
+              "choose": 2,
+              "options": [
+                "skill-deception",
+                "skill-insight",
+                "skill-intimidation",
+                "skill-persuasion"
+              ],
+              "desc": "Выберите два навыка",
+              "descEn": "Choose two skills"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shifter",
+      "name": {
+        "en": "Shifter",
+        "ru": "Шифтер"
+      },
+      "sizes": [
+        "Medium"
+      ],
+      "speed": 30,
+      "languages": [
+        "common"
+      ],
+      "traits": [
+        "darkvision",
+        {
+          "id": "shifting",
+          "name": {
+            "en": "Shifting",
+            "ru": "Смена облика"
+          },
+          "text": "Бонусным действием вы принимаете звериный облик на 1 минуту (раньше — бонусным действием или если умерли) и получаете временные хиты: уровень + мод. ТЕЛ (минимум 1). Один раз до короткого или долгого отдыха. Что ещё даёт облик — зависит от подрасы.",
+          "textEn": "As a bonus action you take on a bestial form for 1 minute (or until you die or revert as a bonus action) and gain temporary hit points equal to your level + Constitution modifier (minimum 1). Once per short or long rest. What else the form grants depends on your subrace."
+        }
       ]
     }
   ],
   "traitSpells": {
-    "infernal-legacy": { "spells": ["thaumaturgy", "hellish-rebuke", "darkness"], "spellLevels": { "hellish-rebuke": 3, "darkness": 5 } }
+    "infernal-legacy": {
+      "spells": [
+        "thaumaturgy",
+        "hellish-rebuke",
+        "darkness"
+      ],
+      "spellLevels": {
+        "hellish-rebuke": 3,
+        "darkness": 5
+      }
+    }
   }
 }

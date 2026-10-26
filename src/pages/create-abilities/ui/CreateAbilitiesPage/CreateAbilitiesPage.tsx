@@ -45,7 +45,9 @@ export function CreateAbilitiesPage() {
   const totals = finalAbilityScores({ ...character, feats: [] }, content);
   // Прибавки происхождения: 2024 — бонусы предыстории, 2014 — прибавки расы (итог при нулевой базе).
   const bonuses = finalAbilityScores({ ...character, feats: [], baseAbilities: EMPTY }, content);
-  const raceBonusList = ABILITY_IDS.filter((id) => bonuses[id] > 0).map((id) => `${abilityAbbr(id)} +${bonuses[id]}`);
+  const raceBonusList = ABILITY_IDS.filter((id) => bonuses[id] !== 0).map(
+    (id) => `${abilityAbbr(id)} ${formatModifier(bonuses[id])}`,
+  );
   const spent = character.abilityMethod === 'pointBuy' ? pointBuySpent(character.baseAbilities) : undefined;
 
   const setBase = (fn: (b: AbilityScores) => AbilityScores) =>
@@ -176,7 +178,7 @@ export function CreateAbilitiesPage() {
                 </View>
               )}
               <AppText style={[styles.cell, styles.value, bonus ? styles.valueAccent : styles.valueDim]}>
-                {bonus ? `+${bonus}` : '—'}
+                {bonus ? formatModifier(bonus) : '—'}
               </AppText>
               <AppText style={[styles.cell, styles.value]}>{base ? totals[id] : '—'}</AppText>
               <AppText style={[styles.cell, styles.value, styles.valueAccent]}>

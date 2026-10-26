@@ -1,11 +1,12 @@
 import type { AbilityBonuses, AbilityId, Subspecies } from '@/shared/content';
 import { abilityAbbr, byId, nameOf, localizeText } from '@/shared/content';
 import { i18n } from '@/shared/i18n';
+import { formatModifier } from '@/shared/lib/dice';
 
-/** «ЛОВ +2, ХАР +1». */
+/** «ЛОВ +2, ХАР +1»; штраф — «ИНТ −2». */
 export const bonusText = (b: AbilityBonuses | undefined) =>
   Object.entries(b ?? {})
-    .map(([id, v]) => `${abilityAbbr(id as AbilityId)} +${v}`)
+    .map(([id, v]) => `${abilityAbbr(id as AbilityId)} ${formatModifier(v as number)}`)
     .join(', ');
 
 /** «Родословная: дроу» → «Дроу»: внутри панели вида приставка лишняя. */

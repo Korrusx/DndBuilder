@@ -184,6 +184,15 @@ export const SPECIES_SPELL_FIXED_ABILITY: Record<string, AbilityId> = {
   'drow-magic': 'cha',
   'infernal-legacy': 'cha',
   'natural-illusionist': 'int',
+  // 2014: наследия подрас тифлинга (Mordenkainen's Tome of Foes) — Харизма.
+  'legacy-of-maladomini': 'cha',
+  'legacy-of-dis': 'cha',
+  'legacy-of-phlegethos': 'cha',
+  'legacy-of-malbolge': 'cha',
+  'legacy-of-stygia': 'cha',
+  'legacy-of-minauros': 'cha',
+  'legacy-of-cania': 'cha',
+  'legacy-of-avernus': 'cha',
 };
 
 /**

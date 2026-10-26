@@ -186,7 +186,10 @@ export function rollDamage(
   minDie = 0,
 ): DamageRoll {
   const { count, sides } = parseDice(dice);
-  const rolled = Array.from({ length: critical ? count * 2 : count }, () => Math.max(minDie, rollDie(sides, rng)));
+  // Критическое попадание удваивает кости; фиксированный урон (духовая трубка: «1») не удваивается.
+  const rolled = Array.from({ length: critical && sides > 1 ? count * 2 : count }, () =>
+    Math.max(minDie, rollDie(sides, rng)),
+  );
   return { dice: rolled, sides, bonus, total: Math.max(0, rolled.reduce((s, d) => s + d, 0) + bonus) };
 }
 

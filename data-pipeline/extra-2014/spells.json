@@ -1,0 +1,104 @@
+{
+  "_comment": "Заклинания Player's Handbook 2014, которых нет в SRD 5.1, — только те, что нужны особенностям рас (подрасы тифлинга, Mordenkainen's Tome of Foes). В списки классов не входят. Механика кратко своими словами (по памяти) — сверить с книгой. Поля как у Spell (src/shared/content/types.ts); тексты — { en, ru }.",
+  "spells": [
+    {
+      "id": "friends",
+      "name": { "en": "Friends", "ru": "Дружба" },
+      "level": 0,
+      "school": "enchantment",
+      "castingTime": { "en": "1 action", "ru": "1 действие" },
+      "range": { "en": "Self", "ru": "На себя" },
+      "duration": { "en": "Concentration, up to 1 minute", "ru": "Концентрация, до 1 минуты" },
+      "components": ["S", "M"],
+      "material": { "en": "a small amount of makeup", "ru": "немного грима" },
+      "concentration": true,
+      "ritual": false,
+      "description": {
+        "en": "Choose one creature that isn't hostile toward you: you have advantage on Charisma checks directed at it for the duration. When the spell ends, the creature realizes you used magic on it and may become hostile.",
+        "ru": "Выберите существо, не враждебное к вам: пока действует заклинание, у вас преимущество на проверки Харизмы, направленные на него. Когда заклинание закончится, существо поймёт, что на него воздействовали магией, и может стать враждебным."
+      }
+    },
+    {
+      "id": "ray-of-sickness",
+      "name": { "en": "Ray of Sickness", "ru": "Луч болезни" },
+      "level": 1,
+      "school": "necromancy",
+      "castingTime": { "en": "1 action", "ru": "1 действие" },
+      "range": { "en": "60 feet", "ru": "60 фт" },
+      "duration": { "en": "Instantaneous", "ru": "Мгновенная" },
+      "components": ["V", "S"],
+      "concentration": false,
+      "ritual": false,
+      "attackType": "ranged",
+      "damage": { "type": "poison", "bySlotLevel": { "1": "2d8", "2": "3d8", "3": "4d8", "4": "5d8", "5": "6d8", "6": "7d8", "7": "8d8", "8": "9d8", "9": "10d8" } },
+      "description": {
+        "en": "Make a ranged spell attack against a creature. On a hit, it takes 2d8 poison damage and must make a Constitution saving throw or be poisoned until the end of your next turn.",
+        "ru": "Совершите дальнобойную атаку заклинанием по существу. При попадании оно получает 2к8 урона ядом и проходит спасбросок Телосложения, иначе отравлено до конца вашего следующего хода."
+      },
+      "higherLevel": {
+        "en": "With a spell slot of 2nd level or higher, the damage increases by 1d8 for each slot level above 1st.",
+        "ru": "С ячейкой 2-го круга или выше урон растёт на 1к8 за каждый круг выше 1-го."
+      }
+    },
+    {
+      "id": "armor-of-agathys",
+      "name": { "en": "Armor of Agathys", "ru": "Доспех Агатиса" },
+      "level": 1,
+      "school": "abjuration",
+      "castingTime": { "en": "1 action", "ru": "1 действие" },
+      "range": { "en": "Self", "ru": "На себя" },
+      "duration": { "en": "1 hour", "ru": "1 час" },
+      "components": ["V", "S", "M"],
+      "material": { "en": "a cup of water", "ru": "чашка воды" },
+      "concentration": false,
+      "ritual": false,
+      "damage": { "kind": "tempHp", "bySlotLevel": { "1": "5", "2": "10", "3": "15", "4": "20", "5": "25", "6": "30", "7": "35", "8": "40", "9": "45" } },
+      "description": {
+        "en": "You gain 5 temporary hit points for the duration. While you have them, a creature that hits you with a melee attack takes 5 cold damage.",
+        "ru": "На время действия вы получаете 5 временных хитов. Пока они у вас есть, существо, попавшее по вам рукопашной атакой, получает 5 урона холодом."
+      },
+      "higherLevel": {
+        "en": "With a spell slot of 2nd level or higher, the temporary hit points and the cold damage both increase by 5 for each slot level above 1st.",
+        "ru": "С ячейкой 2-го круга или выше временные хиты и урон холодом растут на 5 за каждый круг выше 1-го."
+      }
+    },
+    {
+      "id": "searing-smite",
+      "name": { "en": "Searing Smite", "ru": "Палящая кара" },
+      "level": 1,
+      "school": "evocation",
+      "castingTime": { "en": "1 bonus action", "ru": "1 бонусное действие" },
+      "range": { "en": "Self", "ru": "На себя" },
+      "duration": { "en": "Concentration, up to 1 minute", "ru": "Концентрация, до 1 минуты" },
+      "components": ["V"],
+      "concentration": true,
+      "ritual": false,
+      "damage": { "type": "fire", "bySlotLevel": { "1": "1d6", "2": "2d6", "3": "3d6", "4": "4d6", "5": "5d6", "6": "6d6", "7": "7d6", "8": "8d6", "9": "9d6" } },
+      "description": {
+        "en": "The next time you hit a creature with a melee weapon attack during the spell, it takes an extra 1d6 fire damage and catches fire. At the start of each of its turns it makes a Constitution saving throw: on a failure it takes 1d6 fire damage, on a success the spell ends. The target or a creature next to it can use an action to put out the flames.",
+        "ru": "Когда вы в следующий раз попадёте по существу рукопашной атакой оружием, пока действует заклинание, оно получит дополнительно 1к6 урона огнём и загорится. В начале каждого своего хода оно проходит спасбросок Телосложения: при провале получает 1к6 урона огнём, при успехе заклинание заканчивается. Цель или существо рядом с ней может действием потушить пламя."
+      },
+      "higherLevel": {
+        "en": "With a spell slot of 2nd level or higher, the initial extra damage increases by 1d6 for each slot level above 1st.",
+        "ru": "С ячейкой 2-го круга или выше первоначальный дополнительный урон растёт на 1к6 за каждый круг выше 1-го."
+      }
+    },
+    {
+      "id": "crown-of-madness",
+      "name": { "en": "Crown of Madness", "ru": "Корона безумия" },
+      "level": 2,
+      "school": "enchantment",
+      "castingTime": { "en": "1 action", "ru": "1 действие" },
+      "range": { "en": "120 feet", "ru": "120 фт" },
+      "duration": { "en": "Concentration, up to 1 minute", "ru": "Концентрация, до 1 минуты" },
+      "components": ["V", "S"],
+      "concentration": true,
+      "ritual": false,
+      "save": "wis",
+      "description": {
+        "en": "A humanoid you can see makes a Wisdom saving throw or is charmed by you. Before moving on each of its turns, it must make a melee attack against a creature other than itself that you choose mentally (if there is none in reach, it acts normally). On each of your turns you must use your action to maintain control, or the spell ends. The target repeats the save at the end of each of its turns, ending the spell on a success.",
+        "ru": "Гуманоид, которого вы видите, проходит спасбросок Мудрости, иначе очарован вами. В каждый свой ход, прежде чем двигаться, он должен атаковать в рукопашную существо (не себя), которое вы выберете мысленно; если таких рядом нет, он действует как обычно. В каждый свой ход вы должны тратить действие на поддержание контроля, иначе заклинание заканчивается. Цель повторяет спасбросок в конце каждого своего хода и при успехе освобождается."
+      }
+    }
+  ]
+}

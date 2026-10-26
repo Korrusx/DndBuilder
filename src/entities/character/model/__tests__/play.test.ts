@@ -1,4 +1,5 @@
 import { content } from '@/shared/content';
+import { formatDamage } from '@/shared/lib/dice';
 
 import { emptyGameState } from '../character';
 import {
@@ -106,6 +107,12 @@ describe('броски урона', () => {
     expect(rollDamage('1d6', 3, false, dice(6, 4))).toEqual({ dice: [4], sides: 6, bonus: 3, total: 7 });
     expect(rollDamage('1d6', 3, true, dice(6, 4, 6))).toEqual({ dice: [4, 6], sides: 6, bonus: 3, total: 13 });
     expect(rollDamage('1d4', -3, false, dice(4, 1)).total).toBe(0);
+  });
+
+  test('фиксированный урон духовой трубки «1»: показ и бросок, крит не удваивает', () => {
+    expect(formatDamage('1', 2)).toBe('1+2');
+    expect(rollDamage('1', 2, false).total).toBe(3);
+    expect(rollDamage('1', 2, true).total).toBe(3);
   });
 
   test('безоружный удар Ирмы (СИЛ −1, БМ +2)', () => {

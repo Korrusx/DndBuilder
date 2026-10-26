@@ -1,17 +1,16 @@
+import { Fragment } from 'react';
+import { View } from 'react-native';
+
 import {
-  backgroundEntries,
   choice1,
   CHOICE_KEYS,
   choiceOptionIds,
-  featEntries,
   needsSpeciesSpellAbility,
   originFeats,
   originTraitIds,
   setBackground,
   setSpecies,
   SPECIES_SPELL_ABILITIES,
-  speciesEntries,
-  traitEntries,
 } from '@/entities/character';
 import { SpellPickerField } from '@/entities/character/ui';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
@@ -28,11 +27,13 @@ import {
 } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet } from '@/shared/lib/dice';
-import { Chip, ChipRow, ChoiceField, MultiPick, OptionCard, Section } from '@/shared/ui';
+import { AppText, Chip, ChipRow, MultiPick, OptionCard, Section } from '@/shared/ui';
 
 import { DEFAULT_SPECIES_ICON, SPECIES_ICONS } from '../../config/icons';
+import { speciesVariantTrait, variantOptions } from '../../lib/raceVariants';
 import { bonusText } from '../../lib/subspeciesText';
 import { SubspeciesPanel } from '../SubspeciesPanel/SubspeciesPanel';
+import { styles } from './CreateOriginPage.styles';
 
 export function CreateOriginPage() {
   const { character, update, issues: allIssues } = useDraft();
@@ -46,17 +47,31 @@ export function CreateOriginPage() {
   const traits = originTraitIds(character, content).flatMap((id) => byId.traits.get(id) ?? []);
   const bonusChoice = species?.abilityBonusChoice;
   const versatileFeat = versatile?.featId ? byId.feats.get(versatile.featId) : undefined;
+  // 2014: вариант особенности расы (драконий предок) выбирается в панели под карточкой, как подраса.
+  const variantTrait = species ? speciesVariantTrait(species) : undefined;
+  const variants = species ? variantOptions(species) : [];
+  const speciesRows: (typeof content.species)[] = [];
+  for (let i = 0; i < content.species.length; i += 2) {
+    speciesRows.push(content.species.slice(i, i + 2));
+  }
 
   return (
     <WizardScreen step={2} canContinue={issues.length === 0} summary={<StepStatus issues={issues} />}>
-      <ChoiceField
+      <Section
         title={t('origin.background')}
         hint={is2014 ? t('origin.backgroundHint2014') : t('origin.backgroundHint')}
-        entries={backgroundEntries(content)}
-        selected={character.backgroundId ? [character.backgroundId] : []}
-        max={1}
-        onChange={([id]) => id && update((d) => setBackground(d, id))}
-      />
+      >
+        <ChipRow>
+          {content.backgrounds.map((b) => (
+            <Chip
+              key={b.id}
+              label={nameOf('backgrounds', b.id)}
+              selected={b.id === character.backgroundId}
+              onPress={() => update((d) => setBackground(d, b.id))}
+            />
+          ))}
+        </ChipRow>
+      </Section>
 
       {background ? (
         <OptionCard
@@ -82,25 +97,51 @@ export function CreateOriginPage() {
         />
       ) : null}
 
-      <ChoiceField
-        title={is2014 ? t('origin.race') : t('origin.species')}
-        entries={speciesEntries(content).map((entry) => ({
-          ...entry,
-          icon: SPECIES_ICONS[entry.id] ?? DEFAULT_SPECIES_ICON,
-        }))}
-        selected={character.speciesId ? [character.speciesId] : []}
-        max={1}
-        onChange={([id]) => id && update((d) => setSpecies(d, id, content))}
-      />
-
-      {species && species.subspecies.length > 0 ? (
-        <SubspeciesPanel
-          species={species}
-          selectedId={character.subspeciesId}
-          onSelect={(id) => update((d) => ({ ...d, subspeciesId: id }))}
-          hint={is2014 ? t('origin.subraceHint') : t('origin.subspeciesHint')}
-        />
-      ) : null}
+      <Section title={is2014 ? t('origin.race') : t('origin.species')}>
+        <View style={styles.grid}>
+          {speciesRows.map((row) => (
+            <Fragment key={row[0].id}>
+              <View style={styles.row}>
+                {row.map((s) => (
+                  <OptionCard
+                    key={s.id}
+                    compact
+                    pattern
+                    icon={SPECIES_ICONS[s.id] ?? DEFAULT_SPECIES_ICON}
+                    selected={s.id === character.speciesId}
+                    onPress={() => update((d) => setSpecies(d, s.id, content))}
+                    title={
+                      <AppText style={styles.name} numberOfLines={1} adjustsFontSizeToFit>
+                        {nameOf('species', s.id)}
+                      </AppText>
+                    }
+                    lines={[
+                      variantOptions(s).length
+                        ? `${formatFeet(s.speed)} · ${t('origin.variants', { count: variantOptions(s).length })}`
+                        : formatFeet(s.speed),
+                    ]}
+                  />
+                ))}
+                {row.length === 1 ? <View style={styles.fill} /> : null}
+              </View>
+              {species && variants.length > 0 && row.some((s) => s.id === species.id) ? (
+                <SubspeciesPanel
+                  options={variants}
+                  selectedId={
+                    variantTrait ? choice1(character, CHOICE_KEYS.traitOption(variantTrait.id)) : character.subspeciesId
+                  }
+                  onSelect={(id) =>
+                    variantTrait
+                      ? setChoice(CHOICE_KEYS.traitOption(variantTrait.id), [id])
+                      : update((d) => ({ ...d, subspeciesId: id }))
+                  }
+                  hint={is2014 ? t('origin.subraceHint') : t('origin.subspeciesHint')}
+                />
+              ) : null}
+            </Fragment>
+          ))}
+        </View>
+      </Section>
 
       {species ? (
         <OptionCard
@@ -137,16 +178,22 @@ export function CreateOriginPage() {
       ) : null}
 
       {traits
-        .filter((trait) => trait.subtraits)
+        .filter((trait) => trait.subtraits && trait.id !== variantTrait?.id)
         .map((trait) => (
-          <ChoiceField
+          <Section
             key={trait.id}
             title={localizeText(trait.name).text}
-            entries={traitEntries(trait.subtraits!, content)}
-            selected={character.choices[CHOICE_KEYS.traitOption(trait.id)] ?? []}
-            max={1}
-            onChange={(ids) => setChoice(CHOICE_KEYS.traitOption(trait.id), ids)}
-          />
+            picked={choice1(character, CHOICE_KEYS.traitOption(trait.id)) ? 1 : 0}
+            need={1}
+          >
+            <MultiPick
+              options={trait.subtraits!}
+              selected={character.choices[CHOICE_KEYS.traitOption(trait.id)] ?? []}
+              max={1}
+              label={(id) => nameOf('traits', id)}
+              onChange={(ids) => setChoice(CHOICE_KEYS.traitOption(trait.id), ids)}
+            />
+          </Section>
         ))}
 
       {traits
@@ -216,31 +263,34 @@ export function CreateOriginPage() {
       ) : null}
 
       {versatile ? (
-        <ChoiceField
+        <Section
           title={is2014 ? t('origin.variantFeat') : t('origin.versatile')}
           hint={is2014 ? t('origin.variantFeatHint') : t('origin.versatileHint')}
-          entries={featEntries(
-            content.feats
+        >
+          <ChipRow>
+            {content.feats
               // 2014: любая черта (кроме «Увеличения характеристик»); 2024 — черта происхождения.
               .filter((f) =>
                 is2014 ? f.type === 'general' && f.id !== 'ability-score-improvement' : f.type === 'origin',
               )
-              .map((f) => f.id),
-            content,
-          )}
-          selected={versatile.featId ? [versatile.featId] : []}
-          max={1}
-          onChange={([featId]) =>
-            featId &&
-            update((d) => {
-              // Выборы прежней черты (навыки, заклинания) больше не нужны.
-              const choices = Object.fromEntries(
-                Object.entries(d.choices).filter(([k]) => !k.startsWith('versatile.')),
-              );
-              return { ...d, choices: { ...choices, [CHOICE_KEYS.versatileFeat]: [featId] } };
-            })
-          }
-        />
+              .map((f) => (
+                <Chip
+                  key={f.id}
+                  label={nameOf('feats', f.id)}
+                  selected={versatile.featId === f.id}
+                  onPress={() =>
+                    update((d) => {
+                      // Выборы прежней черты (навыки, заклинания) больше не нужны.
+                      const choices = Object.fromEntries(
+                        Object.entries(d.choices).filter(([k]) => !k.startsWith('versatile.')),
+                      );
+                      return { ...d, choices: { ...choices, [CHOICE_KEYS.versatileFeat]: [f.id] } };
+                    })
+                  }
+                />
+              ))}
+          </ChipRow>
+        </Section>
       ) : null}
     </WizardScreen>
   );

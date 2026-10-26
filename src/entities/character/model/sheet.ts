@@ -1,6 +1,6 @@
 // Сборка всех производных чисел персонажа из его выборов и справочника.
 
-import type { AbilityId, Content, Equipment, ItemEffect } from '@/shared/content';
+import type { AbilityId, Content, Equipment, ItemEffect, Species, Subspecies } from '@/shared/content';
 import { indexOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
 
@@ -51,7 +51,9 @@ function originIncreases(c: Character, content: Content): Partial<AbilityScores>
         .slice(0, opt.choose)
     : [];
   const chosen = Object.fromEntries(picked.map((a) => [a, opt!.bonus])) as Partial<AbilityScores>;
-  return [species?.abilityBonuses ?? {}, sub?.abilityBonuses ?? {}, chosen, originFeatIncrease(c, content)];
+  // Подрасы тифлинга (Mordenkainen's Tome of Foes) заменяют прибавки расы своими.
+  const own = sub?.replacesAbilityBonuses ? {} : (species?.abilityBonuses ?? {});
+  return [own, sub?.abilityBonuses ?? {}, chosen, originFeatIncrease(c, content)];
 }
 
 /** 2014: +1 от черты человека-варианта, если черта даёт прибавку (Feat.abilityIncrease). */
@@ -95,7 +97,16 @@ function speciesTraitIdsAt(c: Character, content: Content, level: number): strin
   const idx = indexOf(content);
   const species = idx.species.get(c.speciesId);
   const sub = c.subspeciesId ? idx.subspecies.get(c.subspeciesId) : undefined;
-  return [...(species?.traits ?? []), ...(sub?.traits.filter((t) => t.level <= level).map((t) => t.id) ?? [])];
+  return raceTraitIds(species, sub, level);
+}
+
+/** Особенности расы без заменённых подрасой (2014: подрасы тифлинга — вместо «Наследия Ада») и подрасы до `level`. */
+export function raceTraitIds(species: Species | undefined, sub: Subspecies | undefined, level: number): string[] {
+  const replaced = sub?.replacesTraits ?? [];
+  return [
+    ...(species?.traits ?? []).filter((id) => !replaced.includes(id)),
+    ...(sub?.traits.filter((t) => t.level <= level).map((t) => t.id) ?? []),
+  ];
 }
 
 /** 2014: выбранные варианты умений класса (боевой стиль, договор) и особенностей расы (наследие драконов). */
@@ -185,13 +196,8 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
       }
     }
   }
-  for (const id of species.traits) {
+  for (const id of raceTraitIds(species, subspecies, level)) {
     features.push({ id, source: 'species' });
-  }
-  for (const t of subspecies?.traits ?? []) {
-    if (t.level <= level) {
-      features.push({ id: t.id, source: 'species' });
-    }
   }
   // 2014: выбранные варианты умений и особенностей — отдельными умениями (у них свои эффекты).
   const classFeatureIds = features.filter((f) => f.source !== 'species').map((f) => f.id);

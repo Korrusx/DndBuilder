@@ -6,7 +6,7 @@ species.gnome.name,Gnome,Гном,draft
 species.half-elf.name,Half-Elf,Полуэльф,draft
 species.half-orc.name,Half-Orc,Полуорк,draft
 species.halfling.name,Halfling,Полурослик,draft
-species.human.name,Human,Человек,draft
+species.human.name,Human,Человек (стандартный),draft
 species.tiefling.name,Tiefling,Тифлинг,draft
 subspecies.high-elf.name,High Elf,Высший эльф,draft
 subspecies.hill-dwarf.name,Hill Dwarf,Холмовой дварф,draft
@@ -179,12 +179,121 @@ trait.natural-illusionist.name,Natural Illusionist,Природный иллюз
 trait.natural-illusionist.description,You know the Minor Illusion cantrip. Intelligence is your spellcasting ability for it.,Вы знаете заговор «Малая иллюзия». Заклинательная характеристика — Интеллект.,draft
 trait.speak-with-small-beasts.name,Speak with Small Beasts,Разговор с маленькими зверями,draft
 trait.speak-with-small-beasts.description,Through sounds and gestures you can communicate simple ideas with Small or smaller beasts.,Звуками и жестами вы можете передавать простые мысли маленьким и мелким зверям.,draft
-species.human-variant.name,Human (Variant),Человек (вариант),draft
+subspecies.aasimar-protector.name,Protector Aasimar,Аасимар-защитник,draft
+trait.radiant-soul.name,Radiant Soul,Сияющая душа,draft
+trait.radiant-soul.description,"From level 3. As an action you transform for 1 minute: you sprout spectral wings and gain a flying speed of 30 feet, and once on each of your turns one of your attacks or spells deals extra radiant damage equal to your level. Once per long rest.","С 3-го уровня. Действием вы преображаетесь на 1 минуту: у вас появляются призрачные крылья и скорость полёта 30 фт, а раз в ход одна ваша атака или заклинание наносит дополнительный урон излучением, равный вашему уровню. Один раз до долгого отдыха.",draft
+subspecies.aasimar-scourge.name,Scourge Aasimar,Аасимар-каратель,draft
+trait.radiant-consumption.name,Radiant Consumption,Испепеляющее сияние,draft
+trait.radiant-consumption.description,"From level 3. As an action you transform for 1 minute: you shed bright light in 10 feet and dim light 10 feet beyond; at the end of each of your turns you and each creature within 10 feet take radiant damage equal to half your level (rounded up), and once on each of your turns one of your attacks or spells deals extra radiant damage equal to your level. Once per long rest.","С 3-го уровня. Действием вы преображаетесь на 1 минуту: яркий свет на 10 фт и тусклый ещё на 10 фт; в конце каждого вашего хода вы и все существа в пределах 10 фт получаете урон излучением, равный половине вашего уровня (с округлением вверх), а раз в ход одна ваша атака или заклинание наносит дополнительный урон излучением, равный вашему уровню. Один раз до долгого отдыха.",draft
+subspecies.aasimar-fallen.name,Fallen Aasimar,Падший аасимар,draft
+trait.necrotic-shroud.name,Necrotic Shroud,Некротическая пелена,draft
+trait.necrotic-shroud.description,From level 3. As an action you transform for 1 minute: creatures within 10 feet that can see you (other than your allies) make a Charisma saving throw (DC 8 + proficiency bonus + Charisma modifier) or are frightened of you until the end of your next turn; once on each of your turns one of your attacks or spells deals extra necrotic damage equal to your level. Once per long rest.,"С 3-го уровня. Действием вы преображаетесь на 1 минуту: существа в пределах 10 фт, которые вас видят (кроме союзников), проходят спасбросок Харизмы (СЛ 8 + БМ + мод. ХАР) или испуганы вами до конца вашего следующего хода; раз в ход одна ваша атака или заклинание наносит дополнительный некротический урон, равный вашему уровню. Один раз до долгого отдыха.",draft
+subspecies.shifter-beasthide.name,Beasthide,Толстошкурый,draft
+trait.beasthide-natural-athlete.name,Natural Athlete,Прирождённый атлет,draft
+trait.beasthide-natural-athlete.description,You have proficiency in the Athletics skill.,Вы владеете навыком Атлетика.,draft
+trait.beasthide-shift.name,Shifting Feature,Облик: толстая шкура,draft
+trait.beasthide-shift.description,While shifted — 1d6 more temporary hit points and +1 AC.,В облике — ещё 1к6 временных хитов и +1 к КЗ.,draft
+subspecies.shifter-longtooth.name,Longtooth,Длиннозубый,draft
+trait.longtooth-fierce.name,Fierce,Свирепость,draft
+trait.longtooth-fierce.description,You have proficiency in the Intimidation skill.,Вы владеете навыком Запугивание.,draft
+trait.longtooth-shift.name,Shifting Feature,Облик: клыки,draft
+trait.longtooth-shift.description,"While shifted — as a bonus action, an unarmed strike with your fangs: 1d6 + Strength modifier piercing damage.",В облике — бонусным действием безоружный удар клыками: 1к6 + мод. СИЛ колющего урона.,draft
+subspecies.shifter-swiftstride.name,Swiftstride,Быстроногий,draft
+trait.swiftstride-graceful.name,Graceful,Грация,draft
+trait.swiftstride-graceful.description,You have proficiency in the Acrobatics skill.,Вы владеете навыком Акробатика.,draft
+trait.swiftstride-shift.name,Shifting Feature,Облик: быстрые ноги,draft
+trait.swiftstride-shift.description,"While shifted — +10 ft speed; when a creature ends its turn within 5 feet of you, you can use your reaction to move up to 10 feet without provoking opportunity attacks.","В облике — скорость +10 фт; когда существо заканчивает ход в пределах 5 фт от вас, реакцией можно отойти на 10 фт, не провоцируя атак.",draft
+subspecies.shifter-wildhunt.name,Wildhunt,Дикий охотник,draft
+trait.wildhunt-natural-tracker.name,Natural Tracker,Прирождённый следопыт,draft
+trait.wildhunt-natural-tracker.description,You have proficiency in the Survival skill.,Вы владеете навыком Выживание.,draft
+trait.wildhunt-shift.name,Shifting Feature,Облик: охотник,draft
+trait.wildhunt-shift.description,"While shifted — advantage on Wisdom checks, and no creature within 30 feet of you can make an attack roll with advantage against you unless you are incapacitated.","В облике — преимущество на проверки Мудрости, и существа в пределах 30 фт не могут атаковать вас с преимуществом, если вы не недееспособны.",draft
+subspecies.tiefling-asmodeus.name,Asmodeus,Асмодей,draft
+subspecies.tiefling-baalzebul.name,Baalzebul,Вельзевул,draft
+trait.legacy-of-maladomini.name,Legacy of Maladomini,Наследие Маладомини,draft
+trait.legacy-of-maladomini.description,"You know the Thaumaturgy cantrip. From level 3 you can cast Ray of Sickness (as a 2nd-level spell), and from level 5 Crown of Madness, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Чудотворство». С 3-го уровня — «Луч болезни» (как заклинание 2-го круга), с 5-го — «Корона безумия», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+subspecies.tiefling-dispater.name,Dispater,Диспатер,draft
+trait.legacy-of-dis.name,Legacy of Dis,Наследие Диса,draft
+trait.legacy-of-dis.description,"You know the Thaumaturgy cantrip. From level 3 you can cast Disguise Self, and from level 5 Detect Thoughts, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Чудотворство». С 3-го уровня — «Маскировка», с 5-го — «Обнаружение мыслей», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+subspecies.tiefling-fierna.name,Fierna,Фьёрна,draft
+trait.legacy-of-phlegethos.name,Legacy of Phlegethos,Наследие Флегетоса,draft
+trait.legacy-of-phlegethos.description,"You know the Friends cantrip. From level 3 you can cast Charm Person (as a 2nd-level spell), and from level 5 Suggestion, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Дружба». С 3-го уровня — «Очарование личности» (как заклинание 2-го круга), с 5-го — «Внушение», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+subspecies.tiefling-glasya.name,Glasya,Гласия,draft
+trait.legacy-of-malbolge.name,Legacy of Malbolge,Наследие Мальболга,draft
+trait.legacy-of-malbolge.description,"You know the Minor Illusion cantrip. From level 3 you can cast Disguise Self, and from level 5 Invisibility, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Малая иллюзия». С 3-го уровня — «Маскировка», с 5-го — «Невидимость», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+subspecies.tiefling-levistus.name,Levistus,Левистус,draft
+trait.legacy-of-stygia.name,Legacy of Stygia,Наследие Стигии,draft
+trait.legacy-of-stygia.description,"You know the Ray of Frost cantrip. From level 3 you can cast Armor of Agathys (as a 2nd-level spell), and from level 5 Darkness, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Луч холода». С 3-го уровня — «Доспех Агатиса» (как заклинание 2-го круга), с 5-го — «Тьма», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+subspecies.tiefling-mammon.name,Mammon,Маммон,draft
+trait.legacy-of-minauros.name,Legacy of Minauros,Наследие Минауроса,draft
+trait.legacy-of-minauros.description,"You know the Mage Hand cantrip. From level 3 you can cast Floating Disk, and from level 5 Arcane Lock, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Волшебная рука». С 3-го уровня — «Парящий диск», с 5-го — «Магический замок», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+subspecies.tiefling-mephistopheles.name,Mephistopheles,Мефистофель,draft
+trait.legacy-of-cania.name,Legacy of Cania,Наследие Кании,draft
+trait.legacy-of-cania.description,"You know the Mage Hand cantrip. From level 3 you can cast Burning Hands (as a 2nd-level spell), and from level 5 Flame Blade, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Волшебная рука». С 3-го уровня — «Огненные ладони» (как заклинание 2-го круга), с 5-го — «Пылающий клинок», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+subspecies.tiefling-zariel.name,Zariel,Зариэль,draft
+trait.legacy-of-avernus.name,Legacy of Avernus,Наследие Аверна,draft
+trait.legacy-of-avernus.description,"You know the Thaumaturgy cantrip. From level 3 you can cast Searing Smite (as a 2nd-level spell), and from level 5 Branding Smite, each once per long rest. Charisma is your spellcasting ability for them.","Вы знаете заговор «Чудотворство». С 3-го уровня — «Палящая кара» (как заклинание 2-го круга), с 5-го — «Клеймящая кара», каждое раз до долгого отдыха. Заклинательная характеристика — Харизма.",draft
+species.human-variant.name,Human (Variant),Человек (альтернативный),draft
 trait.variant-human-skill.name,Skills,Навык,draft
 trait.variant-human-skill.description,You gain proficiency in one skill of your choice.,Вы владеете одним навыком на выбор.,draft
 trait.variant-human-skill.proficiencyChoice.0.desc,Any skill,Любой навык,draft
 trait.variant-human-feat.name,Feat,Черта,draft
 trait.variant-human-feat.description,You gain one feat of your choice.,Вы получаете одну черту на выбор.,draft
+species.goliath.name,Goliath,Голиаф,draft
+trait.goliath-natural-athlete.name,Natural Athlete,Прирождённый атлет,draft
+trait.goliath-natural-athlete.description,You have proficiency in the Athletics skill.,Вы владеете навыком Атлетика.,draft
+trait.stones-endurance.name,Stone's Endurance,Выносливость камня,draft
+trait.stones-endurance.description,"When you take damage, you can use your reaction to roll a d12, add your Constitution modifier and reduce the damage by that total. Once per short or long rest.","Получив урон, вы можете реакцией бросить к12, прибавить модификатор ТЕЛ и уменьшить урон на это число. Один раз до короткого или долгого отдыха.",draft
+trait.powerful-build.name,Powerful Build,Мощное телосложение,draft
+trait.powerful-build.description,"You count as one size larger when determining your carrying capacity and the weight you can push, drag or lift.","При расчёте грузоподъёмности и веса, который вы можете толкать, тащить или поднимать, вы считаетесь на один размер больше.",draft
+trait.mountain-born.name,Mountain Born,Рождённый в горах,draft
+trait.mountain-born.description,"Resistance to cold damage. You are acclimated to high altitude, including elevations above 20,000 feet.","Сопротивление урону холодом. Вы привычны к большой высоте, в том числе выше 20 000 фт.",draft
+species.orc.name,Orc,Орк,draft
+trait.aggressive.name,Aggressive,Агрессивность,draft
+trait.aggressive.description,"As a bonus action, you can move up to your speed toward a hostile creature you can see.","Бонусным действием вы можете переместиться на расстояние до своей скорости к враждебному существу, которое видите.",draft
+species.aasimar.name,Aasimar,Аасимар,draft
+trait.celestial-resistance.name,Celestial Resistance,Небесная стойкость,draft
+trait.celestial-resistance.description,Resistance to necrotic and radiant damage.,Сопротивление урону некротической энергией и излучением.,draft
+trait.healing-hands.name,Healing Hands,Исцеляющие руки,draft
+trait.healing-hands.description,"As an action, touch a creature: it regains hit points equal to your level. Once per long rest.","Действием коснитесь существа: оно восстанавливает хиты, равные вашему уровню. Один раз до долгого отдыха.",draft
+trait.light-bearer.name,Light Bearer,Несущий свет,draft
+trait.light-bearer.description,You know the Light cantrip. Charisma is your spellcasting ability for it.,Вы знаете заговор «Свет». Заклинательная характеристика — Харизма.,draft
+species.dhampir.name,Dhampir,Дампир,draft
+trait.deathless-nature.name,Deathless Nature,Неумирающая природа,draft
+trait.deathless-nature.description,You don't need to breathe.,Вам не нужно дышать.,draft
+trait.spider-climb.name,Spider Climb,Паучье лазание,draft
+trait.spider-climb.description,"You have a climbing speed equal to your walking speed. From level 3 you can move up, down and across vertical surfaces and along ceilings, leaving your hands free.","Скорость лазания равна скорости ходьбы. С 3-го уровня вы можете передвигаться по стенам и потолку, не используя рук.",draft
+trait.vampiric-bite.name,Vampiric Bite,Вампирский укус,draft
+trait.vampiric-bite.description,"Your fanged bite is an unarmed strike: 1d4 + Constitution modifier piercing damage, with advantage if you have no more than half your hit points. When you hit a creature that isn't a construct or undead, you can either regain hit points equal to the damage or gain a bonus equal to the damage to your next ability check or attack roll. Uses of the empowerment: proficiency bonus per long rest.","Укус клыками — безоружный удар: 1к4 + мод. ТЕЛ колющего урона, с преимуществом, если у вас не больше половины хитов. Попав по существу (не конструкту и не нежити), вы можете восстановить хиты, равные урону, или получить такой же бонус к следующей проверке или броску атаки. Усиление укусом — столько раз, каков бонус мастерства, до долгого отдыха.",draft
+species.kalashtar.name,Kalashtar,Калаштар,draft
+trait.dual-mind.name,Dual Mind,Двойной разум,draft
+trait.dual-mind.description,Advantage on all Wisdom saving throws.,Преимущество на все спасброски Мудрости.,draft
+trait.mental-discipline.name,Mental Discipline,Ментальная дисциплина,draft
+trait.mental-discipline.description,Resistance to psychic damage.,Сопротивление урону психической энергией.,draft
+trait.mind-link.name,Mind Link,Мысленная связь,draft
+trait.mind-link.description,You can speak telepathically to a creature you can see within 10 × your level feet; it understands you only if it knows a language you know. As an action you can let it reply telepathically for 1 hour.,"Вы можете телепатически говорить с видимым существом в пределах 10 × ваш уровень фт; оно поймёт, только если знает ваш язык. Действием вы можете дать ему отвечать вам телепатически в течение 1 часа.",draft
+trait.severed-from-dreams.name,Severed from Dreams,Отрезанный от снов,draft
+trait.severed-from-dreams.description,"You don't dream; you are immune to spells and effects that require you to dream (like Dream), but not to sleep effects. Languages: you also know Quori — the app doesn't list it, mark it in notes.","Вы не видите снов и невосприимчивы к заклинаниям и эффектам, которым нужно, чтобы вы спали и видели сны (например, «Сновидение»), но не к усыплению. Языки: вы знаете ещё квори — в приложении его нет, запишите в заметках.",draft
+species.warforged.name,Warforged,Кованый,draft
+trait.constructed-resilience-2014.name,Constructed Resilience,Искусственная стойкость,draft
+trait.constructed-resilience-2014.description,"Advantage on saving throws against being poisoned and resistance to poison damage. You don't need to eat, drink or breathe, you are immune to disease, and magic can't put you to sleep.","Преимущество на спасброски от отравления и сопротивление урону ядом. Вам не нужно есть, пить и дышать, вы невосприимчивы к болезням, и магия не может вас усыпить.",draft
+trait.sentrys-rest.name,Sentry's Rest,Отдых часового,draft
+trait.sentrys-rest.description,A long rest is 6 hours of inactivity: you don't sleep and can see and hear everything around you.,Долгий отдых — 6 часов в неподвижном состоянии: вы не спите и видите и слышите всё вокруг.,draft
+trait.integrated-protection.name,Integrated Protection,Встроенная защита,draft
+trait.integrated-protection.description,"+1 AC (included in the sheet). Armor you wear becomes part of your body: donning or doffing it takes 1 hour, and it can't be removed against your will.","+1 к КЗ (учтено в листе). Надетый доспех становится частью тела: надеть или снять его можно только за 1 час, и против вашей воли его не снять.",draft
+trait.specialized-design.name,Specialized Design,Особая конструкция,draft
+trait.specialized-design.description,Proficiency in one skill and one tool of your choice.,Владение одним навыком и одним инструментом на ваш выбор.,draft
+trait.specialized-design.proficiencyChoice.0.desc,Choose a skill,Выберите навык,draft
+trait.specialized-design.proficiencyChoice.1.desc,Choose a tool,Выберите инструмент,draft
+species.changeling.name,Changeling,Ченджлинг,draft
+trait.shapechanger.name,Shapechanger,Перевёртыш,draft
+trait.shapechanger.description,"As an action you change your appearance and voice: height, weight, features, hair, skin. You can look like a member of another Medium humanoid race, but your statistics don't change. You stay in the new form until you use an action to revert or die.","Действием вы меняете внешность и голос: рост, вес, черты лица, волосы, кожу. Вы можете выглядеть как представитель другой Средней гуманоидной расы, но параметры не меняются. Облик держится, пока вы действием не вернёте свой или не умрёте.",draft
+trait.changeling-instincts.name,Changeling Instincts,Инстинкты ченджлинга,draft
+trait.changeling-instincts.description,"Proficiency in two skills from the list: Deception, Insight, Intimidation, Persuasion.","Владение двумя навыками из списка: Обман, Проницательность, Запугивание, Убеждение.",draft
+trait.changeling-instincts.proficiencyChoice.0.desc,Choose two skills,Выберите два навыка,draft
+species.shifter.name,Shifter,Шифтер,draft
+trait.shifting.name,Shifting,Смена облика,draft
+trait.shifting.description,As a bonus action you take on a bestial form for 1 minute (or until you die or revert as a bonus action) and gain temporary hit points equal to your level + Constitution modifier (minimum 1). Once per short or long rest. What else the form grants depends on your subrace.,Бонусным действием вы принимаете звериный облик на 1 минуту (раньше — бонусным действием или если умерли) и получаете временные хиты: уровень + мод. ТЕЛ (минимум 1). Один раз до короткого или долгого отдыха. Что ещё даёт облик — зависит от подрасы.,draft
 feat.actor.name,Actor,Актёр,draft
 feat.actor.description,+1 CHA. Advantage on Deception and Performance checks while passing yourself off as someone else. You can mimic speech and sounds you have heard for at least a minute; a listener sees through it with an Insight check against your Deception.,"+1 ХАР. Преимущество на проверки Обмана и Выступления, когда выдаёте себя за другого. Можете подражать речи и звукам, которые слышали хотя бы минуту; распознать подделку можно проверкой Проницательности против вашего Обмана.",draft
 feat.alert.name,Alert,Бдительность,draft

@@ -177,6 +177,10 @@ export type Subspecies = {
   traits: { id: string; level: number }[];
   /** 2014: прибавки к характеристикам от подрасы. */
   abilityBonuses?: AbilityBonuses;
+  /** 2014: прибавки подрасы заменяют прибавки расы (подрасы тифлинга, Mordenkainen's Tome of Foes). */
+  replacesAbilityBonuses?: boolean;
+  /** 2014: особенности расы, которые заменяет подраса (id): у подрас тифлинга — «Наследие Ада». */
+  replacesTraits?: string[];
   /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -365,6 +369,8 @@ export type Spell = {
   higherLevel?: LocalizedText;
   classes: string[];
   subclasses: string[];
+  /** 2014: не из SRD 5.1 — заклинание PHB для особенности расы (data-pipeline/extra-2014/spells.json). */
+  extra?: boolean;
 };
 
 export type MagicItem = {

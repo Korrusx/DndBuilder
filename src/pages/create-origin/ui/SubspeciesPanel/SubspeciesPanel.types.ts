@@ -1,7 +1,7 @@
-import type { Species } from '@/shared/content';
+import type { VariantOption } from '../../model/types';
 
 export type SubspeciesPanelProps = {
-  species: Species;
+  options: VariantOption[];
   selectedId?: string;
   onSelect: (id: string) => void;
   /** Подсказка над списком («Родословная, предок или наследие — выберите одно»). */

@@ -13,8 +13,6 @@ import {
   featureOptionEntries,
   finalAbilityScores,
   knownLanguages,
-  languageEntries,
-  languageFilters,
   masteryEntries,
   totalLevel,
   proficientSkills,
@@ -270,15 +268,20 @@ export function LevelUpPage() {
       {featureLanguageSlots(next, content)
         .filter((slot) => plan.features.some((f) => f.id === slot.featureId))
         .map((slot) => (
-          <ChoiceField
+          <Section
             key={slot.key}
             title={nameOf('features', slot.featureId)}
-            entries={languageEntries(slot.options, content)}
-            filters={languageFilters()}
-            selected={next.choices[slot.key] ?? []}
-            max={slot.choose}
-            onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [slot.key]: ids } }))}
-          />
+            picked={next.choices[slot.key]?.length ?? 0}
+            need={slot.choose}
+          >
+            <MultiPick
+              options={slot.options}
+              selected={next.choices[slot.key] ?? []}
+              max={slot.choose}
+              label={(id) => nameOf('languages', id)}
+              onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [slot.key]: ids } }))}
+            />
+          </Section>
         ))}
 
       <Card style={styles.gapSm}>
@@ -435,17 +438,15 @@ export function LevelUpPage() {
       />
 
       {plan.languages ? (
-        <ChoiceField
-          title={t('levelUpPage.languages')}
-          entries={languageEntries(
-            content.languages.map((l) => l.id).filter((id) => !knownLanguages(prev, content).includes(id)),
-            content,
-          )}
-          filters={languageFilters()}
-          selected={newLanguages}
-          max={plan.languages}
-          onChange={(ids) => set((c) => ({ ...c, languages: [...prev.languages, ...ids] }))}
-        />
+        <Section title={t('levelUpPage.languages')} picked={newLanguages.length} need={plan.languages}>
+          <MultiPick
+            options={content.languages.map((l) => l.id).filter((id) => !knownLanguages(prev, content).includes(id))}
+            selected={newLanguages}
+            max={plan.languages}
+            label={(id) => nameOf('languages', id)}
+            onChange={(ids) => set((c) => ({ ...c, languages: [...prev.languages, ...ids] }))}
+          />
+        </Section>
       ) : null}
 
       {masteryCount > prev.weaponMasteries.length ? (

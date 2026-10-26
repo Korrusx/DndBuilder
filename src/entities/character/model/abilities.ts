@@ -31,9 +31,11 @@ export function addIncrease(scores: AbilityScores, inc: Partial<AbilityScores>, 
   const out = { ...scores };
   for (const id of ABILITY_IDS) {
     const add = inc[id] ?? 0;
-    // Прибавка не снижает значение, уже превышающее предел.
-    if (add) {
+    // Прибавка не снижает значение, уже превышающее предел. Штраф (орк 2014: ИНТ −2) вычитается как есть.
+    if (add > 0) {
       out[id] = Math.max(out[id], Math.min(cap, out[id] + add));
+    } else if (add < 0) {
+      out[id] += add;
     }
   }
   return out;

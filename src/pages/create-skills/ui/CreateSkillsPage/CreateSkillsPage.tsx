@@ -17,8 +17,6 @@ import {
   knownLanguages,
   languageChoiceCount,
   languageChoiceOptions,
-  languageEntries,
-  languageFilters,
   masteryEntries,
   proficiencySlots,
   proficientSkills,
@@ -198,42 +196,51 @@ export function CreateSkillsPage() {
         />
       ) : null}
 
-      <ChoiceField
+      <Section
         title={t('skillsStep.languages')}
-        hint={[
+        hint={
           character.edition === '2014'
             ? t('skillsStep.languagesHint2014', { count: languageCount })
-            : t('skillsStep.languagesHint', { count: languageCount }),
-          ...(classLanguages.length
-            ? [t('skillsStep.classLanguages', { list: classLanguages.map((id) => nameOf('languages', id)).join(', ') })]
-            : []),
-        ].join(' ')}
-        entries={languageEntries(
-          languageChoiceOptions(character, content).filter(
+            : t('skillsStep.languagesHint', { count: languageCount })
+        }
+        picked={languages.length}
+        need={languageCount}
+      >
+        <MultiPick
+          options={languageChoiceOptions(character, content).filter(
             (id) => !slotLanguages.has(id) && !classLanguages.includes(id),
-          ),
-          content,
-        )}
-        filters={languageFilters()}
-        selected={languages}
-        max={languageCount}
-        onChange={(ids) => update((d) => ({ ...d, languages: ['common', ...ids] }))}
-      />
+          )}
+          selected={languages}
+          max={languageCount}
+          label={(id) => nameOf('languages', id)}
+          onChange={(ids) => update((d) => ({ ...d, languages: ['common', ...ids] }))}
+        />
+        {classLanguages.length ? (
+          <AppText variant="secondary">
+            {t('skillsStep.classLanguages', { list: classLanguages.map((id) => nameOf('languages', id)).join(', ') })}
+          </AppText>
+        ) : null}
+      </Section>
 
       {languageSlots.map((slot) => (
-        <ChoiceField
+        <Section
           key={slot.key}
           title={featureName({ id: slot.featureId, source: 'class' })}
           hint={t('skillsStep.featureLanguagesHint', {
             known: FEATURE_LANGUAGES[slot.featureId].known.map((id) => nameOf('languages', id)).join(', '),
             count: slot.choose,
           })}
-          entries={languageEntries(slot.options, content)}
-          filters={languageFilters()}
-          selected={character.choices[slot.key] ?? []}
-          max={slot.choose}
-          onChange={(ids) => setChoice(slot.key, ids)}
-        />
+          picked={(character.choices[slot.key] ?? []).length}
+          need={slot.choose}
+        >
+          <MultiPick
+            options={slot.options}
+            selected={character.choices[slot.key] ?? []}
+            max={slot.choose}
+            label={(id) => nameOf('languages', id)}
+            onChange={(ids) => setChoice(slot.key, ids)}
+          />
+        </Section>
       ))}
 
       {otherFixed.length ? (

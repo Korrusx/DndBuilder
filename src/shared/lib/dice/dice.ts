@@ -4,7 +4,12 @@ import type { D20Mode, D20Roll, DiceExpr } from './types';
 
 // Кости: разбор записи «2d6», показ на текущем языке («2к6» / «2d6»), броски.
 
+/** «2d6» → 2 кости по 6 граней. Число без кости (урон духовой трубки «1») — фиксированное значение: грани = 1. */
 export function parseDice(expr: string): DiceExpr {
+  const flat = /^(\d+)$/.exec(expr.trim());
+  if (flat) {
+    return { count: Number(flat[1]), sides: 1 };
+  }
   const m = /^(\d+)\s*[dк](\d+)$/i.exec(expr.trim());
   if (!m) {
     throw new Error(`Не понимаю запись костей: ${expr}`);
@@ -17,10 +22,10 @@ export function formatDie(sides: number): string {
   return `${t('dice.d')}${sides}`;
 }
 
-/** «1d6» → «1к6» (по-английски «1d6»). */
+/** «1d6» → «1к6» (по-английски «1d6»); фиксированный урон «1» — «1». */
 export function formatDice(expr: string | DiceExpr): string {
   const { count, sides } = typeof expr === 'string' ? parseDice(expr) : expr;
-  return `${count}${formatDie(sides)}`;
+  return sides === 1 ? `${count}` : `${count}${formatDie(sides)}`;
 }
 
 /** Расстояние в футах: «30 фт» / «30 ft». */

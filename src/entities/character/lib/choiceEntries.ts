@@ -1,11 +1,11 @@
 // Варианты выбора с описаниями для строк ChoiceRow и шторки DetailSheet:
-// черты, умения, воззвания и метамагия, языки, приёмы оружия, виды, предыстории, предметы.
+// черты, умения, воззвания и метамагия, приёмы оружия, предметы.
 
 import type { ClassOption, Content, Feat, LocalizedText } from '@/shared/content';
-import { abilityAbbr, coinAbbr, indexOf, localizeText, plain, proficiencyName, sizeName } from '@/shared/content';
+import { coinAbbr, indexOf, localizeText, plain, proficiencyName } from '@/shared/content';
 import { currentLanguage, t } from '@/shared/i18n';
 import { formatDice, formatFeet } from '@/shared/lib/dice';
-import type { ChoiceEntry, DetailContent, PickFilter } from '@/shared/ui';
+import type { ChoiceEntry, DetailContent } from '@/shared/ui';
 
 import type { FeatureOption } from '../model/types';
 
@@ -127,39 +127,6 @@ export function classOptionEntries(options: ClassOption[], content: Content): Ch
   });
 }
 
-/** Языки: стандартный или редкий, пояснение. */
-export function languageEntries(ids: string[], content: Content): ChoiceEntry[] {
-  const languages = indexOf(content).languages;
-  return byTitle(
-    ids.flatMap((id) => {
-      const language = languages.get(id);
-      if (!language) {
-        return [];
-      }
-      const kind = language.rare ? t('choiceDetail.language.rare') : t('choiceDetail.language.standard');
-      return [
-        entry(
-          language.id,
-          language.name,
-          kind,
-          { subtitle: kind, text: plain(language.note) || kind },
-          {
-            filters: [language.rare ? 'rare' : 'standard'],
-          },
-        ),
-      ];
-    }),
-  );
-}
-
-/** Фильтры языков: стандартные и редкие. */
-export function languageFilters(): PickFilter[] {
-  return [
-    { key: 'standard', label: t('choiceDetail.language.standard'), group: 'rarity' },
-    { key: 'rare', label: t('choiceDetail.language.rare'), group: 'rarity' },
-  ];
-}
-
 /** Урон оружия: «1к8 рубящий». */
 function weaponDamage(dice: string, type: string, content: Content): string {
   const typeName = localizeText(content.damageTypes.find((d) => d.id === type)?.name).text || type;
@@ -196,74 +163,6 @@ export function masteryEntries(weaponIds: string[], content: Content): ChoiceEnt
           text: plain(mastery?.description),
         }),
       ];
-    }),
-  );
-}
-
-/** Виды: скорость, размер, особенности (каждая — разделом в шторке). */
-export function speciesEntries(content: Content): ChoiceEntry[] {
-  const traits = indexOf(content).traits;
-  return content.species.map((species) => {
-    const sizes = species.sizes.map(sizeName).join(` ${t('common.or')} `);
-    const summary = [
-      formatFeet(species.speed),
-      sizes,
-      ...(species.subspecies.length ? [t('origin.variants', { count: species.subspecies.length })] : []),
-    ].join(' · ');
-    return entry(species.id, species.name, summary, {
-      tiles: [
-        { label: t('choiceDetail.speed'), value: formatFeet(species.speed) },
-        { label: t('choiceDetail.size'), value: sizes },
-      ],
-      tags: species.extra ? [t('choiceDetail.fromPhb')] : [],
-      text: '',
-      sections: species.traits.flatMap((id) => {
-        const trait = traits.get(id);
-        return trait ? [{ title: localizeText(trait.name).text, text: plain(trait.description) }] : [];
-      }),
-    });
-  });
-}
-
-/** Особенности на выбор («Наследие драконов»). */
-export function traitEntries(ids: string[], content: Content): ChoiceEntry[] {
-  const traits = indexOf(content).traits;
-  return ids.flatMap((id) => {
-    const trait = traits.get(id);
-    return trait
-      ? [entry(trait.id, trait.name, descriptionSummary(trait.description), { text: plain(trait.description) })]
-      : [];
-  });
-}
-
-/** Предыстории: характеристики, черта, владения; описание черты — разделом в шторке. */
-export function backgroundEntries(content: Content): ChoiceEntry[] {
-  const feats = indexOf(content).feats;
-  return byTitle(
-    content.backgrounds.map((background) => {
-      const feat = background.featId ? feats.get(background.featId) : undefined;
-      const abilities = background.abilities.map(abilityAbbr).join(', ');
-      const proficiencies = background.proficiencies.map(proficiencyName).join(', ');
-      return entry(
-        background.id,
-        background.name,
-        [abilities, feat ? localizeText(feat.name).text : undefined, proficiencies].filter(Boolean).join(' · '),
-        {
-          tiles: [
-            ...(abilities ? [{ label: t('choiceDetail.abilities'), value: abilities }] : []),
-            ...(feat ? [{ label: t('choiceDetail.feat'), value: localizeText(feat.name).text }] : []),
-            ...(proficiencies ? [{ label: t('choiceDetail.proficiencies'), value: proficiencies }] : []),
-          ],
-          tags: background.extra ? [t('choiceDetail.fromPhb')] : [],
-          text: '',
-          sections: [
-            ...(feat ? [{ title: localizeText(feat.name).text, text: plain(feat.description) }] : []),
-            ...(background.feature
-              ? [{ title: localizeText(background.feature.name).text, text: plain(background.feature.description) }]
-              : []),
-          ],
-        },
-      );
     }),
   );
 }
@@ -318,9 +217,4 @@ export function magicItemEntries(ids: string[], content: Content): ChoiceEntry[]
       }),
     ];
   });
-}
-
-/** Описание черты для шторки (например, к выбранной черте в списке умений). */
-export function featDetail(id: string, content: Content): DetailContent | null {
-  return featEntries([id], content)[0]?.detail ?? null;
 }

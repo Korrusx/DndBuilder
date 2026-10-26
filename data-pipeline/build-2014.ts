@@ -396,6 +396,8 @@ async function build(): Promise<Omit<Content, 'version'>> {
   backgrounds.push(...extra.backgrounds);
   feats.push(...extra.feats);
   species.push(...extra.species);
+  // Порядок как в 2024 (рядом — человек-вариант; полуэльф и полуорк — только 2014), потом расы других книг.
+  species.sort((a, b) => speciesOrder(a.id) - speciesOrder(b.id));
   for (const sub of extra.subspecies) {
     subspecies.push(sub);
     species.find((s) => s.id === sub.speciesId)?.subspecies.push(sub.id);
@@ -538,6 +540,7 @@ async function build(): Promise<Omit<Content, 'version'>> {
       subclasses: ids(s.subclasses),
     };
   });
+  spells.push(...extra.spells);
 
   const itemText = (en: string) => tx(`magicItemText.${slug(en)}`, en);
   const magicItems = (await raw('magic-items')).map((m) => {
@@ -595,10 +598,17 @@ async function build(): Promise<Omit<Content, 'version'>> {
 
 const EXTRA_DIR = join(ROOT, 'extra-2014');
 
+const SPECIES_ORDER = [
+  'dragonborn', 'dwarf', 'elf', 'gnome', 'goliath', 'half-elf', 'half-orc', 'halfling', 'human', 'human-variant', 'orc', 'tiefling',
+  'aasimar', 'dhampir', 'kalashtar', 'warforged', 'changeling', 'shifter',
+];
+const speciesOrder = (id: string) => (SPECIES_ORDER.includes(id) ? SPECIES_ORDER.indexOf(id) : SPECIES_ORDER.length);
+
 type ExtraProfChoice = {
   choose: number;
   options?: string[];
-  fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' | 'skill' | 'weapon';
+  /** anyTool — любой инструмент (инструменты, ремесленные, музыкальные, набор травника; без транспорта). */
+  fromProficiencyType?: 'artisanTool' | 'instrument' | 'gamingSet' | 'skill' | 'weapon' | 'anyTool';
   desc?: string;
   descEn?: string;
 };
@@ -619,6 +629,11 @@ async function readExtra(
     // Оружие — отдельные виды (без «простого» и «воинского» целиком).
     else if (c.fromProficiencyType === 'weapon')
       options = proficiencies.filter((p) => p.type === 'weapon' && !['simple-weapons', 'martial-weapons'].includes(p.id)).map((p) => p.id);
+    else if (c.fromProficiencyType === 'anyTool')
+      options = proficiencies
+        .filter((p) => ['tool', 'artisanTool', 'instrument'].includes(p.type) || p.id === 'herbalism-kit')
+        .filter((p) => !p.id.endsWith('-vehicles'))
+        .map((p) => p.id);
     else if (c.fromProficiencyType) options = proficiencies.filter((p) => p.type === c.fromProficiencyType).map((p) => p.id);
     if (!options.length) warn(`${where}: пустой выбор владений`);
     return {
@@ -696,6 +711,8 @@ async function readExtra(
     speciesId: s.raceId,
     name: seeded(`subspecies.${s.id}.name`, s.name.en, s.name.ru),
     abilityBonuses: s.abilityBonuses,
+    ...(s.replacesAbilityBonuses ? { replacesAbilityBonuses: true } : {}),
+    ...(s.replacesTraits ? { replacesTraits: s.replacesTraits } : {}),
     traits: (s.traits as Raw[]).map((t) => ({ id: trait(t, s.raceId, s.id), level: 1 })),
     extra: true,
   }));
@@ -786,7 +803,26 @@ async function readExtra(
     }
   }
 
-  return { backgrounds, species, subspecies, traits, traitPatches, feats, subclasses, features };
+  // Заклинания PHB, которых нет в SRD 5.1, — для особенностей рас (подрасы тифлинга); в списки классов не входят.
+  const spells: Spell[] = (await read('spells')).spells.map((s: Raw) => {
+    const key = `spell.${s.id}`;
+    const text = (field: string) => (s[field] ? { [field]: seeded(`${key}.${field}`, s[field].en, s[field].ru) } : {});
+    return {
+      ...s,
+      name: seeded(`${key}.name`, s.name.en, s.name.ru),
+      castingTime: seeded(`${key}.castingTime`, s.castingTime.en, s.castingTime.ru),
+      range: seeded(`${key}.range`, s.range.en, s.range.ru),
+      duration: seeded(`${key}.duration`, s.duration.en, s.duration.ru),
+      ...text('material'),
+      description: seeded(`${key}.description`, s.description.en, s.description.ru),
+      ...text('higherLevel'),
+      classes: [],
+      subclasses: [],
+      extra: true,
+    };
+  });
+
+  return { backgrounds, species, subspecies, traits, traitPatches, feats, subclasses, features, spells };
 }
 
 /** Ресурсы умений (ярость, ки, вдохновение…): srd-2014/resources.json. */

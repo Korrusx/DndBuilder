@@ -2,6 +2,7 @@ import { contentFor, indexOf } from '@/shared/content';
 
 import { languageChoiceCount, originFeats, proficiencySlots } from '../build';
 import { newDraftCharacter } from '../character';
+import { characterResources } from '../resources';
 import { computeSheet, finalAbilityScores } from '../sheet';
 import { speciesSpellcasting } from '../speciesSpells';
 import type { Character } from '../types';
@@ -94,5 +95,125 @@ describe('PHB 2014: предыстории', () => {
       'tool-dice',
       'tool-playing-cards',
     ]);
+  });
+});
+
+describe('2014: расы других книг (как в списке 2024)', () => {
+  test('список рас: как в 2024 плюс полуэльф, полуорк и человек-вариант, без кхоравара', () => {
+    expect(content.species.map((s) => s.id)).toEqual([
+      'dragonborn',
+      'dwarf',
+      'elf',
+      'gnome',
+      'goliath',
+      'half-elf',
+      'half-orc',
+      'halfling',
+      'human',
+      'human-variant',
+      'orc',
+      'tiefling',
+      'aasimar',
+      'dhampir',
+      'kalashtar',
+      'warforged',
+      'changeling',
+      'shifter',
+    ]);
+  });
+
+  test('голиаф: СИЛ +2, ТЕЛ +1, Атлетика, «Выносливость камня» до короткого отдыха', () => {
+    const c = make({ speciesId: 'goliath' });
+    expect(finalAbilityScores(c, content)).toMatchObject({ str: 12, con: 11 });
+    expect(computeSheet(c, content).proficiencies).toContain('skill-athletics');
+    expect(characterResources(c, content)).toEqual(
+      expect.arrayContaining([expect.objectContaining({ id: 'stones-endurance', max: 1, recovery: 'short' })]),
+    );
+  });
+
+  test('орк: СИЛ +2, ТЕЛ +1, ИНТ −2, Запугивание', () => {
+    const c = make({ speciesId: 'orc' });
+    expect(finalAbilityScores(c, content)).toMatchObject({ str: 12, con: 11, int: 8 });
+    expect(computeSheet(c, content).proficiencies).toContain('skill-intimidation');
+  });
+
+  test('аасимар-защитник: ХАР +2, МДР +1, «Свет» Харизмой, преображение с 3-го уровня', () => {
+    const at = (level: number) =>
+      make({ speciesId: 'aasimar', subspeciesId: 'aasimar-protector', classes: [{ classId: 'fighter', level }] });
+    expect(finalAbilityScores(at(1), content)).toMatchObject({ cha: 12, wis: 11 });
+    expect(speciesSpellcasting(at(1), content)).toMatchObject({ ability: 'cha', spells: [{ spellId: 'light' }] });
+    const race = (level: number) =>
+      characterResources(at(level), content).filter((r) => r.id !== 'second-wind' && r.id !== 'action-surge');
+    expect(race(1).map((r) => r.id)).toEqual(['healing-hands']);
+    expect(race(3).map((r) => r.id)).toEqual(['healing-hands', 'aasimar-transformation']);
+  });
+
+  test('кованый: ТЕЛ +2 и +1 на выбор, +1 к КЗ, навык и инструмент на выбор', () => {
+    const c = make({ speciesId: 'warforged', choices: { 'trait.abilityBonus': ['str'] } });
+    expect(finalAbilityScores(c, content)).toMatchObject({ con: 12, str: 11 });
+    expect(computeSheet(c, content).armorClass).toBe(11);
+    const tools = proficiencySlots(c, content).find((s) => s.key === 'trait.specialized-design.prof.1');
+    expect(tools?.options).toEqual(expect.arrayContaining(['tool-thieves-tools', 'lute', 'herbalism-kit']));
+    expect(tools?.options).not.toContain('land-vehicles');
+  });
+
+  test('ченджлинг: два навыка из списка и два языка', () => {
+    const c = make({ speciesId: 'changeling', choices: { 'trait.abilityBonus': ['dex'] } });
+    expect(finalAbilityScores(c, content)).toMatchObject({ cha: 12, dex: 11 });
+    expect(proficiencySlots(c, content).find((s) => s.key === 'trait.changeling-instincts.prof.0')?.choose).toBe(2);
+    // 2 от ченджлинга + 2 от «Прислужника»
+    expect(languageChoiceCount(c, content)).toBe(4);
+  });
+
+  test('шифтер-длиннозубый: СИЛ +2, ЛОВ +1, Запугивание, «Смена облика» до короткого отдыха', () => {
+    const c = make({ speciesId: 'shifter', subspeciesId: 'shifter-longtooth' });
+    expect(finalAbilityScores(c, content)).toMatchObject({ str: 12, dex: 11 });
+    expect(computeSheet(c, content).proficiencies).toContain('skill-intimidation');
+    expect(characterResources(c, content)).toEqual(
+      expect.arrayContaining([expect.objectContaining({ id: 'shifting', max: 1, recovery: 'short' })]),
+    );
+  });
+
+  test('дампир: скорость 35, +1 к трём на выбор, укус — БМ раз', () => {
+    const c = make({ speciesId: 'dhampir', choices: { 'trait.abilityBonus': ['str', 'dex', 'con'] } });
+    expect(finalAbilityScores(c, content)).toMatchObject({ str: 11, dex: 11, con: 11 });
+    expect(computeSheet(c, content).speed).toBe(35);
+    expect(characterResources(c, content)).toEqual(
+      expect.arrayContaining([expect.objectContaining({ id: 'vampiric-bite', max: 2, recovery: 'long' })]),
+    );
+  });
+});
+
+describe('2014: подрасы тифлинга (Mordenkainen’s Tome of Foes)', () => {
+  const at = (subspeciesId: string | undefined, level = 1) =>
+    make({ speciesId: 'tiefling', subspeciesId, classes: [{ classId: 'fighter', level }] });
+
+  test('подраса заменяет прибавки расы и «Наследие Ада»', () => {
+    const zariel = at('tiefling-zariel', 5);
+    expect(finalAbilityScores(zariel, content)).toMatchObject({ cha: 12, str: 11, int: 10 });
+    expect(computeSheet(zariel, content).features.map((f) => f.id)).not.toContain('infernal-legacy');
+    expect(speciesSpellcasting(zariel, content)).toMatchObject({ ability: 'cha' });
+    expect(speciesSpellcasting(zariel, content)?.spells.map((s) => s.spellId)).toEqual([
+      'thaumaturgy',
+      'searing-smite',
+      'branding-smite',
+    ]);
+  });
+
+  test('заклинания PHB вне SRD — с кругом и не в списках классов', () => {
+    expect(idx.spells.get('searing-smite')).toMatchObject({ level: 1, classes: [], extra: true });
+    expect(idx.spells.get('crown-of-madness')?.level).toBe(2);
+    expect(idx.spells.get('friends')?.level).toBe(0);
+  });
+
+  test('Асмодей — как тифлинг PHB; тифлинг без подрасы (старые персонажи) не меняется', () => {
+    expect(finalAbilityScores(at('tiefling-asmodeus'), content)).toMatchObject({ cha: 12, int: 11 });
+    expect(finalAbilityScores(at(undefined), content)).toMatchObject({ cha: 12, int: 11 });
+    expect(speciesSpellcasting(at(undefined, 5), content)?.spells.map((s) => s.spellId)).toEqual([
+      'thaumaturgy',
+      'hellish-rebuke',
+      'darkness',
+    ]);
+    expect(idx.species.get('tiefling')?.subspecies).toHaveLength(9);
   });
 });
