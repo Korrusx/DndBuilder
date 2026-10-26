@@ -20,6 +20,7 @@ export type { DetailChoice, DetailContent, DetailSheetProps } from './DetailShee
 export { Dots } from './Dots/Dots';
 export { ExpandableRow } from './ExpandableRow/ExpandableRow';
 export { FadeSwap } from './FadeSwap/FadeSwap';
+export { Freeze } from './Freeze/Freeze';
 export { DotRow } from './DotRow/DotRow';
 export { Hint } from './Hint/Hint';
 export { HpBar } from './HpBar/HpBar';

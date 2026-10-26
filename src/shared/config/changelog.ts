@@ -10,6 +10,10 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
       {
+        ru: 'Быстрее: галочка при выборе ставится сразу, «Далее» не ждёт сохранения; шаги создания листаются как слайдер',
+        en: 'Faster: picks are checked instantly, “Next” no longer waits for saving; creation steps slide like pages',
+      },
+      {
         ru: 'Создание персонажа: под плитками класса, вида и предыстории — карточка с описанием: что умеет, что даёт, что дальше; предыстории, подходящие классу, — первыми',
         en: 'Character creation: a description card under class, species and background tiles — what it can do, what it gives, what comes next; backgrounds that fit your class come first',
       },

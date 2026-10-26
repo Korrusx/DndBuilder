@@ -1,26 +1,19 @@
 import { content } from '@/shared/content';
 
-import { irmaLevel1 } from '../../lib/samples';
 import { spellSummary } from '../spellSummary';
 
 const spell = (id: string) => content.spells.find((s) => s.id === id)!;
-const atLevel = (level: number) => {
-  const irma = irmaLevel1();
-  return { ...irma, classes: irma.classes.map((entry) => ({ ...entry, level })) };
-};
 
 describe('сводка заклинания', () => {
   test('«Огненный снаряд»: урон, атака, дистанция; урон растёт с уровнем персонажа', () => {
     expect(spellSummary(spell('fire-bolt'), content).text).toBe('1к10 огнём · атака · 120 фт');
-    expect(spellSummary(spell('fire-bolt'), content, atLevel(1)).text).toBe('1к10 огнём · атака · 120 фт');
-    expect(spellSummary(spell('fire-bolt'), content, atLevel(5)).text).toBe('2к10 огнём · атака · 120 фт');
+    expect(spellSummary(spell('fire-bolt'), content, 1).text).toBe('1к10 огнём · атака · 120 фт');
+    expect(spellSummary(spell('fire-bolt'), content, 5).text).toBe('2к10 огнём · атака · 120 фт');
   });
 
   test('заклинание со спасброском и областью', () => {
     expect(spellSummary(spell('burning-hands'), content).text).toBe('3к6 огнём · СЛ спасброска ЛОВ · конус 15 фт');
-    expect(spellSummary(spell('sacred-flame'), content, atLevel(5)).text).toBe(
-      '2к8 излучением · СЛ спасброска ЛОВ · 60 фт',
-    );
+    expect(spellSummary(spell('sacred-flame'), content, 5).text).toBe('2к8 излучением · СЛ спасброска ЛОВ · 60 фт');
   });
 
   test('без урона: спасбросок и дистанция; лечение', () => {

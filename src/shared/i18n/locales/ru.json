@@ -92,7 +92,8 @@
     },
     "stepOf": "Шаг {{step}} из {{total}}",
     "moreIssues": " (и ещё {{count}})",
-    "goToStep": "Перейти к шагу {{step}}: {{title}}"
+    "goToStep": "Перейти к шагу {{step}}: {{title}}",
+    "saveFailed": "Не удалось сохранить черновик"
   },
   "issues": {
     "noClass": "Не выбран класс",

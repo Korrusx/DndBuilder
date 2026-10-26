@@ -35,7 +35,7 @@ describe('список заклинаний для выбора', () => {
   });
 
   test('уже выбранное в другом месте — с причиной', () => {
-    const items = spellPickItems(['fire-bolt'], content, undefined, new Map([['fire-bolt', 'уже выбрано']]));
+    const items = spellPickItems(['fire-bolt'], content, 1, new Map([['fire-bolt', 'уже выбрано']]));
     expect(items[0].reason).toBe('уже выбрано');
   });
 });

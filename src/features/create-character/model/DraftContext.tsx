@@ -5,6 +5,7 @@ import type { DraftApi } from './types';
 import { router, useGlobalSearchParams } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { Alert } from 'react-native';
 
 import type { Character } from '@/entities/character';
 import { newDraftCharacter } from '@/entities/character';
@@ -40,7 +41,7 @@ export function DraftProvider({ children }: { children: ReactNode }) {
 
   const update = useCallback((fn: (c: Character) => Character) => setCharacter((c) => (c ? fn(c) : c)), []);
   // Сообщения о проблемах — на текущем языке: при смене языка пересчитываем.
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const issues = useMemo(() => (character ? draftIssues(character, content) : []), [character, i18n.language]);
 
   if (!character) {
@@ -56,12 +57,17 @@ export function DraftProvider({ children }: { children: ReactNode }) {
     next: async (step, prepare) => {
       const current = prepare ? prepare(character) : character;
       const prev = current.status.kind === 'draft' ? current.status.step : 1;
-      const saved = await saveCharacter(db, { ...current, status: { kind: 'draft', step: Math.max(prev, step + 1) } });
-      setCharacter(saved);
+      const advanced: Character = { ...current, status: { kind: 'draft', step: Math.max(prev, step + 1) } };
+      // Переход — сразу, запись в базу — в фоне: раньше «Далее» ждало SQLite. Черновик обновляется до перехода,
+      // чтобы следующий шаг сразу видел результат `prepare` (снаряжение) и новый номер шага.
+      setCharacter(advanced);
       const target = CREATE_STEPS[step];
       if (target) {
         router.push({ pathname: target.route, params: { id } });
       }
+      saveCharacter(db, advanced).catch((err: unknown) =>
+        Alert.alert(t('wizard.saveFailed'), err instanceof Error ? err.message : String(err)),
+      );
     },
     reached,
     canOpen: (step) => step <= reached && !issues.some((i) => i.blocking && i.step < step),

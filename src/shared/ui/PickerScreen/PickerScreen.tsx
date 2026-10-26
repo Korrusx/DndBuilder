@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { startTransition, useCallback, useEffect, useMemo, useOptimistic, useRef, useState } from 'react';
 import { FlatList, Modal, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -8,8 +8,8 @@ import { useTranslation } from '@/shared/i18n';
 import { AppText } from '../AppText/AppText';
 import { Button } from '../Button/Button';
 import { Chip } from '../Chip/Chip';
-import { ChoiceRow } from '../ChoiceRow/ChoiceRow';
 import { DetailSheet } from '../DetailSheet/DetailSheet';
+import { PickerRow } from '../PickerRow/PickerRow';
 import { filterPickItems, togglePick } from './pickerLogic';
 import { styles } from './PickerScreen.styles';
 import type { PickerScreenProps } from './PickerScreen.types';
@@ -23,7 +23,7 @@ export function PickerScreen({
   title,
   items,
   filters = [],
-  selected,
+  selected: committed,
   max,
   onChange,
   detail,
@@ -37,8 +37,26 @@ export function PickerScreen({
   const [openId, setOpenId] = useState<string | null>(null);
   const shown = useMemo(() => filterPickItems(items, query, active, filters), [items, query, active, filters]);
   const reasons = useMemo(() => new Map(items.map((item) => [item.id, item.reason])), [items]);
+  // Отметка ставится сразу, а сохранение выбора (пересчёт черновика и экрана под окном) идёт фоновым
+  // обновлением — иначе галочка появляется с задержкой.
+  const [selected, setOptimistic] = useOptimistic(committed);
   const full = max > 1 && selected.length >= max;
-  const toggle = (id: string) => onChange(togglePick(selected, id, max));
+  // Последние выбор и обработчик — в ref: так `toggle` один на весь список и строки (memo) не перерисовываются зря.
+  const latest = useRef({ selected, onChange });
+  useEffect(() => {
+    latest.current = { selected, onChange };
+  });
+  const toggle = useCallback(
+    (id: string) => {
+      const next = togglePick(latest.current.selected, id, max);
+      latest.current.selected = next;
+      startTransition(() => {
+        setOptimistic(next);
+        latest.current.onChange(next);
+      });
+    },
+    [max, setOptimistic],
+  );
 
   return (
     <Modal
@@ -96,19 +114,16 @@ export function PickerScreen({
               {t('picker.empty')}
             </AppText>
           }
+          extraData={selected}
           renderItem={({ item }) => {
             const isOn = selected.includes(item.id);
             return (
-              <ChoiceRow
-                title={item.title}
-                summary={item.summary}
-                tags={item.tags}
-                icon={item.icon}
+              <PickerRow
+                item={item}
                 selected={isOn}
                 disabled={!isOn && (full || !!item.reason)}
-                reason={item.reason}
-                onOpen={() => setOpenId(item.id)}
-                onToggle={() => toggle(item.id)}
+                onOpen={setOpenId}
+                onToggle={toggle}
               />
             );
           }}

@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { memo, useId } from 'react';
 import Svg, { Defs, G, LinearGradient, Mask, Path, Pattern, Rect, Stop } from 'react-native-svg';
 
 import { GAME_ICONS, iconPattern } from '@/shared/config';
@@ -14,7 +14,7 @@ const half = tile / 2;
  * Повторяющийся узор из иконки у правого края карточки, к середине растворяется (как фон ответа в Telegram).
  * Карточке нужен `overflow: 'hidden'`.
  */
-export function IconPattern({ icon, color }: IconPatternProps) {
+export const IconPattern = memo(function IconPattern({ icon, color }: IconPatternProps) {
   // id элементов SVG: из useId убираем двоеточия, иначе url(#…) не сработает.
   const id = useId().replace(/[^a-zA-Z0-9]/g, '');
   return (
@@ -39,4 +39,4 @@ export function IconPattern({ icon, color }: IconPatternProps) {
       <Rect width="100%" height="100%" fill={`url(#p${id})`} mask={`url(#m${id})`} />
     </Svg>
   );
-}
+});

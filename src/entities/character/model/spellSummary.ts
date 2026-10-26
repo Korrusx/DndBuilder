@@ -3,9 +3,8 @@ import { abilityAbbr, localizeText } from '@/shared/content';
 import { t } from '@/shared/i18n';
 import { formatDamage, formatFeet } from '@/shared/lib/dice';
 
-import { totalLevel } from './character';
 import { spellDamage } from './spells';
-import type { Character, SpellSummary } from './types';
+import type { SpellSummary } from './types';
 
 /** «1к10 огнём», «лечение 2к8 + мод.», «2 × 1к10 силовым полем». */
 export function spellDamageText(spell: Spell, characterLevel: number): string | null {
@@ -35,14 +34,14 @@ export function spellDamageText(spell: Spell, characterLevel: number): string | 
 /**
  * Короткая строка о заклинании для списка выбора: «1к10 огнём · атака · 120 фт», «3к6 огнём · СЛ спасброска ЛОВ · конус 15 фт».
  * Собирается из урона, атаки/спасброска и области (иначе дистанции). Если ничего из этого нет — `short` из перевода,
- * иначе школа и время накладывания. С персонажем урон заговора — по его уровню, без него — как на 1-м уровне.
+ * иначе школа и время накладывания. Урон заговора — по уровню персонажа `characterLevel`.
  */
-export function spellSummary(spell: Spell, content: Content, character?: Character): SpellSummary {
+export function spellSummary(spell: Spell, content: Content, characterLevel = 1): SpellSummary {
   const tags: SpellSummary['tags'] = [
     ...(spell.concentration ? (['concentration'] as const) : []),
     ...(spell.ritual ? (['ritual'] as const) : []),
   ];
-  const damage = spellDamageText(spell, character ? totalLevel(character.classes) : 1);
+  const damage = spellDamageText(spell, characterLevel);
   const check = spell.attackType
     ? t('spellSummary.attack')
     : spell.save

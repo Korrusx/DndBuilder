@@ -16,6 +16,8 @@ export default function CreateLayout() {
           headerTitleStyle: { fontFamily: fonts.display },
           headerShadowVisible: false,
           contentStyle: { backgroundColor: colors.bg },
+          // Шаги листаются как слайдер: новый выезжает справа, «Назад» — обратно (на iOS это и есть стандарт).
+          animation: 'ios_from_right',
         }}
       />
     </DraftProvider>

@@ -4,7 +4,6 @@ import { currentLanguage, t } from '@/shared/i18n';
 import type { PickFilter, PickItem } from '@/shared/ui';
 
 import { spellSummary } from '../model/spellSummary';
-import type { Character } from '../model/types';
 
 /** Вид заклинания для фильтра: урон, лечение или поддержка (без урона, атаки и спасброска). */
 function spellKind(spell: Content['spells'][number]): 'damage' | 'heal' | 'support' | null {
@@ -16,12 +15,13 @@ function spellKind(spell: Content['spells'][number]): 'damage' | 'heal' | 'suppo
 
 /**
  * Заклинания для полноэкранного выбора: название, сводка, метки «К»/«Р», ключи фильтров.
- * Порядок — по кругу, внутри круга по названию. `blocked` — уже выбранные в другом месте (с причиной).
+ * Порядок — по кругу, внутри круга по названию. `characterLevel` — для урона заговоров;
+ * `blocked` — уже выбранные в другом месте (с причиной).
  */
 export function spellPickItems(
   ids: string[],
   content: Content,
-  character?: Character,
+  characterLevel = 1,
   blocked?: Map<string, string>,
 ): PickItem[] {
   const spells = indexOf(content).spells;
@@ -29,7 +29,7 @@ export function spellPickItems(
     .map((id) => spells.get(id))
     .filter((spell) => !!spell)
     .map((spell) => {
-      const summary = spellSummary(spell, content, character);
+      const summary = spellSummary(spell, content, characterLevel);
       const kind = spellKind(spell);
       return {
         level: spell.level,

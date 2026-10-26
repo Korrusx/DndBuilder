@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { startTransition, useOptimistic, useState } from 'react';
 import { View } from 'react-native';
 
 import { useTranslation } from '@/shared/i18n';
@@ -10,12 +10,24 @@ import { styles } from './ChoiceList.styles';
 import type { ChoiceListProps } from './ChoiceList.types';
 
 /** Строки выбора прямо на экране (без отдельного экрана): нажатие — описание в шторке, кружок — выбор. */
-export function ChoiceList({ items, selected, max, onChange, detail, onAdd }: ChoiceListProps) {
+export function ChoiceList({ items, selected: committed, max, onChange, detail, onAdd }: ChoiceListProps) {
   const { t } = useTranslation();
   const [openId, setOpenId] = useState<string | null>(null);
+  // Отметка — сразу, сохранение выбора — фоновым обновлением (как в PickerScreen).
+  const [selected, setOptimistic] = useOptimistic(committed);
   const full = max > 1 && selected.length >= max;
   const reasons = new Map(items.map((item) => [item.id, item.reason]));
-  const toggle = (id: string) => (onAdd ? onAdd(id) : onChange(togglePick(selected, id, max)));
+  const toggle = (id: string) => {
+    if (onAdd) {
+      onAdd(id);
+      return;
+    }
+    const next = togglePick(selected, id, max);
+    startTransition(() => {
+      setOptimistic(next);
+      onChange(next);
+    });
+  };
   return (
     <View style={styles.list}>
       {items.map((item) => {

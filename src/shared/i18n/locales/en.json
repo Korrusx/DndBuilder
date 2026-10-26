@@ -92,7 +92,8 @@
     },
     "stepOf": "Step {{step}} of {{total}}",
     "moreIssues": " (and {{count}} more)",
-    "goToStep": "Go to step {{step}}: {{title}}"
+    "goToStep": "Go to step {{step}}: {{title}}",
+    "saveFailed": "Could not save the draft"
   },
   "issues": {
     "noClass": "No class chosen",
