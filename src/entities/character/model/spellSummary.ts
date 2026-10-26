@@ -8,7 +8,7 @@ import { spellDamage } from './spells';
 import type { Character, SpellSummary } from './types';
 
 /** «1к10 огнём», «лечение 2к8 + мод.», «2 × 1к10 силовым полем». */
-function damagePart(spell: Spell, characterLevel: number): string | null {
+export function spellDamageText(spell: Spell, characterLevel: number): string | null {
   const damage = spellDamage(spell, characterLevel);
   if (!damage) {
     return null;
@@ -42,7 +42,7 @@ export function spellSummary(spell: Spell, content: Content, character?: Charact
     ...(spell.concentration ? (['concentration'] as const) : []),
     ...(spell.ritual ? (['ritual'] as const) : []),
   ];
-  const damage = damagePart(spell, character ? totalLevel(character.classes) : 1);
+  const damage = spellDamageText(spell, character ? totalLevel(character.classes) : 1);
   const check = spell.attackType
     ? t('spellSummary.attack')
     : spell.save

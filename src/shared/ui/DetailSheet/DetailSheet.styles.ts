@@ -1,0 +1,50 @@
+import { StyleSheet } from 'react-native';
+
+import { colors, fonts, sizes, spacing } from '@/shared/config';
+
+export const styles = StyleSheet.create({
+  wrap: { flex: 1, justifyContent: 'flex-end', backgroundColor: colors.overlay },
+  sheet: {
+    maxHeight: '88%',
+    backgroundColor: colors.surface,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: spacing.lg,
+  },
+  grab: { paddingTop: spacing.sm, paddingBottom: spacing.xs },
+  handle: {
+    alignSelf: 'center',
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: colors.border,
+    marginBottom: spacing.sm,
+  },
+  nav: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  arrow: { width: sizes.touchMin, height: sizes.touchMin, alignItems: 'center', justifyContent: 'center' },
+  arrowLabel: { fontFamily: fonts.text, fontSize: 28, lineHeight: 32, color: colors.text },
+  arrowDisabled: { opacity: 0.25 },
+  position: { fontFamily: fonts.text, fontSize: 13, color: colors.textSecondary },
+  body: { gap: spacing.md, paddingBottom: spacing.lg },
+  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs },
+  tag: { borderColor: colors.border, borderWidth: 1, borderRadius: 6, paddingHorizontal: 6, paddingVertical: 1 },
+  tagLabel: { fontFamily: fonts.textBold, fontSize: 11, color: colors.textSecondary },
+  tiles: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  tile: {
+    flexGrow: 1,
+    flexBasis: '45%',
+    backgroundColor: colors.surface2,
+    borderRadius: 14,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    gap: 2,
+  },
+  tileLabel: { fontFamily: fonts.text, fontSize: 12, color: colors.textSecondary },
+  tileValue: { fontFamily: fonts.textMedium, fontSize: 15, color: colors.text },
+  sectionTitle: { fontFamily: fonts.textBold, fontSize: 15, color: colors.text },
+  footer: { gap: spacing.xs, paddingTop: spacing.sm },
+  footerNote: { textAlign: 'center' },
+  footerButton: { minHeight: sizes.buttonPrimary },
+});

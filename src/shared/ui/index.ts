@@ -11,6 +11,8 @@ export type { ChipProps } from './Chip/Chip.types';
 export { ChipRow } from './ChipRow/ChipRow';
 export { ChoiceRow } from './ChoiceRow/ChoiceRow';
 export type { ChoiceRowProps } from './ChoiceRow/ChoiceRow.types';
+export { DetailSheet } from './DetailSheet/DetailSheet';
+export type { DetailChoice, DetailContent, DetailSheetProps } from './DetailSheet/DetailSheet.types';
 export { Dots } from './Dots/Dots';
 export { DotRow } from './DotRow/DotRow';
 export { Hint } from './Hint/Hint';

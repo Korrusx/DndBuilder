@@ -25,6 +25,7 @@ export { featureInfo, featureName } from './lib/features';
 export { proficiencyGroups } from './lib/proficiencies';
 export { safeSheet } from './lib/safeSheet';
 export { irma2014Level1, irmaLevel1 } from './lib/samples';
+export { spellDetail } from './lib/spellDetail';
 export { characterSubtitle } from './lib/subtitle';
 export {
   abilityModifier,
@@ -105,7 +106,7 @@ export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './m
 export { computeSheet, finalAbilityScores, originFeatIds, proficiencyIds, subclassSpellIds } from './model/sheet';
 export type { SpellDamage } from './model/spells';
 export { spellAttackBonus, spellDamage, spellDamageLevels, spellSaveDC } from './model/spells';
-export { spellSummary } from './model/spellSummary';
+export { spellDamageText, spellSummary } from './model/spellSummary';
 export type { ClassOptionSlot, ClassOptionSpell } from './model/classOptions';
 export {
   chosenClassOptions,

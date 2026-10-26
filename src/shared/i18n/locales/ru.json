@@ -942,5 +942,30 @@
   "choiceRow": {
     "select": "Выбрать {{name}}",
     "openHint": "Открыть описание"
+  },
+  "detailSheet": {
+    "select": "Выбрать",
+    "remove": "Убрать из выбранных",
+    "limit": "Выбрано {{picked}} из {{max}} — сначала уберите другое",
+    "previous": "Предыдущий",
+    "next": "Следующий",
+    "position": "{{index}} из {{count}}"
+  },
+  "spellDetail": {
+    "time": "Время",
+    "range": "Дистанция",
+    "components": "Компоненты",
+    "duration": "Длительность",
+    "damage": "Урон",
+    "effect": "Эффект",
+    "concentration": "Концентрация",
+    "ritual": "Ритуал",
+    "higherLevels": "На более высоких кругах",
+    "cantripUpgrade": "Усиление заговора",
+    "component": {
+      "V": "В",
+      "S": "С",
+      "M": "М"
+    }
   }
 }

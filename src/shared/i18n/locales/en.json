@@ -933,5 +933,30 @@
   "choiceRow": {
     "select": "Select {{name}}",
     "openHint": "Opens the description"
+  },
+  "detailSheet": {
+    "select": "Select",
+    "remove": "Remove from selected",
+    "limit": "{{picked}} of {{max}} selected — remove another one first",
+    "previous": "Previous",
+    "next": "Next",
+    "position": "{{index}} of {{count}}"
+  },
+  "spellDetail": {
+    "time": "Casting time",
+    "range": "Range",
+    "components": "Components",
+    "duration": "Duration",
+    "damage": "Damage",
+    "effect": "Effect",
+    "concentration": "Concentration",
+    "ritual": "Ritual",
+    "higherLevels": "At higher levels",
+    "cantripUpgrade": "Cantrip upgrade",
+    "component": {
+      "V": "V",
+      "S": "S",
+      "M": "M"
+    }
   }
 }
