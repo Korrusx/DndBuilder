@@ -10,7 +10,7 @@ export type PickerFieldProps = Omit<PickerScreenProps, 'visible' | 'onClose' | '
   /** Сколько нужно выбрать для счётчика раздела (по умолчанию — `max`). */
   need?: number;
   /** Подпись кнопки, открывающей выбор. */
-  buttonLabel: string;
+  buttonLabel?: string;
   /** Открыт ли экран выбора; без этого поля раздел управляет им сам. */
   open?: boolean;
   onOpen?: () => void;

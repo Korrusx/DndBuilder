@@ -6,10 +6,16 @@ import type { Character } from '@/entities/character';
 import {
   CHOICE_KEYS,
   choiceOptionIds,
+  featEntries,
   FEATURE_OPTIONS,
+  featureEntries,
   featureLanguageSlots,
+  featureOptionEntries,
   finalAbilityScores,
   knownLanguages,
+  languageEntries,
+  languageFilters,
+  masteryEntries,
   totalLevel,
   proficientSkills,
   weaponMasteryCount,
@@ -43,6 +49,7 @@ import {
   Button,
   Card,
   Chip,
+  ChoiceField,
   ChipRow,
   InfoSheet,
   MultiPick,
@@ -237,74 +244,41 @@ export function LevelUpPage() {
       ))}
 
       {plan.featureOptions.map((featureId) => (
-        <Section
+        <ChoiceField
           key={featureId}
           title={nameOf('features', featureId)}
-          picked={next.choices[CHOICE_KEYS.featureOption(featureId)]?.length ?? 0}
-          need={1}
-        >
-          {FEATURE_OPTIONS[featureId].map((o) => (
-            <OptionCard
-              key={o.id}
-              title={localizeText(o.name).text}
-              lines={[localizeText(o.description).text]}
-              selected={next.choices[CHOICE_KEYS.featureOption(featureId)]?.[0] === o.id}
-              onPress={() =>
-                set((c) => ({ ...c, choices: { ...c.choices, [CHOICE_KEYS.featureOption(featureId)]: [o.id] } }))
-              }
-            />
-          ))}
-        </Section>
+          entries={featureOptionEntries(FEATURE_OPTIONS[featureId])}
+          selected={next.choices[CHOICE_KEYS.featureOption(featureId)] ?? []}
+          max={1}
+          onChange={(ids) =>
+            set((c) => ({ ...c, choices: { ...c.choices, [CHOICE_KEYS.featureOption(featureId)]: ids } }))
+          }
+        />
       ))}
 
-      {plan.optionChoices.map((o) => {
-        const sel = next.choices[o.key] ?? [];
-        const selSet = new Set(sel);
-        const full = sel.length >= o.total;
-        return (
-          <Section key={o.key} title={nameOf('features', o.featureId)} picked={sel.length} need={o.total}>
-            {o.options.map((id) => {
-              const feature = byId.features.get(id);
-              const isOn = selSet.has(id);
-              return (
-                <OptionCard
-                  key={id}
-                  title={nameOf('features', id)}
-                  lines={[plain(feature?.description)].filter(Boolean)}
-                  selected={isOn}
-                  compact
-                  onPress={
-                    !isOn && full
-                      ? undefined
-                      : () => {
-                          const next_sel = isOn ? sel.filter((x) => x !== id) : o.total === 1 ? [id] : [...sel, id];
-                          set((c) => ({ ...c, choices: { ...c.choices, [o.key]: next_sel } }));
-                        }
-                  }
-                />
-              );
-            })}
-          </Section>
-        );
-      })}
+      {plan.optionChoices.map((o) => (
+        <ChoiceField
+          key={o.key}
+          title={nameOf('features', o.featureId)}
+          entries={featureEntries(o.options, content)}
+          selected={next.choices[o.key] ?? []}
+          max={o.total}
+          onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [o.key]: ids } }))}
+        />
+      ))}
 
       {featureLanguageSlots(next, content)
         .filter((slot) => plan.features.some((f) => f.id === slot.featureId))
         .map((slot) => (
-          <Section
+          <ChoiceField
             key={slot.key}
             title={nameOf('features', slot.featureId)}
-            picked={next.choices[slot.key]?.length ?? 0}
-            need={slot.choose}
-          >
-            <MultiPick
-              options={slot.options}
-              selected={next.choices[slot.key] ?? []}
-              max={slot.choose}
-              label={(id) => nameOf('languages', id)}
-              onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [slot.key]: ids } }))}
-            />
-          </Section>
+            entries={languageEntries(slot.options, content)}
+            filters={languageFilters()}
+            selected={next.choices[slot.key] ?? []}
+            max={slot.choose}
+            onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [slot.key]: ids } }))}
+          />
         ))}
 
       <Card style={styles.gapSm}>
@@ -353,14 +327,13 @@ export function LevelUpPage() {
           picked={feat ? 1 : 0}
           need={1}
         >
-          <MultiPick
-            options={levelFeatOptions(next, content, plan.featSlot)}
+          <ChoiceField
+            title={t('levelUpPage.feat')}
+            entries={featEntries(levelFeatOptions(next, content, plan.featSlot), content)}
             selected={feat ? [feat.featId] : []}
             max={1}
-            label={(id) => nameOf('feats', id)}
             onChange={([id]) => setFeat(id)}
           />
-          {feat ? <AppText variant="secondary">{plain(byId.feats.get(feat.featId)?.description)}</AppText> : null}
           {featRule?.mode === 'asi' ? (
             <AsiPicker increases={feat?.abilityIncreases ?? {}} scores={scores} onChange={setIncreases} />
           ) : null}
@@ -416,42 +389,26 @@ export function LevelUpPage() {
       ) : null}
 
       {plan.fightingStyles ? (
-        <Section title={t('levelUpPage.fightingStyle')} picked={fightingStyleFeats.length} need={plan.fightingStyles}>
-          {content.feats
-            .filter((f) => f.type === 'fighting-style' && !takenStyles.has(f.id))
-            .map((f) => {
-              const isOn = fightingStyleFeats.some((fs) => fs.featId === f.id);
-              const full = fightingStyleFeats.length >= plan.fightingStyles;
-              return (
-                <OptionCard
-                  key={f.id}
-                  title={nameOf('feats', f.id)}
-                  lines={[plain(f.description)].filter(Boolean)}
-                  selected={isOn}
-                  compact
-                  onPress={
-                    !isOn && full
-                      ? undefined
-                      : () => {
-                          const nextIds = isOn
-                            ? fightingStyleFeats.filter((fs) => fs.featId !== f.id).map((fs) => fs.featId)
-                            : [...fightingStyleFeats.map((fs) => fs.featId), f.id];
-                          set((c) => ({
-                            ...c,
-                            feats: [
-                              ...c.feats.filter(
-                                (feat) =>
-                                  !(feat.level === level && byId.feats.get(feat.featId)?.type === 'fighting-style'),
-                              ),
-                              ...nextIds.map((featId) => ({ featId, source: 'class' as const, level })),
-                            ],
-                          }));
-                        }
-                  }
-                />
-              );
-            })}
-        </Section>
+        <ChoiceField
+          title={t('levelUpPage.fightingStyle')}
+          entries={featEntries(
+            content.feats.filter((f) => f.type === 'fighting-style' && !takenStyles.has(f.id)).map((f) => f.id),
+            content,
+          )}
+          selected={fightingStyleFeats.map((f) => f.featId)}
+          max={plan.fightingStyles}
+          onChange={(ids) =>
+            set((c) => ({
+              ...c,
+              feats: [
+                ...c.feats.filter(
+                  (feat) => !(feat.level === level && byId.feats.get(feat.featId)?.type === 'fighting-style'),
+                ),
+                ...ids.map((featId) => ({ featId, source: 'class' as const, level })),
+              ],
+            }))
+          }
+        />
       ) : null}
 
       {plan.skillChoices.map((sc) => (
@@ -478,27 +435,27 @@ export function LevelUpPage() {
       />
 
       {plan.languages ? (
-        <Section title={t('levelUpPage.languages')} picked={newLanguages.length} need={plan.languages}>
-          <MultiPick
-            options={content.languages.map((l) => l.id).filter((id) => !knownLanguages(prev, content).includes(id))}
-            selected={newLanguages}
-            max={plan.languages}
-            label={(id) => nameOf('languages', id)}
-            onChange={(ids) => set((c) => ({ ...c, languages: [...prev.languages, ...ids] }))}
-          />
-        </Section>
+        <ChoiceField
+          title={t('levelUpPage.languages')}
+          entries={languageEntries(
+            content.languages.map((l) => l.id).filter((id) => !knownLanguages(prev, content).includes(id)),
+            content,
+          )}
+          filters={languageFilters()}
+          selected={newLanguages}
+          max={plan.languages}
+          onChange={(ids) => set((c) => ({ ...c, languages: [...prev.languages, ...ids] }))}
+        />
       ) : null}
 
       {masteryCount > prev.weaponMasteries.length ? (
-        <Section title={t('levelUpPage.masteries')} picked={next.weaponMasteries.length} need={masteryCount}>
-          <MultiPick
-            options={weaponMasteryOptions(next, content)}
-            selected={next.weaponMasteries}
-            max={masteryCount}
-            label={(id) => nameOf('equipment', id)}
-            onChange={(weaponMasteries) => set((c) => ({ ...c, weaponMasteries }))}
-          />
-        </Section>
+        <ChoiceField
+          title={t('levelUpPage.masteries')}
+          entries={masteryEntries(weaponMasteryOptions(next, content), content)}
+          selected={next.weaponMasteries}
+          max={masteryCount}
+          onChange={(weaponMasteries) => set((c) => ({ ...c, weaponMasteries }))}
+        />
       ) : null}
 
       {issues

@@ -35,3 +35,13 @@ describe('кнопка выбора в шторке', () => {
     ).toMatchObject({ disabled: true, note: 'уже выбрано' });
   });
 });
+
+describe('кнопка добавления в шторке', () => {
+  test('«Добавить» доступна всегда', () => {
+    expect(choiceButton('a', { ...choice([], 0), actionLabel: 'Добавить' })).toEqual({
+      title: 'Добавить',
+      variant: 'primary',
+      disabled: false,
+    });
+  });
+});

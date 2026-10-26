@@ -806,7 +806,8 @@
     "multiclassHint": "When multiclassing, the new class grants only some proficiencies: {{list}}. Hit points per level are average; saving throws don’t change.",
     "multiclassChoice": "New class: {{what}}",
     "proficiency": "proficiency",
-    "skill": "skill"
+    "skill": "skill",
+    "feat": "Feat"
   },
   "classOptions": {
     "invocation": "Eldritch Invocations",
@@ -932,7 +933,8 @@
   },
   "choiceRow": {
     "select": "Select {{name}}",
-    "openHint": "Opens the description"
+    "openHint": "Opens the description",
+    "add": "Add {{name}}"
   },
   "detailSheet": {
     "select": "Select",
@@ -940,7 +942,8 @@
     "limit": "{{picked}} of {{max}} selected — remove another one first",
     "previous": "Previous",
     "next": "Next",
-    "position": "{{index}} of {{count}}"
+    "position": "{{index}} of {{count}}",
+    "add": "Add"
   },
   "spellDetail": {
     "time": "Casting time",
@@ -974,6 +977,51 @@
     },
     "chooseCantrips": "Choose cantrips",
     "chooseSpells": "Choose spells",
-    "chooseSpell": "Choose a spell"
+    "chooseSpell": "Choose a spell",
+    "choose": "Choose"
+  },
+  "choiceDetail": {
+    "featType": {
+      "origin": "Origin feat",
+      "general": "General feat",
+      "fighting-style": "Fighting style",
+      "epic-boon": "Epic boon"
+    },
+    "prerequisite": "Prerequisite: {{text}}",
+    "minLevel": "level {{level}}",
+    "spellcasting": "Spellcasting feature",
+    "repeatable": "Can be taken more than once",
+    "classOption": {
+      "invocation": "Invocation",
+      "metamagic": "Metamagic"
+    },
+    "cost": "Cost: {{count}} sorcery points",
+    "needCantrip": {
+      "damage": "a warlock cantrip that deals damage",
+      "attack": "a warlock cantrip with an attack roll"
+    },
+    "classLevel": "class level {{level}}",
+    "language": {
+      "standard": "Standard language",
+      "rare": "Rare language"
+    },
+    "mastery": "Mastery: {{name}}",
+    "damage": "Damage",
+    "properties": "Properties",
+    "range": "Range",
+    "none": "none",
+    "speed": "Speed",
+    "size": "Size",
+    "creatureType": "Creature type",
+    "traits": "Traits",
+    "abilities": "Abilities",
+    "feat": "Feat",
+    "proficiencies": "Proficiencies",
+    "cost2": "Cost",
+    "weight": "Weight",
+    "rarity": "Rarity",
+    "attunement": "Requires attunement",
+    "armorClass": "AC",
+    "fromPhb": "Not SRD: Player's Handbook 2024 mechanics"
   }
 }

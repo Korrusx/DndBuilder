@@ -1,3 +1,5 @@
+import type { GameIconName } from '../GameIcon/GameIcon.types';
+
 export type ChoiceRowProps = {
   title: string;
   /** Короткая сводка под названием (обрезается многоточием в одну строку). */
@@ -9,6 +11,10 @@ export type ChoiceRowProps = {
   disabled?: boolean;
   /** Короткая причина недоступности — в начале сводки. */
   reason?: string;
+  /** Иконка слева от названия (виды). */
+  icon?: GameIconName;
+  /** `add` — кружок с «+»: нажатие добавляет (предметы), а не выбирает. */
+  mark?: 'check' | 'add';
   /** Нажатие на строку — открыть описание. */
   onOpen: () => void;
   /** Нажатие на кружок справа — выбрать или снять выбор. */

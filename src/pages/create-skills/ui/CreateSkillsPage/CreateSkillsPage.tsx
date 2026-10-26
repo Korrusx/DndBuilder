@@ -9,11 +9,17 @@ import {
   featureChoices,
   featureLanguageSlots,
   featureName,
+  featEntries,
+  featureEntries,
+  featureOptionEntries,
   featureOptionIds,
   fixedProficiencies,
   knownLanguages,
   languageChoiceCount,
   languageChoiceOptions,
+  languageEntries,
+  languageFilters,
+  masteryEntries,
   proficiencySlots,
   proficientSkills,
   weaponMasteryCount,
@@ -23,7 +29,7 @@ import { StepStatus, useDraft, WizardScreen } from '@/features/create-character'
 import { ClassOptionsPicker } from '@/features/pick-class-options';
 import { byId, content, nameOf, proficiencyName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, MultiPick, OptionCard, Section } from '@/shared/ui';
+import { AppText, ChoiceField, MultiPick, Section } from '@/shared/ui';
 
 export function CreateSkillsPage() {
   const { character, update, issues: allIssues } = useDraft();
@@ -124,42 +130,33 @@ export function CreateSkillsPage() {
       {featureOptionIds(character, content).map((featureId) => {
         const chosen = choice1(character, CHOICE_KEYS.featureOption(featureId));
         return (
-          <Section key={featureId} title={nameOf('features', featureId)} picked={chosen ? 1 : 0} need={1}>
-            {FEATURE_OPTIONS[featureId].map((o) => (
-              <OptionCard
-                key={o.id}
-                title={localizeText(o.name).text}
-                lines={[localizeText(o.description).text]}
-                selected={chosen === o.id}
-                onPress={() =>
-                  update((d) => ({
-                    ...d,
-                    choices: { ...d.choices, [CHOICE_KEYS.featureOption(featureId)]: [o.id] },
-                    // Число заговоров могло измениться — выбор заговоров начинается заново.
-                    cantrips: [],
-                  }))
-                }
-              />
-            ))}
-          </Section>
+          <ChoiceField
+            key={featureId}
+            title={nameOf('features', featureId)}
+            entries={featureOptionEntries(FEATURE_OPTIONS[featureId])}
+            selected={chosen ? [chosen] : []}
+            max={1}
+            onChange={(ids) =>
+              update((d) => ({
+                ...d,
+                choices: { ...d.choices, [CHOICE_KEYS.featureOption(featureId)]: ids },
+                // Число заговоров могло измениться — выбор заговоров начинается заново.
+                cantrips: [],
+              }))
+            }
+          />
         );
       })}
 
       {featureChoices(character, content).map((f) => (
-        <Section
+        <ChoiceField
           key={f.featureId}
           title={nameOf('features', f.featureId)}
-          picked={(character.choices[CHOICE_KEYS.featureOption(f.featureId)] ?? []).length}
-          need={f.choose}
-        >
-          <MultiPick
-            options={f.options}
-            selected={character.choices[CHOICE_KEYS.featureOption(f.featureId)] ?? []}
-            max={f.choose}
-            label={(id) => nameOf('features', id)}
-            onChange={(ids) => setChoice(CHOICE_KEYS.featureOption(f.featureId), ids)}
-          />
-        </Section>
+          entries={featureEntries(f.options, content)}
+          selected={character.choices[CHOICE_KEYS.featureOption(f.featureId)] ?? []}
+          max={f.choose}
+          onChange={(ids) => setChoice(CHOICE_KEYS.featureOption(f.featureId), ids)}
+        />
       ))}
 
       <ClassOptionsPicker character={character} onChoice={setChoice} />
@@ -168,88 +165,75 @@ export function CreateSkillsPage() {
         const type = FEAT_FEATURES[featureId];
         const chosen = character.feats.find((f) => f.source === 'class' && byId.feats.get(f.featId)?.type === type);
         return (
-          <Section key={featureId} title={nameOf('features', featureId)} picked={chosen ? 1 : 0} need={1}>
-            <MultiPick
-              options={content.feats.filter((f) => f.type === type).map((f) => f.id)}
-              selected={chosen ? [chosen.featId] : []}
-              max={1}
-              label={(id) => nameOf('feats', id)}
-              onChange={([featId]) =>
-                update((d) => ({
-                  ...d,
-                  feats: [
-                    ...d.feats.filter((f) => !(f.source === 'class' && byId.feats.get(f.featId)?.type === type)),
-                    ...(featId ? [{ featId, source: 'class' as const, level: 1 }] : []),
-                  ],
-                }))
-              }
-            />
-          </Section>
+          <ChoiceField
+            key={featureId}
+            title={nameOf('features', featureId)}
+            entries={featEntries(
+              content.feats.filter((f) => f.type === type).map((f) => f.id),
+              content,
+            )}
+            selected={chosen ? [chosen.featId] : []}
+            max={1}
+            onChange={([featId]) =>
+              update((d) => ({
+                ...d,
+                feats: [
+                  ...d.feats.filter((f) => !(f.source === 'class' && byId.feats.get(f.featId)?.type === type)),
+                  ...(featId ? [{ featId, source: 'class' as const, level: 1 }] : []),
+                ],
+              }))
+            }
+          />
         );
       })}
 
       {masteryCount ? (
-        <Section
+        <ChoiceField
           title={t('skillsStep.masteries')}
           hint={t('skillsStep.masteriesHint')}
-          picked={character.weaponMasteries.length}
-          need={masteryCount}
-        >
-          <MultiPick
-            options={weaponMasteryOptions(character, content)}
-            selected={character.weaponMasteries}
-            max={masteryCount}
-            label={(id) => nameOf('equipment', id)}
-            onChange={(weaponMasteries) => update((d) => ({ ...d, weaponMasteries }))}
-          />
-        </Section>
+          entries={masteryEntries(weaponMasteryOptions(character, content), content)}
+          selected={character.weaponMasteries}
+          max={masteryCount}
+          onChange={(weaponMasteries) => update((d) => ({ ...d, weaponMasteries }))}
+        />
       ) : null}
 
-      <Section
+      <ChoiceField
         title={t('skillsStep.languages')}
-        hint={
+        hint={[
           character.edition === '2014'
             ? t('skillsStep.languagesHint2014', { count: languageCount })
-            : t('skillsStep.languagesHint', { count: languageCount })
-        }
-        picked={languages.length}
-        need={languageCount}
-      >
-        <MultiPick
-          options={languageChoiceOptions(character, content).filter(
+            : t('skillsStep.languagesHint', { count: languageCount }),
+          ...(classLanguages.length
+            ? [t('skillsStep.classLanguages', { list: classLanguages.map((id) => nameOf('languages', id)).join(', ') })]
+            : []),
+        ].join(' ')}
+        entries={languageEntries(
+          languageChoiceOptions(character, content).filter(
             (id) => !slotLanguages.has(id) && !classLanguages.includes(id),
-          )}
-          selected={languages}
-          max={languageCount}
-          label={(id) => nameOf('languages', id)}
-          onChange={(ids) => update((d) => ({ ...d, languages: ['common', ...ids] }))}
-        />
-        {classLanguages.length ? (
-          <AppText variant="secondary">
-            {t('skillsStep.classLanguages', { list: classLanguages.map((id) => nameOf('languages', id)).join(', ') })}
-          </AppText>
-        ) : null}
-      </Section>
+          ),
+          content,
+        )}
+        filters={languageFilters()}
+        selected={languages}
+        max={languageCount}
+        onChange={(ids) => update((d) => ({ ...d, languages: ['common', ...ids] }))}
+      />
 
       {languageSlots.map((slot) => (
-        <Section
+        <ChoiceField
           key={slot.key}
           title={featureName({ id: slot.featureId, source: 'class' })}
           hint={t('skillsStep.featureLanguagesHint', {
             known: FEATURE_LANGUAGES[slot.featureId].known.map((id) => nameOf('languages', id)).join(', '),
             count: slot.choose,
           })}
-          picked={(character.choices[slot.key] ?? []).length}
-          need={slot.choose}
-        >
-          <MultiPick
-            options={slot.options}
-            selected={character.choices[slot.key] ?? []}
-            max={slot.choose}
-            label={(id) => nameOf('languages', id)}
-            onChange={(ids) => setChoice(slot.key, ids)}
-          />
-        </Section>
+          entries={languageEntries(slot.options, content)}
+          filters={languageFilters()}
+          selected={character.choices[slot.key] ?? []}
+          max={slot.choose}
+          onChange={(ids) => setChoice(slot.key, ids)}
+        />
       ))}
 
       {otherFixed.length ? (

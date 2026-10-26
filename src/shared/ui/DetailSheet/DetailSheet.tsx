@@ -136,7 +136,9 @@ export function DetailSheet({ ids, id, detail, onNavigate, onClose, choice }: De
                   ))}
                 </View>
               ) : null}
-              <AppText>{content.text || t('common.noDescription')}</AppText>
+              {content.text || !content.sections?.length ? (
+                <AppText>{content.text || t('common.noDescription')}</AppText>
+              ) : null}
               {content.sections?.map((section) => (
                 <View key={section.title}>
                   <AppText style={styles.sectionTitle}>{section.title}</AppText>

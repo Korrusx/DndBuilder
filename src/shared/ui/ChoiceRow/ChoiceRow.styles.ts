@@ -51,6 +51,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   circleSelected: { borderColor: colors.accent, backgroundColor: colors.accent },
+  circleAdd: { borderColor: colors.accent },
+  plusMark: { fontFamily: fonts.textBold, fontSize: 18, lineHeight: 20, color: colors.accent },
   checkMark: { fontFamily: fonts.textBold, fontSize: 14, lineHeight: 16, color: colors.onAccent },
   dimmed: { opacity: 0.4 },
 });

@@ -814,7 +814,8 @@
     "multiclassHint": "При мультиклассе новый класс даёт только часть владений: {{list}}. Хиты за уровень — средние, спасброски не меняются.",
     "multiclassChoice": "Новый класс: {{what}}",
     "proficiency": "владение",
-    "skill": "навык"
+    "skill": "навык",
+    "feat": "Черта"
   },
   "classOptions": {
     "invocation": "Таинственные воззвания",
@@ -941,7 +942,8 @@
   },
   "choiceRow": {
     "select": "Выбрать {{name}}",
-    "openHint": "Открыть описание"
+    "openHint": "Открыть описание",
+    "add": "Добавить {{name}}"
   },
   "detailSheet": {
     "select": "Выбрать",
@@ -949,7 +951,8 @@
     "limit": "Выбрано {{picked}} из {{max}} — сначала уберите другое",
     "previous": "Предыдущий",
     "next": "Следующий",
-    "position": "{{index}} из {{count}}"
+    "position": "{{index}} из {{count}}",
+    "add": "Добавить"
   },
   "spellDetail": {
     "time": "Время",
@@ -983,6 +986,51 @@
     },
     "chooseCantrips": "Выбрать заговоры",
     "chooseSpells": "Выбрать заклинания",
-    "chooseSpell": "Выбрать заклинание"
+    "chooseSpell": "Выбрать заклинание",
+    "choose": "Выбрать"
+  },
+  "choiceDetail": {
+    "featType": {
+      "origin": "Черта происхождения",
+      "general": "Общая черта",
+      "fighting-style": "Стиль боя",
+      "epic-boon": "Эпический дар"
+    },
+    "prerequisite": "Условие: {{text}}",
+    "minLevel": "{{level}} уровень",
+    "spellcasting": "умение творить заклинания",
+    "repeatable": "Можно взять несколько раз",
+    "classOption": {
+      "invocation": "Воззвание",
+      "metamagic": "Метамагия"
+    },
+    "cost": "Стоимость: {{count}} очк. чародейства",
+    "needCantrip": {
+      "damage": "заговор колдуна с уроном",
+      "attack": "заговор колдуна с броском атаки"
+    },
+    "classLevel": "{{level}} уровень класса",
+    "language": {
+      "standard": "Стандартный язык",
+      "rare": "Редкий язык"
+    },
+    "mastery": "Приём: {{name}}",
+    "damage": "Урон",
+    "properties": "Свойства",
+    "range": "Дистанция",
+    "none": "нет",
+    "speed": "Скорость",
+    "size": "Размер",
+    "creatureType": "Тип существа",
+    "traits": "Особенности",
+    "abilities": "Характеристики",
+    "feat": "Черта",
+    "proficiencies": "Владения",
+    "cost2": "Цена",
+    "weight": "Вес",
+    "rarity": "Редкость",
+    "attunement": "Нужна настройка",
+    "armorClass": "КЗ",
+    "fromPhb": "Не из SRD: механика Player's Handbook 2024"
   }
 }

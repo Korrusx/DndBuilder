@@ -103,6 +103,7 @@ export function PickerScreen({
                 title={item.title}
                 summary={item.summary}
                 tags={item.tags}
+                icon={item.icon}
                 selected={isOn}
                 disabled={!isOn && (full || !!item.reason)}
                 reason={item.reason}

@@ -8,6 +8,7 @@ import {
   startRage,
   unarmedStrike,
   weaponMasteryCount,
+  masteryEntries,
   weaponMasteryOptions,
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
@@ -16,7 +17,7 @@ import { d20Parts, D20Sheet, DamageSheet } from '@/features/roll-dice';
 import { content, nameOf } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet, formatModifier } from '@/shared/lib/dice';
-import { AppText, BottomSheet, InfoSheet, MultiPick, Screen, SmallButton, StatBox } from '@/shared/ui';
+import { AppText, BottomSheet, ChoiceList, InfoSheet, Screen, SmallButton, StatBox } from '@/shared/ui';
 
 import { AttackCard } from '../AttackCard/AttackCard';
 import { RageCard } from '../RageCard/RageCard';
@@ -37,6 +38,7 @@ export function PlayCombatPage() {
 
   const exhaustion = character.state.exhaustion;
   const masteryCount = weaponMasteryCount(character, content);
+  const masteries = masteryEntries(weaponMasteryOptions(character, content), content);
   const equippedIds = new Set(Object.values(character.equippedSlots ?? {}).filter(Boolean) as string[]);
   const equippedAttacks = sheet.attacks.filter((attack) => equippedIds.has(attack.itemId));
   const bagAttacks = sheet.attacks.filter((attack) => !equippedIds.has(attack.itemId));
@@ -169,11 +171,11 @@ export function PlayCombatPage() {
 
       <BottomSheet visible={editMastery} title={t('combat.masteries')} onClose={() => setEditMastery(false)}>
         <AppText variant="secondary">{t('combat.masteriesHint')}</AppText>
-        <MultiPick
-          options={weaponMasteryOptions(character, content)}
+        <ChoiceList
+          items={masteries}
           selected={character.weaponMasteries}
           max={masteryCount}
-          label={(id) => nameOf('equipment', id)}
+          detail={(id) => masteries.find((entry) => entry.id === id)?.detail ?? null}
           onChange={(weaponMasteries) => update((d) => ({ ...d, weaponMasteries }))}
         />
       </BottomSheet>

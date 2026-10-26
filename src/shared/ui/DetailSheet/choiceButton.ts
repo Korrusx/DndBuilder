@@ -4,6 +4,9 @@ import type { DetailChoice } from './DetailSheet.types';
 
 /** Большая кнопка внизу шторки: «Выбрать», «Убрать из выбранных» или недоступно с причиной. */
 export function choiceButton(id: string, choice: DetailChoice) {
+  if (choice.actionLabel) {
+    return { title: choice.actionLabel, variant: 'primary' as const, disabled: false };
+  }
   if (choice.isSelected(id)) {
     return { title: t('detailSheet.remove'), variant: 'secondary' as const, disabled: false };
   }

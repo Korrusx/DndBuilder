@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, TextInput } from 'react-native';
 
 import type { InventoryItem } from '@/entities/character';
+import { equipmentEntries, magicItemEntries } from '@/entities/character';
 import { colors } from '@/shared/config';
+import { content } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
-import { AppText, BottomSheet, Segmented } from '@/shared/ui';
+import { AppText, BottomSheet, ChoiceList, Segmented } from '@/shared/ui';
 
 import { MAX_RESULTS } from '../../config/constants';
 import { equipmentCatalog, magicCatalog } from '../../model/catalog';
@@ -27,6 +29,11 @@ export function AddItemSheet({ visible, onClose, onAdd }: AddItemSheetProps) {
     const q = query.trim().toLowerCase();
     return (q ? list.filter((e) => e.name.toLowerCase().includes(q)) : list).slice(0, MAX_RESULTS);
   }, [catalogs, source, query]);
+
+  const entries = useMemo(() => {
+    const ids = results.map((e) => e.id);
+    return source === 'equipment' ? equipmentEntries(ids, content) : magicItemEntries(ids, content);
+  }, [results, source]);
 
   const add = (item: InventoryItem, label: string) => {
     onAdd(item);
@@ -67,30 +74,20 @@ export function AddItemSheet({ visible, onClose, onAdd }: AddItemSheetProps) {
         </Pressable>
       ) : null}
 
-      <View style={styles.list}>
-        {results.map((e, i) => (
-          <Pressable
-            key={e.id}
-            accessibilityRole="button"
-            onPress={() => add({ itemId: e.id, quantity: 1 }, e.name)}
-            style={({ pressed }) => [
-              styles.row,
-              i > 0 && styles.divider,
-              pressed && { backgroundColor: colors.surface2 },
-            ]}
-          >
-            <AppText style={styles.fill}>{e.name}</AppText>
-            <AppText variant="secondary" style={styles.size12}>
-              {e.note}
-            </AppText>
-          </Pressable>
-        ))}
-        {results.length === 0 ? (
-          <AppText variant="secondary" style={styles.padMd}>
-            {t('items.nothing')}
-          </AppText>
-        ) : null}
-      </View>
+      {results.length ? (
+        <ChoiceList
+          items={entries}
+          selected={[]}
+          max={0}
+          detail={(id) => entries.find((entry) => entry.id === id)?.detail ?? null}
+          onChange={() => {}}
+          onAdd={(id) => add({ itemId: id, quantity: 1 }, entries.find((entry) => entry.id === id)?.title ?? id)}
+        />
+      ) : (
+        <AppText variant="secondary" style={styles.padMd}>
+          {t('items.nothing')}
+        </AppText>
+      )}
     </BottomSheet>
   );
 }

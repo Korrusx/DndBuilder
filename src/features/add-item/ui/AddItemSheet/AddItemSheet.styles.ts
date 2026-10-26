@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, fonts, radius, sizes, spacing } from '@/shared/config';
+import { colors, fonts, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
   input: {
@@ -22,11 +22,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
   },
   customRow: { borderRadius: 14, backgroundColor: colors.accentBg },
-  list: { borderRadius: radius.card - 4, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
-  divider: { borderTopWidth: 1, borderTopColor: colors.border },
   textHeal: { color: colors.heal },
   customItem: { flex: 1, color: colors.accent },
-  fill: { flex: 1 },
-  size12: { fontSize: 12 },
   padMd: { padding: spacing.md },
 });

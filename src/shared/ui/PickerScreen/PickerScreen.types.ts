@@ -1,4 +1,5 @@
 import type { DetailContent } from '../DetailSheet/DetailSheet.types';
+import type { GameIconName } from '../GameIcon/GameIcon.types';
 
 /** Вариант в полноэкранном выборе. */
 export type PickItem = {
@@ -13,7 +14,12 @@ export type PickItem = {
   filters?: string[];
   /** Дополнительный текст для поиска (например, название на другом языке). */
   search?: string;
+  /** Иконка слева от названия. */
+  icon?: GameIconName;
 };
+
+/** Вариант вместе с описанием для шторки. */
+export type ChoiceEntry = PickItem & { detail: DetailContent };
 
 /** Фильтр-плашка. Внутри группы — «или», между группами — «и». */
 export type PickFilter = { key: string; label: string; group: string };

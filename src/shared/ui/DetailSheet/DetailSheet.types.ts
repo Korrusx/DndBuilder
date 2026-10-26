@@ -20,6 +20,8 @@ export type DetailChoice = {
   picked: number;
   max: number;
   onToggle: (id: string) => void;
+  /** Подпись кнопки, если вариант не выбирают, а добавляют («Добавить»): кнопка доступна всегда. */
+  actionLabel?: string;
 };
 
 export type DetailSheetProps = {

@@ -46,6 +46,7 @@ export type {
   ContentIndex,
   Edition,
   Equipment,
+  Feat,
   ItemEffect,
   LocalizedText,
   MagicItem,
