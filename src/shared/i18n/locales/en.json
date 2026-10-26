@@ -929,5 +929,9 @@
       "line": "{{size}} line",
       "sphere": "{{size}} sphere"
     }
+  },
+  "choiceRow": {
+    "select": "Select {{name}}",
+    "openHint": "Opens the description"
   }
 }

@@ -9,6 +9,8 @@ export { Card } from './Card/Card';
 export { Chip } from './Chip/Chip';
 export type { ChipProps } from './Chip/Chip.types';
 export { ChipRow } from './ChipRow/ChipRow';
+export { ChoiceRow } from './ChoiceRow/ChoiceRow';
+export type { ChoiceRowProps } from './ChoiceRow/ChoiceRow.types';
 export { Dots } from './Dots/Dots';
 export { DotRow } from './DotRow/DotRow';
 export { Hint } from './Hint/Hint';

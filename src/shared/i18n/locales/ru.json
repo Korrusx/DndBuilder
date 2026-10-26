@@ -938,5 +938,9 @@
       "line": "линия {{size}}",
       "sphere": "сфера {{size}}"
     }
+  },
+  "choiceRow": {
+    "select": "Выбрать {{name}}",
+    "openHint": "Открыть описание"
   }
 }
