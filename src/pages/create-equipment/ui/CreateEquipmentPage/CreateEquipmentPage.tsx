@@ -15,7 +15,9 @@ import { byId, content, nameOf, spellName } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { Hint, MultiPick, Section } from '@/shared/ui';
 
+import { CLASS_CANTRIPS, CLASS_SPELLS } from '../../config/constants';
 import { applyKit } from '../../lib/applyKit';
+import { takenSpells } from '../../lib/takenSpells';
 import { EquipmentSection } from '../EquipmentSection/EquipmentSection';
 import { MagicInitiate } from '../MagicInitiate/MagicInitiate';
 
@@ -53,6 +55,7 @@ export function CreateEquipmentPage() {
               selected={character.cantrips}
               max={limits.cantrips}
               label={spellName}
+              blocked={takenSpells(character, CLASS_CANTRIPS)}
               onChange={(cantrips) => update((d) => ({ ...d, cantrips }))}
             />
           </Section>
@@ -86,6 +89,7 @@ export function CreateEquipmentPage() {
                 selected={character.preparedSpells}
                 max={limits.prepared}
                 label={spellName}
+                blocked={takenSpells(character, CLASS_SPELLS)}
                 onChange={(preparedSpells) => update((d) => ({ ...d, preparedSpells }))}
               />
             </Section>

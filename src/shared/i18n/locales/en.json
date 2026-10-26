@@ -554,7 +554,8 @@
     "more": "Another choice",
     "fixedKit": "No choice",
     "knownSpells": "Known level 1 spells",
-    "subclassSpells": "Always prepared (subclass): {{list}}"
+    "subclassSpells": "Always prepared (subclass): {{list}}",
+    "taken": "already chosen"
   },
   "magicInitiate": {
     "fromBackground": "background",

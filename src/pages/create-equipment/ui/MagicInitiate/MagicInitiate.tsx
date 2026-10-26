@@ -11,6 +11,7 @@ import { abilityAbbr, byId, content, nameOf, spellName } from '@/shared/content'
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Chip, ChipRow, MultiPick, Section } from '@/shared/ui';
 
+import { takenSpells } from '../../lib/takenSpells';
 import type { MagicInitiateProps } from './MagicInitiate.types';
 
 export function MagicInitiate({ slot, fixedList, setChoice }: MagicInitiateProps) {
@@ -79,6 +80,7 @@ export function MagicInitiate({ slot, fixedList, setChoice }: MagicInitiateProps
               selected={character.choices[cantripsKey] ?? []}
               max={2}
               label={spellName}
+              blocked={takenSpells(character, cantripsKey)}
               onChange={(ids) => setChoice(cantripsKey, ids)}
             />
           </Section>
@@ -88,6 +90,7 @@ export function MagicInitiate({ slot, fixedList, setChoice }: MagicInitiateProps
               selected={character.choices[spellKey] ?? []}
               max={1}
               label={spellName}
+              blocked={takenSpells(character, spellKey)}
               onChange={(ids) => setChoice(spellKey, ids)}
             />
           </Section>

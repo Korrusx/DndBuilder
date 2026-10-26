@@ -562,7 +562,8 @@
     "more": "Ещё выбор",
     "fixedKit": "Без выбора",
     "knownSpells": "Известные заклинания 1-го круга",
-    "subclassSpells": "Всегда подготовлены (подкласс): {{list}}"
+    "subclassSpells": "Всегда подготовлены (подкласс): {{list}}",
+    "taken": "уже выбрано"
   },
   "magicInitiate": {
     "fromBackground": "предыстория",
