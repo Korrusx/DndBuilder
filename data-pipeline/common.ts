@@ -419,9 +419,52 @@ export function checkReferences(c: Omit<Content, 'version'>) {
 
 // ---------------------------------------------------------------------------
 
+type DescribeText = { en: string; ru: string };
+type DescribeClass = { difficulty?: 1 | 2 | 3; role?: DescribeText; pitch?: DescribeText; dative?: DescribeText };
+type DescribeSection = {
+  classes?: Record<string, DescribeClass>;
+  features?: Record<string, DescribeText>;
+  traits?: Record<string, DescribeText>;
+  species?: Record<string, DescribeText>;
+  backgrounds?: Record<string, DescribeText>;
+};
+
+/**
+ * Короткие тексты для карточек описания (data-pipeline/describe.json): роль, «как играется» и сложность класса,
+ * однострочные описания умений и особенностей, суть вида и предыстории. В 2014 сверху — overrides2014.
+ */
+async function applyDescriptions(content: Omit<Content, 'version'>) {
+  const data = JSON.parse(await readFile(join(ROOT, 'describe.json'), 'utf8')) as DescribeSection & {
+    overrides2014?: DescribeSection;
+  };
+  const over = edition === '2014' ? (data.overrides2014 ?? {}) : {};
+  const pick = <T>(section: keyof DescribeSection, id: string): T | undefined => {
+    const base = (data[section] as Record<string, T> | undefined)?.[id];
+    const top = (over[section] as Record<string, T> | undefined)?.[id];
+    return base && top && typeof base === 'object' ? { ...base, ...top } : (top ?? base);
+  };
+  const text = (key: string, t: DescribeText | undefined) => (t ? { [key.split('.').pop()!]: seeded(key, t.en, t.ru) } : {});
+  for (const c of content.classes) {
+    const d = pick<DescribeClass>('classes', c.id);
+    if (!d) continue;
+    Object.assign(
+      c,
+      d.difficulty ? { difficulty: d.difficulty } : {},
+      text(`class.${c.id}.role`, d.role),
+      text(`class.${c.id}.pitch`, d.pitch),
+      text(`class.${c.id}.dative`, d.dative),
+    );
+  }
+  for (const f of content.features) Object.assign(f, text(`feature.${f.id}.summary`, pick('features', f.id)));
+  for (const t of content.traits) Object.assign(t, text(`trait.${t.id}.summary`, pick('traits', t.id)));
+  for (const s of content.species) Object.assign(s, text(`species.${s.id}.pitch`, pick('species', s.id)));
+  for (const b of content.backgrounds) Object.assign(b, text(`background.${b.id}.pitch`, pick('backgrounds', b.id)));
+}
+
 /** Собирает справочник, проверяет ссылки, подставляет перевод и пишет файл. */
 export async function finish(build: () => Promise<Omit<Content, 'version'>>) {
   const content = await build();
+  await applyDescriptions(content);
   checkReferences(content);
   const { missing, stats } = await applyTranslations();
 

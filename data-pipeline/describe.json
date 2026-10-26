@@ -1,0 +1,665 @@
+{
+  "_comment": "Короткие тексты для карточек описания на шагах «Класс» и «Предыстория и вид» (обе редакции). Свои слова, обращение на «вы». Сборка кладёт их в CSV перевода черновиком (class.<id>.role / .pitch / .dative, feature.<id>.summary, trait.<id>.summary, species.<id>.pitch, background.<id>.pitch); правка — в CSV. difficulty — сложность класса для новичка: 1 — просто, 3 — сложно. Записи без такого id в справочнике редакции пропускаются. overrides2014 — тексты редакции 2014, где она отличается (ключи CSV те же, файлы перевода у редакций разные).",
+  "classes": {
+    "barbarian": {
+      "difficulty": 1,
+      "role": {
+        "en": "Melee · toughness",
+        "ru": "Ближний бой · живучесть"
+      },
+      "pitch": {
+        "en": "You charge into the fight and fly into a rage: you hit harder and shrug off blows. A simple class with plenty of hit points.",
+        "ru": "Вы врываетесь в бой и впадаете в ярость: бьёте сильнее и легче переносите удары. Простой класс с большим запасом хитов."
+      },
+      "dative": {
+        "en": "Barbarian",
+        "ru": "варвару"
+      }
+    },
+    "bard": {
+      "difficulty": 2,
+      "role": {
+        "en": "Support · magic · skills",
+        "ru": "Поддержка · магия · навыки"
+      },
+      "pitch": {
+        "en": "You inspire allies, charm and deceive with words and magic. You know a bit of everything and fit in any situation.",
+        "ru": "Вы вдохновляете союзников, очаровываете и обманываете словом и магией. Понемногу умеете всё и пригодитесь в любой ситуации."
+      },
+      "dative": {
+        "en": "Bard",
+        "ru": "барду"
+      }
+    },
+    "cleric": {
+      "difficulty": 2,
+      "role": {
+        "en": "Healing · divine magic",
+        "ru": "Лечение · божественная магия"
+      },
+      "pitch": {
+        "en": "Your god grants you spells: you heal, protect and smite enemies with holy power. Can wear armor and stand in the front line.",
+        "ru": "Бог даёт вам заклинания: вы лечите, защищаете и поражаете врагов священной силой. Можете носить доспехи и стоять в первом ряду."
+      },
+      "dative": {
+        "en": "Cleric",
+        "ru": "жрецу"
+      }
+    },
+    "druid": {
+      "difficulty": 3,
+      "role": {
+        "en": "Nature magic · shapechanging",
+        "ru": "Магия природы · превращения"
+      },
+      "pitch": {
+        "en": "You command the forces of nature and turn into animals. A wide choice of spells — more to decide each day.",
+        "ru": "Вы повелеваете силами природы и превращаетесь в зверей. Широкий выбор заклинаний — и больше решений каждый день."
+      },
+      "dative": {
+        "en": "Druid",
+        "ru": "друиду"
+      }
+    },
+    "fighter": {
+      "difficulty": 1,
+      "role": {
+        "en": "Weapons · armor · reliability",
+        "ru": "Оружие · доспехи · надёжность"
+      },
+      "pitch": {
+        "en": "A master of any weapon and armor: you attack more often than others and recover in the middle of a fight. The easiest class to start with.",
+        "ru": "Мастер любого оружия и доспехов: вы атакуете чаще других и приходите в себя прямо в бою. Самый простой класс для начала."
+      },
+      "dative": {
+        "en": "Fighter",
+        "ru": "воину"
+      }
+    },
+    "monk": {
+      "difficulty": 2,
+      "role": {
+        "en": "Unarmed combat · mobility",
+        "ru": "Рукопашный бой · подвижность"
+      },
+      "pitch": {
+        "en": "You fight with fists and feet, move fast and spend focus on special moves. Without armor, but hard to catch.",
+        "ru": "Вы сражаетесь руками и ногами, быстро двигаетесь и тратите сосредоточенность на особые приёмы. Без доспехов, но вас трудно поймать."
+      },
+      "dative": {
+        "en": "Monk",
+        "ru": "монаху"
+      }
+    },
+    "paladin": {
+      "difficulty": 2,
+      "role": {
+        "en": "Melee · protection · healing",
+        "ru": "Ближний бой · защита · лечение"
+      },
+      "pitch": {
+        "en": "A holy warrior bound by an oath: heavy armor, strong strikes and healing by touch. Tough and useful to the whole party.",
+        "ru": "Святой воин, связанный клятвой: тяжёлые доспехи, мощные удары и лечение наложением рук. Живучий и полезный всей группе."
+      },
+      "dative": {
+        "en": "Paladin",
+        "ru": "паладину"
+      }
+    },
+    "ranger": {
+      "difficulty": 2,
+      "role": {
+        "en": "Ranged combat · tracking",
+        "ru": "Дальний бой · следопытство"
+      },
+      "pitch": {
+        "en": "A hunter and scout: you shoot well, find your way in the wild and back yourself up with nature magic.",
+        "ru": "Охотник и разведчик: хорошо стреляете, ориентируетесь в дикой местности и помогаете себе магией природы."
+      },
+      "dative": {
+        "en": "Ranger",
+        "ru": "следопыту"
+      }
+    },
+    "rogue": {
+      "difficulty": 1,
+      "role": {
+        "en": "Stealth · precise strikes · skills",
+        "ru": "Скрытность · точные удары · навыки"
+      },
+      "pitch": {
+        "en": "You sneak, pick locks and strike where it hurts most. Better at skills than anyone and deals big damage with a single hit.",
+        "ru": "Вы крадётесь, вскрываете замки и бьёте туда, где больнее всего. Лучше всех владеете навыками и наносите большой урон одним ударом."
+      },
+      "dative": {
+        "en": "Rogue",
+        "ru": "плуту"
+      }
+    },
+    "sorcerer": {
+      "difficulty": 2,
+      "role": {
+        "en": "Innate magic · ranged damage",
+        "ru": "Врождённая магия · урон издалека"
+      },
+      "pitch": {
+        "en": "Magic is in your blood: few spells, but you can bend them — cast faster, farther or stronger.",
+        "ru": "Магия у вас в крови: заклинаний немного, зато вы умеете их менять — творить быстрее, дальше или сильнее."
+      },
+      "dative": {
+        "en": "Sorcerer",
+        "ru": "чародею"
+      }
+    },
+    "warlock": {
+      "difficulty": 2,
+      "role": {
+        "en": "Pact magic · ranged attacks",
+        "ru": "Магия договора · атаки издалека"
+      },
+      "pitch": {
+        "en": "You made a pact with a powerful being. Few spell slots, but they come back after a short rest, and invocations shape your style.",
+        "ru": "Вы заключили договор с могущественным существом. Ячеек мало, но они возвращаются после короткого отдыха, а воззвания задают ваш стиль."
+      },
+      "dative": {
+        "en": "Warlock",
+        "ru": "колдуну"
+      }
+    },
+    "wizard": {
+      "difficulty": 3,
+      "role": {
+        "en": "Arcane magic · versatility",
+        "ru": "Тайная магия · универсальность"
+      },
+      "pitch": {
+        "en": "A scholar of magic with a spellbook: the widest choice of spells, but fragile — plan ahead and keep your distance.",
+        "ru": "Учёный-маг с книгой заклинаний: самый широкий выбор заклинаний, но вы хрупки — планируйте заранее и держитесь подальше от врагов."
+      },
+      "dative": {
+        "en": "Wizard",
+        "ru": "волшебнику"
+      }
+    }
+  },
+  "features": {
+    "barbarian-rage": {
+      "en": "Bonus action: extra melee damage and resistance to weapon damage.",
+      "ru": "Бонусным действием: больше урона в ближнем бою и сопротивление урону от оружия."
+    },
+    "rage": {
+      "en": "Bonus action: extra melee damage and resistance to weapon damage.",
+      "ru": "Бонусным действием: больше урона в ближнем бою и сопротивление урону от оружия."
+    },
+    "barbarian-unarmored-defense": {
+      "en": "Without armor, AC = 10 + DEX + CON.",
+      "ru": "Без доспеха КЗ = 10 + ЛОВ + ТЕЛ."
+    },
+    "barbarian-weapon-mastery": {
+      "en": "Use the special properties of two kinds of weapons.",
+      "ru": "Особые приёмы двух видов оружия."
+    },
+    "fighter-weapon-mastery": {
+      "en": "Use the special properties of three kinds of weapons.",
+      "ru": "Особые приёмы трёх видов оружия."
+    },
+    "paladin-weapon-mastery": {
+      "en": "Use the special properties of two kinds of weapons.",
+      "ru": "Особые приёмы двух видов оружия."
+    },
+    "ranger-weapon-mastery": {
+      "en": "Use the special properties of two kinds of weapons.",
+      "ru": "Особые приёмы двух видов оружия."
+    },
+    "rogue-weapon-mastery": {
+      "en": "Use the special properties of two kinds of weapons.",
+      "ru": "Особые приёмы двух видов оружия."
+    },
+    "bard-bardic-inspiration": {
+      "en": "Give an ally a die to add to a failed roll.",
+      "ru": "Дайте союзнику кость, чтобы прибавить её к неудачному броску."
+    },
+    "bardic-inspiration-d6": {
+      "en": "Give an ally a d6 to add to a roll.",
+      "ru": "Дайте союзнику к6, чтобы прибавить её к броску."
+    },
+    "bard-spellcasting": {
+      "en": "Charisma-based spells: enchantment, illusion, healing.",
+      "ru": "Заклинания на Харизме: очарование, иллюзии, лечение."
+    },
+    "spellcasting-bard": {
+      "en": "Charisma-based spells: enchantment, illusion, healing.",
+      "ru": "Заклинания на Харизме: очарование, иллюзии, лечение."
+    },
+    "cleric-divine-order": {
+      "en": "Choose: heavy armor and martial weapons, or extra cantrip and knowledge.",
+      "ru": "На выбор: тяжёлые доспехи и воинское оружие или лишний заговор и знания."
+    },
+    "cleric-spellcasting": {
+      "en": "Wisdom-based divine spells, prepared each day.",
+      "ru": "Божественные заклинания на Мудрости, готовятся каждый день."
+    },
+    "spellcasting-cleric": {
+      "en": "Wisdom-based divine spells, prepared each day.",
+      "ru": "Божественные заклинания на Мудрости, готовятся каждый день."
+    },
+    "divine-domain": {
+      "en": "Choose a domain of your god — it shapes your powers.",
+      "ru": "Выберите домен своего бога — от него зависят ваши силы."
+    },
+    "domain-spells-1": {
+      "en": "Domain spells are always prepared.",
+      "ru": "Заклинания домена всегда подготовлены."
+    },
+    "druid-druidic": {
+      "en": "The secret language of druids.",
+      "ru": "Тайный язык друидов."
+    },
+    "druidic": {
+      "en": "The secret language of druids.",
+      "ru": "Тайный язык друидов."
+    },
+    "druid-primal-order": {
+      "en": "Choose: armor and martial weapons, or extra cantrip and nature lore.",
+      "ru": "На выбор: доспехи и воинское оружие или лишний заговор и знание природы."
+    },
+    "druid-spellcasting": {
+      "en": "Wisdom-based nature spells, prepared each day.",
+      "ru": "Заклинания природы на Мудрости, готовятся каждый день."
+    },
+    "spellcasting-druid": {
+      "en": "Wisdom-based nature spells, prepared each day.",
+      "ru": "Заклинания природы на Мудрости, готовятся каждый день."
+    },
+    "fighter-fighting-style": {
+      "en": "A combat specialty: archery, defense, two weapons and more.",
+      "ru": "Боевая специализация: стрельба, оборона, два оружия и другое."
+    },
+    "fighter-second-wind": {
+      "en": "Bonus action: regain 1d10 + fighter level hit points.",
+      "ru": "Бонусным действием восстановите 1к10 + уровень воина хитов."
+    },
+    "second-wind": {
+      "en": "Bonus action: regain 1d10 + fighter level hit points.",
+      "ru": "Бонусным действием восстановите 1к10 + уровень воина хитов."
+    },
+    "monk-martial-arts": {
+      "en": "Strike with DEX, extra unarmed strike as a bonus action.",
+      "ru": "Удары на ЛОВ и дополнительный безоружный удар бонусным действием."
+    },
+    "martial-arts": {
+      "en": "Strike with DEX, extra unarmed strike as a bonus action.",
+      "ru": "Удары на ЛОВ и дополнительный безоружный удар бонусным действием."
+    },
+    "monk-unarmored-defense": {
+      "en": "Without armor or shield, AC = 10 + DEX + WIS.",
+      "ru": "Без доспеха и щита КЗ = 10 + ЛОВ + МДР."
+    },
+    "paladin-lay-on-hands": {
+      "en": "A pool of healing you hand out by touch.",
+      "ru": "Запас лечения, который вы раздаёте касанием."
+    },
+    "lay-on-hands": {
+      "en": "A pool of healing you hand out by touch.",
+      "ru": "Запас лечения, который вы раздаёте касанием."
+    },
+    "paladin-spellcasting": {
+      "en": "Charisma-based divine spells, prepared each day.",
+      "ru": "Божественные заклинания на Харизме, готовятся каждый день."
+    },
+    "divine-sense": {
+      "en": "Sense celestials, fiends and undead nearby.",
+      "ru": "Чувствуете небожителей, исчадий и нежить поблизости."
+    },
+    "ranger-favored-enemy": {
+      "en": "Hunter's Mark is always prepared and sometimes free.",
+      "ru": "«Метка охотника» всегда подготовлена и иногда бесплатна."
+    },
+    "ranger-spellcasting": {
+      "en": "Wisdom-based nature spells.",
+      "ru": "Заклинания природы на Мудрости."
+    },
+    "favored-enemy-1-type": {
+      "en": "Advantage on tracking and recalling lore about one kind of enemy.",
+      "ru": "Преимущество, когда выслеживаете один вид врагов и вспоминаете о нём."
+    },
+    "natural-explorer-1-terrain-type": {
+      "en": "One type of terrain where you travel and survive with ease.",
+      "ru": "Местность, где вы легко путешествуете и выживаете."
+    },
+    "rogue-expertise": {
+      "en": "Double proficiency bonus in two skills.",
+      "ru": "Удвоенный бонус мастерства в двух навыках."
+    },
+    "rogue-expertise-1": {
+      "en": "Double proficiency bonus in two skills.",
+      "ru": "Удвоенный бонус мастерства в двух навыках."
+    },
+    "rogue-sneak-attack": {
+      "en": "Once per turn, extra damage with advantage or an ally nearby.",
+      "ru": "Раз в ход — дополнительный урон, если есть преимущество или рядом союзник."
+    },
+    "sneak-attack": {
+      "en": "Once per turn, extra damage with advantage or an ally nearby.",
+      "ru": "Раз в ход — дополнительный урон, если есть преимущество или рядом союзник."
+    },
+    "rogue-thieves-cant": {
+      "en": "The secret language of thieves, plus one more language.",
+      "ru": "Тайный язык воров и ещё один язык."
+    },
+    "thieves-cant": {
+      "en": "The secret language of thieves.",
+      "ru": "Тайный язык воров."
+    },
+    "sorcerer-innate-sorcery": {
+      "en": "Bonus action: stronger spells for 1 minute.",
+      "ru": "Бонусным действием на минуту усиливаете свои заклинания."
+    },
+    "sorcerer-spellcasting": {
+      "en": "Charisma-based spells from your inner magic.",
+      "ru": "Заклинания на Харизме из вашей внутренней магии."
+    },
+    "spellcasting-sorcerer": {
+      "en": "Charisma-based spells from your inner magic.",
+      "ru": "Заклинания на Харизме из вашей внутренней магии."
+    },
+    "sorcerous-origin": {
+      "en": "The source of your magic — it shapes your powers.",
+      "ru": "Источник вашей магии — от него зависят ваши силы."
+    },
+    "warlock-eldritch-invocations": {
+      "en": "Magical tricks that shape your style.",
+      "ru": "Магические приёмы, которые задают ваш стиль."
+    },
+    "warlock-pact-magic": {
+      "en": "Charisma-based spells; slots come back after a short rest.",
+      "ru": "Заклинания на Харизме; ячейки возвращаются после короткого отдыха."
+    },
+    "pact-magic": {
+      "en": "Charisma-based spells; slots come back after a short rest.",
+      "ru": "Заклинания на Харизме; ячейки возвращаются после короткого отдыха."
+    },
+    "otherworldly-patron": {
+      "en": "The being you made the pact with — it shapes your powers.",
+      "ru": "Существо, с которым вы заключили договор, — от него зависят ваши силы."
+    },
+    "wizard-arcane-recovery": {
+      "en": "Once a day, regain some spell slots on a short rest.",
+      "ru": "Раз в день на коротком отдыхе возвращаете часть ячеек."
+    },
+    "arcane-recovery": {
+      "en": "Once a day, regain some spell slots on a short rest.",
+      "ru": "Раз в день на коротком отдыхе возвращаете часть ячеек."
+    },
+    "wizard-ritual-adept": {
+      "en": "Cast ritual spells from your book without preparing them.",
+      "ru": "Творите ритуалы из книги, не готовя их."
+    },
+    "wizard-spellcasting": {
+      "en": "Intelligence-based spells from your spellbook.",
+      "ru": "Заклинания на Интеллекте из вашей книги."
+    },
+    "spellcasting-wizard": {
+      "en": "Intelligence-based spells from your spellbook.",
+      "ru": "Заклинания на Интеллекте из вашей книги."
+    }
+  },
+  "traits": {
+    "elven-lineage": {
+      "en": "Drow, high elf or wood elf — gives spells and more.",
+      "ru": "Дроу, высший или лесной эльф — даёт заклинания и не только."
+    },
+    "gnomish-lineage": {
+      "en": "Forest or rock gnome — gives spells.",
+      "ru": "Лесной или скальный гном — даёт заклинания."
+    },
+    "giant-ancestry": {
+      "en": "A giant's gift you can use a few times per long rest.",
+      "ru": "Дар великанов, которым можно пользоваться несколько раз за долгий отдых."
+    },
+    "fiendish-legacy": {
+      "en": "Abyssal, chthonic or infernal — resistance and spells.",
+      "ru": "Бездна, хтонь или ад — сопротивление и заклинания."
+    },
+    "versatile": {
+      "en": "An origin feat of your choice.",
+      "ru": "Черта происхождения на выбор."
+    },
+    "celestial-revelation": {
+      "en": "From level 3: transform for a minute — wings, radiance or a shroud.",
+      "ru": "С 3-го уровня: преображение на минуту — крылья, сияние или пелена."
+    },
+    "vampiric-bite": {
+      "en": "A bite that heals you or boosts your next roll.",
+      "ru": "Укус, который лечит вас или усиливает следующий бросок."
+    },
+    "shifting": {
+      "en": "Bonus action: a bestial form with temporary hit points.",
+      "ru": "Бонусным действием — звериный облик и временные хиты."
+    },
+    "draconic-ancestry": {
+      "en": "Your dragon's color sets your breath and resistance.",
+      "ru": "Цвет предка-дракона определяет дыхание и сопротивление."
+    },
+    "darkvision": {
+      "en": "You see in darkness within 60 feet.",
+      "ru": "Видите в темноте на 60 фт."
+    },
+    "stonecunning": {
+      "en": "Expertise in History checks about stonework.",
+      "ru": "Компетентность в Истории, когда речь о каменной кладке."
+    },
+    "trance": {
+      "en": "4 hours of meditation instead of 8 hours of sleep.",
+      "ru": "4 часа медитации вместо 8 часов сна."
+    },
+    "savage-attacks": {
+      "en": "Critical melee hits deal an extra weapon die.",
+      "ru": "Критические удары в ближнем бою — на кость урона больше."
+    },
+    "breath-weapon": {
+      "en": "Action: a blast of your dragon's energy.",
+      "ru": "Действием — выдох энергии вашего предка-дракона."
+    }
+  },
+  "species": {
+    "dragonborn": {
+      "en": "Descendants of dragons with scaly skin and draconic pride. They breathe destructive energy and resist the element of their ancestor. Proud and honorable, they often value clan above all.",
+      "ru": "Потомки драконов с чешуйчатой кожей и драконьей гордостью. Выдыхают разрушительную энергию и устойчивы к стихии предка. Горды и честолюбивы, часто ставят род превыше всего."
+    },
+    "dwarf": {
+      "en": "Short, broad-shouldered and stubborn folk of mountain halls. They endure poison and hardship, see in the dark and are hard to bring down. Masters of stone and metal.",
+      "ru": "Невысокий, коренастый и упрямый народ горных чертогов. Стойки к яду и лишениям, видят в темноте, их трудно свалить с ног. Мастера камня и металла."
+    },
+    "elf": {
+      "en": "Graceful, long-lived people with fey blood. Keen senses, darkvision and resistance to charms; they meditate instead of sleeping. Their lineage adds magic of the drow, high or wood elves.",
+      "ru": "Изящный долгоживущий народ с кровью фей. Острые чувства, тёмное зрение и стойкость к очарованию; вместо сна — медитация. Родословная добавляет магию дроу, высших или лесных эльфов."
+    },
+    "gnome": {
+      "en": "Small, curious and inventive folk. Their minds resist magic, and their lineage gives a touch of illusion or tinkering. They make clever spellcasters and skilled artisans.",
+      "ru": "Маленький, любопытный и изобретательный народ. Их разум стойко держится против магии, а родословная даёт толику иллюзий или изобретательства. Получаются хитрые заклинатели и умелые мастера."
+    },
+    "goliath": {
+      "en": "Huge, strong people of the high mountains with giant blood. They inherit the gift of one kind of giant, carry heavy loads and from level 5 can grow Large. Born for the front line.",
+      "ru": "Огромный и сильный народ высокогорий с кровью великанов. Наследуют дар одного из великанов, носят тяжёлое, а с 5-го уровня умеют становиться Большими. Созданы для первого ряда."
+    },
+    "halfling": {
+      "en": "Small, cheerful and nimble folk who love comfort. Luck saves them from failures, and they slip past bigger creatures and stay calm in fear. Natural rogues and good companions.",
+      "ru": "Маленький, жизнерадостный и проворный народ, любящий уют. Удача спасает их от провалов, они проскальзывают мимо крупных существ и не поддаются страху. Прирождённые плуты и хорошие спутники."
+    },
+    "human": {
+      "en": "The most widespread and versatile people. Humans adapt to anything: an extra skill, an extra origin feat and heroic inspiration after rest. Good for any class.",
+      "ru": "Самый распространённый и разносторонний народ. Люди приспосабливаются ко всему: лишний навык, лишняя черта происхождения и героическое вдохновение после отдыха. Хороши в любом классе."
+    },
+    "human-variant": {
+      "en": "A variant human from the 2014 rules: instead of +1 to everything — +1 to two abilities, a skill and a feat right at level 1. A popular choice for a strong start.",
+      "ru": "Вариант человека из правил 2014 года: вместо +1 ко всему — +1 к двум характеристикам, навык и черта уже на 1-м уровне. Популярный выбор для сильного старта."
+    },
+    "orc": {
+      "en": "Tall, powerful and relentless. In a moment of need they surge forward, and once a day they can stand back up with 1 hit point. Excellent warriors.",
+      "ru": "Высокие, сильные и неукротимые. В нужный миг совершают рывок, а раз в день могут подняться с 1 хитом. Превосходные воины."
+    },
+    "tiefling": {
+      "en": "People touched by the lower planes: horns, tails, unusual eyes. They resist fire or other harm and know fiendish magic that grows with level. Often face distrust, but are strong-willed.",
+      "ru": "Народ, отмеченный Нижними планами: рога, хвост, необычные глаза. Устойчивы к огню или иному урону и владеют магией исчадий, которая растёт с уровнем. Часто сталкиваются с недоверием, но сильны духом."
+    },
+    "half-elf": {
+      "en": "Children of two worlds — human and elven. Charismatic and versatile: +2 to Charisma, +1 to two abilities and two extra skills. Get along with everyone.",
+      "ru": "Дети двух миров — людей и эльфов. Обаятельные и разносторонние: +2 к Харизме, +1 к двум характеристикам и два лишних навыка. Находят общий язык со всеми."
+    },
+    "half-orc": {
+      "en": "Strong and fierce heirs of orcish blood. They hit hard on critical strikes, frighten enemies and keep fighting at 1 hit point. Born warriors.",
+      "ru": "Сильные и свирепые наследники орочьей крови. Сильно бьют при критических ударах, пугают врагов и продолжают бой с 1 хитом. Прирождённые воины."
+    },
+    "aasimar": {
+      "en": "Mortals with a spark of celestial light. They heal by touch, resist necrotic and radiant damage and can transform into a radiant form. Natural champions of good.",
+      "ru": "Смертные с искрой небесного света. Лечат касанием, устойчивы к некротической энергии и излучению и умеют преображаться в сияющий облик. Прирождённые защитники добра."
+    },
+    "dhampir": {
+      "en": "Half-vampires living between life and death. They climb walls like spiders, need no breath and feed on enemies with a bite. Mysterious and dangerous.",
+      "ru": "Полувампиры между жизнью и смертью. Лазают по стенам как пауки, не нуждаются в дыхании и подпитываются укусом. Загадочные и опасные."
+    },
+    "kalashtar": {
+      "en": "Humans bound to a spirit of dreams. Telepathy, a strong will and resistance to psychic harm. Calm, wise and often driven by visions.",
+      "ru": "Люди, связанные с духом снов. Телепатия, крепкая воля и стойкость к психическому урону. Спокойны, мудры и часто ведомы видениями."
+    },
+    "warforged": {
+      "en": "Living constructs created for war. Built-in armor, no need to eat, breathe or sleep, and a skill and tool of your choice. Reliable and tireless.",
+      "ru": "Живые конструкты, созданные для войны. Встроенная защита, им не нужно есть, дышать и спать, плюс навык и инструмент на выбор. Надёжны и неутомимы."
+    },
+    "khoravar": {
+      "en": "Half-elves of Eberron who bridge two peoples. Fey resilience, sleep resistance and versatility. Natural diplomats and go-betweens.",
+      "ru": "Полуэльфы Эберрона, соединяющие два народа. Стойкость фей, защита от усыпления и разносторонность. Прирождённые дипломаты и посредники."
+    },
+    "changeling": {
+      "en": "Shapeshifters who can take on any face and voice. Masters of disguise and social games: two skills of your choice from deception, insight, intimidation, persuasion and more. Perfect spies.",
+      "ru": "Перевёртыши, способные принять любое лицо и голос. Мастера маскировки и социальных игр: два навыка на выбор — обман, проницательность, убеждение и другие. Идеальные шпионы."
+    },
+    "shifter": {
+      "en": "Bearers of lycanthrope blood who briefly take on a bestial form. Shifting gives temporary hit points and a lineage power: thick hide, fangs, speed or keen senses. Fierce and instinctive.",
+      "ru": "Носители крови ликантропов, ненадолго принимающие звериный облик. Смена облика даёт временные хиты и силу наследия: толстую шкуру, клыки, быстроту или чутьё. Свирепы и живут инстинктами."
+    }
+  },
+  "backgrounds": {
+    "acolyte": {
+      "en": "You served in a temple: led rites, cared for pilgrims and studied sacred texts. You know religion and people's souls, and the faithful readily help one of their own. A natural fit for clerics and paladins.",
+      "ru": "Вы служили в храме: вели обряды, принимали паломников и изучали священные тексты. Разбираетесь в религии и людских душах, а верующие охотно помогают «своим». Естественный путь для жреца или паладина."
+    },
+    "criminal": {
+      "en": "You lived outside the law — a pickpocket, burglar or smuggler. You can open a lock, slip away unnoticed and know who to talk to in the city's underbelly. Fits rogues and anyone who relies on stealth.",
+      "ru": "Вы жили вне закона — карманник, взломщик или контрабандист. Умеете вскрыть замок, незаметно уйти и знаете, с кем говорить на городском дне. Подходит плутам и всем, кто полагается на скрытность."
+    },
+    "sage": {
+      "en": "You spent years in libraries and studies, collecting knowledge about history and magic. When the party meets something unknown, you are the one who has read about it. A good start for wizards and other scholars.",
+      "ru": "Вы провели годы в библиотеках и кабинетах, собирая знания об истории и магии. Когда группа встречает что-то непонятное, именно вы о нём читали. Хорошее начало для волшебника и других учёных."
+    },
+    "soldier": {
+      "en": "You served in an army or mercenary company: drills, campaigns, battles. You know discipline and the chain of command, and veterans recognize one of their own. Suits anyone who fights in the front line.",
+      "ru": "Вы служили в армии или наёмном отряде: муштра, походы, сражения. Знаете дисциплину и порядок подчинения, а ветераны узнают в вас своего. Подходит всем, кто сражается в первом ряду."
+    },
+    "artisan": {
+      "en": "You learned a craft in a master's workshop — smithing, carpentry, jewelry or another trade. You notice the quality of things, know their price and can fix what is broken. Useful in any party that wants good gear.",
+      "ru": "Вы учились ремеслу в мастерской — кузнечному, плотницкому, ювелирному или иному. Видите качество вещей, знаете им цену и умеете починить сломанное. Пригодитесь любой группе, которой нужно хорошее снаряжение."
+    },
+    "charlatan": {
+      "en": "You made a living by deceit: fake potions, forged papers, invented titles. You read people, change faces and talk your way out of trouble. Good for bards, rogues and warlocks.",
+      "ru": "Вы жили обманом: поддельные зелья, фальшивые бумаги, выдуманные титулы. Читаете людей, меняете облик и выкручиваетесь из любой беды словами. Хорошо подходит барду, плуту и колдуну."
+    },
+    "entertainer": {
+      "en": "You performed for crowds in taverns, squares and noble halls — singing, dancing, acrobatics or juggling. You know how to hold attention and find a welcome wherever there is an audience. A classic choice for bards.",
+      "ru": "Вы выступали перед публикой в тавернах, на площадях и в залах знати — пели, танцевали, жонглировали или показывали акробатику. Умеете держать внимание и найдёте приют везде, где есть зрители. Классический выбор для барда."
+    },
+    "farmer": {
+      "en": "You grew up working the land: plowing, tending animals, weathering storms and bad harvests. Hardy and down-to-earth, you understand nature and simple folk trust you. Suits sturdy fighters and rangers.",
+      "ru": "Вы выросли, работая на земле: пахота, скотина, непогода и неурожаи. Выносливы и практичны, понимаете природу, а простые люди вам доверяют. Подходит крепким бойцам и следопытам."
+    },
+    "guard": {
+      "en": "You kept watch over a city wall, a gate or a noble's estate. You notice what is wrong, know the local laws and how the city's guards think. Fits careful, attentive characters.",
+      "ru": "Вы стояли на страже городской стены, ворот или поместья знатного рода. Замечаете неладное, знаете местные законы и то, как думают стражники. Подходит осторожным и внимательным героям."
+    },
+    "guide": {
+      "en": "You led travelers and hunters through forests, mountains and swamps. You find the way, track game and know how to survive far from towns. A natural fit for rangers and druids.",
+      "ru": "Вы водили путников и охотников через леса, горы и болота. Находите дорогу, читаете следы и умеете выжить вдали от городов. Естественный путь для следопыта или друида."
+    },
+    "hermit": {
+      "en": "You lived in seclusion — in a cave, a monastery or a forest hut — seeking peace or an answer. Solitude taught you herbs, healing and patience, and you may hold a secret discovery. Suits clerics, druids and monks.",
+      "ru": "Вы жили в уединении — в пещере, монастыре или лесной хижине, — ища покоя или ответа. Одиночество научило вас травам, лечению и терпению, а может, и подарило тайное открытие. Подходит жрецу, друиду и монаху."
+    },
+    "merchant": {
+      "en": "You traded goods, haggled over prices and kept accounts. You know the value of things, find a common language with sellers and know where to get anything. Useful to any party with money problems.",
+      "ru": "Вы торговали, торговались и вели счета. Знаете цену вещам, находите общий язык с продавцами и знаете, где что достать. Пригодитесь любой группе, у которой туго с деньгами."
+    },
+    "noble": {
+      "en": "You were raised in a noble family: etiquette, history of houses, servants and duties. Doors of high society open to you, and commoners treat you with respect — or envy. A good start for charismatic characters.",
+      "ru": "Вы выросли в знатной семье: этикет, история родов, слуги и обязанности. Перед вами открываются двери высшего общества, а простой народ смотрит с уважением — или с завистью. Хорошее начало для обаятельных героев."
+    },
+    "sailor": {
+      "en": "You sailed on a merchant ship, a warship or a pirate vessel. You climb rigging, handle ropes and keep your feet in a storm, and every port has someone who knows you. Suits agile fighters and rogues.",
+      "ru": "Вы ходили на торговом, военном или пиратском судне. Лазаете по снастям, вяжете узлы и стоите на ногах в шторм, а в каждом порту найдётся знакомый. Подходит ловким бойцам и плутам."
+    },
+    "scribe": {
+      "en": "You copied books, drew up documents and kept archives. Precise and observant, you notice small details and forgeries. A good fit for wizards and other scholarly types.",
+      "ru": "Вы переписывали книги, составляли документы и вели архивы. Аккуратны и наблюдательны, замечаете мелочи и подделки. Хорошо подходит волшебнику и другим книжникам."
+    },
+    "wayfarer": {
+      "en": "You grew up on the streets, sleeping where you could and getting by on wits. You are hard to fool, quick to notice danger and know the city's back alleys. Suits rogues and resourceful survivors.",
+      "ru": "Вы выросли на улице, ночевали где придётся и выживали смекалкой. Вас трудно обмануть, вы первым замечаете опасность и знаете городские закоулки. Подходит плутам и находчивым героям."
+    },
+    "folk-hero": {
+      "en": "You stood up for common people against a tyrant, monster or disaster — and they remember it. Ordinary folk will shelter you and hide you from enemies. A good start for fighters, paladins and rangers.",
+      "ru": "Вы заступились за простой народ против тирана, чудовища или беды — и люди это помнят. Обычные жители приютят вас и спрячут от врагов. Хорошее начало для воина, паладина или следопыта."
+    },
+    "guild-artisan": {
+      "en": "You are a member of a craft guild: you know the trade, its secrets and its rules. The guild gives you lodging, help and connections in any city where it has a hall. Useful for social and practical characters.",
+      "ru": "Вы состоите в ремесленной гильдии: знаете ремесло, его секреты и порядки. Гильдия даст кров, помощь и связи в любом городе, где у неё есть дом. Пригодится обаятельным и практичным героям."
+    },
+    "outlander": {
+      "en": "You grew up far from civilization — in tundra, forests or steppes. You always find food and water and remember every path you have walked. A natural fit for barbarians, rangers and druids.",
+      "ru": "Вы выросли вдали от цивилизации — в тундре, лесах или степях. Всегда найдёте еду и воду и помните каждую пройденную тропу. Естественный путь для варвара, следопыта или друида."
+    },
+    "urchin": {
+      "en": "You grew up a street orphan, alone and hungry. You know the city's secret passages, move through it faster than anyone and can steal what you need. Suits rogues and anyone who relies on agility.",
+      "ru": "Вы выросли беспризорником — один и вечно голодный. Знаете тайные проходы города, передвигаетесь по нему быстрее всех и умеете стащить нужное. Подходит плутам и всем, кто полагается на ловкость."
+    }
+  },
+  "overrides2014": {
+    "classes": {
+      "monk": {
+        "pitch": {
+          "en": "You fight with fists and feet, move fast and spend ki on special moves. Without armor, but hard to catch.",
+          "ru": "Вы сражаетесь руками и ногами, быстро двигаетесь и тратите ци на особые приёмы. Без доспехов, но вас трудно поймать."
+        }
+      }
+    },
+    "species": {
+      "human": {
+        "en": "The most widespread and versatile people. In the 2014 rules — +1 to every ability: a little better at everything. Good for any class.",
+        "ru": "Самый распространённый и разносторонний народ. В правилах 2014 года — +1 ко всем характеристикам: понемногу лучше во всём. Хороши в любом классе."
+      },
+      "orc": {
+        "en": "Tall, powerful and aggressive. They dash toward enemies as a bonus action and are hard to intimidate. Excellent warriors, though not the brightest.",
+        "ru": "Высокие, сильные и агрессивные. Бонусным действием бросаются к врагу и сами умеют запугать. Превосходные воины, хоть и не самые сообразительные."
+      },
+      "goliath": {
+        "en": "Huge, strong people of the high mountains. They shrug off a blow once per rest, endure cold and altitude and carry heavy loads. Born for the front line.",
+        "ru": "Огромный и сильный народ высокогорий. Раз за отдых гасят удар, не боятся холода и высоты и носят тяжёлое. Созданы для первого ряда."
+      },
+      "elf": {
+        "en": "Graceful, long-lived people with fey blood. Keen senses, darkvision and resistance to charms; they meditate instead of sleeping. Subraces: high, wood or dark elf.",
+        "ru": "Изящный долгоживущий народ с кровью фей. Острые чувства, тёмное зрение и стойкость к очарованию; вместо сна — медитация. Подрасы: высший, лесной или тёмный эльф."
+      },
+      "gnome": {
+        "en": "Small, curious and inventive folk. Their minds resist magic. Subraces: rock gnome — a tinkerer, forest gnome — an illusionist who talks to small animals.",
+        "ru": "Маленький, любопытный и изобретательный народ. Их разум стойко держится против магии. Подрасы: скальный гном — изобретатель, лесной — иллюзионист, говорящий с мелкими зверями."
+      },
+      "human-variant": {
+        "en": "A variant human from the 2014 rules: instead of +1 to everything — +1 to two abilities, a skill and a feat right at level 1. A popular choice for a strong start.",
+        "ru": "Вариант человека из правил 2014 года: вместо +1 ко всему — +1 к двум характеристикам, навык и черта уже на 1-м уровне. Популярный выбор для сильного старта."
+      },
+      "tiefling": {
+        "en": "People touched by the lower planes: horns, tails, unusual eyes. They resist fire and know infernal magic; subraces tie them to one of the lords of the Nine Hells.",
+        "ru": "Народ, отмеченный Нижними планами: рога, хвост, необычные глаза. Устойчивы к огню и владеют адской магией; подрасы связывают их с одним из владык Девяти Преисподних."
+      }
+    }
+  }
+}

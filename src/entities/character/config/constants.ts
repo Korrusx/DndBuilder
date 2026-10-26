@@ -220,3 +220,14 @@ export const FEATURE_LANGUAGES: Record<string, { known: string[]; choose: number
 
 /** На 6-м уровне истощения персонаж умирает. */
 export const EXHAUSTION_MAX = 6;
+
+/** Особенности тёмного зрения → дальность, фт (2024: darkvision-60/120; 2014: darkvision, у дроу — превосходное). */
+export const DARKVISION_TRAITS: Record<string, number> = {
+  'darkvision-60': 60,
+  'darkvision-120': 120,
+  darkvision: 60,
+  'superior-darkvision': 120,
+};
+
+/** Сложность класса для новичка, если в справочнике её нет. */
+export const DEFAULT_CLASS_DIFFICULTY = 2;

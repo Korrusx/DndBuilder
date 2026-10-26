@@ -107,6 +107,12 @@ export type CharacterClass = {
   spellcasting?: { ability: AbilityId; fromLevel: number; preparation?: 'known' | 'prepared' };
   subclasses: string[];
   levels: ClassLevel[];
+  /** Для карточки описания (data-pipeline/describe.json): роль одной строкой, «как играется», сложность 1–3. */
+  role?: LocalizedText;
+  pitch?: LocalizedText;
+  difficulty?: 1 | 2 | 3;
+  /** Название в дательном падеже для подписи «Подходит плуту». */
+  dative?: LocalizedText;
 };
 
 export type Feature = {
@@ -122,6 +128,8 @@ export type Feature = {
   optionChoice?: Choice;
   /** 2014: выбор компетентности (id владений). */
   expertiseChoice?: Choice;
+  /** Описание в одну строку для карточки класса (нет — первое предложение `description`). */
+  summary?: LocalizedText;
   /** 2014: владения, которые даёт умение («Дополнительное владение» домена жизни — тяжёлые доспехи). */
   proficiencies?: string[];
   /** 2014: владения на выбор от умения (коллегия знаний — три навыка). */
@@ -165,6 +173,8 @@ export type Species = {
   /** 2014: языки расы (id языков) и язык на выбор. */
   languages?: string[];
   languageChoice?: Choice;
+  /** Суть вида одной строкой для карточки описания. */
+  pitch?: LocalizedText;
   /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -208,6 +218,8 @@ export type Trait = {
   damageType?: string;
   /** С какого уровня персонажа доступно заклинание из `spells` (нет записи — с 1-го): «Наследие Ада» тифлинга. */
   spellLevels?: Record<string, number>;
+  /** Описание в одну строку для карточки вида (нет — первое предложение `description`). */
+  summary?: LocalizedText;
   /** Не из SRD: механика из других книг 2024 (data-pipeline/extra). */
   extra?: boolean;
 };
@@ -228,6 +240,8 @@ export type Background = {
   languageChoice?: Choice;
   /** 2014: умение предыстории («Приют для верующих»). */
   feature?: { name: LocalizedText; description: LocalizedText };
+  /** Суть предыстории одной строкой для карточки описания. */
+  pitch?: LocalizedText;
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
 };

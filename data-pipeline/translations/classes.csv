@@ -2041,3 +2041,71 @@ classOption.transmuted-spell.name,Transmuted Spell,Преобразованно�
 classOption.transmuted-spell.description,"When you cast a spell that deals a type of damage from the following list, you can spend 1 Sorcery Point to change that damage type to one of the other listed types: Acid, Cold, Fire, Lightning, Poison, Thunder.","Когда вы творите заклинание, наносящее урон одного из перечисленных видов, вы можете потратить 1 единицу чародейства, чтобы заменить его другим видом из списка: кислота, холод, огонь, электричество, яд, звук.",draft
 classOption.twinned-spell.name,Twinned Spell,Сдвоенное заклинание,draft
 classOption.twinned-spell.description,"When you cast a spell, such as Charm Person, that can be cast with a higher-level spell slot to target an additional creature, you can spend 1 Sorcery Point to increase the spell's effective level by 1.","Когда вы творите заклинание, которое ячейкой более высокого круга может нацеливаться на дополнительное существо (например, «Очарование личности»), вы можете потратить 1 единицу чародейства, чтобы его эффективный круг увеличился на 1.",draft
+class.barbarian.role,Melee · toughness,Ближний бой · живучесть,draft
+class.barbarian.pitch,You charge into the fight and fly into a rage: you hit harder and shrug off blows. A simple class with plenty of hit points.,Вы врываетесь в бой и впадаете в ярость: бьёте сильнее и легче переносите удары. Простой класс с большим запасом хитов.,draft
+class.barbarian.dative,Barbarian,варвару,draft
+class.bard.role,Support · magic · skills,Поддержка · магия · навыки,draft
+class.bard.pitch,"You inspire allies, charm and deceive with words and magic. You know a bit of everything and fit in any situation.","Вы вдохновляете союзников, очаровываете и обманываете словом и магией. Понемногу умеете всё и пригодитесь в любой ситуации.",draft
+class.bard.dative,Bard,барду,draft
+class.cleric.role,Healing · divine magic,Лечение · божественная магия,draft
+class.cleric.pitch,"Your god grants you spells: you heal, protect and smite enemies with holy power. Can wear armor and stand in the front line.","Бог даёт вам заклинания: вы лечите, защищаете и поражаете врагов священной силой. Можете носить доспехи и стоять в первом ряду.",draft
+class.cleric.dative,Cleric,жрецу,draft
+class.druid.role,Nature magic · shapechanging,Магия природы · превращения,draft
+class.druid.pitch,You command the forces of nature and turn into animals. A wide choice of spells — more to decide each day.,Вы повелеваете силами природы и превращаетесь в зверей. Широкий выбор заклинаний — и больше решений каждый день.,draft
+class.druid.dative,Druid,друиду,draft
+class.fighter.role,Weapons · armor · reliability,Оружие · доспехи · надёжность,draft
+class.fighter.pitch,A master of any weapon and armor: you attack more often than others and recover in the middle of a fight. The easiest class to start with.,Мастер любого оружия и доспехов: вы атакуете чаще других и приходите в себя прямо в бою. Самый простой класс для начала.,draft
+class.fighter.dative,Fighter,воину,draft
+class.monk.role,Unarmed combat · mobility,Рукопашный бой · подвижность,draft
+class.monk.pitch,"You fight with fists and feet, move fast and spend focus on special moves. Without armor, but hard to catch.","Вы сражаетесь руками и ногами, быстро двигаетесь и тратите сосредоточенность на особые приёмы. Без доспехов, но вас трудно поймать.",draft
+class.monk.dative,Monk,монаху,draft
+class.paladin.role,Melee · protection · healing,Ближний бой · защита · лечение,draft
+class.paladin.pitch,"A holy warrior bound by an oath: heavy armor, strong strikes and healing by touch. Tough and useful to the whole party.","Святой воин, связанный клятвой: тяжёлые доспехи, мощные удары и лечение наложением рук. Живучий и полезный всей группе.",draft
+class.paladin.dative,Paladin,паладину,draft
+class.ranger.role,Ranged combat · tracking,Дальний бой · следопытство,draft
+class.ranger.pitch,"A hunter and scout: you shoot well, find your way in the wild and back yourself up with nature magic.","Охотник и разведчик: хорошо стреляете, ориентируетесь в дикой местности и помогаете себе магией природы.",draft
+class.ranger.dative,Ranger,следопыту,draft
+class.rogue.role,Stealth · precise strikes · skills,Скрытность · точные удары · навыки,draft
+class.rogue.pitch,"You sneak, pick locks and strike where it hurts most. Better at skills than anyone and deals big damage with a single hit.","Вы крадётесь, вскрываете замки и бьёте туда, где больнее всего. Лучше всех владеете навыками и наносите большой урон одним ударом.",draft
+class.rogue.dative,Rogue,плуту,draft
+class.sorcerer.role,Innate magic · ranged damage,Врождённая магия · урон издалека,draft
+class.sorcerer.pitch,"Magic is in your blood: few spells, but you can bend them — cast faster, farther or stronger.","Магия у вас в крови: заклинаний немного, зато вы умеете их менять — творить быстрее, дальше или сильнее.",draft
+class.sorcerer.dative,Sorcerer,чародею,draft
+class.warlock.role,Pact magic · ranged attacks,Магия договора · атаки издалека,draft
+class.warlock.pitch,"You made a pact with a powerful being. Few spell slots, but they come back after a short rest, and invocations shape your style.","Вы заключили договор с могущественным существом. Ячеек мало, но они возвращаются после короткого отдыха, а воззвания задают ваш стиль.",draft
+class.warlock.dative,Warlock,колдуну,draft
+class.wizard.role,Arcane magic · versatility,Тайная магия · универсальность,draft
+class.wizard.pitch,"A scholar of magic with a spellbook: the widest choice of spells, but fragile — plan ahead and keep your distance.","Учёный-маг с книгой заклинаний: самый широкий выбор заклинаний, но вы хрупки — планируйте заранее и держитесь подальше от врагов.",draft
+class.wizard.dative,Wizard,волшебнику,draft
+feature.barbarian-rage.summary,Bonus action: extra melee damage and resistance to weapon damage.,Бонусным действием: больше урона в ближнем бою и сопротивление урону от оружия.,draft
+feature.barbarian-unarmored-defense.summary,"Without armor, AC = 10 + DEX + CON.",Без доспеха КЗ = 10 + ЛОВ + ТЕЛ.,draft
+feature.barbarian-weapon-mastery.summary,Use the special properties of two kinds of weapons.,Особые приёмы двух видов оружия.,draft
+feature.bard-bardic-inspiration.summary,Give an ally a die to add to a failed roll.,"Дайте союзнику кость, чтобы прибавить её к неудачному броску.",draft
+feature.bard-spellcasting.summary,"Charisma-based spells: enchantment, illusion, healing.","Заклинания на Харизме: очарование, иллюзии, лечение.",draft
+feature.cleric-divine-order.summary,"Choose: heavy armor and martial weapons, or extra cantrip and knowledge.",На выбор: тяжёлые доспехи и воинское оружие или лишний заговор и знания.,draft
+feature.cleric-spellcasting.summary,"Wisdom-based divine spells, prepared each day.","Божественные заклинания на Мудрости, готовятся каждый день.",draft
+feature.druid-druidic.summary,The secret language of druids.,Тайный язык друидов.,draft
+feature.druid-primal-order.summary,"Choose: armor and martial weapons, or extra cantrip and nature lore.",На выбор: доспехи и воинское оружие или лишний заговор и знание природы.,draft
+feature.druid-spellcasting.summary,"Wisdom-based nature spells, prepared each day.","Заклинания природы на Мудрости, готовятся каждый день.",draft
+feature.fighter-fighting-style.summary,"A combat specialty: archery, defense, two weapons and more.","Боевая специализация: стрельба, оборона, два оружия и другое.",draft
+feature.fighter-second-wind.summary,Bonus action: regain 1d10 + fighter level hit points.,Бонусным действием восстановите 1к10 + уровень воина хитов.,draft
+feature.fighter-weapon-mastery.summary,Use the special properties of three kinds of weapons.,Особые приёмы трёх видов оружия.,draft
+feature.monk-martial-arts.summary,"Strike with DEX, extra unarmed strike as a bonus action.",Удары на ЛОВ и дополнительный безоружный удар бонусным действием.,draft
+feature.monk-unarmored-defense.summary,"Without armor or shield, AC = 10 + DEX + WIS.",Без доспеха и щита КЗ = 10 + ЛОВ + МДР.,draft
+feature.paladin-lay-on-hands.summary,A pool of healing you hand out by touch.,"Запас лечения, который вы раздаёте касанием.",draft
+feature.paladin-spellcasting.summary,"Charisma-based divine spells, prepared each day.","Божественные заклинания на Харизме, готовятся каждый день.",draft
+feature.paladin-weapon-mastery.summary,Use the special properties of two kinds of weapons.,Особые приёмы двух видов оружия.,draft
+feature.ranger-favored-enemy.summary,Hunter's Mark is always prepared and sometimes free.,«Метка охотника» всегда подготовлена и иногда бесплатна.,draft
+feature.ranger-spellcasting.summary,Wisdom-based nature spells.,Заклинания природы на Мудрости.,draft
+feature.ranger-weapon-mastery.summary,Use the special properties of two kinds of weapons.,Особые приёмы двух видов оружия.,draft
+feature.rogue-expertise.summary,Double proficiency bonus in two skills.,Удвоенный бонус мастерства в двух навыках.,draft
+feature.rogue-sneak-attack.summary,"Once per turn, extra damage with advantage or an ally nearby.","Раз в ход — дополнительный урон, если есть преимущество или рядом союзник.",draft
+feature.rogue-thieves-cant.summary,"The secret language of thieves, plus one more language.",Тайный язык воров и ещё один язык.,draft
+feature.rogue-weapon-mastery.summary,Use the special properties of two kinds of weapons.,Особые приёмы двух видов оружия.,draft
+feature.sorcerer-innate-sorcery.summary,Bonus action: stronger spells for 1 minute.,Бонусным действием на минуту усиливаете свои заклинания.,draft
+feature.sorcerer-spellcasting.summary,Charisma-based spells from your inner magic.,Заклинания на Харизме из вашей внутренней магии.,draft
+feature.warlock-eldritch-invocations.summary,Magical tricks that shape your style.,"Магические приёмы, которые задают ваш стиль.",draft
+feature.warlock-pact-magic.summary,Charisma-based spells; slots come back after a short rest.,Заклинания на Харизме; ячейки возвращаются после короткого отдыха.,draft
+feature.wizard-arcane-recovery.summary,"Once a day, regain some spell slots on a short rest.",Раз в день на коротком отдыхе возвращаете часть ячеек.,draft
+feature.wizard-ritual-adept.summary,Cast ritual spells from your book without preparing them.,"Творите ритуалы из книги, не готовя их.",draft
+feature.wizard-spellcasting.summary,Intelligence-based spells from your spellbook.,Заклинания на Интеллекте из вашей книги.,draft

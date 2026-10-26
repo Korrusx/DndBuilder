@@ -2,7 +2,7 @@ import type { Species, Trait } from '@/shared/content';
 import { byId, content, localizeText } from '@/shared/content';
 import { i18n } from '@/shared/i18n';
 
-import type { VariantOption } from '../model/types';
+import type { VariantOption } from '@/shared/ui';
 import { bonusText, shortSubspeciesName, subspeciesSummary } from './subspeciesText';
 
 /**

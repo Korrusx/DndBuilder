@@ -3,36 +3,36 @@ import { View } from 'react-native';
 
 import {
   choice1,
+  BACKGROUND_ICONS,
+  backgroundsForClass,
+  DEFAULT_BACKGROUND_ICON,
   CHOICE_KEYS,
   choiceOptionIds,
+  describeBackground,
+  describeSpecies,
+  DEFAULT_SPECIES_ICON,
   needsSpeciesSpellAbility,
   originFeats,
   originTraitIds,
   setBackground,
   setSpecies,
+  SPECIES_ICONS,
   SPECIES_SPELL_ABILITIES,
 } from '@/entities/character';
-import { SpellPickerField } from '@/entities/character/ui';
+import { BackgroundCard, SpeciesCard, SpellPickerField } from '@/entities/character/ui';
 import { StepStatus, useDraft, WizardScreen } from '@/features/create-character';
 import type { AbilityId } from '@/shared/content';
-import {
-  abilityAbbr,
-  abilityName,
-  byId,
-  content,
-  nameOf,
-  proficiencyName,
-  sizeName,
-  localizeText,
-} from '@/shared/content';
+import { abilityName, byId, content, nameOf, sizeName, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet } from '@/shared/lib/dice';
-import { AppText, Chip, ChipRow, MultiPick, OptionCard, Section } from '@/shared/ui';
+import { chunk } from '@/shared/lib/chunk';
+import { AppText, Chip, ChipRow, FadeSwap, MultiPick, OptionCard, Section, Tile, VariantPanel } from '@/shared/ui';
 
-import { DEFAULT_SPECIES_ICON, SPECIES_ICONS } from '../../config/icons';
 import { speciesVariantTrait, variantOptions } from '../../lib/raceVariants';
-import { bonusText } from '../../lib/subspeciesText';
-import { SubspeciesPanel } from '../SubspeciesPanel/SubspeciesPanel';
+import { BACKGROUND_COLUMNS, SPECIES_COLUMNS } from '../../config/constants';
+import { backgroundTileLine } from '../../lib/backgroundTiles';
+import { EmptyCard } from '../EmptyCard/EmptyCard';
+
 import { styles } from './CreateOriginPage.styles';
 
 export function CreateOriginPage() {
@@ -50,10 +50,22 @@ export function CreateOriginPage() {
   // 2014: вариант особенности расы (драконий предок) выбирается в панели под карточкой, как подраса.
   const variantTrait = species ? speciesVariantTrait(species) : undefined;
   const variants = species ? variantOptions(species) : [];
-  const speciesRows: (typeof content.species)[] = [];
-  for (let i = 0; i < content.species.length; i += 2) {
-    speciesRows.push(content.species.slice(i, i + 2));
-  }
+  const speciesRows = chunk(content.species, SPECIES_COLUMNS);
+  const variantId = variantTrait ? choice1(character, CHOICE_KEYS.traitOption(variantTrait.id)) : undefined;
+  const speciesDescription = species
+    ? describeSpecies(species.id, content, { subspeciesId: character.subspeciesId, variantTraitId: variantId })
+    : undefined;
+  // Предыстории, подходящие классу (его основная характеристика среди трёх), — первыми.
+  const classId = character.classes[0]?.classId;
+  const backgroundDescription = background ? describeBackground(background.id, content, classId) : undefined;
+  const classDative = classId ? localizeText(byId.classes.get(classId)?.dative).text : undefined;
+  const { fitting, other } = backgroundsForClass(content, classId);
+  const backgroundGroups = fitting.length
+    ? [
+        { key: 'fitting', title: t('describe.fitting'), ids: fitting, fitting: true },
+        { key: 'other', title: t('describe.otherBackgrounds'), ids: other, fitting: false },
+      ]
+    : [{ key: 'all', title: '', ids: other, fitting: false }];
 
   return (
     <WizardScreen step={2} canContinue={issues.length === 0} summary={<StepStatus issues={issues} />}>
@@ -61,41 +73,45 @@ export function CreateOriginPage() {
         title={t('origin.background')}
         hint={is2014 ? t('origin.backgroundHint2014') : t('origin.backgroundHint')}
       >
-        <ChipRow>
-          {content.backgrounds.map((b) => (
-            <Chip
-              key={b.id}
-              label={nameOf('backgrounds', b.id)}
-              selected={b.id === character.backgroundId}
-              onPress={() => update((d) => setBackground(d, b.id))}
-            />
-          ))}
-        </ChipRow>
+        {backgroundGroups.map((group) => (
+          <View key={group.key} style={styles.grid}>
+            {group.title ? (
+              <AppText variant="secondary" style={styles.groupTitle}>
+                {group.title}
+              </AppText>
+            ) : null}
+            {chunk(group.ids, BACKGROUND_COLUMNS).map((row) => (
+              <View key={row[0]} style={styles.row}>
+                {row.map((id) => {
+                  const b = byId.backgrounds.get(id)!;
+                  return (
+                    <Tile
+                      key={id}
+                      title={nameOf('backgrounds', id)}
+                      subtitle={backgroundTileLine(b)}
+                      tag={group.fitting ? t('describe.fitsShort') : undefined}
+                      icon={BACKGROUND_ICONS[id] ?? DEFAULT_BACKGROUND_ICON}
+                      selected={id === character.backgroundId}
+                      onPress={() => update((d) => setBackground(d, id))}
+                    />
+                  );
+                })}
+                {Array.from({ length: BACKGROUND_COLUMNS - row.length }, (_, i) => (
+                  <View key={i} style={styles.fill} />
+                ))}
+              </View>
+            ))}
+          </View>
+        ))}
       </Section>
 
-      {background ? (
-        <OptionCard
-          title={nameOf('backgrounds', background.id)}
-          lines={[
-            ...(background.abilities.length
-              ? [t('origin.abilities', { list: background.abilities.map(abilityAbbr).join(', ') })]
-              : []),
-            ...(background.featId
-              ? [
-                  t('origin.feat', {
-                    name: `${nameOf('feats', background.featId)}${background.featSpellList ? ` (${nameOf('classes', background.featSpellList)})` : ''}`,
-                  }),
-                ]
-              : []),
-            ...(background.feature ? [t('origin.feature', { name: localizeText(background.feature.name).text })] : []),
-            `${t('origin.proficiencies', { list: background.proficiencies.map(proficiencyName).join(', ') })}${background.proficiencyChoices.length ? t('origin.plusChoice') : ''}`,
-            ...(background.languageChoice
-              ? [t('origin.languagesChoice', { count: background.languageChoice.choose })]
-              : []),
-            ...(background.extra ? [t('common.fromPhb')] : []),
-          ]}
-        />
-      ) : null}
+      <FadeSwap swapKey={character.backgroundId}>
+        {backgroundDescription ? (
+          <BackgroundCard description={backgroundDescription} classDative={classDative} />
+        ) : (
+          <EmptyCard text={t('describe.emptyBackground')} />
+        )}
+      </FadeSwap>
 
       <Section title={is2014 ? t('origin.race') : t('origin.species')}>
         <View style={styles.grid}>
@@ -125,7 +141,7 @@ export function CreateOriginPage() {
                 {row.length === 1 ? <View style={styles.fill} /> : null}
               </View>
               {species && variants.length > 0 && row.some((s) => s.id === species.id) ? (
-                <SubspeciesPanel
+                <VariantPanel
                   options={variants}
                   selectedId={
                     variantTrait ? choice1(character, CHOICE_KEYS.traitOption(variantTrait.id)) : character.subspeciesId
@@ -143,22 +159,13 @@ export function CreateOriginPage() {
         </View>
       </Section>
 
-      {species ? (
-        <OptionCard
-          title={nameOf('species', species.id)}
-          lines={[
-            t('origin.speedSize', {
-              speed: formatFeet(species.speed),
-              sizes: species.sizes.map(sizeName).join(` ${t('common.or')} `),
-            }),
-            ...(species.abilityBonuses ? [t('origin.raceBonuses', { list: bonusText(species.abilityBonuses) })] : []),
-            ...(species.languages
-              ? [t('origin.languages', { list: species.languages.map((id) => nameOf('languages', id)).join(', ') })]
-              : []),
-            t('origin.traits', { list: species.traits.map((id) => nameOf('traits', id)).join(', ') }),
-          ]}
-        />
-      ) : null}
+      <FadeSwap swapKey={`${character.speciesId}:${character.subspeciesId ?? ''}:${variantId ?? ''}`}>
+        {speciesDescription ? (
+          <SpeciesCard description={speciesDescription} />
+        ) : (
+          <EmptyCard text={is2014 ? t('describe.emptyRace') : t('describe.emptySpecies')} />
+        )}
+      </FadeSwap>
 
       {bonusChoice ? (
         <Section

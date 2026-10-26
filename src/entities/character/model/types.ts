@@ -387,3 +387,85 @@ export type PlayApi = {
   update: (fn: (c: Character) => Character) => void;
   updateState: (fn: (s: GameState) => GameState) => void;
 };
+
+// ---------- Карточки описания на шагах «Класс» и «Предыстория и вид» ----------
+
+/** Умение или особенность: название, одна строка и полный текст (раскрывается по нажатию). */
+export type DescribedFeature = {
+  id: string;
+  name: string;
+  summary: string;
+  text: string;
+  /** С какого уровня (у особенностей подрасы и вида; 1 — не показывается). */
+  level?: number;
+};
+
+export type ClassDescription = {
+  id: string;
+  name: string;
+  role: string;
+  pitch: string;
+  /** 1 — просто, 3 — сложно для новичка. */
+  difficulty: 1 | 2 | 3;
+  /** Не из SRD (механика PHB). */
+  extra: boolean;
+  hitDie: number;
+  primaryAbilities: AbilityId[];
+  /** true — нужна одна из основных характеристик, false — все. */
+  primaryAbilityChoice: boolean;
+  /** Спасброски; при мультиклассе — пусто (их даёт только стартовый класс). */
+  savingThrows: AbilityId[];
+  /** Доспехи и щиты (id владений). */
+  armor: string[];
+  firstLevel: DescribedFeature[];
+  /** «Что дальше»: ближайшие уровни с умениями (без «Увеличения характеристик»). */
+  next: { level: number; features: string[]; subclass: boolean }[];
+  /** Навыки на выбор (id владений). */
+  skills?: { choose: number; options: string[] };
+  /** Выбранный подкласс (2014: жрец, чародей, колдун выбирают на 1-м уровне). */
+  subclass?: { id: string; name: string; summary: string; features: DescribedFeature[] };
+};
+
+export type SpeciesDescription = {
+  id: string;
+  name: string;
+  pitch: string;
+  extra: boolean;
+  sizes: string[];
+  speed: number;
+  /** Тёмное зрение, фт. */
+  darkvision?: number;
+  /** 2014: прибавки расы и подрасы (подраса тифлинга заменяет прибавки расы). */
+  abilityBonuses?: Partial<Record<AbilityId, number>>;
+  /** 2014: прибавки на выбор (полуэльф: +1 к двум). */
+  abilityBonusChoice?: { choose: number; bonus: number };
+  traits: DescribedFeature[];
+  /** 2014: языки расы (id) и сколько на выбор. */
+  languages: string[];
+  languageChoice?: number;
+  /** Выбранная подраса / разновидность. */
+  subspecies?: { id: string; name: string };
+};
+
+export type BackgroundDescription = {
+  id: string;
+  name: string;
+  pitch: string;
+  extra: boolean;
+  /** 2024: три характеристики для +2/+1 или +1/+1/+1; в 2014 — пусто. */
+  abilities: AbilityId[];
+  /** 2024: черта происхождения. */
+  feat?: DescribedFeature;
+  skills: string[];
+  /** Инструменты и прочие владения (id). */
+  tools: string[];
+  /** Выбор владений (например, игровой набор на выбор). */
+  toolChoices: string[];
+  equipment: string;
+  /** 2014: языки на выбор. */
+  languages?: number;
+  /** 2014: умение предыстории. */
+  feature?: DescribedFeature;
+  /** Подходит выбранному классу: его основная характеристика среди характеристик предыстории. */
+  fit?: { classId: string; ability: AbilityId };
+};

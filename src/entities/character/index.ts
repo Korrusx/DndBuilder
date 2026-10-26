@@ -20,6 +20,14 @@ export {
 } from './config/constants';
 export { featureSourceLabel } from './config/featureSource';
 export { HP_COLORS } from './config/hpColors';
+export {
+  BACKGROUND_ICONS,
+  CLASS_ICONS,
+  DEFAULT_BACKGROUND_ICON,
+  DEFAULT_CLASS_ICON,
+  DEFAULT_SPECIES_ICON,
+  SPECIES_ICONS,
+} from './config/icons';
 export { attackName } from './lib/attacks';
 export { featureInfo, featureName } from './lib/features';
 export { proficiencyGroups } from './lib/proficiencies';
@@ -114,6 +122,13 @@ export {
 export { adjustResource, characterResources, shortRestResources } from './model/resources';
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
 export { computeSheet, finalAbilityScores, originFeatIds, proficiencyIds, subclassSpellIds } from './model/sheet';
+export {
+  backgroundFits,
+  backgroundsForClass,
+  describeBackground,
+  describeClass,
+  describeSpecies,
+} from './model/describe';
 export type { SpellDamage } from './model/spells';
 export { spellAttackBonus, spellDamage, spellDamageLevels, spellSaveDC } from './model/spells';
 export { spellDamageText, spellSummary } from './model/spellSummary';
@@ -158,5 +173,9 @@ export type {
   SlotId,
   SourcedId,
   SpellSummary,
+  BackgroundDescription,
+  ClassDescription,
+  DescribedFeature,
+  SpeciesDescription,
   WeaponAttack,
 } from './model/types';

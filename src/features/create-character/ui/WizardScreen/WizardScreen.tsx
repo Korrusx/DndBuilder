@@ -9,7 +9,7 @@ import { styles } from './WizardScreen.styles';
 import type { WizardScreenProps } from './WizardScreen.types';
 
 /** Каркас шага: прогресс из 6 сегментов (по пройденным можно перейти), заголовок, нижняя панель «Назад» / «Далее». */
-export function WizardScreen({ step, children, summary, canContinue, footer, prepare }: WizardScreenProps) {
+export function WizardScreen({ step, children, summary, canContinue, nextTitle, footer, prepare }: WizardScreenProps) {
   const { next, canOpen, goTo } = useDraft();
   const { t } = useTranslation();
   return (
@@ -23,7 +23,11 @@ export function WizardScreen({ step, children, summary, canContinue, footer, pre
                 <Button title={t('common.back')} variant="secondary" onPress={() => goTo(step - 1, step)} />
               ) : null}
               <View style={styles.fill}>
-                <Button title={t('common.next')} disabled={!canContinue} onPress={() => next(step, prepare)} />
+                <Button
+                  title={nextTitle ?? t('common.next')}
+                  disabled={!canContinue}
+                  onPress={() => next(step, prepare)}
+                />
               </View>
             </View>
           </>

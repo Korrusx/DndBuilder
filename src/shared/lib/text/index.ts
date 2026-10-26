@@ -1,0 +1,1 @@
+export { firstSentence } from './firstSentence';

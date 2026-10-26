@@ -1,5 +1,13 @@
+export { BackgroundCard } from './BackgroundCard/BackgroundCard';
+export type { BackgroundCardProps } from './BackgroundCard/BackgroundCard.types';
+export { ClassCard } from './ClassCard/ClassCard';
+export type { ClassCardProps } from './ClassCard/ClassCard.types';
 export { CharacterCard } from './CharacterCard/CharacterCard';
 export type { CharacterCardProps } from './CharacterCard/CharacterCard.types';
 export { CharacterProvider, usePlay } from './CharacterProvider/CharacterProvider';
 export { SpellPickerField } from './SpellPickerField/SpellPickerField';
 export type { SpellPickerFieldProps } from './SpellPickerField/SpellPickerField.types';
+export { DescriptionBlock, DescriptionCard } from './DescriptionCard/DescriptionCard';
+export type { DescriptionCardProps } from './DescriptionCard/DescriptionCard.types';
+export { SpeciesCard } from './SpeciesCard/SpeciesCard';
+export type { SpeciesCardProps } from './SpeciesCard/SpeciesCard.types';

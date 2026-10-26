@@ -1,12 +1,11 @@
 import { Pressable, View } from 'react-native';
 
-import { AppText } from '@/shared/ui';
+import { AppText } from '../AppText/AppText';
+import { styles } from './VariantPanel.styles';
+import type { VariantPanelProps } from './VariantPanel.types';
 
-import { styles } from './SubspeciesPanel.styles';
-import type { SubspeciesPanelProps } from './SubspeciesPanel.types';
-
-/** Разновидности вида (эльфийские родословные, предки драконорождённых, облики шифтера…) прямо под карточкой вида. */
-export function SubspeciesPanel({ options, selectedId, onSelect, hint }: SubspeciesPanelProps) {
+/** Разновидности под плиткой (подрасы, подклассы 1-го уровня, предки драконорождённых…) — одна на выбор. */
+export function VariantPanel({ options, selectedId, onSelect, hint }: VariantPanelProps) {
   return (
     <View style={styles.panel}>
       <AppText variant="secondary" style={styles.hint}>
