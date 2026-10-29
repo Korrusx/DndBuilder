@@ -72,6 +72,110 @@ export const MIGRATIONS: Migration[] = [
       `);
     },
   },
+  {
+    version: 5,
+    up: async (db) => {
+      // Хроника кампании. Кампания живёт отдельно от персонажей, персонажи к ней прикрепляются.
+      // У каждой строки есть updated_at — задел для будущей синхронизации.
+      await db.execAsync(`
+        CREATE TABLE campaigns (
+          id TEXT PRIMARY KEY NOT NULL,
+          name TEXT NOT NULL,
+          gm_name TEXT,
+          edition TEXT,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL
+        );
+        CREATE TABLE campaign_characters (
+          campaign_id TEXT NOT NULL,
+          character_id TEXT NOT NULL,
+          status TEXT NOT NULL DEFAULT 'active',
+          joined_at TEXT NOT NULL,
+          left_at TEXT,
+          epitaph TEXT,
+          updated_at TEXT NOT NULL,
+          PRIMARY KEY (campaign_id, character_id)
+        );
+        CREATE INDEX campaign_characters_character ON campaign_characters (character_id);
+        CREATE TABLE sessions (
+          id TEXT PRIMARY KEY NOT NULL,
+          campaign_id TEXT NOT NULL,
+          number INTEGER NOT NULL,
+          started_at TEXT NOT NULL,
+          ended_at TEXT,
+          title TEXT,
+          where_we_stopped TEXT,
+          updated_at TEXT NOT NULL
+        );
+        CREATE INDEX sessions_campaign ON sessions (campaign_id, number);
+        CREATE TABLE entries (
+          id TEXT PRIMARY KEY NOT NULL,
+          campaign_id TEXT NOT NULL,
+          session_id TEXT,
+          kind TEXT NOT NULL,
+          created_at TEXT NOT NULL,
+          text TEXT NOT NULL DEFAULT '',
+          tags TEXT NOT NULL DEFAULT '[]',
+          secret INTEGER NOT NULL DEFAULT 0,
+          event_type TEXT,
+          event_data TEXT,
+          character_id TEXT,
+          photo_ids TEXT NOT NULL DEFAULT '[]',
+          updated_at TEXT NOT NULL
+        );
+        CREATE INDEX entries_campaign ON entries (campaign_id, created_at);
+        CREATE TABLE entities (
+          id TEXT PRIMARY KEY NOT NULL,
+          campaign_id TEXT NOT NULL,
+          type TEXT NOT NULL,
+          name TEXT NOT NULL,
+          role TEXT NOT NULL DEFAULT '',
+          description TEXT NOT NULL DEFAULT '',
+          status TEXT,
+          attitude INTEGER NOT NULL DEFAULT 0,
+          personal INTEGER NOT NULL DEFAULT 0,
+          place_id TEXT,
+          portrait_photo_id TEXT,
+          given_by_id TEXT,
+          reward TEXT,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL
+        );
+        CREATE INDEX entities_campaign ON entities (campaign_id, type);
+        CREATE TABLE quest_steps (
+          id TEXT PRIMARY KEY NOT NULL,
+          quest_id TEXT NOT NULL,
+          text TEXT NOT NULL,
+          done INTEGER NOT NULL DEFAULT 0,
+          sort_order INTEGER NOT NULL DEFAULT 0,
+          updated_at TEXT NOT NULL
+        );
+        CREATE INDEX quest_steps_quest ON quest_steps (quest_id, sort_order);
+        CREATE TABLE quest_counters (
+          quest_id TEXT PRIMARY KEY NOT NULL,
+          current INTEGER NOT NULL DEFAULT 0,
+          target INTEGER NOT NULL,
+          unit TEXT NOT NULL DEFAULT 'gp',
+          linked_to_wallet INTEGER NOT NULL DEFAULT 0,
+          updated_at TEXT NOT NULL
+        );
+        CREATE TABLE entity_links (
+          id TEXT PRIMARY KEY NOT NULL,
+          from_id TEXT NOT NULL,
+          to_id TEXT NOT NULL,
+          label TEXT NOT NULL DEFAULT '',
+          updated_at TEXT NOT NULL
+        );
+        CREATE INDEX entity_links_from ON entity_links (from_id);
+        CREATE INDEX entity_links_to ON entity_links (to_id);
+        CREATE TABLE photos (
+          id TEXT PRIMARY KEY NOT NULL,
+          data TEXT NOT NULL,
+          created_at TEXT NOT NULL
+        );
+      `);
+    },
+  },
 ];
 
 export const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;

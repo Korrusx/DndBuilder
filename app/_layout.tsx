@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 
 import { colors, fonts } from '@/shared/config';
 import { initUserDb, USER_DB_NAME } from '@/shared/db';
+import { linkLegacyCampaigns } from '@/entities/campaign/api';
 import { hombrewToEquipment, loadHombrewEquipment } from '@/features/homebrew-equipment';
 import { injectHomebrew } from '@/shared/content';
 import { LanguageGate, useTranslation } from '@/shared/i18n';
@@ -18,6 +19,7 @@ SplashScreen.preventAutoHideAsync();
 
 async function initDb(db: SQLiteDatabase) {
   await initUserDb(db);
+  await linkLegacyCampaigns(db);
   const homebrew = await loadHombrewEquipment(db);
   injectHomebrew(homebrew.map(hombrewToEquipment));
 }

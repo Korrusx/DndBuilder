@@ -2,13 +2,13 @@
 
 import type { SQLiteDatabase } from 'expo-sqlite';
 
+import { newId } from '@/shared/lib/id';
+
 import type { Character } from '../model/types';
 import { characterToRow, rowToCharacter } from './serialize';
 import type { CharacterRow } from './types';
 
-export function newId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-}
+export { newId };
 
 /** Все персонажи, сначала недавно изменённые. */
 export async function listCharacters(db: SQLiteDatabase): Promise<Character[]> {
