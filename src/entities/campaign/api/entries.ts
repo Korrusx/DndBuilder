@@ -3,6 +3,7 @@
 import type { SQLiteDatabase } from 'expo-sqlite';
 
 import type { Entry } from '../model/types';
+import { notifyCampaignChanged } from './changes';
 import { entryToRow, rowToEntry } from './serialize';
 import type { EntryRow } from './types';
 import { upsert } from './upsert';
@@ -20,6 +21,7 @@ export async function listEntries(db: SQLiteDatabase, campaignId: string): Promi
 export async function saveEntry(db: SQLiteDatabase, entry: Entry): Promise<Entry> {
   const saved = { ...entry, updatedAt: new Date().toISOString() };
   await upsert(db, 'entries', entryToRow(saved), ['id']);
+  notifyCampaignChanged(saved.campaignId);
   return saved;
 }
 

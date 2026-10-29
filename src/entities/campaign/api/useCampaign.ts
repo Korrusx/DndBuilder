@@ -2,10 +2,11 @@
 
 import { useFocusEffect } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import type { CampaignData } from '../model/types';
 import { getCampaign, listParticipants } from './campaigns';
+import { onCampaignChanged } from './changes';
 import { listEntities } from './entities';
 import { listEntries } from './entries';
 import { listSessions } from './sessions';
@@ -40,6 +41,17 @@ export function useCampaign(campaignId: string) {
     useCallback(() => {
       reload().catch(() => setData(null));
     }, [reload]),
+  );
+
+  // Журнал записал событие, пока экран открыт (монеты пишутся через 3 секунды после ввода).
+  useEffect(
+    () =>
+      onCampaignChanged((changed) => {
+        if (changed === campaignId) {
+          reload().catch(() => undefined);
+        }
+      }),
+    [campaignId, reload],
   );
 
   return { db, data, reload };

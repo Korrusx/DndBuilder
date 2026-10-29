@@ -18,6 +18,7 @@ export function TimelineBlock({
   entitiesById,
   photos,
   onEndSession,
+  onEditStop,
   onDeleteEvent,
   onNoteLongPress,
   onMentionPress,
@@ -31,6 +32,7 @@ export function TimelineBlock({
       : formatDayMonth(session.startedAt)
     : '';
   const live = !!session && !session.endedAt;
+  const stopped = session?.whereWeStopped?.trim() ?? '';
 
   if (!expanded) {
     const line = firstLine(group, entitiesById);
@@ -45,6 +47,11 @@ export function TimelineBlock({
         {line ? (
           <AppText variant="secondary" numberOfLines={2}>
             {line}
+          </AppText>
+        ) : null}
+        {stopped ? (
+          <AppText style={styles.stoppedLine} numberOfLines={1}>
+            {t('chronicle.session.stoppedShort', { text: stopped })}
           </AppText>
         ) : null}
       </Pressable>
@@ -86,6 +93,18 @@ export function TimelineBlock({
           ),
         )}
       </View>
+      {session?.endedAt && onEditStop ? (
+        stopped ? (
+          <Pressable accessibilityRole="button" onPress={onEditStop} style={styles.stopped}>
+            <AppText style={styles.stoppedLabel}>{t('chronicle.session.whereTitle').toLocaleUpperCase()}</AppText>
+            <AppText style={styles.stoppedText}>{stopped}</AppText>
+          </Pressable>
+        ) : (
+          <AppText style={styles.end} onPress={onEditStop}>
+            {t('chronicle.session.whereAdd')}
+          </AppText>
+        )
+      ) : null}
     </View>
   );
 }

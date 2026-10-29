@@ -15,10 +15,16 @@ export function EndSessionSheet({ session, onClose, onEnd }: EndSessionSheetProp
   return (
     <BottomSheet
       visible={!!session}
-      title={session ? t('chronicle.session.endTitle', { number: session.number }) : undefined}
+      title={
+        session
+          ? t(session.endedAt ? 'chronicle.session.whereEditTitle' : 'chronicle.session.endTitle', {
+              number: session.number,
+            })
+          : undefined
+      }
       onClose={onClose}
     >
-      <AppText variant="secondary">{t('chronicle.session.whereHint')}</AppText>
+      {session?.endedAt ? null : <AppText variant="secondary">{t('chronicle.session.whereHint')}</AppText>}
       <TextInput
         value={text}
         onChangeText={setText}
@@ -27,7 +33,7 @@ export function EndSessionSheet({ session, onClose, onEnd }: EndSessionSheetProp
         placeholderTextColor={colors.textSecondary}
         style={styles.input}
       />
-      <Button title={t('chronicle.session.end')} onPress={() => onEnd(text)} />
+      <Button title={session?.endedAt ? t('common.done') : t('chronicle.session.end')} onPress={() => onEnd(text)} />
     </BottomSheet>
   );
 }

@@ -44,10 +44,11 @@ export async function startSession(db: SQLiteDatabase, data: CampaignData, chara
   });
 }
 
+/** Завершить сессию с «Где остановились» (у завершённой — только поправить текст). */
 export async function endSession(db: SQLiteDatabase, session: Session, whereWeStopped: string) {
   await saveSession(db, {
     ...session,
-    endedAt: new Date().toISOString(),
+    endedAt: session.endedAt ?? new Date().toISOString(),
     whereWeStopped: whereWeStopped.trim() || undefined,
   });
 }

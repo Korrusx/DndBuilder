@@ -26,5 +26,17 @@ export const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   collapsedHeader: { flexDirection: 'row', alignItems: 'baseline', gap: spacing.sm },
+  stopped: {
+    backgroundColor: colors.accentBg,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#5A4520',
+    padding: spacing.md,
+    gap: spacing.xs,
+    marginTop: spacing.xs,
+  },
+  stoppedLabel: { color: colors.accent, fontFamily: fonts.textMedium, fontSize: 12, letterSpacing: 1 },
+  stoppedText: { color: colors.text, fontFamily: fonts.text, fontStyle: 'italic', fontSize: 16, lineHeight: 23 },
+  stoppedLine: { color: colors.accent, fontFamily: fonts.text, fontStyle: 'italic', fontSize: 13 },
   empty: { color: colors.textSecondary, fontFamily: fonts.text, fontSize: 14, paddingLeft: spacing.xl + 4 },
 });

@@ -19,5 +19,8 @@ export const styles = StyleSheet.create({
   time: { color: colors.textSecondary, fontFamily: fonts.textBold, fontSize: 14 },
   tag: { color: colors.accent, fontFamily: fonts.textMedium, fontSize: 12 },
   photos: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.xs },
-  photo: { width: 72, height: 72, borderRadius: 10, backgroundColor: colors.surface2 },
+  /** Одно фото — во всю ширину карточки, несколько — по два в ряд. */
+  photoSingle: { width: '100%', height: 220, borderRadius: 12, backgroundColor: colors.surface2 },
+  photoFill: { width: '100%', height: '100%', borderRadius: 12 },
+  photoPair: { flexBasis: '47%', flexGrow: 1, height: 150, borderRadius: 12, backgroundColor: colors.surface2 },
 });

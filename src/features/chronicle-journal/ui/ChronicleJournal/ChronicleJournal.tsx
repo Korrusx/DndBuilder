@@ -1,17 +1,12 @@
-// Журнал хроники: слушает события режима игры открытого персонажа и пишет их в летопись его кампании.
-// Ничего не показывает; подключается один раз рядом с CharacterProvider.
+// Журнал хроники для открытого персонажа. Ничего не показывает; подключается один раз рядом с CharacterProvider.
 
 import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect } from 'react';
+import { AppState } from 'react-native';
 
-import type { ChronicleEvent } from '@/entities/campaign';
 import { usePlay } from '@/entities/character/ui';
-import { onPlayEvent } from '@/shared/lib/play-events';
 
-import { recordEvent } from '../../api/record';
-import { COIN_QUIET_MS } from '../../config/constants';
-import { addToBalance, balanceEvents, isCoinsOnly } from '../../model/coins';
-import type { CoinBalance } from '../../model/types';
+import { startJournal } from '../../api/journal';
 
 export function ChronicleJournal() {
   const db = useSQLiteContext();
@@ -19,38 +14,16 @@ export function ChronicleJournal() {
   const characterId = character.id;
 
   useEffect(() => {
-    let balance: CoinBalance = {};
-    let timer: ReturnType<typeof setTimeout> | null = null;
-    // Записи идут по очереди, чтобы порядок в летописи совпадал с порядком событий.
-    let queue: Promise<unknown> = Promise.resolve();
-    const write = (event: ChronicleEvent) => {
-      queue = queue.then(() => recordEvent(db, event, { characterId })).catch(() => undefined);
-    };
-    const flushCoins = () => {
-      if (timer) {
-        clearTimeout(timer);
-        timer = null;
+    const journal = startJournal(db, characterId, (error) => console.warn('Хроника: событие не записано', error));
+    // Свернули приложение, пока копились монеты, — записать сразу.
+    const appState = AppState.addEventListener('change', (state) => {
+      if (state !== 'active') {
+        journal.flush();
       }
-      balanceEvents(balance).forEach(write);
-      balance = {};
-    };
-    const off = onPlayEvent((message) => {
-      if (message.characterId && message.characterId !== characterId) {
-        return;
-      }
-      if (isCoinsOnly(message.event)) {
-        balance = addToBalance(balance, message.event);
-        if (timer) {
-          clearTimeout(timer);
-        }
-        timer = setTimeout(flushCoins, COIN_QUIET_MS);
-        return;
-      }
-      write(message.event);
     });
     return () => {
-      off();
-      flushCoins();
+      appState.remove();
+      journal.stop();
     };
   }, [db, characterId]);
 

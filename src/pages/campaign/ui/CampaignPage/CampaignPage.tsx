@@ -216,6 +216,7 @@ export function CampaignPage() {
                         ? () => setEnding(group.session)
                         : undefined
                     }
+                    onEditStop={group.kind === 'session' ? () => setEnding(group.session) : undefined}
                     onDeleteEvent={(item: Extract<TimelineItem, { kind: 'event' }>) => deleteWithUndo(item.entries)}
                     onNoteLongPress={noteActions}
                   />

@@ -39,6 +39,7 @@ export type { PickerFieldProps, PickerStep } from './PickerField/PickerField.typ
 export { pickerSequence } from './PickerField/pickerSequence';
 export { PickerScreen } from './PickerScreen/PickerScreen';
 export type { ChoiceEntry, PickFilter, PickItem, PickerScreenProps } from './PickerScreen/PickerScreen.types';
+export { PhotoViewer } from './PhotoViewer/PhotoViewer';
 export { Pill } from './Pill/Pill';
 export { Placeholder } from './Placeholder/Placeholder';
 export { Screen } from './Screen/Screen';

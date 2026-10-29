@@ -22,7 +22,7 @@ import { useTranslation } from '@/shared/i18n';
 import { formatTime } from '@/shared/lib/date';
 import { newId } from '@/shared/lib/id';
 import { pickPhoto } from '@/shared/lib/photo';
-import { AppText, Chip, ChipRow } from '@/shared/ui';
+import { AppText, Chip, ChipRow, PhotoViewer } from '@/shared/ui';
 
 import { DRAFT_SAVE_MS } from '../../config/constants';
 import { clearDraft, entityNameFromQuery, loadDraft, saveDraft, withAt } from '../../lib/draft';
@@ -51,6 +51,7 @@ export function CampaignEntryPage() {
   const [dirty, setDirty] = useState(false);
   const [status, setStatus] = useState('');
   const [startedAt] = useState(() => new Date().toISOString());
+  const [openedPhoto, setOpenedPhoto] = useState<number | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -257,9 +258,17 @@ export function CampaignEntryPage() {
 
         {photoIds.length ? (
           <View style={styles.photos}>
-            {photoIds.map((photoId) => (
+            {photoIds.map((photoId, i) => (
               <View key={photoId}>
-                {photos[photoId] ? <Image source={{ uri: photos[photoId] }} style={styles.photo} /> : null}
+                {photos[photoId] ? (
+                  <Pressable
+                    accessibilityRole="imagebutton"
+                    accessibilityLabel={t('chronicle.photoOpen')}
+                    onPress={() => setOpenedPhoto(i)}
+                  >
+                    <Image source={{ uri: photos[photoId] }} style={styles.photo} />
+                  </Pressable>
+                ) : null}
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={t('chronicle.editor.removePhoto')}
@@ -311,6 +320,11 @@ export function CampaignEntryPage() {
           status={secret ? t('chronicle.editor.secretOn') : status}
         />
       </KeyboardAvoidingView>
+      <PhotoViewer
+        uris={photoIds.filter((photoId) => photos[photoId]).map((photoId) => photos[photoId])}
+        index={openedPhoto}
+        onClose={() => setOpenedPhoto(null)}
+      />
     </SafeAreaView>
   );
 }
