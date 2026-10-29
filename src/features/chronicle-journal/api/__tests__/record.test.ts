@@ -1,7 +1,7 @@
 import { listEntries, saveCampaign, saveParticipant, saveSession } from '@/entities/campaign/api';
 import { memoryDb } from '@/shared/db/__tests__/nodeSqlite';
 
-import { recordEvent } from '../record';
+import { journalState, recordEvent } from '../record';
 import { saveJournalSettings } from '../settings';
 
 const at = '2026-10-29T19:48:00.000Z';
@@ -76,5 +76,23 @@ describe('журнал событий', () => {
     const db = await shadows({ session: true });
     const person = { type: 'person' as const, entityId: 'boris', name: 'Борис' };
     expect((await recordEvent(db, person, { campaignId: 'shadows', at }))?.sessionId).toBe('s12');
+  });
+});
+
+describe('куда идут события героя', () => {
+  test('нет кампании → сессия → между сессиями → «Зал героев»', async () => {
+    const db = await shadows({ session: true });
+    expect(await journalState(db, 'stranger')).toEqual({ kind: 'none' });
+    expect(await journalState(db, 'irma')).toEqual({ kind: 'session', campaignId: 'shadows', number: 12 });
+    await saveSession(db, { id: 's12', campaignId: 'shadows', number: 12, startedAt: at, endedAt: at, updatedAt: at });
+    expect(await journalState(db, 'irma')).toEqual({ kind: 'between', campaignId: 'shadows' });
+    await saveParticipant(db, {
+      campaignId: 'shadows',
+      characterId: 'irma',
+      status: 'fallen',
+      joinedAt: at,
+      updatedAt: at,
+    });
+    expect(await journalState(db, 'irma')).toEqual({ kind: 'hall', campaignId: 'shadows' });
   });
 });

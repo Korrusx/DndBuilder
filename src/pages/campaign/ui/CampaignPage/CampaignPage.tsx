@@ -261,17 +261,30 @@ export function CampaignPage() {
           setHeroOpen(null);
           router.push({ pathname: '/character/[id]', params: { id: hero.character.id } });
         }}
-        onToHall={(hero, status, epitaph) => {
-          setHeroOpen(null);
-          run(() =>
-            saveParticipant(db, {
-              ...hero.participant,
-              status,
-              epitaph: epitaph.trim() || undefined,
-              leftAt: new Date().toISOString(),
-            }),
-          );
-        }}
+        onToHall={(hero, status, epitaph) =>
+          Alert.alert(
+            t('chronicle.hero.toHallConfirmTitle', { name: hero.character.name }),
+            t('chronicle.hero.toHallConfirm'),
+            [
+              { text: t('common.cancel'), style: 'cancel' },
+              {
+                text: t('chronicle.hero.toHall'),
+                style: 'destructive',
+                onPress: () => {
+                  setHeroOpen(null);
+                  run(() =>
+                    saveParticipant(db, {
+                      ...hero.participant,
+                      status,
+                      epitaph: epitaph.trim() || undefined,
+                      leftAt: new Date().toISOString(),
+                    }),
+                  );
+                },
+              },
+            ],
+          )
+        }
       />
       <HallSheet
         visible={hallOpen}

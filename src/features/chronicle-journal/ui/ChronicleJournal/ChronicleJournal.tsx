@@ -2,9 +2,10 @@
 
 import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect } from 'react';
-import { AppState } from 'react-native';
+import { Alert, AppState } from 'react-native';
 
 import { usePlay } from '@/entities/character/ui';
+import { t } from '@/shared/i18n';
 
 import { startJournal } from '../../api/journal';
 
@@ -14,7 +15,14 @@ export function ChronicleJournal() {
   const characterId = character.id;
 
   useEffect(() => {
-    const journal = startJournal(db, characterId, (error) => console.warn('Хроника: событие не записано', error));
+    // Если запись не удалась — сказать один раз, а не молчать.
+    let warned = false;
+    const journal = startJournal(db, characterId, (error) => {
+      if (!warned) {
+        warned = true;
+        Alert.alert(t('chronicle.status.failed'), error instanceof Error ? error.message : String(error));
+      }
+    });
     // Свернули приложение, пока копились монеты, — записать сразу.
     const appState = AppState.addEventListener('change', (state) => {
       if (state !== 'active') {

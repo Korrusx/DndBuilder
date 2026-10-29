@@ -8,7 +8,7 @@ import { activeSession, participationOf, saveEntry } from '@/entities/campaign/a
 import { newId } from '@/shared/lib/id';
 
 import { isRecorded } from '../model/settings';
-import type { JournalTarget } from '../model/types';
+import type { JournalState, JournalTarget } from '../model/types';
 import { loadJournalSettings } from './settings';
 
 /** Куда писать события персонажа; null — он не в кампании (или уже в «Зале героев»). */
@@ -19,6 +19,21 @@ export async function journalTarget(db: SQLiteDatabase, characterId: string): Pr
   }
   const session = await activeSession(db, participation.campaignId);
   return { campaignId: participation.campaignId, sessionId: session?.id ?? null };
+}
+
+/** Куда сейчас пишутся события героя (для подсказки на «Листе»). */
+export async function journalState(db: SQLiteDatabase, characterId: string): Promise<JournalState> {
+  const participation = await participationOf(db, characterId);
+  if (!participation) {
+    return { kind: 'none' };
+  }
+  if (participation.status !== 'active') {
+    return { kind: 'hall', campaignId: participation.campaignId };
+  }
+  const session = await activeSession(db, participation.campaignId);
+  return session
+    ? { kind: 'session', campaignId: participation.campaignId, number: session.number }
+    : { kind: 'between', campaignId: participation.campaignId };
 }
 
 /**

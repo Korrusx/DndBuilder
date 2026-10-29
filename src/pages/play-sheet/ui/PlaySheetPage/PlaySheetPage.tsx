@@ -16,6 +16,7 @@ import {
   totalLevel,
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
+import { JournalStatus } from '@/features/chronicle-journal';
 import { CampaignLink } from '@/features/join-campaign';
 import { MAX_LEVEL } from '@/features/level-up';
 import { ShortRestSheet } from '@/features/rest';
@@ -109,6 +110,7 @@ export function PlaySheetPage() {
       </View>
 
       <CampaignLink />
+      <JournalStatus />
 
       <HpBlock character={character} sheet={sheet} onDeathSave={rollDeathSave} />
 

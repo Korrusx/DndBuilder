@@ -1200,9 +1200,18 @@
       "openSheet": "Open character sheet",
       "hallHint": "Did the hero die or leave? They stay in the Hall of Heroes, and the chronicle continues with a new hero.",
       "epitaphPlaceholder": "Epitaph — one line",
-      "toHall": "Send to the Hall of Heroes"
+      "toHall": "Send to the Hall of Heroes",
+      "toHallConfirmTitle": "Send {{name}} to the Hall of Heroes?",
+      "toHallConfirm": "This hero's game events will no longer be recorded. You can bring them back from the Hall of Heroes."
     },
-    "photoOpen": "Open photo"
+    "photoOpen": "Open photo",
+    "status": {
+      "session": "● Session {{number}} is live — game events go to the chronicle",
+      "between": "No session started — events go to “Between sessions”",
+      "hall": "The hero is in the Hall of Heroes — game events are not recorded",
+      "disabled": "Not recorded (turned off in About): {{list}}",
+      "failed": "The event was not saved to the chronicle"
+    }
   },
   "chronicleSettings": {
     "title": "Chronicle",
