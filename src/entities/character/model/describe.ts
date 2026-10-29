@@ -9,7 +9,13 @@ import { firstSentence } from '@/shared/lib/text';
 import { DARKVISION_TRAITS, DEFAULT_CLASS_DIFFICULTY } from '../config/constants';
 import { subclassLevel } from './build';
 import { raceTraitIds } from './sheet';
-import type { BackgroundDescription, ClassDescription, DescribedFeature, SpeciesDescription } from './types';
+import type {
+  BackgroundDescription,
+  ClassDescription,
+  DescribedFeature,
+  SpeciesDescription,
+  SubclassDescription,
+} from './types';
 
 /** Сколько уровней показывать в «Что дальше». */
 const NEXT_LEVELS = 3;
@@ -104,6 +110,48 @@ export function describeClass(
           },
         }
       : {}),
+  };
+}
+
+/**
+ * Подкласс для карточки при повышении уровня. `level` — уровень класса, который берётся сейчас:
+ * умения до него включительно — «Что вы получите сейчас», остальные — «Что дальше» по уровням.
+ * Заклинания подкласса (2014) — по уровням класса; варианты по умению (Круг земли) не показываем.
+ */
+export function describeSubclass(subclassId: string, content: Content, level: number): SubclassDescription | undefined {
+  const idx = indexOf(content);
+  const sub = idx.subclasses.get(subclassId);
+  if (!sub) {
+    return undefined;
+  }
+  const features = sub.features.flatMap((id) => idx.features.get(id) ?? []).filter((f) => !f.parent);
+  const byLevel = (rows: { level: number; name: string }[]) => {
+    const levels = [...new Set(rows.map((row) => row.level))].sort((a, b) => a - b);
+    return levels.map((rowLevel) => ({
+      level: rowLevel,
+      names: rows.filter((row) => row.level === rowLevel).map((row) => row.name),
+    }));
+  };
+  const summary = text(sub.summary);
+  const description = text(sub.description);
+  return {
+    id: sub.id,
+    classId: sub.classId,
+    name: text(sub.name),
+    summary,
+    pitch: description && description !== summary ? plain(sub.description) : '',
+    extra: !!sub.extra,
+    level,
+    now: features.filter((f) => f.level <= level).map((f) => described(f)),
+    next: byLevel(features.filter((f) => f.level > level).map((f) => ({ level: f.level, name: text(f.name) }))),
+    spells: byLevel(
+      (sub.spells ?? [])
+        .filter((spell) => !spell.feature)
+        .flatMap((spell) => {
+          const entry = idx.spells.get(spell.id);
+          return entry ? [{ level: spell.level, name: text(entry.name) }] : [];
+        }),
+    ),
   };
 }
 

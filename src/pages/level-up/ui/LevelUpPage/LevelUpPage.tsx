@@ -6,6 +6,7 @@ import type { Character } from '@/entities/character';
 import {
   CHOICE_KEYS,
   choiceOptionIds,
+  describeSubclass,
   featEntries,
   FEATURE_OPTIONS,
   featureEntries,
@@ -19,7 +20,7 @@ import {
   weaponMasteryCount,
   weaponMasteryOptions,
 } from '@/entities/character';
-import { usePlay } from '@/entities/character/ui';
+import { SubclassCard, usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
 import { ClassOptionsPicker } from '@/features/pick-class-options';
 import {
@@ -49,6 +50,7 @@ import {
   Chip,
   ChoiceField,
   ChipRow,
+  FadeSwap,
   InfoSheet,
   MultiPick,
   OptionCard,
@@ -156,6 +158,7 @@ export function LevelUpPage() {
   const takenStyles = new Set(prev.feats.map((f) => f.featId));
   const newLanguages = next.languages.filter((l) => !prev.languages.includes(l));
   const masteryCount = weaponMasteryCount(next, content);
+  const subclass = entry.subclassId ? describeSubclass(entry.subclassId, content, plan.toLevel) : undefined;
 
   return (
     <Screen
@@ -320,6 +323,9 @@ export function LevelUpPage() {
                 onPress={() => setEntry({ subclassId: s.id })}
               />
             ))}
+          <FadeSwap swapKey={entry.subclassId ?? ''}>
+            {subclass ? <SubclassCard description={subclass} /> : null}
+          </FadeSwap>
         </Section>
       ) : null}
 

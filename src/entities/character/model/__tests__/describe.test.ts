@@ -1,6 +1,13 @@
 import { contentFor, indexOf } from '@/shared/content';
 
-import { backgroundFits, backgroundsForClass, describeBackground, describeClass, describeSpecies } from '../describe';
+import {
+  backgroundFits,
+  backgroundsForClass,
+  describeBackground,
+  describeClass,
+  describeSpecies,
+  describeSubclass,
+} from '../describe';
 
 const content = contentFor('2024');
 const content2014 = contentFor('2014');
@@ -118,5 +125,32 @@ describe('describeSpecies', () => {
     const red = describeSpecies('dragonborn', content2014, { variantTraitId: 'draconic-ancestry-red' })!;
     expect(red.traits.map((t) => t.id)).toContain('draconic-ancestry-red');
     expect(red.traits.map((t) => t.id)).not.toContain('draconic-ancestry');
+  });
+});
+
+describe('describeSubclass', () => {
+  test('чемпион на 3-м уровне: умение 3-го уровня сейчас, остальные — в «Что дальше»', () => {
+    const champion = describeSubclass('champion', content, 3)!;
+    expect(champion.classId).toBe('fighter');
+    expect(champion.now.map((f) => f.id)).toEqual(['champion-improved-critical', 'champion-remarkable-athlete']);
+    expect(champion.next.map((row) => row.level)).toEqual([7, 10, 15, 18]);
+    expect(champion.pitch).not.toBe('');
+    expect(champion.spells).toEqual([]);
+  });
+
+  test('подкласс не из SRD: метка extra, описание не повторяет суть', () => {
+    const battleMaster = describeSubclass('battle-master', content, 3)!;
+    expect(battleMaster.extra).toBe(true);
+    expect(battleMaster.pitch).toBe('');
+  });
+
+  test('2014: заклинания клятвы преданности по уровням класса', () => {
+    const devotion = describeSubclass('devotion', content2014, 3)!;
+    expect(devotion.spells[0].level).toBe(3);
+    expect(devotion.spells[0].names.length).toBeGreaterThan(0);
+  });
+
+  test('2014: заклинания Круга земли по местности не показываются', () => {
+    expect(describeSubclass('land', content2014, 2)!.spells).toEqual([]);
   });
 });

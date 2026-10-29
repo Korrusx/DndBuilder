@@ -1019,6 +1019,8 @@
     "armor": "Armor: {{list}}",
     "noArmor": "No armor",
     "firstLevel": "What you get at level 1",
+    "atLevel": "What you get at level {{level}}",
+    "subclassSpells": "Always-prepared spells",
     "next": "What's next",
     "level": "Lv {{level}}",
     "subclassTag": "subclass",

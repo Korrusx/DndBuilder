@@ -128,6 +128,7 @@ export {
   describeBackground,
   describeClass,
   describeSpecies,
+  describeSubclass,
 } from './model/describe';
 export type { SpellDamage } from './model/spells';
 export { spellAttackBonus, spellDamage, spellDamageLevels, spellSaveDC } from './model/spells';
@@ -177,5 +178,6 @@ export type {
   ClassDescription,
   DescribedFeature,
   SpeciesDescription,
+  SubclassDescription,
   WeaponAttack,
 } from './model/types';

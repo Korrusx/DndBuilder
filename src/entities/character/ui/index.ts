@@ -5,6 +5,8 @@ export type { ClassCardProps } from './ClassCard/ClassCard.types';
 export { CharacterCard } from './CharacterCard/CharacterCard';
 export type { CharacterCardProps } from './CharacterCard/CharacterCard.types';
 export { CharacterProvider, usePlay } from './CharacterProvider/CharacterProvider';
+export { SubclassCard } from './SubclassCard/SubclassCard';
+export type { SubclassCardProps } from './SubclassCard/SubclassCard.types';
 export { SpellPickerField } from './SpellPickerField/SpellPickerField';
 export type { SpellPickerFieldProps } from './SpellPickerField/SpellPickerField.types';
 export { DescriptionBlock, DescriptionCard } from './DescriptionCard/DescriptionCard';

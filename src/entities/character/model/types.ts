@@ -426,6 +426,26 @@ export type ClassDescription = {
   subclass?: { id: string; name: string; summary: string; features: DescribedFeature[] };
 };
 
+export type SubclassDescription = {
+  id: string;
+  classId: string;
+  name: string;
+  /** Суть в одну строку. */
+  summary: string;
+  /** Полное описание (пусто, если совпадает с summary). */
+  pitch: string;
+  /** Не из SRD (механика PHB). */
+  extra: boolean;
+  /** Уровень класса, который берётся сейчас. */
+  level: number;
+  /** Умения до `level` включительно. */
+  now: DescribedFeature[];
+  /** Умения следующих уровней: названия по уровням. */
+  next: { level: number; names: string[] }[];
+  /** 2014: всегда подготовленные заклинания подкласса по уровням класса. */
+  spells: { level: number; names: string[] }[];
+};
+
 export type SpeciesDescription = {
   id: string;
   name: string;
