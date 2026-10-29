@@ -1,3 +1,5 @@
+import { Alegreya_400Regular, Alegreya_400Regular_Italic } from '@expo-google-fonts/alegreya';
+import { AlegreyaSC_700Bold } from '@expo-google-fonts/alegreya-sc';
 import { GolosText_400Regular, GolosText_500Medium, GolosText_600SemiBold } from '@expo-google-fonts/golos-text';
 import { Unbounded_600SemiBold, Unbounded_700Bold } from '@expo-google-fonts/unbounded';
 import { useFonts } from 'expo-font';
@@ -32,6 +34,9 @@ export default function RootLayout() {
     GolosText_400Regular,
     GolosText_500Medium,
     GolosText_600SemiBold,
+    Alegreya_400Regular,
+    Alegreya_400Regular_Italic,
+    AlegreyaSC_700Bold,
   });
 
   useEffect(() => {

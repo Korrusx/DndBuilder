@@ -9,6 +9,7 @@ import {
   activeSessionOf,
   hallOfHeroes,
   isForgottenSession,
+  lastEndedSession,
   nextSessionNumber,
   timelineGroups,
 } from '@/entities/campaign';
@@ -32,6 +33,7 @@ import { HallSheet } from '../HallSheet/HallSheet';
 import { HeroChips } from '../HeroChips/HeroChips';
 import type { Hero } from '../HeroChips/HeroChips.types';
 import { HeroSheet } from '../HeroSheet/HeroSheet';
+import { RecapButton } from '../RecapButton/RecapButton';
 import { SearchResults } from '../SearchResults/SearchResults';
 import { TimelineBlock } from '../TimelineBlock/TimelineBlock';
 import { styles } from './CampaignPage.styles';
@@ -118,6 +120,7 @@ export function CampaignPage() {
     return character ? [{ participant, character }] : [];
   });
   const groups = timelineGroups(data.sessions, data.entries);
+  const lastEnded = lastEndedSession(data.sessions);
   const isExpanded = (key: string, index: number) => toggled[key] ?? (active ? key === active.id : index === 0);
   const subtitle = [
     t('chronicle.sessionsCount', { count: data.sessions.length }),
@@ -206,6 +209,14 @@ export function CampaignPage() {
         ) : (
           <>
             <HeroChips heroes={heroes} hallCount={hall.length} onHero={setHeroOpen} onHall={() => setHallOpen(true)} />
+            {lastEnded ? (
+              <RecapButton
+                sessionNumber={lastEnded.number}
+                onPress={() =>
+                  router.push({ pathname: '/campaign/[id]/recap', params: { id, sessionId: lastEnded.id } })
+                }
+              />
+            ) : null}
             {active ? null : (
               <Button
                 title={t('chronicle.session.start', { number: nextSessionNumber(data.sessions) })}

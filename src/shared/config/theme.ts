@@ -2,6 +2,8 @@
 
 export const colors = {
   bg: '#0F1114',
+  /** Фон экрана чтения — чуть теплее основного. */
+  bgWarm: '#15130F',
   surface: '#1A1D22',
   surface2: '#232831',
   border: '#2C323B',
@@ -41,6 +43,10 @@ export const fonts = {
   text: 'GolosText_400Regular',
   textMedium: 'GolosText_500Medium',
   textBold: 'GolosText_600SemiBold',
+  /** Экран чтения вслух («В прошлый раз…»). */
+  reading: 'Alegreya_400Regular',
+  readingItalic: 'Alegreya_400Regular_Italic',
+  readingTitle: 'AlegreyaSC_700Bold',
 } as const;
 
 export const spacing = {

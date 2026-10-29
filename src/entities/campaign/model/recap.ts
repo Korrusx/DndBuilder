@@ -1,5 +1,8 @@
 // «В прошлый раз…»: сводка сессии из записей игрока и автособытий. Ничего не придумывает — только подборка.
 
+import { t } from '@/shared/i18n';
+import { formatDayMonth } from '@/shared/lib/date';
+
 import { RECAP_MAX_NOTES, RECAP_PRIORITY_TAGS } from '../config/constants';
 import { coalesceEvents, eventText } from './events';
 import { firstSeenSession, parseMentions, plainText } from './mentions';
@@ -74,3 +77,40 @@ export function buildRecap(
 
   return { session, happened, met, found, openQuests, whereWeStopped };
 }
+
+/** Открытый квест одной строкой: «Что в подвале таверны · 1 шаг остался». */
+export const openQuestLine = ({ quest, progress }: Recap['openQuests'][number]) =>
+  progress?.remaining ? `${quest.name} · ${progress.remaining}` : quest.name;
+
+/** Сводка текстом для «Поделиться» (тайных записей в сводке нет изначально). */
+export function recapToText(recap: Recap, campaignName: string): string {
+  const blocks: string[] = [
+    `${campaignName} — ${t('chronicle.recap.sessionDate', {
+      number: recap.session.number,
+      date: formatDayMonth(recap.session.startedAt),
+    })}`,
+    t('chronicle.recap.title'),
+  ];
+  if (recap.happened.length) {
+    blocks.push(recap.happened.join('\n\n'));
+  }
+  if (recap.met.length) {
+    blocks.push(`${t('chronicle.recap.met')}: ${recap.met.map((person) => person.name).join(', ')}`);
+  }
+  if (recap.found.length) {
+    blocks.push(`${t('chronicle.recap.found')}: ${recap.found.join('; ')}`);
+  }
+  if (recap.openQuests.length) {
+    blocks.push(
+      [`${t('chronicle.recap.quests')}:`, ...recap.openQuests.map((item) => `◆ ${openQuestLine(item)}`)].join('\n'),
+    );
+  }
+  if (recap.whereWeStopped) {
+    blocks.push(`${t('chronicle.recap.stopped')}: ${recap.whereWeStopped}`);
+  }
+  return blocks.join('\n\n');
+}
+
+/** Последняя завершённая сессия — о ней «В прошлый раз…». */
+export const lastEndedSession = (sessions: Session[]): Session | null =>
+  [...sessions].filter((session) => session.endedAt).sort((a, b) => b.number - a.number)[0] ?? null;

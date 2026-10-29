@@ -19,7 +19,7 @@ export {
   toMentionDoc,
 } from './model/mentions';
 export { contributeToCounter, questProgress, staleQuests } from './model/quests';
-export { buildRecap } from './model/recap';
+export { buildRecap, lastEndedSession, openQuestLine, recapToText } from './model/recap';
 export { foldText, searchEntities } from './model/search';
 export {
   activeSessionOf,

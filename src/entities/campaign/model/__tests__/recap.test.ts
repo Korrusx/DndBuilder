@@ -1,4 +1,4 @@
-import { buildRecap } from '../recap';
+import { buildRecap, lastEndedSession, recapToText } from '../recap';
 import type { ChronicleEvent } from '../types';
 import { entity, event, m, note, session } from './fixtures';
 
@@ -65,5 +65,32 @@ describe('«В прошлый раз…»', () => {
       note('s11', at(`1${i}:00`), text, { tags: text === '1' ? ['clue'] : text === '2' ? ['combat'] : [] }),
     );
     expect(buildRecap(s11, entries, [s11], entities).happened).toEqual(['1', '2', '5', '6', '7']);
+  });
+});
+
+describe('«В прошлый раз…» текстом для «Поделиться»', () => {
+  test('без тайной записи, с квестами и «Где остановились»', () => {
+    const { s11, entries } = session11('У двери в подвал.');
+    const recap = buildRecap(
+      s11,
+      entries,
+      [s10, s11],
+      entities,
+      [],
+      [{ questId: 'debt', current: 180, target: 500, unit: 'gp', linkedToWallet: true, updatedAt: at('18:00') }],
+    );
+    const text = recapToText(recap, 'Тени Солёной Гавани');
+    expect(text).toContain('Тени Солёной Гавани — сессия 11, 22 октября');
+    expect(text).toContain('Стражница Мара попросила выяснить');
+    expect(text).toContain('◆ Долг «Тихим рукам» · 320 зм');
+    expect(text).toContain('Где остановились: У двери в подвал.');
+    expect(text).not.toContain('тайный');
+  });
+
+  test('последняя завершённая сессия', () => {
+    const ended = session(11, at('18:00'), { endedAt: at('23:00') });
+    const live = session(12, '2026-10-29T18:00:00.000Z');
+    expect(lastEndedSession([live, ended, s10])).toBe(ended);
+    expect(lastEndedSession([live])).toBeNull();
   });
 });

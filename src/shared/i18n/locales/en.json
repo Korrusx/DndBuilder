@@ -1294,6 +1294,20 @@
       "button": "Pay {{amount}}",
       "notEnough": "Only {{amount}} in the wallet — can't pay that much.",
       "noHero": "No active hero in the campaign."
+    },
+    "recap": {
+      "title": "Last time…",
+      "button": "Last time…",
+      "buttonHint": "Recap of session {{number}} · read it to the party",
+      "sessionDate": "session {{number}}, {{date}}",
+      "met": "We met",
+      "found": "What we found",
+      "quests": "Open quests",
+      "stopped": "Where we stopped",
+      "footer": "Collected from your entries and session events",
+      "empty": "This session has no notes. Add entries — next time there will be a recap here.",
+      "bigText": "Large text",
+      "share": "Share"
     }
   },
   "chronicleSettings": {

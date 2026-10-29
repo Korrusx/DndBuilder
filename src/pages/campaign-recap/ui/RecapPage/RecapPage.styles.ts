@@ -1,0 +1,50 @@
+import { StyleSheet } from 'react-native';
+
+import { colors, fonts, sizes, spacing } from '@/shared/config';
+
+export const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: colors.bgWarm },
+  header: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, paddingHorizontal: spacing.sm },
+  grow: { flex: 1 },
+  icon: { width: sizes.touchMin, height: sizes.touchMin, alignItems: 'center', justifyContent: 'center' },
+  aa: {
+    width: sizes.touchMin,
+    height: sizes.touchMin,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  aaOn: { borderColor: colors.accent, backgroundColor: colors.accentBg },
+  aaText: { color: colors.textTertiary, fontFamily: fonts.reading, fontSize: 18 },
+  content: { paddingHorizontal: spacing.xl, paddingBottom: spacing.xxl * 2, gap: spacing.lg },
+  kicker: { color: colors.accent, fontFamily: fonts.textMedium, fontSize: 13, letterSpacing: 1.5 },
+  title: { color: colors.accent, fontFamily: fonts.readingTitle, fontSize: 34, lineHeight: 40, marginTop: -spacing.sm },
+  paragraph: { color: colors.text, fontFamily: fonts.reading },
+  label: { color: colors.textSecondary, fontFamily: fonts.textMedium, fontSize: 12, letterSpacing: 1.5 },
+  block: { gap: spacing.sm },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  chip: {
+    minHeight: 36,
+    borderRadius: 999,
+    paddingHorizontal: spacing.md,
+    justifyContent: 'center',
+    backgroundColor: colors.infoBg,
+  },
+  chipText: { color: '#8FB8FF', fontFamily: fonts.textMedium, fontSize: 15 },
+  questRow: { flexDirection: 'row', gap: spacing.sm, alignItems: 'baseline' },
+  diamond: { color: colors.accent, fontSize: 12 },
+  questText: { flex: 1, color: colors.text, fontFamily: fonts.text, fontSize: 15, lineHeight: 21 },
+  stopped: {
+    backgroundColor: colors.accentBg,
+    borderWidth: 1,
+    borderColor: '#5A4520',
+    borderRadius: 18,
+    padding: spacing.lg,
+    gap: spacing.sm,
+  },
+  stoppedLabel: { color: colors.accent, fontFamily: fonts.textMedium, fontSize: 12, letterSpacing: 1.5 },
+  stoppedText: { color: colors.text, fontFamily: fonts.readingItalic },
+  footer: { color: colors.textSecondary, fontFamily: fonts.text, fontSize: 13, textAlign: 'center' },
+});
