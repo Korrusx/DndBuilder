@@ -1,6 +1,8 @@
 // Файл обмена персонажами: экспорт (резервная копия, передача другу) и проверка файла при импорте.
 // В файле — те же данные, что в базе: выборы игрока и состояние игры; все числа пересчитываются из справочника.
 
+import type { ChronicleFile } from '@/entities/campaign';
+import { ChronicleImportError, isChronicleData, parseChronicle, remapCharacters } from '@/entities/campaign';
 import type { Character } from '@/entities/character';
 import { ABILITY_IDS, computeSheet, withDefaults } from '@/entities/character';
 import type { Content, Edition } from '@/shared/content';
@@ -9,8 +11,37 @@ import { t } from '@/shared/i18n';
 import { EXCHANGE_FORMAT, EXCHANGE_MAX_BYTES, EXCHANGE_VERSION } from '../config/constants';
 import type { ExchangeFile, ImportResult } from './types';
 
-export function buildExchange(characters: Character[], now: string, contentVersion: string): ExchangeFile {
-  return { format: EXCHANGE_FORMAT, version: EXCHANGE_VERSION, exportedAt: now, contentVersion, characters };
+export function buildExchange(
+  characters: Character[],
+  now: string,
+  contentVersion: string,
+  chronicles: ChronicleFile[] = [],
+): ExchangeFile {
+  const file: ExchangeFile = {
+    format: EXCHANGE_FORMAT,
+    version: EXCHANGE_VERSION,
+    exportedAt: now,
+    contentVersion,
+    characters,
+  };
+  return chronicles.length ? { ...file, chronicles } : file;
+}
+
+/** Хроника из файла; испорченная — предупреждение, а не ошибка всего импорта. */
+function readChronicle(raw: unknown, idMap: Record<string, string>, warnings: string[]): ChronicleFile | null {
+  try {
+    const { file, skipped } = parseChronicle(raw);
+    if (skipped) {
+      warnings.push(t('chronicle.files.skipped', { count: skipped }));
+    }
+    return remapCharacters(file, idMap);
+  } catch (error) {
+    if (error instanceof ChronicleImportError) {
+      warnings.push(error.message);
+      return null;
+    }
+    throw error;
+  }
 }
 
 /** Имя файла: «Ирма Вейл.dnd.json» для одного персонажа, «Персонажи 2026-10-11.dnd.json» для нескольких. */
@@ -136,6 +167,19 @@ export function parseExchange(
   } catch {
     throw new ImportError(t('import.unreadable', { details: describeStart(body) }));
   }
+  // Отдельный файл хроники кампании (.geroy-chronicle.json) — тоже через «Импорт».
+  if (isChronicleData(data)) {
+    try {
+      const { file, skipped } = parseChronicle(data);
+      return {
+        characters: [],
+        chronicles: [file],
+        warnings: skipped ? [t('chronicle.files.skipped', { count: skipped })] : [],
+      };
+    } catch (error) {
+      throw new ImportError(error instanceof Error ? error.message : String(error));
+    }
+  }
   if (!isObject(data) || data.format !== EXCHANGE_FORMAT) {
     throw new ImportError(t('import.notOurs'));
   }
@@ -148,6 +192,8 @@ export function parseExchange(
 
   const characters: Character[] = [];
   const warnings: string[] = [];
+  /** Старый id персонажа → новый (хроника внутри файла указывает на старые). */
+  const idMap: Record<string, string> = {};
   const knownIds = (content: Content) => ({
     classes: new Set(content.classes.map((x) => x.id)),
     subclasses: new Set(content.subclasses.map((x) => x.id)),
@@ -168,6 +214,9 @@ export function parseExchange(
     const saved = raw as Partial<Character>;
     const createdAt = typeof saved.createdAt === 'string' ? saved.createdAt : now;
     const c = withDefaults(saved, { id: makeId(), createdAt, updatedAt: now });
+    if (typeof saved.id === 'string') {
+      idMap[saved.id] = c.id;
+    }
     const content = contentOf(c.edition);
     const known = knownIds(content);
 
@@ -205,5 +254,8 @@ export function parseExchange(
   if (characters.length === 0) {
     throw new ImportError([t('import.noneLoaded'), ...warnings].join('\n'));
   }
-  return { characters, warnings };
+  const chronicles = (Array.isArray(data.chronicles) ? data.chronicles : [])
+    .map((raw: unknown) => readChronicle(raw, idMap, warnings))
+    .filter((file): file is ChronicleFile => file !== null);
+  return { characters, chronicles, warnings };
 }

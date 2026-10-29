@@ -9,6 +9,7 @@ export {
 export { notifyCampaignChanged, onCampaignChanged } from './changes';
 export { deleteEntity, listEntities, saveEntity } from './entities';
 export { deleteEntries, listEntries, saveEntry } from './entries';
+export { campaignExists, exportChronicle, importChronicle } from './exchange';
 export { loadJournalSettings, saveJournalSettings, useJournalSettings } from './journalSettings';
 export { linkLegacyCampaigns } from './legacy';
 export { deletePhotos, loadPhotos, savePhoto } from './photos';

@@ -5,4 +5,5 @@ export type CampaignEditSheetProps = {
   visible: boolean;
   onClose: () => void;
   onSave: (name: string, gmName: string) => void;
+  onExport: () => void;
 };

@@ -8,8 +8,8 @@ import { AppText, BottomSheet, Button } from '@/shared/ui';
 import { styles } from './CampaignEditSheet.styles';
 import type { CampaignEditSheetProps } from './CampaignEditSheet.types';
 
-/** Название кампании и имя мастера. */
-export function CampaignEditSheet({ campaign, visible, onClose, onSave }: CampaignEditSheetProps) {
+/** Название кампании и имя мастера; экспорт хроники в файл. */
+export function CampaignEditSheet({ campaign, visible, onClose, onSave, onExport }: CampaignEditSheetProps) {
   const { t } = useTranslation();
   const [name, setName] = useResetState(campaign.name, visible);
   const [gmName, setGmName] = useResetState(campaign.gmName ?? '', visible);
@@ -26,6 +26,7 @@ export function CampaignEditSheet({ campaign, visible, onClose, onSave }: Campai
         style={styles.input}
       />
       <Button title={t('common.done')} disabled={!name.trim()} onPress={() => onSave(name, gmName)} />
+      <Button title={t('chronicle.files.export')} variant="secondary" onPress={onExport} />
     </BottomSheet>
   );
 }

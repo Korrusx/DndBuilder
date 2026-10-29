@@ -1,6 +1,9 @@
+import { useSQLiteContext } from 'expo-sqlite';
 import { useState } from 'react';
 import { Alert, TextInput } from 'react-native';
 
+import type { ChronicleFile } from '@/entities/campaign';
+import { exportChronicle, getCampaign, participationOf } from '@/entities/campaign/api';
 import type { Character } from '@/entities/character';
 import {
   choice1,
@@ -16,6 +19,7 @@ import { shareCharacters } from '@/features/transfer-characters';
 import { colors } from '@/shared/config';
 import { abilityName, content, nameOf, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
+import { confirm } from '@/shared/lib/confirm';
 import { Chip, ChipRow, Screen, Section, SmallButton } from '@/shared/ui';
 
 import type { TextField } from '../../model/types';
@@ -24,13 +28,32 @@ import { styles } from './PlayEditPage.styles';
 /** Изменение данных персонажа, которые меняются по ходу игры: имя, кампания, мировоззрение, языки, воззвания, заметки. */
 export function PlayEditPage() {
   const { character, update } = usePlay();
+  const db = useSQLiteContext();
   const { t } = useTranslation();
   const set = (patch: Partial<Character>) => update((d) => ({ ...d, ...patch }));
   const [sharing, setSharing] = useState(false);
   const exportToFile = async () => {
     setSharing(true);
     try {
-      await shareCharacters([character]);
+      // Герой в кампании — предложить взять с собой и её хронику.
+      const participation = await participationOf(db, character.id);
+      const campaign = participation ? await getCampaign(db, participation.campaignId) : null;
+      const chronicles: ChronicleFile[] = [];
+      if (
+        campaign &&
+        (await confirm(
+          t('chronicle.files.attachTitle'),
+          t('chronicle.files.attach', { name: campaign.name }),
+          t('chronicle.files.attachYes'),
+          t('chronicle.files.attachNo'),
+        ))
+      ) {
+        const file = await exportChronicle(db, campaign.id);
+        if (file) {
+          chronicles.push(file);
+        }
+      }
+      await shareCharacters([character], chronicles);
     } catch (err) {
       Alert.alert(t('edit.saveFailed'), err instanceof Error ? err.message : String(err));
     } finally {

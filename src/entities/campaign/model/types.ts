@@ -241,3 +241,21 @@ export type JournalState =
   | { kind: 'hall'; campaignId: string }
   | { kind: 'session'; campaignId: string; number: number }
   | { kind: 'between'; campaignId: string };
+
+// --- Файл хроники ---
+
+/** Вся хроника кампании в одном файле; фото — base64 по id. */
+export type ChronicleFile = {
+  format: 'geroy/chronicle';
+  version: number;
+  exportedAt: string;
+  campaign: Campaign;
+  participants: CampaignCharacter[];
+  sessions: Session[];
+  entries: Entry[];
+  entities: Entity[];
+  steps: QuestStep[];
+  counters: QuestCounter[];
+  links: EntityLink[];
+  photos: Record<string, string>;
+};

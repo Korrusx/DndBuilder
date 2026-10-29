@@ -3,6 +3,7 @@ import { router, useFocusEffect, useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, BackHandler, View } from 'react-native';
 
+import { campaignExists, importChronicle } from '@/entities/campaign/api';
 import type { Character } from '@/entities/character';
 import { computeSheet, irmaLevel1 } from '@/entities/character';
 import { deleteCharacters, newId, saveCharacter, saveCharacters, useCharacterList } from '@/entities/character/api';
@@ -13,6 +14,7 @@ import { CHANGELOG, colors } from '@/shared/config';
 import { contentFor } from '@/shared/content';
 import { getMeta, setMeta } from '@/shared/db';
 import { useTranslation } from '@/shared/i18n';
+import { confirm } from '@/shared/lib/confirm';
 import { formatDate } from '@/shared/lib/date';
 import { AppText, Button, Placeholder, Screen } from '@/shared/ui';
 
@@ -149,14 +151,37 @@ export function CharactersPage() {
       if (!result) {
         return;
       }
-      await saveCharacters(db, result.characters);
+      if (result.characters.length) {
+        await saveCharacters(db, result.characters);
+      }
+      // Хроники: такая кампания уже есть на телефоне — спросить, заменять ли.
+      const loadedChronicles: string[] = [];
+      for (const chronicle of result.chronicles) {
+        const name = chronicle.campaign.name;
+        const replace =
+          !(await campaignExists(db, chronicle.campaign.id)) ||
+          (await confirm(
+            t('chronicle.files.replaceTitle', { name }),
+            t('chronicle.files.replace'),
+            t('chronicle.files.replaceYes'),
+            t('chronicle.files.keep'),
+            true,
+          ));
+        if (replace) {
+          await importChronicle(db, chronicle);
+          loadedChronicles.push(t('chronicle.files.imported', { name }));
+        }
+      }
       reload();
       const names = result.characters.map((c) => `«${c.name || t('common.unnamed')}»`).join(', ');
       const title =
-        result.characters.length === 1
-          ? t('characters.loadedOne')
-          : t('characters.loadedMany', { count: result.characters.length });
-      Alert.alert(title, [names, ...result.warnings].join('\n\n'));
+        result.characters.length === 0
+          ? (loadedChronicles[0] ?? t('chronicle.files.dialog'))
+          : result.characters.length === 1
+            ? t('characters.loadedOne')
+            : t('characters.loadedMany', { count: result.characters.length });
+      const lines = result.characters.length ? [names, ...loadedChronicles] : loadedChronicles.slice(1);
+      Alert.alert(title, [...lines, ...result.warnings].join('\n\n'));
     }, t('characters.loadFailed'));
 
   // Только для проверки в режиме разработки, пока нет мастера создания (этап 5).
@@ -252,9 +277,7 @@ export function CharactersPage() {
     >
       {showWhatsNew && LATEST_CHANGELOG ? (
         <View style={styles.whatsNewBanner}>
-          <AppText variant="heading">
-            {t('characters.whatsNew', { version: LATEST_CHANGELOG.version })}
-          </AppText>
+          <AppText variant="heading">{t('characters.whatsNew', { version: LATEST_CHANGELOG.version })}</AppText>
           {LATEST_CHANGELOG.items.map((item, i) => (
             <AppText key={i} variant="secondary" style={styles.whatsNewItem}>
               {'· '}

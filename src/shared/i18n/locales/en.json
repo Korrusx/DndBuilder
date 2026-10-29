@@ -1308,6 +1308,25 @@
       "empty": "This session has no notes. Add entries — next time there will be a recap here.",
       "bigText": "Large text",
       "share": "Share"
+    },
+    "files": {
+      "unnamed": "Chronicle",
+      "notOurs": "This is not a campaign chronicle file.",
+      "newer": "The chronicle file is from a newer app version — please update the app.",
+      "noCampaign": "The file has no campaign.",
+      "export": "Export chronicle to a file",
+      "dialog": "Campaign chronicle",
+      "exportFailed": "Couldn't save the chronicle",
+      "attachTitle": "Add the campaign chronicle?",
+      "attach": "The file will also include the “{{name}}” chronicle: entries, cards, quests and photos.",
+      "attachYes": "Add",
+      "attachNo": "Character only",
+      "replaceTitle": "The “{{name}}” chronicle already exists",
+      "replace": "Replace it with the version from the file? Entries made on this phone since then will be lost.",
+      "replaceYes": "Replace",
+      "keep": "Keep mine",
+      "imported": "The “{{name}}” chronicle is loaded",
+      "skipped": "Damaged records skipped: {{count}}."
     }
   },
   "chronicleSettings": {

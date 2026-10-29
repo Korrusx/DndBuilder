@@ -22,3 +22,9 @@ export const SNIPPET_RADIUS = 60;
 
 /** Сессия без событий дольше этого — при открытии хроники предлагаем её завершить. */
 export const STALE_SESSION_MS = 12 * 60 * 60 * 1000;
+
+/** Файл хроники кампании (экспорт, резервная копия, внутри файла персонажа). */
+export const CHRONICLE_FORMAT = 'geroy/chronicle';
+/** Версия формата. Повышается, если файл перестанет читаться старым способом. */
+export const CHRONICLE_VERSION = 1;
+export const CHRONICLE_EXTENSION = '.geroy-chronicle.json';

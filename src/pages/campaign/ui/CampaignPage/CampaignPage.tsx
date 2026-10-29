@@ -16,6 +16,7 @@ import {
 import { loadPhotos, saveCampaign, saveParticipant, useCampaign } from '@/entities/campaign/api';
 import type { Character } from '@/entities/character';
 import { listCharacters } from '@/entities/character/api';
+import { shareChronicle } from '@/features/transfer-characters';
 import { QuestBoard } from '@/widgets/quest-board';
 import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
@@ -338,6 +339,12 @@ export function CampaignPage() {
         campaign={data.campaign}
         visible={editOpen}
         onClose={() => setEditOpen(false)}
+        onExport={() => {
+          setEditOpen(false);
+          shareChronicle(db, data.campaign.id).catch((error) =>
+            Alert.alert(t('chronicle.files.exportFailed'), error instanceof Error ? error.message : String(error)),
+          );
+        }}
         onSave={(name, gmName) => {
           setEditOpen(false);
           run(() =>

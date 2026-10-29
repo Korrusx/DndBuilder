@@ -84,3 +84,33 @@ describe('файл обмена персонажами', () => {
     expect(exchangeFileName([{ ...irmaLevel1(), name: 'a/b:c' }], NOW)).toBe('a b c.dnd.json');
   });
 });
+
+describe('хроника в файле персонажа', () => {
+  const chronicle = {
+    format: 'geroy/chronicle',
+    version: 1,
+    exportedAt: NOW,
+    campaign: { id: 'shadows', name: 'Тени Солёной Гавани', createdAt: NOW, updatedAt: NOW },
+    participants: [{ campaignId: 'shadows', characterId: 'old-irma', status: 'active', joinedAt: NOW, updatedAt: NOW }],
+    sessions: [],
+    entries: [],
+    entities: [],
+    steps: [],
+    counters: [],
+    links: [],
+    photos: {},
+  };
+
+  test('хроника приезжает с персонажем, герой указывает на его новый id', () => {
+    const irma = { ...irmaLevel1(), id: 'old-irma' };
+    const { characters, chronicles } = parse({ ...buildExchange([irma], NOW, 'x'), chronicles: [chronicle] });
+    expect(chronicles[0].participants[0].characterId).toBe(characters[0].id);
+    expect(characters[0].id).not.toBe('old-irma');
+  });
+
+  test('отдельный файл хроники тоже читается через «Импорт»', () => {
+    const { characters, chronicles } = parse(chronicle);
+    expect(characters).toEqual([]);
+    expect(chronicles[0].campaign.name).toBe('Тени Солёной Гавани');
+  });
+});
