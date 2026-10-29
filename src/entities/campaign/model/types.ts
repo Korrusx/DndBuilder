@@ -1,4 +1,4 @@
-import type { Edition } from '@/shared/content';
+import type { Coin, Edition } from '@/shared/content';
 
 // Хроника кампании. Кампания хранится отдельно от персонажей, персонажи к ней прикрепляются.
 
@@ -131,3 +131,80 @@ export type EntityLink = {
 export type LegacyCharacter = { id: string; campaign?: string; edition?: Edition; createdAt: string };
 
 export type LegacyLinkPlan = { campaigns: Campaign[]; links: CampaignCharacter[] };
+
+// --- Упоминания ---
+
+/** Токен упоминания в тексте записи: `@[Борис](e:<id>)`. */
+export type Mention = {
+  start: number;
+  end: number;
+  entityId: string;
+  /** Имя на момент записи (если карточку удалили). */ name: string;
+};
+
+export type Segment =
+  { kind: 'text'; text: string } | { kind: 'mention'; entityId: string; name: string; missing: boolean };
+
+/** Упоминание в тексте редактора: в поле ввода видно «@Борис», а id лежит рядом. */
+export type MentionRange = { start: number; end: number; entityId: string };
+
+/** Текст в редакторе: то, что видит игрок, и где в нём упоминания. */
+export type MentionDoc = { text: string; mentions: MentionRange[] };
+
+/** Набираемое упоминание: `@` стоит на позиции `start`, после него — `query`. */
+export type MentionQuery = { start: number; query: string };
+
+/** Запись с упоминанием карточки и кусочек текста вокруг него. */
+export type MentionHit = { entry: Entry; snippet: string };
+
+// --- Автособытия ---
+
+export type LootItem = { itemId: string; name?: string; quantity: number };
+export type Coins = Partial<Record<Coin, number>>;
+
+/** Автособытие летописи. В базе: `type` → entries.event_type, остальное → entries.event_data. */
+export type ChronicleEvent =
+  | { type: 'sessionStart'; hp?: { current: number; max: number } }
+  | { type: 'natural'; natural: 20 | 1; roll: string }
+  | { type: 'down' }
+  | { type: 'stabilized' }
+  | { type: 'died' }
+  | { type: 'level'; level: number; classId?: string }
+  /** Добыча (gain) или потеря (loss): предметы и монеты. Монеты — всегда положительные числа. */
+  | { type: 'loot'; direction: 'gain' | 'loss'; items: LootItem[]; coins: Coins }
+  | { type: 'rest'; rest: 'short' | 'long' }
+  | { type: 'combat'; rounds: number; dealt: number; taken: number }
+  | { type: 'quest'; questId: string; name: string; change: 'new' | 'done' | 'failed' | 'active' }
+  | { type: 'person'; entityId: string; name: string }
+  | { type: 'payment'; questId: string; name: string; amount: number; unit: string };
+
+export type ChronicleEventType = ChronicleEvent['type'];
+
+/** Строка летописи: заметка или автособытие (возможно, склеенное из нескольких записей). */
+export type TimelineItem =
+  | { kind: 'note'; entry: Entry }
+  | { kind: 'event'; event: ChronicleEvent; entries: Entry[]; at: string; sessionId: string | null };
+
+// --- Квесты ---
+
+export type QuestProgress = {
+  /** «2 из 3» или «180 из 500 зм». */
+  label: string;
+  /** Сколько осталось: «1 шаг остался», «320 зм». Пусто, если всё сделано или прогресса нет. */
+  remaining: string;
+  /** Доля для полосы, 0…1. */
+  fraction: number;
+};
+
+export type StaleQuest = { quest: Entity; lastSessionNumber: number };
+
+// --- «В прошлый раз…» ---
+
+export type Recap = {
+  session: Session;
+  happened: string[];
+  met: Entity[];
+  found: string[];
+  openQuests: { quest: Entity; progress: QuestProgress | null }[];
+  whereWeStopped: string;
+};

@@ -1058,5 +1058,39 @@
     "emptySpecies": "Tap a species to see what it gives.",
     "emptyRace": "Tap a race to see what it gives.",
     "emptyBackground": "Tap a background to see what it gives."
+  },
+  "chronicle": {
+    "event": {
+      "sessionStart": "Session start",
+      "sessionStartHp": "Session start · HP {{current}}/{{max}}",
+      "natural": "Natural {{natural}} · {{roll}}",
+      "down": "Dropped to 0 HP",
+      "stabilized": "Stabilized",
+      "died": "The hero died",
+      "level": "New level: {{level}}",
+      "levelClass": "New level: {{className}} {{level}}",
+      "coinsGained": "Gained {{coins}}",
+      "coinsSpent": "Spent {{coins}}",
+      "found": "Found: {{list}}",
+      "removed": "Removed from gear: {{list}}",
+      "shortRest": "Short rest",
+      "longRest": "Long rest",
+      "combat_one": "Combat: {{count}} round, dealt {{dealt}}, taken {{taken}}",
+      "combat_other": "Combat: {{count}} rounds, dealt {{dealt}}, taken {{taken}}",
+      "quest": {
+        "new": "New quest: {{name}}",
+        "done": "Quest completed: {{name}}",
+        "failed": "Quest failed: {{name}}",
+        "active": "Quest active again: {{name}}"
+      },
+      "person": "New acquaintance: {{name}}",
+      "payment": "Paid {{amount}}: {{name}}"
+    },
+    "quest": {
+      "steps": "{{done}} of {{total}}",
+      "counter": "{{current}} of {{target}}",
+      "stepsLeft_one": "{{count}} step left",
+      "stepsLeft_other": "{{count}} steps left"
+    }
   }
 }

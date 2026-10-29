@@ -1067,5 +1067,43 @@
     "emptySpecies": "Нажмите на вид, чтобы увидеть, что он даёт.",
     "emptyRace": "Нажмите на расу, чтобы увидеть, что она даёт.",
     "emptyBackground": "Нажмите на предысторию, чтобы увидеть, что она даёт."
+  },
+  "chronicle": {
+    "event": {
+      "sessionStart": "Начало сессии",
+      "sessionStartHp": "Начало сессии · хиты {{current}}/{{max}}",
+      "natural": "Натуральная {{natural}} · {{roll}}",
+      "down": "Хиты упали до 0",
+      "stabilized": "Стабилизация: смерть отступила",
+      "died": "Гибель героя",
+      "level": "Новый уровень: {{level}}",
+      "levelClass": "Новый уровень: {{className}} {{level}}",
+      "coinsGained": "Получено {{coins}}",
+      "coinsSpent": "Потрачено {{coins}}",
+      "found": "Найдено: {{list}}",
+      "removed": "Убрано из вещей: {{list}}",
+      "shortRest": "Короткий отдых",
+      "longRest": "Долгий отдых",
+      "combat_one": "Бой: {{count}} раунд, урон {{dealt}}, получено {{taken}}",
+      "combat_few": "Бой: {{count}} раунда, урон {{dealt}}, получено {{taken}}",
+      "combat_many": "Бой: {{count}} раундов, урон {{dealt}}, получено {{taken}}",
+      "combat_other": "Бой: {{count}} раунда, урон {{dealt}}, получено {{taken}}",
+      "quest": {
+        "new": "Новый квест: {{name}}",
+        "done": "Квест выполнен: {{name}}",
+        "failed": "Квест провален: {{name}}",
+        "active": "Квест снова активен: {{name}}"
+      },
+      "person": "Новое знакомство: {{name}}",
+      "payment": "Выплачено {{amount}}: {{name}}"
+    },
+    "quest": {
+      "steps": "{{done}} из {{total}}",
+      "counter": "{{current}} из {{target}}",
+      "stepsLeft_one": "{{count}} шаг остался",
+      "stepsLeft_few": "{{count}} шага осталось",
+      "stepsLeft_many": "{{count}} шагов осталось",
+      "stepsLeft_other": "{{count}} шага осталось"
+    }
   }
 }
