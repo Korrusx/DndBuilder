@@ -3,6 +3,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useState } from 'react';
 import { View } from 'react-native';
 
+import { ChronicleSettingsSection } from '@/features/chronicle-journal';
 import { DiceSettingsSection } from '@/features/roll-dice';
 import { contentFor } from '@/shared/content';
 import type { Language } from '@/shared/i18n';
@@ -36,6 +37,8 @@ export function AboutPage() {
       <AppText variant="secondary">{t('language.hint')}</AppText>
 
       <DiceSettingsSection />
+
+      <ChronicleSettingsSection />
 
       <AppText variant="heading">{t('about.reference')}</AppText>
       <ReferenceCard edition="2024" />

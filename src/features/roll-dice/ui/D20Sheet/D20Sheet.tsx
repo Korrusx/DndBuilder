@@ -6,6 +6,7 @@ import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import type { D20Mode, D20Roll } from '@/shared/lib/dice';
 import { formatModifier, rollD20 } from '@/shared/lib/dice';
+import { emitPlayEvent } from '@/shared/lib/play-events';
 import { secureRandom } from '@/shared/lib/random';
 import { useResetState } from '@/shared/lib/reset-state';
 import { AppText, BottomSheet, Button, Segmented } from '@/shared/ui';
@@ -40,7 +41,14 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
   const modifier = request?.parts.reduce((s, p) => s + p.value, 0) ?? 0;
 
   const fixed = !!request?.roll;
-  const doRoll = (m: D20Mode) => show(rollD20(modifier, m, secureRandom));
+  /** Показать бросок; естественные 20 и 1 попадают в летопись кампании. */
+  const reveal = (r: D20Roll) => {
+    show(r);
+    if (request && (r.natural === 20 || r.natural === 1)) {
+      emitPlayEvent({ type: 'natural', natural: r.natural, roll: request.title });
+    }
+  };
+  const doRoll = (m: D20Mode) => reveal(rollD20(modifier, m, secureRandom));
 
   const d20ModeOptions = [
     { value: 'disadvantage' as D20Mode, label: t('roll.disadvantage') },
@@ -53,7 +61,7 @@ export function D20Sheet({ request, onClose }: D20SheetProps) {
       return;
     }
     if (request.roll) {
-      show(request.roll);
+      reveal(request.roll);
     } else {
       doRoll(mode);
     }

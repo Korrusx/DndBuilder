@@ -6,6 +6,7 @@ import { usePlay } from '@/entities/character/ui';
 import { content, nameOf, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatDie, formatModifier, rollDie } from '@/shared/lib/dice';
+import { emitPlayEvent } from '@/shared/lib/play-events';
 import { AppText, BottomSheet, SmallButton } from '@/shared/ui';
 
 import { styles } from './ShortRestSheet.styles';
@@ -79,6 +80,7 @@ export function ShortRestSheet({ visible, onClose }: ShortRestSheetProps) {
           updateState((s) =>
             shortRestResources(finishShortRest(s, sheet.spellcasting?.slotsFromPact ?? false), resources),
           );
+          emitPlayEvent({ type: 'rest', rest: 'short' }, character.id);
           setLast(null);
           onClose();
         }}

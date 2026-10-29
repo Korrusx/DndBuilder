@@ -5,7 +5,9 @@ import { coinAbbr, COIN_ORDER, coinsText, itemName, nameOf } from '@/shared/cont
 import { t } from '@/shared/i18n';
 
 import { COALESCE_WINDOW_MS, COALESCED_EVENTS } from '../config/constants';
-import type { ChronicleEvent, Coins, Entity, Entry, LootItem, TimelineItem } from './types';
+import type { Coins, LootItem } from '@/shared/lib/play-events';
+
+import type { ChronicleEvent, Entity, Entry, TimelineItem } from './types';
 
 /** Автособытие из записи летописи (или null, если это заметка или событие неизвестного вида). */
 export function entryEvent(entry: Entry): ChronicleEvent | null {
@@ -124,7 +126,10 @@ export function eventText(event: ChronicleEvent, entitiesById?: ReadonlyMap<stri
       return t('chronicle.event.died');
     case 'level':
       return event.classId
-        ? t('chronicle.event.levelClass', { level: event.level, className: nameOf('classes', event.classId) })
+        ? t('chronicle.event.levelClass', {
+            level: event.classLevel ?? event.level,
+            className: nameOf('classes', event.classId),
+          })
         : t('chronicle.event.level', { level: event.level });
     case 'loot': {
       const coins = coinsText(event.coins);

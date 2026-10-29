@@ -119,6 +119,7 @@ export {
   unarmedStrike,
   unequipSlot,
 } from './model/play';
+export { characterEvents } from './model/events';
 export { adjustResource, characterResources, shortRestResources } from './model/resources';
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
 export { computeSheet, finalAbilityScores, originFeatIds, proficiencyIds, subclassSpellIds } from './model/sheet';

@@ -381,11 +381,14 @@ export type SpellSummary = {
   tags: ('concentration' | 'ritual')[];
 };
 
+/** `journal: false` — изменение не попадает в летопись кампании (правка, а не событие за столом). */
+export type UpdateOptions = { journal?: boolean };
+
 export type PlayApi = {
   character: Character;
   sheet: CharacterSheet;
-  update: (fn: (c: Character) => Character) => void;
-  updateState: (fn: (s: GameState) => GameState) => void;
+  update: (fn: (c: Character) => Character, options?: UpdateOptions) => void;
+  updateState: (fn: (s: GameState) => GameState, options?: UpdateOptions) => void;
 };
 
 // ---------- Карточки описания на шагах «Класс» и «Предыстория и вид» ----------

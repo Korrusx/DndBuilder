@@ -25,6 +25,7 @@ import { ResourcesCard } from '@/features/track-resources';
 import { abilityAbbr, byId, content, nameOf, plain, localizeText } from '@/shared/content';
 import { useTranslation } from '@/shared/i18n';
 import { formatFeet, formatModifier, rollD20 } from '@/shared/lib/dice';
+import { emitPlayEvent } from '@/shared/lib/play-events';
 import type { InfoContent } from '@/shared/ui';
 import {
   AppText,
@@ -86,7 +87,10 @@ export function PlaySheetPage() {
       { text: t('common.cancel'), style: 'cancel' },
       {
         text: t('sheet.rest'),
-        onPress: () => updateState((s) => longRest(s, sheet.maxHp, character.edition, sheet.hitDice)),
+        onPress: () => {
+          updateState((s) => longRest(s, sheet.maxHp, character.edition, sheet.hitDice));
+          emitPlayEvent({ type: 'rest', rest: 'long' }, character.id);
+        },
       },
     ]);
 

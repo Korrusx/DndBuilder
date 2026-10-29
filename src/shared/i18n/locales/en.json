@@ -1092,5 +1092,18 @@
       "stepsLeft_one": "{{count}} step left",
       "stepsLeft_other": "{{count}} steps left"
     }
+  },
+  "chronicleSettings": {
+    "title": "Chronicle",
+    "hint": "What the app records in the campaign chronicle by itself. Tap to turn off or on.",
+    "group": {
+      "rolls": "Natural 20s and 1s",
+      "health": "0 HP and death",
+      "level": "New level",
+      "loot": "Items and coins",
+      "rest": "Rests",
+      "combat": "Combat summary",
+      "chronicle": "Quests and acquaintances"
+    }
   }
 }

@@ -1,4 +1,5 @@
-import type { Coin, Edition } from '@/shared/content';
+import type { Edition } from '@/shared/content';
+import type { PlayEvent } from '@/shared/lib/play-events';
 
 // Хроника кампании. Кампания хранится отдельно от персонажей, персонажи к ней прикрепляются.
 
@@ -159,21 +160,11 @@ export type MentionHit = { entry: Entry; snippet: string };
 
 // --- Автособытия ---
 
-export type LootItem = { itemId: string; name?: string; quantity: number };
-export type Coins = Partial<Record<Coin, number>>;
-
-/** Автособытие летописи. В базе: `type` → entries.event_type, остальное → entries.event_data. */
+/** Автособытие летописи: событие из режима игры или из самой хроники.
+ * В базе: `type` → entries.event_type, остальное → entries.event_data. */
 export type ChronicleEvent =
+  | PlayEvent
   | { type: 'sessionStart'; hp?: { current: number; max: number } }
-  | { type: 'natural'; natural: 20 | 1; roll: string }
-  | { type: 'down' }
-  | { type: 'stabilized' }
-  | { type: 'died' }
-  | { type: 'level'; level: number; classId?: string }
-  /** Добыча (gain) или потеря (loss): предметы и монеты. Монеты — всегда положительные числа. */
-  | { type: 'loot'; direction: 'gain' | 'loss'; items: LootItem[]; coins: Coins }
-  | { type: 'rest'; rest: 'short' | 'long' }
-  | { type: 'combat'; rounds: number; dealt: number; taken: number }
   | { type: 'quest'; questId: string; name: string; change: 'new' | 'done' | 'failed' | 'active' }
   | { type: 'person'; entityId: string; name: string }
   | { type: 'payment'; questId: string; name: string; amount: number; unit: string };

@@ -1,4 +1,4 @@
-export type MetaKey = 'lastBackupAt' | 'language' | 'diceSettings' | 'whatsNewShown' | 'legacyCampaignsLinked';
+export type MetaKey = 'lastBackupAt' | 'language' | 'diceSettings' | 'whatsNewShown' | 'legacyCampaignsLinked' | 'chronicleSettings';
 
 // Миграции пользовательской базы. Версия схемы хранится в PRAGMA user_version.
 // Новую миграцию добавляй в конец списка; уже выпущенные миграции не меняй.
