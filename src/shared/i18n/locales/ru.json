@@ -706,7 +706,6 @@
     "player": "Игрок",
     "playerPlaceholder": "Кто играет этим персонажем",
     "campaign": "Кампания",
-    "campaignPlaceholder": "Название кампании",
     "alignment": "Мировоззрение",
     "languages": "Языки",
     "languagesHint": "Отметьте языки, которые персонаж выучил по ходу игры.",
@@ -1104,6 +1103,121 @@
       "stepsLeft_few": "{{count}} шага осталось",
       "stepsLeft_many": "{{count}} шагов осталось",
       "stepsLeft_other": "{{count}} шага осталось"
+    },
+    "between": "Между сессиями",
+    "createAs": "Создать «{{name}}…» как",
+    "deleted_one": "Удалена {{count}} запись",
+    "deleted_few": "Удалено {{count}} записи",
+    "deleted_many": "Удалено {{count}} записей",
+    "deleted_other": "Удалено {{count}} записи",
+    "undo": "Вернуть",
+    "failed": "Не получилось",
+    "notFound": "Кампания не найдена",
+    "gm": "мастер {{name}}",
+    "sessionsCount_one": "{{count}} сессия",
+    "sessionsCount_few": "{{count}} сессии",
+    "sessionsCount_many": "{{count}} сессий",
+    "sessionsCount_other": "{{count}} сессии",
+    "sessionShort": "С{{number}}",
+    "entries_one": "{{count}} запись",
+    "entries_few": "{{count}} записи",
+    "entries_many": "{{count}} записей",
+    "entries_other": "{{count}} записи",
+    "mentions_one": "{{count}} упоминание",
+    "mentions_few": "{{count}} упоминания",
+    "mentions_many": "{{count}} упоминаний",
+    "mentions_other": "{{count}} упоминания",
+    "emptyChronicle": "Летопись пока пуста. Начните сессию или добавьте запись — события игры приложение запишет само.",
+    "search": "Поиск по хронике",
+    "searchPlaceholder": "Имя, место, слово…",
+    "searchHint": "Ищет по заметкам и событиям, с текущими именами карточек.",
+    "searchEmpty": "Ничего не нашлось.",
+    "tabs": {
+      "chronicle": "Летопись",
+      "people": "Люди",
+      "places": "Места",
+      "quests": "Квесты",
+      "factions": "Фракции"
+    },
+    "emptyTab": {
+      "people": "Людей и фракций пока нет. Напишите в записи @Имя — карточка появится сама.",
+      "places": "Мест пока нет. Напишите в записи @Название и выберите «Место».",
+      "quests": "Квестов пока нет. Напишите в записи @Название и выберите «Квест»."
+    },
+    "entityType": {
+      "person": "Человек",
+      "place": "Место",
+      "faction": "Фракция",
+      "quest": "Квест"
+    },
+    "questStatus": {
+      "active": "Активен",
+      "done": "Выполнен",
+      "failed": "Провален"
+    },
+    "tag": {
+      "clue": "Подсказка",
+      "loot": "Добыча",
+      "combat": "Бой",
+      "quote": "Цитата",
+      "mystery": "Тайна"
+    },
+    "session": {
+      "title": "Сессия {{number}}",
+      "today": "сегодня, {{date}}",
+      "live": "идёт",
+      "start": "Начать сессию {{number}}",
+      "end": "Завершить",
+      "endTitle": "Завершить сессию {{number}}",
+      "whereHint": "Необязательно. В следующий раз это зачитает «В прошлый раз…».",
+      "wherePlaceholder": "Где остановились?",
+      "empty": "Пока ничего не произошло.",
+      "forgottenTitle": "Сессия {{number}} ещё идёт",
+      "forgotten": "Последнее событие было больше 12 часов назад. Завершить сессию?",
+      "keep": "Оставить"
+    },
+    "note": {
+      "add": "Запись",
+      "title": "Запись"
+    },
+    "editor": {
+      "newTitle": "Новая запись",
+      "editTitle": "Изменить запись",
+      "placeholder": "Что произошло? Наберите @, чтобы упомянуть человека, место или квест.",
+      "mention": "Упомянуть",
+      "photo": "Добавить фото",
+      "removePhoto": "Убрать фото",
+      "secret": "Тайная запись",
+      "secretOn": "тайная — не попадёт в сводку",
+      "draftSaved": "черновик сохранён",
+      "draftRestored": "черновик восстановлен"
+    },
+    "edit": {
+      "title": "Кампания",
+      "name": "Название",
+      "gm": "Мастер"
+    },
+    "join": {
+      "start": "Начать хронику",
+      "title": "Хроника кампании",
+      "existing": "Кампании, где уже играют ваши герои:",
+      "new": "Или новая кампания:",
+      "namePlaceholder": "Название кампании",
+      "gmPlaceholder": "Имя мастера (необязательно)",
+      "create": "Создать и начать"
+    },
+    "hall": {
+      "title": "Зал героев",
+      "chip": "Зал героев · {{count}}",
+      "fallen": "Пал в бою",
+      "retired": "Ушёл на покой",
+      "restore": "Вернуть в строй"
+    },
+    "hero": {
+      "openSheet": "Открыть лист персонажа",
+      "hallHint": "Герой погиб или ушёл? Он останется в «Зале героев», а летопись продолжится с новым героем.",
+      "epitaphPlaceholder": "Эпитафия — одна строка",
+      "toHall": "Проводить в Зал героев"
     }
   },
   "chronicleSettings": {

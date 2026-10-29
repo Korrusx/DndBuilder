@@ -199,3 +199,24 @@ export type Recap = {
   openQuests: { quest: Entity; progress: QuestProgress | null }[];
   whereWeStopped: string;
 };
+
+/** Всё, что нужно экранам хроники. */
+export type CampaignData = {
+  campaign: Campaign;
+  participants: CampaignCharacter[];
+  sessions: Session[];
+  entries: Entry[];
+  entities: Entity[];
+};
+
+/** Блок летописи: сессия или записи «между сессиями» после неё (session — та, после которой они идут). */
+export type TimelineGroup =
+  | { kind: 'session'; key: string; session: Session; items: TimelineItem[]; noteCount: number; entryCount: number }
+  | {
+      kind: 'between';
+      key: string;
+      after: Session | null;
+      items: TimelineItem[];
+      noteCount: number;
+      entryCount: number;
+    };

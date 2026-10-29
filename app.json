@@ -47,7 +47,15 @@
           "enableBackgroundPlayback": false
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Фото для записей хроники и портретов персонажей",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ]
     ],
     "scheme": "dndbuilder",
     "backgroundColor": "#0F1114",

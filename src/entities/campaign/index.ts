@@ -19,10 +19,20 @@ export {
 export { contributeToCounter, questProgress, staleQuests } from './model/quests';
 export { buildRecap } from './model/recap';
 export { foldText, searchEntities } from './model/search';
+export {
+  activeSessionOf,
+  firstLine,
+  hallOfHeroes,
+  isForgottenSession,
+  nextSessionNumber,
+  searchEntries,
+  timelineGroups,
+} from './model/timeline';
 export type {
   Attitude,
   Campaign,
   CampaignCharacter,
+  CampaignData,
   ChronicleEvent,
   ChronicleEventType,
   Entity,
@@ -47,5 +57,6 @@ export type {
   Segment,
   Session,
   StaleQuest,
+  TimelineGroup,
   TimelineItem,
 } from './model/types';

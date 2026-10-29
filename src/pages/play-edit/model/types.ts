@@ -1,1 +1,1 @@
-export type TextField = 'name' | 'player' | 'campaign' | 'notes';
+export type TextField = 'name' | 'player' | 'notes';

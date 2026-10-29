@@ -48,6 +48,8 @@ export { Section } from './Section/Section';
 export { Segmented } from './Segmented/Segmented';
 export { SmallButton } from './SmallButton/SmallButton';
 export { StatBox } from './StatBox/StatBox';
+export { SwipeRow } from './SwipeRow/SwipeRow';
 export { Tile } from './Tile/Tile';
+export { UndoBar } from './UndoBar/UndoBar';
 export { VariantPanel } from './VariantPanel/VariantPanel';
 export type { VariantOption } from './VariantPanel/VariantPanel.types';

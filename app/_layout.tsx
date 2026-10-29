@@ -35,10 +35,14 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (loaded || error) SplashScreen.hideAsync();
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
   }, [loaded, error]);
 
-  if (!loaded && !error) return null;
+  if (!loaded && !error) {
+    return null;
+  }
 
   return (
     <SQLiteProvider databaseName={USER_DB_NAME} onInit={initDb}>
@@ -56,6 +60,7 @@ export default function RootLayout() {
           <Stack.Screen name="index" options={{ title: t('nav.characters') }} />
           <Stack.Screen name="create" options={{ headerShown: false }} />
           <Stack.Screen name="character/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="campaign/[id]" options={{ headerShown: false }} />
           <Stack.Screen name="about" options={{ title: t('nav.about') }} />
           <Stack.Screen name="homebrew-equipment" options={{ title: t('nav.homebrew') }} />
         </Stack>

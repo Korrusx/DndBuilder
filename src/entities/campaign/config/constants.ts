@@ -19,3 +19,6 @@ export const STALE_AFTER_SESSIONS = 2;
 
 /** Сколько символов текста показывать вокруг упоминания. */
 export const SNIPPET_RADIUS = 60;
+
+/** Сессия без событий дольше этого — при открытии хроники предлагаем её завершить. */
+export const STALE_SESSION_MS = 12 * 60 * 60 * 1000;

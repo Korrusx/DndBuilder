@@ -698,7 +698,6 @@
     "player": "Player",
     "playerPlaceholder": "Who plays this character",
     "campaign": "Campaign",
-    "campaignPlaceholder": "Campaign name",
     "alignment": "Alignment",
     "languages": "Languages",
     "languagesHint": "Mark the languages the character learned during play.",
@@ -1091,6 +1090,113 @@
       "counter": "{{current}} of {{target}}",
       "stepsLeft_one": "{{count}} step left",
       "stepsLeft_other": "{{count}} steps left"
+    },
+    "between": "Between sessions",
+    "createAs": "Create “{{name}}…” as",
+    "deleted_one": "{{count}} entry deleted",
+    "deleted_other": "{{count}} entries deleted",
+    "undo": "Undo",
+    "failed": "Something went wrong",
+    "notFound": "Campaign not found",
+    "gm": "GM {{name}}",
+    "sessionsCount_one": "{{count}} session",
+    "sessionsCount_other": "{{count}} sessions",
+    "sessionShort": "S{{number}}",
+    "entries_one": "{{count}} entry",
+    "entries_other": "{{count}} entries",
+    "mentions_one": "{{count}} mention",
+    "mentions_other": "{{count}} mentions",
+    "emptyChronicle": "The chronicle is empty. Start a session or add an entry — the app records game events by itself.",
+    "search": "Search the chronicle",
+    "searchPlaceholder": "Name, place, word…",
+    "searchHint": "Searches notes and events, with current card names.",
+    "searchEmpty": "Nothing found.",
+    "tabs": {
+      "chronicle": "Chronicle",
+      "people": "People",
+      "places": "Places",
+      "quests": "Quests",
+      "factions": "Factions"
+    },
+    "emptyTab": {
+      "people": "No people or factions yet. Type @Name in an entry and the card appears by itself.",
+      "places": "No places yet. Type @Name in an entry and choose “Place”.",
+      "quests": "No quests yet. Type @Name in an entry and choose “Quest”."
+    },
+    "entityType": {
+      "person": "Person",
+      "place": "Place",
+      "faction": "Faction",
+      "quest": "Quest"
+    },
+    "questStatus": {
+      "active": "Active",
+      "done": "Completed",
+      "failed": "Failed"
+    },
+    "tag": {
+      "clue": "Clue",
+      "loot": "Loot",
+      "combat": "Combat",
+      "quote": "Quote",
+      "mystery": "Mystery"
+    },
+    "session": {
+      "title": "Session {{number}}",
+      "today": "today, {{date}}",
+      "live": "live",
+      "start": "Start session {{number}}",
+      "end": "End",
+      "endTitle": "End session {{number}}",
+      "whereHint": "Optional. “Last time…” will read it out next time.",
+      "wherePlaceholder": "Where did we stop?",
+      "empty": "Nothing has happened yet.",
+      "forgottenTitle": "Session {{number}} is still running",
+      "forgotten": "The last event was more than 12 hours ago. End the session?",
+      "keep": "Keep"
+    },
+    "note": {
+      "add": "Entry",
+      "title": "Entry"
+    },
+    "editor": {
+      "newTitle": "New entry",
+      "editTitle": "Edit entry",
+      "placeholder": "What happened? Type @ to mention a person, place or quest.",
+      "mention": "Mention",
+      "photo": "Add photo",
+      "removePhoto": "Remove photo",
+      "secret": "Secret entry",
+      "secretOn": "secret — stays out of the recap",
+      "draftSaved": "draft saved",
+      "draftRestored": "draft restored"
+    },
+    "edit": {
+      "title": "Campaign",
+      "name": "Name",
+      "gm": "Game master"
+    },
+    "join": {
+      "start": "Start a chronicle",
+      "title": "Campaign chronicle",
+      "existing": "Campaigns your heroes already play in:",
+      "new": "Or a new campaign:",
+      "namePlaceholder": "Campaign name",
+      "gmPlaceholder": "GM name (optional)",
+      "create": "Create and start"
+    },
+    "hall": {
+      "title": "Hall of Heroes",
+      "chip": "Hall of Heroes · {{count}}",
+      "fallen": "Fell in battle",
+      "retired": "Retired",
+      "restore": "Back to the party"
+    },
+    "hero": {
+      "openSheet": "Open character sheet",
+      "hallHint": "Did the hero die or leave? They stay in the Hall of Heroes, and the chronicle continues with a new hero.",
+      "epitaphPlaceholder": "Epitaph — one line",
+      "toHall": "Send to the Hall of Heroes"
     }
   },
   "chronicleSettings": {

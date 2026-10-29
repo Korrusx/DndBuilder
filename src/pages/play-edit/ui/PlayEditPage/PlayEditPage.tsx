@@ -10,6 +10,7 @@ import {
   SPECIES_SPELL_ABILITIES,
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
+import { CampaignLink } from '@/features/join-campaign';
 import { ClassOptionsPicker } from '@/features/pick-class-options';
 import { shareCharacters } from '@/features/transfer-characters';
 import { colors } from '@/shared/config';
@@ -61,7 +62,9 @@ export function PlayEditPage() {
     <Screen>
       <Section title={t('edit.name')}>{field('name', t('edit.namePlaceholder'))}</Section>
       <Section title={t('edit.player')}>{field('player', t('edit.playerPlaceholder'))}</Section>
-      <Section title={t('edit.campaign')}>{field('campaign', t('edit.campaignPlaceholder'))}</Section>
+      <Section title={t('edit.campaign')}>
+        <CampaignLink />
+      </Section>
 
       <Section title={t('edit.alignment')}>
         <ChipRow>

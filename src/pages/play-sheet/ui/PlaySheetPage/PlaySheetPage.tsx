@@ -16,6 +16,7 @@ import {
   totalLevel,
 } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
+import { CampaignLink } from '@/features/join-campaign';
 import { MAX_LEVEL } from '@/features/level-up';
 import { ShortRestSheet } from '@/features/rest';
 import type { D20Request } from '@/features/roll-dice';
@@ -106,6 +107,8 @@ export function PlaySheetPage() {
           onPress={() => updateState((s) => ({ ...s, heroicInspiration: !s.heroicInspiration }))}
         />
       </View>
+
+      <CampaignLink />
 
       <HpBlock character={character} sheet={sheet} onDeathSave={rollDeathSave} />
 
