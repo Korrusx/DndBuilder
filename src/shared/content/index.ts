@@ -1,4 +1,4 @@
-export { COIN_ORDER } from './constants';
+export { COIN_ORDER, COIN_VALUE } from './constants';
 export {
   activeEdition,
   byId,

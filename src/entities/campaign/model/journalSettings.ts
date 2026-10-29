@@ -1,7 +1,5 @@
-import type { ChronicleEventType } from '@/entities/campaign';
-
-import { DEFAULT_JOURNAL_SETTINGS, EVENT_GROUP, JOURNAL_GROUPS } from '../config/constants';
-import type { JournalGroup, JournalSettings } from './types';
+import { DEFAULT_JOURNAL_SETTINGS, EVENT_GROUP, JOURNAL_GROUPS } from '../config/journal';
+import type { ChronicleEventType, JournalGroup, JournalSettings } from './types';
 
 /** Настройки из базы; неизвестное и испорченное — значения по умолчанию. */
 export function parseJournalSettings(raw: string | null): JournalSettings {

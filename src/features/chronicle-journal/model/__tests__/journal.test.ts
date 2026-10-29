@@ -1,22 +1,4 @@
 import { addToBalance, balanceEvents, isCoinsOnly } from '../coins';
-import { isRecorded, parseJournalSettings, toggleGroup } from '../settings';
-
-describe('настройки журнала', () => {
-  test('по умолчанию записывается всё; выключенная группа не пишется, начало сессии — всегда', () => {
-    const defaults = parseJournalSettings(null);
-    expect(isRecorded(defaults, 'natural')).toBe(true);
-    const noRolls = toggleGroup(defaults, 'rolls');
-    expect(isRecorded(noRolls, 'natural')).toBe(false);
-    expect(isRecorded(noRolls, 'loot')).toBe(true);
-    expect(isRecorded(toggleGroup(noRolls, 'chronicle'), 'sessionStart')).toBe(true);
-    expect(toggleGroup(noRolls, 'rolls')).toEqual({ disabled: [] });
-  });
-
-  test('испорченные и неизвестные значения не ломают настройки', () => {
-    expect(parseJournalSettings('{not json')).toEqual({ disabled: [] });
-    expect(parseJournalSettings('{"disabled":["rest","bogus"]}')).toEqual({ disabled: ['rest'] });
-  });
-});
 
 describe('монеты копятся, пока игрок печатает', () => {
   test('«4» → «45» → стёр до «40»: одна запись «получено 40 зм»', () => {

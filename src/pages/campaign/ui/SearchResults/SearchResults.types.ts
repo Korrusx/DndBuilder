@@ -5,4 +5,5 @@ export type SearchResultsProps = {
   entries: Entry[];
   sessions: Session[];
   entitiesById: ReadonlyMap<string, Entity>;
+  onMentionPress: (entityId: string) => void;
 };

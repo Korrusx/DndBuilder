@@ -3,14 +3,12 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 
-import { participationOf, saveParticipant } from '@/entities/campaign/api';
+import type { JournalState } from '@/entities/campaign';
+import { journalState, participationOf, saveParticipant, useJournalSettings } from '@/entities/campaign/api';
 import { usePlay } from '@/entities/character/ui';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, SmallButton } from '@/shared/ui';
 
-import { journalState } from '../../api/record';
-import { useJournalSettings } from '../../api/settings';
-import type { JournalState } from '../../model/types';
 import { styles } from './JournalStatus.styles';
 
 /** Под кнопкой кампании: куда сейчас записываются события героя и что выключено в настройках. */

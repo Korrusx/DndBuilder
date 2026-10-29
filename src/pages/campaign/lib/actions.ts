@@ -4,9 +4,8 @@ import type { SQLiteDatabase } from 'expo-sqlite';
 
 import type { CampaignData, Entry, Session } from '@/entities/campaign';
 import { activeSessionOf, nextSessionNumber } from '@/entities/campaign';
-import { deleteEntries, deletePhotos, saveEntry, saveSession } from '@/entities/campaign/api';
+import { deleteEntries, deletePhotos, recordEvent, saveEntity, saveEntry, saveSession } from '@/entities/campaign/api';
 import { computeSheet } from '@/entities/character';
-import { recordEvent } from '@/features/chronicle-journal';
 import { contentFor } from '@/shared/content';
 import { newId } from '@/shared/lib/id';
 
@@ -71,3 +70,23 @@ export const forgetPhotos = (db: SQLiteDatabase, entries: Entry[]) =>
     db,
     entries.flatMap((entry) => entry.photoIds),
   );
+
+/** Новый квест (название поправят на его карточке); в летописи — «Новый квест: …». */
+export async function createQuest(db: SQLiteDatabase, campaignId: string, name: string) {
+  const now = new Date().toISOString();
+  const quest = await saveEntity(db, {
+    id: newId(),
+    campaignId,
+    type: 'quest',
+    name,
+    role: '',
+    description: '',
+    status: 'active',
+    attitude: 0,
+    personal: false,
+    createdAt: now,
+    updatedAt: now,
+  });
+  await recordEvent(db, { type: 'quest', questId: quest.id, name: quest.name, change: 'new' }, { campaignId });
+  return quest;
+}

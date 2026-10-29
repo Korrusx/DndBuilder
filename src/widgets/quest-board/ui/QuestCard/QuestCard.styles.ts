@@ -1,0 +1,58 @@
+import { StyleSheet } from 'react-native';
+
+import { colors, fonts, sizes, spacing } from '@/shared/config';
+
+export const styles = StyleSheet.create({
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    gap: spacing.sm,
+  },
+  personal: { borderColor: '#7A5A22', backgroundColor: '#1C1A16' },
+  top: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
+  badge: {
+    backgroundColor: colors.accentBg,
+    borderRadius: 8,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 3,
+  },
+  badgeText: { color: colors.accent, fontFamily: fonts.textMedium, fontSize: 11, letterSpacing: 1 },
+  role: { color: colors.textSecondary, fontFamily: fonts.text, fontSize: 13 },
+  titleRow: { flexDirection: 'row', alignItems: 'baseline', gap: spacing.sm },
+  title: { flex: 1, color: colors.text, fontFamily: fonts.textBold, fontSize: 17 },
+  progress: { color: colors.textSecondary, fontFamily: fonts.text, fontSize: 13 },
+  meta: { color: colors.textSecondary, fontFamily: fonts.text, fontSize: 13, lineHeight: 18 },
+  mention: { color: colors.accent, fontFamily: fonts.textMedium },
+  counterRow: { flexDirection: 'row', alignItems: 'baseline', gap: spacing.sm },
+  counterValue: { color: colors.accent, fontFamily: fonts.displayBold, fontSize: 26 },
+  counterLabel: { color: colors.textSecondary, fontFamily: fonts.text, fontSize: 14 },
+  bar: { height: 8, borderRadius: 4, backgroundColor: colors.surface2, overflow: 'hidden' },
+  barFill: { height: '100%', borderRadius: 4, backgroundColor: colors.accent },
+  pay: {
+    minHeight: sizes.touchMin + 4,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#5A4520',
+    backgroundColor: colors.accentBg,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  payText: { color: colors.accent, fontFamily: fonts.textBold, fontSize: 15 },
+  step: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, minHeight: sizes.touchMin },
+  box: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: colors.textSecondary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  boxDone: { backgroundColor: colors.accent, borderColor: colors.accent },
+  stepText: { flex: 1, color: colors.text, fontFamily: fonts.text, fontSize: 15 },
+  stepDone: { color: colors.textSecondary, textDecorationLine: 'line-through' },
+  stale: { color: colors.textSecondary, fontFamily: fonts.text, fontSize: 13, fontStyle: 'italic' },
+});

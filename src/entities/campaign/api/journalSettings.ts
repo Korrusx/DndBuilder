@@ -6,8 +6,8 @@ import { useEffect, useSyncExternalStore } from 'react';
 
 import { getMeta, setMeta } from '@/shared/db';
 
-import { DEFAULT_JOURNAL_SETTINGS } from '../config/constants';
-import { parseJournalSettings } from '../model/settings';
+import { DEFAULT_JOURNAL_SETTINGS } from '../config/journal';
+import { parseJournalSettings } from '../model/journalSettings';
 import type { JournalSettings } from '../model/types';
 
 let current: JournalSettings = DEFAULT_JOURNAL_SETTINGS;

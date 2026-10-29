@@ -1,11 +1,9 @@
 import { useSQLiteContext } from 'expo-sqlite';
 
+import { JOURNAL_GROUPS, toggleGroup } from '@/entities/campaign';
+import { saveJournalSettings, useJournalSettings } from '@/entities/campaign/api';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Chip, ChipRow } from '@/shared/ui';
-
-import { saveJournalSettings, useJournalSettings } from '../../api/settings';
-import { JOURNAL_GROUPS } from '../../config/constants';
-import { toggleGroup } from '../../model/settings';
 
 /** «О приложении → Хроника»: какие события приложение само записывает в летопись кампании. */
 export function ChronicleSettingsSection() {

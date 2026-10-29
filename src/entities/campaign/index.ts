@@ -1,6 +1,8 @@
 // Публичный API хроники кампании: типы и чистые функции. Работа с базой — '@/entities/campaign/api'.
 
 export { COALESCE_WINDOW_MS, ENTRY_TAGS } from './config/constants';
+export { EVENT_GROUP, JOURNAL_GROUPS } from './config/journal';
+export { isRecorded, parseJournalSettings, toggleGroup } from './model/journalSettings';
 export { amountText, coalesceEvents, entryEvent, eventEntryFields, eventText } from './model/events';
 export { campaignNameKey, planLegacyLinks } from './model/legacy';
 export {
@@ -41,6 +43,10 @@ export type {
   Entry,
   EntryKind,
   EntryTag,
+  JournalGroup,
+  JournalSettings,
+  JournalState,
+  JournalTarget,
   LegacyCharacter,
   Mention,
   MentionDoc,

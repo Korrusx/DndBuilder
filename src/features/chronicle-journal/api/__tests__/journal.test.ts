@@ -1,10 +1,9 @@
-import { listEntries, saveCampaign, saveParticipant } from '@/entities/campaign/api';
+import { listEntries, saveCampaign, saveJournalSettings, saveParticipant } from '@/entities/campaign/api';
 import { memoryDb } from '@/shared/db/__tests__/nodeSqlite';
 import { emitPlayEvent } from '@/shared/lib/play-events';
 
 import { COIN_QUIET_MS } from '../../config/constants';
 import { startJournal } from '../journal';
-import { saveJournalSettings } from '../settings';
 
 const at = '2026-10-29T19:00:00.000Z';
 

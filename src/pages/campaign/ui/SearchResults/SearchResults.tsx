@@ -9,7 +9,7 @@ import { styles } from './SearchResults.styles';
 import type { SearchResultsProps } from './SearchResults.types';
 
 /** Поиск по хронике: подходящие заметки и события, от новых к старым, с номером сессии («С12»). */
-export function SearchResults({ query, entries, sessions, entitiesById }: SearchResultsProps) {
+export function SearchResults({ query, entries, sessions, entitiesById, onMentionPress }: SearchResultsProps) {
   const { t } = useTranslation();
   const sessionNumber = new Map(sessions.map((session) => [session.id, session.number]));
   const hits = searchEntries(query, entries, entitiesById);
@@ -31,7 +31,7 @@ export function SearchResults({ query, entries, sessions, entitiesById }: Search
               {event ? (
                 <AppText style={styles.event}>{eventText(event, entitiesById)}</AppText>
               ) : (
-                <MentionText text={entry.text} entitiesById={entitiesById} />
+                <MentionText text={entry.text} entitiesById={entitiesById} onMentionPress={onMentionPress} />
               )}
             </View>
           </View>

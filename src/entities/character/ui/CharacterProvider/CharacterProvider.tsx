@@ -11,6 +11,7 @@ import { useTranslation } from '@/shared/i18n';
 import { emitPlayEvent } from '@/shared/lib/play-events';
 import { AppText, Screen } from '@/shared/ui';
 
+import { onCharacterChanged } from '../../api/changes';
 import { getCharacter, saveCharacter } from '../../api/characters';
 import { characterEvents } from '../../model/events';
 import { computeSheet } from '../../model/sheet';
@@ -34,6 +35,24 @@ export function CharacterProvider({ children }: CharacterProviderProps) {
       setCharacter(c);
     });
   }, [db, id]);
+
+  // Персонажа изменили в другом месте (выплата из хроники) — перечитать, чтобы не затереть изменение.
+  useEffect(
+    () =>
+      onCharacterChanged((changedId) => {
+        if (changedId !== id) {
+          return;
+        }
+        queue.current = queue.current
+          .then(() => getCharacter(db, id))
+          .then((c) => {
+            current.current = c;
+            setCharacter(c);
+          })
+          .catch(() => {});
+      }),
+    [db, id],
+  );
 
   const update = useCallback(
     (fn: (c: Character) => Character, options?: UpdateOptions) => {

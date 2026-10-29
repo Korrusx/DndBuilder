@@ -1089,7 +1089,27 @@
       "steps": "{{done}} of {{total}}",
       "counter": "{{current}} of {{target}}",
       "stepsLeft_one": "{{count}} step left",
-      "stepsLeft_other": "{{count}} steps left"
+      "stepsLeft_other": "{{count}} steps left",
+      "personal": "Personal thread",
+      "from": "From",
+      "reward": "reward: {{reward}}",
+      "of": "of {{target}}",
+      "ofWord": "of",
+      "stale": "Untouched since session {{number}}",
+      "add": "+ New quest",
+      "newName": "New quest",
+      "givenBy": "Given by",
+      "pickGiver": "Choose a person or faction",
+      "rewardTitle": "Reward",
+      "rewardPlaceholder": "100 gp, her trust…",
+      "stepsTitle": "Steps",
+      "stepPlaceholder": "New step",
+      "addStep": "Add",
+      "counterTitle": "Counter",
+      "addCounter": "Add a counter (debt, collection…)",
+      "unitPlaceholder": "Unit: empty — gold, or “heads”, “pages”…",
+      "linkedToWallet": "Pay from the wallet",
+      "removeCounter": "Remove counter"
     },
     "between": "Between sessions",
     "createAs": "Create “{{name}}…” as",
@@ -1211,6 +1231,69 @@
       "hall": "The hero is in the Hall of Heroes — game events are not recorded",
       "disabled": "Not recorded (turned off in About): {{list}}",
       "failed": "The event was not saved to the chronicle"
+    },
+    "attitude": {
+      "-2": "enemy",
+      "-1": "suspicious",
+      "0": "neutral",
+      "1": "friendly",
+      "2": "ally"
+    },
+    "personStatus": {
+      "alive": "alive",
+      "dead": "dead",
+      "unknown": "unknown"
+    },
+    "questTabs": {
+      "active": "Active",
+      "done": "Completed",
+      "failed": "Failed"
+    },
+    "questEmpty": {
+      "active": "No active quests.",
+      "done": "No completed quests yet.",
+      "failed": "No failed quests."
+    },
+    "card": {
+      "notFound": "Card not found",
+      "portrait": "Portrait",
+      "pickPlace": "+ place",
+      "firstSeen": "first seen: session {{number}}",
+      "attitude": "Attitude to us",
+      "links": "Links",
+      "addLink": "Add link",
+      "deleteLink": "Delete the link?",
+      "linkLabel": "How they are linked: “keeps the cargo”, “owes 320 gp”…",
+      "mentions_one": "Mentions · {{count}}",
+      "mentions_other": "Mentions · {{count}}",
+      "noMentions": "Not mentioned anywhere yet.",
+      "nothingToPick": "No matching cards yet.",
+      "clear": "Clear",
+      "role": "Who it is, briefly",
+      "rolePlaceholder": {
+        "person": "innkeeper, guard…",
+        "place": "tavern, harbor…",
+        "faction": "thieves' guild…",
+        "quest": "from backstory, from the guild…"
+      },
+      "description": "Description",
+      "delete": "Delete card",
+      "deleteTitle": "Delete “{{name}}”?",
+      "deleteHint": "Entries keep the mention in grey with the old name.",
+      "pickTitle": {
+        "place": "Where they are",
+        "giver": "Who gave the quest",
+        "link": "Link to a card"
+      }
+    },
+    "pay": {
+      "open": "Pay from the wallet",
+      "title": "Pay: {{name}}",
+      "wallet": "{{name}} has {{amount}}",
+      "left": "{{amount}} left to pay",
+      "button": "Pay {{amount}}",
+      "notEnough": "Only {{amount}} in the wallet — can't pay that much.",
+      "noHero": "No active hero in the campaign."
     }
   },
   "chronicleSettings": {

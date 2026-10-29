@@ -9,6 +9,7 @@ import { getCampaign, listParticipants } from './campaigns';
 import { onCampaignChanged } from './changes';
 import { listEntities } from './entities';
 import { listEntries } from './entries';
+import { listEntityLinks, listQuestCounters, listQuestSteps } from './quests';
 import { listSessions } from './sessions';
 
 export async function loadCampaign(
@@ -19,13 +20,16 @@ export async function loadCampaign(
   if (!campaign) {
     return null;
   }
-  const [participants, sessions, entries, entities] = await Promise.all([
+  const [participants, sessions, entries, entities, steps, counters, links] = await Promise.all([
     listParticipants(db, campaignId),
     listSessions(db, campaignId),
     listEntries(db, campaignId),
     listEntities(db, campaignId),
+    listQuestSteps(db, campaignId),
+    listQuestCounters(db, campaignId),
+    listEntityLinks(db, campaignId),
   ]);
-  return { campaign, participants, sessions, entries, entities };
+  return { campaign, participants, sessions, entries, entities, steps, counters, links };
 }
 
 /** undefined — ещё грузится, null — кампании нет. */

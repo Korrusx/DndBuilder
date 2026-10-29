@@ -207,6 +207,9 @@ export type CampaignData = {
   sessions: Session[];
   entries: Entry[];
   entities: Entity[];
+  steps: QuestStep[];
+  counters: QuestCounter[];
+  links: EntityLink[];
 };
 
 /** Блок летописи: сессия или записи «между сессиями» после неё (session — та, после которой они идут). */
@@ -220,3 +223,21 @@ export type TimelineGroup =
       noteCount: number;
       entryCount: number;
     };
+
+// --- Журнал событий ---
+
+/** Группы автособытий для переключателей в «О приложении → Хроника». */
+export type JournalGroup = 'rolls' | 'health' | 'level' | 'loot' | 'rest' | 'combat' | 'chronicle';
+
+/** Настройки журнала: какие группы не записывать (по умолчанию записывается всё). */
+export type JournalSettings = { disabled: JournalGroup[] };
+
+/** Куда писать событие: кампания и идущая сессия (null — «между сессиями»). */
+export type JournalTarget = { campaignId: string; sessionId: string | null };
+
+/** Куда сейчас идут события героя — показывается под кнопкой кампании на «Листе». */
+export type JournalState =
+  | { kind: 'none' }
+  | { kind: 'hall'; campaignId: string }
+  | { kind: 'session'; campaignId: string; number: number }
+  | { kind: 'between'; campaignId: string };

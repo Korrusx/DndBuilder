@@ -8,7 +8,7 @@ import { onPlayEvent } from '@/shared/lib/play-events';
 import { COIN_QUIET_MS } from '../config/constants';
 import { addToBalance, balanceEvents, isCoinsOnly } from '../model/coins';
 import type { CoinBalance } from '../model/types';
-import { recordEvent } from './record';
+import { recordEvent } from '@/entities/campaign/api';
 
 /** Начать запись событий персонажа. Возвращает функцию остановки (накопленные монеты записываются сразу). */
 export function startJournal(db: SQLiteDatabase, characterId: string, onError?: (error: unknown) => void) {

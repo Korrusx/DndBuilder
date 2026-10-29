@@ -15,12 +15,13 @@ import {
 import { loadPhotos, saveCampaign, saveParticipant, useCampaign } from '@/entities/campaign/api';
 import type { Character } from '@/entities/character';
 import { listCharacters } from '@/entities/character/api';
+import { QuestBoard } from '@/widgets/quest-board';
 import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import { AppText, Button, Screen, UndoBar } from '@/shared/ui';
 
 import { UNDO_MS } from '../../config/constants';
-import { endSession, forgetPhotos, removeEntries, restoreEntries, startSession } from '../../lib/actions';
+import { createQuest, endSession, forgetPhotos, removeEntries, restoreEntries, startSession } from '../../lib/actions';
 import type { CampaignTab } from '../../model/types';
 import { CampaignEditSheet } from '../CampaignEditSheet/CampaignEditSheet';
 import { CampaignHeader } from '../CampaignHeader/CampaignHeader';
@@ -163,6 +164,12 @@ export function CampaignPage() {
     }
   };
 
+  const openEntity = (entityId: string, edit = false) =>
+    router.push({
+      pathname: '/campaign/[id]/entity/[entityId]',
+      params: edit ? { id, entityId, edit: '1' } : { id, entityId },
+    });
+
   const openEntry = (entryId?: string) =>
     router.push({ pathname: '/campaign/[id]/entry', params: entryId ? { id, entryId } : { id } });
 
@@ -189,7 +196,13 @@ export function CampaignPage() {
       />
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         {query !== null ? (
-          <SearchResults query={query} entries={data.entries} sessions={data.sessions} entitiesById={entitiesById} />
+          <SearchResults
+            query={query}
+            entries={data.entries}
+            sessions={data.sessions}
+            entitiesById={entitiesById}
+            onMentionPress={openEntity}
+          />
         ) : (
           <>
             <HeroChips heroes={heroes} hallCount={hall.length} onHero={setHeroOpen} onHall={() => setHallOpen(true)} />
@@ -219,13 +232,26 @@ export function CampaignPage() {
                     onEditStop={group.kind === 'session' ? () => setEnding(group.session) : undefined}
                     onDeleteEvent={(item: Extract<TimelineItem, { kind: 'event' }>) => deleteWithUndo(item.entries)}
                     onNoteLongPress={noteActions}
+                    onMentionPress={openEntity}
                   />
                 ))
               ) : (
                 <AppText variant="secondary">{t('chronicle.emptyChronicle')}</AppText>
               )
+            ) : tab === 'quests' ? (
+              <QuestBoard
+                data={data}
+                heroes={heroes.map((hero) => hero.character)}
+                onOpenEntity={openEntity}
+                onCreate={() =>
+                  createQuest(db, data.campaign.id, t('chronicle.quest.newName'))
+                    .then((quest) => openEntity(quest.id, true))
+                    .catch(() => undefined)
+                }
+                onChanged={() => reload().catch(() => undefined)}
+              />
             ) : (
-              <EntityListTab tab={tab} entities={data.entities} />
+              <EntityListTab tab={tab} entities={data.entities} onOpen={openEntity} />
             )}
           </>
         )}

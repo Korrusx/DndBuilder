@@ -1,8 +1,10 @@
-import { listEntries, saveCampaign, saveParticipant, saveSession } from '@/entities/campaign/api';
 import { memoryDb } from '@/shared/db/__tests__/nodeSqlite';
 
+import { saveCampaign, saveParticipant } from '../campaigns';
+import { listEntries } from '../entries';
+import { saveJournalSettings } from '../journalSettings';
 import { journalState, recordEvent } from '../record';
-import { saveJournalSettings } from '../settings';
+import { saveSession } from '../sessions';
 
 const at = '2026-10-29T19:48:00.000Z';
 const nat20 = { type: 'natural' as const, natural: 20 as const, roll: 'Ловкость рук' };

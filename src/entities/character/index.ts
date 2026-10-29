@@ -32,7 +32,7 @@ export { attackName } from './lib/attacks';
 export { featureInfo, featureName } from './lib/features';
 export { proficiencyGroups } from './lib/proficiencies';
 export { safeSheet } from './lib/safeSheet';
-export { irma2014Level1, irmaLevel1 } from './lib/samples';
+export { irma2014Level1, irmaLevel1, irmaLevel5 } from './lib/samples';
 export {
   classOptionEntries,
   descriptionSummary,
@@ -120,6 +120,7 @@ export {
   unequipSlot,
 } from './model/play';
 export { characterEvents } from './model/events';
+export { spendCoins, walletValue } from './model/wallet';
 export { adjustResource, characterResources, shortRestResources } from './model/resources';
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
 export { computeSheet, finalAbilityScores, originFeatIds, proficiencyIds, subclassSpellIds } from './model/sheet';

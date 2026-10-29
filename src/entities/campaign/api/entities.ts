@@ -21,3 +21,13 @@ export async function saveEntity(db: SQLiteDatabase, entity: Entity): Promise<En
   await upsert(db, 'entities', entityToRow(saved), ['id']);
   return saved;
 }
+
+/** Удаляет карточку с её шагами, счётчиком и связями. В записях упоминание остаётся с прежним именем. */
+export async function deleteEntity(db: SQLiteDatabase, id: string): Promise<void> {
+  await db.withTransactionAsync(async () => {
+    await db.runAsync('DELETE FROM quest_steps WHERE quest_id = ?', id);
+    await db.runAsync('DELETE FROM quest_counters WHERE quest_id = ?', id);
+    await db.runAsync('DELETE FROM entity_links WHERE from_id = ? OR to_id = ?', id, id);
+    await db.runAsync('DELETE FROM entities WHERE id = ?', id);
+  });
+}

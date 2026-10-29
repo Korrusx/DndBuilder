@@ -15,8 +15,15 @@ import {
   applyTextChange,
   toMentionDoc,
 } from '@/entities/campaign';
-import { deletePhotos, loadCampaign, loadPhotos, saveEntity, saveEntry, savePhoto } from '@/entities/campaign/api';
-import { recordEvent } from '@/features/chronicle-journal';
+import {
+  deletePhotos,
+  loadCampaign,
+  loadPhotos,
+  recordEvent,
+  saveEntity,
+  saveEntry,
+  savePhoto,
+} from '@/entities/campaign/api';
 import { colors } from '@/shared/config';
 import { useTranslation } from '@/shared/i18n';
 import { formatTime } from '@/shared/lib/date';
