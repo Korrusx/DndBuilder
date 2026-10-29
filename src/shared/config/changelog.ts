@@ -6,6 +6,40 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.5.0',
+    date: { ru: 'октябрь 2026', en: 'October 2026' },
+    items: [
+      {
+        ru: 'Хроника кампании: кнопка кампании на «Листе» открывает летопись — сессии, заметки и события по времени',
+        en: 'Campaign chronicle: the campaign button on the Sheet opens the chronicle — sessions, notes and events in order',
+      },
+      {
+        ru: 'Летопись пишется сама: натуральные 20 и 1, 0 хитов, вещи, монеты, новый уровень, отдых',
+        en: 'The chronicle writes itself: natural 20s and 1s, 0 HP, items, coins, new levels, rests',
+      },
+      {
+        ru: 'Наберите @ в записи — появится карточка человека, места, фракции или квеста, которая сама собирает упоминания',
+        en: 'Type @ in an entry to create a person, place, faction or quest card that gathers its mentions by itself',
+      },
+      {
+        ru: 'Квесты с шагами и личная линия со счётчиком: «Внести из кошелька» списывает монеты героя',
+        en: 'Quests with steps and a personal thread with a counter: “Pay from the wallet” takes the hero’s coins',
+      },
+      {
+        ru: '«В прошлый раз…» — сводка прошлой сессии для чтения вслух; тайные записи в неё не попадают',
+        en: '“Last time…” — a recap of the previous session to read aloud; secret entries stay out',
+      },
+      {
+        ru: '«Зал героев» для павших и ушедших на покой, фото в записях, экспорт хроники в файл',
+        en: 'Hall of Heroes for the fallen and retired, photos in entries, chronicle export to a file',
+      },
+      {
+        ru: 'Нижние окна поднимаются над клавиатурой',
+        en: 'Bottom sheets move above the keyboard',
+      },
+    ],
+  },
+  {
     version: '1.4.0',
     date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
