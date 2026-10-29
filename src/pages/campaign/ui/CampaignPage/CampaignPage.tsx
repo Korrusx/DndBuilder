@@ -65,7 +65,14 @@ export function CampaignPage() {
     }, [db]),
   );
 
-  const photoIds = useMemo(() => data?.entries.flatMap((entry) => entry.photoIds) ?? [], [data]);
+  // Фото заметок и портреты карточек (для списков «Люди» и «Места»).
+  const photoIds = useMemo(
+    () => [
+      ...(data?.entries.flatMap((entry) => entry.photoIds) ?? []),
+      ...(data?.entities.flatMap((entity) => (entity.portraitPhotoId ? [entity.portraitPhotoId] : [])) ?? []),
+    ],
+    [data],
+  );
   useEffect(() => {
     loadPhotos(db, photoIds)
       .then(setPhotos)
@@ -263,7 +270,7 @@ export function CampaignPage() {
                 onChanged={() => reload().catch(() => undefined)}
               />
             ) : (
-              <EntityListTab tab={tab} entities={data.entities} onOpen={openEntity} />
+              <EntityListTab tab={tab} entities={data.entities} photos={photos} onOpen={openEntity} />
             )}
           </>
         )}

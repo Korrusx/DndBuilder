@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 
 import type { Entity } from '@/entities/campaign';
 import { useTranslation } from '@/shared/i18n';
@@ -9,7 +9,7 @@ import { styles } from './EntityListTab.styles';
 import type { EntityListTabProps } from './EntityListTab.types';
 
 /** Списки карточек на вкладках «Люди» (с фракциями отдельной группой) и «Места». */
-export function EntityListTab({ tab, entities, onOpen }: EntityListTabProps) {
+export function EntityListTab({ tab, entities, photos, onOpen }: EntityListTabProps) {
   const { t } = useTranslation();
   const ofType = (type: Entity['type']) => entities.filter((entity) => entity.type === type);
   const groups: { title?: string; list: Entity[] }[] =
@@ -36,7 +36,11 @@ export function EntityListTab({ tab, entities, onOpen }: EntityListTabProps) {
                 style={styles.row}
               >
                 <View style={styles.letter}>
-                  <AppText style={styles.letterText}>{firstLetter(entity.name)}</AppText>
+                  {entity.portraitPhotoId && photos[entity.portraitPhotoId] ? (
+                    <Image source={{ uri: photos[entity.portraitPhotoId] }} style={styles.portrait} />
+                  ) : (
+                    <AppText style={styles.letterText}>{firstLetter(entity.name)}</AppText>
+                  )}
                 </View>
                 <View style={styles.info}>
                   <AppText style={styles.name}>{entity.name}</AppText>
