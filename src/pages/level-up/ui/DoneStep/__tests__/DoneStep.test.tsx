@@ -49,6 +49,7 @@ jest.mock('expo-sensors', () => {
   return { DeviceMotion: sensor, Accelerometer: sensor };
 });
 jest.mock('@expo/vector-icons', () => ({ Feather: () => null }));
+jest.mock('expo-audio', () => ({ createAudioPlayer: jest.fn(), setAudioModeAsync: jest.fn(() => Promise.resolve()) }));
 jest.mock('@/features/level-up/lib/useDeckMotion', () => ({ useDeckMotion: () => false }));
 
 const props: DoneStepProps = {
