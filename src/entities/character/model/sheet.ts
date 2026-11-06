@@ -361,7 +361,7 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
   // 2014: с 4-го уровня истощения максимум хитов вдвое меньше.
   const maxHp = maxHpWithExhaustion(
     maxHitPoints(
-      hitDice.map((h) => ({ hitDie: h.die, level: h.total })),
+      hitDice.map((h) => ({ hitDie: h.die, level: h.total, rolls: classHpRolls(c, h.classId) })),
       abilityModifier(scores.con),
       bonusHpFromEffects(effects, level, classLevels),
     ),
@@ -449,6 +449,16 @@ export function computeSheet(c: Character, content: Content): CharacterSheet {
  * 2014: заклинания подкласса (домен жреца, клятва паладина, круг земли друида) на уровне класса — всегда подготовлены.
  * Заклинания круга земли зависят от выбранной местности (вариант умения `circle-of-the-land`).
  */
+/** Выпавшее на кости хитов при повышении уровней класса: {уровень класса: значение}. */
+function classHpRolls(c: Character, classId: string): Record<number, number> {
+  const prefix = `${classId}.`;
+  return Object.fromEntries(
+    Object.entries(c.hpRolls ?? {})
+      .filter(([key]) => key.startsWith(prefix))
+      .map(([key, value]) => [Number(key.slice(prefix.length)), value]),
+  );
+}
+
 export function subclassSpellIds(c: Character, content: Content): string[] {
   const idx = indexOf(content);
   const chosen = new Set(Object.values(c.choices).flat());

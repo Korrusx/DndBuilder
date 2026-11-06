@@ -8,7 +8,8 @@ import { eventEntryFields } from '../model/events';
 import { isRecorded } from '../model/journalSettings';
 import type { ChronicleEvent, Entry, JournalState, JournalTarget } from '../model/types';
 import { participationOf } from './campaigns';
-import { saveEntry } from './entries';
+import { notifyCampaignChanged } from './changes';
+import { deleteEntries, listEntries, saveEntry } from './entries';
 import { loadJournalSettings } from './journalSettings';
 import { activeSession } from './sessions';
 
@@ -73,4 +74,25 @@ export async function recordEvent(
     updatedAt: at,
     ...eventEntryFields(event),
   });
+}
+
+/**
+ * Удалить последнюю запись «новый уровень» персонажа (при отмене повышения уровня).
+ * Возвращает, нашлась ли запись: без кампании или при выключенной группе событий её нет.
+ */
+export async function deleteLevelEvent(db: SQLiteDatabase, characterId: string, level: number): Promise<boolean> {
+  const participation = await participationOf(db, characterId);
+  if (!participation) {
+    return false;
+  }
+  const entries = await listEntries(db, participation.campaignId);
+  const entry = entries
+    .filter((e) => e.characterId === characterId && e.eventType === 'level' && e.eventData?.level === level)
+    .at(-1);
+  if (!entry) {
+    return false;
+  }
+  await deleteEntries(db, [entry.id]);
+  notifyCampaignChanged(participation.campaignId);
+  return true;
 }

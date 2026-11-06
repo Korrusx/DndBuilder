@@ -61,6 +61,14 @@ describe('хиты', () => {
       ),
     ).toBe(21);
   });
+  test('броски при повышении вместо среднего: {уровень класса: кость}', () => {
+    // к8: 8 + 3 (бросок на 2-м) + 5 (среднее на 3-м), ТЕЛ +2 за каждый уровень.
+    expect(maxHitPoints([{ hitDie: 8, level: 3, rolls: { 2: 3 } }], 2)).toBe(8 + 3 + 5 + 6);
+  });
+  test('уровень даёт не меньше 1 хита', () => {
+    // к6, ТЕЛ −3: 1-й уровень 6 − 3 = 3, на 2-м бросок 1 − 3 → 1.
+    expect(maxHitPoints([{ hitDie: 6, level: 2, rolls: { 2: 1 } }], -3)).toBe(3 + 1);
+  });
   test('дварфийская стойкость и драконья устойчивость', () => {
     expect(bonusHpFromEffects(effectsOf(['dwarven-toughness']), 4, {})).toBe(4);
     const draconic = effectsOf(['draconic-sorcery-draconic-resilience']);

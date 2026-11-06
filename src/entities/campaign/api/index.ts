@@ -24,6 +24,6 @@ export {
   saveQuestCounter,
   saveQuestStep,
 } from './quests';
-export { journalState, journalTarget, recordEvent } from './record';
+export { deleteLevelEvent, journalState, journalTarget, recordEvent } from './record';
 export { activeSession, listSessions, saveSession } from './sessions';
 export { loadCampaign, useCampaign } from './useCampaign';

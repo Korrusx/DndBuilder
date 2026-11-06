@@ -5,7 +5,8 @@ export type MetaKey =
   | 'whatsNewShown'
   | 'legacyCampaignsLinked'
   | 'chronicleSettings'
-  | 'chronicleDraft';
+  | 'chronicleDraft'
+  | 'levelUpSettings';
 
 // Миграции пользовательской базы. Версия схемы хранится в PRAGMA user_version.
 // Новую миграцию добавляй в конец списка; уже выпущенные миграции не меняй.

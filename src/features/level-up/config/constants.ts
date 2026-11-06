@@ -1,3 +1,4 @@
+import type { PendingField } from '@/entities/character';
 import { ABILITY_IDS } from '@/entities/character';
 import type { AbilityId } from '@/shared/content';
 
@@ -37,3 +38,15 @@ export const FEAT_ABILITY: Record<string, { abilities: AbilityId[]; cap: number 
   'boon-of-the-night-spirit': { abilities: ABILITY_IDS, cap: 30 },
   'boon-of-truesight': { abilities: ABILITY_IDS, cap: 30 },
 };
+
+/** Поля персонажа, которые меняют выборы уровня и хранятся в отложенном повышении. */
+export const PENDING_FIELDS: PendingField[] = [
+  'classes',
+  'choices',
+  'feats',
+  'expertise',
+  'languages',
+  'weaponMasteries',
+  'cantrips',
+  'preparedSpells',
+];

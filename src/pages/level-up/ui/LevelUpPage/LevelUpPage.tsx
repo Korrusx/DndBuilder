@@ -1,6 +1,6 @@
 import { router, useFocusEffect } from 'expo-router';
-import { useCallback, useState } from 'react';
-import { View } from 'react-native';
+import { useCallback, useRef, useState } from 'react';
+import { Alert, View } from 'react-native';
 
 import type { Character } from '@/entities/character';
 import {
@@ -15,7 +15,6 @@ import {
   finalAbilityScores,
   knownLanguages,
   masteryEntries,
-  totalLevel,
   proficientSkills,
   weaponMasteryCount,
   weaponMasteryOptions,
@@ -24,20 +23,24 @@ import { SubclassCard, usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
 import { ClassOptionsPicker } from '@/features/pick-class-options';
 import {
+  activePending,
+  applyLevelUp,
   AsiPicker,
+  beginLevelUp,
   canMulticlassInto,
   clearLevelFeatChoices,
   featAbilityRule,
-  finishLevelUp,
   levelFeat,
   levelFeatOptions,
   levelFeatProfKey,
   levelUpHpGain,
   levelUpIssues,
   levelUpPlan,
+  levelUpBase,
   MAX_LEVEL,
   multiclassRequirementText,
-  startLevelUp,
+  pendingDraft,
+  storeDraft,
 } from '@/features/level-up';
 import type { AbilityId } from '@/shared/content';
 import { abilityAbbr, byId, content, nameOf, plain, proficiencyName, localizeText } from '@/shared/content';
@@ -62,27 +65,40 @@ import {
 import { styles } from './LevelUpPage.styles';
 
 export function LevelUpPage() {
-  const { character: prev, update } = usePlay();
+  const { character, update } = usePlay();
   const { t } = useTranslation();
-  // Какой класс повышаем: один из своих или новый (мультикласс).
-  const [classId, setClassId] = useState(prev.classes[0].classId);
-  const [next, setNext] = useState<Character>(() => startLevelUp(prev, classId));
   const [info, setInfo] = useState<InfoContent | null>(null);
   const [spells, setSpells] = useState(false);
+  const pending = activePending(character);
+  // Экран закрывается после «Завершить» / «Отказаться»: новое повышение в этот момент начинать не нужно.
+  const leaving = useRef(false);
 
-  // Каждый раз при открытии экрана начинаем с текущего персонажа.
+  // Повышение хранится у персонажа: при первом открытии экрана оно начинается, дальше — продолжается.
   useFocusEffect(
     useCallback(() => {
-      setClassId(prev.classes[0].classId);
-      setNext(startLevelUp(prev));
-    }, [prev]),
+      leaving.current = false;
+    }, []),
   );
-  const pickClass = (id: string) => {
-    setClassId(id);
-    setNext(startLevelUp(prev, id));
-  };
+  useFocusEffect(
+    useCallback(() => {
+      if (!leaving.current && !activePending(character)) {
+        update((c) => ({ ...c, pendingLevelUp: beginLevelUp(c, c.classes[0].classId, new Date().toISOString()) }), {
+          journal: false,
+        });
+      }
+    }, [character, update]),
+  );
+  const next = pendingDraft(character, pending);
+  if (!pending || !next) {
+    return null;
+  }
+  const prev = levelUpBase(character) as Character;
+  const classId = pending.classId;
+  const pickClass = (id: string) =>
+    update((c) => ({ ...c, pendingLevelUp: beginLevelUp(c, id, new Date().toISOString()) }), { journal: false });
 
-  const set = (fn: (c: Character) => Character) => setNext((c) => fn(c));
+  const set = (fn: (c: Character) => Character) =>
+    update((c) => storeDraft(c, fn(pendingDraft(c) ?? next)), { journal: false });
   const plan = levelUpPlan(next, content, classId);
   const entry = next.classes.find((e) => e.classId === classId)!;
   const setEntry = (patch: Partial<typeof entry>) =>
@@ -94,9 +110,23 @@ export function LevelUpPage() {
   const level = plan.charLevel;
 
   const finish = () => {
-    update(() => finishLevelUp(next, prev, content));
+    leaving.current = true;
+    update((c) => applyLevelUp(c, content));
     router.navigate({ pathname: '/character/[id]', params: { id: prev.id } });
   };
+  const discard = () =>
+    Alert.alert(t('levelUpPage.discard'), t('levelUpPage.discardConfirm'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('levelUpPage.discard'),
+        style: 'destructive',
+        onPress: () => {
+          leaving.current = true;
+          update((c) => ({ ...c, pendingLevelUp: undefined }), { journal: false });
+          router.navigate({ pathname: '/character/[id]', params: { id: prev.id } });
+        },
+      },
+    ]);
 
   // --- Черта уровня ---
   const feat = levelFeat(next, content, level);
@@ -171,6 +201,7 @@ export function LevelUpPage() {
             </AppText>
           ) : null}
           <Button title={t('levelUpPage.finish', { level })} disabled={blocking.length > 0} onPress={finish} />
+          <SmallButton title={t('levelUpPage.discard')} onPress={discard} />
         </>
       }
     >

@@ -106,11 +106,11 @@ export function PlayTabs() {
           headerLeft: () => (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={t('common.cancel')}
+              accessibilityLabel={t('levelUpPage.postpone')}
               onPress={() => router.navigate({ pathname: '/character/[id]', params: { id: character.id } })}
               style={styles.textButton}
             >
-              <AppText style={styles.linkLabel}>{t('common.cancel')}</AppText>
+              <AppText style={styles.linkLabel}>{t('levelUpPage.postpone')}</AppText>
             </Pressable>
           ),
         }}

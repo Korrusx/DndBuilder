@@ -1,4 +1,4 @@
-import type { CharacterSheet, ResourceView, SourcedId } from '@/entities/character';
+import type { CharacterSheet, HpMethod, ResourceView, SourcedId } from '@/entities/character';
 import type { FeatureAction, LocalizedText } from '@/shared/content';
 
 export type FeatSlotKind = 'asi' | 'epic-boon';
@@ -186,11 +186,11 @@ export type CardSource = {
   level?: number;
 };
 
-export type HpMethod = 'roll' | 'average' | 'manual';
-
 export type HpBreakdownPart =
   | { kind: 'die'; method: HpMethod; die: number; value: number }
   | { kind: 'con'; value: number }
+  /** Добавка до 1 хита за уровень при отрицательной ТЕЛ. */
+  | { kind: 'minimum'; value: number }
   | { kind: 'bonus'; sourceId: string; value: number }
   | { kind: 'retroCon'; perLevel: number; levels: number; value: number }
   | { kind: 'other'; value: number };
@@ -225,20 +225,14 @@ export type Deck = {
   unchanged: ('profBonus' | 'dice')[];
 };
 
-/** Хиты нового уровня, закреплённые в отложенном повышении. */
-export type HpChoice = { method: HpMethod; value: number };
-
-/** Начатое, но не применённое повышение уровня (хранится у персонажа). */
-export type PendingLevelUp = {
-  fromLevel: number;
-  classId: string;
-  hp?: HpChoice;
-  /** Поля персонажа, изменённые выборами уровня (классы, выборы, черты…). */
-  choices: Record<string, unknown>;
-  revealed: string[];
-  startedAt: string;
-};
-
 /** Новинка следующего уровня для блока «На следующем уровне». */
 export type NextLevelItem =
   { kind: 'feature'; id: string; source: SourcedId['source'] } | { kind: 'row'; row: CardRow };
+
+/** Настройки повышения уровня (meta.levelUpSettings). */
+export type LevelUpSettings = {
+  /** Можно перебросить уже брошенные хиты уровня. */
+  allowHpReroll: boolean;
+  /** Анимации колоды (при системном «уменьшении движения» их нет в любом случае). */
+  animations: boolean;
+};

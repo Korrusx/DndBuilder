@@ -1,13 +1,13 @@
 // Раскладка разницы листов по типам карт (docs/features/level-up.md, раздел 4). Без кода под классы:
 // тип карты решают источник умения, уровень и данные справочника (ресурсы, связи «улучшает», метки).
 
-import type { SourcedId } from '@/entities/character';
+import type { HpChoice, SourcedId } from '@/entities/character';
 import { SPELLCASTER_PROGRESSION } from '@/entities/character';
 import type { Content } from '@/shared/content';
 import { indexOf } from '@/shared/content';
 
 import { CAPSTONE_LEVEL, DERIVED_NUMBERS, MAGIC_COLUMN, PLACEHOLDER_FEATURE } from '../../config/deck';
-import type { CardRow, CardTag, HpChoice, LevelSnapshot, LevelUpCard, NumberChange, SheetDiff } from '../types';
+import type { CardRow, CardTag, LevelSnapshot, LevelUpCard, NumberChange, SheetDiff } from '../types';
 import { hpGainFromDiff } from './hpGain';
 
 export type DeckSources = {

@@ -19,7 +19,7 @@ export {
   STANDARD_ARRAY,
   STANDARD_LANGUAGE_COUNT,
 } from './config/constants';
-export { averageHitDie, bonusHpFromEffects } from './model/combat';
+export { averageHitDie, bonusHpFromEffects, levelHitPoints } from './model/combat';
 export { effectsOf } from './model/effects';
 export { featureSourceLabel } from './config/featureSource';
 export { HP_COLORS } from './config/hpColors';
@@ -172,8 +172,13 @@ export type {
   EquipmentSource,
   FeatChoice,
   GameState,
+  HpChoice,
+  HpMethod,
   InventoryItem,
+  LevelUpUndo,
   OriginFeatSlot,
+  PendingField,
+  PendingLevelUp,
   ProficiencySlot,
   ResourceRecovery,
   ResourceView,

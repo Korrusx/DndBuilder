@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { ChronicleSettingsSection } from '@/features/chronicle-journal';
+import { LevelUpSettingsSection } from '@/features/level-up';
 import { DiceSettingsSection } from '@/features/roll-dice';
 import { contentFor } from '@/shared/content';
 import type { Language } from '@/shared/i18n';
@@ -37,6 +38,8 @@ export function AboutPage() {
       <AppText variant="secondary">{t('language.hint')}</AppText>
 
       <DiceSettingsSection />
+
+      <LevelUpSettingsSection />
 
       <ChronicleSettingsSection />
 

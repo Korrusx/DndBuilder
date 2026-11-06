@@ -591,7 +591,12 @@
       "4": "disadvantage, speed and hit point maximum halved",
       "5": "disadvantage, speed 0, hit point maximum halved",
       "6": "death"
-    }
+    },
+    "pendingLevelUp": "Level {{level}} is not finished yet",
+    "continueLevelUp": "Continue",
+    "undoLevelUp": "Undo last level up",
+    "undoLevelUpConfirm": "The character returns to level {{level}} exactly as before the level up, and the new-level entry is removed from the chronicle. Changes made since (hit points, items) are reverted too.",
+    "undoLevelUpDo": "Undo level up"
   },
   "skillsTab": {
     "proficiency": "Proficiency",
@@ -799,7 +804,10 @@
     "multiclassChoice": "New class: {{what}}",
     "proficiency": "proficiency",
     "skill": "skill",
-    "feat": "Feat"
+    "feat": "Feat",
+    "discard": "Cancel this level up",
+    "discardConfirm": "Choices for this level and rolled hit points will be reset.",
+    "postpone": "Later"
   },
   "classOptions": {
     "invocation": "Eldritch Invocations",
@@ -1341,5 +1349,12 @@
       "combat": "Combat summary",
       "chronicle": "Quests and acquaintances"
     }
+  },
+  "levelUpSettings": {
+    "title": "Level up",
+    "allowHpReroll": "Allow hit point rerolls",
+    "allowHpRerollHint": "Normally rolled hit points are locked: you can’t reroll them by going back or postponing the level up.",
+    "animations": "Level-up animations",
+    "animationsHint": "The level ring, card flips and new spell slots. With the system “reduce motion” setting there are no animations anyway."
   }
 }

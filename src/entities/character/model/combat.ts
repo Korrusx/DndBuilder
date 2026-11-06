@@ -6,18 +6,24 @@ import type { AbilityScores, AcInput, Effect, HpLevel, WeaponAttack, WeaponAttac
 
 /**
  * Максимум хитов. Первый элемент — стартовый класс: на 1-м уровне максимум кости хитов,
- * дальше на каждом уровне среднее (кость / 2 + 1). К каждому уровню прибавляется мод. ТЕЛ.
+ * дальше на каждом уровне выпавшее при повышении (`rolls`) или среднее (кость / 2 + 1).
+ * К каждому уровню прибавляется мод. ТЕЛ, но уровень даёт не меньше 1 хита.
  */
 export function maxHitPoints(classes: HpLevel[], conMod: number, bonusHp = 0): number {
   let hp = 0;
   let first = true;
-  for (const { hitDie, level } of classes) {
+  for (const { hitDie, level, rolls } of classes) {
     for (let i = 0; i < level; i++) {
-      hp += (first ? hitDie : averageHitDie(hitDie)) + conMod;
+      hp += levelHitPoints(first ? hitDie : (rolls?.[i + 1] ?? averageHitDie(hitDie)), conMod);
       first = false;
     }
   }
   return Math.max(1, hp + bonusHp);
+}
+
+/** Хиты одного уровня: кость + мод. ТЕЛ, не меньше 1. */
+export function levelHitPoints(die: number, conMod: number): number {
+  return Math.max(1, die + conMod);
 }
 
 /** Прибавка к хитам от эффектов (дварфийская стойкость, драконья устойчивость). */

@@ -3,7 +3,7 @@ import { memoryDb } from '@/shared/db/__tests__/nodeSqlite';
 import { saveCampaign, saveParticipant } from '../campaigns';
 import { listEntries } from '../entries';
 import { saveJournalSettings } from '../journalSettings';
-import { journalState, recordEvent } from '../record';
+import { deleteLevelEvent, journalState, recordEvent } from '../record';
 import { saveSession } from '../sessions';
 
 const at = '2026-10-29T19:48:00.000Z';
@@ -96,5 +96,16 @@ describe('куда идут события героя', () => {
       updatedAt: at,
     });
     expect(await journalState(db, 'irma')).toEqual({ kind: 'hall', campaignId: 'shadows' });
+  });
+
+  test('отмена повышения удаляет последнюю запись о новом уровне; без кампании — ничего', async () => {
+    const db = await shadows({ session: true });
+    await recordEvent(db, { type: 'level', level: 5, classId: 'rogue', classLevel: 5 }, { characterId: 'irma', at });
+    await recordEvent(db, { type: 'level', level: 6, classId: 'rogue', classLevel: 6 }, { characterId: 'irma', at });
+    expect(await deleteLevelEvent(db, 'irma', 6)).toBe(true);
+    const left = await listEntries(db, 'shadows');
+    expect(left.map((e) => e.eventData?.level)).toEqual([5]);
+    expect(await deleteLevelEvent(db, 'irma', 6)).toBe(false);
+    expect(await deleteLevelEvent(db, 'stranger', 5)).toBe(false);
   });
 });

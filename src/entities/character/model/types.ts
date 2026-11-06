@@ -171,6 +171,18 @@ export type Character = {
   cantrips: string[];
   preparedSpells: string[];
 
+  /**
+   * Выпавшее на кости хитов при повышении уровня: ключ `класс.уровень класса` («rogue.6») → значение кости.
+   * Нет записи — уровень считается по среднему.
+   */
+  hpRolls?: Record<string, number>;
+  /** Как этот персонаж обычно получает хиты за уровень (предлагается по умолчанию). */
+  hpMethod?: 'roll' | 'average';
+  /** Начатое, но не применённое повышение уровня. */
+  pendingLevelUp?: PendingLevelUp;
+  /** Снимок перед последним повышением — для «Отменить последнее повышение уровня». */
+  levelUpUndo?: LevelUpUndo;
+
   state: GameState;
   status: CharacterStatus;
   createdAt: string;
@@ -194,7 +206,33 @@ export type FeatureOption = {
 
 // --- Хиты ---
 
-export type HpLevel = { hitDie: number; level: number };
+export type HpMethod = 'roll' | 'average' | 'manual';
+
+/** Хиты нового уровня, закреплённые в отложенном повышении: способ и значение кости. */
+export type HpChoice = { method: HpMethod; value: number };
+
+/** Начатое, но не применённое повышение уровня (docs/features/level-up.md, 7.3 и 9). */
+export type PendingLevelUp = {
+  /** Общий уровень до повышения. */
+  fromLevel: number;
+  classId: string;
+  hp?: HpChoice;
+  /** Поля персонажа, изменённые выборами уровня (классы, выборы, черты, заклинания…). */
+  choices: Partial<Pick<Character, PendingField>>;
+  /** Перевёрнутые карты. */
+  revealed: string[];
+  startedAt: string;
+};
+
+/** Поля персонажа, которые меняют выборы уровня. */
+export type PendingField =
+  'classes' | 'choices' | 'feats' | 'expertise' | 'languages' | 'weaponMasteries' | 'cantrips' | 'preparedSpells';
+
+/** Персонаж перед последним повышением; `level` — общий уровень после него. */
+export type LevelUpUndo = { level: number; snapshot: Omit<Character, 'levelUpUndo' | 'pendingLevelUp'> };
+
+/** Уровни класса для расчёта хитов. `rolls` — выпавшее на кости при повышении {уровень класса: значение}. */
+export type HpLevel = { hitDie: number; level: number; rolls?: Record<number, number> };
 
 // --- Класс защиты ---
 

@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useSQLiteContext } from 'expo-sqlite';
 import { useState } from 'react';
 import { Alert, Pressable, View } from 'react-native';
 
@@ -15,10 +16,11 @@ import {
   toggleCondition,
   totalLevel,
 } from '@/entities/character';
+import { deleteLevelEvent } from '@/entities/campaign/api';
 import { usePlay } from '@/entities/character/ui';
 import { JournalStatus } from '@/features/chronicle-journal';
 import { CampaignLink } from '@/features/join-campaign';
-import { MAX_LEVEL } from '@/features/level-up';
+import { activePending, canUndoLevelUp, MAX_LEVEL, PendingLevelUpBanner, undoLevelUp } from '@/features/level-up';
 import { ShortRestSheet } from '@/features/rest';
 import type { D20Request } from '@/features/roll-dice';
 import { d20Parts, D20Sheet } from '@/features/roll-dice';
@@ -47,6 +49,7 @@ import { styles } from './PlaySheetPage.styles';
 export function PlaySheetPage() {
   const { character, sheet, update, updateState } = usePlay();
   const { t } = useTranslation();
+  const db = useSQLiteContext();
   const [roll, setRoll] = useState<D20Request | null>(null);
   const [info, setInfo] = useState<(InfoContent & { conditionId?: string }) | null>(null);
   const [pickCondition, setPickCondition] = useState(false);
@@ -96,6 +99,28 @@ export function PlaySheetPage() {
       },
     ]);
 
+  const pending = activePending(character);
+  const openLevelUp = () => router.navigate({ pathname: '/character/[id]/level-up', params: { id: character.id } });
+  // Отмена повышения: снимок до повышения и удаление записи о новом уровне из хроники.
+  const confirmUndoLevelUp = () => {
+    const level = totalLevel(character.classes);
+    Alert.alert(
+      t('sheet.undoLevelUp'),
+      t('sheet.undoLevelUpConfirm', { level: totalLevel(character.levelUpUndo?.snapshot.classes ?? []) }),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('sheet.undoLevelUpDo'),
+          style: 'destructive',
+          onPress: () => {
+            update((c) => undoLevelUp(c), { journal: false });
+            deleteLevelEvent(db, character.id, level).catch(() => undefined);
+          },
+        },
+      ],
+    );
+  };
+
   return (
     <Screen>
       <View style={styles.headerRow}>
@@ -108,6 +133,8 @@ export function PlaySheetPage() {
           onPress={() => updateState((s) => ({ ...s, heroicInspiration: !s.heroicInspiration }))}
         />
       </View>
+
+      {pending ? <PendingLevelUpBanner level={pending.fromLevel + 1} onContinue={openLevelUp} /> : null}
 
       <CampaignLink />
       <JournalStatus />
@@ -222,9 +249,10 @@ export function PlaySheetPage() {
         <SmallButton
           title={t('sheet.levelUp', { from: totalLevel(character.classes), to: totalLevel(character.classes) + 1 })}
           tone="accent"
-          onPress={() => router.navigate({ pathname: '/character/[id]/level-up', params: { id: character.id } })}
+          onPress={openLevelUp}
         />
       ) : null}
+      {canUndoLevelUp(character) ? <SmallButton title={t('sheet.undoLevelUp')} onPress={confirmUndoLevelUp} /> : null}
 
       <View style={styles.row}>
         <SmallButton title={t('rest.short')} flex={1} onPress={() => setShortRest(true)} />

@@ -1,9 +1,10 @@
 // Хиты за новый уровень с разбором: кость (бросок / среднее / свой кубик) + ТЕЛ + бонусы за уровень
 // + пересчёт за прошлые уровни, если ТЕЛ выросло. Чистые функции.
 
-import { averageHitDie } from '@/entities/character';
+import type { HpMethod } from '@/entities/character';
+import { averageHitDie, levelHitPoints } from '@/entities/character';
 
-import type { HpBreakdownPart, HpMethod, HpResult, SheetDiff } from '../types';
+import type { HpBreakdownPart, HpResult, SheetDiff } from '../types';
 
 export type HpGainInput = {
   die: number;
@@ -28,18 +29,22 @@ export function hitDieValue(die: number, method: HpMethod, rolled?: number): num
   return Math.min(die, Math.max(1, Math.round(rolled)));
 }
 
-/**
- * Хиты нового уровня. Минимума за уровень в правилах приложения нет (только максимум хитов не меньше 1),
- * поэтому прибавка может быть и меньше единицы при отрицательной ТЕЛ.
- * TODO(правила): нужен ли минимум +1 хит за уровень — уточнить.
- */
+/** Хиты нового уровня: кость + ТЕЛ (не меньше 1 за уровень) + бонусы + пересчёт ТЕЛ за прошлые уровни. */
 export function hpGain(input: HpGainInput): HpResult {
   const value = hitDieValue(input.die, input.method, input.rolled);
+  const method = input.rolled === undefined ? 'average' : input.method;
   const breakdown: HpBreakdownPart[] = [
-    { kind: 'die', method: input.rolled === undefined ? 'average' : input.method, die: input.die, value },
+    { kind: 'die', method, die: input.die, value },
     { kind: 'con', value: input.conMod },
-    ...input.perLevelBonuses.map((b) => ({ kind: 'bonus' as const, sourceId: b.sourceId, value: b.value })),
   ];
+  // Уровень даёт не меньше 1 хита: при отрицательной ТЕЛ — добавка до единицы.
+  const floor = levelHitPoints(value, input.conMod) - (value + input.conMod);
+  if (floor) {
+    breakdown.push({ kind: 'minimum', value: floor });
+  }
+  breakdown.push(
+    ...input.perLevelBonuses.map((b) => ({ kind: 'bonus' as const, sourceId: b.sourceId, value: b.value })),
+  );
   if (input.retroactiveConDelta && input.levelsBefore) {
     breakdown.push({
       kind: 'retroCon',
@@ -52,11 +57,12 @@ export function hpGain(input: HpGainInput): HpResult {
 }
 
 /**
- * Хиты уровня по разнице листов. `maxDelta` — насколько вырос максимум хитов листа (он считается по среднему):
- * если разбор со средним не сходится с ним (эффекты предметов, истощение 2014), остаток — отдельной строкой.
+ * Хиты уровня по разнице листов. Черновик уже содержит закреплённый бросок (`hpRolls`), поэтому максимум хитов
+ * листа вырос ровно на прибавку. Если разбор с ним не сходится (эффекты предметов, истощение 2014, минимум
+ * хита на прошлых уровнях при росте ТЕЛ), остаток — отдельной строкой.
  */
 export function hpGainFromDiff(diff: SheetDiff, die: number, method: HpMethod, rolled?: number): HpResult {
-  const input: HpGainInput = {
+  const result = hpGain({
     die,
     method,
     rolled,
@@ -64,14 +70,12 @@ export function hpGainFromDiff(diff: SheetDiff, die: number, method: HpMethod, r
     perLevelBonuses: diff.hpBonuses,
     retroactiveConDelta: diff.conMod.after - diff.conMod.before,
     levelsBefore: diff.level.before,
-  };
-  const result = hpGain(input);
+  });
   const maxChange = diff.numbers.find((n) => n.key === 'maxHp');
   const maxDelta = maxChange ? Number(maxChange.after) - Number(maxChange.before) : 0;
-  const average = hpGain({ ...input, method: 'average', rolled: undefined }).gain;
-  const rest = maxDelta - average;
+  const rest = maxDelta - result.gain;
   if (rest === 0) {
     return result;
   }
-  return { gain: result.gain + rest, breakdown: [...result.breakdown, { kind: 'other', value: rest }] };
+  return { gain: maxDelta, breakdown: [...result.breakdown, { kind: 'other', value: rest }] };
 }
