@@ -1,12 +1,12 @@
 // Ритуал повышения уровня: строка «Вас ждут…» и кнопка мультикласса.
 
-import type { Character, Deck } from '@/features/level-up';
+import type { Character } from '@/entities/character';
 import { content } from '@/shared/content';
 
 import { hero, irmaAt } from '../../model/deck/__tests__/fixtures';
 import { levelUpDeck } from '../../model/deck/levelUpDeck';
 import { multiclassAvailable, multiclassShortfall, startLevelUp } from '../../model/levelup';
-import type { LevelUpCard } from '../../model/types';
+import type { Deck, LevelUpCard } from '../../model/types';
 import { ritualCountsText } from '../cardText';
 
 const deckWith = (news: number, choices: number): Deck => ({
