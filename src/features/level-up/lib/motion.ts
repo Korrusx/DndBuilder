@@ -25,10 +25,6 @@ export const INTRO = {
   settle: 2200,
   /** Заголовок проявляется 1700–2200. */
   hintStart: 1700,
-  /** Рубашки: 1650 + i × 120, по 300 мс. */
-  jumpStart: 1650,
-  jumpStep: 120,
-  jumpDuration: 300,
   /** Период мерцания свечения во время заполнения. */
   flickerPeriod: 600,
   /** Ритуал: нижний блок (строка и кнопки) проявляется 1700–2100. */
@@ -92,14 +88,6 @@ export function sparkPoint(progress: number, center: number, radius: number): { 
   return { x: center + radius * Math.cos(theta), y: center + radius * Math.sin(theta) };
 }
 
-/** Поворот рубашки при прыжке: первая −3°, последняя +3°, остальные 0°. */
-export function jumpRotation(index: number, count: number): number {
-  if (count < 2) {
-    return 0;
-  }
-  return index === 0 ? -3 : index === count - 1 ? 3 : 0;
-}
-
 /** Состояние кольца в покое до анимации и в конце. */
 export type RingState = {
   progress: number;
@@ -147,18 +135,3 @@ export const RING_END: RingState = {
   hintOpacity: 1,
   warm: 0,
 };
-
-/** С чего начинается кольцо: с анимацией — покой со старой цифрой, без неё — сразу конечное состояние. */
-export function ringInitial(animate: boolean): RingState {
-  return animate ? RING_START : RING_END;
-}
-
-/** Поворот карты: рубашка 0°, лицо 180°. Без анимации открытая карта сразу лицом. */
-export function flipInitial(revealed: boolean): number {
-  return revealed ? 180 : 0;
-}
-
-/** Задержка появления i-го нового кружка ячейки; без анимации — все сразу. */
-export function slotDelay(index: number, animate: boolean): number {
-  return animate ? index * MOTION.slotStep : 0;
-}

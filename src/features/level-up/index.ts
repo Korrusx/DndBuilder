@@ -70,7 +70,6 @@ export {
   cardShortTitle,
   cardTitle,
   choiceTitle,
-  countsText,
   hpBreakdownText,
   lowerFirst,
   needFirstText,
@@ -98,8 +97,6 @@ export { DECK_COLORS, DECK_UI } from './config/deckColors';
 export type { DeckColors } from './config/deckColors';
 export { useShake } from './lib/shake';
 export { useDeckMotion } from './lib/useDeckMotion';
-export { CARD_THEMES } from './config/cardTheme';
-export { CardBack } from './ui/CardBack/CardBack';
 export { DeckFooter } from './ui/DeckFooter/DeckFooter';
 export { DeckHeader } from './ui/DeckHeader/DeckHeader';
 export { DeckTiles } from './ui/DeckTiles/DeckTiles';
@@ -116,7 +113,7 @@ export { PreviewPick } from './ui/PreviewPick/PreviewPick';
 export type { PreviewOption } from './ui/PreviewPick/PreviewPick.types';
 export { RowList } from './ui/RowList/RowList';
 export { IntroBackground } from './ui/IntroBackground/IntroBackground';
-export { introTimeline, jumpRotation, GLOW } from './lib/motion';
+export { introTimeline, GLOW } from './lib/motion';
 export {
   cardA11yLabel,
   cardFooter,

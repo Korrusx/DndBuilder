@@ -1,24 +1,13 @@
-// Вспомогательное для экранов колоды: подписи рубашек, подзаголовки, стартовый шаг.
+// Вспомогательное для экранов повышения: подзаголовки, «Без изменений», с какого шага продолжить.
 
 import type { Character, PendingLevelUp } from '@/entities/character';
-import type { Deck, LevelSnapshot, LevelUpCard, TextContext } from '@/features/level-up';
-import { cardShortTitle, lowerFirst, rowLabel, rowValue } from '@/features/level-up';
+import type { Deck, LevelSnapshot, TextContext } from '@/features/level-up';
+import { lowerFirst, rowLabel, rowValue } from '@/features/level-up';
 import { byId, localizeText, nameOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
 import { formatModifier } from '@/shared/lib/dice';
 
 export type DeckStage = 'start' | 'cards' | 'done';
-
-/** Подпись рубашки на У1: тип карты; карта-выбор от нового умения — «Умение». */
-export function backLabel(card: LevelUpCard): string {
-  if (card.type === 'choice' && card.ref?.table === 'features') {
-    return t('levelUpDeck.type.feature');
-  }
-  if (card.type === 'feature' || card.type === 'capstone') {
-    return cardShortTitle(card);
-  }
-  return t(`levelUpDeck.type.${card.type}`);
-}
 
 /** Метка в `PendingLevelUp.revealed`: колода уже открыта — продолжение сразу в неё, без ритуала. */
 export const DECK_OPENED = 'deck:opened';

@@ -1,19 +1,8 @@
-import {
-  glowFlicker,
-  haloPulse,
-  INTRO,
-  introTimeline,
-  jumpRotation,
-  RING_END,
-  ringInitial,
-  slotDelay,
-  sparkPoint,
-} from '../motion';
+import { glowFlicker, haloPulse, INTRO, introTimeline, RING_END, RING_START, sparkPoint } from '../motion';
 
-describe('анимация У1', () => {
+describe('анимация кольца ритуала', () => {
   test('уменьшение движения: сразу конечное состояние (кольцо полное, новая цифра, без свечения и вспышки)', () => {
-    expect(ringInitial(false)).toEqual(RING_END);
-    expect(ringInitial(false)).toMatchObject({
+    expect(RING_END).toMatchObject({
       progress: 1,
       oldOpacity: 0,
       newOpacity: 1,
@@ -23,7 +12,7 @@ describe('анимация У1', () => {
       sparkOpacity: 0,
       hintOpacity: 1,
     });
-    expect(ringInitial(true)).toMatchObject({ progress: 0, glowOpacity: 0, glowScale: 0.9, hintOpacity: 0.3 });
+    expect(RING_START).toMatchObject({ progress: 0, glowOpacity: 0, glowScale: 0.9, hintOpacity: 0.3 });
   });
 
   test('таймлайн: заполнение 300–1500, удар на 1550, покой к 2200; вершина на 30 % дольше', () => {
@@ -31,7 +20,8 @@ describe('анимация У1', () => {
     const capstone = introTimeline(true);
     expect(capstone.fillEnd).toBeCloseTo(1950);
     expect(capstone.settle).toBeCloseTo(2860);
-    expect(introTimeline(false).jumpStart).toBe(1650);
+    // Ритуал: имя проявляется 1700–2200, нижний блок 1700–2100; без анимаций звук с 1450.
+    expect([INTRO.hintStart, INTRO.actionsEnd, INTRO.reducedSound]).toEqual([1700, 2100, 1450]);
   });
 
   test('мерцание: растёт к концу заполнения, «дышит» с периодом 600 мс (≈2 пульса); в покое свечения нет', () => {
@@ -52,12 +42,5 @@ describe('анимация У1', () => {
     expect(top.y).toBeCloseTo(12);
     expect(sparkPoint(0.25, 92, 80).x).toBeCloseTo(172);
     expect(sparkPoint(0.5, 92, 80).y).toBeCloseTo(172);
-  });
-
-  test('рубашки: −3°, 0°, +3°; ячейки без анимации — сразу', () => {
-    expect([0, 1, 2].map((i) => jumpRotation(i, 3))).toEqual([-3, 0, 3]);
-    expect(jumpRotation(0, 1)).toBe(0);
-    expect(slotDelay(3, false)).toBe(0);
-    expect(slotDelay(2, true)).toBe(300);
   });
 });

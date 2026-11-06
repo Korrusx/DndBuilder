@@ -331,13 +331,6 @@ function sourceName(id: string): string {
 }
 
 /** «3 новинки, 1 выбор». */
-export function countsText(news: number, choices: number): string {
-  const parts = [t('levelUpDeck.news', { count: news })];
-  if (choices) {
-    parts.push(t('levelUpDeck.choices', { count: choices }));
-  }
-  return parts.join(', ');
-}
 
 /** «Увёртливость, Надёжный талант, скрытая атака 4к6». */
 export function nextLevelText(items: NextLevelItem[], context: TextContext = {}): string {
