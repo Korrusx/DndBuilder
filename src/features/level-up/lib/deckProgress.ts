@@ -1,0 +1,48 @@
+// Счётчик и готовность экрана «Новое на N-м уровне» (design/level-up/deck-screen-spec.md, разделы 3 и 7).
+
+import { t } from '@/shared/i18n';
+
+import type { Deck, DeckProgress, LevelUpCard } from '../model/types';
+
+/**
+ * Выбор на карте закрыт: обязательный — сделан; необязательный («Заменить одно заклинание») — игрок что-то
+ * выбрал или нажал «Не менять». `settled` — id необязательных выборов, которые игрок так закрыл.
+ */
+export function isChoiceSettled(card: LevelUpCard, settled: string[]): boolean {
+  const choice = card.choice;
+  if (!choice) {
+    return true;
+  }
+  return choice.required ? choice.done : choice.picked > 0 || settled.includes(choice.id);
+}
+
+/** Первая карта, которую надо открыть или в которой надо сделать выбор; `null` — всё готово. */
+export function firstPendingCard(deck: Deck, settled: string[]): string | null {
+  return deck.cards.find((card) => card.state === 'hidden' || !isChoiceSettled(card, settled))?.id ?? null;
+}
+
+export function deckProgress(deck: Deck, settled: string[]): DeckProgress {
+  const total = deck.cards.length;
+  const hidden = deck.cards.filter((card) => card.state === 'hidden').length;
+  const withChoice = deck.cards.filter((card) => card.choice);
+  const choicesLeft = withChoice.filter((card) => !isChoiceSettled(card, settled)).length;
+  const ready = hidden === 0 && choicesLeft === 0;
+  const cards = t('levelUpDeck.screen.cards', { count: hidden });
+  const choices = t('levelUpDeck.screen.choices', { count: choicesLeft });
+  const hint = ready
+    ? t('levelUpDeck.screen.ready')
+    : hidden && choicesLeft
+      ? t('levelUpDeck.screen.hintBoth', { cards, choices })
+      : hidden
+        ? t('levelUpDeck.screen.hintOpen', { cards })
+        : t('levelUpDeck.screen.hintChoose', { choices });
+  return {
+    revealed: total - hidden,
+    total,
+    choicesDone: withChoice.length - choicesLeft,
+    choicesTotal: withChoice.length,
+    choicesRequired: withChoice.filter((card) => card.choice?.required).length,
+    ready,
+    hint,
+  };
+}

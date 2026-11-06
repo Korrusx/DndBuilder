@@ -174,7 +174,10 @@ describe('воин', () => {
 
   test('4 → 5: «Дополнительная атака» и рост бонуса мастерства', () => {
     const deck = deckOf(fighter(4));
-    expect(card(deck.cards, 'feature.fighter-extra-attack')?.tags).toEqual([{ kind: 'action', action: 'passive' }]);
+    expect(card(deck.cards, 'feature.fighter-extra-attack')?.tags).toEqual([
+      { kind: 'attackAction' },
+      { kind: 'attacks', count: 2 },
+    ]);
     expect(row(card(deck.cards, 'growth')!.rows, { kind: 'number', key: 'profBonus' })).toMatchObject({
       before: 2,
       after: 3,

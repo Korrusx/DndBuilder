@@ -91,8 +91,14 @@ function numberRows(diff: SheetDiff, sources: DeckSources): CardRow[] {
 /** Метки умения: когда используется и сколько раз (по ресурсам справочника). */
 function tagsOf(id: string, table: 'features' | 'traits', sources: DeckSources): CardTag[] {
   const idx = indexOf(sources.content);
-  const action = table === 'features' ? idx.features.get(id)?.action : idx.traits.get(id)?.action;
-  const tags: CardTag[] = action ? [{ kind: 'action', action }] : [];
+  const feature = table === 'features' ? idx.features.get(id) : undefined;
+  const action = feature ? feature.action : idx.traits.get(id)?.action;
+  // «Дополнительная атака»: вместо «всегда действует» — «действие «Атака»» и число атак.
+  const tags: CardTag[] = feature?.attacks
+    ? [{ kind: 'attackAction' }, { kind: 'attacks', count: feature.attacks }]
+    : action
+      ? [{ kind: 'action', action }]
+      : [];
   for (const r of sources.content.resources.filter((res) => res.features.includes(id))) {
     const view = sources.after.resources.find((v) => v.id === r.id);
     if (view) {

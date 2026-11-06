@@ -1,5 +1,5 @@
 {
-  "_comment": "Описательные поля для колоды повышения уровня. upgrades — id умения, которое это умение улучшает; action — когда умение используется (action / bonus / reaction / passive); traits.damageByLevel — урон особенности вида по общему уровню персонажа. subclassSlot — строка таблицы класса под подкласс: choice — выбор подкласса, feature — место для умения подкласса (карты для них не нужны). Механику не меняют. overrides2014 — для справочника 2014 (те же поля по id 2014).",
+  "_comment": "Описательные поля для колоды повышения уровня. upgrades — id умения, которое это умение улучшает; attacks — сколько атак даёт действие «Атака» (Дополнительная атака); action — когда умение используется (action / bonus / reaction / passive); traits.damageByLevel — урон особенности вида по общему уровню персонажа. subclassSlot — строка таблицы класса под подкласс: choice — выбор подкласса, feature — место для умения подкласса (карты для них не нужны). Механику не меняют. overrides2014 — для справочника 2014 (те же поля по id 2014).",
   "features": {
     "barbarian-rage": {
       "action": "bonus"
@@ -14,7 +14,8 @@
       "action": "passive"
     },
     "barbarian-extra-attack": {
-      "action": "passive"
+      "action": "passive",
+      "attacks": 2
     },
     "barbarian-fast-movement": {
       "action": "passive"
@@ -95,15 +96,18 @@
       "action": "passive"
     },
     "fighter-extra-attack": {
-      "action": "passive"
+      "action": "passive",
+      "attacks": 2
     },
     "fighter-two-extra-attacks": {
       "upgrades": "fighter-extra-attack",
-      "action": "passive"
+      "action": "passive",
+      "attacks": 3
     },
     "fighter-three-extra-attacks": {
       "upgrades": "fighter-two-extra-attacks",
-      "action": "passive"
+      "action": "passive",
+      "attacks": 4
     },
     "fighter-tactical-master": {
       "action": "passive"
@@ -146,7 +150,8 @@
       "action": "reaction"
     },
     "monk-extra-attack": {
-      "action": "passive"
+      "action": "passive",
+      "attacks": 2
     },
     "monk-empowered-strikes": {
       "action": "passive"
@@ -184,7 +189,8 @@
       "action": "bonus"
     },
     "paladin-extra-attack": {
-      "action": "passive"
+      "action": "passive",
+      "attacks": 2
     },
     "paladin-aura-of-protection": {
       "action": "passive"
@@ -209,7 +215,8 @@
       "action": "passive"
     },
     "ranger-extra-attack": {
-      "action": "passive"
+      "action": "passive",
+      "attacks": 2
     },
     "ranger-roving": {
       "action": "passive"
@@ -306,6 +313,9 @@
     },
     "diviner-greater-portent": {
       "upgrades": "diviner-portent"
+    },
+    "college-of-valor-extra-attack": {
+      "attacks": 2
     }
   },
   "traits": {
@@ -413,15 +423,18 @@
         "upgrades": "brutal-critical-2-dice"
       },
       "extra-attack-1": {
-        "action": "passive"
+        "action": "passive",
+        "attacks": 2
       },
       "extra-attack-2": {
         "upgrades": "extra-attack-1",
-        "action": "passive"
+        "action": "passive",
+        "attacks": 3
       },
       "extra-attack-3": {
         "upgrades": "extra-attack-2",
-        "action": "passive"
+        "action": "passive",
+        "attacks": 4
       },
       "superior-critical": {
         "upgrades": "improved-critical",
@@ -613,6 +626,9 @@
       },
       "arcane-tradition-improvement-3": {
         "subclassSlot": "feature"
+      },
+      "valor-extra-attack": {
+        "attacks": 2
       }
     },
     "traits": {

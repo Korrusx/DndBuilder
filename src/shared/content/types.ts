@@ -140,6 +140,8 @@ export type Feature = {
   upgrades?: string;
   /** Когда используется: действие, бонусное действие, реакция или всегда действует. */
   action?: FeatureAction;
+  /** Сколько атак даёт действие «Атака» («Дополнительная атака» — 2), — data-pipeline/level-meta.json. */
+  attacks?: number;
   /** 2014: строка таблицы класса под подкласс — `choice` (выбор подкласса), `feature` (место для его умения). */
   subclassSlot?: 'choice' | 'feature';
 };

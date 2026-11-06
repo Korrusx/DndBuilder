@@ -490,7 +490,7 @@ async function applyDescriptions(content: Omit<Content, 'version'>) {
 
 /** Собирает справочник, проверяет ссылки, подставляет перевод и пишет файл. */
 type LevelMetaSection = {
-  features?: Record<string, Pick<Feature, 'upgrades' | 'action' | 'subclassSlot'>>;
+  features?: Record<string, Pick<Feature, 'upgrades' | 'action' | 'attacks' | 'subclassSlot'>>;
   traits?: Record<string, { action?: Trait['action']; damageByLevel?: Record<string, string> }>;
 };
 

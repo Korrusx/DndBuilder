@@ -46,6 +46,9 @@ export type {
   CardRowValue,
   CardTag,
   Deck,
+  DeckProgress,
+  GrowthGroup,
+  GrowthGroupId,
   HpResult,
   LevelChoice,
   LevelUpSettings,
@@ -53,6 +56,7 @@ export type {
   LevelUpCard,
   LevelUpCardType,
   NextLevelItem,
+  PickedItem,
   SheetDiff,
 } from './model/types';
 export { withoutChoice } from './model/withoutChoice';
@@ -72,6 +76,12 @@ export {
   rowValue,
 } from './lib/cardText';
 export type { TextContext } from './lib/cardText';
+export { cardSourceText, cardSummary, groupGrowthRows, growthParts } from './lib/deckSummary';
+export type { SummaryOptions } from './lib/deckSummary';
+export { deckProgress, firstPendingCard, isChoiceSettled } from './lib/deckProgress';
+export { pickedItems } from './lib/pickedItems';
+export { DECK_COLORS, DECK_UI } from './config/deckColors';
+export type { DeckColors } from './config/deckColors';
 export { useShake } from './lib/shake';
 export { useDeckMotion } from './lib/useDeckMotion';
 export { CARD_THEMES } from './config/cardTheme';

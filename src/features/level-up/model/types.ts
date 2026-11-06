@@ -177,7 +177,12 @@ export type CardRowValue = number | string | boolean | PactSlots | { max: number
 export type CardRow = { label: CardRowLabel; before?: CardRowValue; after: CardRowValue; details?: CardRow[] };
 
 export type CardTag =
-  { kind: 'action'; action: FeatureAction } | { kind: 'uses'; max: number; recovery: ResourceView['recovery'] };
+  | { kind: 'action'; action: FeatureAction }
+  | { kind: 'uses'; max: number; recovery: ResourceView['recovery'] }
+  /** Умение срабатывает в действии «Атака» («Дополнительная атака»). */
+  | { kind: 'attackAction' }
+  /** Сколько атак в действии «Атака». */
+  | { kind: 'attacks'; count: number };
 
 /** Откуда новинка. */
 export type CardSource = {
@@ -236,3 +241,26 @@ export type LevelUpSettings = {
   /** Анимации колоды (при системном «уменьшении движения» их нет в любом случае). */
   animations: boolean;
 };
+
+// ---------- Экран «Новое на N-м уровне» (design/level-up/deck-screen-spec.md) ----------
+
+/** Группа раскрытого списка роста. */
+export type GrowthGroupId = 'saves' | 'skills' | 'attacks' | 'magic' | 'species' | 'other';
+
+export type GrowthGroup = { id: GrowthGroupId; rows: CardRow[] };
+
+/** Счётчик, готовность «Дальше» и подсказка под ней. */
+export type DeckProgress = {
+  revealed: number;
+  total: number;
+  choicesDone: number;
+  /** Выборов на карточках (обязательные и необязательные). 0 — выборов на уровне нет. */
+  choicesTotal: number;
+  /** Обязательных выборов на уровне (для «выбор сделан» / «выборы сделаны»). */
+  choicesRequired: number;
+  ready: boolean;
+  hint: string;
+};
+
+/** Выбранное на этом уровне: название и круг заклинания (для чипов магии). */
+export type PickedItem = { id: string; name: string; circle?: number };

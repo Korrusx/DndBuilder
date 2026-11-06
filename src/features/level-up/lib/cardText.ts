@@ -24,6 +24,8 @@ export type TextContext = { attacks?: WeaponAttack[] };
 
 const MODIFIER_KEYS = new Set(['save', 'skill', 'attack', 'spellAttack', 'initiative', 'profBonus']);
 const DICE = /^(\d+×)?\d+d\d+$/;
+/** Длина короткого названия на ленте колоды. */
+const SHORT_TITLE = 10;
 
 /** Кости из справочника «2d10» → «2к10»; лучи «2×1d10» → «2 × 1к10». */
 export function diceText(value: string): string {
@@ -117,6 +119,12 @@ export function tagText(tag: CardTag): string {
   if (tag.kind === 'action') {
     return t(`levelUpDeck.action.${tag.action}`);
   }
+  if (tag.kind === 'attackAction') {
+    return t('levelUpDeck.screen.attackAction');
+  }
+  if (tag.kind === 'attacks') {
+    return t('levelUpDeck.screen.attacks', { count: tag.count });
+  }
   const kind = tag.recovery === 'long' ? 'long' : tag.recovery === 'short' ? 'short' : 'shortOne';
   return t(`levelUpDeck.uses.${kind}`, { count: tag.max });
 }
@@ -192,19 +200,30 @@ export function cardTitle(card: LevelUpCard, context: TextContext = {}): string 
   return card.choice ? choiceTitle(card.choice) : t(`levelUpDeck.type.${card.type}`);
 }
 
-/** Короткое название для рубашки и ленты колоды. */
+/**
+ * Короткое название для ленты колоды (до 10 символов): по словарю сокращений по id умения
+ * («…-extra-attack» → «Доп. атака»), короткое название как есть, иначе первое слово.
+ * Хиты, рост, магия и вид — по типу карты.
+ */
 export function cardShortTitle(card: LevelUpCard): string {
-  if (
-    card.type === 'feature' ||
-    card.type === 'capstone' ||
-    (card.type === 'species' && card.ref?.table === 'traits')
-  ) {
-    return card.ref ? nameOf(card.ref.table, card.ref.id) : t(`levelUpDeck.type.${card.type}`);
+  let title = '';
+  if (card.type === 'feature' || card.type === 'capstone') {
+    title = card.ref ? nameOf(card.ref.table, card.ref.id) : '';
+  } else if (card.type === 'choice' && card.choice) {
+    title = card.ref?.table === 'features' ? nameOf('features', card.ref.id) : choiceTitle(card.choice);
+  } else if (card.type === 'multiclass') {
+    title = nameOf('classes', card.source.id);
   }
-  if (card.type === 'choice' && card.choice) {
-    return card.ref?.table === 'features' ? nameOf('features', card.ref.id) : choiceTitle(card.choice);
+  if (!title) {
+    return t(`levelUpDeck.type.${card.type}`);
   }
-  return t(`levelUpDeck.type.${card.type}`);
+  const short = t('levelUpDeck.screen.shortTitles', { returnObjects: true }) as Record<string, string>;
+  const id = card.ref?.table === 'features' ? card.ref.id : '';
+  const key = Object.keys(short).find((suffix) => id === suffix || id.endsWith(`-${suffix}`));
+  if (key) {
+    return short[key];
+  }
+  return title.length <= SHORT_TITLE ? title : (title.split(/\s+/)[0]?.replace(/[,:;]$/, '') ?? title);
 }
 
 /** Описание карты из справочника (умение, особенность вида) или пояснение выбора. */
