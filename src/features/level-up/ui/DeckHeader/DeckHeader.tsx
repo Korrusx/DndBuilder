@@ -57,6 +57,12 @@ export function DeckHeader(props: DeckHeaderProps) {
             {t('levelUpDeck.screen.opened')} <Text style={styles.counterNumber}>{progress.revealed}</Text>{' '}
             {t('levelUpDeck.screen.of')} {progress.total}
           </Text>
+          {!progress.hpDecided ? (
+            <>
+              <Text style={styles.dot}>·</Text>
+              <Text style={styles.choices}>{t('levelUpDeck.screen.hpNotRolled')}</Text>
+            </>
+          ) : null}
           {progress.choicesTotal > 0 ? (
             <>
               <Text style={styles.dot}>·</Text>

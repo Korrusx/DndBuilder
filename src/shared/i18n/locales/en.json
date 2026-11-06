@@ -1351,6 +1351,8 @@
     }
   },
   "levelUpSettings": {
+    "ownDice": "I roll physical dice",
+    "ownDiceHint": "In the hit point card, “Enter my own roll” comes first.",
     "title": "Level up",
     "allowHpReroll": "Allow hit point rerolls",
     "allowHpRerollHint": "Normally rolled hit points are locked: you can’t reroll them by going back or postponing the level up.",
@@ -1358,6 +1360,18 @@
     "animationsHint": "The level ring, card flips and new spell slots. With the system “reduce motion” setting there are no animations anyway."
   },
   "levelUpDeck": {
+    "hpCard": {
+      "kicker": "Hit points · {{die}}",
+      "first": "first thing",
+      "explain": "Your class hit die plus your CON modifier. Current hit points: {{hp}}.",
+      "roll": "Roll {{die}}",
+      "reroll": "Reroll {{die}}",
+      "average": "Take the average · {{value}}",
+      "manual": "Enter my own roll",
+      "shake": "or shake your phone",
+      "manualTitle": "What did you roll on the {{die}}?",
+      "a11yDie": "Hit die {{die}}"
+    },
     "ritual": {
       "awaits_one": "Ahead: {{what}}",
       "awaits_other": "Ahead: {{what}}",
@@ -1375,6 +1389,17 @@
       "sheetTitle": "Level in another class"
     },
     "screen": {
+      "hint": {
+        "Hp": "Roll hit points",
+        "HpOpen": "Roll hit points and reveal {{cards}}",
+        "HpChoose": "Roll hit points and make {{choices}}",
+        "HpOpenChoose": "Roll hit points, reveal {{cards}} and make {{choices}}",
+        "Open": "Reveal {{cards}}",
+        "Choose": "Make {{choices}}",
+        "OpenChoose": "Reveal {{cards}} and make {{choices}}"
+      },
+      "hpNotRolled": "hit points not rolled",
+      "unchanged": "Unchanged at this level: {{text}}",
       "badge": "Level {{level}}",
       "kind": {
         "feature": "New feature",
@@ -1390,9 +1415,6 @@
       "cards_other": "{{count}} cards",
       "choices_one": "{{count}} choice",
       "choices_other": "{{count}} choices",
-      "hintBoth": "Reveal {{cards}} and make {{choices}}",
-      "hintOpen": "Reveal {{cards}}",
-      "hintChoose": "Make {{choices}}",
       "ready": "All revealed · on to the summary",
       "tapToOpen": "Tap to reveal",
       "justNow": "just now",

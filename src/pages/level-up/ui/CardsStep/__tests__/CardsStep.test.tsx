@@ -12,7 +12,11 @@ import { content } from '@/shared/content';
 import { CardsStep } from '../CardsStep';
 import type { CardsStepProps } from '../CardsStep.types';
 
-jest.mock('@expo/vector-icons', () => ({ Feather: () => null }));
+jest.mock('@expo/vector-icons', () => ({ Feather: () => null, MaterialCommunityIcons: () => null }));
+jest.mock('@/features/roll-dice', () => ({
+  useDiceSettings: () => ({ style: 'flat', animation: false, skin: 'classic', table: 'felt', sound: false }),
+  DiceTable: () => null,
+}));
 jest.mock('react-native-worklets', () => ({ scheduleOnRN: (fn: () => void) => fn() }));
 jest.mock('@shopify/react-native-skia', () => new Proxy({}, { get: () => () => null }));
 jest.mock('expo-sensors', () => {
@@ -101,7 +105,12 @@ function setup(revealed: string[], extra: Partial<CardsStepProps> = {}) {
     context: {},
     notes: {},
     onBack: jest.fn(),
-    onRollHp: jest.fn(),
+    hp: { method: 'average', value: 6 },
+    die: 10,
+    allowReroll: true,
+    ownDice: false,
+    onHp: jest.fn(),
+    unchanged: '',
     onReveal: jest.fn(),
     onChoose: jest.fn(),
     onKeep: jest.fn(),

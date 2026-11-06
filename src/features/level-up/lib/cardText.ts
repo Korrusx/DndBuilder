@@ -369,3 +369,15 @@ export function ritualCountsText(deck: Deck): string {
     : t('levelUpDeck.news', { count: news });
   return t('levelUpDeck.ritual.awaits', { count: news, what });
 }
+
+/** Формула хитов уровня до броска: «к8 + 2», с бонусами за уровень — «к8 + 2 + 1». */
+export function hpFormula(card: LevelUpCard): string {
+  if (!card.hp) {
+    return '';
+  }
+  const extra = card.hp.breakdown.filter((part) => part.kind === 'con' || part.kind === 'bonus');
+  return [
+    formatDie(card.hp.die),
+    ...extra.map((part) => (part.value < 0 ? `− ${Math.abs(part.value)}` : `+ ${part.value}`)),
+  ].join(' ');
+}

@@ -16,5 +16,6 @@ export function parseLevelUpSettings(raw: string | null): LevelUpSettings {
   return {
     allowHpReroll: typeof value.allowHpReroll === 'boolean' ? value.allowHpReroll : defaults.allowHpReroll,
     animations: typeof value.animations === 'boolean' ? value.animations : defaults.animations,
+    ownDice: typeof value.ownDice === 'boolean' ? value.ownDice : defaults.ownDice,
   };
 }

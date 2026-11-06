@@ -5,5 +5,6 @@ export { DamageSheet } from './ui/DamageSheet/DamageSheet';
 export { DiceSettingsSection } from './ui/DiceSettingsSection/DiceSettingsSection';
 export { useDiceSettings } from './model/diceSettings';
 export { DiceTable } from './ui/DiceTable/DiceTable';
+export type { DiceTableProps } from './ui/DiceTable/DiceTable.types';
 export { Die } from './ui/Die/Die';
 export { playDiceSound } from './lib/diceSounds';

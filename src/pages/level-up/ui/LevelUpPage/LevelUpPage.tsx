@@ -45,17 +45,15 @@ import {
 import { useDiceSettings } from '@/features/roll-dice';
 import { byId, content, nameOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
-import { Button, DetailSheet, Screen } from '@/shared/ui';
+import { DetailSheet } from '@/shared/ui';
 
 import type { DeckStage } from '../../lib/deckScreen';
-import { DECK_OPENED, deckSubtitle, resumeStage, ritualSubtitle } from '../../lib/deckScreen';
+import { DECK_OPENED, deckSubtitle, resumeStage, ritualSubtitle, unchangedText } from '../../lib/deckScreen';
 import { CardsStep } from '../CardsStep/CardsStep';
 import { ChoiceSheet } from '../ChoiceSheet/ChoiceSheet';
 import { ClassSheet } from '../ClassSheet/ClassSheet';
 import { DoneStep } from '../DoneStep/DoneStep';
-import { HpStep } from '../HpStep/HpStep';
 import { RitualPhase } from '../RitualPhase/RitualPhase';
-import { StepHeader } from '../StepHeader/StepHeader';
 
 const KEEP = 'keep:';
 const now = () => new Date().toISOString();
@@ -147,18 +145,16 @@ export function LevelUpPage() {
 
   const classId = pending.classId;
   const level = totalLevel(next.classes);
-  const className = nameOf('classes', classId);
   const context = { attacks: deck.after.sheet.attacks };
   const kept = pending.revealed.filter((id) => id.startsWith(KEEP)).map((id) => id.slice(KEEP.length));
   const capstone = deck.cards.some((card) => card.type === 'capstone');
   const rollLocked = pending.hp?.method === 'roll' && !settings.allowHpReroll;
-  const hpCard = deck.cards[0];
   const die = byId.classes.get(classId)?.hitDie ?? 8;
 
   const quiet = { journal: false };
   const set = (fn: (c: Character) => Character) => update((c) => storeDraft(c, fn(pendingDraft(c) ?? next)), quiet);
   const reveal = (ids: string[]) => update((c) => revealCards(c, ids), quiet);
-  const setHp = (hp: HpChoice | undefined) => update((c) => setPendingHp(c, hp, settings.allowHpReroll), quiet);
+  const setHp = (hp: HpChoice) => update((c) => setPendingHp(c, hp, settings.allowHpReroll), quiet);
   const pickClass = (id: string) => {
     setClassSheet(false);
     if (id !== classId && !rollLocked) {
@@ -168,22 +164,12 @@ export function LevelUpPage() {
   };
   const toSheet = () => router.navigate({ pathname: '/character/[id]', params: { id: character.id } });
   // «Назад» в колоде = «Отложить»: в ритуал не возвращает.
-  const back = () => {
-    if (stage === 'start' || stage === 'cards') {
-      toSheet();
-    } else {
-      setStage('cards');
-    }
-  };
+  const back = () => (stage === 'done' ? setStage('cards') : toSheet());
   // Рост — не сюрприз, у него нет рубашки; хиты открыты, когда решены.
   const growthIds = deck.cards.filter((c) => c.type === 'growth').map((c) => c.id);
-  const openCards = () => {
-    reveal(['hp', ...growthIds]);
-    setStage('cards');
-  };
   // «Открыть новинки»: колода открыта (продолжение — сразу в неё), кольцо летит в шапку.
   const openDeck = (ring: ScreenPoint) => {
-    reveal([DECK_OPENED, ...growthIds]);
+    reveal([DECK_OPENED, 'hp', ...growthIds]);
     setLanded(false);
     setTransition({ ring: motion ? ring : null });
     setStage('cards');
@@ -352,7 +338,12 @@ export function LevelUpPage() {
               ]),
           )}
           onBack={back}
-          onRollHp={() => setStage('hp')}
+          hp={pending.hp}
+          die={die}
+          allowReroll={settings.allowHpReroll}
+          ownDice={settings.ownDice}
+          onHp={setHp}
+          unchanged={deck.unchanged.length ? unchangedText(deck, deck.after, context) : ''}
           onReveal={reveal}
           onChoose={choose}
           onKeep={(item) => reveal([`${KEEP}${item.id}`])}
@@ -394,33 +385,5 @@ export function LevelUpPage() {
     );
   }
 
-  // --- Кнопка внизу ---
-  const footer =
-    stage === 'hp' ? (
-      <Button
-        title={pending.hp ? t('levelUpDeck.next') : t('levelUpDeck.hp.needRoll')}
-        disabled={!pending.hp}
-        onPress={openCards}
-      />
-    ) : null;
-
-  return (
-    <Screen footer={footer}>
-      <StepHeader kind="back" onPress={back} progress={stage === 'hp' ? { total: 3, done: 1 } : undefined} />
-
-      {stage === 'hp' ? (
-        <HpStep
-          card={hpCard}
-          die={die}
-          className={className}
-          hp={pending.hp}
-          defaultMethod={character.hpMethod ?? 'average'}
-          allowReroll={settings.allowHpReroll}
-          onChange={setHp}
-        />
-      ) : null}
-
-      {sheets}
-    </Screen>
-  );
+  return null;
 }

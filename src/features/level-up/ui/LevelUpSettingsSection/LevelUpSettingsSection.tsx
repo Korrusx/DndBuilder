@@ -34,6 +34,13 @@ export function LevelUpSettingsSection() {
         options={onOff}
       />
       <AppText variant="secondary">{t('levelUpSettings.animationsHint')}</AppText>
+      <AppText>{t('levelUpSettings.ownDice')}</AppText>
+      <Segmented<'on' | 'off'>
+        value={settings.ownDice ? 'on' : 'off'}
+        onChange={(value) => save({ ownDice: value === 'on' })}
+        options={onOff}
+      />
+      <AppText variant="secondary">{t('levelUpSettings.ownDiceHint')}</AppText>
     </>
   );
 }

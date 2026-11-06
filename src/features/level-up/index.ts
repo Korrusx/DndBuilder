@@ -74,6 +74,7 @@ export {
   hpBreakdownText,
   lowerFirst,
   needFirstText,
+  hpFormula,
   nextLevelText,
   ritualCountsText,
   rowLabel,
@@ -104,6 +105,7 @@ export { DeckHeader } from './ui/DeckHeader/DeckHeader';
 export { DeckTiles } from './ui/DeckTiles/DeckTiles';
 export { GrowthCard } from './ui/GrowthCard/GrowthCard';
 export { HpRow } from './ui/HpRow/HpRow';
+export { HpCard } from './ui/HpCard/HpCard';
 export { FlyingRing } from './ui/FlyingRing/FlyingRing';
 export type { ScreenPoint } from './ui/FlyingRing/FlyingRing.types';
 export { LevelBadge } from './ui/LevelBadge/LevelBadge';

@@ -15,7 +15,7 @@ const appear = (delay: number) =>
     .duration(TRANSITION.tileDuration)
     .withInitialValues({ transform: [{ scale: 0.6 }] });
 
-export function DeckTiles({ cards, current, settled, onSelect, appearAt }: DeckTilesProps) {
+export function DeckTiles({ cards, current, settled, onSelect, appearAt, hpDecided = true }: DeckTilesProps) {
   const wrap = (i: number, node: ReactNode, style?: object) => (
     <Animated.View
       key={cards[i].id}
@@ -30,7 +30,8 @@ export function DeckTiles({ cards, current, settled, onSelect, appearAt }: DeckT
       key={card.id}
       card={card}
       current={card.id === current}
-      needsChoice={!isChoiceSettled(card, settled)}
+      needsChoice={card.type === 'hp' ? !hpDecided : !isChoiceSettled(card, settled)}
+      hpDie={card.type === 'hp' && !hpDecided ? card.hp?.die : undefined}
       width={width}
       onPress={() => onSelect(card.id)}
     />

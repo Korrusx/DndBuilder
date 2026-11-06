@@ -66,6 +66,7 @@ describe('deckProgress', () => {
       'species',
     ]);
     expect(deckProgress(deck, [])).toEqual({
+      hpDecided: true,
       revealed: 3,
       total: 7,
       choicesDone: 0,
@@ -112,6 +113,27 @@ describe('deckProgress', () => {
     const deck = deckWith([cardOf('replace', 'done', optional)]);
     expect(deckProgress(deck, []).ready).toBe(false);
     expect(deckProgress(deck, ['replace'])).toMatchObject({ ready: true, choicesDone: 1, choicesRequired: 0 });
+  });
+});
+
+describe('хиты в колоде', () => {
+  test('Ирма 5 → 6 до броска: «хиты не брошены», «Дальше» неактивна, хиты — первыми', () => {
+    const deck = deckOf(irmaAt(5), undefined, ['hp']);
+    const progress = deckProgress(deck, [], false);
+    // «Открыто 1 из 2 · хиты не брошены · выборов 0 из 1».
+    expect(progress).toMatchObject({ revealed: 1, total: 2, hpDecided: false, ready: false, choicesDone: 0 });
+    expect(progress.hint).toBe('Осталось бросить хиты, открыть 1 карту и сделать 1 выбор');
+    const opened = deckOf(irmaAt(5), undefined, ['hp', 'choice.expertise']);
+    expect(deckProgress(opened, [], false).hint).toBe('Осталось бросить хиты и сделать 1 выбор');
+    expect(firstPendingCard(deck, [], false)).toBe('hp');
+    expect(firstPendingCard(deck, [], true)).toBe('choice.expertise');
+  });
+
+  test('подсказки: только хиты; хиты, карты и выборы', () => {
+    const hpCard: LevelUpCard = { id: 'hp', type: 'hp', source: { kind: 'class' }, state: 'revealed' };
+    expect(deckProgress(deckWith([hpCard]), [], false).hint).toBe('Осталось бросить хиты');
+    const deck = deckWith([hpCard, cardOf('f', 'hidden'), cardOf('c', 'revealed', choiceOf('c'))]);
+    expect(deckProgress(deck, [], false).hint).toBe('Осталось бросить хиты, открыть 1 карту и сделать 1 выбор');
   });
 });
 

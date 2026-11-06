@@ -6,3 +6,5 @@ export const CARD_SCROLL_SETTLE = 400;
 export const REVEAL_STEP = 80;
 /** Сдвиг соседних карт, когда меняется высота одной (как свёртывание карты, раздел 8). */
 export const LIST_RESIZE = 220;
+/** Сколько показывать итог броска хитов в карте, прежде чем она свернётся. */
+export const HP_RESULT = 600;

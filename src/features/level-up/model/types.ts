@@ -240,6 +240,8 @@ export type LevelUpSettings = {
   allowHpReroll: boolean;
   /** Анимации колоды (при системном «уменьшении движения» их нет в любом случае). */
   animations: boolean;
+  /** Игрок бросает свои кубики: в карте хитов первой идёт «Ввести свой кубик». */
+  ownDice: boolean;
 };
 
 // ---------- Экран «Новое на N-м уровне» (design/level-up/deck-screen-spec.md) ----------
@@ -251,6 +253,8 @@ export type GrowthGroup = { id: GrowthGroupId; rows: CardRow[] };
 
 /** Счётчик, готовность «Дальше» и подсказка под ней. */
 export type DeckProgress = {
+  /** Хиты уровня решены; нет — в счётчике «хиты не брошены». */
+  hpDecided: boolean;
   revealed: number;
   total: number;
   choicesDone: number;
