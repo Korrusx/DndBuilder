@@ -76,6 +76,18 @@ export function LevelUpPage() {
   // Экран закрывается после «К листу»: новое повышение в этот момент начинать не нужно.
   const leaving = useRef(false);
   const pending = activePending(character);
+  // Экран остаётся в памяти между повышениями: новое отложенное повышение начинается с первого шага.
+  const session = pending ? `${pending.fromLevel}:${pending.startedAt}` : '';
+  const [shownSession, setShownSession] = useState(session);
+  if (shownSession !== session) {
+    setShownSession(session);
+    setStage(null);
+    setCurrent(0);
+    setSkipped(false);
+    setChoice(null);
+    setSpellsFor(null);
+    setClassSheet(false);
+  }
   // Отложенное повышение продолжается с того шага, где его оставили.
   const stage = chosenStage ?? (pending ? resumeStage(pending) : null);
 
@@ -134,7 +146,8 @@ export function LevelUpPage() {
   const pickClass = (id: string) => {
     setClassSheet(false);
     if (id !== classId && !rollLocked) {
-      update((c) => ({ ...c, pendingLevelUp: beginLevelUp(c, id, now()) }), quiet);
+      // Тот же сеанс повышения: время начала сохраняется, экран не сбрасывается.
+      update((c) => ({ ...c, pendingLevelUp: beginLevelUp(c, id, pending.startedAt) }), quiet);
     }
   };
   const toSheet = () => router.navigate({ pathname: '/character/[id]', params: { id: character.id } });
