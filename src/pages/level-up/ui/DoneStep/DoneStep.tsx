@@ -6,6 +6,7 @@ import Animated, {
   cancelAnimation,
   Easing,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withDelay,
   withSequence,
@@ -16,17 +17,22 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { CardStyle } from '@/features/level-up';
 import {
   CARD_POSE,
+  cardRotation,
   CardSparks,
   DONE_SCREEN,
   DONE_TIMELINE,
   doneInitial,
+  frameAngleFor,
   HERO_CARD_THEMES,
   HeroCardView,
   neighborStyle,
+  restSheenProgress,
   StyleBackdrop,
   StyleSwitcher,
+  TILT,
   useDeckMotion,
   useStyleSwipe,
+  useTilt,
 } from '@/features/level-up';
 import { colors } from '@/shared/config';
 import { t } from '@/shared/i18n';
@@ -49,16 +55,19 @@ export function DoneStep(props: DoneStepProps) {
 
   const lift = useSharedValue(start.card.translateY);
   const scale = useSharedValue(start.card.scale);
-  const tilt = useSharedValue(start.card.rotate);
+  const roll = useSharedValue(start.card.rotate);
   const opacity = useSharedValue(start.card.opacity);
   const flip = useSharedValue(0);
   const ui = useSharedValue(start.uiOpacity);
-  const sheenProgress = useSharedValue(0);
-  const sheenOpacity = useSharedValue(start.sheenOpacity);
+  const sweep = useSharedValue(0);
+  const sweeping = useSharedValue(start.sheenOpacity);
+  const paused = useRef(false);
+  const [tiltOn, setTiltOn] = useState(false);
+  const { beta, gamma, active } = useTilt(animate && tiltOn, paused);
 
   const runSheen = (delay: number) => {
-    sheenProgress.set(0);
-    sheenOpacity.set(
+    sweep.set(0);
+    sweeping.set(
       withDelay(
         delay,
         withSequence(
@@ -67,7 +76,7 @@ export function DoneStep(props: DoneStepProps) {
         ),
       ),
     );
-    sheenProgress.set(withDelay(delay, withTiming(1, { duration: DONE_TIMELINE.sheenDuration, easing: SHEEN })));
+    sweep.set(withDelay(delay, withTiming(1, { duration: DONE_TIMELINE.sheenDuration, easing: SHEEN })));
   };
 
   useEffect(() => {
@@ -83,17 +92,18 @@ export function DoneStep(props: DoneStepProps) {
       );
     lift.set(pose('translateY'));
     scale.set(pose('scale'));
-    tilt.set(pose('rotate'));
+    roll.set(pose('rotate'));
     opacity.set(withTiming(1, { duration: land }));
     ui.set(withDelay(DONE_TIMELINE.uiStart, withTiming(1, { duration: DONE_TIMELINE.uiDuration })));
     runSheen(DONE_TIMELINE.sheenStart);
     timers.current.push(
       setTimeout(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => undefined), land),
+      setTimeout(() => setTiltOn(true), DONE_TIMELINE.sheenStart + DONE_TIMELINE.sheenDuration),
     );
     const pending = timers.current;
     return () => {
       pending.forEach(clearTimeout);
-      [lift, scale, tilt, opacity, ui, sheenProgress, sheenOpacity, flip].forEach((value) => cancelAnimation(value));
+      [lift, scale, roll, opacity, ui, sweep, sweeping, flip].forEach((value) => cancelAnimation(value));
     };
     // Появление играет один раз при открытии экрана.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,6 +130,12 @@ export function DoneStep(props: DoneStepProps) {
     runSheen(half * 2);
   };
   const swipe = useStyleSwipe({
+    onDragStart: () => {
+      paused.current = true;
+    },
+    onDragEnd: () => {
+      paused.current = false;
+    },
     onStep: (step) => {
       const next = neighborStyle(shown, step);
       if (next) {
@@ -128,16 +144,23 @@ export function DoneStep(props: DoneStepProps) {
     },
   });
 
-  const cardStyle = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-    transform: [
-      { perspective: 1000 },
-      { translateY: lift.get() },
-      { scale: scale.get() },
-      { rotate: `${tilt.get()}deg` },
-      { rotateY: `${flip.get()}deg` },
-    ],
-  }));
+  const sheenProgress = useDerivedValue(() => (sweeping.get() ? sweep.get() : restSheenProgress(gamma.get())));
+  const sheenOpacity = useDerivedValue(() => (sweeping.get() ? 1 : active.get() * TILT.restSheenOpacity));
+  const frameAngle = useDerivedValue(() => frameAngleFor(theme.frame.angle, gamma.get() * active.get()));
+  const cardStyle = useAnimatedStyle(() => {
+    const lean = cardRotation(beta.get() * active.get(), gamma.get() * active.get());
+    return {
+      opacity: opacity.get(),
+      transform: [
+        { perspective: 1000 },
+        { translateY: lift.get() },
+        { scale: scale.get() },
+        { rotate: `${roll.get()}deg` },
+        { rotateX: `${lean.rotateX}deg` },
+        { rotateY: `${flip.get() + lean.rotateY}deg` },
+      ],
+    };
+  });
   const uiStyle = useAnimatedStyle(() => ({ opacity: ui.get(), transform: [{ translateY: 12 * (1 - ui.get()) }] }));
 
   return (
@@ -173,7 +196,7 @@ export function DoneStep(props: DoneStepProps) {
                 next={props.next}
                 footer={props.footer}
                 accessibilityLabel={props.accessibilityLabel}
-                motion={animate ? { sheenProgress, sheenOpacity } : undefined}
+                motion={animate ? { sheenProgress, sheenOpacity, frameAngle } : undefined}
               />
             </Animated.View>
           </View>

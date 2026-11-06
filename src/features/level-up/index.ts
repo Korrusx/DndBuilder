@@ -106,3 +106,5 @@ export { useStyleSwipe } from './lib/useStyleSwipe';
 export { CardSparks } from './ui/CardSparks/CardSparks';
 export { StyleBackdrop } from './ui/StyleBackdrop/StyleBackdrop';
 export { StyleSwitcher } from './ui/StyleSwitcher/StyleSwitcher';
+export { cardRotation, frameAngleFor, restSheenProgress, TILT } from './lib/tilt';
+export { useTilt } from './lib/useTilt';
