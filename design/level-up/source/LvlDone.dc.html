@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Итог повышения уровня</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;family=Unbounded:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#0F1114}
+a{color:#F2B14A}a:hover{color:#FFC86E}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0F1114; color: #F1ECE2; font-family: 'Golos Text', system-ui, sans-serif; display: flex; flex-direction: column; padding: 22px 16px 18px; gap: 16px; overflow: hidden">
+
+  <div style="text-align: center; font-family: Unbounded, sans-serif; font-size: 20px; font-weight: 600">Готово!</div>
+
+  <div style="border-radius: 24px; border: 1.5px solid #5C4A22; background: radial-gradient(circle at 50% 0%, #2B2416 0, #17181B 70%); padding: 22px 20px 18px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 16px 40px rgba(0,0,0,0.55)">
+    <div style="display: flex; align-items: center; gap: 14px">
+      <span style="width: 64px; height: 64px; border-radius: 32px; background: #3A2E18; border: 2px solid #F2B14A; box-sizing: border-box; color: #F2B14A; font-family: Unbounded, sans-serif; font-size: 24px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex: none">И</span>
+      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+        <div style="font-family: Unbounded, sans-serif; font-size: 18px; font-weight: 600">Ирма Вейл</div>
+        <div style="font-size: 13px; color: #C9BFA9">Полурослик · Плут · Вор</div>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center">
+        <span style="font-family: Unbounded, sans-serif; font-size: 34px; font-weight: 700; color: #F2B14A; line-height: 1">6</span>
+        <span style="font-size: 10px; color: #C9A46A; letter-spacing: 0.08em">УРОВЕНЬ</span>
+      </div>
+    </div>
+
+    <div style="height: 1px; background: #3A3222"></div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+        <div style="display: flex; align-items: baseline; gap: 8px; font-size: 14px">
+          <span style="flex: 1; color: #DCD5C8">{{r.n}}</span>
+          <span style="font-family: Unbounded, sans-serif; font-size: 13px; color: #9AA3AE">{{r.a}}</span>
+          <span style="color: #6B737D">→</span>
+          <span style="font-family: Unbounded, sans-serif; font-size: 15px; font-weight: 600; color: #F2B14A; min-width: 34px; text-align: right">{{r.b}}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #8A806C">
+      <span>Тени Солёной Гавани · сессия 12</span>
+      <span style="font-family: Unbounded, sans-serif; letter-spacing: 0.04em"><span style="color: #F2B14A">КУБИ</span>КОД</span>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 8px; border-radius: 12px; background: #13261D; color: #7FE0A8; padding: 10px 12px; font-size: 13px">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M5 12l5 5 9-10"></path></svg>
+    Записано в хронику · сессия 12
+  </div>
+
+  <div style="border-radius: 14px; border: 1px solid #2C323B; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px">
+    <div style="font-size: 12px; color: #9AA3AE; letter-spacing: 0.06em">НА 7-М УРОВНЕ</div>
+    <div style="font-size: 14px; line-height: 1.45">Увёртливость, Надёжный талант, скрытая атака 4к6</div>
+  </div>
+
+  <div style="flex: 1"></div>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+    <button style="height: 56px; border-radius: 16px; border: 1px solid #2C323B; background: #232831; color: #F1ECE2; font-family: 'Golos Text', sans-serif; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5"></path><path d="M5 13v7h14v-7"></path></svg>
+      Поделиться
+    </button>
+    <button style="height: 56px; border-radius: 16px; border: 0; background: #F2B14A; color: #1A1406; font-family: Unbounded, sans-serif; font-size: 15px; font-weight: 600">К листу</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return { rows: [
+{ n: "Хиты", a: "38", b: "46" },
+{ n: "Восприятие", a: "+4", b: "+7" },
+{ n: "Акробатика", a: "+7", b: "+10" },
+{ n: "Пассивное восприятие", a: "14", b: "17" }
+] };
+}
+}
+</script>
+</body>
+</html>

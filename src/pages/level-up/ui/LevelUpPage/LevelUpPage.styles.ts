@@ -1,8 +1,13 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, spacing } from '@/shared/config';
+import { colors, fonts, sizes, spacing } from '@/shared/config';
 
 export const styles = StyleSheet.create({
-  gapSm: { gap: spacing.sm },
-  textInfo: { color: colors.info },
+  row: { flexDirection: 'row', gap: spacing.sm },
+  flex: { flex: 1 },
+  link: { alignSelf: 'center', minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: spacing.lg },
+  linkText: { fontFamily: fonts.textBold, fontSize: 14, color: colors.textSecondary },
+  error: { fontFamily: fonts.text, fontSize: 13, color: colors.damage, textAlign: 'center' },
+  // Вне экрана, но отрисована: из неё снимается картинка «Поделиться».
+  shareShot: { position: 'absolute', left: -2000, top: 0, width: 360, backgroundColor: colors.bg, padding: 0 },
 });

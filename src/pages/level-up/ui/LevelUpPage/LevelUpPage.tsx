@@ -1,79 +1,83 @@
 import { router, useFocusEffect } from 'expo-router';
-import { useCallback, useRef, useState } from 'react';
-import { Alert, View } from 'react-native';
+import * as Sharing from 'expo-sharing';
+import { useSQLiteContext } from 'expo-sqlite';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { HostInstance } from 'react-native';
+import { Alert, Pressable, Text, View } from 'react-native';
+import { captureRef } from 'react-native-view-shot';
 
-import type { Character } from '@/entities/character';
-import {
-  CHOICE_KEYS,
-  choiceOptionIds,
-  describeSubclass,
-  featEntries,
-  FEATURE_OPTIONS,
-  featureEntries,
-  featureLanguageSlots,
-  featureOptionEntries,
-  finalAbilityScores,
-  knownLanguages,
-  masteryEntries,
-  proficientSkills,
-  weaponMasteryCount,
-  weaponMasteryOptions,
-} from '@/entities/character';
-import { SubclassCard, usePlay } from '@/entities/character/ui';
+import type { JournalState } from '@/entities/campaign';
+import { getCampaign, journalState } from '@/entities/campaign/api';
+import type { Character, HpChoice } from '@/entities/character';
+import { totalLevel } from '@/entities/character';
+import { usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
-import { ClassOptionsPicker } from '@/features/pick-class-options';
+import type { LevelChoice } from '@/features/level-up';
 import {
   activePending,
   applyLevelUp,
-  AsiPicker,
   beginLevelUp,
-  canMulticlassInto,
-  clearLevelFeatChoices,
-  featAbilityRule,
-  levelFeat,
-  levelFeatOptions,
-  levelFeatProfKey,
-  levelUpHpGain,
-  levelUpIssues,
-  levelUpPlan,
+  countsText,
+  HeroCard,
+  keyNumbersPreview,
   levelUpBase,
+  levelUpDeck,
   MAX_LEVEL,
-  multiclassRequirementText,
+  needFirstText,
+  nextLevelPreview,
+  nextLevelText,
   pendingDraft,
+  revealCards,
+  rowLabel,
+  rowValue,
+  setPendingHp,
   storeDraft,
+  useDeckMotion,
+  useLevelUpSettings,
 } from '@/features/level-up';
-import type { AbilityId } from '@/shared/content';
-import { abilityAbbr, byId, content, nameOf, plain, proficiencyName, localizeText } from '@/shared/content';
-import { useTranslation } from '@/shared/i18n';
-import type { InfoContent } from '@/shared/ui';
-import {
-  AppText,
-  Button,
-  Card,
-  Chip,
-  ChoiceField,
-  ChipRow,
-  FadeSwap,
-  InfoSheet,
-  MultiPick,
-  OptionCard,
-  Screen,
-  Section,
-  SmallButton,
-} from '@/shared/ui';
+import { byId, content, nameOf } from '@/shared/content';
+import { t } from '@/shared/i18n';
+import { Button, Screen } from '@/shared/ui';
 
+import type { DeckStage } from '../../lib/deckScreen';
+import { classLine, firstOpenIndex, heroSubtitle, resumeStage } from '../../lib/deckScreen';
+import { CardsStep } from '../CardsStep/CardsStep';
+import { ChoiceSheet } from '../ChoiceSheet/ChoiceSheet';
+import { ClassSheet } from '../ClassSheet/ClassSheet';
+import { DoneStep } from '../DoneStep/DoneStep';
+import { HpStep } from '../HpStep/HpStep';
+import { StartStep } from '../StartStep/StartStep';
+import { StepHeader } from '../StepHeader/StepHeader';
 import { styles } from './LevelUpPage.styles';
 
+const KEEP = 'keep:';
+const now = () => new Date().toISOString();
+
+/**
+ * Повышение уровня «Колода новинок» (docs/features/level-up.md): У1 новый уровень → У2 хиты → У3 карты
+ * (выборы в шторке У4) → У5 итог. Всё до итога хранится в отложенном повышении у персонажа.
+ */
 export function LevelUpPage() {
   const { character, update } = usePlay();
-  const { t } = useTranslation();
-  const [info, setInfo] = useState<InfoContent | null>(null);
-  const [spells, setSpells] = useState(false);
-  const pending = activePending(character);
-  // Экран закрывается после «Завершить» / «Отказаться»: новое повышение в этот момент начинать не нужно.
+  const db = useSQLiteContext();
+  const settings = useLevelUpSettings();
+  const motion = useDeckMotion();
+  const [skipped, setSkipped] = useState(false);
+  const [chosenStage, setStage] = useState<DeckStage | null>(null);
+  const [current, setCurrent] = useState(0);
+  const [choice, setChoice] = useState<LevelChoice | null>(null);
+  const [spellsFor, setSpellsFor] = useState<string | null>(null);
+  const [classSheet, setClassSheet] = useState(false);
+  const [journal, setJournal] = useState<JournalState>({ kind: 'none' });
+  const [campaignName, setCampaignName] = useState('');
+  const [shareError, setShareError] = useState(false);
+  const shareRef = useRef<HostInstance>(null);
+  // Экран закрывается после «К листу»: новое повышение в этот момент начинать не нужно.
   const leaving = useRef(false);
+  const pending = activePending(character);
+  // Отложенное повышение продолжается с того шага, где его оставили.
+  const stage = chosenStage ?? (pending ? resumeStage(pending) : null);
 
-  // Повышение хранится у персонажа: при первом открытии экрана оно начинается, дальше — продолжается.
   useFocusEffect(
     useCallback(() => {
       leaving.current = false;
@@ -81,39 +85,92 @@ export function LevelUpPage() {
   );
   useFocusEffect(
     useCallback(() => {
-      if (!leaving.current && !activePending(character)) {
-        update((c) => ({ ...c, pendingLevelUp: beginLevelUp(c, c.classes[0].classId, new Date().toISOString()) }), {
-          journal: false,
-        });
+      if (!leaving.current && !activePending(character) && totalLevel(character.classes) < MAX_LEVEL) {
+        update((c) => ({ ...c, pendingLevelUp: beginLevelUp(c, c.classes[0].classId, now()) }), { journal: false });
       }
     }, [character, update]),
   );
+  useEffect(() => {
+    journalState(db, character.id)
+      .then(async (state) => {
+        setJournal(state);
+        if (state.kind === 'session' || state.kind === 'between') {
+          setCampaignName((await getCampaign(db, state.campaignId))?.name ?? '');
+        }
+      })
+      .catch(() => undefined);
+  }, [db, character.id]);
+
+  const prev = levelUpBase(character) as Character;
   const next = pendingDraft(character, pending);
-  if (!pending || !next) {
+  const deck = useMemo(
+    () => (pending && next ? levelUpDeck(prev, next, content, { hp: pending.hp, revealed: pending.revealed }) : null),
+    // Колода пересчитывается после каждого изменения персонажа (выбора, броска, переворота).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [character],
+  );
+
+  if (!pending || !next || !deck || !stage) {
     return null;
   }
-  const prev = levelUpBase(character) as Character;
+
   const classId = pending.classId;
-  const pickClass = (id: string) =>
-    update((c) => ({ ...c, pendingLevelUp: beginLevelUp(c, id, new Date().toISOString()) }), { journal: false });
-
-  const set = (fn: (c: Character) => Character) =>
-    update((c) => storeDraft(c, fn(pendingDraft(c) ?? next)), { journal: false });
-  const plan = levelUpPlan(next, content, classId);
   const entry = next.classes.find((e) => e.classId === classId)!;
-  const setEntry = (patch: Partial<typeof entry>) =>
-    set((c) => ({ ...c, classes: c.classes.map((e) => (e.classId === classId ? { ...e, ...patch } : e)) }));
-  const issues = levelUpIssues(next, prev, content);
-  const blocking = issues.filter((i) => i.blocking);
-  const hpGain = levelUpHpGain(next, prev, content);
-  // Выборы уровня (черта, стиль боя) помечаются общим уровнем персонажа.
-  const level = plan.charLevel;
+  const level = totalLevel(next.classes);
+  const className = nameOf('classes', classId);
+  const context = { attacks: deck.after.sheet.attacks };
+  const kept = pending.revealed.filter((id) => id.startsWith(KEEP)).map((id) => id.slice(KEEP.length));
+  const capstone = deck.cards.some((card) => card.type === 'capstone');
+  const hasNext = level < MAX_LEVEL;
+  const rollLocked = pending.hp?.method === 'roll' && !settings.allowHpReroll;
+  const hpCard = deck.cards[0];
+  const die = byId.classes.get(classId)?.hitDie ?? 8;
 
+  const quiet = { journal: false };
+  const set = (fn: (c: Character) => Character) => update((c) => storeDraft(c, fn(pendingDraft(c) ?? next)), quiet);
+  const reveal = (ids: string[]) => update((c) => revealCards(c, ids), quiet);
+  const setHp = (hp: HpChoice) => update((c) => setPendingHp(c, hp, settings.allowHpReroll), quiet);
+  const pickClass = (id: string) => {
+    setClassSheet(false);
+    if (id !== classId && !rollLocked) {
+      update((c) => ({ ...c, pendingLevelUp: beginLevelUp(c, id, now()) }), quiet);
+    }
+  };
+  const toSheet = () => router.navigate({ pathname: '/character/[id]', params: { id: character.id } });
+  const back = () => {
+    if (stage === 'start') {
+      toSheet();
+    } else {
+      setStage(stage === 'done' ? 'cards' : stage === 'cards' ? 'hp' : 'start');
+    }
+  };
+  const openCards = () => {
+    reveal(['hp']);
+    setCurrent(
+      firstOpenIndex({ ...deck, cards: deck.cards.map((c) => (c.id === 'hp' ? { ...c, state: 'done' } : c)) }),
+    );
+    setStage('cards');
+  };
+  const choose = (picked: LevelChoice) =>
+    picked.kind === 'spells' || picked.kind === 'spellbook' ? setSpellsFor(picked.classId) : setChoice(picked);
   const finish = () => {
     leaving.current = true;
     update((c) => applyLevelUp(c, content));
-    router.navigate({ pathname: '/character/[id]', params: { id: prev.id } });
+    toSheet();
   };
+  const oneMore = () => {
+    update((c) => {
+      const done = applyLevelUp(c, content);
+      return totalLevel(done.classes) < MAX_LEVEL
+        ? { ...done, pendingLevelUp: beginLevelUp(done, classId, now()) }
+        : done;
+    });
+    setSkipped(false);
+    setStage('start');
+    setCurrent(0);
+  };
+  // Начатое повышение можно бросить: выборы и брошенные хиты сбросятся.
+  const started = !!pending.hp || pending.revealed.length > 0 || Object.keys(pending.choices).length > 0;
   const discard = () =>
     Alert.alert(t('levelUpPage.discard'), t('levelUpPage.discardConfirm'), [
       { text: t('common.cancel'), style: 'cancel' },
@@ -122,398 +179,220 @@ export function LevelUpPage() {
         style: 'destructive',
         onPress: () => {
           leaving.current = true;
-          update((c) => ({ ...c, pendingLevelUp: undefined }), { journal: false });
-          router.navigate({ pathname: '/character/[id]', params: { id: prev.id } });
+          update((c) => ({ ...c, pendingLevelUp: undefined }), quiet);
+          toSheet();
         },
       },
     ]);
+  const share = async () => {
+    setShareError(false);
+    try {
+      const uri = await captureRef(shareRef, {
+        format: 'png',
+        quality: 1,
+        width: 1080,
+        height: 1350,
+        result: 'tmpfile',
+      });
+      await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: t('levelUpDeck.done.share') });
+    } catch {
+      setShareError(true);
+    }
+  };
 
-  // --- Черта уровня ---
-  const feat = levelFeat(next, content, level);
-  const featRule = feat ? featAbilityRule(feat.featId, content) : null;
-  const setFeat = (featId: string | undefined) =>
-    set((c) => {
-      const others = c.feats.filter((f) => f !== levelFeat(c, content, level));
-      const rule = featId ? featAbilityRule(featId, content) : null;
-      const added = featId
-        ? [
-            {
-              featId,
-              source: 'class' as const,
-              level,
-              abilityIncreases: {},
-              ...(rule?.mode === 'one' && rule.cap !== 20 ? { abilityCap: rule.cap } : {}),
-            },
-          ]
-        : [];
-      return { ...clearLevelFeatChoices(c, level), feats: [...others, ...added] };
-    });
-  const setIncreases = (abilityIncreases: Partial<Record<AbilityId, number>>) =>
-    set((c) => ({
-      ...c,
-      feats: c.feats.map((f) => (f === levelFeat(c, content, level) ? { ...f, abilityIncreases } : f)),
-    }));
+  // --- Итог ---
+  const keyRows = keyNumbersPreview(deck.before, deck.after, content).map((row) => ({
+    label: rowLabel(row.label, context),
+    before: row.before === undefined ? undefined : rowValue(row.label, row.before),
+    after: rowValue(row.label, row.after),
+  }));
+  const inCampaign = journal.kind === 'session' || journal.kind === 'between';
+  const campaignLine = !inCampaign
+    ? undefined
+    : journal.kind === 'session'
+      ? `${campaignName} · ${t('levelUpDeck.done.session', { number: journal.number })}`
+      : campaignName;
+  const chronicleText =
+    journal.kind === 'session'
+      ? t('levelUpDeck.done.chronicle', { number: journal.number })
+      : journal.kind === 'between'
+        ? t('levelUpDeck.done.chronicleBetween')
+        : undefined;
+  const nextItems = stage === 'done' && hasNext ? nextLevelPreview(next, content, classId) : [];
+  const hero = {
+    name: character.name,
+    letter: (character.name.trim()[0] ?? '?').toLocaleUpperCase(),
+    portrait: character.portrait,
+    subtitle: heroSubtitle(next),
+    level,
+    rows: keyRows,
+    campaignLine,
+    capstone,
+  };
 
-  const scores = finalAbilityScores(prev, content);
-  const featProfSlots: { key: string; choose: number; options: string[] }[] = !feat
-    ? []
-    : feat.featId === 'skilled'
-      ? [
-          {
-            key: levelFeatProfKey(level, 'skilled', 0),
-            choose: 3,
-            options: content.proficiencies
-              .filter((p) => ['skill', 'tool', 'artisanTool', 'instrument'].includes(p.type))
-              .map((p) => p.id),
-          },
-        ]
-      : (byId.feats.get(feat.featId)?.proficiencyChoices ?? []).map((ch, i) => ({
-          key: levelFeatProfKey(level, feat.featId, i),
-          choose: ch.choose,
-          options: choiceOptionIds(ch, content),
-        }));
-
-  // Уже имеющиеся владения нельзя выбрать ещё раз.
-  const owned = new Set<string>();
-  for (const s of proficientSkills(prev, content)) {
-    owned.add(`skill-${s}`);
-  }
-  const blocked = new Map([...owned].map((id) => [id, t('levelUpPage.owned')] as const));
-
-  const newExpertise = next.expertise.filter((s) => !prev.expertise.includes(s));
-  const expertiseOptions = proficientSkills(next, content).filter((s) => !prev.expertise.includes(s));
-  const fightingStyleFeats = next.feats.filter(
-    (f) => f.level === level && byId.feats.get(f.featId)?.type === 'fighting-style',
-  );
-  const takenStyles = new Set(prev.feats.map((f) => f.featId));
-  const newLanguages = next.languages.filter((l) => !prev.languages.includes(l));
-  const masteryCount = weaponMasteryCount(next, content);
-  const subclass = entry.subclassId ? describeSubclass(entry.subclassId, content, plan.toLevel) : undefined;
+  // --- Кнопка внизу ---
+  const card = deck.cards[current];
+  const here = card?.choice?.required && !card.choice.done ? card.choice : undefined;
+  const footer =
+    stage === 'start' ? (
+      <>
+        {motion && !skipped ? (
+          <Pressable accessibilityRole="button" onPress={() => setSkipped(true)} style={styles.link}>
+            <Text style={styles.linkText}>{t('levelUpDeck.skipAnimation')}</Text>
+          </Pressable>
+        ) : null}
+        <Button title={t('levelUpDeck.open')} onPress={() => setStage('hp')} />
+        {started ? (
+          <Pressable accessibilityRole="button" onPress={discard} style={styles.link}>
+            <Text style={styles.linkText}>{t('levelUpPage.discard')}</Text>
+          </Pressable>
+        ) : null}
+      </>
+    ) : stage === 'hp' ? (
+      <Button
+        title={pending.hp ? t('levelUpDeck.next') : t('levelUpDeck.hp.needRoll')}
+        disabled={!pending.hp}
+        onPress={openCards}
+      />
+    ) : stage === 'cards' ? (
+      here ? (
+        <Button title={needFirstText(here)} disabled />
+      ) : current < deck.cards.length - 1 ? (
+        <Button title={t('levelUpDeck.next')} onPress={() => setCurrent(current + 1)} />
+      ) : deck.blockers.length ? (
+        <Button title={needFirstText(deck.blockers[0])} disabled />
+      ) : (
+        <Button
+          title={t('levelUpDeck.toSummary')}
+          onPress={() => {
+            reveal(deck.cards.filter((c) => c.state === 'hidden').map((c) => c.id));
+            setStage('done');
+          }}
+        />
+      )
+    ) : (
+      <>
+        {shareError ? <Text style={styles.error}>{t('levelUpDeck.done.shareFailed')}</Text> : null}
+        <View style={styles.row}>
+          <Button title={t('levelUpDeck.done.share')} variant="secondary" onPress={share} style={styles.flex} />
+          <Button title={t('levelUpDeck.done.toSheet')} onPress={finish} style={styles.flex} />
+        </View>
+        {hasNext && level < MAX_LEVEL ? (
+          <Pressable accessibilityRole="button" onPress={oneMore} style={styles.link}>
+            <Text style={styles.linkText}>{t('levelUpDeck.done.anotherLevel')}</Text>
+          </Pressable>
+        ) : null}
+      </>
+    );
 
   return (
-    <Screen
-      footer={
-        <>
-          {blocking[0] ? (
-            <AppText variant="secondary" numberOfLines={2}>
-              {blocking[0].message}
-              {blocking.length > 1 ? t('wizard.moreIssues', { count: blocking.length - 1 }) : ''}
-            </AppText>
-          ) : null}
-          <Button title={t('levelUpPage.finish', { level })} disabled={blocking.length > 0} onPress={finish} />
-          <SmallButton title={t('levelUpPage.discard')} onPress={discard} />
-        </>
-      }
-    >
-      <AppText variant="title">
-        {nameOf('classes', plan.classId)}: {plan.toLevel - 1} → {plan.toLevel}
-      </AppText>
-      {prev.classes.length > 1 || plan.isNewClass ? (
-        <AppText variant="secondary">{t('levelUpPage.totalLevel', { level: plan.charLevel })}</AppText>
-      ) : null}
-
-      <Section title={t('levelUpPage.whichClass')} hint={t('levelUpPage.whichClassHint')}>
-        <ChipRow>
-          {prev.classes.map((e) => (
-            <Chip
-              key={e.classId}
-              label={`${nameOf('classes', e.classId)} ${e.level} → ${e.level + 1}`}
-              selected={classId === e.classId}
-              disabled={e.level >= MAX_LEVEL}
-              onPress={() => pickClass(e.classId)}
-            />
-          ))}
-        </ChipRow>
-        <AppText variant="secondary">{t('levelUpPage.newClass')}</AppText>
-        <ChipRow>
-          {content.classes
-            .filter((cls) => !prev.classes.some((e) => e.classId === cls.id))
-            .map((cls) => {
-              const ok = canMulticlassInto(prev, content, cls.id);
-              return (
-                <Chip
-                  key={cls.id}
-                  label={nameOf('classes', cls.id)}
-                  note={ok ? undefined : multiclassRequirementText(cls.id, content)}
-                  selected={classId === cls.id}
-                  disabled={!ok}
-                  onPress={() => pickClass(cls.id)}
-                />
-              );
-            })}
-        </ChipRow>
-        {plan.isNewClass ? (
-          <AppText variant="secondary">
-            {t('levelUpPage.multiclassHint', {
-              list: (byId.classes.get(classId)?.multiclass.proficiencies ?? []).map(proficiencyName).join(', ') || '—',
-            })}
-          </AppText>
-        ) : null}
-      </Section>
-
-      {plan.multiclassChoices.map((mc) => (
-        <Section
-          key={mc.key}
-          title={t('levelUpPage.multiclassChoice', {
-            what:
-              localizeText(mc.desc).text ||
-              (mc.options.every((id) => id.startsWith('skill-'))
-                ? t('levelUpPage.skill')
-                : t('levelUpPage.proficiency')),
-          })}
-          picked={next.choices[mc.key]?.length ?? 0}
-          need={mc.choose}
-        >
-          <MultiPick
-            options={mc.options}
-            selected={next.choices[mc.key] ?? []}
-            max={mc.choose}
-            label={proficiencyName}
-            blocked={blocked}
-            onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [mc.key]: ids } }))}
-          />
-        </Section>
-      ))}
-
-      {plan.featureOptions.map((featureId) => (
-        <ChoiceField
-          key={featureId}
-          title={nameOf('features', featureId)}
-          entries={featureOptionEntries(FEATURE_OPTIONS[featureId])}
-          selected={next.choices[CHOICE_KEYS.featureOption(featureId)] ?? []}
-          max={1}
-          onChange={(ids) =>
-            set((c) => ({ ...c, choices: { ...c.choices, [CHOICE_KEYS.featureOption(featureId)]: ids } }))
-          }
-        />
-      ))}
-
-      {plan.optionChoices.map((o) => (
-        <ChoiceField
-          key={o.key}
-          title={nameOf('features', o.featureId)}
-          entries={featureEntries(o.options, content)}
-          selected={next.choices[o.key] ?? []}
-          max={o.total}
-          onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [o.key]: ids } }))}
-        />
-      ))}
-
-      {featureLanguageSlots(next, content)
-        .filter((slot) => plan.features.some((f) => f.id === slot.featureId))
-        .map((slot) => (
-          <Section
-            key={slot.key}
-            title={nameOf('features', slot.featureId)}
-            picked={next.choices[slot.key]?.length ?? 0}
-            need={slot.choose}
-          >
-            <MultiPick
-              options={slot.options}
-              selected={next.choices[slot.key] ?? []}
-              max={slot.choose}
-              label={(id) => nameOf('languages', id)}
-              onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [slot.key]: ids } }))}
-            />
-          </Section>
-        ))}
-
-      <Card style={styles.gapSm}>
-        <AppText variant="heading">{t('levelUpPage.hp', { value: hpGain })}</AppText>
-        <AppText variant="secondary">{t('levelUpPage.hpHint')}</AppText>
-      </Card>
-
-      {plan.features.length ? (
-        <Section title={t('levelUpPage.newFeatures')} hint={t('levelUpPage.newFeaturesHint')}>
-          <ChipRow>
-            {plan.features.map((f) => {
-              const feature = byId.features.get(f.id);
-              return (
-                <Chip
-                  key={f.id}
-                  label={nameOf('features', f.id)}
-                  note={f.source === 'subclass' ? t('levelUpPage.subclassNote') : undefined}
-                  onPress={() => setInfo({ title: nameOf('features', f.id), text: plain(feature?.description) })}
-                />
-              );
-            })}
-          </ChipRow>
-        </Section>
-      ) : null}
-
-      {plan.needsSubclass ? (
-        <Section title={t('levelUpPage.subclass')} picked={entry.subclassId ? 1 : 0} need={1}>
-          {content.subclasses
-            .filter((s) => s.classId === plan.classId)
-            .map((s) => (
-              <OptionCard
-                key={s.id}
-                title={localizeText(s.name).text}
-                lines={[localizeText(s.summary).text, ...(s.extra ? [t('common.fromPhb')] : [])]}
-                selected={entry.subclassId === s.id}
-                onPress={() => setEntry({ subclassId: s.id })}
-              />
-            ))}
-          <FadeSwap swapKey={entry.subclassId ?? ''}>
-            {subclass ? <SubclassCard description={subclass} /> : null}
-          </FadeSwap>
-        </Section>
-      ) : null}
-
-      {plan.featSlot ? (
-        <Section
-          title={plan.featSlot === 'asi' ? t('levelUpPage.asi') : t('levelUpPage.epicBoon')}
-          hint={plan.featSlot === 'asi' ? t('levelUpPage.asiHint') : undefined}
-          picked={feat ? 1 : 0}
-          need={1}
-        >
-          <ChoiceField
-            title={t('levelUpPage.feat')}
-            entries={featEntries(levelFeatOptions(next, content, plan.featSlot), content)}
-            selected={feat ? [feat.featId] : []}
-            max={1}
-            onChange={([id]) => setFeat(id)}
-          />
-          {featRule?.mode === 'asi' ? (
-            <AsiPicker increases={feat?.abilityIncreases ?? {}} scores={scores} onChange={setIncreases} />
-          ) : null}
-          {featRule?.mode === 'one' ? (
-            <ChipRow>
-              {featRule.abilities.map((id) => (
-                <Chip
-                  key={id}
-                  label={`${abilityAbbr(id)} +1`}
-                  note={String(scores[id])}
-                  disabled={scores[id] >= featRule.cap}
-                  selected={feat?.abilityIncreases?.[id] === 1}
-                  onPress={() => setIncreases({ [id]: 1 })}
-                />
-              ))}
-            </ChipRow>
-          ) : null}
-          {featProfSlots.map((slot) => (
-            <Section
-              key={slot.key}
-              title={t('levelUpPage.featProficiencies')}
-              picked={next.choices[slot.key]?.length ?? 0}
-              need={slot.choose}
-            >
-              <MultiPick
-                options={slot.options}
-                selected={next.choices[slot.key] ?? []}
-                max={slot.choose}
-                label={proficiencyName}
-                blocked={blocked}
-                onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [slot.key]: ids } }))}
-              />
-            </Section>
-          ))}
-        </Section>
-      ) : null}
-
-      {plan.expertise ? (
-        <Section
-          title={t('levelUpPage.expertise')}
-          hint={t('levelUpPage.expertiseHint')}
-          picked={newExpertise.length}
-          need={plan.expertise}
-        >
-          <MultiPick
-            options={expertiseOptions}
-            selected={newExpertise}
-            max={plan.expertise}
-            label={(id) => nameOf('skills', id)}
-            onChange={(ids) => set((c) => ({ ...c, expertise: [...prev.expertise, ...ids] }))}
-          />
-        </Section>
-      ) : null}
-
-      {plan.fightingStyles ? (
-        <ChoiceField
-          title={t('levelUpPage.fightingStyle')}
-          entries={featEntries(
-            content.feats.filter((f) => f.type === 'fighting-style' && !takenStyles.has(f.id)).map((f) => f.id),
-            content,
-          )}
-          selected={fightingStyleFeats.map((f) => f.featId)}
-          max={plan.fightingStyles}
-          onChange={(ids) =>
-            set((c) => ({
-              ...c,
-              feats: [
-                ...c.feats.filter(
-                  (feat) => !(feat.level === level && byId.feats.get(feat.featId)?.type === 'fighting-style'),
-                ),
-                ...ids.map((featId) => ({ featId, source: 'class' as const, level })),
-              ],
-            }))
-          }
-        />
-      ) : null}
-
-      {plan.skillChoices.map((sc) => (
-        <Section
-          key={sc.key}
-          title={t('levelUpPage.skills', { feature: nameOf('features', sc.featureId) })}
-          picked={next.choices[sc.key]?.length ?? 0}
-          need={sc.choose}
-        >
-          <MultiPick
-            options={sc.options}
-            selected={next.choices[sc.key] ?? []}
-            max={sc.choose}
-            label={proficiencyName}
-            blocked={blocked}
-            onChange={(ids) => set((c) => ({ ...c, choices: { ...c.choices, [sc.key]: ids } }))}
-          />
-        </Section>
-      ))}
-
-      <ClassOptionsPicker
-        character={next}
-        onChoice={(key, ids) => set((c) => ({ ...c, choices: { ...c.choices, [key]: ids } }))}
+    <Screen footer={footer}>
+      <StepHeader
+        kind={stage === 'start' ? 'close' : 'back'}
+        onPress={back}
+        progress={stage === 'hp' || stage === 'cards' ? { total: 3, done: stage === 'hp' ? 1 : 2 } : undefined}
       />
 
-      {plan.languages ? (
-        <Section title={t('levelUpPage.languages')} picked={newLanguages.length} need={plan.languages}>
-          <MultiPick
-            options={content.languages.map((l) => l.id).filter((id) => !knownLanguages(prev, content).includes(id))}
-            selected={newLanguages}
-            max={plan.languages}
-            label={(id) => nameOf('languages', id)}
-            onChange={(ids) => set((c) => ({ ...c, languages: [...prev.languages, ...ids] }))}
-          />
-        </Section>
-      ) : null}
-
-      {masteryCount > prev.weaponMasteries.length ? (
-        <ChoiceField
-          title={t('levelUpPage.masteries')}
-          entries={masteryEntries(weaponMasteryOptions(next, content), content)}
-          selected={next.weaponMasteries}
-          max={masteryCount}
-          onChange={(weaponMasteries) => set((c) => ({ ...c, weaponMasteries }))}
+      {stage === 'start' ? (
+        <StartStep
+          name={character.name}
+          subtitle={`${classLine(next, classId)} · ${countsText(deck.cards.length + (hasNext ? 1 : 0), deck.counts.choices)}`}
+          from={totalLevel(prev.classes)}
+          to={level}
+          cards={deck.cards}
+          hasNext={hasNext}
+          capstone={capstone}
+          animate={motion && !skipped}
+          current={{
+            classId: prev.classes[0].classId,
+            title: t('levelUpDeck.classLevel', {
+              className: nameOf('classes', prev.classes[0].classId),
+              level: prev.classes[0].level + 1,
+            }),
+            sub: t('levelUpDeck.continuePath'),
+          }}
+          other={{
+            classId,
+            title:
+              classId === prev.classes[0].classId
+                ? t('levelUpDeck.otherClass')
+                : t('levelUpDeck.classLevel', { className, level: entry.level }),
+            sub: t('levelUpDeck.multiclass'),
+          }}
+          isOther={classId !== prev.classes[0].classId}
+          classLocked={rollLocked ? t('levelUpDeck.hp.locked') : undefined}
+          onCurrent={() => pickClass(prev.classes[0].classId)}
+          onOther={() => setClassSheet(true)}
         />
       ) : null}
 
-      {issues
-        .filter((i) => !i.blocking)
-        .map((i) => (
-          <View key={i.message} style={styles.gapSm}>
-            <AppText style={styles.textInfo}>{i.message}</AppText>
-            {i.action === 'spells' ? (
-              <SmallButton title={t('levelUpPage.pickSpells')} tone="accent" onPress={() => setSpells(true)} />
-            ) : null}
-          </View>
-        ))}
+      {stage === 'hp' ? (
+        <HpStep
+          card={hpCard}
+          die={die}
+          className={className}
+          hp={pending.hp}
+          defaultMethod={character.hpMethod ?? 'average'}
+          allowReroll={settings.allowHpReroll}
+          onChange={setHp}
+        />
+      ) : null}
 
-      <InfoSheet info={info} onClose={() => setInfo(null)} />
+      {stage === 'cards' ? (
+        <CardsStep
+          deck={deck}
+          before={deck.before}
+          after={deck.after}
+          level={level}
+          classLevel={entry.level}
+          current={Math.min(current, deck.cards.length - 1)}
+          onCurrent={setCurrent}
+          onReveal={reveal}
+          onChoose={choose}
+          onKeep={(picked) => reveal([`${KEEP}${picked.id}`])}
+          kept={kept}
+          animate={motion}
+          context={context}
+          notes={Object.fromEntries(
+            deck.cards
+              .filter((c) => c.choice?.kind === 'expertise' && prev.expertise.length)
+              .map((c) => [
+                c.id,
+                t('levelUpDeck.expertiseHas', { list: prev.expertise.map((id) => nameOf('skills', id)).join(', ') }),
+              ]),
+          )}
+        />
+      ) : null}
+
+      {stage === 'done' ? (
+        <DoneStep
+          {...hero}
+          chronicleText={chronicleText}
+          nextLevel={nextItems.length ? { level: level + 1, text: nextLevelText(nextItems, context) } : undefined}
+        />
+      ) : null}
+
+      {stage === 'done' ? (
+        // Картинка «Поделиться» 1080×1350: та же карточка, отрисованная вне экрана в пропорции 4:5.
+        <View ref={shareRef} collapsable={false} style={styles.shareShot} pointerEvents="none">
+          <HeroCard {...hero} share />
+        </View>
+      ) : null}
+
+      <ChoiceSheet choice={choice} prev={prev} next={next} set={set} onClose={() => setChoice(null)} />
       <SpellsEditSheet
-        visible={spells}
+        visible={!!spellsFor}
         character={next}
-        classId={plan.classId}
+        classId={spellsFor ?? undefined}
         onChange={set}
-        onClose={() => setSpells(false)}
+        onClose={() => setSpellsFor(null)}
+      />
+      <ClassSheet
+        visible={classSheet}
+        character={prev}
+        classId={classId}
+        onPick={pickClass}
+        onClose={() => setClassSheet(false)}
       />
     </Screen>
   );

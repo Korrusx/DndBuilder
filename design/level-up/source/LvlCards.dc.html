@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Открытие умений</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;family=Unbounded:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#0F1114}
+a{color:#F2B14A}a:hover{color:#FFC86E}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0F1114; color: #F1ECE2; font-family: 'Golos Text', system-ui, sans-serif; display: flex; flex-direction: column; padding: 10px 16px 18px; gap: 16px; overflow: hidden">
+
+  <div style="display: flex; align-items: center; gap: 8px">
+    <button aria-label="Назад" style="width: 44px; height: 44px; border: 0; background: transparent; color: #F1ECE2; display: flex; align-items: center; justify-content: center; padding: 0">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+    </button>
+    <div style="flex: 1; display: flex; gap: 6px; justify-content: center">
+      <span style="width: 28px; height: 4px; border-radius: 2px; background: #F2B14A"></span>
+      <span style="width: 28px; height: 4px; border-radius: 2px; background: #F2B14A"></span>
+      <span style="width: 28px; height: 4px; border-radius: 2px; background: #2C323B"></span>
+    </div>
+    <span style="width: 44px"></span>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 4px; align-items: center">
+    <div style="font-family: Unbounded, sans-serif; font-size: 20px; font-weight: 600">Новое на 6-м уровне</div>
+    <div style="font-size: 14px; color: #9AA3AE">Нажмите на карту, чтобы перевернуть</div>
+  </div>
+
+  <div style="border-radius: 20px; border: 1.5px solid #F2B14A; background: #1E1A12; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 0 6px rgba(242,177,74,0.06)">
+    <div style="display: flex; align-items: center; gap: 8px">
+      <span style="height: 24px; border-radius: 12px; background: #2B2416; color: #F2B14A; font-size: 11px; letter-spacing: 0.06em; display: flex; align-items: center; padding: 0 10px">ПЛУТ 6</span>
+      <span style="flex: 1"></span>
+      <span style="font-size: 12px; color: #C9A46A">нужен выбор</span>
+    </div>
+    <div style="font-family: Unbounded, sans-serif; font-size: 24px; font-weight: 600; color: #F2B14A">Компетентность</div>
+    <div style="font-size: 15px; line-height: 1.5; color: #DCD5C8">Выберите ещё два навыка, которыми вы владеете. Бонус мастерства для них удваивается.</div>
+    <div style="display: flex; gap: 6px; flex-wrap: wrap">
+      <span style="height: 28px; border-radius: 14px; background: #232831; font-size: 12px; display: flex; align-items: center; padding: 0 10px; color: #9AA3AE">уже есть: Скрытность, Ловкость рук</span>
+    </div>
+    <button style="height: 52px; border-radius: 14px; border: 0; background: #F2B14A; color: #1A1406; font-family: Unbounded, sans-serif; font-size: 14px; font-weight: 600">Выбрать навыки</button>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+    <div style="border-radius: 16px; border: 1px solid #2C4A38; background: #13261D; padding: 12px; display: flex; flex-direction: column; gap: 6px">
+      <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #7FE0A8"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>открыто</span>
+      <span style="font-size: 15px; font-weight: 600">Хиты</span>
+      <span style="font-family: Unbounded, sans-serif; font-size: 18px; color: #7FE0A8">38 → 46</span>
+    </div>
+    <div style="border-radius: 16px; border: 1.5px solid #5C4A22; background: repeating-linear-gradient(45deg, #1F1A11 0 6px, #241E13 6px 12px); padding: 12px; display: flex; flex-direction: column; gap: 6px; justify-content: center; align-items: flex-start">
+      <span style="font-size: 12px; color: #C9A46A">не перевёрнута</span>
+      <span style="font-size: 15px; font-weight: 600; color: #F1ECE2">Что дальше</span>
+      <span style="font-size: 12px; color: #9AA3AE">7-й уровень</span>
+    </div>
+  </div>
+
+  <div style="border-radius: 14px; border: 1px dashed #2C323B; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px">
+    <div style="font-size: 12px; color: #9AA3AE; letter-spacing: 0.06em">БЕЗ ИЗМЕНЕНИЙ</div>
+    <div style="font-size: 13px; color: #9AA3AE; line-height: 1.45">Бонус мастерства +3 · Скрытая атака 3к6 · умения Вора</div>
+  </div>
+
+  <div style="flex: 1"></div>
+  <button disabled style="height: 56px; border-radius: 16px; border: 1px solid #2C323B; background: #1A1D22; color: #6B737D; font-family: Unbounded, sans-serif; font-size: 15px; font-weight: 600">Сначала выберите навыки</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

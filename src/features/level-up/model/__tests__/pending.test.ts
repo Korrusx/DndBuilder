@@ -4,6 +4,9 @@ import { content } from '@/shared/content';
 
 import { hpGain } from '../deck/hpGain';
 import { levelUpDeck } from '../deck/levelUpDeck';
+import { levelChoices } from '../levelChoices';
+import { startLevelUp } from '../levelup';
+import { withoutChoice } from '../withoutChoice';
 import { irmaAt } from '../deck/__tests__/fixtures';
 import {
   activePending,
@@ -105,5 +108,14 @@ describe('минимум 1 хит за уровень', () => {
     });
     expect(result.gain).toBe(1);
     expect(result.breakdown).toContainEqual({ kind: 'minimum', value: 3 });
+  });
+});
+
+describe('предпросмотр выбора', () => {
+  test('черновик без выбора компетентности — как до повышения', () => {
+    const prev = { ...irmaAt(5), expertise: ['stealth', 'sleight-of-hand'] };
+    const next = { ...startLevelUp(prev), expertise: [...prev.expertise, 'perception', 'acrobatics'] };
+    const choice = levelChoices(next, prev, content).find((c) => c.kind === 'expertise')!;
+    expect(withoutChoice(next, prev, choice, content).expertise).toEqual(prev.expertise);
   });
 });

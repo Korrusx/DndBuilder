@@ -93,3 +93,24 @@ export const SIDE_EFFECT_NUMBERS: NumberKey[] = [
 
 /** Сколько главных изменений на итоговой карточке. */
 export const KEY_NUMBERS_LIMIT = 6;
+
+/** Встряхивание (раздел 8): порог ускорения в g, не чаще раза в 1,5 с, опрос датчика раз в 100 мс. */
+export const SHAKE_THRESHOLD_G = 1.8;
+export const SHAKE_INTERVAL_MS = 1500;
+export const SHAKE_SAMPLE_MS = 100;
+
+/** Тайминги анимаций (раздел 8), мс. Вершина — на 30 % дольше. */
+export const MOTION = {
+  ringDelay: 300,
+  ringFill: 1200,
+  digitSwap: 1500,
+  digitIn: 450,
+  burst: 700,
+  jumpStart: 1700,
+  jumpStep: 120,
+  jumpHeight: 12,
+  flip: 350,
+  revealAllStep: 80,
+  slotStep: 150,
+  capstoneSlowdown: 1.3,
+} as const;

@@ -1,0 +1,53 @@
+import { StyleSheet } from 'react-native';
+
+import { colors, fonts, spacing } from '@/shared/config';
+
+export const styles = StyleSheet.create({
+  head: { alignItems: 'center', gap: 4 },
+  title: { fontFamily: fonts.display, fontSize: 20, color: colors.text },
+  sub: { fontFamily: fonts.text, fontSize: 14, color: colors.textSecondary },
+  table: { gap: spacing.sm },
+  simple: {
+    height: 250,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: '#13181A',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.md,
+  },
+  shake: { fontFamily: fonts.text, fontSize: 12, color: '#6B737D', textAlign: 'center' },
+  methods: { flexDirection: 'row', gap: 6 },
+  method: {
+    flex: 1,
+    minHeight: 56,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 2,
+    paddingHorizontal: 4,
+  },
+  methodOn: { borderWidth: 1.5, borderColor: colors.accent, backgroundColor: colors.accentBg },
+  methodTitle: { fontFamily: fonts.text, fontSize: 13, color: colors.text },
+  methodTitleOn: { fontFamily: fonts.textBold, color: colors.accent },
+  methodSub: { fontFamily: fonts.text, fontSize: 11, color: colors.textSecondary },
+  methodSubOn: { color: '#C9A46A' },
+  manual: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  input: {
+    flex: 1,
+    minHeight: 48,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    paddingHorizontal: spacing.lg,
+    fontFamily: fonts.display,
+    fontSize: 18,
+    color: colors.text,
+  },
+  note: { fontFamily: fonts.text, fontSize: 12, color: colors.textSecondary },
+});

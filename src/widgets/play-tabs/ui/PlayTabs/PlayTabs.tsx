@@ -102,17 +102,8 @@ export function PlayTabs() {
           ...HIDDEN_TAB,
           title: t('nav.levelUp'),
           tabBarStyle: { display: 'none' },
-          headerRight: () => null,
-          headerLeft: () => (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t('levelUpPage.postpone')}
-              onPress={() => router.navigate({ pathname: '/character/[id]', params: { id: character.id } })}
-              style={styles.textButton}
-            >
-              <AppText style={styles.linkLabel}>{t('levelUpPage.postpone')}</AppText>
-            </Pressable>
-          ),
+          // Шапку рисует сам экран: крестик «Отложить», «назад» и сегменты прогресса.
+          headerShown: false,
         }}
       />
     </Tabs>
