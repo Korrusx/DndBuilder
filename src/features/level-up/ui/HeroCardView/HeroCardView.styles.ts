@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { fonts } from '@/shared/config';
 
-/** Размеры карты (hero-card-spec.md, разделы 2 и 9.2). */
+/** Размеры карты. */
 export const CARD_SIZES = {
   full: {
     portrait: 128,

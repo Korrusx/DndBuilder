@@ -32,7 +32,7 @@ import type { CardsStepProps } from './CardsStep.types';
 const RESIZE = LinearTransition.duration(LIST_RESIZE).easing(Easing.inOut(Easing.ease));
 
 /**
- * У3 · «Новое на N-м уровне» (design/level-up/deck-screen-spec.md): шапка, счётчик и лента закреплены,
+ * У3 · «Новое на N-м уровне»: шапка, счётчик и лента закреплены,
  * карты списком (развёрнута одна), «Дальше» поверх списка. Один экран для одной новинки и для пятнадцати.
  */
 export function CardsStep(props: CardsStepProps) {

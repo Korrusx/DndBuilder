@@ -51,7 +51,7 @@ export const PENDING_FIELDS: PendingField[] = [
   'preparedSpells',
 ];
 
-// ---------- Экран «Новое на N-м уровне» (design/level-up/deck-screen-spec.md) ----------
+// ---------- Экран «Новое на N-м уровне» ----------
 
 /** Больше стольких чипов — сворачиваем в «+N ещё» (раздел 6.7). */
 export const CHIPS_VISIBLE_MAX = 6;

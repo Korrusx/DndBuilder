@@ -1,4 +1,4 @@
-// Раскадровка экрана итога (hero-card-spec.md, разделы 4 и 5), мс от открытия экрана.
+// Раскадровка экрана итога, мс от открытия экрана.
 
 import type { CardStyle } from '../config/heroCardThemes';
 import { CARD_STYLES } from '../config/heroCardThemes';

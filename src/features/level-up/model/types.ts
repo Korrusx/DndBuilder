@@ -244,7 +244,7 @@ export type LevelUpSettings = {
   ownDice: boolean;
 };
 
-// ---------- Экран «Новое на N-м уровне» (design/level-up/deck-screen-spec.md) ----------
+// ---------- Экран «Новое на N-м уровне» ----------
 
 /** Группа раскрытого списка роста. */
 export type GrowthGroupId = 'saves' | 'skills' | 'attacks' | 'magic' | 'species' | 'other';

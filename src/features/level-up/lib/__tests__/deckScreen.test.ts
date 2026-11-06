@@ -1,4 +1,4 @@
-// Экран «Новое на N-м уровне»: счётчик, сводки, короткие названия, группы роста (deck-screen-spec.md).
+// Экран «Новое на N-м уровне»: счётчик, сводки, короткие названия, группы роста.
 
 import type { Character } from '@/entities/character';
 import { content } from '@/shared/content';
