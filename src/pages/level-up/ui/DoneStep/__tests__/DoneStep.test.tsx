@@ -7,7 +7,10 @@ import type { DoneStepProps } from '../DoneStep.types';
 
 // Анимации в тесте сразу дают конечное значение: проверяется, с чего экран начинается.
 jest.mock('react-native-reanimated', () => {
+  // Фабрика jest.mock не видит импорты файла — только require.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const React = require('react');
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { Text, View } = require('react-native');
   const chain: object = new Proxy(() => chain, { get: () => chain, apply: () => chain });
   const shared = (initial: unknown) => {
