@@ -43,7 +43,17 @@ const tick = () => {
  * Кольцо уровня У1 (раздел 8): свечение «дышит», пока кольцо заполняется, по концу дуги бежит искра,
  * на ударе старая цифра гаснет, новая влетает с пружиной, расходится вспышка. Без анимации — сразу конец.
  */
-export function LevelRing({ from, to, animate, capstone, playKey, onPress, onImpact }: LevelRingProps) {
+export function LevelRing({
+  from,
+  to,
+  animate,
+  capstone,
+  playKey,
+  onPress,
+  onFill,
+  onCancel,
+  onImpact,
+}: LevelRingProps) {
   const palette = capstone ? INTRO_COLORS.capstone : INTRO_COLORS.normal;
   // У вершины мерцание тоже на 30 % медленнее — два пульса за заполнение.
   const period = introTimeline(!!capstone).flickerPeriod;
@@ -148,10 +158,13 @@ export function LevelRing({ from, to, animate, capstone, playKey, onPress, onImp
         withTiming(GLOW.endScale, { duration: settle }),
       ),
     );
+    const fillTimer = setTimeout(() => onFill?.(), time.fillStart);
     const impact = setTimeout(() => onImpact?.(), time.impact);
     // Уход с экрана: ни анимаций, ни вибраций.
     return () => {
+      clearTimeout(fillTimer);
       clearTimeout(impact);
+      onCancel?.();
       stop();
       armed.value = 0;
     };

@@ -23,6 +23,7 @@ import {
   cardUnlocked,
   defaultCardStyle,
   pickCardStats,
+  playLevelUpSound,
   IntroBackground,
   levelUpBase,
   levelUpDeck,
@@ -31,11 +32,12 @@ import {
   pendingDraft,
   revealCards,
   setPendingHp,
+  stopLevelUpSound,
   storeDraft,
   useDeckMotion,
   useLevelUpSettings,
 } from '@/features/level-up';
-import { playDiceSound, useDiceSettings } from '@/features/roll-dice';
+import { useDiceSettings } from '@/features/roll-dice';
 import { byId, content, nameOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
 import { Button, Screen } from '@/shared/ui';
@@ -172,11 +174,13 @@ export function LevelUpPage() {
     update((c) => applyLevelUp(c, content));
     toSheet();
   };
-  // Удар при смене цифры уровня: вибрация «успех» и мягкий звук, если включены звуки бросков.
+  // Удар при смене цифры уровня — вибрация «успех»; звук повышения играет с начала заполнения кольца.
   const impact = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
+  };
+  const fillSound = () => {
     if (dice.sound) {
-      playDiceSound('roll');
+      playLevelUpSound();
     }
   };
   // Начатое повышение можно бросить: выборы и брошенные хиты сбросятся.
@@ -322,6 +326,8 @@ export function LevelUpPage() {
             setSkipped(false);
             setPlayKey((key) => key + 1);
           }}
+          onFill={fillSound}
+          onCancel={stopLevelUpSound}
           onImpact={impact}
           current={{
             classId: prev.classes[0].classId,

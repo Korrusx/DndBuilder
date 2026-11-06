@@ -29,6 +29,8 @@ export function StartStep(props: StartStepProps) {
           capstone={capstone}
           playKey={playKey}
           onPress={props.onReplay}
+          onFill={props.onFill}
+          onCancel={props.onCancel}
           onImpact={props.onImpact}
         />
         <HintFade playKey={playKey} animate={animate} capstone={capstone}>
