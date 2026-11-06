@@ -63,6 +63,7 @@ export type {
 export { withoutChoice } from './model/withoutChoice';
 export {
   cardBody,
+  cardFullText,
   cardKicker,
   cardShortTitle,
   cardTitle,
@@ -95,15 +96,12 @@ export { useShake } from './lib/shake';
 export { useDeckMotion } from './lib/useDeckMotion';
 export { CARD_THEMES } from './config/cardTheme';
 export { CardBack } from './ui/CardBack/CardBack';
-export { DeckCardView } from './ui/DeckCardView/DeckCardView';
-export { DeckStrip } from './ui/DeckStrip/DeckStrip';
 export { DeckFooter } from './ui/DeckFooter/DeckFooter';
 export { DeckHeader } from './ui/DeckHeader/DeckHeader';
 export { DeckTiles } from './ui/DeckTiles/DeckTiles';
 export { GrowthCard } from './ui/GrowthCard/GrowthCard';
 export { HpRow } from './ui/HpRow/HpRow';
 export { LevelUpCardView } from './ui/LevelUpCardView/LevelUpCardView';
-export { FlipCard } from './ui/FlipCard/FlipCard';
 export { HpSummary } from './ui/HpSummary/HpSummary';
 export { LevelRing } from './ui/LevelRing/LevelRing';
 export { PreviewPick } from './ui/PreviewPick/PreviewPick';

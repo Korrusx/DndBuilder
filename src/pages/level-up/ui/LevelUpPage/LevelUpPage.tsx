@@ -10,13 +10,15 @@ import type { Character, HpChoice } from '@/entities/character';
 import { totalLevel } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
-import type { LevelChoice } from '@/features/level-up';
+import type { LevelChoice, LevelUpCard, PickedItem } from '@/features/level-up';
 import {
   activePending,
   applyLevelUp,
   beginLevelUp,
   countsText,
   cardA11yLabel,
+  cardFullText,
+  cardTitle,
   cardFooter,
   cardNext,
   cardSubtitle,
@@ -28,8 +30,8 @@ import {
   levelUpBase,
   levelUpDeck,
   MAX_LEVEL,
-  needFirstText,
   pendingDraft,
+  pickedItems,
   revealCards,
   setPendingHp,
   stopLevelUpSound,
@@ -40,10 +42,10 @@ import {
 import { useDiceSettings } from '@/features/roll-dice';
 import { byId, content, nameOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
-import { Button, Screen } from '@/shared/ui';
+import { Button, DetailSheet, Screen } from '@/shared/ui';
 
 import type { DeckStage } from '../../lib/deckScreen';
-import { classLine, firstOpenIndex, resumeStage } from '../../lib/deckScreen';
+import { classLine, deckSubtitle, resumeStage } from '../../lib/deckScreen';
 import { CardsStep } from '../CardsStep/CardsStep';
 import { ChoiceSheet } from '../ChoiceSheet/ChoiceSheet';
 import { ClassSheet } from '../ClassSheet/ClassSheet';
@@ -69,7 +71,9 @@ export function LevelUpPage() {
   const [playKey, setPlayKey] = useState(0);
   const dice = useDiceSettings();
   const [chosenStage, setStage] = useState<DeckStage | null>(null);
-  const [current, setCurrent] = useState(0);
+  // Карта, нажатая на первом экране: экран карт сразу прокручивается к ней.
+  const [focus, setFocus] = useState<string | null>(null);
+  const [more, setMore] = useState<LevelUpCard | null>(null);
   const [choice, setChoice] = useState<LevelChoice | null>(null);
   const [spellsFor, setSpellsFor] = useState<string | null>(null);
   const [classSheet, setClassSheet] = useState(false);
@@ -84,7 +88,8 @@ export function LevelUpPage() {
   if (shownSession !== session) {
     setShownSession(session);
     setStage(null);
-    setCurrent(0);
+    setFocus(null);
+    setMore(null);
     setSkipped(false);
     setChoice(null);
     setSpellsFor(null);
@@ -160,13 +165,24 @@ export function LevelUpPage() {
       setStage(stage === 'done' ? 'cards' : stage === 'cards' ? 'hp' : 'start');
     }
   };
+  // Рост — не сюрприз, у него нет рубашки; хиты открыты, когда решены.
+  const growthIds = deck.cards.filter((c) => c.type === 'growth').map((c) => c.id);
   const openCards = () => {
-    reveal(['hp']);
-    setCurrent(
-      firstOpenIndex({ ...deck, cards: deck.cards.map((c) => (c.id === 'hp' ? { ...c, state: 'done' } : c)) }),
-    );
+    reveal(['hp', ...growthIds]);
     setStage('cards');
   };
+  const openCard = (id: string) => {
+    reveal([...(pending.hp ? ['hp'] : []), ...growthIds, id]);
+    setFocus(id);
+    setStage('cards');
+  };
+  const picked: Record<string, PickedItem[]> = Object.fromEntries(
+    deck.cards.map((c) => [c.id, c.choice ? pickedItems(c.choice, prev, next, content) : []]),
+  );
+  const settled = [
+    ...kept,
+    ...deck.cards.filter((c) => c.choice && !c.choice.required && picked[c.id].length).map((c) => c.choice!.id),
+  ];
   const choose = (picked: LevelChoice) =>
     picked.kind === 'spells' || picked.kind === 'spellbook' ? setSpellsFor(picked.classId) : setChoice(picked);
   const finish = () => {
@@ -254,9 +270,72 @@ export function LevelUpPage() {
     );
   }
 
+  // --- Шторки: выборы, заклинания, класс, полное описание ---
+  const sheets = (
+    <>
+      <ChoiceSheet choice={choice} prev={prev} next={next} set={set} onClose={() => setChoice(null)} />
+      <SpellsEditSheet
+        visible={!!spellsFor}
+        character={next}
+        classId={spellsFor ?? undefined}
+        onChange={set}
+        onClose={() => setSpellsFor(null)}
+      />
+      <ClassSheet
+        visible={classSheet}
+        character={prev}
+        classId={classId}
+        onPick={pickClass}
+        onClose={() => setClassSheet(false)}
+      />
+      <DetailSheet
+        ids={more ? [more.id] : []}
+        id={more?.id ?? null}
+        detail={() => (more ? { title: cardTitle(more, context), text: cardFullText(more) } : null)}
+        onNavigate={() => undefined}
+        onClose={() => setMore(null)}
+      />
+    </>
+  );
+
+  if (stage === 'cards') {
+    return (
+      <>
+        <CardsStep
+          deck={deck}
+          before={deck.before}
+          after={deck.after}
+          title={t('levelUpDeck.newOnLevel', { level })}
+          subtitle={deckSubtitle(character.name, next, classId)}
+          hpDecided={!!pending.hp}
+          focus={focus}
+          picked={picked}
+          kept={kept}
+          settled={settled}
+          animate={motion}
+          context={context}
+          notes={Object.fromEntries(
+            deck.cards
+              .filter((c) => c.choice?.kind === 'expertise' && prev.expertise.length)
+              .map((c) => [
+                c.id,
+                t('levelUpDeck.expertiseHas', { list: prev.expertise.map((id) => nameOf('skills', id)).join(', ') }),
+              ]),
+          )}
+          onBack={back}
+          onRollHp={() => setStage('hp')}
+          onReveal={reveal}
+          onChoose={choose}
+          onKeep={(item) => reveal([`${KEEP}${item.id}`])}
+          onMore={setMore}
+          onNext={() => setStage('done')}
+        />
+        {sheets}
+      </>
+    );
+  }
+
   // --- Кнопка внизу ---
-  const card = deck.cards[current];
-  const here = card?.choice?.required && !card.choice.done ? card.choice : undefined;
   const footer =
     stage === 'start' ? (
       <>
@@ -278,22 +357,6 @@ export function LevelUpPage() {
         disabled={!pending.hp}
         onPress={openCards}
       />
-    ) : stage === 'cards' ? (
-      here ? (
-        <Button title={needFirstText(here)} disabled />
-      ) : current < deck.cards.length - 1 ? (
-        <Button title={t('levelUpDeck.next')} onPress={() => setCurrent(current + 1)} />
-      ) : deck.blockers.length ? (
-        <Button title={needFirstText(deck.blockers[0])} disabled />
-      ) : (
-        <Button
-          title={t('levelUpDeck.toSummary')}
-          onPress={() => {
-            reveal(deck.cards.filter((c) => c.state === 'hidden').map((c) => c.id));
-            setStage('done');
-          }}
-        />
-      )
     ) : null;
 
   return (
@@ -308,7 +371,7 @@ export function LevelUpPage() {
       <StepHeader
         kind={stage === 'start' ? 'close' : 'back'}
         onPress={back}
-        progress={stage === 'hp' || stage === 'cards' ? { total: 3, done: stage === 'hp' ? 1 : 2 } : undefined}
+        progress={stage === 'hp' ? { total: 3, done: 1 } : undefined}
       />
 
       {stage === 'start' ? (
@@ -349,6 +412,7 @@ export function LevelUpPage() {
           classLocked={rollLocked ? t('levelUpDeck.hp.locked') : undefined}
           onCurrent={() => pickClass(prev.classes[0].classId)}
           onOther={() => setClassSheet(true)}
+          onCard={openCard}
         />
       ) : null}
 
@@ -364,47 +428,7 @@ export function LevelUpPage() {
         />
       ) : null}
 
-      {stage === 'cards' ? (
-        <CardsStep
-          deck={deck}
-          before={deck.before}
-          after={deck.after}
-          level={level}
-          classLevel={entry.level}
-          current={Math.min(current, deck.cards.length - 1)}
-          onCurrent={setCurrent}
-          onReveal={reveal}
-          onChoose={choose}
-          onKeep={(picked) => reveal([`${KEEP}${picked.id}`])}
-          kept={kept}
-          animate={motion}
-          context={context}
-          notes={Object.fromEntries(
-            deck.cards
-              .filter((c) => c.choice?.kind === 'expertise' && prev.expertise.length)
-              .map((c) => [
-                c.id,
-                t('levelUpDeck.expertiseHas', { list: prev.expertise.map((id) => nameOf('skills', id)).join(', ') }),
-              ]),
-          )}
-        />
-      ) : null}
-
-      <ChoiceSheet choice={choice} prev={prev} next={next} set={set} onClose={() => setChoice(null)} />
-      <SpellsEditSheet
-        visible={!!spellsFor}
-        character={next}
-        classId={spellsFor ?? undefined}
-        onChange={set}
-        onClose={() => setSpellsFor(null)}
-      />
-      <ClassSheet
-        visible={classSheet}
-        character={prev}
-        classId={classId}
-        onPick={pickClass}
-        onClose={() => setClassSheet(false)}
-      />
+      {sheets}
     </Screen>
   );
 }

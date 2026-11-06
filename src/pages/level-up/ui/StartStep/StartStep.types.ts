@@ -36,4 +36,6 @@ export type StartStepProps = {
   classLocked?: string;
   onCurrent: () => void;
   onOther: () => void;
+  /** Нажатие на рубашку: сразу к этой карте на экране карт. */
+  onCard: (id: string) => void;
 };

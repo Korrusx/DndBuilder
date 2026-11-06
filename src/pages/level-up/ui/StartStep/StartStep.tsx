@@ -42,12 +42,18 @@ export function StartStep(props: StartStepProps) {
       <View style={styles.backs}>
         {shown.map((card, i) => (
           <JumpingBack key={card.id} index={i} {...jump}>
-            <CardBack
-              type={card.type}
-              label={backLabel(card)}
-              dot={!!card.choice && card.choice.required}
-              style={styles.back}
-            />
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={backLabel(card)}
+              onPress={() => props.onCard(card.id)}
+            >
+              <CardBack
+                type={card.type}
+                label={backLabel(card)}
+                dot={!!card.choice && card.choice.required}
+                style={styles.back}
+              />
+            </Pressable>
           </JumpingBack>
         ))}
         {rest > 0 ? (
