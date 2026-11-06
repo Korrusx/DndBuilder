@@ -7,6 +7,8 @@ export const CARD_MAX = 350;
 
 export const styles = StyleSheet.create({
   root: { flex: 1 },
+  // Сцена картинки «Поделиться» отрисована на экране, но под фоном — её не видно, а снять можно.
+  shareLayer: { position: 'absolute', top: 0, left: 0 },
   safe: { flex: 1 },
   column: { flexGrow: 1, paddingTop: 18, paddingBottom: 18, paddingHorizontal: CARD_MARGIN, gap: 14 },
   head: { alignItems: 'center', gap: 2 },

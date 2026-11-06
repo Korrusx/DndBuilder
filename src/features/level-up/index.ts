@@ -108,3 +108,8 @@ export { StyleBackdrop } from './ui/StyleBackdrop/StyleBackdrop';
 export { StyleSwitcher } from './ui/StyleSwitcher/StyleSwitcher';
 export { cardRotation, frameAngleFor, restSheenProgress, TILT } from './lib/tilt';
 export { useTilt } from './lib/useTilt';
+export { shareImage } from './api/shareImage';
+export { SHARE_SCENES } from './config/shareScenes';
+export type { ShareKind } from './config/shareScenes';
+export { ShareScene } from './ui/ShareScene/ShareScene';
+export type { ShareCardData } from './ui/ShareScene/ShareScene.types';

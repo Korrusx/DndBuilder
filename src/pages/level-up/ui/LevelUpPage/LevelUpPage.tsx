@@ -1,11 +1,8 @@
 import * as Haptics from 'expo-haptics';
 import { router, useFocusEffect } from 'expo-router';
-import * as Sharing from 'expo-sharing';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { HostInstance } from 'react-native';
-import { Alert, Pressable, Text, View } from 'react-native';
-import { captureRef } from 'react-native-view-shot';
+import { Alert, Pressable, Text } from 'react-native';
 
 import type { JournalState } from '@/entities/campaign';
 import { getCampaign, journalState } from '@/entities/campaign/api';
@@ -25,8 +22,6 @@ import {
   cardSubtitle,
   cardUnlocked,
   defaultCardStyle,
-  HERO_CARD_THEMES,
-  HeroCardView,
   pickCardStats,
   IntroBackground,
   levelUpBase,
@@ -78,8 +73,6 @@ export function LevelUpPage() {
   const [classSheet, setClassSheet] = useState(false);
   const [journal, setJournal] = useState<JournalState>({ kind: 'none' });
   const [campaignName, setCampaignName] = useState('');
-  const [shareError, setShareError] = useState(false);
-  const shareRef = useRef<HostInstance>(null);
   // Экран закрывается после «К листу»: новое повышение в этот момент начинать не нужно.
   const leaving = useRef(false);
   const pending = activePending(character);
@@ -188,22 +181,6 @@ export function LevelUpPage() {
         },
       },
     ]);
-  const share = async () => {
-    setShareError(false);
-    try {
-      const uri = await captureRef(shareRef, {
-        format: 'png',
-        quality: 1,
-        width: 1080,
-        height: 1350,
-        result: 'tmpfile',
-      });
-      await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: t('levelUpDeck.done.share') });
-    } catch {
-      setShareError(true);
-    }
-  };
-
   // --- Итог ---
   const inCampaign = journal.kind === 'session' || journal.kind === 'between';
   const chronicleText =
@@ -241,21 +218,22 @@ export function LevelUpPage() {
 
   if (stage === 'done') {
     return (
-      <>
-        <DoneStep
-          {...heroCard}
-          legend={capstone}
-          chronicleText={chronicleText}
-          style={cardStyle}
-          onStyle={(heroCardStyle) => update((c) => ({ ...c, heroCardStyle }), quiet)}
-          onShare={share}
-          onToSheet={finish}
-          shareError={shareError ? t('levelUpDeck.done.shareFailed') : undefined}
-        />
-        <View ref={shareRef} collapsable={false} style={styles.shareShot} pointerEvents="none">
-          <HeroCardView theme={HERO_CARD_THEMES[cardStyle]} size="full" width={350} {...heroCard} />
-        </View>
-      </>
+      <DoneStep
+        {...heroCard}
+        legend={capstone}
+        chronicleText={chronicleText}
+        style={cardStyle}
+        onStyle={(heroCardStyle) => update((c) => ({ ...c, heroCardStyle }), quiet)}
+        onToSheet={finish}
+        storyTitle={t('heroCard.storyTitle', { name: character.name, level })}
+        campaignLine={
+          inCampaign
+            ? [campaignName, journal.kind === 'session' ? t('heroCard.session', { number: journal.number }) : '']
+                .filter(Boolean)
+                .join(' · ')
+            : undefined
+        }
+      />
     );
   }
 

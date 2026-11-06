@@ -17,7 +17,9 @@ export type DoneStepProps = {
   chronicleText?: string;
   style: CardStyle;
   onStyle: (style: CardStyle) => void;
-  onShare: () => void;
   onToSheet: () => void;
-  shareError?: string;
+  /** Заголовок сторис без рода: «Ирма Вейл · 6-й уровень». */
+  storyTitle: string;
+  /** «Тени Солёной Гавани · сессия 12» внизу сторис; без кампании — нет. */
+  campaignLine?: string;
 };

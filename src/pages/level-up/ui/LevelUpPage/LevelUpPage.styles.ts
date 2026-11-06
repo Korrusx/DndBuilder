@@ -8,6 +8,4 @@ export const styles = StyleSheet.create({
   link: { alignSelf: 'center', minHeight: sizes.touchMin, justifyContent: 'center', paddingHorizontal: spacing.lg },
   linkText: { fontFamily: fonts.textBold, fontSize: 14, color: colors.textSecondary },
   error: { fontFamily: fonts.text, fontSize: 13, color: colors.damage, textAlign: 'center' },
-  // Вне экрана, но отрисована: из неё снимается картинка «Поделиться».
-  shareShot: { position: 'absolute', left: -2000, top: 0, width: 360, backgroundColor: colors.bg, padding: 0 },
 });

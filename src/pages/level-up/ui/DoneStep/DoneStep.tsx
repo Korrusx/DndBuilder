@@ -1,6 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { HostInstance } from 'react-native';
 import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
   cancelAnimation,
@@ -14,7 +15,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import type { CardStyle } from '@/features/level-up';
+import type { CardStyle, ShareCardData, ShareKind } from '@/features/level-up';
 import {
   CARD_POSE,
   cardRotation,
@@ -27,6 +28,9 @@ import {
   HeroCardView,
   neighborStyle,
   restSheenProgress,
+  SHARE_SCENES,
+  shareImage,
+  ShareScene,
   StyleBackdrop,
   StyleSwitcher,
   TILT,
@@ -36,6 +40,7 @@ import {
 } from '@/features/level-up';
 import { colors } from '@/shared/config';
 import { t } from '@/shared/i18n';
+import { BottomSheet, OptionCard } from '@/shared/ui';
 
 import { CARD_MARGIN, CARD_MAX, styles } from './DoneStep.styles';
 import type { DoneStepProps } from './DoneStep.types';
@@ -52,6 +57,38 @@ export function DoneStep(props: DoneStepProps) {
   const theme = HERO_CARD_THEMES[shown];
   const start = doneInitial(animate);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [shareSheet, setShareSheet] = useState(false);
+  const [sharing, setSharing] = useState<ShareKind | null>(null);
+  const [shareFailed, setShareFailed] = useState(false);
+  const shareCard: ShareCardData = {
+    name: props.name,
+    letter: props.letter,
+    portrait: props.portrait,
+    subtitle: props.subtitle,
+    level: props.level,
+    stats: props.stats,
+    unlocked: props.unlocked,
+    next: props.next,
+    footer: props.footer,
+    accessibilityLabel: props.accessibilityLabel,
+  };
+  const startShare = (kind: ShareKind) => {
+    setShareSheet(false);
+    setShareFailed(false);
+    setSharing(kind);
+  };
+  const onSceneReady = useCallback(
+    (target: HostInstance) => {
+      if (!sharing) {
+        return;
+      }
+      const scene = SHARE_SCENES[sharing];
+      shareImage(target, { width: scene.pixelWidth, height: scene.pixelHeight }, t('heroCard.share.title'))
+        .catch(() => setShareFailed(true))
+        .finally(() => setSharing(null));
+    },
+    [sharing],
+  );
 
   const lift = useSharedValue(start.card.translateY);
   const scale = useSharedValue(start.card.scale);
@@ -172,6 +209,18 @@ export function DoneStep(props: DoneStepProps) {
 
   return (
     <View style={styles.root}>
+      {sharing ? (
+        <View style={styles.shareLayer} pointerEvents="none">
+          <ShareScene
+            kind={sharing}
+            style={shown}
+            card={shareCard}
+            storyTitle={props.storyTitle}
+            campaignLine={props.campaignLine}
+            onReady={onSceneReady}
+          />
+        </View>
+      ) : null}
       <StyleBackdrop style={shown} animate={animate} />
       <SafeAreaView style={styles.safe} edges={['top', 'bottom', 'left', 'right']}>
         <ScrollView contentContainerStyle={styles.column}>
@@ -212,11 +261,13 @@ export function DoneStep(props: DoneStepProps) {
 
           <Animated.View style={[styles.bottom, uiStyle]}>
             <StyleSwitcher value={shown} onChange={changeStyle} />
-            {props.shareError ? <Text style={[styles.error, { color: colors.damage }]}>{props.shareError}</Text> : null}
+            {shareFailed ? (
+              <Text style={[styles.error, { color: colors.damage }]}>{t('levelUpDeck.done.shareFailed')}</Text>
+            ) : null}
             <View style={styles.buttons}>
               <Pressable
                 accessibilityRole="button"
-                onPress={props.onShare}
+                onPress={() => setShareSheet(true)}
                 style={[styles.button, { backgroundColor: DONE_SCREEN.share.background }]}
               >
                 <Feather name="share" size={18} color={DONE_SCREEN.share.text} />
@@ -250,6 +301,18 @@ export function DoneStep(props: DoneStepProps) {
           </Animated.View>
         </ScrollView>
       </SafeAreaView>
+      <BottomSheet visible={shareSheet} title={t('heroCard.share.title')} onClose={() => setShareSheet(false)}>
+        <OptionCard
+          title={t('heroCard.share.post')}
+          lines={[t('heroCard.share.postHint')]}
+          onPress={() => startShare('post')}
+        />
+        <OptionCard
+          title={t('heroCard.share.story')}
+          lines={[t('heroCard.share.storyHint')]}
+          onPress={() => startShare('story')}
+        />
+      </BottomSheet>
     </View>
   );
 }
