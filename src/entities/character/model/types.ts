@@ -182,6 +182,8 @@ export type Character = {
   pendingLevelUp?: PendingLevelUp;
   /** Снимок перед последним повышением — для «Отменить последнее повышение уровня». */
   levelUpUndo?: LevelUpUndo;
+  /** Стиль карты героя на итоге повышения; нет — по классу (Ночь у заклинателей, иначе Янтарь). */
+  heroCardStyle?: HeroCardStyle;
 
   state: GameState;
   status: CharacterStatus;
@@ -205,6 +207,9 @@ export type FeatureOption = {
 };
 
 // --- Хиты ---
+
+/** Стиль карты героя: Янтарь, Ночь, Пергамент. */
+export type HeroCardStyle = 'amber' | 'night' | 'parchment';
 
 export type HpMethod = 'roll' | 'average' | 'manual';
 

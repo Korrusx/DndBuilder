@@ -1592,5 +1592,71 @@
       "shareFailed": "Couldn’t prepare the picture"
     },
     "sideEffect": "This also raises {{what}}:"
+  },
+  "heroCard": {
+    "newLevel": "New level",
+    "title": "The journey goes on",
+    "legend": "Legend",
+    "unlocked": "Unlocked at this level",
+    "next": "Next, at level {{level}}: {{list}}",
+    "session": "session {{number}}",
+    "and": "and",
+    "storyTitle": "{{name}} · level {{level}}",
+    "a11y": "Hero card: {{name}}, level {{level}}.",
+    "plus": "plus",
+    "minus": "minus",
+    "noChange": "no change",
+    "style": {
+      "amber": "Amber",
+      "night": "Night",
+      "parchment": "Parchment"
+    },
+    "share": {
+      "title": "Share",
+      "post": "Post 4:5",
+      "postHint": "1080 × 1350 picture for the feed",
+      "story": "Story 9:16",
+      "storyHint": "1080 × 1920 picture for stories"
+    },
+    "short": {
+      "number": {
+        "passivePerception": "PASS. PERC.",
+        "passiveInsight": "PASS. INS.",
+        "passiveInvestigation": "PASS. INV.",
+        "spellSaveDC": "SPELL DC",
+        "spellAttack": "SPELL ATK",
+        "profBonus": "PROF.",
+        "armorClass": "AC",
+        "maxHp": "HP",
+        "attack": "ATTACK",
+        "attackDamage": "DAMAGE",
+        "save": "{{ability}} SAVE"
+      },
+      "column": {
+        "sneak_attack": "SNEAK ATK",
+        "rage_damage_bonus": "RAGE DMG",
+        "bardic_inspiration_die": "INSPIRATION",
+        "martial_arts_die": "MARTIAL ART",
+        "channel_divinity_charges": "CHANNEL DIV",
+        "unarmored_movement_bonus": "MOVEMENT",
+        "rage_count": "RAGE",
+        "martial_arts": "MARTIAL ART",
+        "focus_points": "FOCUS",
+        "sorcery_points": "SORCERY",
+        "unarmored_movement": "MOVEMENT",
+        "weapon_mastery": "MASTERIES",
+        "eldritch_invocations": "INVOCATIONS",
+        "invocations_known": "INVOCATIONS",
+        "brutal_critical_dice": "BRUTAL CRIT",
+        "wild_shape_uses": "WILD SHAPE",
+        "second_wind_uses": "SECOND WIND",
+        "ki_points": "KI"
+      },
+      "skill": {
+        "sleight-of-hand": "SLEIGHT",
+        "animal-handling": "ANIMALS",
+        "insight": "INSIGHT"
+      }
+    }
   }
 }

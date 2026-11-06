@@ -88,3 +88,16 @@ export type { PreviewOption } from './ui/PreviewPick/PreviewPick.types';
 export { RowList } from './ui/RowList/RowList';
 export { IntroBackground } from './ui/IntroBackground/IntroBackground';
 export { introTimeline, jumpRotation, GLOW } from './lib/motion';
+export {
+  cardA11yLabel,
+  cardFooter,
+  cardNext,
+  cardSubtitle,
+  cardUnlocked,
+  defaultCardStyle,
+  joinAnd,
+  pickCardStats,
+} from './lib/heroCard';
+export type { CardStat } from './lib/heroCard';
+export { CARD_STYLES, DONE_SCREEN, HERO_CARD_THEMES } from './config/heroCardThemes';
+export type { CardStyle, HeroCardTheme } from './config/heroCardThemes';

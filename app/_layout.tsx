@@ -1,6 +1,7 @@
 import { Alegreya_400Regular, Alegreya_400Regular_Italic } from '@expo-google-fonts/alegreya';
 import { AlegreyaSC_700Bold } from '@expo-google-fonts/alegreya-sc';
 import { GolosText_400Regular, GolosText_500Medium, GolosText_600SemiBold } from '@expo-google-fonts/golos-text';
+import { IBMPlexSansCondensed_400Regular } from '@expo-google-fonts/ibm-plex-sans-condensed';
 import { Unbounded_600SemiBold, Unbounded_700Bold } from '@expo-google-fonts/unbounded';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -37,6 +38,7 @@ export default function RootLayout() {
     Alegreya_400Regular,
     Alegreya_400Regular_Italic,
     AlegreyaSC_700Bold,
+    IBMPlexSansCondensed_400Regular,
   });
 
   useEffect(() => {

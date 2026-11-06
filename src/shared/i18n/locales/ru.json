@@ -1627,5 +1627,71 @@
       "shareFailed": "Не удалось подготовить картинку"
     },
     "sideEffect": "Заодно вырастет {{what}}:"
+  },
+  "heroCard": {
+    "newLevel": "Новый уровень",
+    "title": "Путь продолжается",
+    "legend": "Легенда",
+    "unlocked": "Открыто на этом уровне",
+    "next": "Дальше, на {{level}}-м: {{list}}",
+    "session": "сессия {{number}}",
+    "and": "и",
+    "storyTitle": "{{name}} · {{level}}-й уровень",
+    "a11y": "Карта героя: {{name}}, {{level}}-й уровень.",
+    "plus": "плюс",
+    "minus": "минус",
+    "noChange": "без изменений",
+    "style": {
+      "amber": "Янтарь",
+      "night": "Ночь",
+      "parchment": "Пергамент"
+    },
+    "share": {
+      "title": "Поделиться",
+      "post": "Пост 4:5",
+      "postHint": "Картинка 1080 × 1350 для ленты",
+      "story": "Сторис 9:16",
+      "storyHint": "Картинка 1080 × 1920 для историй"
+    },
+    "short": {
+      "number": {
+        "passivePerception": "ПАСС. ВОСПР.",
+        "passiveInsight": "ПАСС. ПРОН.",
+        "passiveInvestigation": "ПАСС. АНАЛ.",
+        "spellSaveDC": "СЛ ЗАКЛ.",
+        "spellAttack": "АТАКА ЗАКЛ.",
+        "profBonus": "МАСТЕРСТВО",
+        "armorClass": "КЗ",
+        "maxHp": "ХИТЫ",
+        "attack": "АТАКА",
+        "attackDamage": "УРОН",
+        "save": "СПАС. {{ability}}"
+      },
+      "column": {
+        "sneak_attack": "СКР. АТАКА",
+        "rage_damage_bonus": "УРОН ЯРОСТИ",
+        "rage_count": "ЯРОСТЬ",
+        "bardic_inspiration_die": "ВДОХНОВЕНИЕ",
+        "martial_arts_die": "БОЕВ. ИСК.",
+        "martial_arts": "БОЕВ. ИСК.",
+        "channel_divinity_charges": "БОЖ. КАНАЛ",
+        "focus_points": "СОСРЕДОТОЧ.",
+        "sorcery_points": "ЧАРОДЕЙСТВО",
+        "unarmored_movement_bonus": "ДВИЖЕНИЕ",
+        "unarmored_movement": "ДВИЖЕНИЕ",
+        "weapon_mastery": "ПРИЁМЫ",
+        "eldritch_invocations": "ВОЗЗВАНИЯ",
+        "invocations_known": "ВОЗЗВАНИЯ",
+        "brutal_critical_dice": "СОКР. КРИТ",
+        "wild_shape_uses": "ДИКИЙ ОБЛИК",
+        "second_wind_uses": "ВТ. ДЫХАНИЕ",
+        "ki_points": "ОЧКИ КИ"
+      },
+      "skill": {
+        "sleight-of-hand": "ЛОВК. РУК",
+        "animal-handling": "ЖИВОТНЫЕ",
+        "insight": "ПРОНИЦАТ."
+      }
+    }
   }
 }

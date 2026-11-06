@@ -47,6 +47,8 @@ export const fonts = {
   reading: 'Alegreya_400Regular',
   readingItalic: 'Alegreya_400Regular_Italic',
   readingTitle: 'AlegreyaSC_700Bold',
+  /** Узкий шрифт PDF-листа (стиль карты героя «Пергамент»). */
+  condensed: 'IBMPlexSansCondensed_400Regular',
 } as const;
 
 export const spacing = {

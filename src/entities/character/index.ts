@@ -172,6 +172,7 @@ export type {
   EquipmentSource,
   FeatChoice,
   GameState,
+  HeroCardStyle,
   HpChoice,
   HpMethod,
   InventoryItem,

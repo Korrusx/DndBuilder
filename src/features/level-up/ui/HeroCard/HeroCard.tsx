@@ -1,6 +1,6 @@
 import { Image, Text, View } from 'react-native';
 
-import { rarityColors } from '@/shared/config';
+import { BRAND_MARK, rarityColors } from '@/shared/config';
 import { t } from '@/shared/i18n';
 
 import { styles } from './HeroCard.styles';
@@ -67,7 +67,8 @@ export function HeroCard({
           {campaignLine ?? ''}
         </Text>
         <Text style={styles.brand}>
-          <Text style={{ color: accent ?? '#F2B14A' }}>КУБИ</Text>КОД
+          <Text style={{ color: accent ?? '#F2B14A' }}>{BRAND_MARK.first}</Text>
+          {BRAND_MARK.second}
         </Text>
       </View>
     </View>
