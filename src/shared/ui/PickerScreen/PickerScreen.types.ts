@@ -31,6 +31,11 @@ export type PickerScreenProps = {
   filters?: PickFilter[];
   selected: string[];
   max: number;
+  /**
+   * Сколько нужно выбрать, если можно больше (книга заклинаний: нужно 6, вписать можно любые).
+   * Внизу тогда «Выбрано 2 из 6», а не «из 30».
+   */
+  need?: number;
   onChange: (ids: string[]) => void;
   detail: (id: string) => DetailContent | null;
   /** «Назад» и системная кнопка «назад». */

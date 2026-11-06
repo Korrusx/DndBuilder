@@ -8,7 +8,7 @@ import { DeckTile } from './DeckTile';
 import { styles } from './DeckTiles.styles';
 import type { DeckTilesProps } from './DeckTiles.types';
 
-/** Лента колоды (раздел 4): до шести карт — равные колонки, больше — прокрутка плитками по 52. */
+/** Лента колоды: плитки-квадратики по 52 при любом числе карт; больше шести — прокрутка. */
 /** Появление плитки: scale 0,6 → 1 (ZoomIn масштабирует без прозрачности). */
 const appear = (delay: number) =>
   ZoomIn.delay(delay)
@@ -50,7 +50,7 @@ export function DeckTiles({ cards, current, settled, onSelect, appearAt, hpDecid
   }
   return (
     <View style={styles.row} accessibilityRole="tablist">
-      {cards.map((card, i) => wrap(i, tile(card), styles.cell))}
+      {cards.map((card, i) => wrap(i, tile(card, DECK_TILE_WIDTH)))}
     </View>
   );
 }

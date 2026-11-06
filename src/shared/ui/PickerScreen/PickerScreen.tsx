@@ -25,6 +25,7 @@ export function PickerScreen({
   filters = [],
   selected: committed,
   max,
+  need,
   onChange,
   detail,
   onClose,
@@ -130,7 +131,7 @@ export function PickerScreen({
         />
         <View style={[styles.footer, { paddingBottom: insets.bottom + spacing.md }]}>
           <Button
-            title={t(onNext ? 'picker.next' : 'picker.done', { picked: selected.length, max })}
+            title={t(onNext ? 'picker.next' : 'picker.done', { picked: selected.length, max: need ?? max })}
             onPress={onNext ?? onClose}
           />
         </View>

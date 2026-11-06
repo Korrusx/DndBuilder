@@ -45,6 +45,7 @@ export function PickerField({ title, hint, need, buttonLabel, open, onOpen, onCl
       />
       <PickerScreen
         {...picker}
+        need={need}
         title={title}
         visible={visible}
         onClose={() => (onClose ? onClose() : setOwnOpen(false))}

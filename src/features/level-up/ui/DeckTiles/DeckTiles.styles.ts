@@ -7,7 +7,6 @@ import { DECK_UI } from '../../config/deckColors';
 export const styles = StyleSheet.create({
   row: { flexDirection: 'row', gap: 6 },
   scroll: { gap: 6 },
-  cell: { flex: 1, minWidth: 0 },
   tile: {
     aspectRatio: 1 / 1.05,
     borderRadius: 10,

@@ -116,7 +116,7 @@ export const TRANSITION = {
 export const DEAL_SPRING = { damping: 16, stiffness: 180 } as const;
 /** Поворот карты в начале раздачи: чётные −6°, нечётные +6°. */
 export const DEAL_TILT = 6;
-/** Значок уровня в шапке колоды: область 44, круг радиусом 19, линия 3, цифра 18. */
-export const BADGE = { size: 44, radius: 19, stroke: 3, digit: 18, glow: 18 } as const;
+/** Значок уровня в шапке колоды: область 36, круг радиусом 15, линия 2,5, цифра 15; свечение выходит на 8. */
+export const BADGE = { size: 36, radius: 15, stroke: 2.5, digit: 15, glow: 8 } as const;
 /** Кольцо ритуала, из которого начинается перелёт. */
 export const RITUAL_RING = { size: 212, radius: 92, stroke: 7, digit: 100, glow: 320 } as const;

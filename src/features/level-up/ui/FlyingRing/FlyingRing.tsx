@@ -61,7 +61,7 @@ export function FlyingRing({ from, to, level, capstone, onDone }: FlyingRingProp
   });
   const digit = useAnimatedStyle(() => {
     const size = interpolate(progress.get(), [0, 1], [RITUAL_RING.digit, BADGE.digit]);
-    return { fontSize: size, lineHeight: size * 1.2 };
+    return { fontSize: size, lineHeight: size + 2 };
   });
   const caption = useAnimatedStyle(() => {
     const p = progress.get();
