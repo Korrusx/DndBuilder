@@ -79,10 +79,18 @@ export function DoneStep(props: DoneStepProps) {
     sweep.set(withDelay(delay, withTiming(1, { duration: DONE_TIMELINE.sheenDuration, easing: SHEEN })));
   };
 
+  // Появление играет один раз — как только анимации доступны (ответ системы об «уменьшении движения» приходит не сразу).
+  const played = useRef(false);
   useEffect(() => {
-    if (!animate) {
+    if (!animate || played.current) {
       return;
     }
+    played.current = true;
+    lift.set(CARD_POSE.start.translateY);
+    scale.set(CARD_POSE.start.scale);
+    roll.set(CARD_POSE.start.rotate);
+    opacity.set(CARD_POSE.start.opacity);
+    ui.set(0);
     const land = DONE_TIMELINE.cardLand;
     const settle = DONE_TIMELINE.cardRise - land;
     const pose = (key: 'translateY' | 'scale' | 'rotate' | 'opacity') =>
@@ -105,9 +113,8 @@ export function DoneStep(props: DoneStepProps) {
       pending.forEach(clearTimeout);
       [lift, scale, roll, opacity, ui, sweep, sweeping, flip].forEach((value) => cancelAnimation(value));
     };
-    // Появление играет один раз при открытии экрана.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [animate]);
 
   const changeStyle = (style: CardStyle) => {
     if (style === shown) {
