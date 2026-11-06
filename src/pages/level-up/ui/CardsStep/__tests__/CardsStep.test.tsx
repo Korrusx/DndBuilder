@@ -88,7 +88,6 @@ function setup(revealed: string[], extra: Partial<CardsStepProps> = {}) {
     title: 'Новое на 5-м уровне',
     subtitle: 'Каэлан · паладин · драконорождённый',
     hpDecided: true,
-    focus: null,
     picked: {},
     kept: [],
     settled: [],

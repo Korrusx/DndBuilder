@@ -31,8 +31,8 @@ export function CardsStep(props: CardsStepProps) {
   const { deck, settled, animate, onReveal } = props;
   const cards = deck.cards;
   const progress = deckProgress(deck, settled);
-  // Развёрнутость не хранится: при входе — карта, с которой вошли, или первая незавершённая.
-  const [expanded, setExpanded] = useState<string | null>(() => props.focus ?? firstPendingCard(deck, settled));
+  // Развёрнутость не хранится: при входе — первая незавершённая карта.
+  const [expanded, setExpanded] = useState<string | null>(() => firstPendingCard(deck, settled));
   const [growthOpen, setGrowthOpen] = useState(false);
   const [fresh, setFresh] = useState<string[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -49,13 +49,9 @@ export function CardsStep(props: CardsStepProps) {
   }, [settledNow.join('|')]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (props.focus) {
-      scrollTo(props.focus);
-    }
     const pending = timers.current;
     return () => pending.forEach(clearTimeout);
     // Только при входе на экран.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const open = (id: string) => {

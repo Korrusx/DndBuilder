@@ -4,7 +4,7 @@ import { INTRO_COLORS } from '../../config/cardTheme';
 import { styles } from './IntroBackground.styles';
 import type { RadialFillProps } from './RadialFill.types';
 
-/** Радиальный градиент на весь экран, как CSS «circle at 50% 28%, центр 0, фон 60%». */
+/** Радиальный градиент на весь экран, как CSS «circle at 50% 36%: центр → mid 52 % → край 85 %». */
 export function RadialFill({ id, center, width, height, centerY }: RadialFillProps) {
   const cy = height * centerY;
   // Радиус круга CSS по умолчанию — до самого дальнего угла.
@@ -14,7 +14,8 @@ export function RadialFill({ id, center, width, height, centerY }: RadialFillPro
       <Defs>
         <RadialGradient id={id} cx={width / 2} cy={cy} r={r} gradientUnits="userSpaceOnUse">
           <Stop offset="0" stopColor={center} />
-          <Stop offset="0.6" stopColor={INTRO_COLORS.background.edge} />
+          <Stop offset="0.52" stopColor={INTRO_COLORS.background.mid} />
+          <Stop offset="0.85" stopColor={INTRO_COLORS.background.edge} />
           <Stop offset="1" stopColor={INTRO_COLORS.background.edge} />
         </RadialGradient>
       </Defs>

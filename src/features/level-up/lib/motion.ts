@@ -31,6 +31,10 @@ export const INTRO = {
   jumpDuration: 300,
   /** Период мерцания свечения во время заполнения. */
   flickerPeriod: 600,
+  /** Ритуал: нижний блок (строка и кнопки) проявляется 1700–2100. */
+  actionsEnd: 2100,
+  /** «Уменьшение движения»: звук с этого момента — удар звучит почти сразу. */
+  reducedSound: 1450,
 } as const;
 
 /** Вибрации во время заполнения кольца — на этих долях прогресса. */
@@ -53,7 +57,7 @@ export const GLOW = {
   endScale: 1,
   haloBase: 0.6,
   haloSwing: 0.25,
-  hintDim: 0.35,
+  hintDim: 0.3,
   spring: { damping: 12, stiffness: 180 },
 } as const;
 

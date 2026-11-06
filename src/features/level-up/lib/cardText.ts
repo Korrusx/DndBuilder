@@ -14,6 +14,7 @@ import type {
   CardRowLabel,
   CardRowValue,
   CardTag,
+  Deck,
   HpBreakdownPart,
   LevelChoice,
   LevelUpCard,
@@ -354,4 +355,17 @@ export function nextLevelText(items: NextLevelItem[], context: TextContext = {})
 /** Первая буква строчная: «Пассивное восприятие» → «пассивное восприятие». */
 export function lowerFirst(text: string): string {
   return text ? text[0].toLocaleLowerCase() + text.slice(1) : text;
+}
+
+/** Строка ритуала: «Вас ждут 2 новинки и 1 выбор»; новинки — все карты колоды вместе с хитами. */
+export function ritualCountsText(deck: Deck): string {
+  const news = deck.cards.length;
+  const choices = deck.cards.filter((card) => card.choice?.required).length;
+  const what = choices
+    ? t('levelUpDeck.ritual.and', {
+        news: t('levelUpDeck.news', { count: news }),
+        choices: t('levelUpDeck.choices', { count: choices }),
+      })
+    : t('levelUpDeck.news', { count: news });
+  return t('levelUpDeck.ritual.awaits', { count: news, what });
 }

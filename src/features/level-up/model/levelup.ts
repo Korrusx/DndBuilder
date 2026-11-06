@@ -67,6 +67,35 @@ export function canMulticlassInto(c: Character, content: Content, classId: strin
   return meets(classId) && c.classes.every((e) => meets(e.classId));
 }
 
+/**
+ * Почему нельзя взять новый класс: первое невыполненное требование — нового класса или уже взятых
+ * («нужна ИНТ 13, у вас 12»). Пусто — класс доступен.
+ */
+export function multiclassShortfall(c: Character, content: Content, classId: string): string {
+  const classes = indexOf(content).classes;
+  const scores = finalAbilityScores(c, content);
+  for (const id of [classId, ...c.classes.map((e) => e.classId)]) {
+    for (const group of classes.get(id)?.multiclass.prerequisites ?? []) {
+      const options = (group.options ?? []).flatMap((o) => (o.kind === 'minScore' ? [o] : []));
+      if (options.length && !options.some((o) => scores[o.ability] >= o.min)) {
+        return t('levelUpDeck.ritual.needs', {
+          abilities: options.map((o) => abilityAbbr(o.ability)).join(` ${t('common.or')} `),
+          min: options[0].min,
+          have: Math.max(...options.map((o) => scores[o.ability])),
+        });
+      }
+    }
+  }
+  return '';
+}
+
+/** Сколько новых классов можно взять мультиклассом (по требованиям к характеристикам). */
+export function multiclassAvailable(c: Character, content: Content): number {
+  return content.classes.filter(
+    (cls) => !c.classes.some((e) => e.classId === cls.id) && canMulticlassInto(c, content, cls.id),
+  ).length;
+}
+
 /** Что появляется на текущем уровне класса `classId` персонажа `next` (уже повышенного). */
 export function levelUpPlan(next: Character, content: Content, classId = next.classes[0].classId): LevelUpPlan {
   const idx = indexOf(content);

@@ -23,7 +23,7 @@ describe('анимация У1', () => {
       sparkOpacity: 0,
       hintOpacity: 1,
     });
-    expect(ringInitial(true)).toMatchObject({ progress: 0, glowOpacity: 0, glowScale: 0.9, hintOpacity: 0.35 });
+    expect(ringInitial(true)).toMatchObject({ progress: 0, glowOpacity: 0, glowScale: 0.9, hintOpacity: 0.3 });
   });
 
   test('таймлайн: заполнение 300–1500, удар на 1550, покой к 2200; вершина на 30 % дольше', () => {

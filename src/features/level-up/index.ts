@@ -10,7 +10,9 @@ export {
   levelFeatProfKey,
   levelUpHpGain,
   levelUpPlan,
+  multiclassAvailable,
   multiclassRequirementText,
+  multiclassShortfall,
   startLevelUp,
 } from './model/levelup';
 export { levelChoices, levelUpIssues } from './model/levelChoices';
@@ -73,6 +75,7 @@ export {
   lowerFirst,
   needFirstText,
   nextLevelText,
+  ritualCountsText,
   rowLabel,
   rowText,
   rowValue,

@@ -2,7 +2,6 @@ import * as Haptics from 'expo-haptics';
 import { router, useFocusEffect } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Pressable, Text } from 'react-native';
 
 import type { JournalState } from '@/entities/campaign';
 import { getCampaign, journalState } from '@/entities/campaign/api';
@@ -15,7 +14,6 @@ import {
   activePending,
   applyLevelUp,
   beginLevelUp,
-  countsText,
   cardA11yLabel,
   cardFullText,
   cardTitle,
@@ -26,13 +24,14 @@ import {
   defaultCardStyle,
   pickCardStats,
   playLevelUpSound,
-  IntroBackground,
   levelUpBase,
   levelUpDeck,
   MAX_LEVEL,
+  multiclassAvailable,
   pendingDraft,
   pickedItems,
   revealCards,
+  ritualCountsText,
   setPendingHp,
   stopLevelUpSound,
   storeDraft,
@@ -45,15 +44,14 @@ import { t } from '@/shared/i18n';
 import { Button, DetailSheet, Screen } from '@/shared/ui';
 
 import type { DeckStage } from '../../lib/deckScreen';
-import { classLine, deckSubtitle, resumeStage } from '../../lib/deckScreen';
+import { deckSubtitle, resumeStage, ritualSubtitle } from '../../lib/deckScreen';
 import { CardsStep } from '../CardsStep/CardsStep';
 import { ChoiceSheet } from '../ChoiceSheet/ChoiceSheet';
 import { ClassSheet } from '../ClassSheet/ClassSheet';
 import { DoneStep } from '../DoneStep/DoneStep';
 import { HpStep } from '../HpStep/HpStep';
-import { StartStep } from '../StartStep/StartStep';
+import { RitualPhase } from '../RitualPhase/RitualPhase';
 import { StepHeader } from '../StepHeader/StepHeader';
-import { styles } from './LevelUpPage.styles';
 
 const KEEP = 'keep:';
 const now = () => new Date().toISOString();
@@ -67,12 +65,8 @@ export function LevelUpPage() {
   const db = useSQLiteContext();
   const settings = useLevelUpSettings();
   const motion = useDeckMotion();
-  const [skipped, setSkipped] = useState(false);
-  const [playKey, setPlayKey] = useState(0);
   const dice = useDiceSettings();
   const [chosenStage, setStage] = useState<DeckStage | null>(null);
-  // Карта, нажатая на первом экране: экран карт сразу прокручивается к ней.
-  const [focus, setFocus] = useState<string | null>(null);
   const [more, setMore] = useState<LevelUpCard | null>(null);
   const [choice, setChoice] = useState<LevelChoice | null>(null);
   const [spellsFor, setSpellsFor] = useState<string | null>(null);
@@ -88,9 +82,7 @@ export function LevelUpPage() {
   if (shownSession !== session) {
     setShownSession(session);
     setStage(null);
-    setFocus(null);
     setMore(null);
-    setSkipped(false);
     setChoice(null);
     setSpellsFor(null);
     setClassSheet(false);
@@ -135,13 +127,11 @@ export function LevelUpPage() {
   }
 
   const classId = pending.classId;
-  const entry = next.classes.find((e) => e.classId === classId)!;
   const level = totalLevel(next.classes);
   const className = nameOf('classes', classId);
   const context = { attacks: deck.after.sheet.attacks };
   const kept = pending.revealed.filter((id) => id.startsWith(KEEP)).map((id) => id.slice(KEEP.length));
   const capstone = deck.cards.some((card) => card.type === 'capstone');
-  const hasNext = level < MAX_LEVEL;
   const rollLocked = pending.hp?.method === 'roll' && !settings.allowHpReroll;
   const hpCard = deck.cards[0];
   const die = byId.classes.get(classId)?.hitDie ?? 8;
@@ -171,11 +161,6 @@ export function LevelUpPage() {
     reveal(['hp', ...growthIds]);
     setStage('cards');
   };
-  const openCard = (id: string) => {
-    reveal([...(pending.hp ? ['hp'] : []), ...growthIds, id]);
-    setFocus(id);
-    setStage('cards');
-  };
   const picked: Record<string, PickedItem[]> = Object.fromEntries(
     deck.cards.map((c) => [c.id, c.choice ? pickedItems(c.choice, prev, next, content) : []]),
   );
@@ -194,26 +179,11 @@ export function LevelUpPage() {
   const impact = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
   };
-  const fillSound = () => {
+  const playSound = (atMs: number) => {
     if (dice.sound) {
-      playLevelUpSound();
+      playLevelUpSound(atMs);
     }
   };
-  // Начатое повышение можно бросить: выборы и брошенные хиты сбросятся.
-  const started = !!pending.hp || pending.revealed.length > 0 || Object.keys(pending.choices).length > 0;
-  const discard = () =>
-    Alert.alert(t('levelUpPage.discard'), t('levelUpPage.discardConfirm'), [
-      { text: t('common.cancel'), style: 'cancel' },
-      {
-        text: t('levelUpPage.discard'),
-        style: 'destructive',
-        onPress: () => {
-          leaving.current = true;
-          update((c) => ({ ...c, pendingLevelUp: undefined }), quiet);
-          toSheet();
-        },
-      },
-    ]);
   // --- Итог ---
   const inCampaign = journal.kind === 'session' || journal.kind === 'between';
   const chronicleText =
@@ -308,7 +278,6 @@ export function LevelUpPage() {
           title={t('levelUpDeck.newOnLevel', { level })}
           subtitle={deckSubtitle(character.name, next, classId)}
           hpDecided={!!pending.hp}
-          focus={focus}
           picked={picked}
           kept={kept}
           settled={settled}
@@ -335,23 +304,44 @@ export function LevelUpPage() {
     );
   }
 
+  if (stage === 'start') {
+    const available = multiclassAvailable(prev, content);
+    const noClasses = available === 0 && prev.classes.length < 2;
+    return (
+      <>
+        <RitualPhase
+          key={session}
+          name={character.name}
+          subtitle={ritualSubtitle(prev, next, classId)}
+          from={totalLevel(prev.classes)}
+          to={level}
+          counts={ritualCountsText(deck)}
+          capstone={capstone}
+          animate={motion}
+          playKey={0}
+          multiclass={{
+            note: rollLocked
+              ? t('levelUpDeck.hp.locked')
+              : noClasses
+                ? t('levelUpDeck.ritual.noneAvailable')
+                : t('levelUpDeck.ritual.available', { count: available }),
+            disabled: noClasses || rollLocked,
+          }}
+          onClose={toSheet}
+          onOpen={() => setStage('hp')}
+          onOther={() => setClassSheet(true)}
+          onSound={playSound}
+          onCancel={stopLevelUpSound}
+          onImpact={impact}
+        />
+        {sheets}
+      </>
+    );
+  }
+
   // --- Кнопка внизу ---
   const footer =
-    stage === 'start' ? (
-      <>
-        {motion && !skipped ? (
-          <Pressable accessibilityRole="button" onPress={() => setSkipped(true)} style={styles.link}>
-            <Text style={styles.linkText}>{t('levelUpDeck.skipAnimation')}</Text>
-          </Pressable>
-        ) : null}
-        <Button title={t('levelUpDeck.open')} onPress={() => setStage('hp')} />
-        {started ? (
-          <Pressable accessibilityRole="button" onPress={discard} style={styles.link}>
-            <Text style={styles.linkText}>{t('levelUpPage.discard')}</Text>
-          </Pressable>
-        ) : null}
-      </>
-    ) : stage === 'hp' ? (
+    stage === 'hp' ? (
       <Button
         title={pending.hp ? t('levelUpDeck.next') : t('levelUpDeck.hp.needRoll')}
         disabled={!pending.hp}
@@ -360,61 +350,8 @@ export function LevelUpPage() {
     ) : null;
 
   return (
-    <Screen
-      footer={footer}
-      background={
-        stage === 'start' ? (
-          <IntroBackground animate={motion && !skipped} playKey={playKey} capstone={capstone} />
-        ) : undefined
-      }
-    >
-      <StepHeader
-        kind={stage === 'start' ? 'close' : 'back'}
-        onPress={back}
-        progress={stage === 'hp' ? { total: 3, done: 1 } : undefined}
-      />
-
-      {stage === 'start' ? (
-        <StartStep
-          name={character.name}
-          subtitle={`${classLine(next, classId)} · ${countsText(deck.cards.length + (hasNext ? 1 : 0), deck.counts.choices)}`}
-          from={totalLevel(prev.classes)}
-          to={level}
-          cards={deck.cards}
-          hasNext={hasNext}
-          capstone={capstone}
-          animate={motion && !skipped}
-          playKey={playKey}
-          onReplay={() => {
-            setSkipped(false);
-            setPlayKey((key) => key + 1);
-          }}
-          onFill={fillSound}
-          onCancel={stopLevelUpSound}
-          onImpact={impact}
-          current={{
-            classId: prev.classes[0].classId,
-            title: t('levelUpDeck.classLevel', {
-              className: nameOf('classes', prev.classes[0].classId),
-              level: prev.classes[0].level + 1,
-            }),
-            sub: t('levelUpDeck.continuePath'),
-          }}
-          other={{
-            classId,
-            title:
-              classId === prev.classes[0].classId
-                ? t('levelUpDeck.otherClass')
-                : t('levelUpDeck.classLevel', { className, level: entry.level }),
-            sub: t('levelUpDeck.multiclass'),
-          }}
-          isOther={classId !== prev.classes[0].classId}
-          classLocked={rollLocked ? t('levelUpDeck.hp.locked') : undefined}
-          onCurrent={() => pickClass(prev.classes[0].classId)}
-          onOther={() => setClassSheet(true)}
-          onCard={openCard}
-        />
-      ) : null}
+    <Screen footer={footer}>
+      <StepHeader kind="back" onPress={back} progress={stage === 'hp' ? { total: 3, done: 1 } : undefined} />
 
       {stage === 'hp' ? (
         <HpStep

@@ -42,3 +42,15 @@ export function deckSubtitle(name: string, character: Character, classId: string
     species: lowerFirst(nameOf('species', character.speciesId)),
   });
 }
+
+/** Подзаголовок ритуала: «Паладин 5 → 6 · Клятва преданности»; новый класс — «Волшебник 1». */
+export function ritualSubtitle(prev: Character, next: Character, classId: string): string {
+  const entry = next.classes.find((e) => e.classId === classId);
+  const before = prev.classes.find((e) => e.classId === classId);
+  const name = nameOf('classes', classId);
+  if (!entry || !before) {
+    return t('levelUpDeck.classLevel', { className: name, level: entry?.level ?? 1 });
+  }
+  const subclass = entry.subclassId ? localizeText(byId.subclasses.get(entry.subclassId)?.name).text : '';
+  return [`${name} ${before.level} → ${entry.level}`, subclass].filter(Boolean).join(' · ');
+}

@@ -20,7 +20,7 @@ import type { IntroBackgroundProps } from './IntroBackground.types';
  * Фон экрана У1 (раздел 8). В момент удара центр на миг теплеет (#241E13 → #3A2E18 к 1600 мс → обратно к 2200):
  * поверх основного градиента проявляется и гаснет такой же, но с тёплым центром.
  */
-export function IntroBackground({ animate, playKey, capstone, centerY = 0.28 }: IntroBackgroundProps) {
+export function IntroBackground({ animate, playKey, capstone, fromImpact, centerY = 0.36 }: IntroBackgroundProps) {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const warm = useSharedValue(0);
 
@@ -33,11 +33,11 @@ export function IntroBackground({ animate, playKey, capstone, centerY = 0.28 }: 
     const time = introTimeline(!!capstone);
     const peak = time.burstPeak;
     warm.value = withDelay(
-      time.impact,
+      fromImpact ? 0 : time.impact,
       withSequence(withTiming(1, { duration: peak }), withTiming(0, { duration: time.settle - time.impact - peak })),
     );
     return () => cancelAnimation(warm);
-  }, [animate, capstone, playKey, warm]);
+  }, [animate, capstone, playKey, fromImpact, warm]);
 
   const warmStyle = useAnimatedStyle(() => ({ opacity: warm.value }));
   const onLayout = (e: LayoutChangeEvent) =>

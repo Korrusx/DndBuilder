@@ -2,15 +2,18 @@ import { StyleSheet } from 'react-native';
 
 import { fonts } from '@/shared/config';
 
-/** Кольцо: область 184 × 184, радиус 80, линия 6 (раздел 8). */
-export const RING_SIZE = 184;
-export const RING_CENTER = 92;
-export const RING_RADIUS = 80;
-export const RING_STROKE = 6;
-/** Свечение — круг диаметром 260 с центром в центре кольца. */
-export const GLOW_SIZE = 260;
-/** Вспышка — контур радиусом 92, линия 2. */
-export const BURST_RADIUS = 92;
+/** Кольцо ритуала: область 212 × 212, радиус 92, линия 7. */
+export const RING_SIZE = 212;
+export const RING_CENTER = 106;
+export const RING_RADIUS = 92;
+export const RING_STROKE = 7;
+/** Свечение — круг 320 × 320 с центром в центре кольца. */
+export const GLOW_SIZE = 320;
+/** Вспышка — контур радиусом 106, линия 2. */
+export const BURST_RADIUS = 106;
+/** Цифры: Unbounded 700, 100. */
+const DIGIT_SIZE = 100;
+const DIGIT_LINE = 120;
 
 const glowOffset = (RING_SIZE - GLOW_SIZE) / 2;
 
@@ -29,11 +32,17 @@ export const styles = StyleSheet.create({
   },
   caption: {
     position: 'absolute',
-    top: 38,
+    top: 46,
     fontFamily: fonts.text,
     fontSize: 12,
-    letterSpacing: 1.2,
+    letterSpacing: 1.68,
     color: '#C9A46A',
   },
-  digit: { position: 'absolute', fontFamily: fonts.displayBold, fontSize: 88, lineHeight: 104, top: 50 },
+  digit: {
+    position: 'absolute',
+    fontFamily: fonts.displayBold,
+    fontSize: DIGIT_SIZE,
+    lineHeight: DIGIT_LINE,
+    top: (RING_SIZE - DIGIT_LINE) / 2 + 8,
+  },
 });

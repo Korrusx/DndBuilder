@@ -49,6 +49,7 @@ export function LevelRing({
   animate,
   capstone,
   playKey,
+  fromImpact,
   onPress,
   onFill,
   onCancel,
@@ -96,70 +97,74 @@ export function LevelRing({
     }
     const time = introTimeline(!!capstone);
     const fill = time.fillEnd - time.fillStart;
+    // Пропуск: таймлайн сразу с удара — кольцо полное, старая цифра ушла.
+    const impactAt = fromImpact ? 0 : time.impact;
     // Покой 0–300 мс: серая старая цифра, пустое кольцо, слабое свечение.
-    progress.value = 0;
-    clock.value = 0;
-    filling.value = 1;
-    armed.value = 1;
+    progress.value = fromImpact ? 1 : 0;
+    clock.value = fromImpact ? fill : 0;
+    filling.value = fromImpact ? 0 : 1;
+    armed.value = fromImpact ? 0 : 1;
     glowOpacity.value = glowFlicker(1, fill, time.flickerPeriod);
     glowScale.value = GLOW.endScale;
     sparkOpacity.value = 0;
-    oldOpacity.value = 1;
-    oldScale.value = 1;
+    oldOpacity.value = fromImpact ? 0 : 1;
+    oldScale.value = fromImpact ? RING_END.oldScale : 1;
     newOpacity.value = 0;
     newScale.value = RING_START.newScale;
     burstOpacity.value = 0;
     burstScale.value = RING_START.burstScale;
 
-    // 300–1500: заполнение, искра, мерцание.
-    progress.value = withDelay(time.fillStart, withTiming(1, { duration: fill, easing: FILL_EASING }));
-    clock.value = withDelay(time.fillStart, withTiming(fill, { duration: fill, easing: Easing.linear }));
-    sparkOpacity.value = withSequence(
-      withDelay(time.fillStart, withTiming(1, { duration: 60 })),
-      withDelay(fill - 60, withTiming(0, { duration: time.sparkFade })),
-    );
-    filling.value = withDelay(time.fillEnd, withTiming(0, { duration: 0 }));
-    armed.value = withDelay(time.fillEnd, withTiming(0, { duration: 0 }));
-    // 1500–1650: старая цифра уходит.
-    oldOpacity.value = withDelay(
-      time.fillEnd,
-      withTiming(0, { duration: time.oldOut, easing: Easing.in(Easing.quad) }),
-    );
-    oldScale.value = withDelay(
-      time.fillEnd,
-      withTiming(0.55, { duration: time.oldOut, easing: Easing.in(Easing.quad) }),
-    );
+    if (!fromImpact) {
+      // 300–1500: заполнение, искра, мерцание.
+      progress.value = withDelay(time.fillStart, withTiming(1, { duration: fill, easing: FILL_EASING }));
+      clock.value = withDelay(time.fillStart, withTiming(fill, { duration: fill, easing: Easing.linear }));
+      sparkOpacity.value = withSequence(
+        withDelay(time.fillStart, withTiming(1, { duration: 60 })),
+        withDelay(fill - 60, withTiming(0, { duration: time.sparkFade })),
+      );
+      filling.value = withDelay(time.fillEnd, withTiming(0, { duration: 0 }));
+      armed.value = withDelay(time.fillEnd, withTiming(0, { duration: 0 }));
+      // 1500–1650: старая цифра уходит.
+      oldOpacity.value = withDelay(
+        time.fillEnd,
+        withTiming(0, { duration: time.oldOut, easing: Easing.in(Easing.quad) }),
+      );
+      oldScale.value = withDelay(
+        time.fillEnd,
+        withTiming(0.55, { duration: time.oldOut, easing: Easing.in(Easing.quad) }),
+      );
+    }
     // 1550: удар — новая цифра, вспышка, пик свечения.
-    newOpacity.value = withDelay(time.impact, withTiming(1, { duration: time.newFade }));
+    newOpacity.value = withDelay(impactAt, withTiming(1, { duration: time.newFade }));
     newScale.value = withDelay(
-      time.impact,
+      impactAt,
       withSequence(withTiming(0.92, { duration: time.newDip }), withSpring(1, GLOW.spring)),
     );
     burstOpacity.value = withDelay(
-      time.impact,
+      impactAt,
       withSequence(
         withTiming(0.9, { duration: time.burstPeak }),
         withTiming(0, { duration: time.burstEnd - time.burstPeak }),
       ),
     );
-    burstScale.value = withDelay(time.impact, withTiming(1.55, { duration: time.burstEnd }));
+    burstScale.value = withDelay(impactAt, withTiming(1.55, { duration: time.burstEnd }));
     const settle = time.settle - time.impact - time.glowPeak;
     glowOpacity.value = withDelay(
-      time.impact,
+      impactAt,
       withSequence(
         withTiming(GLOW.peakOpacity, { duration: time.glowPeak }),
         withTiming(GLOW.endOpacity, { duration: settle }),
       ),
     );
     glowScale.value = withDelay(
-      time.impact,
+      impactAt,
       withSequence(
         withTiming(GLOW.peakScale, { duration: time.glowPeak }),
         withTiming(GLOW.endScale, { duration: settle }),
       ),
     );
-    const fillTimer = setTimeout(() => onFill?.(), time.fillStart);
-    const impact = setTimeout(() => onImpact?.(), time.impact);
+    const fillTimer = fromImpact ? undefined : setTimeout(() => onFill?.(), time.fillStart);
+    const impact = setTimeout(() => onImpact?.(), impactAt);
     // Уход с экрана: ни анимаций, ни вибраций.
     return () => {
       clearTimeout(fillTimer);
@@ -169,7 +174,7 @@ export function LevelRing({
       armed.value = 0;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animate, capstone, playKey]);
+  }, [animate, capstone, playKey, fromImpact]);
 
   // Лёгкая вибрация на 25, 50 и 75 % заполнения.
   useAnimatedReaction(
@@ -224,8 +229,9 @@ export function LevelRing({
         <Svg width={GLOW_SIZE} height={GLOW_SIZE}>
           <Defs>
             <RadialGradient id="levelGlow" cx="50%" cy="50%" r="50%">
-              <Stop offset="0" stopColor={glow(0.55)} />
-              <Stop offset="0.45" stopColor={glow(0.18)} />
+              <Stop offset="0" stopColor={glow(0.42)} />
+              <Stop offset="0.45" stopColor={glow(0.12)} />
+              <Stop offset="0.7" stopColor={glow(0)} />
               <Stop offset="1" stopColor={glow(0)} />
             </RadialGradient>
           </Defs>

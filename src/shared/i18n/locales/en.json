@@ -1358,6 +1358,22 @@
     "animationsHint": "The level ring, card flips and new spell slots. With the system “reduce motion” setting there are no animations anyway."
   },
   "levelUpDeck": {
+    "ritual": {
+      "awaits_one": "Ahead: {{what}}",
+      "awaits_other": "Ahead: {{what}}",
+      "and": "{{news}} and {{choices}}",
+      "open": "Reveal what's new",
+      "otherClass": "Take a level in another class",
+      "available_one": "multiclass · {{count}} class available",
+      "available_other": "multiclass · {{count}} classes available",
+      "noneAvailable": "no classes meet the ability requirements",
+      "needs": "needs {{abilities}} {{min}}, you have {{have}}",
+      "postpone": "Postpone",
+      "skip": "Tap to skip the animation",
+      "continuePath": "continue the path",
+      "newClass": "new class · multiclass",
+      "sheetTitle": "Level in another class"
+    },
     "screen": {
       "kind": {
         "feature": "New feature",

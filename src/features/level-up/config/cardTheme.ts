@@ -121,6 +121,6 @@ export const RING_COLORS = {
 export const INTRO_COLORS = {
   normal: { ring: colors.accent, spark: '#FFE2A8', glow: '242,177,74' },
   capstone: { ring: rarityColors.legendary, spark: rarityColors.legendary, glow: '255,159,90' },
-  /** Фон экрана: центр градиента, тёплая вспышка, край. */
-  background: { center: '#241E13', warm: '#3A2E18', edge: colors.bg },
+  /** Фон ритуала: центр градиента, к 52 % — mid, к 85 % — край; тёплая вспышка на ударе. */
+  background: { center: '#2B2416', mid: '#13110D', edge: '#0B0C0E', warm: '#3A2E18' },
 } as const;
