@@ -2,12 +2,16 @@
 // положение блика и угол фольги.
 
 export const TILT = {
-  interval: 33,
+  interval: 16,
+  /** Шаг сглаживания задан для 33 мс; на кадрах другой длины пересчитывается. */
+  smoothingFrame: 33,
   maxDeviation: 20,
   smoothing: 0.15,
   factor: 0.3,
   maxRotation: 6,
   restSheenOpacity: 0.6,
+  /** Наклон и блик в покое включаются плавно, мс. */
+  fadeIn: 300,
   /** Блик в покое: γ от −20° до +20° → сдвиг от −60 % до +160 % ширины полосы. */
   sheenShift: [-0.6, 1.6],
   frameSwing: 15,
@@ -18,9 +22,49 @@ const SHEEN_RANGE = [-1.6, 2.6] as const;
 
 const clamp = (value: number, limit: number) => Math.max(-limit, Math.min(limit, value));
 
-/** Отклонение от исходного положения в градусах, не больше ±20°. */
-export function deviation(angleRad: number, baseRad: number): number {
-  return clamp(((angleRad - baseRad) * 180) / Math.PI, TILT.maxDeviation);
+export type Vec3 = { x: number; y: number; z: number };
+
+const dot = (a: Vec3, b: Vec3) => a.x * b.x + a.y * b.y + a.z * b.z;
+const cross = (a: Vec3, b: Vec3): Vec3 => ({
+  x: a.y * b.z - a.z * b.y,
+  y: a.z * b.x - a.x * b.z,
+  z: a.x * b.y - a.y * b.x,
+});
+const scaled = (a: Vec3, k: number): Vec3 => ({ x: a.x * k, y: a.y * k, z: a.z * k });
+const minus = (a: Vec3, b: Vec3): Vec3 => ({ x: a.x - b.x, y: a.y - b.y, z: a.z - b.z });
+
+/** Вектор единичной длины; нулевой — null. */
+export function unit(v: Vec3): Vec3 | null {
+  const length = Math.sqrt(dot(v, v));
+  return length > 1e-6 ? scaled(v, 1 / length) : null;
+}
+
+/**
+ * Наклон телефона от исходного положения по вектору силы тяжести (ускорение с учётом гравитации),
+ * в градусах, не больше ±20°: γ — влево-вправо, β — на себя / от себя. В отличие от углов ориентации,
+ * работает в любом положении телефона, в том числе когда его держат вертикально.
+ */
+export function gravityTilt(now: Vec3, base: Vec3): { beta: number; gamma: number } {
+  const n = unit(now);
+  const n0 = unit(base);
+  if (!n || !n0) {
+    return { beta: 0, gamma: 0 };
+  }
+  // Ось «влево-вправо» — ось X телефона, перпендикулярная исходному «верху»; если телефон лежит на боку — ось Y.
+  const axis = Math.abs(n0.x) < 0.9 ? { x: 1, y: 0, z: 0 } : { x: 0, y: 1, z: 0 };
+  const side = unit(minus(axis, scaled(n0, dot(axis, n0))))!;
+  const forward = cross(n0, side);
+  const degrees = (value: number) => (Math.asin(Math.max(-1, Math.min(1, value))) * 180) / Math.PI;
+  return {
+    beta: clamp(degrees(dot(n, forward)), TILT.maxDeviation),
+    gamma: clamp(0 - degrees(dot(n, side)), TILT.maxDeviation),
+  };
+}
+
+/** Доля пути за кадр длиной `dtMs`, чтобы за 33 мс получалось ровно 0,15 — плавно на любой частоте кадров. */
+export function frameSmoothing(dtMs: number): number {
+  'worklet';
+  return 1 - Math.pow(1 - TILT.smoothing, Math.max(0, dtMs) / TILT.smoothingFrame);
 }
 
 /** Шаг сглаживания: current += (target − current) × 0,15. */

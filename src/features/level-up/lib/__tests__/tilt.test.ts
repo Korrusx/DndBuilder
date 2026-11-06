@@ -1,12 +1,34 @@
-import { cardRotation, deviation, frameAngleFor, restSheenProgress, smooth, TILT } from '../tilt';
+import { cardRotation, frameAngleFor, frameSmoothing, gravityTilt, restSheenProgress, smooth, TILT } from '../tilt';
 
 const rad = (deg: number) => (deg * Math.PI) / 180;
+/** «Верх» телефона, держат вертикально, наклонён на `pitch` к себе/от себя и на `roll` влево-вправо. */
+const up = (pitch: number, roll: number) => ({
+  x: -Math.sin(rad(roll)),
+  y: Math.cos(rad(pitch)) * Math.cos(rad(roll)),
+  z: Math.sin(rad(pitch)) * Math.cos(rad(roll)),
+});
 
 describe('наклон карты', () => {
-  test('отклонение от исходного положения, не больше ±20°', () => {
-    expect(deviation(rad(30), rad(20))).toBeCloseTo(10);
-    expect(deviation(rad(60), 0)).toBe(20);
-    expect(deviation(rad(-60), 0)).toBe(-20);
+  test('наклон по силе тяжести: оба направления, когда телефон держат вертикально', () => {
+    const base = up(0, 0);
+    expect(gravityTilt(up(0, 10), base).gamma).toBeCloseTo(10);
+    expect(gravityTilt(up(0, -10), base).gamma).toBeCloseTo(-10);
+    expect(Math.abs(gravityTilt(up(10, 0), base).beta)).toBeCloseTo(10);
+    expect(gravityTilt(up(10, 0), base).gamma).toBeCloseTo(0);
+    expect(gravityTilt(up(0, 60), base).gamma).toBe(20);
+  });
+
+  test('наклон по силе тяжести работает и когда телефон лежит на столе', () => {
+    const flat = { x: 0, y: 0, z: 1 };
+    const tilted = { x: -Math.sin(rad(8)), y: 0, z: Math.cos(rad(8)) };
+    expect(gravityTilt(tilted, flat).gamma).toBeCloseTo(8);
+    expect(gravityTilt(flat, flat)).toEqual({ beta: 0, gamma: 0 });
+  });
+
+  test('сглаживание по кадрам: за 33 мс — 15 %, за два кадра по 16,5 мс — столько же', () => {
+    expect(frameSmoothing(33)).toBeCloseTo(0.15);
+    const half = frameSmoothing(16.5);
+    expect(1 - (1 - half) * (1 - half)).toBeCloseTo(0.15);
   });
 
   test('сглаживание: 15 % пути за шаг', () => {
