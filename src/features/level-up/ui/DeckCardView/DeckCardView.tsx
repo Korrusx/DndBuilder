@@ -38,6 +38,7 @@ export function DeckCardView({
       : card.type === 'species' || card.type === 'feature' || card.type === 'capstone'
         ? t('levelUpDeck.isNew')
         : '';
+  const kicker = cardKicker(card, classLevel);
   const body = card.type === 'hp' || card.type === 'growth' || card.type === 'magic' ? '' : cardBody(card);
   const slotRows = card.rows?.filter((row) => row.label.kind === 'slots') ?? [];
   const otherRows = card.rows?.filter((row) => row.label.kind !== 'slots') ?? [];
@@ -55,23 +56,25 @@ export function DeckCardView({
         },
       ]}
     >
-      <View style={styles.head}>
-        <View
-          style={[
-            styles.kickerPill,
-            {
-              backgroundColor: card.type === 'choice' || card.type === 'feature' ? '#2B2416' : 'transparent',
-              paddingHorizontal: card.type === 'choice' || card.type === 'feature' ? 10 : 0,
-            },
-          ]}
-        >
-          <Text style={[styles.kicker, { color: theme.accent }]}>
-            {cardKicker(card, classLevel).toLocaleUpperCase()}
-          </Text>
+      {kicker || status ? (
+        <View style={styles.head}>
+          {kicker ? (
+            <View
+              style={[
+                styles.kickerPill,
+                {
+                  backgroundColor: card.type === 'choice' || card.type === 'feature' ? '#2B2416' : 'transparent',
+                  paddingHorizontal: card.type === 'choice' || card.type === 'feature' ? 10 : 0,
+                },
+              ]}
+            >
+              <Text style={[styles.kicker, { color: theme.accent }]}>{kicker.toLocaleUpperCase()}</Text>
+            </View>
+          ) : null}
+          <View style={styles.fill} />
+          {status ? <Text style={[styles.status, { color: theme.accent }]}>{status}</Text> : null}
         </View>
-        <View style={styles.fill} />
-        {status ? <Text style={[styles.status, { color: theme.accent }]}>{status}</Text> : null}
-      </View>
+      ) : null}
 
       <Text style={[styles.title, { color: theme.title }]}>{cardTitle(card, context)}</Text>
 

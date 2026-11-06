@@ -243,7 +243,8 @@ export function cardKicker(card: LevelUpCard, classLevel: number): string {
     case 'species':
       return t('levelUpDeck.tag.species', { species: nameOf('species', card.source.id) });
     case 'hp':
-      return t('levelUpDeck.hp.title');
+      // Название карты и так «Хиты» — отдельная метка над ним не нужна.
+      return '';
     default: {
       const classId = card.choice?.classId ?? card.source.id;
       const name =
