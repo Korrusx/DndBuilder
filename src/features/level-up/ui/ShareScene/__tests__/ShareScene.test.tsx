@@ -43,7 +43,9 @@ async function render(kind: 'post' | 'story') {
 describe('картинки «Поделиться»', () => {
   test('сторис 390 × 693: заголовок без рода, компактная карта без «Дальше», строка кампании', async () => {
     const tree = await render('story');
-    expect([tree.children[0].props.style].flat()).toContainEqual({ width: 390, height: 693 });
+    expect([tree.children[0].props.style].flat()).toContainEqual(
+      expect.objectContaining({ width: 390, height: 693, backgroundColor: expect.any(String) }),
+    );
     const text = JSON.stringify(tree);
     expect(text).toContain('Ирма Вейл · 6-й уровень');
     expect(text).not.toContain('достиг');
@@ -53,7 +55,9 @@ describe('картинки «Поделиться»', () => {
 
   test('пост 390 × 487,5: полная карта без шапки сторис', async () => {
     const tree = await render('post');
-    expect([tree.children[0].props.style].flat()).toContainEqual({ width: 390, height: 487.5 });
+    expect([tree.children[0].props.style].flat()).toContainEqual(
+      expect.objectContaining({ width: 390, height: 487.5 }),
+    );
     const text = JSON.stringify(tree);
     expect(text).toContain('Дальше, на 7-м');
     expect(text).not.toContain('Ирма Вейл · 6-й уровень');
