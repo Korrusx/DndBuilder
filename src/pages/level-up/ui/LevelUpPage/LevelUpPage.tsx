@@ -19,19 +19,22 @@ import {
   applyLevelUp,
   beginLevelUp,
   countsText,
-  HeroCard,
+  cardA11yLabel,
+  cardFooter,
+  cardNext,
+  cardSubtitle,
+  cardUnlocked,
+  defaultCardStyle,
+  HERO_CARD_THEMES,
+  HeroCardView,
+  pickCardStats,
   IntroBackground,
-  keyNumbersPreview,
   levelUpBase,
   levelUpDeck,
   MAX_LEVEL,
   needFirstText,
-  nextLevelPreview,
-  nextLevelText,
   pendingDraft,
   revealCards,
-  rowLabel,
-  rowValue,
   setPendingHp,
   storeDraft,
   useDeckMotion,
@@ -43,7 +46,7 @@ import { t } from '@/shared/i18n';
 import { Button, Screen } from '@/shared/ui';
 
 import type { DeckStage } from '../../lib/deckScreen';
-import { classLine, firstOpenIndex, heroSubtitle, resumeStage } from '../../lib/deckScreen';
+import { classLine, firstOpenIndex, resumeStage } from '../../lib/deckScreen';
 import { CardsStep } from '../CardsStep/CardsStep';
 import { ChoiceSheet } from '../ChoiceSheet/ChoiceSheet';
 import { ClassSheet } from '../ClassSheet/ClassSheet';
@@ -163,17 +166,6 @@ export function LevelUpPage() {
     update((c) => applyLevelUp(c, content));
     toSheet();
   };
-  const oneMore = () => {
-    update((c) => {
-      const done = applyLevelUp(c, content);
-      return totalLevel(done.classes) < MAX_LEVEL
-        ? { ...done, pendingLevelUp: beginLevelUp(done, classId, now()) }
-        : done;
-    });
-    setSkipped(false);
-    setStage('start');
-    setCurrent(0);
-  };
   // Удар при смене цифры уровня: вибрация «успех» и мягкий звук, если включены звуки бросков.
   const impact = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
@@ -213,34 +205,59 @@ export function LevelUpPage() {
   };
 
   // --- Итог ---
-  const keyRows = keyNumbersPreview(deck.before, deck.after, content).map((row) => ({
-    label: rowLabel(row.label, context),
-    before: row.before === undefined ? undefined : rowValue(row.label, row.before),
-    after: rowValue(row.label, row.after),
-  }));
   const inCampaign = journal.kind === 'session' || journal.kind === 'between';
-  const campaignLine = !inCampaign
-    ? undefined
-    : journal.kind === 'session'
-      ? `${campaignName} · ${t('levelUpDeck.done.session', { number: journal.number })}`
-      : campaignName;
   const chronicleText =
     journal.kind === 'session'
       ? t('levelUpDeck.done.chronicle', { number: journal.number })
       : journal.kind === 'between'
         ? t('levelUpDeck.done.chronicleBetween')
         : undefined;
-  const nextItems = stage === 'done' && hasNext ? nextLevelPreview(next, content, classId) : [];
-  const hero = {
+  const cardStyle = defaultCardStyle(character);
+  const stats =
+    stage === 'done'
+      ? pickCardStats(
+          deck.before,
+          deck.after,
+          content,
+          next.expertise.filter((id) => !prev.expertise.includes(id)),
+        )
+      : [];
+  const heroCard = {
     name: character.name,
     letter: (character.name.trim()[0] ?? '?').toLocaleUpperCase(),
     portrait: character.portrait,
-    subtitle: heroSubtitle(next),
+    subtitle: cardSubtitle(next),
     level,
-    rows: keyRows,
-    campaignLine,
-    capstone,
+    stats,
+    unlocked: stage === 'done' ? cardUnlocked(deck, prev, next, content) : '',
+    next: stage === 'done' ? cardNext(next, content, classId) : null,
+    footer: cardFooter(
+      inCampaign ? campaignName : undefined,
+      journal.kind === 'session' ? journal.number : undefined,
+      new Date(),
+    ),
+    accessibilityLabel: cardA11yLabel(character.name, level, stats),
   };
+
+  if (stage === 'done') {
+    return (
+      <>
+        <DoneStep
+          {...heroCard}
+          legend={capstone}
+          chronicleText={chronicleText}
+          style={cardStyle}
+          onStyle={(heroCardStyle) => update((c) => ({ ...c, heroCardStyle }), quiet)}
+          onShare={share}
+          onToSheet={finish}
+          shareError={shareError ? t('levelUpDeck.done.shareFailed') : undefined}
+        />
+        <View ref={shareRef} collapsable={false} style={styles.shareShot} pointerEvents="none">
+          <HeroCardView theme={HERO_CARD_THEMES[cardStyle]} size="full" width={350} {...heroCard} />
+        </View>
+      </>
+    );
+  }
 
   // --- Кнопка внизу ---
   const card = deck.cards[current];
@@ -282,20 +299,7 @@ export function LevelUpPage() {
           }}
         />
       )
-    ) : (
-      <>
-        {shareError ? <Text style={styles.error}>{t('levelUpDeck.done.shareFailed')}</Text> : null}
-        <View style={styles.row}>
-          <Button title={t('levelUpDeck.done.share')} variant="secondary" onPress={share} style={styles.flex} />
-          <Button title={t('levelUpDeck.done.toSheet')} onPress={finish} style={styles.flex} />
-        </View>
-        {hasNext && level < MAX_LEVEL ? (
-          <Pressable accessibilityRole="button" onPress={oneMore} style={styles.link}>
-            <Text style={styles.linkText}>{t('levelUpDeck.done.anotherLevel')}</Text>
-          </Pressable>
-        ) : null}
-      </>
-    );
+    ) : null;
 
   return (
     <Screen
@@ -387,21 +391,6 @@ export function LevelUpPage() {
               ]),
           )}
         />
-      ) : null}
-
-      {stage === 'done' ? (
-        <DoneStep
-          {...hero}
-          chronicleText={chronicleText}
-          nextLevel={nextItems.length ? { level: level + 1, text: nextLevelText(nextItems, context) } : undefined}
-        />
-      ) : null}
-
-      {stage === 'done' ? (
-        // Картинка «Поделиться» 1080×1350: та же карточка, отрисованная вне экрана в пропорции 4:5.
-        <View ref={shareRef} collapsable={false} style={styles.shareShot} pointerEvents="none">
-          <HeroCard {...hero} share />
-        </View>
       ) : null}
 
       <ChoiceSheet choice={choice} prev={prev} next={next} set={set} onClose={() => setChoice(null)} />

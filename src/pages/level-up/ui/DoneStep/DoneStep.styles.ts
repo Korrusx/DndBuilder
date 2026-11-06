@@ -1,20 +1,32 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, fonts, spacing } from '@/shared/config';
+import { fonts } from '@/shared/config';
+
+export const CARD_MARGIN = 20;
+export const CARD_MAX = 350;
 
 export const styles = StyleSheet.create({
-  title: { textAlign: 'center', fontFamily: fonts.display, fontSize: 20, color: colors.text },
-  chronicle: {
+  root: { flex: 1 },
+  safe: { flex: 1 },
+  column: { flexGrow: 1, paddingTop: 18, paddingBottom: 18, paddingHorizontal: CARD_MARGIN, gap: 14 },
+  head: { alignItems: 'center', gap: 2 },
+  kicker: { fontFamily: fonts.text, fontSize: 12, letterSpacing: 12 * 0.18 },
+  title: { fontFamily: fonts.display, fontSize: 20, textAlign: 'center' },
+  spacer: { flexGrow: 1, minHeight: 8 },
+  cardBox: { alignSelf: 'center' },
+  bottom: { gap: 12 },
+  buttons: { flexDirection: 'row', gap: 8 },
+  button: {
+    flex: 1,
+    height: 56,
+    borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
-    borderRadius: 12,
-    backgroundColor: colors.healBg,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    justifyContent: 'center',
+    gap: 8,
   },
-  chronicleText: { flex: 1, fontFamily: fonts.text, fontSize: 13, color: colors.heal },
-  next: { borderRadius: 14, borderWidth: 1, borderColor: colors.border, padding: 14, gap: 4 },
-  nextCaption: { fontFamily: fonts.text, fontSize: 12, letterSpacing: 0.7, color: colors.textSecondary },
-  nextText: { fontFamily: fonts.text, fontSize: 14, lineHeight: 20, color: colors.text },
+  buttonText: { fontFamily: fonts.display, fontSize: 14 },
+  chronicle: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 6 },
+  chronicleText: { fontFamily: fonts.text, fontSize: 12 },
+  error: { fontFamily: fonts.text, fontSize: 12, textAlign: 'center' },
 });

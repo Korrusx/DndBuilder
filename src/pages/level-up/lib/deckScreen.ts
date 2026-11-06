@@ -54,18 +54,6 @@ export function unchangedText(deck: Deck, after: LevelSnapshot, context: TextCon
   return parts.join(' · ');
 }
 
-/** Подзаголовок карточки героя: «Полурослик · Плут · Вор» (мультикласс — «Плут 5 / Волшебник 1»). */
-export function heroSubtitle(character: Character): string {
-  const classes =
-    character.classes.length > 1
-      ? [character.classes.map((e) => `${nameOf('classes', e.classId)} ${e.level}`).join(' / ')]
-      : character.classes.flatMap((e) => [
-          nameOf('classes', e.classId),
-          e.subclassId ? localizeText(byId.subclasses.get(e.subclassId)?.name).text : '',
-        ]);
-  return [nameOf('species', character.speciesId), ...classes].filter(Boolean).join(' · ');
-}
-
 /** «Плут · Вор» — класс и подкласс уровня для У1. */
 export function classLine(character: Character, classId: string): string {
   const entry = character.classes.find((e) => e.classId === classId);

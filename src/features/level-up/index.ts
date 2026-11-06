@@ -79,8 +79,6 @@ export { CardBack } from './ui/CardBack/CardBack';
 export { DeckCardView } from './ui/DeckCardView/DeckCardView';
 export { DeckStrip } from './ui/DeckStrip/DeckStrip';
 export { FlipCard } from './ui/FlipCard/FlipCard';
-export { HeroCard } from './ui/HeroCard/HeroCard';
-export type { HeroCardRow } from './ui/HeroCard/HeroCard.types';
 export { HpSummary } from './ui/HpSummary/HpSummary';
 export { LevelRing } from './ui/LevelRing/LevelRing';
 export { PreviewPick } from './ui/PreviewPick/PreviewPick';
@@ -103,3 +101,8 @@ export { CARD_STYLES, DONE_SCREEN, HERO_CARD_THEMES } from './config/heroCardThe
 export type { CardStyle, HeroCardTheme } from './config/heroCardThemes';
 export { HeroCardView } from './ui/HeroCardView/HeroCardView';
 export type { HeroCardMotion, HeroCardSize, HeroCardViewProps } from './ui/HeroCardView/HeroCardView.types';
+export { CARD_POSE, DONE_TIMELINE, doneInitial, neighborStyle, swipeStep } from './lib/doneMotion';
+export { useStyleSwipe } from './lib/useStyleSwipe';
+export { CardSparks } from './ui/CardSparks/CardSparks';
+export { StyleBackdrop } from './ui/StyleBackdrop/StyleBackdrop';
+export { StyleSwitcher } from './ui/StyleSwitcher/StyleSwitcher';
