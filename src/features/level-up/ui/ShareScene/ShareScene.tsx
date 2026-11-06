@@ -34,7 +34,7 @@ export function ShareScene({ kind, style, card, storyTitle, campaignLine, onRead
     if (!cardHeight) {
       return;
     }
-    const timer = setTimeout(() => ref.current && onReady(ref.current), DRAW_DELAY);
+    const timer = setTimeout(() => onReady(ref), DRAW_DELAY);
     return () => clearTimeout(timer);
   }, [cardHeight, onReady]);
 
@@ -50,7 +50,14 @@ export function ShareScene({ kind, style, card, storyTitle, campaignLine, onRead
   );
 
   return (
-    <View ref={ref} collapsable={false} style={[styles.scene, { width: scene.width, height: scene.height }]}>
+    <View
+      ref={ref}
+      collapsable={false}
+      style={[
+        styles.scene,
+        { width: scene.width, height: scene.height, backgroundColor: theme.screenBg[theme.screenBg.length - 1][1] },
+      ]}
+    >
       <StyleBackdrop
         style={style}
         animate={false}

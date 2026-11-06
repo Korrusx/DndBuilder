@@ -1,6 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
 import type { HostInstance } from 'react-native';
 import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
@@ -78,7 +79,7 @@ export function DoneStep(props: DoneStepProps) {
     setSharing(kind);
   };
   const onSceneReady = useCallback(
-    (target: HostInstance) => {
+    (target: RefObject<HostInstance | null>) => {
       if (!sharing) {
         return;
       }

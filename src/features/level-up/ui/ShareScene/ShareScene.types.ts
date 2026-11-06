@@ -1,3 +1,4 @@
+import type { RefObject } from 'react';
 import type { HostInstance } from 'react-native';
 
 import type { CardStyle } from '../../config/heroCardThemes';
@@ -15,5 +16,5 @@ export type ShareSceneProps = {
   /** «Тени Солёной Гавани · сессия 12» внизу сторис; без кампании — нет. */
   campaignLine?: string;
   /** Сцена разложена и отрисована — можно снимать. */
-  onReady: (target: HostInstance) => void;
+  onReady: (target: RefObject<HostInstance | null>) => void;
 };
