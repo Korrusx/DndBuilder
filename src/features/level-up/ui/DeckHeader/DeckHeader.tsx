@@ -30,13 +30,15 @@ export function DeckHeader(props: DeckHeaderProps) {
         >
           <Feather name="chevron-left" size={22} color={DECK_UI.text} />
         </Pressable>
-        <LevelBadge
-          level={props.level}
-          capstone={props.capstone}
-          hidden={props.badgeHidden}
-          badgeRef={props.badgeRef}
-          onLayout={props.onBadgeLayout}
-        />
+        <View style={styles.badge}>
+          <LevelBadge
+            level={props.level}
+            capstone={props.capstone}
+            hidden={props.badgeHidden}
+            badgeRef={props.badgeRef}
+            onLayout={props.onBadgeLayout}
+          />
+        </View>
         <Animated.View style={styles.titles} entering={intro ? TITLE_IN : undefined}>
           <Text style={styles.title} accessibilityRole="header">
             {title}

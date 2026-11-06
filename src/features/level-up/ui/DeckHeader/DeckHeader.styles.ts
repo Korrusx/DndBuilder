@@ -15,6 +15,9 @@ export const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   back: { width: sizes.touchMin, height: sizes.touchMin, alignItems: 'center', justifyContent: 'center' },
+  // Справа от стрелки внутри кнопки 44 — пустые (44 − 22) / 2 = 11: столько же отступаем справа от значка,
+  // чтобы он стоял ровно посередине между стрелкой и заголовком.
+  badge: { marginRight: (sizes.touchMin - 22) / 2 },
   titles: { flex: 1, minWidth: 0, gap: 1 },
   title: { fontFamily: fonts.display, fontSize: 16, color: DECK_UI.text },
   subtitle: { fontFamily: fonts.text, fontSize: 12, color: DECK_UI.secondary },
