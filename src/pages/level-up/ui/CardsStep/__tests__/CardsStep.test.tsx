@@ -189,4 +189,15 @@ describe('CardsStep', () => {
     await act(async () => press(button));
     expect(props.onNext).toHaveBeenCalled();
   });
+
+  test('без перехода («уменьшение движения», продолжение) карты сразу на месте; с переходом — ждут раздачи', async () => {
+    const flat = (node: Json) =>
+      Object.assign({}, ...([node.props.style].flat(Infinity).filter(Boolean) as object[])) as Record<string, unknown>;
+    const hiddenCards = (all: Json[]) =>
+      all.filter((node) => flat(node).opacity === 0 && JSON.stringify(flat(node)).includes('translateX'));
+    const still = await render(setup(['hp', 'growth']));
+    expect(hiddenCards(still())).toHaveLength(0);
+    const dealt = await render(setup(['hp', 'growth'], { intro: { x: 195, y: 300 } }));
+    expect(hiddenCards(dealt()).length).toBeGreaterThan(0);
+  });
 });

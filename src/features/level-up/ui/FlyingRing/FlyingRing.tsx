@@ -16,6 +16,7 @@ import { t } from '@/shared/i18n';
 import { BADGE, RITUAL_RING, TRANSITION } from '../../config/constants';
 import { INTRO_COLORS } from '../../config/cardTheme';
 import { DECK_UI } from '../../config/deckColors';
+import { flightFrame } from '../../lib/flight';
 import { styles } from './FlyingRing.styles';
 import type { FlyingRingProps } from './FlyingRing.types';
 
@@ -48,11 +49,8 @@ export function FlyingRing({ from, to, level, capstone, onDone }: FlyingRingProp
   }, []);
 
   const layer = useAnimatedStyle(() => {
-    const p = progress.get();
-    const size = interpolate(p, [0, 1], [RITUAL_RING.size, BADGE.size]);
-    const x = interpolate(p, [0, 1], [from.x, to.x]);
-    const y = interpolate(p, [0, 1], [from.y, to.y]);
-    return { left: x - size / 2, top: y - size / 2, width: size, height: size };
+    const frame = flightFrame(progress.get(), from, to);
+    return { left: frame.left, top: frame.top, width: frame.size, height: frame.size };
   });
   const glow = useAnimatedStyle(() => {
     const p = progress.get();

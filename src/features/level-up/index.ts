@@ -114,6 +114,7 @@ export type { PreviewOption } from './ui/PreviewPick/PreviewPick.types';
 export { RowList } from './ui/RowList/RowList';
 export { IntroBackground } from './ui/IntroBackground/IntroBackground';
 export { introTimeline, GLOW } from './lib/motion';
+export { flightFrame } from './lib/flight';
 export {
   cardA11yLabel,
   cardFooter,

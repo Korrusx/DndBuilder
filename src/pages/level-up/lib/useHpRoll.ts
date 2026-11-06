@@ -11,6 +11,11 @@ import { rollDie } from '@/shared/lib/dice';
 
 type TableState = { id: number; value: number } | null;
 
+/** «Свой кубик»: только целое от 1 до максимума кости, иначе ничего. */
+export function manualHp(value: number, die: number): HpChoice | null {
+  return Number.isInteger(value) && value >= 1 && value <= die ? { method: 'manual', value } : null;
+}
+
 export function useHpRoll(
   die: number,
   hp: HpChoice | undefined,
@@ -54,8 +59,9 @@ export function useHpRoll(
   };
   const manual = (value: number) => {
     setManualOpen(false);
-    if (!locked && Number.isInteger(value) && value >= 1 && value <= die) {
-      onChange({ method: 'manual', value });
+    const choice = manualHp(value, die);
+    if (!locked && choice) {
+      onChange(choice);
     }
   };
 

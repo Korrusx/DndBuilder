@@ -11,10 +11,15 @@ import { levelUpDeck } from '../../../model/deck/levelUpDeck';
 import { dragonbornPaladin, irmaAt } from '../../../model/deck/__tests__/fixtures';
 import { startLevelUp } from '../../../model/levelup';
 import type { LevelUpCard } from '../../../model/types';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { deckProgress } from '../../../lib/deckProgress';
+import { DeckHeader } from '../../DeckHeader/DeckHeader';
 import { DeckTiles } from '../../DeckTiles/DeckTiles';
+import { HpCard } from '../../HpCard/HpCard';
 import { LevelUpCardView } from '../LevelUpCardView';
 
-jest.mock('@expo/vector-icons', () => ({ Feather: () => null }));
+jest.mock('@expo/vector-icons', () => ({ Feather: () => null, MaterialCommunityIcons: () => null }));
 jest.mock('react-native-reanimated', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { View } = require('react-native');
@@ -176,5 +181,72 @@ describe('LevelUpCardView', () => {
     expect(texts(tree)).not.toContain('Нажмите, чтобы открыть');
     const turned = nodes(tree).filter((node) => JSON.stringify(flatStyle(node).transform ?? '').includes('rotateX'));
     expect(turned.every((node) => JSON.stringify(flatStyle(node).transform).includes('"0deg"'))).toBe(true);
+  });
+});
+
+describe('карта хитов', () => {
+  const base = {
+    showResult: false,
+    canReroll: false,
+    ownDice: false,
+    onToggle: jest.fn(),
+    onRoll: jest.fn(),
+    onAverage: jest.fn(),
+    onManual: jest.fn(),
+  };
+
+  test('Ирма 5 → 6 до броска: развёрнута, кость к8, «Бросить к8», среднее 5, встряхивание', async () => {
+    const card = deckOf(irmaAt(5)).cards[0];
+    const words = texts(await render(<HpCard {...base} card={card} decided={false} expanded />));
+    expect(words).toEqual(
+      expect.arrayContaining([
+        'ХИТЫ · КОСТЬ К8',
+        'первым делом',
+        'к8 + 2',
+        'Бросить к8',
+        'Взять среднее · 5',
+        'Ввести свой кубик',
+        'или встряхните телефон',
+      ]),
+    );
+  });
+
+  test('«Свои кубики»: первой большой кнопкой — ввод своего броска', async () => {
+    const card = deckOf(irmaAt(5)).cards[0];
+    const words = texts(await render(<HpCard {...base} card={card} decided={false} expanded ownDice />));
+    expect(words.indexOf('Ввести свой кубик')).toBeLessThan(words.indexOf('Бросить к8'));
+  });
+
+  test('после броска — строка «✓ Хиты 38 → 46 +8»', async () => {
+    const prev = irmaAt(5);
+    const deck = levelUpDeck(prev, startLevelUp(prev), content, { hp: { method: 'roll', value: 6 } });
+    const hp = deck.cards[0].hp!;
+    const words = texts(await render(<HpCard {...base} card={deck.cards[0]} decided expanded={false} />)).join('');
+    expect(words).toContain(`Хиты${hp.maxBefore} → ${hp.maxAfter}+8`);
+  });
+
+  test('счётчик: «Открыто 1 из 2 · хиты не брошены · выборов 0 из 1»', async () => {
+    const deck = deckOf(irmaAt(5), ['hp']);
+    const tree = await render(
+      <SafeAreaProvider
+        initialMetrics={{
+          frame: { x: 0, y: 0, width: 390, height: 844 },
+          insets: { top: 0, left: 0, right: 0, bottom: 0 },
+        }}
+      >
+        <DeckHeader
+          level={6}
+          title="Новое на 6-м уровне"
+          subtitle="Ирма Вейл · плут · полурослик"
+          progress={deckProgress(deck, [], false)}
+          onBack={jest.fn()}
+          onRevealAll={jest.fn()}
+        />
+      </SafeAreaProvider>,
+    );
+    const words = texts(tree).join('');
+    expect(words).toContain('Открыто 1 из 2');
+    expect(words).toContain('хиты не брошены');
+    expect(words).toContain('выборов 0 из 1');
   });
 });
