@@ -18,6 +18,9 @@ export type ClassOptionSlot = {
   count: number;
 };
 
+export type ClassOptionProblem =
+  { kind: 'count'; slot: ClassOptionSlot } | { kind: 'unmet'; ids: string[] } | { kind: 'tome' };
+
 export type ClassOptionSpell = {
   optionId: string;
   spellId: string;
@@ -139,11 +142,8 @@ export function classOptionSpells(c: Character, content: Content): ClassOptionSp
 }
 
 /** Чего не хватает в выборе вариантов умений: сообщения для мастера создания и повышения уровня. */
-export function classOptionProblems(
-  c: Character,
-  content: Content,
-): ({ kind: 'count'; slot: ClassOptionSlot } | { kind: 'unmet'; ids: string[] } | { kind: 'tome' })[] {
-  const out: ({ kind: 'count'; slot: ClassOptionSlot } | { kind: 'unmet'; ids: string[] } | { kind: 'tome' })[] = [];
+export function classOptionProblems(c: Character, content: Content): ClassOptionProblem[] {
+  const out: ClassOptionProblem[] = [];
   for (const slot of classOptionSlots(c, content)) {
     if (chosenClassOptions(c, slot.kind).length !== slot.count) {
       out.push({ kind: 'count', slot });
@@ -161,14 +161,17 @@ export function classOptionProblems(
   return out;
 }
 
+/** Проблема выбора вариантов текстом на текущем языке. */
+export function classOptionProblemText(p: ClassOptionProblem, content: Content): string {
+  const idx = indexOf(content).classOptions;
+  return p.kind === 'count'
+    ? t(p.slot.kind === 'invocation' ? 'issues.invocations' : 'issues.metamagic', { count: p.slot.count })
+    : p.kind === 'unmet'
+      ? t('issues.unmetOptions', { list: p.ids.map((id) => localizeText(idx.get(id)?.name).text || id).join(', ') })
+      : t('issues.tome');
+}
+
 /** То же текстом на текущем языке. */
 export function classOptionProblemTexts(c: Character, content: Content): string[] {
-  const idx = indexOf(content).classOptions;
-  return classOptionProblems(c, content).map((p) =>
-    p.kind === 'count'
-      ? t(p.slot.kind === 'invocation' ? 'issues.invocations' : 'issues.metamagic', { count: p.slot.count })
-      : p.kind === 'unmet'
-        ? t('issues.unmetOptions', { list: p.ids.map((id) => localizeText(idx.get(id)?.name).text || id).join(', ') })
-        : t('issues.tome'),
-  );
+  return classOptionProblems(c, content).map((p) => classOptionProblemText(p, content));
 }

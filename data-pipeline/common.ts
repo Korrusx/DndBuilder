@@ -14,10 +14,12 @@ import type {
   ChoiceOption,
   Coin,
   Content,
+  Feature,
   LocalizedText,
   ProficiencyType,
   Spell,
   SpellAreaShape,
+  Trait,
 } from '../src/shared/content/types.ts';
 import { parseCsv, stringifyCsv } from './csv.ts';
 
@@ -123,12 +125,16 @@ const SAVE_ABILITIES: Record<string, AbilityId> = {
 };
 export function spellSaveFromText(text: string): AbilityId | undefined {
   // Только «makes / succeeds on / fails a X saving throw»: «advantage on Dexterity saving throws» («Ускорение») — не спасбросок от заклинания.
-  const m = text.match(/(?:makes?|succeeds? on|fails?) an? (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) saving throw\b/);
+  const m = text.match(
+    /(?:makes?|succeeds? on|fails?) an? (Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma) saving throw\b/,
+  );
   return m ? SAVE_ABILITIES[m[1]] : undefined;
 }
 export function spellAreaFromText(text: string): Spell['area'] {
   // «15-foot Cone», «20-foot-radius Sphere», «100-foot-long, 5-foot-wide Line», «10-foot-radius, 40-foot-high Cylinder».
-  const m = text.match(/(\d+)-?foot(?:-radius|-long)?(?:,? \d+-?foot[- ]?(?:wide|high|tall))?[ -](Cone|Cube|Cylinder|Emanation|Line|Sphere)\b/);
+  const m = text.match(
+    /(\d+)-?foot(?:-radius|-long)?(?:,? \d+-?foot[- ]?(?:wide|high|tall))?[ -](Cone|Cube|Cylinder|Emanation|Line|Sphere)\b/,
+  );
   return m ? { shape: m[2].toLowerCase() as SpellAreaShape, size: Number(m[1]) } : undefined;
 }
 
@@ -145,9 +151,7 @@ export const slug = (s: string) =>
 
 /** Склеивает переносы из PDF («Ar- mor» → «Armor»). */
 export function cleanText(s: string): string {
-  return s
-    .replace(/([A-Za-z]{2,})- (?!(?:the|a|an|and|or|to)\b)([a-z]{2,})/g, '$1$2')
-    .trim();
+  return s.replace(/([A-Za-z]{2,})- (?!(?:the|a|an|and|or|to)\b)([a-z]{2,})/g, '$1$2').trim();
 }
 
 type Row = { key: string; en: string; ru: string; status: string };
@@ -235,7 +239,9 @@ async function applyTranslations() {
 
     const rows = [['key', 'en', 'ru', 'status'], ...out.map((r) => [r.key, r.en, r.ru, r.status])];
     await writeFile(join(paths.translations, `${file}.csv`), stringifyCsv(rows));
-    stats.push(`  ${file}.csv: всего ${out.length}, готово ${counts.done}, черновик ${counts.draft}, нет перевода ${counts.todo}`);
+    stats.push(
+      `  ${file}.csv: всего ${out.length}, готово ${counts.done}, черновик ${counts.draft}, нет перевода ${counts.todo}`,
+    );
   }
   return { missing, stats };
 }
@@ -269,12 +275,31 @@ export function refId(ref: Raw): string {
  * В разделе 2014 у инструментов id без приставки (thieves-tools, dice-set), в 2024 — tool-thieves-tools, tool-dice.
  * Приводим к виду 2024, чтобы код приложения узнавал одни и те же владения в обеих редакциях.
  */
-const PROFICIENCY_ALIASES_2014: Record<string, string> = { 'dice-set': 'tool-dice', 'playing-card-set': 'tool-playing-cards' };
+const PROFICIENCY_ALIASES_2014: Record<string, string> = {
+  'dice-set': 'tool-dice',
+  'playing-card-set': 'tool-playing-cards',
+};
 const TOOL_IDS_2014 = new Set([
-  'calligraphers-supplies', 'carpenters-tools', 'cartographers-tools', 'cobblers-tools', 'cooks-utensils',
-  'disguise-kit', 'forgery-kit', 'glassblowers-tools', 'jewelers-tools', 'leatherworkers-tools', 'masons-tools',
-  'navigators-tools', 'painters-supplies', 'poisoners-kit', 'potters-tools', 'smiths-tools', 'thieves-tools',
-  'tinkers-tools', 'weavers-tools', 'woodcarvers-tools',
+  'calligraphers-supplies',
+  'carpenters-tools',
+  'cartographers-tools',
+  'cobblers-tools',
+  'cooks-utensils',
+  'disguise-kit',
+  'forgery-kit',
+  'glassblowers-tools',
+  'jewelers-tools',
+  'leatherworkers-tools',
+  'masons-tools',
+  'navigators-tools',
+  'painters-supplies',
+  'poisoners-kit',
+  'potters-tools',
+  'smiths-tools',
+  'thieves-tools',
+  'tinkers-tools',
+  'weavers-tools',
+  'woodcarvers-tools',
 ]);
 
 export function proficiencyId(id: string): string {
@@ -345,7 +370,8 @@ export const PROFICIENCY_TYPES: Record<string, ProficiencyType> = {
 
 export function seeded(key: string, en: string, ru: string): LocalizedText {
   // Английский текст нужен для английского языка приложения; без него показался бы русский.
-  if (/[А-Яа-яЁё]/.test(en)) warn(`Нет английского текста: ${key} — добавьте поле textEn / summaryEn / descEn в data-pipeline/extra`);
+  if (/[А-Яа-яЁё]/.test(en))
+    warn(`Нет английского текста: ${key} — добавьте поле textEn / summaryEn / descEn в data-pipeline/extra`);
   ruSeeds.set(key, ru);
   return tx(key, en);
 }
@@ -443,7 +469,8 @@ async function applyDescriptions(content: Omit<Content, 'version'>) {
     const top = (over[section] as Record<string, T> | undefined)?.[id];
     return base && top && typeof base === 'object' ? { ...base, ...top } : (top ?? base);
   };
-  const text = (key: string, t: DescribeText | undefined) => (t ? { [key.split('.').pop()!]: seeded(key, t.en, t.ru) } : {});
+  const text = (key: string, t: DescribeText | undefined) =>
+    t ? { [key.split('.').pop()!]: seeded(key, t.en, t.ru) } : {};
   for (const c of content.classes) {
     const d = pick<DescribeClass>('classes', c.id);
     if (!d) continue;
@@ -462,9 +489,52 @@ async function applyDescriptions(content: Omit<Content, 'version'>) {
 }
 
 /** Собирает справочник, проверяет ссылки, подставляет перевод и пишет файл. */
+type LevelMetaSection = {
+  features?: Record<string, Pick<Feature, 'upgrades' | 'action' | 'subclassSlot'>>;
+  traits?: Record<string, { action?: Trait['action']; damageByLevel?: Record<string, string> }>;
+};
+
+/**
+ * Описательные поля для колоды повышения уровня (level-meta.json): связь «улучшает», метка действия,
+ * урон особенности вида по уровню. Общие записи применяются к обеим редакциям, overrides2014 — поверх для 2014.
+ */
+async function applyLevelMeta(content: Omit<Content, 'version'>) {
+  const data = JSON.parse(await readFile(join(ROOT, 'level-meta.json'), 'utf8')) as LevelMetaSection & {
+    overrides2014?: LevelMetaSection;
+  };
+  const sections = edition === '2014' ? [data, data.overrides2014 ?? {}] : [data];
+  const features = new Map(content.features.map((f) => [f.id, f]));
+  const traits = new Map(content.traits.map((t) => [t.id, t]));
+  sections.forEach((section, i) => {
+    // Общие записи пишутся по id 2024: в 2014 многих нет, предупреждаем только о своих записях редакции.
+    const strict = edition === '2024' || i > 0;
+    for (const [id, meta] of Object.entries(section.features ?? {})) {
+      const f = features.get(id);
+      if (!f) {
+        if (strict) warn(`level-meta: нет умения ${id}`);
+        continue;
+      }
+      if (meta.upgrades && !features.has(meta.upgrades)) {
+        warn(`level-meta: ${id} улучшает неизвестное умение ${meta.upgrades}`);
+        continue;
+      }
+      Object.assign(f, meta);
+    }
+    for (const [id, meta] of Object.entries(section.traits ?? {})) {
+      const t = traits.get(id);
+      if (!t) {
+        if (strict) warn(`level-meta: нет особенности ${id}`);
+        continue;
+      }
+      Object.assign(t, meta);
+    }
+  });
+}
+
 export async function finish(build: () => Promise<Omit<Content, 'version'>>) {
   const content = await build();
   await applyDescriptions(content);
+  await applyLevelMeta(content);
   checkReferences(content);
   const { missing, stats } = await applyTranslations();
 
@@ -475,7 +545,9 @@ export async function finish(build: () => Promise<Omit<Content, 'version'>>) {
   await writeFile(paths.report, missing.join('\n') + '\n');
 
   const rel = (p: string) => p.slice(join(ROOT, '..').length + 1);
-  console.log(`Справочник ${edition} собран: ${rel(paths.out)} (версия ${version}, ${Math.round(json.length / 1024)} КБ)`);
+  console.log(
+    `Справочник ${edition} собран: ${rel(paths.out)} (версия ${version}, ${Math.round(json.length / 1024)} КБ)`,
+  );
   console.log(
     `  классов ${content.classes.length}, умений ${content.features.length}, видов ${content.species.length}, ` +
       `предысторий ${content.backgrounds.length}, черт ${content.feats.length}, предметов ${content.equipment.length}, ` +

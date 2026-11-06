@@ -136,7 +136,16 @@ export type Feature = {
   proficiencyChoices?: Choice[];
   /** Не из SRD: механика из Player's Handbook 2024 (data-pipeline/extra). */
   extra?: boolean;
+  /** Умение, которое это умение улучшает («Улучшенный хитрый удар» → «Хитрый удар»), — data-pipeline/level-meta.json. */
+  upgrades?: string;
+  /** Когда используется: действие, бонусное действие, реакция или всегда действует. */
+  action?: FeatureAction;
+  /** 2014: строка таблицы класса под подкласс — `choice` (выбор подкласса), `feature` (место для его умения). */
+  subclassSlot?: 'choice' | 'feature';
 };
+
+/** Когда используется умение или особенность вида (метка на карте повышения уровня). */
+export type FeatureAction = 'action' | 'bonus' | 'reaction' | 'passive';
 
 export type Subclass = {
   id: string;
@@ -216,6 +225,10 @@ export type Trait = {
   parent?: string;
   /** 2014: вид урона варианта («Наследие драконов (Красный)» — огонь). */
   damageType?: string;
+  /** Когда используется (метка на карте повышения уровня). */
+  action?: FeatureAction;
+  /** Урон по общему уровню персонажа {уровень: кости}: «Оружие дыхания» 1d10 → 2d10 с 5-го. */
+  damageByLevel?: Record<string, string>;
   /** С какого уровня персонажа доступно заклинание из `spells` (нет записи — с 1-го): «Наследие Ада» тифлинга. */
   spellLevels?: Record<string, number>;
   /** Описание в одну строку для карточки вида (нет — первое предложение `description`). */

@@ -5,32 +5,22 @@ import type { Character, FeatChoice } from '@/entities/character';
 import {
   CHOICE_KEYS,
   choiceOptionIds,
-  classOptionProblemTexts,
-  classSpellLists,
   FEATURE_OPTIONS,
-  featureLanguageSlots,
   computeSheet,
   FEAT_FEATURES,
-  hasSpellbook,
-  SPELLBOOK_PER_LEVEL,
-  spellbook,
-  spellbookMinimum,
   totalLevel,
   finalAbilityScores,
   originFeatIds,
   proficiencyIds,
-  proficientSkills,
   speciesSpellcasting,
-  spellLimits,
   subclassLevel,
-  weaponMasteryCount,
 } from '@/entities/character';
 import type { AbilityId, Content } from '@/shared/content';
-import { abilityAbbr, indexOf, nameOf } from '@/shared/content';
+import { abilityAbbr, indexOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
 
 import { EXPERTISE_GRANTS, FEAT_ABILITY, LANGUAGE_GRANTS, SKILL_GRANTS } from '../config/constants';
-import type { FeatSlotKind, LevelUpIssue, LevelUpPlan } from './types';
+import type { FeatSlotKind, LevelUpPlan } from './types';
 
 export const levelKey = (level: number) => `lvl${level}`;
 
@@ -262,113 +252,6 @@ export function featAbilityRule(
     return null;
   }
   return rule === 'asi' ? { mode: 'asi' } : { mode: 'one', ...rule };
-}
-
-/** Чего не хватает, чтобы закончить повышение уровня (`prev` — до повышения, `next` — после). */
-export function levelUpIssues(next: Character, prev: Character, content: Content): LevelUpIssue[] {
-  const plan = levelUpPlan(next, content, leveledClassId(next, prev));
-  const entry = next.classes.find((e) => e.classId === plan.classId)!;
-  const issues: LevelUpIssue[] = [];
-  const need = (ok: boolean, message: string, blocking = true, action?: LevelUpIssue['action']) => {
-    if (!ok) {
-      issues.push({ message, blocking, ...(action ? { action } : {}) });
-    }
-  };
-
-  if (plan.needsSubclass) {
-    need(!!entry.subclassId, t('levelUp.issues.subclass'));
-  }
-
-  for (const mc of plan.multiclassChoices) {
-    need(
-      (next.choices[mc.key]?.length ?? 0) === mc.choose,
-      t('levelUp.issues.multiclassProficiencies', { count: mc.choose }),
-    );
-  }
-  for (const featureId of plan.featureOptions) {
-    need(!!next.choices[CHOICE_KEYS.featureOption(featureId)]?.length, t('issues.featureOption'));
-  }
-  for (const o of plan.optionChoices) {
-    need((next.choices[o.key]?.length ?? 0) === o.total, t('issues.featureOption'));
-  }
-  // Языки от умения, полученного на этом уровне (плут-мультикласс: «Воровской жаргон»).
-  const newFeatures = new Set(plan.features.map((f) => f.id));
-  for (const slot of featureLanguageSlots(next, content).filter((s) => newFeatures.has(s.featureId))) {
-    const left = slot.choose - (next.choices[slot.key]?.length ?? 0);
-    need(left <= 0, t('issues.featureLanguages', { feature: nameOf('features', slot.featureId), count: left }));
-  }
-
-  if (plan.featSlot) {
-    const feat = levelFeat(next, content, plan.charLevel);
-    need(!!feat, plan.featSlot === 'asi' ? t('levelUp.issues.asi') : t('levelUp.issues.epicBoon'));
-    if (feat) {
-      const rule = featAbilityRule(feat.featId, content);
-      const inc = Object.values(feat.abilityIncreases ?? {}).filter(Boolean) as number[];
-      const total = inc.reduce((a, b) => a + b, 0);
-      if (rule?.mode === 'asi') {
-        need(total === 2 && inc.every((v) => v <= 2), t('levelUp.issues.asiSpread'));
-      }
-      if (rule?.mode === 'one') {
-        need(total === 1 && inc.length === 1, t('levelUp.issues.asiOne'));
-      }
-      const featData = indexOf(content).feats.get(feat.featId);
-      const slots = feat.featId === 'skilled' ? [3] : (featData?.proficiencyChoices ?? []).map((ch) => ch.choose);
-      slots.forEach((n, i) => {
-        const key = levelFeatProfKey(plan.charLevel, feat.featId, i);
-        need((next.choices[key]?.length ?? 0) === n, t('levelUp.issues.featProficiencies', { count: n }));
-      });
-    }
-  }
-
-  if (plan.expertise) {
-    const skills = proficientSkills(next, content);
-    need(
-      next.expertise.length === prev.expertise.length + plan.expertise &&
-        next.expertise.every((s) => skills.includes(s)),
-      t('levelUp.issues.expertise', { count: plan.expertise }),
-    );
-  }
-
-  if (plan.fightingStyles) {
-    const count = (c: Character) =>
-      c.feats.filter((f) => f.source === 'class' && indexOf(content).feats.get(f.featId)?.type === 'fighting-style')
-        .length;
-    need(count(next) === count(prev) + plan.fightingStyles, t('levelUp.issues.fightingStyle'));
-  }
-
-  for (const sc of plan.skillChoices) {
-    need((next.choices[sc.key]?.length ?? 0) === sc.choose, t('levelUp.issues.skills', { count: sc.choose }));
-  }
-
-  if (plan.languages) {
-    need(
-      next.languages.length >= prev.languages.length + plan.languages,
-      t('levelUp.issues.languages', { count: plan.languages }),
-    );
-  }
-
-  // Необязательное: новые заклинания и приёмы оружия можно добрать и позже.
-  const limits = spellLimits(next, content, plan.classId);
-  if (limits) {
-    const lists = classSpellLists(next, content, plan.classId);
-    const more = limits.cantrips - lists.cantrips.length + (limits.prepared - lists.preparedSpells.length);
-    need(more <= 0, t('levelUp.issues.moreSpells', { count: more }), false, 'spells');
-  }
-  if (plan.classId === 'wizard') {
-    // Новый волшебник — 6 заклинаний в книге, дальше по 2 за уровень.
-    const missing =
-      (hasSpellbook(prev) ? spellbook(prev).length + SPELLBOOK_PER_LEVEL : spellbookMinimum(next)) -
-      spellbook(next).length;
-    need(missing <= 0, t('levelUp.issues.spellbook', { count: missing }), false, 'spells');
-  }
-  const masteries = weaponMasteryCount(next, content);
-  if (masteries > next.weaponMasteries.length) {
-    need(false, t('levelUp.issues.moreMasteries', { count: masteries - next.weaponMasteries.length }), false);
-  }
-  for (const message of classOptionProblemTexts(next, content)) {
-    need(false, message);
-  }
-  return issues;
 }
 
 /** Сколько хитов добавит новый уровень (с учётом всех изменений, например +ТЕЛ от черты). */

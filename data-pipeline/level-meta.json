@@ -1,0 +1,636 @@
+{
+  "_comment": "Описательные поля для колоды повышения уровня. upgrades — id умения, которое это умение улучшает; action — когда умение используется (action / bonus / reaction / passive); traits.damageByLevel — урон особенности вида по общему уровню персонажа. subclassSlot — строка таблицы класса под подкласс: choice — выбор подкласса, feature — место для умения подкласса (карты для них не нужны). Механику не меняют. overrides2014 — для справочника 2014 (те же поля по id 2014).",
+  "features": {
+    "barbarian-rage": {
+      "action": "bonus"
+    },
+    "barbarian-unarmored-defense": {
+      "action": "passive"
+    },
+    "barbarian-weapon-mastery": {
+      "action": "passive"
+    },
+    "barbarian-danger-sense": {
+      "action": "passive"
+    },
+    "barbarian-extra-attack": {
+      "action": "passive"
+    },
+    "barbarian-fast-movement": {
+      "action": "passive"
+    },
+    "barbarian-feral-instinct": {
+      "action": "passive"
+    },
+    "barbarian-improved-brutal-strike-1": {
+      "upgrades": "barbarian-brutal-strike"
+    },
+    "barbarian-improved-brutal-strike-2": {
+      "upgrades": "barbarian-improved-brutal-strike-1"
+    },
+    "barbarian-persistent-rage": {
+      "action": "passive"
+    },
+    "barbarian-indomitable-might": {
+      "action": "passive"
+    },
+    "barbarian-primal-champion": {
+      "action": "passive"
+    },
+    "bard-bardic-inspiration": {
+      "action": "bonus"
+    },
+    "bard-expertise": {
+      "action": "passive"
+    },
+    "bard-jack-of-all-trades": {
+      "action": "passive"
+    },
+    "bard-font-of-inspiration": {
+      "action": "passive"
+    },
+    "bard-countercharm": {
+      "action": "reaction"
+    },
+    "bard-superior-inspiration": {
+      "action": "passive"
+    },
+    "cleric-channel-divinity": {
+      "action": "action"
+    },
+    "cleric-blessed-strikes": {
+      "action": "passive"
+    },
+    "cleric-divine-intervention": {
+      "action": "action"
+    },
+    "cleric-improved-blessed-strikes": {
+      "upgrades": "cleric-blessed-strikes",
+      "action": "passive"
+    },
+    "cleric-greater-divine-intervention": {
+      "upgrades": "cleric-divine-intervention",
+      "action": "action"
+    },
+    "druid-druidic": {
+      "action": "passive"
+    },
+    "druid-wild-shape": {
+      "action": "bonus"
+    },
+    "druid-wild-companion": {
+      "action": "action"
+    },
+    "druid-elemental-fury": {
+      "action": "passive"
+    },
+    "druid-improved-elemental-fury": {
+      "upgrades": "druid-elemental-fury",
+      "action": "passive"
+    },
+    "fighter-second-wind": {
+      "action": "bonus"
+    },
+    "fighter-weapon-mastery": {
+      "action": "passive"
+    },
+    "fighter-extra-attack": {
+      "action": "passive"
+    },
+    "fighter-two-extra-attacks": {
+      "upgrades": "fighter-extra-attack",
+      "action": "passive"
+    },
+    "fighter-three-extra-attacks": {
+      "upgrades": "fighter-two-extra-attacks",
+      "action": "passive"
+    },
+    "fighter-tactical-master": {
+      "action": "passive"
+    },
+    "fighter-studied-attacks": {
+      "action": "passive"
+    },
+    "champion-superior-critical": {
+      "upgrades": "champion-improved-critical",
+      "action": "passive"
+    },
+    "champion-improved-critical": {
+      "action": "passive"
+    },
+    "battle-master-improved-combat-superiority": {
+      "upgrades": "battle-master-combat-superiority"
+    },
+    "battle-master-ultimate-combat-superiority": {
+      "upgrades": "battle-master-improved-combat-superiority"
+    },
+    "eldritch-knight-improved-war-magic": {
+      "upgrades": "eldritch-knight-war-magic"
+    },
+    "monk-martial-arts": {
+      "action": "passive"
+    },
+    "monk-monks-focus": {
+      "action": "bonus"
+    },
+    "monk-unarmored-defense": {
+      "action": "passive"
+    },
+    "monk-unarmored-movement": {
+      "action": "passive"
+    },
+    "monk-deflect-attacks": {
+      "action": "reaction"
+    },
+    "monk-slow-fall": {
+      "action": "reaction"
+    },
+    "monk-extra-attack": {
+      "action": "passive"
+    },
+    "monk-empowered-strikes": {
+      "action": "passive"
+    },
+    "monk-evasion": {
+      "action": "passive"
+    },
+    "monk-acrobatic-movement": {
+      "action": "passive"
+    },
+    "monk-heightened-focus": {
+      "upgrades": "monk-monks-focus",
+      "action": "passive"
+    },
+    "monk-deflect-energy": {
+      "upgrades": "monk-deflect-attacks",
+      "action": "reaction"
+    },
+    "monk-disciplined-survivor": {
+      "action": "passive"
+    },
+    "monk-body-and-mind": {
+      "action": "passive"
+    },
+    "warrior-of-shadow-improved-shadow-step": {
+      "upgrades": "warrior-of-shadow-shadow-step"
+    },
+    "paladin-lay-on-hands": {
+      "action": "bonus"
+    },
+    "paladin-weapon-mastery": {
+      "action": "passive"
+    },
+    "paladin-channel-divinity": {
+      "action": "bonus"
+    },
+    "paladin-extra-attack": {
+      "action": "passive"
+    },
+    "paladin-aura-of-protection": {
+      "action": "passive"
+    },
+    "paladin-abjure-foes": {
+      "action": "action"
+    },
+    "paladin-aura-of-courage": {
+      "action": "passive"
+    },
+    "paladin-radiant-strikes": {
+      "action": "passive"
+    },
+    "paladin-aura-expansion": {
+      "upgrades": "paladin-aura-of-protection",
+      "action": "passive"
+    },
+    "ranger-weapon-mastery": {
+      "action": "passive"
+    },
+    "ranger-deft-explorer": {
+      "action": "passive"
+    },
+    "ranger-extra-attack": {
+      "action": "passive"
+    },
+    "ranger-roving": {
+      "action": "passive"
+    },
+    "ranger-expertise": {
+      "action": "passive"
+    },
+    "ranger-tireless": {
+      "action": "action"
+    },
+    "ranger-relentless-hunter": {
+      "action": "passive"
+    },
+    "ranger-natures-veil": {
+      "action": "bonus"
+    },
+    "ranger-precise-hunter": {
+      "action": "passive"
+    },
+    "ranger-feral-senses": {
+      "action": "passive"
+    },
+    "ranger-foe-slayer": {
+      "action": "passive"
+    },
+    "hunter-superior-hunters-prey": {
+      "upgrades": "hunter-hunters-prey"
+    },
+    "rogue-expertise": {
+      "action": "passive"
+    },
+    "rogue-thieves-cant": {
+      "action": "passive"
+    },
+    "rogue-weapon-mastery": {
+      "action": "passive"
+    },
+    "rogue-cunning-action": {
+      "action": "bonus"
+    },
+    "rogue-steady-aim": {
+      "action": "bonus"
+    },
+    "rogue-uncanny-dodge": {
+      "action": "reaction"
+    },
+    "rogue-evasion": {
+      "action": "passive"
+    },
+    "rogue-reliable-talent": {
+      "action": "passive"
+    },
+    "rogue-improved-cunning-strike": {
+      "upgrades": "rogue-cunning-strike"
+    },
+    "rogue-slippery-mind": {
+      "action": "passive"
+    },
+    "rogue-elusive": {
+      "action": "passive"
+    },
+    "thief-fast-hands": {
+      "action": "bonus"
+    },
+    "sorcerer-innate-sorcery": {
+      "action": "bonus"
+    },
+    "sorcerer-font-of-magic": {
+      "action": "bonus"
+    },
+    "warlock-eldritch-master": {
+      "upgrades": "warlock-magical-cunning"
+    },
+    "wizard-ritual-adept": {
+      "action": "passive"
+    },
+    "wizard-scholar": {
+      "action": "passive"
+    },
+    "wizard-spell-mastery": {
+      "action": "passive"
+    },
+    "wizard-signature-spells": {
+      "action": "passive"
+    },
+    "light-domain-improved-warding-flare": {
+      "upgrades": "light-domain-warding-flare"
+    },
+    "trickery-domain-improved-duplicity": {
+      "upgrades": "trickery-domain-invoke-duplicity"
+    },
+    "circle-of-the-moon-improved-circle-forms": {
+      "upgrades": "circle-of-the-moon-circle-forms"
+    },
+    "diviner-greater-portent": {
+      "upgrades": "diviner-portent"
+    }
+  },
+  "traits": {
+    "darkvision-60": {
+      "action": "passive"
+    },
+    "darkvision-120": {
+      "action": "passive"
+    },
+    "draconic-flight": {
+      "action": "bonus"
+    },
+    "draconic-breath-weapon-acid": {
+      "damageByLevel": {
+        "1": "1d10",
+        "5": "2d10",
+        "11": "3d10",
+        "17": "4d10"
+      }
+    },
+    "draconic-breath-weapon-cold": {
+      "damageByLevel": {
+        "1": "1d10",
+        "5": "2d10",
+        "11": "3d10",
+        "17": "4d10"
+      }
+    },
+    "draconic-breath-weapon-fire": {
+      "damageByLevel": {
+        "1": "1d10",
+        "5": "2d10",
+        "11": "3d10",
+        "17": "4d10"
+      }
+    },
+    "draconic-breath-weapon-lightning": {
+      "damageByLevel": {
+        "1": "1d10",
+        "5": "2d10",
+        "11": "3d10",
+        "17": "4d10"
+      }
+    },
+    "draconic-breath-weapon-poison": {
+      "damageByLevel": {
+        "1": "1d10",
+        "5": "2d10",
+        "11": "3d10",
+        "17": "4d10"
+      }
+    },
+    "dwarven-resilience": {
+      "action": "passive"
+    },
+    "dwarven-toughness": {
+      "action": "passive"
+    },
+    "stonecunning": {
+      "action": "bonus"
+    },
+    "large-form": {
+      "action": "bonus"
+    },
+    "adrenaline-rush": {
+      "action": "bonus"
+    },
+    "brave": {
+      "action": "passive"
+    },
+    "halfling-nimbleness": {
+      "action": "passive"
+    },
+    "keen-senses": {
+      "action": "passive"
+    },
+    "fey-ancestry": {
+      "action": "passive"
+    },
+    "trance": {
+      "action": "passive"
+    },
+    "powerful-build": {
+      "action": "passive"
+    },
+    "healing-hands": {
+      "action": "action"
+    },
+    "celestial-revelation": {
+      "action": "bonus"
+    },
+    "shifting": {
+      "action": "bonus"
+    }
+  },
+  "overrides2014": {
+    "features": {
+      "rage": {
+        "action": "bonus"
+      },
+      "brutal-critical-2-dice": {
+        "upgrades": "brutal-critical-1-die"
+      },
+      "brutal-critical-3-dice": {
+        "upgrades": "brutal-critical-2-dice"
+      },
+      "extra-attack-1": {
+        "action": "passive"
+      },
+      "extra-attack-2": {
+        "upgrades": "extra-attack-1",
+        "action": "passive"
+      },
+      "extra-attack-3": {
+        "upgrades": "extra-attack-2",
+        "action": "passive"
+      },
+      "superior-critical": {
+        "upgrades": "improved-critical",
+        "action": "passive"
+      },
+      "improved-critical": {
+        "action": "passive"
+      },
+      "battle-master-improved-combat-superiority": {
+        "upgrades": "battle-master-combat-superiority"
+      },
+      "eldritch-knight-improved-war-magic": {
+        "upgrades": "eldritch-knight-war-magic"
+      },
+      "aura-of-protection": {
+        "action": "passive"
+      },
+      "aura-of-courage": {
+        "action": "passive"
+      },
+      "aura-improvements": {
+        "upgrades": "aura-of-protection",
+        "action": "passive"
+      },
+      "light-improved-flare": {
+        "upgrades": "light-warding-flare"
+      },
+      "trickery-improved-duplicity": {
+        "upgrades": "trickery-channel-divinity-invoke-duplicity"
+      },
+      "divination-greater-portent": {
+        "upgrades": "divination-portent"
+      },
+      "uncanny-dodge": {
+        "action": "reaction"
+      },
+      "rogue-evasion": {
+        "action": "passive"
+      },
+      "monk-evasion": {
+        "action": "passive"
+      },
+      "reliable-talent": {
+        "action": "passive"
+      },
+      "primal-path": {
+        "subclassSlot": "choice"
+      },
+      "primal-path-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "primal-path-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "primal-path-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "bard-college": {
+        "subclassSlot": "choice"
+      },
+      "bard-college-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "bard-college-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "divine-domain": {
+        "subclassSlot": "choice"
+      },
+      "divine-domain-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "divine-domain-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "divine-domain-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "divine-domain-improvement-4": {
+        "subclassSlot": "feature"
+      },
+      "druid-circle": {
+        "subclassSlot": "choice"
+      },
+      "druid-circle-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "druid-circle-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "druid-circle-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "martial-archetype": {
+        "subclassSlot": "choice"
+      },
+      "martial-archetype-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "martial-archetype-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "martial-archetype-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "martial-archetype-improvement-4": {
+        "subclassSlot": "feature"
+      },
+      "monastic-tradition": {
+        "subclassSlot": "choice"
+      },
+      "monastic-tradition-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "monastic-tradition-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "monastic-tradition-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "sacred-oath": {
+        "subclassSlot": "choice"
+      },
+      "sacred-oath-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "sacred-oath-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "sacred-oath-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "ranger-archetype": {
+        "subclassSlot": "choice"
+      },
+      "ranger-archetype-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "ranger-archetype-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "ranger-archetype-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "roguish-archetype": {
+        "subclassSlot": "choice"
+      },
+      "roguish-archetype-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "roguish-archetype-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "roguish-archetype-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "sorcerous-origin": {
+        "subclassSlot": "choice"
+      },
+      "sorcerous-origin-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "sorcerous-origin-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "sorcerous-origin-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "otherworldly-patron": {
+        "subclassSlot": "choice"
+      },
+      "otherworldly-patron-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "otherworldly-patron-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "otherworldly-patron-improvement-3": {
+        "subclassSlot": "feature"
+      },
+      "arcane-tradition": {
+        "subclassSlot": "choice"
+      },
+      "arcane-tradition-improvement-1": {
+        "subclassSlot": "feature"
+      },
+      "arcane-tradition-improvement-2": {
+        "subclassSlot": "feature"
+      },
+      "arcane-tradition-improvement-3": {
+        "subclassSlot": "feature"
+      }
+    },
+    "traits": {
+      "breath-weapon": {
+        "action": "action",
+        "damageByLevel": {
+          "1": "2d6",
+          "6": "3d6",
+          "11": "4d6",
+          "16": "5d6"
+        }
+      },
+      "dwarven-toughness": {
+        "action": "passive"
+      },
+      "darkvision": {
+        "action": "passive"
+      }
+    }
+  }
+}

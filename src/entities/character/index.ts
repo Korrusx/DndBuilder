@@ -10,6 +10,7 @@ export {
   SPECIES_SPELL_ABILITIES,
   SPELLBOOK_PER_LEVEL,
   SPELLBOOK_START,
+  SPELLCASTER_PROGRESSION,
   MAGIC_INITIATE_LISTS,
   MAGIC_INITIATE_LISTS_2014,
   POINT_BUY_BUDGET,
@@ -18,6 +19,8 @@ export {
   STANDARD_ARRAY,
   STANDARD_LANGUAGE_COUNT,
 } from './config/constants';
+export { averageHitDie, bonusHpFromEffects } from './model/combat';
+export { effectsOf } from './model/effects';
 export { featureSourceLabel } from './config/featureSource';
 export { HP_COLORS } from './config/hpColors';
 export {
@@ -140,6 +143,7 @@ export {
   chosenClassOptions,
   classOptionChoices,
   classOptionProblems,
+  classOptionProblemText,
   classOptionProblemTexts,
   classOptionSlots,
   classOptionSpells,

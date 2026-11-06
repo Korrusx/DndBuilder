@@ -2,7 +2,8 @@ import type { Character } from '@/entities/character';
 import { irma2014Level1, newDraftCharacter } from '@/entities/character';
 import { contentFor } from '@/shared/content';
 
-import { levelFeatOptions, levelUpIssues, levelUpPlan, startLevelUp } from '../levelup';
+import { levelFeatOptions, levelUpPlan, startLevelUp } from '../levelup';
+import { levelUpIssues } from '../levelChoices';
 
 const content = contentFor('2014');
 

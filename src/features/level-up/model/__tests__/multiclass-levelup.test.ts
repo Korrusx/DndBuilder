@@ -7,11 +7,11 @@ import {
   finishLevelUp,
   leveledClassId,
   levelUpHpGain,
-  levelUpIssues,
   levelUpPlan,
   multiclassRequirementText,
   startLevelUp,
 } from '../levelup';
+import { levelUpIssues } from '../levelChoices';
 
 const blocking = (next: Character, prev: Character) =>
   levelUpIssues(next, prev, content)
