@@ -101,3 +101,5 @@ export {
 export type { CardStat } from './lib/heroCard';
 export { CARD_STYLES, DONE_SCREEN, HERO_CARD_THEMES } from './config/heroCardThemes';
 export type { CardStyle, HeroCardTheme } from './config/heroCardThemes';
+export { HeroCardView } from './ui/HeroCardView/HeroCardView';
+export type { HeroCardMotion, HeroCardSize, HeroCardViewProps } from './ui/HeroCardView/HeroCardView.types';

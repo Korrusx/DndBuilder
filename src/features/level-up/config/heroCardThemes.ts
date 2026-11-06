@@ -18,7 +18,9 @@ export type GradientStop = [number, string];
 export type HeroCardTheme = {
   /** Рамка-фольга: линейный градиент под углом (150°) или сплошной цвет. */
   frame: { angle: number; stops: GradientStop[] };
-  /** Свечение вокруг карты; null — без свечения. */
+  /** Тень карты (0 24 60). */
+  shadow: string;
+  /** Свечение вокруг карты (0 0 60); null — без свечения. */
   glow: string | null;
   /** Внутренняя часть: радиальный градиент с центром (50 %, 0 %). */
   innerBg: GradientStop[];
@@ -48,6 +50,8 @@ export type HeroCardTheme = {
   foot: string;
   /** Цвет блика, «r,g,b». */
   sheen: string;
+  /** Белая середина блика. */
+  sheenCore: string;
   spark: [string, string];
   /** Фон экрана: радиальный градиент, стопы 0 / 48 / 80 %. */
   screenBg: GradientStop[];
@@ -78,6 +82,7 @@ export const HERO_CARD_THEMES: Record<CardStyle, HeroCardTheme> = {
         [1, '#FFE2A8'],
       ],
     },
+    shadow: 'rgba(0,0,0,0.6)',
     glow: 'rgba(242,177,74,0.18)',
     innerBg: [
       [0, '#3A2E18'],
@@ -109,6 +114,7 @@ export const HERO_CARD_THEMES: Record<CardStyle, HeroCardTheme> = {
     nextText: '#9A8F78',
     foot: '#8A806C',
     sheen: '255,226,168',
+    sheenCore: 'rgba(255,255,255,0.28)',
     spark: ['#FFE2A8', '#F2B14A'],
     screenBg: [
       [0, '#2B2416'],
@@ -133,6 +139,7 @@ export const HERO_CARD_THEMES: Record<CardStyle, HeroCardTheme> = {
         [1, '#E6D6FF'],
       ],
     },
+    shadow: 'rgba(0,0,0,0.6)',
     glow: 'rgba(201,160,255,0.18)',
     innerBg: [
       [0, '#2E2650'],
@@ -164,6 +171,7 @@ export const HERO_CARD_THEMES: Record<CardStyle, HeroCardTheme> = {
     nextText: '#8A84A8',
     foot: '#7D7799',
     sheen: '230,214,255',
+    sheenCore: 'rgba(255,255,255,0.28)',
     spark: ['#E6D6FF', '#C9A0FF'],
     screenBg: [
       [0, '#2A2346'],
@@ -179,6 +187,7 @@ export const HERO_CARD_THEMES: Record<CardStyle, HeroCardTheme> = {
   },
   parchment: {
     frame: { angle: 150, stops: solid('#7B2D26') },
+    shadow: 'rgba(0,0,0,0.6)',
     glow: null,
     innerBg: [
       [0, '#FBF5E6'],
@@ -210,6 +219,7 @@ export const HERO_CARD_THEMES: Record<CardStyle, HeroCardTheme> = {
     nextText: '#7A6E5A',
     foot: '#7A6E5A',
     sheen: '255,255,255',
+    sheenCore: 'rgba(255,255,255,0.28)',
     spark: ['#F3EAD3', '#C9933A'],
     screenBg: [
       [0, '#3A2418'],

@@ -1,0 +1,101 @@
+import { StyleSheet } from 'react-native';
+
+import { fonts } from '@/shared/config';
+
+/** Размеры карты (hero-card-spec.md, разделы 2 и 9.2). */
+export const CARD_SIZES = {
+  full: {
+    portrait: 128,
+    ring: 3,
+    badge: 46,
+    badgeText: 20,
+    nameSize: null as number | null,
+    nameMin: 18,
+    subSize: 13,
+    statLabel: 10,
+    statValue: 18,
+    statChange: 11,
+    statRadius: 14,
+    statPadV: 8,
+    statPadH: 4,
+    statGap: 8,
+    unlockedLines: 2,
+    unlockedSize: 14,
+  },
+  compact: {
+    portrait: 100,
+    ring: 3,
+    badge: 40,
+    badgeText: 18,
+    nameSize: 20 as number | null,
+    nameMin: 16,
+    subSize: 12,
+    statLabel: 9,
+    statValue: 16,
+    statChange: 10,
+    statRadius: 12,
+    statPadV: 7,
+    statPadH: 2,
+    statGap: 6,
+    unlockedLines: 1,
+    unlockedSize: 12,
+  },
+} as const;
+
+export const FRAME = { radius: 24, border: 2, innerRadius: 22 };
+export const DIVIDER_ICON = 18;
+
+export const styles = StyleSheet.create({
+  frame: { borderRadius: FRAME.radius, padding: FRAME.border },
+  inner: {
+    borderRadius: FRAME.innerRadius,
+    overflow: 'hidden',
+    paddingTop: 24,
+    paddingHorizontal: 18,
+    paddingBottom: 18,
+    alignItems: 'center',
+    gap: 14,
+  },
+  watermark: { position: 'absolute', right: -8, top: -30, fontFamily: fonts.displayBold, includeFontPadding: false },
+  portrait: { marginTop: 8 },
+  photo: { position: 'absolute' },
+  letter: { includeFontPadding: false },
+  face: { position: 'absolute', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  badge: {
+    position: 'absolute',
+    right: -6,
+    bottom: -4,
+    borderWidth: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  who: { alignItems: 'center', gap: 4, alignSelf: 'stretch' },
+  name: { textAlign: 'center' },
+  sub: { fontFamily: fonts.text },
+  stats: { flexDirection: 'row', alignSelf: 'stretch' },
+  stat: { flex: 1, borderWidth: 1, alignItems: 'center', gap: 2 },
+  statLabel: { fontFamily: fonts.text, textTransform: 'uppercase' },
+  statChange: { fontFamily: fonts.text },
+  unlocked: {
+    alignSelf: 'stretch',
+    borderRadius: 14,
+    borderWidth: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    gap: 4,
+  },
+  unlockedCompact: { borderRadius: 12, paddingVertical: 8 },
+  unlockedLabel: { fontSize: 10, letterSpacing: 0.8 },
+  unlockedText: { lineHeight: 20 },
+  nextText: { fontSize: 12 },
+  foot: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    paddingHorizontal: 2,
+    gap: 8,
+  },
+  footText: { flex: 1, fontSize: 10 },
+  brand: { fontFamily: fonts.display, fontSize: 10, letterSpacing: 0.4 },
+});
