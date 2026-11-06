@@ -11,7 +11,7 @@ import {
 } from '../motion';
 
 describe('анимация У1', () => {
-  test('уменьшение движения: сразу конечное состояние (кольцо полное, новая цифра, ровное свечение, без вспышки)', () => {
+  test('уменьшение движения: сразу конечное состояние (кольцо полное, новая цифра, без свечения и вспышки)', () => {
     expect(ringInitial(false)).toEqual(RING_END);
     expect(ringInitial(false)).toMatchObject({
       progress: 1,
@@ -19,11 +19,11 @@ describe('анимация У1', () => {
       newOpacity: 1,
       newScale: 1,
       burstOpacity: 0,
-      glowOpacity: 0.25,
+      glowOpacity: 0,
       sparkOpacity: 0,
       hintOpacity: 1,
     });
-    expect(ringInitial(true)).toMatchObject({ progress: 0, glowOpacity: 0.15, glowScale: 0.9, hintOpacity: 0.35 });
+    expect(ringInitial(true)).toMatchObject({ progress: 0, glowOpacity: 0, glowScale: 0.9, hintOpacity: 0.35 });
   });
 
   test('таймлайн: заполнение 300–1500, удар на 1550, покой к 2200; вершина на 30 % дольше', () => {
@@ -34,9 +34,11 @@ describe('анимация У1', () => {
     expect(introTimeline(false).jumpStart).toBe(1650);
   });
 
-  test('мерцание: растёт к концу заполнения и «дышит» с периодом 600 мс (≈2 пульса)', () => {
-    expect(glowFlicker(0, 0)).toBeCloseTo(0.15);
-    expect(glowFlicker(1, 0)).toBeCloseTo(0.5);
+  test('мерцание: растёт к концу заполнения, «дышит» с периодом 600 мс (≈2 пульса); в покое свечения нет', () => {
+    expect(RING_END.glowOpacity).toBe(0);
+    // В начале заполнения свечение проявляется из нуля за 150 мс, без скачка.
+    expect(glowFlicker(0, 0)).toBeCloseTo(0);
+    expect(glowFlicker(1, 1200)).toBeCloseTo(0.5);
     expect(glowFlicker(0.5, 150)).toBeCloseTo(0.15 + 0.175 + 0.12);
     expect(glowFlicker(0.5, 450)).toBeCloseTo(0.15 + 0.175 - 0.12);
     expect((INTRO.fillEnd - INTRO.fillStart) / INTRO.flickerPeriod).toBe(2);

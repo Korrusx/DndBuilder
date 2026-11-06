@@ -38,13 +38,18 @@ export const FILL_TICKS = [0.25, 0.5, 0.75] as const;
 
 /** Свечение, ореол и пружина новой цифры (раздел 8). */
 export const GLOW = {
+  /** Мерцание во время заполнения: 0,15 + 0,35 × прогресс ± 0,12. */
   restOpacity: 0.15,
+  /** В покое (до анимации и после неё) свечения нет. */
+  idleOpacity: 0,
+  /** За сколько мс свечение проявляется в начале заполнения (без скачка из нуля). */
+  fadeIn: 150,
   restScale: 0.9,
   fillGain: 0.35,
   flicker: 0.12,
   peakOpacity: 0.9,
   peakScale: 1.15,
-  endOpacity: 0.25,
+  endOpacity: 0,
   endScale: 1,
   haloBase: 0.6,
   haloSwing: 0.25,
@@ -64,7 +69,10 @@ export function introTimeline(capstone: boolean): Record<keyof typeof INTRO, num
 /** Прозрачность свечения во время заполнения: растёт с прогрессом и «дышит» с периодом 600 мс. */
 export function glowFlicker(progress: number, elapsedMs: number, period: number = INTRO.flickerPeriod): number {
   'worklet';
-  return GLOW.restOpacity + GLOW.fillGain * progress + GLOW.flicker * Math.sin((2 * Math.PI * elapsedMs) / period);
+  const appear = Math.min(1, elapsedMs / GLOW.fadeIn);
+  return (
+    appear * (GLOW.restOpacity + GLOW.fillGain * progress + GLOW.flicker * Math.sin((2 * Math.PI * elapsedMs) / period))
+  );
 }
 
 /** Прозрачность ореола искры: 0,6 ± 0,25 в той же фазе, что и свечение. */
@@ -114,7 +122,7 @@ export const RING_START: RingState = {
   newScale: 1.7,
   burstOpacity: 0,
   burstScale: 0.85,
-  glowOpacity: GLOW.restOpacity,
+  glowOpacity: GLOW.idleOpacity,
   glowScale: GLOW.restScale,
   sparkOpacity: 0,
   hintOpacity: GLOW.hintDim,
