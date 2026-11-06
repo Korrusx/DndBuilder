@@ -1,5 +1,7 @@
 import { Feather } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { useEffect, useRef, useState } from 'react';
+import type { ViewInstance } from 'react-native';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   cancelAnimation,
@@ -10,7 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { GLOW, IntroBackground, introTimeline, LevelRing } from '@/features/level-up';
+import { GLOW, IntroBackground, introTimeline, LevelRing, TRANSITION } from '@/features/level-up';
 import { t } from '@/shared/i18n';
 
 import { RITUAL, styles } from './RitualPhase.styles';
@@ -30,6 +32,9 @@ export function RitualPhase(props: RitualPhaseProps) {
   const [skipped, setSkipped] = useState(false);
   const [ready, setReady] = useState(!animate);
   const startedAt = useRef(0);
+  const ring = useRef<ViewInstance>(null);
+  const gone = useSharedValue(0);
+  const backdrop = useSharedValue(1);
   const hint = useSharedValue(animate ? GLOW.hintDim : 1);
   const actions = useSharedValue(animate ? 0 : 1);
 
@@ -57,6 +62,19 @@ export function RitualPhase(props: RitualPhaseProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skipped]);
 
+  useEffect(() => {
+    if (props.leaving) {
+      const out = props.leaving === 'fade' ? TRANSITION.reduced : TRANSITION.fadeOut;
+      gone.set(withTiming(1, { duration: out }));
+      backdrop.set(withTiming(0, { duration: props.leaving === 'fade' ? out : TRANSITION.background }));
+    }
+  }, [props.leaving, gone, backdrop]);
+
+  const open = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+    ring.current?.measureInWindow((x, y, width, height) => props.onOpen({ x: x + width / 2, y: y + height / 2 }));
+  };
+
   const skip = () => {
     if (animate && !skipped && Date.now() - startedAt.current < time.impact) {
       setSkipped(true);
@@ -64,9 +82,11 @@ export function RitualPhase(props: RitualPhaseProps) {
     }
   };
 
-  const hintStyle = useAnimatedStyle(() => ({ opacity: hint.get() }));
+  const fadeStyle = useAnimatedStyle(() => ({ opacity: 1 - gone.get() }));
+  const backdropStyle = useAnimatedStyle(() => ({ opacity: backdrop.get() }));
+  const hintStyle = useAnimatedStyle(() => ({ opacity: hint.get() * (1 - gone.get()) }));
   const actionsStyle = useAnimatedStyle(() => ({
-    opacity: actions.get(),
+    opacity: actions.get() * (1 - gone.get()),
     transform: [{ translateY: (1 - actions.get()) * ACTIONS_SHIFT }],
   }));
 
@@ -76,31 +96,39 @@ export function RitualPhase(props: RitualPhaseProps) {
       onPress={skip}
       style={[styles.screen, { paddingTop: 10 + insets.top, paddingBottom: 18 + insets.bottom }]}
     >
-      <View style={StyleSheet.absoluteFill} pointerEvents="none">
+      <Animated.View style={[StyleSheet.absoluteFill, backdropStyle]} pointerEvents="none">
         <IntroBackground animate={animate} playKey={playKey} capstone={capstone} fromImpact={skipped} />
-      </View>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={t('levelUpDeck.ritual.postpone')}
-        onPress={props.onClose}
-        style={styles.close}
-      >
-        <Feather name="x" size={22} color={RITUAL.closeIcon} />
-      </Pressable>
+      </Animated.View>
+      <Animated.View style={[styles.closeRow, props.leaving === 'fade' ? backdropStyle : fadeStyle]}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('levelUpDeck.ritual.postpone')}
+          onPress={props.onClose}
+          style={styles.close}
+        >
+          <Feather name="x" size={22} color={RITUAL.closeIcon} />
+        </Pressable>
+      </Animated.View>
 
       <View style={styles.center} pointerEvents="box-none">
-        <LevelRing
-          from={props.from}
-          to={props.to}
-          animate={animate}
-          capstone={capstone}
-          playKey={playKey}
-          fromImpact={skipped}
-          onPress={skip}
-          onFill={() => props.onSound(time.fillStart)}
-          onCancel={props.onCancel}
-          onImpact={props.onImpact}
-        />
+        <Animated.View
+          ref={ring}
+          collapsable={false}
+          style={props.leaving === 'flight' ? styles.hidden : props.leaving === 'fade' ? backdropStyle : undefined}
+        >
+          <LevelRing
+            from={props.from}
+            to={props.to}
+            animate={animate}
+            capstone={capstone}
+            playKey={playKey}
+            fromImpact={skipped}
+            onPress={skip}
+            onFill={() => props.onSound(time.fillStart)}
+            onCancel={props.onCancel}
+            onImpact={props.onImpact}
+          />
+        </Animated.View>
         <Animated.View style={[styles.who, hintStyle]}>
           <Text style={styles.name}>{t('levelUpDeck.grows', { name: props.name })}</Text>
           <Text style={styles.subtitle}>{props.subtitle}</Text>
@@ -109,7 +137,11 @@ export function RitualPhase(props: RitualPhaseProps) {
 
       <Animated.View style={[styles.actions, actionsStyle]} pointerEvents={ready ? 'auto' : 'none'}>
         <Text style={styles.counts}>{props.counts}</Text>
-        <Pressable accessibilityRole="button" onPress={props.onOpen} style={styles.open}>
+        <Pressable
+          accessibilityRole="button"
+          onPress={open}
+          style={({ pressed }) => [styles.open, (pressed || !!props.leaving) && styles.openPressed]}
+        >
           <Text style={styles.openText}>{t('levelUpDeck.ritual.open')}</Text>
         </Pressable>
         <Pressable

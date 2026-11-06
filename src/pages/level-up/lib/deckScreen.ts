@@ -19,19 +19,12 @@ export function backLabel(card: LevelUpCard): string {
   return t(`levelUpDeck.type.${card.type}`);
 }
 
-/** С какого шага продолжить отложенное повышение. */
-export function resumeStage(pending: PendingLevelUp): DeckStage {
-  if (pending.revealed.length > 1) {
-    return 'cards';
-  }
-  return pending.hp ? 'cards' : 'start';
-}
+/** Метка в `PendingLevelUp.revealed`: колода уже открыта — продолжение сразу в неё, без ритуала. */
+export const DECK_OPENED = 'deck:opened';
 
-/** «Плут · Вор» — класс и подкласс уровня для У1. */
-export function classLine(character: Character, classId: string): string {
-  const entry = character.classes.find((e) => e.classId === classId);
-  const subclass = entry?.subclassId ? localizeText(byId.subclasses.get(entry.subclassId)?.name).text : '';
-  return [nameOf('classes', classId), subclass].filter(Boolean).join(' · ');
+/** С какого шага продолжить отложенное повышение: колода уже открывалась — сразу в неё, без ритуала и звука. */
+export function resumeStage(pending: PendingLevelUp): DeckStage {
+  return pending.hp || pending.revealed.length > 0 ? 'cards' : 'start';
 }
 
 /** Подзаголовок экрана карт: «Каэлан · паладин · драконорождённый». */

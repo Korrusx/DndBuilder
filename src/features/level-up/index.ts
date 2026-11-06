@@ -1,4 +1,4 @@
-export { MAX_LEVEL } from './config/constants';
+export { DEAL_SPRING, DEAL_TILT, MAX_LEVEL, TRANSITION } from './config/constants';
 export {
   canMulticlassInto,
   clearLevelFeatChoices,
@@ -104,6 +104,9 @@ export { DeckHeader } from './ui/DeckHeader/DeckHeader';
 export { DeckTiles } from './ui/DeckTiles/DeckTiles';
 export { GrowthCard } from './ui/GrowthCard/GrowthCard';
 export { HpRow } from './ui/HpRow/HpRow';
+export { FlyingRing } from './ui/FlyingRing/FlyingRing';
+export type { ScreenPoint } from './ui/FlyingRing/FlyingRing.types';
+export { LevelBadge } from './ui/LevelBadge/LevelBadge';
 export { LevelUpCardView } from './ui/LevelUpCardView/LevelUpCardView';
 export { HpSummary } from './ui/HpSummary/HpSummary';
 export { LevelRing } from './ui/LevelRing/LevelRing';

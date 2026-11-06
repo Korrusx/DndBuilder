@@ -6,4 +6,6 @@ export type DeckFooterProps = {
   onNext: () => void;
   /** Нажатие на неактивную кнопку: к первой незавершённой карте. */
   onBlocked: () => void;
+  /** Переход из ритуала: блок проявляется 500–650 мс. */
+  intro?: boolean;
 };

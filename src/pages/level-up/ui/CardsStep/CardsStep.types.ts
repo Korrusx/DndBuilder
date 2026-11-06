@@ -1,9 +1,29 @@
-import type { Deck, LevelChoice, LevelSnapshot, LevelUpCard, PickedItem, TextContext } from '@/features/level-up';
+import type { RefObject } from 'react';
+import type { ViewInstance } from 'react-native';
+
+import type {
+  Deck,
+  LevelChoice,
+  LevelSnapshot,
+  LevelUpCard,
+  PickedItem,
+  ScreenPoint,
+  TextContext,
+} from '@/features/level-up';
 
 export type CardsStepProps = {
   deck: Deck;
   before: LevelSnapshot;
   after: LevelSnapshot;
+  /** Новый общий уровень — значок в шапке. */
+  level: number;
+  capstone: boolean;
+  /** Переход из ритуала: центр кольца, из которого раздаются карты. Нет — колода сразу на месте. */
+  intro: ScreenPoint | null;
+  /** Значок скрыт, пока в него летит кольцо. */
+  badgeHidden: boolean;
+  badgeRef: RefObject<ViewInstance | null>;
+  onBadgeLayout: () => void;
   /** «Новое на 5-м уровне». */
   title: string;
   /** «Каэлан · паладин · драконорождённый». */

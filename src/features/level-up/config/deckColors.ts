@@ -109,4 +109,6 @@ export const DECK_UI = {
   alwaysChip: '#241E38',
   alwaysChipText: '#C9C3E0',
   capstoneGlow: '#FF9F5A',
+  /** Заливка значка уровня в шапке колоды. */
+  badgeFill: '#1E1A12',
 } as const;

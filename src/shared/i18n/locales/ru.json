@@ -1400,6 +1400,7 @@
       "sheetTitle": "Уровень в другом классе"
     },
     "screen": {
+      "badge": "Уровень {{level}}",
       "kind": {
         "feature": "Новое умение",
         "choice": "Выбор"

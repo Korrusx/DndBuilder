@@ -1375,6 +1375,7 @@
       "sheetTitle": "Level in another class"
     },
     "screen": {
+      "badge": "Level {{level}}",
       "kind": {
         "feature": "New feature",
         "choice": "Choice"

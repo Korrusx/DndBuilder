@@ -165,11 +165,17 @@ export function LevelRing({
     );
     const fillTimer = fromImpact ? undefined : setTimeout(() => onFill?.(), time.fillStart);
     const impact = setTimeout(() => onImpact?.(), impactAt);
+    // Звук обрывается, только если с экрана ушли посреди анимации («Открыть новинки» после неё — нет).
+    let settled = false;
+    const settle = setTimeout(() => (settled = true), time.settle - (fromImpact ? time.impact : 0));
     // Уход с экрана: ни анимаций, ни вибраций.
     return () => {
       clearTimeout(fillTimer);
       clearTimeout(impact);
-      onCancel?.();
+      clearTimeout(settle);
+      if (!settled) {
+        onCancel?.();
+      }
       stop();
       armed.value = 0;
     };

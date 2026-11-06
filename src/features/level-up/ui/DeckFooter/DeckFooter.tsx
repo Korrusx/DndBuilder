@@ -1,7 +1,9 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 
+import { TRANSITION } from '../../config/constants';
 import { DECK_UI } from '../../config/deckColors';
 import { styles } from './DeckFooter.styles';
 import type { DeckFooterProps } from './DeckFooter.types';
@@ -10,10 +12,14 @@ import type { DeckFooterProps } from './DeckFooter.types';
  * Нижний блок поверх списка (раздел 7): градиент от прозрачного к фону, «Дальше» и подсказка.
  * Неактивная кнопка не показывает ошибку, а ведёт к первой незавершённой карте.
  */
-export function DeckFooter({ title, ready, hint, onNext, onBlocked }: DeckFooterProps) {
+export function DeckFooter({ title, ready, hint, onNext, onBlocked, intro }: DeckFooterProps) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.footer, { paddingBottom: 18 + insets.bottom }]} pointerEvents="box-none">
+    <Animated.View
+      style={[styles.footer, { paddingBottom: 18 + insets.bottom }]}
+      pointerEvents="box-none"
+      entering={intro ? FadeIn.delay(TRANSITION.chromeStart).duration(TRANSITION.chromeDuration) : undefined}
+    >
       <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
         <Defs>
           <LinearGradient id="deck-footer" x1="0" y1="0" x2="0" y2="1">
@@ -36,6 +42,6 @@ export function DeckFooter({ title, ready, hint, onNext, onBlocked }: DeckFooter
       <Text style={[styles.hint, { color: ready ? DECK_UI.heal : DECK_UI.secondary }]} importantForAccessibility="no">
         {hint}
       </Text>
-    </View>
+    </Animated.View>
   );
 }

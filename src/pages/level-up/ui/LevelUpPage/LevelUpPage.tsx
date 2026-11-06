@@ -2,6 +2,8 @@ import * as Haptics from 'expo-haptics';
 import { router, useFocusEffect } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { ViewInstance } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { JournalState } from '@/entities/campaign';
 import { getCampaign, journalState } from '@/entities/campaign/api';
@@ -9,7 +11,7 @@ import type { Character, HpChoice } from '@/entities/character';
 import { totalLevel } from '@/entities/character';
 import { usePlay } from '@/entities/character/ui';
 import { SpellsEditSheet } from '@/features/edit-spells';
-import type { LevelChoice, LevelUpCard, PickedItem } from '@/features/level-up';
+import type { LevelChoice, LevelUpCard, PickedItem, ScreenPoint } from '@/features/level-up';
 import {
   activePending,
   applyLevelUp,
@@ -22,6 +24,7 @@ import {
   cardSubtitle,
   cardUnlocked,
   defaultCardStyle,
+  FlyingRing,
   pickCardStats,
   playLevelUpSound,
   levelUpBase,
@@ -35,6 +38,7 @@ import {
   setPendingHp,
   stopLevelUpSound,
   storeDraft,
+  TRANSITION,
   useDeckMotion,
   useLevelUpSettings,
 } from '@/features/level-up';
@@ -44,7 +48,7 @@ import { t } from '@/shared/i18n';
 import { Button, DetailSheet, Screen } from '@/shared/ui';
 
 import type { DeckStage } from '../../lib/deckScreen';
-import { deckSubtitle, resumeStage, ritualSubtitle } from '../../lib/deckScreen';
+import { DECK_OPENED, deckSubtitle, resumeStage, ritualSubtitle } from '../../lib/deckScreen';
 import { CardsStep } from '../CardsStep/CardsStep';
 import { ChoiceSheet } from '../ChoiceSheet/ChoiceSheet';
 import { ClassSheet } from '../ClassSheet/ClassSheet';
@@ -71,6 +75,11 @@ export function LevelUpPage() {
   const [choice, setChoice] = useState<LevelChoice | null>(null);
   const [spellsFor, setSpellsFor] = useState<string | null>(null);
   const [classSheet, setClassSheet] = useState(false);
+  // Переход «Ритуал → Колода»: центр кольца (null — «уменьшение движения»), значок в шапке, конец полёта.
+  const [transition, setTransition] = useState<{ ring: ScreenPoint | null } | null>(null);
+  const [badge, setBadge] = useState<ScreenPoint | null>(null);
+  const [landed, setLanded] = useState(false);
+  const badgeRef = useRef<ViewInstance>(null);
   const [journal, setJournal] = useState<JournalState>({ kind: 'none' });
   const [campaignName, setCampaignName] = useState('');
   // Экран закрывается после «К листу»: новое повышение в этот момент начинать не нужно.
@@ -86,6 +95,8 @@ export function LevelUpPage() {
     setChoice(null);
     setSpellsFor(null);
     setClassSheet(false);
+    setTransition(null);
+    setLanded(false);
   }
   // Отложенное повышение продолжается с того шага, где его оставили.
   const stage = chosenStage ?? (pending ? resumeStage(pending) : null);
@@ -102,6 +113,14 @@ export function LevelUpPage() {
       }
     }, [character, update]),
   );
+  // Переход длится 650 мс (без анимаций — 200), потом слой ритуала убирается.
+  useEffect(() => {
+    if (!transition) {
+      return;
+    }
+    const timer = setTimeout(() => setTransition(null), transition.ring ? TRANSITION.total : TRANSITION.reduced);
+    return () => clearTimeout(timer);
+  }, [transition]);
   useEffect(() => {
     journalState(db, character.id)
       .then(async (state) => {
@@ -148,11 +167,12 @@ export function LevelUpPage() {
     }
   };
   const toSheet = () => router.navigate({ pathname: '/character/[id]', params: { id: character.id } });
+  // «Назад» в колоде = «Отложить»: в ритуал не возвращает.
   const back = () => {
-    if (stage === 'start') {
+    if (stage === 'start' || stage === 'cards') {
       toSheet();
     } else {
-      setStage(stage === 'done' ? 'cards' : stage === 'cards' ? 'hp' : 'start');
+      setStage('cards');
     }
   };
   // Рост — не сюрприз, у него нет рубашки; хиты открыты, когда решены.
@@ -161,6 +181,15 @@ export function LevelUpPage() {
     reveal(['hp', ...growthIds]);
     setStage('cards');
   };
+  // «Открыть новинки»: колода открыта (продолжение — сразу в неё), кольцо летит в шапку.
+  const openDeck = (ring: ScreenPoint) => {
+    reveal([DECK_OPENED, ...growthIds]);
+    setLanded(false);
+    setTransition({ ring: motion ? ring : null });
+    setStage('cards');
+  };
+  const measureBadge = () =>
+    badgeRef.current?.measureInWindow((x, y, width, height) => setBadge({ x: x + width / 2, y: y + height / 2 }));
   const picked: Record<string, PickedItem[]> = Object.fromEntries(
     deck.cards.map((c) => [c.id, c.choice ? pickedItems(c.choice, prev, next, content) : []]),
   );
@@ -268,10 +297,41 @@ export function LevelUpPage() {
     </>
   );
 
+  const available = multiclassAvailable(prev, content);
+  const noClasses = available === 0 && prev.classes.length < 2;
+  const ritual = {
+    name: character.name,
+    subtitle: ritualSubtitle(prev, next, classId),
+    from: totalLevel(prev.classes),
+    to: level,
+    counts: ritualCountsText(deck),
+    capstone,
+    playKey: 0,
+    multiclass: {
+      note: rollLocked
+        ? t('levelUpDeck.hp.locked')
+        : noClasses
+          ? t('levelUpDeck.ritual.noneAvailable')
+          : t('levelUpDeck.ritual.available', { count: available }),
+      disabled: noClasses || rollLocked,
+    },
+    onClose: toSheet,
+    onOther: () => setClassSheet(true),
+    onCancel: stopLevelUpSound,
+    onImpact: impact,
+  };
+
   if (stage === 'cards') {
+    const flying = !!transition?.ring && !landed;
     return (
       <>
         <CardsStep
+          level={level}
+          capstone={capstone}
+          intro={transition?.ring ?? null}
+          badgeHidden={flying}
+          badgeRef={badgeRef}
+          onBadgeLayout={measureBadge}
           deck={deck}
           before={deck.before}
           after={deck.after}
@@ -299,41 +359,36 @@ export function LevelUpPage() {
           onMore={setMore}
           onNext={() => setStage('done')}
         />
+        {transition ? (
+          <View style={StyleSheet.absoluteFill} pointerEvents="none">
+            <RitualPhase
+              key={`${session}:leaving`}
+              {...ritual}
+              animate={false}
+              leaving={transition.ring ? 'flight' : 'fade'}
+              onOpen={() => undefined}
+              onSound={() => undefined}
+            />
+          </View>
+        ) : null}
+        {flying && transition?.ring && badge ? (
+          <FlyingRing
+            from={transition.ring}
+            to={badge}
+            level={level}
+            capstone={capstone}
+            onDone={() => setLanded(true)}
+          />
+        ) : null}
         {sheets}
       </>
     );
   }
 
   if (stage === 'start') {
-    const available = multiclassAvailable(prev, content);
-    const noClasses = available === 0 && prev.classes.length < 2;
     return (
       <>
-        <RitualPhase
-          key={session}
-          name={character.name}
-          subtitle={ritualSubtitle(prev, next, classId)}
-          from={totalLevel(prev.classes)}
-          to={level}
-          counts={ritualCountsText(deck)}
-          capstone={capstone}
-          animate={motion}
-          playKey={0}
-          multiclass={{
-            note: rollLocked
-              ? t('levelUpDeck.hp.locked')
-              : noClasses
-                ? t('levelUpDeck.ritual.noneAvailable')
-                : t('levelUpDeck.ritual.available', { count: available }),
-            disabled: noClasses || rollLocked,
-          }}
-          onClose={toSheet}
-          onOpen={() => setStage('hp')}
-          onOther={() => setClassSheet(true)}
-          onSound={playSound}
-          onCancel={stopLevelUpSound}
-          onImpact={impact}
-        />
+        <RitualPhase key={session} {...ritual} animate={motion} onOpen={openDeck} onSound={playSound} />
         {sheets}
       </>
     );

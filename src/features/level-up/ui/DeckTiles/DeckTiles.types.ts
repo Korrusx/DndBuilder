@@ -7,6 +7,8 @@ export type DeckTilesProps = {
   /** id необязательных выборов, закрытых «Не менять» или выбором (точка «нужен выбор» гаснет). */
   settled: string[];
   onSelect: (id: string) => void;
+  /** Переход из ритуала: плитки появляются с этой задержки (мс) по одной. */
+  appearAt?: number;
 };
 
 export type DeckTileProps = {

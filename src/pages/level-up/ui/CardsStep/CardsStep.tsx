@@ -7,6 +7,7 @@ import {
   DeckFooter,
   DeckHeader,
   DeckTiles,
+  TRANSITION,
   GrowthCard,
   HpRow,
   LevelUpCardView,
@@ -18,6 +19,7 @@ import { t } from '@/shared/i18n';
 
 import { LIST_RESIZE, REVEAL_STEP } from '../../config/constants';
 import { useCardScroll } from '../../lib/useCardScroll';
+import { DealIn } from './DealIn';
 import { styles } from './CardsStep.styles';
 import type { CardsStepProps } from './CardsStep.types';
 
@@ -31,6 +33,8 @@ export function CardsStep(props: CardsStepProps) {
   const { deck, settled, animate, onReveal } = props;
   const cards = deck.cards;
   const progress = deckProgress(deck, settled);
+  // Плитки ленты — после последней раздаваемой карты (видимых на экране — около пяти).
+  const tilesAt = TRANSITION.dealStart + Math.min(cards.length - 1, 4) * TRANSITION.dealStep + TRANSITION.dealDuration;
   // Развёрнутость не хранится: при входе — первая незавершённая карта.
   const [expanded, setExpanded] = useState<string | null>(() => firstPendingCard(deck, settled));
   const [growthOpen, setGrowthOpen] = useState(false);
@@ -49,9 +53,14 @@ export function CardsStep(props: CardsStepProps) {
   }, [settledNow.join('|')]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (props.intro) {
+      // Конец перехода из ритуала — одна вибрация.
+      timers.current.push(setTimeout(() => Haptics.selectionAsync().catch(() => undefined), TRANSITION.total));
+    }
     const pending = timers.current;
     return () => pending.forEach(clearTimeout);
     // Только при входе на экран.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const open = (id: string) => {
@@ -105,46 +114,60 @@ export function CardsStep(props: CardsStepProps) {
   return (
     <View style={styles.screen}>
       <DeckHeader
+        level={props.level}
+        capstone={props.capstone}
+        badgeHidden={props.badgeHidden}
+        badgeRef={props.badgeRef}
+        onBadgeLayout={props.onBadgeLayout}
+        intro={!!props.intro}
         title={props.title}
         subtitle={props.subtitle}
         progress={progress}
         onBack={props.onBack}
         onRevealAll={revealAll}
       >
-        <DeckTiles cards={cards} current={expanded} settled={settled} onSelect={open} />
+        <DeckTiles
+          cards={cards}
+          current={expanded}
+          settled={settled}
+          onSelect={open}
+          appearAt={props.intro ? tilesAt : undefined}
+        />
       </DeckHeader>
 
       <ScrollView ref={list} style={styles.list} contentContainerStyle={styles.content}>
-        {cards.map((card) => (
+        {cards.map((card, index) => (
           <Animated.View key={card.id} onLayout={onLayout(card.id)} layout={animate ? RESIZE : undefined}>
-            {card.type === 'hp' ? (
-              <HpRow card={card} decided={props.hpDecided} onRoll={props.onRollHp} />
-            ) : card.type === 'growth' ? (
-              <GrowthCard
-                card={card}
-                open={growthOpen}
-                onToggle={() => setGrowthOpen((value) => !value)}
-                context={props.context}
-              />
-            ) : (
-              <LevelUpCardView
-                card={card}
-                expanded={expanded === card.id}
-                animate={animate}
-                fresh={fresh.includes(card.id)}
-                picked={props.picked[card.id] ?? []}
-                kept={!!card.choice && props.kept.includes(card.choice.id)}
-                settled={isChoiceSettled(card, settled)}
-                context={props.context}
-                slots={card.type === 'magic' ? { before: props.before.slots, after: props.after.slots } : undefined}
-                note={props.notes[card.id]}
-                onOpen={() => open(card.id)}
-                onToggle={() => toggle(card.id)}
-                onChoose={props.onChoose}
-                onKeep={props.onKeep}
-                onMore={props.onMore}
-              />
-            )}
+            <DealIn index={index} origin={props.intro}>
+              {card.type === 'hp' ? (
+                <HpRow card={card} decided={props.hpDecided} onRoll={props.onRollHp} />
+              ) : card.type === 'growth' ? (
+                <GrowthCard
+                  card={card}
+                  open={growthOpen}
+                  onToggle={() => setGrowthOpen((value) => !value)}
+                  context={props.context}
+                />
+              ) : (
+                <LevelUpCardView
+                  card={card}
+                  expanded={expanded === card.id}
+                  animate={animate}
+                  fresh={fresh.includes(card.id)}
+                  picked={props.picked[card.id] ?? []}
+                  kept={!!card.choice && props.kept.includes(card.choice.id)}
+                  settled={isChoiceSettled(card, settled)}
+                  context={props.context}
+                  slots={card.type === 'magic' ? { before: props.before.slots, after: props.after.slots } : undefined}
+                  note={props.notes[card.id]}
+                  onOpen={() => open(card.id)}
+                  onToggle={() => toggle(card.id)}
+                  onChoose={props.onChoose}
+                  onKeep={props.onKeep}
+                  onMore={props.onMore}
+                />
+              )}
+            </DealIn>
           </Animated.View>
         ))}
       </ScrollView>
@@ -155,6 +178,7 @@ export function CardsStep(props: CardsStepProps) {
         hint={progress.hint}
         onNext={props.onNext}
         onBlocked={blocked}
+        intro={!!props.intro}
       />
     </View>
   );

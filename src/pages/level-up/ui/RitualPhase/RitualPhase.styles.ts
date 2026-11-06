@@ -18,7 +18,9 @@ export const RITUAL = {
 
 export const styles = StyleSheet.create({
   screen: { flex: 1, paddingHorizontal: 20 },
+  closeRow: { alignSelf: 'flex-start' },
   close: { width: sizes.touchMin, height: sizes.touchMin, alignItems: 'center', justifyContent: 'center' },
+  hidden: { opacity: 0 },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 26, paddingBottom: 30 },
   who: { alignItems: 'center', gap: 8 },
   name: { fontFamily: fonts.display, fontSize: 26, color: RITUAL.text, textAlign: 'center' },
@@ -32,6 +34,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  /** Нажатие: кнопка сжимается до 0,97 и темнеет. */
+  openPressed: { transform: [{ scale: 0.97 }], backgroundColor: '#D99A3A' },
   openText: { fontFamily: fonts.display, fontSize: 15, color: RITUAL.onAccent },
   other: {
     minHeight: 56,

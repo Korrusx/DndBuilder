@@ -1,4 +1,11 @@
+import type { ScreenPoint } from '@/features/level-up';
+
 export type RitualPhaseProps = {
+  /**
+   * Ритуал уходит: `flight` — тексты и кнопки гаснут за 200 мс, фон за 400, кольцо скрыто (его заменяет
+   * летящее); `fade` — «уменьшение движения», весь ритуал растворяется за 200 мс.
+   */
+  leaving?: 'flight' | 'fade';
   name: string;
   /** «Паладин 5 → 6 · Клятва преданности» или «Волшебник 1». */
   subtitle: string;
@@ -14,7 +21,8 @@ export type RitualPhaseProps = {
   multiclass: { note: string; disabled: boolean };
   /** «Отложить»: отложенное повышение сохранено, экран закрывается. */
   onClose: () => void;
-  onOpen: () => void;
+  /** «Открыть новинки»: центр кольца на экране — отсюда кольцо полетит в шапку колоды. */
+  onOpen: (ring: ScreenPoint) => void;
   onOther: () => void;
   /**
    * Звук повышения с момента `atMs` таймлайна: начало заполнения, удар (пропуск) или 1450 мс
