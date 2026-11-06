@@ -58,7 +58,6 @@ function colorsOf(node: Json | string | null, out: string[] = []): string[] {
   return out;
 }
 
-/** Все строки темы (цвета токенов). */
 function themeValues(style: CardStyle): string[] {
   const walk = (value: unknown): string[] =>
     typeof value === 'string' ? [value] : value && typeof value === 'object' ? Object.values(value).flatMap(walk) : [];

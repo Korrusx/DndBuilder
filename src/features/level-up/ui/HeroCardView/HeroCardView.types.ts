@@ -9,7 +9,6 @@ export type HeroCardSize = 'full' | 'compact';
 export type HeroCardMotion = {
   /** Положение блика 0…1: 0 — сдвиг −160 % ширины полосы, 1 — +260 %. */
   sheenProgress?: SharedValue<number>;
-  /** Видимость блика 0…1. */
   sheenOpacity?: SharedValue<number>;
   /** Угол градиента фольги, градусы (150 ± 15 при наклоне). */
   frameAngle?: SharedValue<number>;
@@ -21,9 +20,7 @@ export type HeroCardViewProps = {
   /** Ширина карты: на экране — ширина минус поля, но не больше 350; в сторис — 300. */
   width: number;
   name: string;
-  /** Первая буква имени (если нет фото). */
   letter: string;
-  /** Фото персонажа (обрезается по кругу). */
   portrait?: string;
   subtitle: string;
   level: number;
@@ -33,7 +30,6 @@ export type HeroCardViewProps = {
   next?: string | null;
   /** «Кампания · сессия · дата»; у компактной карты подвала нет. */
   footer?: string;
-  /** Подпись для экранного диктора. */
   accessibilityLabel: string;
   motion?: HeroCardMotion;
 };

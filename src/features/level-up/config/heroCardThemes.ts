@@ -12,13 +12,11 @@ export const CARD_STYLES: CardStyle[] = ['amber', 'night', 'parchment'];
 /** Классы, для которых по умолчанию «Ночь» (раздел 4.4). */
 export const NIGHT_CLASSES = new Set(['wizard', 'warlock', 'sorcerer']);
 
-/** Стоп градиента: доля 0…1 и цвет. */
 export type GradientStop = [number, string];
 
 export type HeroCardTheme = {
   /** Рамка-фольга: линейный градиент под углом (150°) или сплошной цвет. */
   frame: { angle: number; stops: GradientStop[] };
-  /** Тень карты (0 24 60). */
   shadow: string;
   /** Свечение вокруг карты (0 0 60); null — без свечения. */
   glow: string | null;

@@ -22,5 +22,4 @@ export function farthestCorner(cx: number, cy: number, width: number, height: nu
   );
 }
 
-/** «r,g,b» и прозрачность → цвет. */
 export const rgba = (rgb: string, alpha: number) => `rgba(${rgb},${alpha})`;
