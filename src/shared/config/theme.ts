@@ -39,6 +39,8 @@ export const rarityColors: Record<string, string> = {
 // Имена шрифтов совпадают с ключами, под которыми они загружаются в app/_layout.tsx.
 export const fonts = {
   display: 'Unbounded_600SemiBold',
+  /** Цифры «было → стало» на экране карт повышения уровня. */
+  displayRegular: 'Unbounded_400Regular',
   displayBold: 'Unbounded_700Bold',
   text: 'GolosText_400Regular',
   textMedium: 'GolosText_500Medium',

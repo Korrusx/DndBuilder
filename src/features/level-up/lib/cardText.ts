@@ -7,6 +7,7 @@ import { abilityAbbr, byId, itemName, localizeText, nameOf, plain, proficiencyNa
 import { t } from '@/shared/i18n';
 import { formatDice, formatDie, formatFeet, formatModifier } from '@/shared/lib/dice';
 
+import { CARD_BODY_CHARS } from '../config/constants';
 import { DIE_COLUMNS, FEET_COLUMNS } from '../config/deck';
 import type {
   CardRow,
@@ -246,6 +247,19 @@ export function cardBody(card: LevelUpCard): string {
     return t('levelUpDeck.choiceBody', { count: card.choice.count });
   }
   return '';
+}
+
+/**
+ * Полное описание для «Подробнее»: на карте видно до 4 строк (или только краткое описание).
+ * Пусто — всё и так видно на карте.
+ */
+export function cardFullText(card: LevelUpCard): string {
+  if (card.ref?.table !== 'features' && card.ref?.table !== 'traits') {
+    return '';
+  }
+  const entry = card.ref.table === 'features' ? byId.features.get(card.ref.id) : byId.traits.get(card.ref.id);
+  const full = plain(entry?.description);
+  return full && (full !== cardBody(card) || full.length > CARD_BODY_CHARS) ? full : '';
 }
 
 /** Метка над названием: «ПЛУТ 6», «ВИД · ДРАКОНОРОЖДЁННЫЙ», «РЕАКЦИЯ · 1 РАЗ · КОРОТКИЙ ОТДЫХ». */

@@ -4,7 +4,7 @@
 import { byId, localizeText, nameOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
 
-import type { CardRow, GrowthGroup, GrowthGroupId, LevelUpCard, NumberKey, PickedItem } from '../model/types';
+import type { CardRow, GrowthGroup, GrowthGroupId, LevelUpCard, NumberKey, PickedItem, SlotLine } from '../model/types';
 import type { TextContext } from './cardText';
 import { cardTitle, lowerFirst, rowText, tagText } from './cardText';
 
@@ -135,4 +135,57 @@ export function cardSummary(card: LevelUpCard, options: SummaryOptions = {}): st
     default:
       return join([cardSourceText(card), ...tags]);
   }
+}
+
+/** Метка типа карты: «Новое умение», «Магия», «Вид · Драконорождённый». */
+export function cardTypeLabel(card: LevelUpCard): string {
+  switch (card.type) {
+    case 'hp':
+      return t('levelUpDeck.type.hp');
+    case 'growth':
+      return t('levelUpDeck.tag.growth');
+    case 'magic':
+      return t('levelUpDeck.tag.magic');
+    case 'multiclass':
+      return t('levelUpDeck.tag.multiclass');
+    case 'capstone':
+      return t('levelUpDeck.tag.capstone');
+    case 'species':
+      return t('levelUpDeck.tag.species', { species: nameOf('species', card.source.id) });
+    case 'choice':
+      return card.ref?.table === 'features'
+        ? t('levelUpDeck.screen.kind.feature')
+        : t('levelUpDeck.screen.kind.choice');
+    case 'feature':
+      return t('levelUpDeck.screen.kind.feature');
+  }
+}
+
+/** Метка открытой карты: тип и источник («Новое умение · паладин 5», «Магия · паладин»). */
+export function cardOpenLabel(card: LevelUpCard): string {
+  const type = cardTypeLabel(card);
+  const source =
+    card.type === 'magic'
+      ? lowerFirst(nameOf('classes', card.source.id))
+      : card.type === 'feature' || card.type === 'choice' || card.type === 'capstone'
+        ? cardSourceText(card)
+        : '';
+  return source ? `${type} · ${source}` : type;
+}
+
+/**
+ * Ячейки на карте магии: каждый круг, где что-то изменилось, и все круги ниже для контекста
+ * (раздел 6.4 спецификации). `before` / `after` — ячейки по кругам из снимков уровня.
+ */
+export function slotLines(before: number[], after: number[]): SlotLine[] {
+  let top = -1;
+  after.forEach((count, i) => {
+    if (count !== (before[i] ?? 0)) {
+      top = i;
+    }
+  });
+  return after
+    .slice(0, top + 1)
+    .map((count, i) => ({ circle: i + 1, count, before: before[i] ?? 0 }))
+    .filter((line) => line.count > 0);
 }

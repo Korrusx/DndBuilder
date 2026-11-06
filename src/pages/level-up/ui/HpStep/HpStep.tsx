@@ -62,7 +62,9 @@ export function HpStep({ card, die, className, hp, defaultMethod, allowReroll, o
     }
     if (next === 'manual') {
       const value = Number(manual);
-      onChange(manual && Number.isInteger(value) && value >= 1 && value <= die ? { method: 'manual', value } : undefined);
+      onChange(
+        manual && Number.isInteger(value) && value >= 1 && value <= die ? { method: 'manual', value } : undefined,
+      );
     }
   };
   const saveManual = (text: string) => {

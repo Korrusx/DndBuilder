@@ -2,7 +2,7 @@ import { Alegreya_400Regular, Alegreya_400Regular_Italic } from '@expo-google-fo
 import { AlegreyaSC_700Bold } from '@expo-google-fonts/alegreya-sc';
 import { GolosText_400Regular, GolosText_500Medium, GolosText_600SemiBold } from '@expo-google-fonts/golos-text';
 import { IBMPlexSansCondensed_400Regular } from '@expo-google-fonts/ibm-plex-sans-condensed';
-import { Unbounded_600SemiBold, Unbounded_700Bold } from '@expo-google-fonts/unbounded';
+import { Unbounded_400Regular, Unbounded_600SemiBold, Unbounded_700Bold } from '@expo-google-fonts/unbounded';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -30,6 +30,7 @@ async function initDb(db: SQLiteDatabase) {
 export default function RootLayout() {
   const { t } = useTranslation();
   const [loaded, error] = useFonts({
+    Unbounded_400Regular,
     Unbounded_600SemiBold,
     Unbounded_700Bold,
     GolosText_400Regular,

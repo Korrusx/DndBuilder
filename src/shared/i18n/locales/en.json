@@ -1359,6 +1359,10 @@
   },
   "levelUpDeck": {
     "screen": {
+      "kind": {
+        "feature": "New feature",
+        "choice": "Choice"
+      },
       "subtitle": "{{name}} · {{className}} · {{species}}",
       "opened": "Revealed",
       "of": "of",

@@ -57,6 +57,7 @@ export type {
   LevelUpCardType,
   NextLevelItem,
   PickedItem,
+  SlotLine,
   SheetDiff,
 } from './model/types';
 export { withoutChoice } from './model/withoutChoice';
@@ -76,7 +77,15 @@ export {
   rowValue,
 } from './lib/cardText';
 export type { TextContext } from './lib/cardText';
-export { cardSourceText, cardSummary, groupGrowthRows, growthParts } from './lib/deckSummary';
+export {
+  cardOpenLabel,
+  cardSourceText,
+  cardSummary,
+  cardTypeLabel,
+  groupGrowthRows,
+  growthParts,
+  slotLines,
+} from './lib/deckSummary';
 export type { SummaryOptions } from './lib/deckSummary';
 export { deckProgress, firstPendingCard, isChoiceSettled } from './lib/deckProgress';
 export { pickedItems } from './lib/pickedItems';
@@ -88,6 +97,12 @@ export { CARD_THEMES } from './config/cardTheme';
 export { CardBack } from './ui/CardBack/CardBack';
 export { DeckCardView } from './ui/DeckCardView/DeckCardView';
 export { DeckStrip } from './ui/DeckStrip/DeckStrip';
+export { DeckFooter } from './ui/DeckFooter/DeckFooter';
+export { DeckHeader } from './ui/DeckHeader/DeckHeader';
+export { DeckTiles } from './ui/DeckTiles/DeckTiles';
+export { GrowthCard } from './ui/GrowthCard/GrowthCard';
+export { HpRow } from './ui/HpRow/HpRow';
+export { LevelUpCardView } from './ui/LevelUpCardView/LevelUpCardView';
 export { FlipCard } from './ui/FlipCard/FlipCard';
 export { HpSummary } from './ui/HpSummary/HpSummary';
 export { LevelRing } from './ui/LevelRing/LevelRing';

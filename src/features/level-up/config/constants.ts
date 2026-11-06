@@ -50,3 +50,20 @@ export const PENDING_FIELDS: PendingField[] = [
   'cantrips',
   'preparedSpells',
 ];
+
+// ---------- Экран «Новое на N-м уровне» (design/level-up/deck-screen-spec.md) ----------
+
+/** Больше стольких чипов — сворачиваем в «+N ещё» (раздел 6.7). */
+export const CHIPS_VISIBLE_MAX = 6;
+/** Сколько чипов видно в свёрнутом списке. */
+export const CHIPS_SHOWN = 5;
+/** Чипы 26–32 по высоте дотягиваются нажатием до 44 (раздел 10). */
+export const CHIP_HIT_SLOP = { top: 9, bottom: 9, left: 4, right: 4 };
+/** До стольких карт лента колоды делится на равные колонки, больше — прокручивается (раздел 4). */
+export const DECK_TILES_FIT = 6;
+/** Ширина плитки ленты, когда лента прокручивается. */
+export const DECK_TILE_WIDTH = 52;
+/** Описание длиннее — под ним «Подробнее» (до 4 строк на карте). */
+export const CARD_BODY_LINES = 4;
+/** Примерно столько символов помещается в 4 строки описания на карте; длиннее — «Подробнее». */
+export const CARD_BODY_CHARS = 160;

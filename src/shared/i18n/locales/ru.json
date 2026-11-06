@@ -1380,6 +1380,10 @@
   },
   "levelUpDeck": {
     "screen": {
+      "kind": {
+        "feature": "Новое умение",
+        "choice": "Выбор"
+      },
       "subtitle": "{{name}} · {{className}} · {{species}}",
       "opened": "Открыто",
       "of": "из",

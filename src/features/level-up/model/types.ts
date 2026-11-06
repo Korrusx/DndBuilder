@@ -264,3 +264,6 @@ export type DeckProgress = {
 
 /** Выбранное на этом уровне: название и круг заклинания (для чипов магии). */
 export type PickedItem = { id: string; name: string; circle?: number };
+
+/** Строка ячеек карты магии: круг, сколько стало и сколько было. */
+export type SlotLine = { circle: number; count: number; before: number };
