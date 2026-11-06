@@ -31,7 +31,7 @@ const circleOf = (value: CardRow['after'] | undefined) =>
 /**
  * Магия (раздел 6.4): разделы ЯЧЕЙКИ, НОВЫЕ ЗАКЛИНАНИЯ, ВСЕГДА ПОДГОТОВЛЕНО, РОСТ ЗАГОВОРОВ через разделитель.
  */
-export function MagicBody({ card, slots, picked, kept, context, onChoose, onKeep }: CardPartProps) {
+export function MagicBody({ card, slots, picked, kept, context, animate, onChoose, onKeep }: CardPartProps) {
   const colors = DECK_COLORS.magic;
   const rows = card.rows ?? [];
   const lines = slots ? slotLines(slots.before, slots.after) : [];
@@ -98,6 +98,7 @@ export function MagicBody({ card, slots, picked, kept, context, onChoose, onKeep
               choice={card.choice}
               picked={picked}
               kept={kept}
+              animate={animate}
               magic
               chooseTitle={t('levelUpDeck.magic.pickSpells')}
               onChoose={onChoose}

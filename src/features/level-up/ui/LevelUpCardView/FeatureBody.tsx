@@ -3,7 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 import { nameOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
 
-import { CARD_BODY_LINES, CHIP_HIT_SLOP } from '../../config/constants';
+import { CARD_BODY_LINES, MORE_HIT_SLOP } from '../../config/constants';
 import { DECK_COLORS, DECK_UI } from '../../config/deckColors';
 import { cardBody, cardFullText, cardTitle, rowLabel, tagText } from '../../lib/cardText';
 import { ChangeRow } from '../ChangeRow/ChangeRow';
@@ -38,7 +38,7 @@ export function FeatureBody({ card, context, onMore }: CardPartProps) {
         </Text>
       ) : null}
       {more ? (
-        <Pressable accessibilityRole="button" onPress={() => onMore(card)} hitSlop={CHIP_HIT_SLOP}>
+        <Pressable accessibilityRole="button" onPress={() => onMore(card)} hitSlop={MORE_HIT_SLOP}>
           <Text style={styles.more}>{t('levelUpDeck.screen.more')}</Text>
         </Pressable>
       ) : null}

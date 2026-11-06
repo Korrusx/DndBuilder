@@ -19,8 +19,25 @@ jest.mock('react-native-reanimated', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { View } = require('react-native');
   const chain: object = new Proxy(() => chain, { get: () => chain, apply: () => chain });
-  return { __esModule: true, default: { View }, FadeIn: chain };
+  const shared = (initial: unknown) => {
+    const box = { value: initial, get: () => box.value, set: (next: unknown) => (box.value = next) };
+    return box;
+  };
+  return {
+    __esModule: true,
+    default: { View },
+    FadeIn: chain,
+    LinearTransition: chain,
+    Easing: chain,
+    useSharedValue: shared,
+    useAnimatedStyle: (fn: () => unknown) => fn(),
+    withTiming: (to: unknown) => to,
+    withSequence: (...steps: unknown[]) => steps[steps.length - 1],
+  };
 });
+jest.mock('react-native-worklets', () => ({
+  scheduleOnRN: (fn: (...args: unknown[]) => void, ...args: unknown[]) => fn(...args),
+}));
 
 type Json = { type: string; props: Record<string, unknown>; children: (Json | string)[] | null };
 
@@ -80,6 +97,7 @@ describe('DeckTiles', () => {
 
 describe('LevelUpCardView', () => {
   const base = {
+    animate: false,
     picked: [],
     kept: false,
     settled: true,
@@ -141,5 +159,22 @@ describe('LevelUpCardView', () => {
       ),
     );
     expect(after).toEqual(expect.arrayContaining(['выбор сделан', '2', 'Подмога', 'Изменить']));
+  });
+
+  test('«уменьшение движения»: открытая карта сразу показывает содержимое, без переворота', async () => {
+    const hidden = deckOf(kaelan()).cards.find((c) => c.id === 'feature.paladin-extra-attack')!;
+    const root = createRoot();
+    await act(async () => {
+      root.render(<LevelUpCardView {...base} card={hidden} expanded />);
+    });
+    expect(texts(root.container.toJSON() as unknown as Json)).toContain('Нажмите, чтобы открыть');
+    await act(async () => {
+      root.render(<LevelUpCardView {...base} card={{ ...hidden, state: 'done' }} expanded />);
+    });
+    const tree = root.container.toJSON() as unknown as Json;
+    expect(texts(tree)).toContain('Дополнительная атака');
+    expect(texts(tree)).not.toContain('Нажмите, чтобы открыть');
+    const turned = nodes(tree).filter((node) => JSON.stringify(flatStyle(node).transform ?? '').includes('rotateX'));
+    expect(turned.every((node) => JSON.stringify(flatStyle(node).transform).includes('"0deg"'))).toBe(true);
   });
 });

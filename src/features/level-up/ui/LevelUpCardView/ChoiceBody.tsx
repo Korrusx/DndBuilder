@@ -8,7 +8,7 @@ import { styles } from './LevelUpCardView.styles';
 import type { CardPartProps } from './LevelUpCardView.types';
 
 /** Выбор (раздел 6.3): название, что выбрать, «Выбрать…» или выбранное чипами. */
-export function ChoiceBody({ card, context, picked, kept, note, onChoose, onKeep }: CardPartProps) {
+export function ChoiceBody({ card, context, picked, kept, note, animate, onChoose, onKeep }: CardPartProps) {
   const colors = DECK_COLORS.choice;
   const body = cardBody(card);
   return (
@@ -25,6 +25,7 @@ export function ChoiceBody({ card, context, picked, kept, note, onChoose, onKeep
           choice={card.choice}
           picked={picked}
           kept={kept}
+          animate={animate}
           chooseTitle={t('levelUpDeck.screen.chooseMore')}
           onChoose={onChoose}
           onKeep={onKeep}

@@ -4,3 +4,5 @@ export const CARD_SCROLL_GAP = 8;
 export const CARD_SCROLL_SETTLE = 400;
 /** Шаг «Открыть все»: закрытые карты переворачиваются по очереди. */
 export const REVEAL_STEP = 80;
+/** Сдвиг соседних карт, когда меняется высота одной (как свёртывание карты, раздел 8). */
+export const LIST_RESIZE = 220;

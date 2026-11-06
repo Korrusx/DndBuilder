@@ -7,6 +7,7 @@ export type ChoiceActionsProps = {
   /** Подпись большой кнопки до выбора («Выбрать…», «Выбрать заклинания»). */
   chooseTitle: string;
   magic?: boolean;
+  animate: boolean;
   onChoose: (choice: LevelChoice) => void;
   onKeep: (choice: LevelChoice) => void;
 };

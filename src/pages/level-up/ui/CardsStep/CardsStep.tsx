@@ -1,6 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import Animated, { Easing, LinearTransition } from 'react-native-reanimated';
 
 import {
   DeckFooter,
@@ -15,10 +16,12 @@ import {
 } from '@/features/level-up';
 import { t } from '@/shared/i18n';
 
-import { REVEAL_STEP } from '../../config/constants';
+import { LIST_RESIZE, REVEAL_STEP } from '../../config/constants';
 import { useCardScroll } from '../../lib/useCardScroll';
 import { styles } from './CardsStep.styles';
 import type { CardsStepProps } from './CardsStep.types';
+
+const RESIZE = LinearTransition.duration(LIST_RESIZE).easing(Easing.inOut(Easing.ease));
 
 /**
  * У3 · «Новое на N-м уровне» (design/level-up/deck-screen-spec.md): шапка, счётчик и лента закреплены,
@@ -34,6 +37,16 @@ export function CardsStep(props: CardsStepProps) {
   const [fresh, setFresh] = useState<string[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const { list, scrollTo, onLayout } = useCardScroll(animate);
+  // Выбор сделан — лёгкая вибрация (раздел 8). Первый показ экрана не вибрирует.
+  const settledBefore = useRef<Set<string> | null>(null);
+  const settledNow = cards.filter((card) => card.choice && isChoiceSettled(card, settled)).map((card) => card.id);
+  useEffect(() => {
+    const was = settledBefore.current;
+    if (was && settledNow.some((id) => !was.has(id))) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+    }
+    settledBefore.current = new Set(settledNow);
+  }, [settledNow.join('|')]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (props.focus) {
@@ -107,7 +120,7 @@ export function CardsStep(props: CardsStepProps) {
 
       <ScrollView ref={list} style={styles.list} contentContainerStyle={styles.content}>
         {cards.map((card) => (
-          <View key={card.id} onLayout={onLayout(card.id)}>
+          <Animated.View key={card.id} onLayout={onLayout(card.id)} layout={animate ? RESIZE : undefined}>
             {card.type === 'hp' ? (
               <HpRow card={card} decided={props.hpDecided} onRoll={props.onRollHp} />
             ) : card.type === 'growth' ? (
@@ -121,6 +134,7 @@ export function CardsStep(props: CardsStepProps) {
               <LevelUpCardView
                 card={card}
                 expanded={expanded === card.id}
+                animate={animate}
                 fresh={fresh.includes(card.id)}
                 picked={props.picked[card.id] ?? []}
                 kept={!!card.choice && props.kept.includes(card.choice.id)}
@@ -135,7 +149,7 @@ export function CardsStep(props: CardsStepProps) {
                 onMore={props.onMore}
               />
             )}
-          </View>
+          </Animated.View>
         ))}
       </ScrollView>
 
