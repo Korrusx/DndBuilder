@@ -36,9 +36,9 @@ describe('наклон карты', () => {
     expect(smooth(1.5, 10)).toBeCloseTo(2.775);
   });
 
-  test('поворот карты: β и γ × 0,3, не больше ±6°', () => {
-    expect(cardRotation(10, -10)).toEqual({ rotateX: -3, rotateY: -3 });
-    expect(cardRotation(-20, 20)).toEqual({ rotateX: 6, rotateY: 6 });
+  test('поворот карты: β и γ × 0,5, не больше ±10°', () => {
+    expect(cardRotation(10, -10)).toEqual({ rotateX: -5, rotateY: -5 });
+    expect(cardRotation(-20, 20)).toEqual({ rotateX: 10, rotateY: 10 });
     expect(cardRotation(40, 0).rotateX).toBe(-TILT.maxRotation);
   });
 

@@ -7,8 +7,8 @@ export const TILT = {
   smoothingFrame: 33,
   maxDeviation: 20,
   smoothing: 0.15,
-  factor: 0.3,
-  maxRotation: 6,
+  factor: 0.5,
+  maxRotation: 10,
   restSheenOpacity: 0.6,
   /** Наклон и блик в покое включаются плавно, мс. */
   fadeIn: 300,
@@ -73,7 +73,7 @@ export function smooth(current: number, target: number): number {
   return current + (target - current) * TILT.smoothing;
 }
 
-/** Поворот карты: rotateX = −β × 0,3, rotateY = γ × 0,3, каждый не больше ±6°. */
+/** Поворот карты: rotateX = −β × 0,5, rotateY = γ × 0,5, каждый не больше ±10°. */
 export function cardRotation(beta: number, gamma: number): { rotateX: number; rotateY: number } {
   'worklet';
   const limit = (value: number) => Math.max(-TILT.maxRotation, Math.min(TILT.maxRotation, value));
