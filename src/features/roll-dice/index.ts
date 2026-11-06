@@ -6,3 +6,4 @@ export { DiceSettingsSection } from './ui/DiceSettingsSection/DiceSettingsSectio
 export { useDiceSettings } from './model/diceSettings';
 export { DiceTable } from './ui/DiceTable/DiceTable';
 export { Die } from './ui/Die/Die';
+export { playDiceSound } from './lib/diceSounds';

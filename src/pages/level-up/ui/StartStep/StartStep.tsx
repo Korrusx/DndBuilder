@@ -1,11 +1,10 @@
-import * as Haptics from 'expo-haptics';
-import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { CardBack, LevelRing } from '@/features/level-up';
 import { t } from '@/shared/i18n';
 
 import { backLabel } from '../../lib/deckScreen';
+import { HintFade } from './HintFade';
 import { JumpingBack } from './JumpingBack';
 import { styles } from './StartStep.styles';
 import type { StartStepProps } from './StartStep.types';
@@ -14,39 +13,33 @@ const MAX_BACKS = 5;
 
 /** У1 · Новый уровень: кольцо уровня, «<Имя> растёт», рубашки колоды, выбор класса. */
 export function StartStep(props: StartStepProps) {
-  const { name, subtitle, from, to, cards, hasNext, capstone, animate } = props;
-  const [playKey, setPlayKey] = useState(0);
-  const [jumpKey, setJumpKey] = useState(0);
+  const { name, subtitle, from, to, cards, hasNext, capstone, animate, playKey } = props;
   const shown = cards.slice(0, hasNext ? MAX_BACKS - 1 : MAX_BACKS);
   const rest = cards.length - shown.length;
-
-  const onSwap = () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
-    setJumpKey((k) => k + 1);
-  };
+  const count = shown.length + (rest > 0 ? 1 : 0) + (hasNext ? 1 : 0);
+  const jump = { playKey, count, animate, capstone };
 
   return (
     <>
       <View style={styles.top}>
-        <View style={styles.glow} pointerEvents="none" />
         <LevelRing
           from={from}
           to={to}
           animate={animate}
           capstone={capstone}
           playKey={playKey}
-          onPress={() => setPlayKey((k) => k + 1)}
-          onSwap={onSwap}
+          onPress={props.onReplay}
+          onImpact={props.onImpact}
         />
-        <View style={styles.who}>
+        <HintFade playKey={playKey} animate={animate} capstone={capstone}>
           <Text style={styles.name}>{t('levelUpDeck.grows', { name })}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>
-        </View>
+        </HintFade>
       </View>
 
       <View style={styles.backs}>
         {shown.map((card, i) => (
-          <JumpingBack key={card.id} jumpKey={jumpKey} index={i} animate={animate}>
+          <JumpingBack key={card.id} index={i} {...jump}>
             <CardBack
               type={card.type}
               label={backLabel(card)}
@@ -56,12 +49,12 @@ export function StartStep(props: StartStepProps) {
           </JumpingBack>
         ))}
         {rest > 0 ? (
-          <JumpingBack jumpKey={jumpKey} index={shown.length} animate={animate}>
+          <JumpingBack index={shown.length} {...jump}>
             <CardBack type="growth" label={`+${rest}`} style={styles.back} />
           </JumpingBack>
         ) : null}
         {hasNext ? (
-          <JumpingBack jumpKey={jumpKey} index={shown.length + 1} animate={animate}>
+          <JumpingBack index={count - 1} {...jump}>
             <CardBack type="summary" label={t('levelUpDeck.whatNext')} style={styles.back} />
           </JumpingBack>
         ) : null}

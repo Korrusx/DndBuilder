@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -7,24 +8,33 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { introTimeline, jumpRotation } from '@/features/level-up';
+
 import { styles } from './JumpingBack.styles';
 import type { JumpingBackProps } from './JumpingBack.types';
 
 const HEIGHT = 12;
-const STEP = 120;
 
-/** Рубашка, которая подпрыгивает на 12 px по очереди с соседями (раздел 8, шаг 4). */
-export function JumpingBack({ jumpKey, index, animate, children }: JumpingBackProps) {
-  const y = useSharedValue(0);
+/** Рубашка, которая подпрыгивает на 12 px в 1650 + i × 120 мс за 300 мс, с лёгким поворотом (раздел 8). */
+export function JumpingBack({ playKey, index, count, animate, capstone, children }: JumpingBackProps) {
+  const lift = useSharedValue(0);
   useEffect(() => {
-    if (!animate || jumpKey === 0) {
+    cancelAnimation(lift);
+    lift.value = 0;
+    if (!animate) {
       return;
     }
-    y.value = withDelay(
-      200 + index * STEP,
-      withSequence(withTiming(-HEIGHT, { duration: 140 }), withTiming(0, { duration: 180 })),
+    const time = introTimeline(capstone);
+    const half = time.jumpDuration / 2;
+    lift.value = withDelay(
+      time.jumpStart + index * time.jumpStep,
+      withSequence(withTiming(1, { duration: half }), withTiming(0, { duration: half })),
     );
-  }, [jumpKey, index, animate, y]);
-  const style = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
+    return () => cancelAnimation(lift);
+  }, [playKey, index, animate, capstone, lift]);
+  const rotation = jumpRotation(index, count);
+  const style = useAnimatedStyle(() => ({
+    transform: [{ translateY: -HEIGHT * lift.value }, { rotate: `${rotation * lift.value}deg` }],
+  }));
   return <Animated.View style={[styles.fill, style]}>{children}</Animated.View>;
 }

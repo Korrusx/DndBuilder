@@ -116,3 +116,11 @@ export const RING_COLORS = {
   track: colors.border,
   old: '#6B737D',
 };
+
+/** Цвета анимации У1 (раздел 8): обычный уровень — акцент, вершина — легендарный. */
+export const INTRO_COLORS = {
+  normal: { ring: colors.accent, spark: '#FFE2A8', glow: '242,177,74' },
+  capstone: { ring: rarityColors.legendary, spark: rarityColors.legendary, glow: '255,159,90' },
+  /** Фон экрана: центр градиента, тёплая вспышка, край. */
+  background: { center: '#241E13', warm: '#3A2E18', edge: colors.bg },
+} as const;

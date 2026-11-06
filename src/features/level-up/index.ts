@@ -86,3 +86,5 @@ export { LevelRing } from './ui/LevelRing/LevelRing';
 export { PreviewPick } from './ui/PreviewPick/PreviewPick';
 export type { PreviewOption } from './ui/PreviewPick/PreviewPick.types';
 export { RowList } from './ui/RowList/RowList';
+export { IntroBackground } from './ui/IntroBackground/IntroBackground';
+export { introTimeline, jumpRotation, GLOW } from './lib/motion';

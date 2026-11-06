@@ -19,6 +19,11 @@ export type StartStepProps = {
   hasNext: boolean;
   capstone: boolean;
   animate: boolean;
+  /** Номер проигрывания анимации (растёт при нажатии на кольцо). */
+  playKey: number;
+  onReplay: () => void;
+  /** Удар при смене цифры: вибрация и звук. */
+  onImpact: () => void;
   /** Выбранный класс уровня и кнопка «Другой класс». */
   current: ClassOption;
   other: ClassOption;

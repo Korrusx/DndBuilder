@@ -1,3 +1,4 @@
+import * as Haptics from 'expo-haptics';
 import { router, useFocusEffect } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -19,6 +20,7 @@ import {
   beginLevelUp,
   countsText,
   HeroCard,
+  IntroBackground,
   keyNumbersPreview,
   levelUpBase,
   levelUpDeck,
@@ -35,6 +37,7 @@ import {
   useDeckMotion,
   useLevelUpSettings,
 } from '@/features/level-up';
+import { playDiceSound, useDiceSettings } from '@/features/roll-dice';
 import { byId, content, nameOf } from '@/shared/content';
 import { t } from '@/shared/i18n';
 import { Button, Screen } from '@/shared/ui';
@@ -63,6 +66,8 @@ export function LevelUpPage() {
   const settings = useLevelUpSettings();
   const motion = useDeckMotion();
   const [skipped, setSkipped] = useState(false);
+  const [playKey, setPlayKey] = useState(0);
+  const dice = useDiceSettings();
   const [chosenStage, setStage] = useState<DeckStage | null>(null);
   const [current, setCurrent] = useState(0);
   const [choice, setChoice] = useState<LevelChoice | null>(null);
@@ -168,6 +173,13 @@ export function LevelUpPage() {
     setSkipped(false);
     setStage('start');
     setCurrent(0);
+  };
+  // Удар при смене цифры уровня: вибрация «успех» и мягкий звук, если включены звуки бросков.
+  const impact = () => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
+    if (dice.sound) {
+      playDiceSound('roll');
+    }
   };
   // Начатое повышение можно бросить: выборы и брошенные хиты сбросятся.
   const started = !!pending.hp || pending.revealed.length > 0 || Object.keys(pending.choices).length > 0;
@@ -286,7 +298,14 @@ export function LevelUpPage() {
     );
 
   return (
-    <Screen footer={footer}>
+    <Screen
+      footer={footer}
+      background={
+        stage === 'start' ? (
+          <IntroBackground animate={motion && !skipped} playKey={playKey} capstone={capstone} />
+        ) : undefined
+      }
+    >
       <StepHeader
         kind={stage === 'start' ? 'close' : 'back'}
         onPress={back}
@@ -303,6 +322,12 @@ export function LevelUpPage() {
           hasNext={hasNext}
           capstone={capstone}
           animate={motion && !skipped}
+          playKey={playKey}
+          onReplay={() => {
+            setSkipped(false);
+            setPlayKey((key) => key + 1);
+          }}
+          onImpact={impact}
           current={{
             classId: prev.classes[0].classId,
             title: t('levelUpDeck.classLevel', {
