@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { Pressable, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors } from '@/shared/config';
 import { t } from '@/shared/i18n';
@@ -9,8 +10,10 @@ import type { StepHeaderProps } from './StepHeader.types';
 
 /** Шапка шагов повышения: крестик или «назад», сегменты прогресса или подпись. */
 export function StepHeader({ kind, onPress, progress, caption }: StepHeaderProps) {
+  // Экран без системной шапки: отступаем под вырез камеры / строку состояния.
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.row}>
+    <View style={[styles.row, { paddingTop: insets.top }]}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={kind === 'close' ? t('levelUpPage.postpone') : t('levelUpDeck.back')}

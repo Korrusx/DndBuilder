@@ -27,7 +27,7 @@ export function HpStep({ card, die, className, hp, defaultMethod, allowReroll, o
   const average = averageHitDie(die);
 
   const roll = () => {
-    if (locked) {
+    if (locked || method !== 'roll') {
       return;
     }
     const value = rollDie(die);
@@ -55,16 +55,20 @@ export function HpStep({ card, die, className, hp, defaultMethod, allowReroll, o
     if (next === 'average') {
       onChange({ method: 'average', value: average });
     }
+    // Выбор «Бросить» сам не бросает: кость бросается нажатием на стол, повторным нажатием на «Бросить»
+    // или встряхиванием. До броска можно спокойно вернуться к «Среднему».
     if (next === 'roll' && hp?.method !== 'roll') {
-      roll();
+      onChange(undefined);
+    }
+    if (next === 'manual') {
+      const value = Number(manual);
+      onChange(manual && Number.isInteger(value) && value >= 1 && value <= die ? { method: 'manual', value } : undefined);
     }
   };
   const saveManual = (text: string) => {
     setManual(text);
     const value = Number(text);
-    if (Number.isInteger(value) && value >= 1 && value <= die) {
-      onChange({ method: 'manual', value });
-    }
+    onChange(text && Number.isInteger(value) && value >= 1 && value <= die ? { method: 'manual', value } : undefined);
   };
 
   const rolled = hp?.method === 'roll' ? hp.value : undefined;
@@ -89,6 +93,7 @@ export function HpStep({ card, die, className, hp, defaultMethod, allowReroll, o
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={t('levelUpDeck.hp.roll')}
+        disabled={method !== 'roll' || locked}
         onPress={roll}
         style={styles.table}
       >
@@ -107,7 +112,9 @@ export function HpStep({ card, die, className, hp, defaultMethod, allowReroll, o
             <Die value={rolled ?? (hp?.value || die)} dropped={!rolled && hp?.method !== 'manual'} />
           </View>
         )}
-        <Text style={styles.shake}>{table3d ? t('levelUpDeck.hp.shake3d') : t('levelUpDeck.hp.shake')}</Text>
+        {method === 'roll' && !locked ? (
+          <Text style={styles.shake}>{table3d ? t('levelUpDeck.hp.shake3d') : t('levelUpDeck.hp.shake')}</Text>
+        ) : null}
       </Pressable>
 
       <View style={styles.methods} accessibilityRole="radiogroup">

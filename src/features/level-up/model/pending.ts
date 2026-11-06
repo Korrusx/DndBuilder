@@ -64,7 +64,7 @@ export function storeDraft(c: Character, next: Character): Character {
  * Закрепить хиты уровня. Брошенное значение закреплено: его нельзя сменить ни новым броском, ни «средним»,
  * пока не включена настройка «Разрешить переброс хитов».
  */
-export function setPendingHp(c: Character, hp: HpChoice, allowReroll: boolean): Character {
+export function setPendingHp(c: Character, hp: HpChoice | undefined, allowReroll: boolean): Character {
   const pending = activePending(c);
   if (!pending || (pending.hp?.method === 'roll' && !allowReroll)) {
     return c;

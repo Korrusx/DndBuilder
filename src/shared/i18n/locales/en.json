@@ -1383,8 +1383,8 @@
     "hp": {
       "title": "Hit Points",
       "die": "{{className}} · hit die {{die}}",
-      "shake3d": "3D table · shake the phone to roll",
-      "shake": "Shake the phone or tap “Roll”",
+      "shake3d": "3D table · tap the table or shake the phone",
+      "shake": "Tap the die or shake the phone",
       "roll": "Roll",
       "rollSub": "rolled {{value}}",
       "rollSubEmpty": "tap or shake",

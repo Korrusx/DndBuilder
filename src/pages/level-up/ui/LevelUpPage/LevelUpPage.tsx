@@ -144,7 +144,7 @@ export function LevelUpPage() {
   const quiet = { journal: false };
   const set = (fn: (c: Character) => Character) => update((c) => storeDraft(c, fn(pendingDraft(c) ?? next)), quiet);
   const reveal = (ids: string[]) => update((c) => revealCards(c, ids), quiet);
-  const setHp = (hp: HpChoice) => update((c) => setPendingHp(c, hp, settings.allowHpReroll), quiet);
+  const setHp = (hp: HpChoice | undefined) => update((c) => setPendingHp(c, hp, settings.allowHpReroll), quiet);
   const pickClass = (id: string) => {
     setClassSheet(false);
     if (id !== classId && !rollLocked) {

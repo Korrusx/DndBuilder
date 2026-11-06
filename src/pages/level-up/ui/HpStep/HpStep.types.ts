@@ -11,5 +11,6 @@ export type HpStepProps = {
   /** Способ по умолчанию — последний выбранный этим персонажем. */
   defaultMethod: HpMethod;
   allowReroll: boolean;
-  onChange: (hp: HpChoice) => void;
+  /** undefined — способ выбран, но результата ещё нет (не брошено / не введено). */
+  onChange: (hp: HpChoice | undefined) => void;
 };
