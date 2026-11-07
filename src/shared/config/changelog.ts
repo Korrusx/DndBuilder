@@ -6,6 +6,40 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.6.0',
+    date: { ru: 'ноябрь 2026', en: 'November 2026' },
+    items: [
+      {
+        ru: 'Новое повышение уровня: торжественный экран с кольцом уровня — нажмите в любом месте, чтобы пропустить анимацию',
+        en: 'New level-up: a celebratory screen with the level ring — tap anywhere to skip the animation',
+      },
+      {
+        ru: 'Кольцо улетает в шапку, а новинки уровня раздаются картами: открывайте их по одной или «Открыть все»',
+        en: 'The ring flies into the header and the level’s new features are dealt as cards: reveal them one by one or all at once',
+      },
+      {
+        ru: 'Хиты — первая карта колоды: «Бросить к8» на 3D-столе, среднее, свой кубик или встряхните телефон',
+        en: 'Hit points are the first card: roll the d8 on the 3D table, take the average, enter your own roll or shake the phone',
+      },
+      {
+        ru: 'Карта роста показывает все изменившиеся числа по группам; «Без изменений» — что на уровне не растёт',
+        en: 'The growth card lists every changed number by group; “Unchanged” shows what doesn’t grow this level',
+      },
+      {
+        ru: 'Мультикласс прямо с первого экрана: сколько классов доступно и почему остальные нельзя («нужна ИНТ 13, у вас 12»)',
+        en: 'Multiclass right from the first screen: how many classes are available and why others aren’t (“needs INT 13, you have 12”)',
+      },
+      {
+        ru: 'Отложенное повышение продолжается сразу с колоды; переброс хитов включён по умолчанию; настройка «Бросаю свои кубики»',
+        en: 'A postponed level-up resumes right at the deck; hit point rerolls are on by default; new “I roll physical dice” setting',
+      },
+      {
+        ru: 'Исправлено: ошибка листа у плута 6-го уровня (умение «Компетентность» дважды); выбор книги заклинаний показывает «из 6»',
+        en: 'Fixed: a sheet error for level 6 rogues (Expertise listed twice); the spellbook picker shows “of 6”',
+      },
+    ],
+  },
+  {
     version: '1.5.0',
     date: { ru: 'октябрь 2026', en: 'October 2026' },
     items: [
