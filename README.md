@@ -38,7 +38,15 @@ npm test             # тесты логики правил (Jest)
 npm run typecheck    # проверка типов TypeScript
 ```
 
-Сборка APK через EAS: `npx eas build -p android --profile preview` (нужен аккаунт Expo).
+Сборка через EAS (нужен аккаунт Expo; пакет называется `eas-cli`):
+
+```bash
+npx eas-cli login                                   # один раз: вход в аккаунт Expo
+npx eas-cli build -p android --profile preview      # APK, ставится на телефон напрямую
+npx eas-cli build -p android --profile production   # AAB для Google Play
+```
+
+Если собираете часто, установите один раз `npm install -g eas-cli` — тогда команды короче: `eas build …`.
 
 ## Справочник
 
