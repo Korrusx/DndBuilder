@@ -520,3 +520,19 @@ function skillExtraBonus(skillId: string, mods: AbilityScores, effects: Effect[]
   }
   return sum;
 }
+
+/**
+ * Умения для показа: одно и то же умение из того же источника — один раз. В листе повторы бывают
+ * («Компетентность» плута на 1-м и 6-м уровне под одним id, «Увеличение характеристик» на 4-м и 8-м).
+ */
+export function uniqueFeatures(features: SourcedId[]): SourcedId[] {
+  const seen = new Set<string>();
+  return features.filter((feature) => {
+    const key = `${feature.source}-${feature.id}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}

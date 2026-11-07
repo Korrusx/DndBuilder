@@ -15,6 +15,7 @@ import {
   speedWithExhaustion,
   toggleCondition,
   totalLevel,
+  uniqueFeatures,
 } from '@/entities/character';
 import { deleteLevelEvent } from '@/entities/campaign/api';
 import { usePlay } from '@/entities/character/ui';
@@ -239,7 +240,7 @@ export function PlaySheetPage() {
       <Card>
         <AppText variant="heading">{t('sheet.features')}</AppText>
         <ChipRow>
-          {sheet.features.map((f) => (
+          {uniqueFeatures(sheet.features).map((f) => (
             <Chip key={`${f.source}-${f.id}`} label={featureInfo(f).title} onPress={() => setInfo(featureInfo(f))} />
           ))}
         </ChipRow>

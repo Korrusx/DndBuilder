@@ -126,7 +126,14 @@ export { characterEvents } from './model/events';
 export { spendCoins, walletValue } from './model/wallet';
 export { adjustResource, characterResources, shortRestResources } from './model/resources';
 export { applyDamage, applyHealing, longRest, setTempHp, spendHitDie } from './model/rest';
-export { computeSheet, finalAbilityScores, originFeatIds, proficiencyIds, subclassSpellIds } from './model/sheet';
+export {
+  computeSheet,
+  finalAbilityScores,
+  originFeatIds,
+  proficiencyIds,
+  subclassSpellIds,
+  uniqueFeatures,
+} from './model/sheet';
 export {
   backgroundFits,
   backgroundsForClass,

@@ -8,6 +8,7 @@ import {
   featureSourceLabel,
   knownLanguages,
   speciesSpellcasting,
+  uniqueFeatures,
 } from '@/entities/character';
 import {
   abilityAbbr,
@@ -141,8 +142,8 @@ export function SheetPreview({ character, sheet }: SheetPreviewProps) {
 
       <Section title={t('preview.features')}>
         <View style={styles.card}>
-          {sheet.features.map((f, i) => (
-            <View key={`${f.source}-${f.id}-${i}`} style={styles.line}>
+          {uniqueFeatures(sheet.features).map((f) => (
+            <View key={`${f.source}-${f.id}`} style={styles.line}>
               <AppText style={styles.fill}>{featureName(f)}</AppText>
               <AppText variant="secondary">{featureSourceLabel(f.source)}</AppText>
             </View>
