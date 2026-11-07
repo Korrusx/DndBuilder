@@ -7,7 +7,7 @@ import { levelUpDeck } from '../../model/deck/levelUpDeck';
 import { dragonbornPaladin, irmaAt } from '../../model/deck/__tests__/fixtures';
 import { startLevelUp } from '../../model/levelup';
 import type { Deck, LevelChoice, LevelUpCard } from '../../model/types';
-import { cardShortTitle } from '../cardText';
+import { cardShortTitle, tileLabelFits } from '../cardText';
 import { deckProgress, firstPendingCard } from '../deckProgress';
 import { cardSummary, groupGrowthRows, growthParts } from '../deckSummary';
 import { pickedItems } from '../pickedItems';
@@ -185,6 +185,22 @@ describe('cardShortTitle', () => {
     expect(cardShortTitle(find(deck, 'feature.paladin-faithful-steed'))).toBe('Скакун');
     expect(cardShortTitle(find(deck, 'magic.paladin'))).toBe('Магия');
     expect(cardShortTitle(find(deck, 'species'))).toBe('Вид');
+  });
+});
+
+describe('подпись плитки ленты', () => {
+  test('длинное слово не рвётся: вместо «Компетентность» — тип карты', () => {
+    expect(cardShortTitle(find(deckOf(irmaAt(5)), 'choice.expertise'))).toBe('Выбор');
+  });
+
+  test('проверка раскладки: разрыв слова или обрезка — не помещается', () => {
+    expect(tileLabelFits([{ text: 'Доп. ' }, { text: 'атака' }], 'Доп. атака')).toBe(true);
+    expect(tileLabelFits([{ text: 'Скакун' }], 'Скакун')).toBe(true);
+    expect(tileLabelFits([{ text: 'Надёжны' }, { text: 'й талант' }], 'Надёжный талант')).toBe(false);
+    expect(tileLabelFits([{ text: 'Скрытая ' }, { text: 'атака ' }, { text: 'плута' }], 'Скрытая атака плута')).toBe(
+      false,
+    );
+    expect(tileLabelFits([{ text: 'Скрытая ' }, { text: 'ата…' }], 'Скрытая атака')).toBe(false);
   });
 });
 

@@ -26,8 +26,12 @@ export type TextContext = { attacks?: WeaponAttack[] };
 
 const MODIFIER_KEYS = new Set(['save', 'skill', 'attack', 'spellAttack', 'initiative', 'profBonus']);
 const DICE = /^(\d+×)?\d+d\d+$/;
-/** Длина короткого названия на ленте колоды. */
-const SHORT_TITLE = 10;
+/**
+ * Плитка ленты (52 × 52, шрифт 10) вмещает две строки по 8–9 букв: слово длиннее заведомо разорвётся,
+ * название длиннее — обрежется. Тогда сразу тип карты; точную проверку делает сама плитка (`tileLabelFits`).
+ */
+const TILE_WORD = 9;
+const TILE_TEXT = 18;
 
 /** Кости из справочника «2d10» → «2к10»; лучи «2×1d10» → «2 × 1к10». */
 export function diceText(value: string): string {
@@ -203,8 +207,8 @@ export function cardTitle(card: LevelUpCard, context: TextContext = {}): string 
 }
 
 /**
- * Короткое название для ленты колоды (до 10 символов): по словарю сокращений по id умения
- * («…-extra-attack» → «Доп. атака»), короткое название как есть, иначе первое слово.
+ * Название на плитке ленты колоды: по словарю сокращений по id умения («…-extra-attack» → «Доп. атака»),
+ * короткое название как есть, иначе тип карты («Умение», «Выбор») — слова на плитке не рвутся.
  * Хиты, рост, магия и вид — по типу карты.
  */
 export function cardShortTitle(card: LevelUpCard): string {
@@ -225,7 +229,8 @@ export function cardShortTitle(card: LevelUpCard): string {
   if (key) {
     return short[key];
   }
-  return title.length <= SHORT_TITLE ? title : (title.split(/\s+/)[0]?.replace(/[,:;]$/, '') ?? title);
+  const fits = title.length <= TILE_TEXT && title.split(/\s+/).every((word) => word.length <= TILE_WORD);
+  return fits ? title : t(`levelUpDeck.type.${card.type}`);
 }
 
 /** Описание карты из справочника (умение, особенность вида) или пояснение выбора. */
@@ -373,4 +378,23 @@ export function hpFormula(card: LevelUpCard): string {
     formatDie(card.hp.die),
     ...extra.map((part) => (part.value < 0 ? `− ${Math.abs(part.value)}` : `+ ${part.value}`)),
   ].join(' ');
+}
+
+/**
+ * Поместилась ли подпись плитки как надо: не больше двух строк и ни одно слово не разорвано переносом
+ * («Надёжны / й»). `lines` — строки из `onTextLayout`: при переносе по пробелу строка кончается пробелом
+ * (или следующая начинается с него), при разрыве слова — буквой.
+ */
+export function tileLabelFits(lines: { text: string }[], label: string): boolean {
+  if (lines.length > 2) {
+    return false;
+  }
+  const brokeWord = lines
+    .slice(0, -1)
+    .some((line, i) => /[\p{L}\p{N}]$/u.test(line.text) && /^[\p{L}\p{N}]/u.test(lines[i + 1]?.text ?? ''));
+  const shown = lines
+    .map((line) => line.text)
+    .join('')
+    .replace(/\s+/g, '');
+  return !brokeWord && shown.length >= label.replace(/\s+/g, '').length;
 }
